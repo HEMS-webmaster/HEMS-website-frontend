@@ -17,7 +17,10 @@ export async function POST(request: Request) {
     try {
       await execAsync('git commit -m "feat(data): workshop manager content update"', { cwd: projectRoot });
     } catch (commitErr: any) {
-      if (!commitErr.message.includes('nothing to commit') && !commitErr.message.includes('working tree clean')) {
+      const output = (commitErr.stdout || '') + (commitErr.stderr || '') + (commitErr.message || '');
+      if (!output.includes('nothing to commit') && 
+          !output.includes('working tree clean') && 
+          !output.includes('nothing added to commit')) {
         throw commitErr;
       }
     }
