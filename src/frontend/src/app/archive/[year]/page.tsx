@@ -82,7 +82,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                 {data.resources.map((res: any, idx: number) => (
                   <a 
                     key={idx}
-                    href={res.url} 
+                    href={res.public_website_url || res.legacy_url || res.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className={`flex items-center gap-2 bg-surface border border-foreground/10 px-4 py-2 rounded-md transition-colors text-sm font-bold ${
@@ -205,12 +205,15 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                   );
                                 }
 
+                                const presUrl = talk.public_website_url || talk.legacy_url || talk.presentationUrl;
+                                const absUrl = talk.public_abstract_url || talk.legacy_abstract_url || talk.abstractUrl;
+
                                 return (
                                   <div key={tIdx} className="py-3 first:pt-0 last:pb-0">
                                     <p className="text-sm font-bold flex items-start gap-2">
                                       {talk.time && <span className="text-foreground/50 font-mono font-normal flex-shrink-0 mt-0.5">{talk.time}</span>}
-                                      {talk.presentationUrl ? (
-                                        <a href={talk.presentationUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{talk.title}</a>
+                                      {presUrl ? (
+                                        <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{talk.title}</a>
                                       ) : (
                                         <span className="text-foreground/60 break-words flex-1 leading-snug">{talk.title}</span>
                                       )}
@@ -218,9 +221,9 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                     <p className="text-sm text-foreground/70 mt-1">
                                       {authorElements}
                                     </p>
-                                    {talk.abstractUrl && (
+                                    {absUrl && (
                                       <p className="text-xs mt-1">
-                                        <a href={talk.abstractUrl} target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Abstract</a>
+                                        <a href={absUrl} target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Abstract</a>
                                       </p>
                                     )}
                                   </div>

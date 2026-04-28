@@ -61,17 +61,37 @@ export async function POST(request: Request) {
         return `${baseUrl}/${wsNum}th/${cleanSession}/${fileName}`;
       };
 
+      const buildGcloudUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
+        const baseUrl = 'gs://hems-archive-assets/proceedings';
+        if (category === 'Administrative') return `${baseUrl}/${wsNum}th/Administrative/${fileName}`;
+        if (category === 'Student_Award') return `${baseUrl}/${wsNum}th/Student_Award/${fileName}`;
+        if (category === 'Poster') return `${baseUrl}/${wsNum}th/Posters/${fileName}`;
+        
+        const cleanSession = (session || 'General').replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
+        return `${baseUrl}/${wsNum}th/${cleanSession}/${fileName}`;
+      };
+
       yearData.resources = [];
       // Hardcoded anchor link to the program section below
       yearData.resources.push({ label: "Workshop Program", icon: "FileText", url: "#technical-program" });
       
-      const pUrl = ws.program_file ? buildCloudUrl('Administrative', ws.number, null, ws.program_file) : ws.program_url;
-      if (pUrl) {
-        yearData.resources.push({ label: "Program Download", icon: "Download", url: pUrl });
+      if (ws.program_url) {
+        yearData.resources.push({ 
+          label: "Program Download", 
+          icon: "Download", 
+          legacy_url: ws.program_url,
+          public_website_url: ws.program_file ? buildCloudUrl('Administrative', ws.number, null, ws.program_file) : "",
+          gcloud_url: ws.program_file ? buildGcloudUrl('Administrative', ws.number, null, ws.program_file) : ""
+        });
       }
-      const plUrl = ws.participant_list_file ? buildCloudUrl('Administrative', ws.number, null, ws.participant_list_file) : ws.participant_list_url;
-      if (plUrl) {
-        yearData.resources.push({ label: "Participant List", icon: "Users", url: plUrl });
+      if (ws.participant_list_url) {
+        yearData.resources.push({ 
+          label: "Participant List", 
+          icon: "Users", 
+          legacy_url: ws.participant_list_url,
+          public_website_url: ws.participant_list_file ? buildCloudUrl('Administrative', ws.number, null, ws.participant_list_file) : "",
+          gcloud_url: ws.participant_list_file ? buildGcloudUrl('Administrative', ws.number, null, ws.participant_list_file) : ""
+        });
       }
       
       if (ws.sponsors && ws.sponsors.length > 0) {
@@ -120,8 +140,12 @@ export async function POST(request: Request) {
             time: pres.time,
             title: pres.title,
             authors: pres.authors,
-            presentationUrl: pres.presentation_file ? buildCloudUrl('Presentation', ws.number, pres.session, pres.presentation_file) : (pres.url || ""),
-            abstractUrl: pres.abstract_file ? buildCloudUrl('Presentation', ws.number, pres.session, pres.abstract_file) : (pres.abstract_url || "")
+            legacy_url: pres.url || "",
+            legacy_abstract_url: pres.abstract_url || "",
+            public_website_url: pres.presentation_file ? buildCloudUrl('Presentation', ws.number, pres.session, pres.presentation_file) : "",
+            public_abstract_url: pres.abstract_file ? buildCloudUrl('Presentation', ws.number, pres.session, pres.abstract_file) : "",
+            gcloud_url: pres.presentation_file ? buildGcloudUrl('Presentation', ws.number, pres.session, pres.presentation_file) : "",
+            gcloud_abstract_url: pres.abstract_file ? buildGcloudUrl('Presentation', ws.number, pres.session, pres.abstract_file) : ""
           });
         }
       }
@@ -148,8 +172,12 @@ export async function POST(request: Request) {
             time: "",
             title: poster.title,
             authors: poster.name + (poster.affiliation ? `, ${poster.affiliation}` : ""),
-            presentationUrl: poster.presentation_file ? buildCloudUrl('Poster', ws.number, null, poster.presentation_file) : (poster.url || ""),
-            abstractUrl: poster.abstract_file ? buildCloudUrl('Poster', ws.number, null, poster.abstract_file) : (poster.abstract_url || "")
+            legacy_url: poster.url || "",
+            legacy_abstract_url: poster.abstract_url || "",
+            public_website_url: poster.presentation_file ? buildCloudUrl('Poster', ws.number, null, poster.presentation_file) : "",
+            public_abstract_url: poster.abstract_file ? buildCloudUrl('Poster', ws.number, null, poster.abstract_file) : "",
+            gcloud_url: poster.presentation_file ? buildGcloudUrl('Poster', ws.number, null, poster.presentation_file) : "",
+            gcloud_abstract_url: poster.abstract_file ? buildGcloudUrl('Poster', ws.number, null, poster.abstract_file) : ""
           });
         }
       }
@@ -172,12 +200,17 @@ export async function POST(request: Request) {
         }
 
         for (const award of ws.student_awards) {
+
           awardSession.talks.push({
             time: "",
             title: award.title || "Student Award",
             authors: award.name + (award.affiliation ? `, ${award.affiliation}` : ""),
-            presentationUrl: award.presentation_file ? buildCloudUrl('Student_Award', ws.number, null, award.presentation_file) : (award.url || ""),
-            abstractUrl: award.abstract_file ? buildCloudUrl('Student_Award', ws.number, null, award.abstract_file) : (award.abstract_url || "")
+            legacy_url: award.url || "",
+            legacy_abstract_url: award.abstract_url || "",
+            public_website_url: award.presentation_file ? buildCloudUrl('Student_Award', ws.number, null, award.presentation_file) : "",
+            public_abstract_url: award.abstract_file ? buildCloudUrl('Student_Award', ws.number, null, award.abstract_file) : "",
+            gcloud_url: award.presentation_file ? buildGcloudUrl('Student_Award', ws.number, null, award.presentation_file) : "",
+            gcloud_abstract_url: award.abstract_file ? buildGcloudUrl('Student_Award', ws.number, null, award.abstract_file) : ""
           });
         }
       }
