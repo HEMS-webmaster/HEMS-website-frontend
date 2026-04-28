@@ -1,40 +1,41 @@
-# Pipeline Deployment for Workshop 14 (2022)
+# Goal: Native Google Cloud URL Routing in Workshop Manager
 
-We are ready to deploy the initial version of the modernized HEMS website and the Workshop 14 assets to a live staging environment. This will allow us to verify the Serverless-First architecture online before porting the actual `hems-workshop.org` domain.
+The current Workshop Manager UI correctly downloads the legacy files from `hems-workshop.org` and saves them locally. However, when the Manager translates the data into the production Next.js JSON schema (`save/route.ts`), it simply passes the legacy URLs through to the frontend. This required manual python scripts to fix for Workshop 14. 
+
+We need to update the backend logic so that any future workshop data ingested automatically builds the correct `storage.googleapis.com` Cloud CDN path when it creates the `[year].json` file.
 
 ## User Review Required
-
-> [!IMPORTANT]
-> @bo: To stand up this pipeline, I need to know your preference on hosting the assets and deploying the code.
-> 1. **Vercel Account:** Do you have a Vercel account ready to authenticate via the CLI? I will run `npx vercel login` and `npx vercel link` to connect this repository to a free `hems-website.vercel.app` staging URL.
-> 2. **Google Cloud Storage (GCS):** The architecture plan calls for GCS to host the PDFs. Do you have a GCP project and the `gcloud` CLI installed locally? If not, we can either:
->    - Option A: You set up a GCP bucket manually and give me the bucket name.
->    - Option B: We use **Vercel Blob Storage** (built into Vercel) for now since it's instantly available without leaving the CLI.
-> 
-> Let me know how you want to proceed with the storage bucket!
+> [!WARNING]
+> This plan changes the core translation behavior of `save/route.ts`. It will permanently map all presentation, abstract, poster, and administrative links directly to `https://storage.googleapis.com/hems-archive-assets/...` based strictly on their downloaded `fileName` and `session`. If a file is not downloaded, we will still use the legacy URL as a fallback. 
 
 ## Proposed Changes
 
 ---
 
-### Step 1: Storage Provisioning & Syncing
-- Create/connect to the remote storage bucket (GCS or Vercel Blob).
-- Sync the local `docs/archives_translation/proceedings/14th/` directory to the remote bucket.
-- This will generate public URLs for all the PDFs and thumbnails.
+### Backend API
 
-### Step 2: Update Data Manifests
-- Create a one-off migration script to update `src/frontend/src/data/archives/2022.json`.
-- Replace all legacy `url` and `presentationUrl` references with the new permanent storage URLs.
+#### [MODIFY] `src/frontend/src/app/api/manager/save/route.ts`
+- **Helper Function:** Introduce a `buildCloudUrl(category, wsNum, session, fileName)` function that dynamically constructs the Google Cloud path (e.g., `https://storage.googleapis.com/hems-archive-assets/proceedings/{wsNum}th/{cleanSession}/{fileName}`).
+- **Administrative Links:** Update the `program_url` and `participant_list_url` mapping to use `buildCloudUrl('Administrative')` if `program_file` / `participant_list_file` exists; otherwise fallback to the legacy string.
+- **Presentations & Abstracts:** Update the mapping in the `talks` array. If `presentation_file` or `abstract_file` is defined, call `buildCloudUrl('Presentation', ws.number, pres.session, pres.presentation_file)`.
+- **Posters & Student Awards:** Update their respective mapping loops to route through `buildCloudUrl('Poster')` and `buildCloudUrl('Student_Award')`.
 
-### Step 3: Vercel Deployment
-- Build and deploy the Next.js frontend to Vercel.
-- The `manager` API routes will be excluded or secured to prevent public access.
-- The site will be instantly accessible via a temporary `.vercel.app` URL.
+#### [MODIFY] `src/frontend/src/app/manager/page.tsx`
+- Ensure that the `onPaste` handlers for `program_url` and `participant_list_url` actually save the resulting `filePath` (the downloaded filename) to `currentWs.program_file` and `currentWs.participant_list_file` in the state array, otherwise the backend won't have the filename to construct the cloud URL.
+- **Frontend Button Split:** Rename the existing "Push to Cloud" button to "Push Frontend to Git". This button will only commit and push code to the repository (triggering Vercel).
+- **New GCloud Button:** Add a new "Sync Assets to GCloud" button next to it. This button will trigger a new endpoint dedicated exclusively to syncing heavy PDF assets to Google Cloud Storage.
+
+#### [MODIFY] `src/frontend/src/app/api/manager/push/route.ts`
+- Remove the `gsutil rsync` block. This route will be strictly dedicated to Git operations for the Next.js frontend.
+
+#### [NEW] `src/frontend/src/app/api/manager/sync-gcs/route.ts`
+- Create a new API route dedicated to executing the Google Cloud Storage upload.
+- It will execute `gsutil -m rsync -r docs/archives_translation/proceedings gs://hems-archive-assets/proceedings` to securely synchronize the heavy assets directly to the cloud CDN without bloating the Git repository.
 
 ## Verification Plan
-
-### Manual Verification
-1. I will provide the `.vercel.app` URL.
-2. We will navigate to the 2022 (14th) Workshop Archive.
-3. We will verify that clicking "Program Download", presentations, and abstracts instantly streams the PDF from the edge storage bucket.
-4. We will verify the site speed and mobile responsiveness.
+1. Launch the local development server.
+2. Open the Workshop Manager UI and select a test workshop.
+3. Paste a legacy URL into the "Legacy Program URL" field.
+4. Verify the UI locally sets `program_file`.
+5. Click **Save and Present on Local Host**.
+6. Inspect the generated `<year>.json` archive manifest to confirm it automatically produced the `https://storage.googleapis.com/...` link without any manual intervention.

@@ -52,6 +52,12 @@ export default function WorkshopManager() {
       });
       const data = await res.json();
       if (data.success) {
+        // Save the filename to the state so it can be built into a cloud URL
+        const successUpdate = [...latestWorkshops.current];
+        const fileField = field === 'program_url' ? 'program_file' : 'participant_list_file';
+        successUpdate[index] = { ...successUpdate[index], [fileField]: fileName };
+        setWorkshops(successUpdate);
+
         setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
         setTimeout(() => setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' })), 3000);
       } else {
@@ -109,8 +115,22 @@ export default function WorkshopManager() {
       const res = await fetch('/api/manager/push', { method: 'POST' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Push failed');
+      setLogs(data.message || 'Success');
+      alert('Pushed Frontend to Git successfully!');
+    } catch (err: any) {
+      alert('Error: ' + err.message);
+    }
+    setPushing(false);
+  };
+
+  const handleSyncGCS = async () => {
+    setPushing(true); // Re-use pushing state to block both buttons
+    try {
+      const res = await fetch('/api/manager/sync-gcs', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Sync failed');
       setLogs(data.gcloudLog || 'Success');
-      alert('Pushed to Git and GCloud successfully!');
+      alert('Assets Synced to Google Cloud successfully!');
     } catch (err: any) {
       alert('Error: ' + err.message);
     }
@@ -145,17 +165,24 @@ export default function WorkshopManager() {
         <div className="space-x-4">
           <button 
             onClick={handleSave} 
-            disabled={saving}
-            className="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded font-bold"
+            disabled={saving || pushing}
+            className="bg-teal-600 hover:bg-teal-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50"
           >
             {saving ? 'Saving...' : '💾 Save and Present on Local Host'}
           </button>
           <button 
             onClick={handlePush}
-            disabled={pushing}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded font-bold"
+            disabled={saving || pushing}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50"
           >
-            {pushing ? 'Pushing...' : '🚀 Push to Cloud'}
+            {pushing ? 'Running...' : '🚀 Push Frontend to Git'}
+          </button>
+          <button 
+            onClick={handleSyncGCS}
+            disabled={saving || pushing}
+            className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50"
+          >
+            {pushing ? 'Syncing...' : '☁️ Sync Assets to GCloud'}
           </button>
         </div>
       </div>

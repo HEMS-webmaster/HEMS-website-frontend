@@ -25,22 +25,9 @@ export async function POST(request: Request) {
     // 3. Git Push
     await execAsync('git push origin main', { cwd: projectRoot });
 
-    // 4. GCloud Sync
-    // Sync the proceedings directory to the expected GCS bucket
-    const gcloudCmd = 'gsutil rsync -r docs/archives_translation/proceedings gs://hems-workshop-archives/proceedings';
-    let gcloudLog = '';
-    try {
-      const { stdout } = await execAsync(gcloudCmd, { cwd: projectRoot });
-      gcloudLog = stdout;
-    } catch (gcloudErr: any) {
-      console.warn('GCloud Sync failed (gsutil may not be installed or authenticated):', gcloudErr.message);
-      gcloudLog = 'GCloud Sync failed: ' + gcloudErr.message;
-    }
-
     return NextResponse.json({ 
       success: true, 
-      message: 'Git push completed successfully',
-      gcloudLog 
+      message: 'Git push completed successfully'
     });
   } catch (error: any) {
     console.error('Push Error:', error);

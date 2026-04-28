@@ -9,9 +9,10 @@
 ---
 
 ## 1. Version Control (Git)
-*   **Account Name:** `hemsworkshop-admin`
-*   **Repository Name:** `HEMS-Workshop-org-Web-Frontend`
-*   **Remote URL:** \[https://hemsworkshop-admin@github.com/hemsworkshop-admin/HEMS-Workshop-org-Web-Frontend.git\]
+*   **Account Name:** `rbellAdapt`
+*   **Admin Account Email:** `adaptivesensing@gmail.com`
+*   **Repository Name:** `hems-website-frontend`
+*   **Remote URL:** `adaptivesensing@gmail.com:rbellAdapt/hems-website-frontend.git`
 *   **Primary Branch:** `main`
 
 ---
@@ -20,7 +21,7 @@
 *   **Platform:** Vercel (Next.js native hosting)
 *   **Project Name:** `[Pending Setup]`
 *   **Production URL:** `[Pending Deployment]`
-*   **Connected Repo:** `rbellAdapt/hems-website-frontend`
+*   **Connected Repo:** `Pending Deployment`
 *   **Auto-Deploy:** Enabled on pushes to `main`
 
 ---
@@ -42,7 +43,7 @@
 *   **Purpose:** Automated ingestion pipeline for PDFs and NoSQL metadata storage.
 *   **GCP Project ID:** `hems-workshop-production`
 *   **GCP Owner Account:** `hemsworkshop@gmail.com`
-*   **GCS Bucket Name (Archive):** `[Pending]`
+*   **GCS Bucket Name (Archive):** `hems-archive-assets`
 *   **Firebase Environment Variables Needed:**
     *   `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
     *   `FIREBASE_CLIENT_EMAIL` (Server-side)
