@@ -6,6 +6,7 @@ import SponsorsManager from './components/SponsorsManager';
 import StudentsManager from './components/StudentsManager';
 import PostersManager from './components/PostersManager';
 import EventsManager from './components/EventsManager';
+import PreviewHover from './components/PreviewHover';
 
 export default function WorkshopManager() {
   const [workshops, setWorkshops] = useState<any[]>([]);
@@ -308,6 +309,14 @@ export default function WorkshopManager() {
                     className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors`} 
                   />
                   {downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  {currentWs.program_file && (
+                    <div className="mt-3 text-xs text-green-400 flex flex-col gap-1 p-2 bg-slate-950/50 rounded border border-green-900/30">
+                      <span className="flex items-center gap-2"><strong>Preview:</strong> <PreviewHover fileName={currentWs.program_file} wsNum={currentWs.number} session={null} title="Workshop Program" /></span>
+                      <span className="text-slate-400"><strong>Local:</strong> docs/archives_translation/Administrative/{currentWs.program_file}</span>
+                      <span className="text-slate-400"><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
+                      <span className="text-slate-400 break-all"><strong>Public:</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="relative">
                   <label className="block text-sm font-bold text-slate-400 mb-1">Legacy Participant List URL</label>
@@ -323,6 +332,14 @@ export default function WorkshopManager() {
                     className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors`} 
                   />
                   {downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  {currentWs.participant_list_file && (
+                    <div className="mt-3 text-xs text-green-400 flex flex-col gap-1 p-2 bg-slate-950/50 rounded border border-green-900/30">
+                      <span className="flex items-center gap-2"><strong>Preview:</strong> <PreviewHover fileName={currentWs.participant_list_file} wsNum={currentWs.number} session={null} title="Participant List" /></span>
+                      <span className="text-slate-400"><strong>Local:</strong> docs/archives_translation/Administrative/{currentWs.participant_list_file}</span>
+                      <span className="text-slate-400"><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
+                      <span className="text-slate-400 break-all"><strong>Public:</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
