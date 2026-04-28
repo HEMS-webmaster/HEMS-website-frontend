@@ -377,3 +377,8 @@ Logic: @bo requested following links from Archive.html. This violates Rule 7 (HE
  -   @ b o   r e q u e s t e d   t o   s h o w   l o c a l ,   g c l o u d ,   a n d   p u b l i c   ( V e r c e l )   p a t h s   f o r   P r o g r a m   a n d   P a r t i c i p a n t   L i s t s ,   a l o n g   w i t h   h o v e r - p r e v i e w s . 
  -   A c t i o n :   U p d a t e d   m a n a g e r / p a g e . t s x   t o   i n c l u d e   D r a g D r o p Z o n e   c o m p o n e n t s   f o r   b o t h ,   a n d   u n c o n d i t i o n a l l y   d i s p l a y   t h e   l o c a l ,   G C l o u d ,   a n d   V e r c e l   p a t h s   u s i n g   p r e d i c t e d   f i l e n a m e s   i f   n o t   y e t   u p l o a d e d ,   a l o n g s i d e   a   c o n d i t i o n a l   h o v e r - p r e v i e w .  
  
+ # # #   @ d e v   S C o T   L o g :   P r o m i n e n t   H E M S   L o g o 
+ -   @ b o   r e q u e s t e d   t o   p r o m i n e n t l y   d i s p l a y   t h e   H E M S   l o g o   i n   t h e   w o r k s h o p   t e m p l a t e   h e a d e r . 
+ -   A c t i o n :   E x t r a c t e d   ' h e m s l o g o 3 . j p g '   t o   t h e   g e n e r i c   p u b l i c   d i r e c t o r y   a n d   w r a p p e d   t h e   h e a d e r   s e c t i o n   o f   a r c h i v e / [ y e a r ] / p a g e . t s x   i n   a   f l e x   r o w ,   a l l o c a t i n g   t h e   r i g h t   s i d e   f o r   t h e   l o g o   d i s p l a y . 
+ -   R e s u l t :   T h e   l o g o   i s   n o w   v i s u a l l y   d i s t i n c t   a n d   p r o p e r l y   a l i g n e d   w i t h   t h e   t i t l e   a n d   l o c a t i o n   c o n t a i n e r .  
+ 

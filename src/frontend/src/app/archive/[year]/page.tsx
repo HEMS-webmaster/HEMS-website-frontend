@@ -43,38 +43,52 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
         {/* Subtle background decoration */}
         <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 
-        <span className="inline-block bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6 font-mono">
-          {data.ordinal} Annual Workshop
-        </span>
-        
-        <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-6">
-          {data.year} HEMS Workshop
-        </h1>
-        
-        <p className="text-xl text-foreground/80 max-w-3xl mb-8 leading-relaxed">
-          The {data.ordinal} Workshop on Harsh-Environment Mass Spectrometry.
-        </p>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8">
+          <div className="flex-1">
+            <span className="inline-block bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6 font-mono">
+              {data.ordinal} Annual Workshop
+            </span>
+            
+            <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-6">
+              {data.year} HEMS Workshop
+            </h1>
+            
+            <p className="text-xl text-foreground/80 max-w-3xl mb-8 leading-relaxed">
+              The {data.ordinal} Workshop on Harsh-Environment Mass Spectrometry.
+            </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 text-foreground/70 font-medium border-b border-foreground/10 pb-8 mb-8">
-            <div className="flex items-center gap-3">
-              <Calendar className="text-secondary" size={20} />
-              <span>{data.dates}</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <MapPin className="text-secondary mt-1 flex-shrink-0" size={20} />
-              <span>
-                {data.venue_url ? (
-                  <a href={data.venue_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline transition-colors font-bold">
-                    {data.venue}
-                  </a>
-                ) : (
-                  <span className="font-bold">{data.venue}</span>
-                )}
-                <br/>
-                <span className="text-sm font-normal text-foreground/50">{data.address}</span>
-              </span>
+            <div className="flex flex-col sm:flex-row gap-6 text-foreground/70 font-medium border-b border-foreground/10 pb-8 mb-8">
+              <div className="flex items-center gap-3">
+                <Calendar className="text-secondary" size={20} />
+                <span>{data.dates}</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <MapPin className="text-secondary mt-1 flex-shrink-0" size={20} />
+                <span>
+                  {data.venue_url ? (
+                    <a href={data.venue_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline transition-colors font-bold">
+                      {data.venue}
+                    </a>
+                  ) : (
+                    <span className="font-bold">{data.venue}</span>
+                  )}
+                  <br/>
+                  <span className="text-sm font-normal text-foreground/50">{data.address}</span>
+                </span>
+              </div>
             </div>
           </div>
+          
+          <div className="hidden md:flex flex-shrink-0 items-center justify-center bg-white p-4 rounded-xl border border-foreground/10 shadow-lg mt-4 md:mt-0 w-[280px] lg:w-[320px]">
+            <Image 
+              src="/hemslogo.jpg" 
+              alt="HEMS Logo" 
+              width={300} 
+              height={150} 
+              className="object-contain w-full h-auto rounded" 
+            />
+          </div>
+        </div>
 
           {data.resources && data.resources.length > 0 && (
             <div>
