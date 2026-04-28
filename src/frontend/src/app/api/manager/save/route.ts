@@ -61,6 +61,16 @@ export async function POST(request: Request) {
         return `${baseUrl}/${wsNum}th/${cleanSession}/${fileName}`;
       };
 
+      const buildLocalUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
+        const baseUrl = '/api/manager/serve?file=';
+        if (category === 'Administrative') return `${baseUrl}${wsNum}th/Administrative/${fileName}`;
+        if (category === 'Student_Award') return `${baseUrl}${wsNum}th/Student_Award/${fileName}`;
+        if (category === 'Poster') return `${baseUrl}${wsNum}th/Posters/${fileName}`;
+        
+        const cleanSession = (session || 'General').replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
+        return `${baseUrl}${wsNum}th/${cleanSession}/${fileName}`;
+      };
+
       const buildGcloudUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
         const baseUrl = 'gs://hems-archive-assets/proceedings';
         if (category === 'Administrative') return `${baseUrl}/${wsNum}th/Administrative/${fileName}`;
@@ -80,6 +90,7 @@ export async function POST(request: Request) {
           label: "Program Download", 
           icon: "Download", 
           legacy_url: ws.program_url,
+          local_target_path: ws.program_file ? buildLocalUrl('Administrative', ws.number, null, ws.program_file) : "",
           public_website_url: ws.program_file ? buildCloudUrl('Administrative', ws.number, null, ws.program_file) : "",
           gcloud_url: ws.program_file ? buildGcloudUrl('Administrative', ws.number, null, ws.program_file) : ""
         });
@@ -89,6 +100,7 @@ export async function POST(request: Request) {
           label: "Participant List", 
           icon: "Users", 
           legacy_url: ws.participant_list_url,
+          local_target_path: ws.participant_list_file ? buildLocalUrl('Administrative', ws.number, null, ws.participant_list_file) : "",
           public_website_url: ws.participant_list_file ? buildCloudUrl('Administrative', ws.number, null, ws.participant_list_file) : "",
           gcloud_url: ws.participant_list_file ? buildGcloudUrl('Administrative', ws.number, null, ws.participant_list_file) : ""
         });
@@ -142,6 +154,8 @@ export async function POST(request: Request) {
             authors: pres.authors,
             legacy_url: pres.url || "",
             legacy_abstract_url: pres.abstract_url || "",
+            local_target_path: pres.presentation_file ? buildLocalUrl('Presentation', ws.number, pres.session, pres.presentation_file) : "",
+            local_abstract_target_path: pres.abstract_file ? buildLocalUrl('Presentation', ws.number, pres.session, pres.abstract_file) : "",
             public_website_url: pres.presentation_file ? buildCloudUrl('Presentation', ws.number, pres.session, pres.presentation_file) : "",
             public_abstract_url: pres.abstract_file ? buildCloudUrl('Presentation', ws.number, pres.session, pres.abstract_file) : "",
             gcloud_url: pres.presentation_file ? buildGcloudUrl('Presentation', ws.number, pres.session, pres.presentation_file) : "",
@@ -174,6 +188,8 @@ export async function POST(request: Request) {
             authors: poster.name + (poster.affiliation ? `, ${poster.affiliation}` : ""),
             legacy_url: poster.url || "",
             legacy_abstract_url: poster.abstract_url || "",
+            local_target_path: poster.presentation_file ? buildLocalUrl('Poster', ws.number, null, poster.presentation_file) : "",
+            local_abstract_target_path: poster.abstract_file ? buildLocalUrl('Poster', ws.number, null, poster.abstract_file) : "",
             public_website_url: poster.presentation_file ? buildCloudUrl('Poster', ws.number, null, poster.presentation_file) : "",
             public_abstract_url: poster.abstract_file ? buildCloudUrl('Poster', ws.number, null, poster.abstract_file) : "",
             gcloud_url: poster.presentation_file ? buildGcloudUrl('Poster', ws.number, null, poster.presentation_file) : "",
@@ -182,31 +198,17 @@ export async function POST(request: Request) {
         }
       }
 
+      yearData.student_awards = [];
       if (ws.student_awards && ws.student_awards.length > 0) {
-        const defaultDate = daysMap.keys().next().value || "Student Awards";
-        if (!daysMap.has(defaultDate)) daysMap.set(defaultDate, []);
-        
-        let dayItems = daysMap.get(defaultDate)!;
-        let awardSession = dayItems.find((i: any) => i.type === "session" && i.title.toLowerCase().includes("award"));
-        
-        if (!awardSession) {
-          awardSession = {
-            type: "session",
-            time: "TBD",
-            title: "Student Awards",
-            talks: []
-          };
-          dayItems.push(awardSession);
-        }
-
         for (const award of ws.student_awards) {
-
-          awardSession.talks.push({
+          yearData.student_awards.push({
             time: "",
             title: award.title || "Student Award",
             authors: award.name + (award.affiliation ? `, ${award.affiliation}` : ""),
             legacy_url: award.url || "",
             legacy_abstract_url: award.abstract_url || "",
+            local_target_path: award.presentation_file ? buildLocalUrl('Student_Award', ws.number, null, award.presentation_file) : "",
+            local_abstract_target_path: award.abstract_file ? buildLocalUrl('Student_Award', ws.number, null, award.abstract_file) : "",
             public_website_url: award.presentation_file ? buildCloudUrl('Student_Award', ws.number, null, award.presentation_file) : "",
             public_abstract_url: award.abstract_file ? buildCloudUrl('Student_Award', ws.number, null, award.abstract_file) : "",
             gcloud_url: award.presentation_file ? buildGcloudUrl('Student_Award', ws.number, null, award.presentation_file) : "",

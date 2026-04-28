@@ -14,15 +14,17 @@
       "label": "Program Download",
       "icon": "Download",
       "legacy_url": "https://www.hems-workshop.org/14thWS/Final%20Program%20SEPT21.pdfhttps://www.hems-workshop.org/14thWS/Final%20Program%20SEPT21.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Administrative/14th_Program.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Administrative/14th_Program.pdf"
+      "local_target_path": "",
+      "public_website_url": "",
+      "gcloud_url": ""
     },
     {
       "label": "Participant List",
       "icon": "Users",
       "legacy_url": "https://www.hems-workshop.org/14thWS/2022%20HEMS%20Workshop%20Attendees.pdfhttps://www.hems-workshop.org/14thWS/2022%20HEMS%20Workshop%20Attendees.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Administrative/14th_Participant_List.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Administrative/14th_Participant_List.pdf"
+      "local_target_path": "",
+      "public_website_url": "",
+      "gcloud_url": ""
     }
   ],
   "sponsors": [
@@ -80,24 +82,6 @@
       "title": "Monday, September 26, 2022: Travel Day",
       "items": [
         {
-          "type": "session",
-          "time": "TBD",
-          "title": "Student Awards",
-          "talks": [
-            {
-              "time": "",
-              "title": "Student Award",
-              "authors": "Thomas C. Sams",
-              "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Sams.pdf",
-              "legacy_abstract_url": "",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Student_Award/14th_Thomas_C__Sams_Student_Award.pdf",
-              "public_abstract_url": "",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Student_Award/14th_Thomas_C__Sams_Student_Award.pdf",
-              "gcloud_abstract_url": ""
-            }
-          ]
-        },
-        {
           "type": "event",
           "time": "6:00 p.m.",
           "title": "Welcome Reception",
@@ -148,6 +132,8 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
               "public_website_url": "",
               "public_abstract_url": "",
               "gcloud_url": "",
@@ -177,10 +163,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Verbeck.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Verbeck.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Guido_Verbeck_Breath_Markers_of_Di_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Guido_Verbeck_Breath_Markers_of_Di_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Guido_Verbeck_Breath_Markers_of_Di_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Guido_Verbeck_Breath_Markers_of_Di_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Verbeck_Breath_Markers_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Verbeck_Breath_Markers_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Verbeck_Breath_Markers_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Verbeck_Breath_Markers_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Verbeck_Breath_Markers_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Verbeck_Breath_Markers_of_Abstract.pdf"
             },
             {
               "time": "11:00 a.m.",
@@ -209,10 +197,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Abstracts/Maletic.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Maletic.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Dejan_Maletic_Development_of_mass__Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Dejan_Maletic_Development_of_mass__Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Dejan_Maletic_Development_of_mass__Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Dejan_Maletic_Development_of_mass__Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Maletic_Development_of_mass_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Maletic_Development_of_mass_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Abstract.pdf"
             },
             {
               "time": "11:30 a.m.",
@@ -265,10 +255,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Li.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Li.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Xiang_Li_Development_of_the_D_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Xiang_Li_Development_of_the_D_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Xiang_Li_Development_of_the_D_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Xiang_Li_Development_of_the_D_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Li_Development_of_the_Presentation.pdf",
+              "local_abstract_target_path": "",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Li_Development_of_the_Presentation.pdf",
+              "public_abstract_url": "",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Li_Development_of_the_Presentation.pdf",
+              "gcloud_abstract_url": ""
             }
           ]
         },
@@ -300,10 +292,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Lauritsen.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Lauritsen.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Frants_R__Lauritsen_Investigation_of_dis_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Frants_R__Lauritsen_Investigation_of_dis_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Frants_R__Lauritsen_Investigation_of_dis_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Frants_R__Lauritsen_Investigation_of_dis_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Presentation.pdf",
+              "local_abstract_target_path": "",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Presentation.pdf",
+              "public_abstract_url": "",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Presentation.pdf",
+              "gcloud_abstract_url": ""
             },
             {
               "time": "1:30 p.m.",
@@ -356,10 +350,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/McBride.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/McBride.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Ethan_McBride_Multi_dimensional_Po_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Ethan_McBride_Multi_dimensional_Po_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Ethan_McBride_Multi_dimensional_Po_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Ethan_McBride_Multi_dimensional_Po_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Presentation.pdf",
+              "local_abstract_target_path": "",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Presentation.pdf",
+              "public_abstract_url": "",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Presentation.pdf",
+              "gcloud_abstract_url": ""
             }
           ]
         },
@@ -401,10 +397,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Sams.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Szalwinski,.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Thomas_Sams_Two_Dimensional_Tand_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Thomas_Sams_Two_Dimensional_Tand_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Thomas_Sams_Two_Dimensional_Tand_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Thomas_Sams_Two_Dimensional_Tand_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Presentation.pdf",
+              "local_abstract_target_path": "",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Presentation.pdf",
+              "public_abstract_url": "",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Presentation.pdf",
+              "gcloud_abstract_url": ""
             },
             {
               "time": "3:30 p.m.",
@@ -437,10 +435,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Erkinjon_Nazarov_Planar_Design_Differ_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Erkinjon_Nazarov_Planar_Design_Differ_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Erkinjon_Nazarov_Planar_Design_Differ_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Erkinjon_Nazarov_Planar_Design_Differ_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Abstract.pdf"
             },
             {
               "time": "4:00 p.m.",
@@ -477,10 +477,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Panchagnula.pdfhttps://www.hems-workshop.org/14thWS/Talks/Tuesday/Panchagnula.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Panchagnula.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Panchagnula.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Venkateswarlu_Panchagnula_MT_Explorer_30__A_Po_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Venkateswarlu_Panchagnula_MT_Explorer_30__A_Po_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Venkateswarlu_Panchagnula_MT_Explorer_30__A_Po_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Venkateswarlu_Panchagnula_MT_Explorer_30__A_Po_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Abstract.pdf"
             }
           ]
         }
@@ -523,10 +525,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Binette .pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Binette .pdf",
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_IV/14th_Binette_MS_field_applications_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Marie_Jos_e_Binette_MS_field_application_Abstract.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract.pdf",
               "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Marie_Jos_e_Binette_MS_field_application_Abstract.pdf"
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract.pdf"
             },
             {
               "time": "9:30 a.m.",
@@ -555,10 +559,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Eiceman.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Eiceman.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Eiceman.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Gary_Eiceman_Structural_Content_i_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Gary_Eiceman_Structural_Content_i_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Gary_Eiceman_Structural_Content_i_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Gary_Eiceman_Structural_Content_i_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Abstract.pdf"
             }
           ]
         },
@@ -668,10 +674,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/van Amerom.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/van%20Amerom%20.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/van%20Amerom%20.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Friso_van_Amerom_Overview_and_Testing_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Friso_van_Amerom_Overview_and_Testing_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Friso_van_Amerom_Overview_and_Testing_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Friso_van_Amerom_Overview_and_Testing_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Abstract.pdf"
             },
             {
               "time": "11:00 a.m.",
@@ -696,10 +704,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Alberti.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Alberti.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Alberti.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Jim_Alberti_Plasma_Ion_Source_fo_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Jim_Alberti_Plasma_Ion_Source_fo_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Jim_Alberti_Plasma_Ion_Source_fo_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Jim_Alberti_Plasma_Ion_Source_fo_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Abstract.pdf"
             },
             {
               "time": "11:30 a.m.",
@@ -748,10 +758,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Wrobel.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Wrobel.pdf",
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Alexandra_Wrobel_A_Ruggedized__Portab_Abstract.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Abstract.pdf",
               "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Alexandra_Wrobel_A_Ruggedized__Portab_Abstract.pdf"
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Abstract.pdf"
             }
           ]
         },
@@ -777,10 +789,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Chaudhary.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Chaudhary%20.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Chaudhary%20.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Ashish_Chaudhary_Chip_Scale_Mass_Spec_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Ashish_Chaudhary_Chip_Scale_Mass_Spec_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Ashish_Chaudhary_Chip_Scale_Mass_Spec_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Ashish_Chaudhary_Chip_Scale_Mass_Spec_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Abstract.pdf"
             },
             {
               "time": "4:00 p.m.",
@@ -861,10 +875,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Kaplan.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Kaplan.pdf",
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Desmond_Kaplan_Europan_Molecular_In_Abstract.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Abstract.pdf",
               "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Desmond_Kaplan_Europan_Molecular_In_Abstract.pdf"
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Abstract.pdf"
             }
           ]
         }
@@ -905,10 +921,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Jackson.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Jackson.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Jackson.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Robert_Jackson_Instrument_Modeling__Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Robert_Jackson_Instrument_Modeling__Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Robert_Jackson_Instrument_Modeling__Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Robert_Jackson_Instrument_Modeling__Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Abstract.pdf"
             },
             {
               "time": "9:00 a.m.",
@@ -925,10 +943,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Madzunkov.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Madzunkov.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Madzunkov_Lunar_Cube_Sat_Abstract.pdf",
               "public_website_url": "",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Stojan_Madzunkov_Lunar_Cube_Sat_Mass__Abstract.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Madzunkov_Lunar_Cube_Sat_Abstract.pdf",
               "gcloud_url": "",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Stojan_Madzunkov_Lunar_Cube_Sat_Mass__Abstract.pdf"
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Madzunkov_Lunar_Cube_Sat_Abstract.pdf"
             },
             {
               "time": "9:30 a.m.",
@@ -945,10 +965,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Thursday/Gentz.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Gentz.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Gentz.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Torben_Gentz_An_optimized_membran_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Torben_Gentz_An_optimized_membran_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Torben_Gentz_An_optimized_membran_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Torben_Gentz_An_optimized_membran_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Abstract.pdf"
             }
           ]
         },
@@ -990,10 +1012,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Thursday/Berkout.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Berkout.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Vadym_Berkout_Portable_MALDI_TOF_M_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Vadym_Berkout_Portable_MALDI_TOF_M_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Vadym_Berkout_Portable_MALDI_TOF_M_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Vadym_Berkout_Portable_MALDI_TOF_M_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VIII/14th_Berkout_Portable_MALDITOF_Mass_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VIII/14th_Berkout_Portable_MALDITOF_Mass_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Berkout_Portable_MALDITOF_Mass_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Berkout_Portable_MALDITOF_Mass_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Berkout_Portable_MALDITOF_Mass_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Berkout_Portable_MALDITOF_Mass_Abstract.pdf"
             },
             {
               "time": "11:00 a.m.",
@@ -1006,10 +1030,12 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Thursday/Pedder.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Pedder.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Pedder.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Randy_Pedder_RF_Only_Quadrupole_M_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Randy_Pedder_RF_Only_Quadrupole_M_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Randy_Pedder_RF_Only_Quadrupole_M_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Randy_Pedder_RF_Only_Quadrupole_M_Abstract.pdf"
+              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Abstract.pdf"
             }
           ]
         },
@@ -1022,5 +1048,20 @@
       ]
     }
   ],
-  "venue_url": "https://www.marriott.com/en-us/hotels/mlbcb-courtyard-cocoa-beach-cape-canaveral/overview/"
+  "venue_url": "https://www.marriott.com/en-us/hotels/mlbcb-courtyard-cocoa-beach-cape-canaveral/overview/",
+  "student_awards": [
+    {
+      "time": "",
+      "title": "Student Award",
+      "authors": "Thomas C. Sams",
+      "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Sams.pdf",
+      "legacy_abstract_url": "",
+      "local_target_path": "/api/manager/serve?file=14th/Student_Award/14th_Thomas_C__Sams_Student_Award.pdf",
+      "local_abstract_target_path": "",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Student_Award/14th_Thomas_C__Sams_Student_Award.pdf",
+      "public_abstract_url": "",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Student_Award/14th_Thomas_C__Sams_Student_Award.pdf",
+      "gcloud_abstract_url": ""
+    }
+  ]
 }

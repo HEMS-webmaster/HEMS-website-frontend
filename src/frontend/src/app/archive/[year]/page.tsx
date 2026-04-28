@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, MapPin, Users, FileText, Download, Building, ArrowLeft } from "lucide-react";
+import { Calendar, MapPin, Users, FileText, Download, Building, ArrowLeft, Award } from "lucide-react";
 import { notFound } from "next/navigation";
 import path from "path";
 import { promises as fs } from "fs";
@@ -22,6 +22,7 @@ export async function generateStaticParams() {
 
 export default async function WorkshopArchive({ params }: { params: Promise<{ year: string }> }) {
   const { year } = await params;
+  const isLocal = process.env.NODE_ENV === 'development';
   
   const dataPath = path.join(process.cwd(), 'src', 'data', 'archives', `${year}.json`);
   let data;
@@ -79,12 +80,15 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
             <div>
               <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4">Workshop Resources</h3>
               <div className="flex flex-wrap gap-4">
-                {data.resources.map((res: any, idx: number) => (
+                {data.resources.map((res: any, idx: number) => {
+                  const href = isLocal && res.local_target_path ? res.local_target_path : (res.public_website_url || res.legacy_url || res.url);
+                  const isAnchor = href?.startsWith('#');
+                  return (
                   <a 
                     key={idx}
-                    href={res.public_website_url || res.legacy_url || res.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                    href={href} 
+                    target={isAnchor ? undefined : "_blank"} 
+                    rel={isAnchor ? undefined : "noopener noreferrer"}
                     className={`flex items-center gap-2 bg-surface border border-foreground/10 px-4 py-2 rounded-md transition-colors text-sm font-bold ${
                       idx === 0 ? 'hover:border-secondary hover:text-secondary' : 'hover:border-primary hover:text-primary'
                     }`}
@@ -96,7 +100,8 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                     {!['Download', 'Users', 'Building', 'FileText'].includes(res.icon) && <Download size={16} />}
                     {res.label}
                   </a>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -123,8 +128,8 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                           src={sponsor.image} 
                           alt={sponsor.name} 
                           width={80} 
-                          height={40} 
-                          className="object-contain max-h-full max-w-full grayscale group-hover:grayscale-0 transition-all duration-300" 
+                          height={40}
+                          className="object-contain max-h-full max-w-full transition-all duration-300" 
                         />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -141,10 +146,43 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
               </div>
             </div>
           )}
+          {data.student_awards && data.student_awards.length > 0 && (
+            <div className="mt-12 border-t border-foreground/10 pt-8 mb-12">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-6 flex items-center gap-2">
+                <Award size={16} /> Student Presenters
+              </h3>
+              <div className="bg-background border border-foreground/10 rounded-lg overflow-hidden divide-y divide-foreground/5">
+                {data.student_awards.map((award: any, idx: number) => {
+                  const presUrl = isLocal && award.local_target_path ? award.local_target_path : (award.public_website_url || award.legacy_url || award.presentationUrl);
+                  const absUrl = isLocal && award.local_abstract_target_path ? award.local_abstract_target_path : (award.public_abstract_url || award.legacy_abstract_url || award.abstractUrl);
+                  
+                  return (
+                    <div key={idx} className="px-6 py-4 flex flex-col hover:bg-surface/30 transition-colors">
+                      <p className="text-base font-bold flex items-start gap-2">
+                        {presUrl ? (
+                          <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{award.title}</a>
+                        ) : (
+                          <span className="text-foreground/80 break-words flex-1 leading-snug">{award.title}</span>
+                        )}
+                      </p>
+                      <p className="text-sm text-foreground/70 mt-1">
+                        {award.authors}
+                      </p>
+                      {absUrl && (
+                        <p className="text-xs mt-2">
+                          <a href={absUrl} target="_blank" rel="noopener noreferrer" className="inline-block bg-secondary/10 text-secondary px-2 py-1 rounded hover:bg-secondary/20 transition-colors">Abstract</a>
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Technical Program Inline */}
-        <div id="technical-program" className="mb-12">
+        <div id="technical-program" className="mb-12 scroll-mt-24">
           <h2 className="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
             <FileText className="text-primary" /> Technical Program
           </h2>
@@ -205,8 +243,8 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                   );
                                 }
 
-                                const presUrl = talk.public_website_url || talk.legacy_url || talk.presentationUrl;
-                                const absUrl = talk.public_abstract_url || talk.legacy_abstract_url || talk.abstractUrl;
+                                const presUrl = isLocal && talk.local_target_path ? talk.local_target_path : (talk.public_website_url || talk.legacy_url || talk.presentationUrl);
+                                const absUrl = isLocal && talk.local_abstract_target_path ? talk.local_abstract_target_path : (talk.public_abstract_url || talk.legacy_abstract_url || talk.abstractUrl);
 
                                 return (
                                   <div key={tIdx} className="py-3 first:pt-0 last:pb-0">

@@ -7,6 +7,7 @@ import StudentsManager from './components/StudentsManager';
 import PostersManager from './components/PostersManager';
 import EventsManager from './components/EventsManager';
 import PreviewHover from './components/PreviewHover';
+import DragDropZone from './components/DragDropZone';
 
 export default function WorkshopManager() {
   const [workshops, setWorkshops] = useState<any[]>([]);
@@ -306,18 +307,39 @@ export default function WorkshopManager() {
                       setWorkshops(updated);
                     }}
                     onPaste={e => handleAdminPasteDownload(e, selectedIdx, 'program_url', `${currentWs.number}th_Program.pdf`)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors`} 
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors mb-2`} 
                   />
                   {downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
-                  {currentWs.program_file && (
-                    <div className="mt-3 text-xs text-green-400 flex flex-col gap-1 p-2 bg-slate-950/50 rounded border border-green-900/30">
-                      <span className="flex items-center gap-2"><strong>Preview:</strong> <PreviewHover fileName={currentWs.program_file} wsNum={currentWs.number} session="Administrative" title="Workshop Program" /></span>
-                      <span className="text-slate-400"><strong>Local:</strong> docs/archives_translation/Administrative/{currentWs.program_file}</span>
-                      <span className="text-slate-400"><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
-                      <span className="text-slate-400 break-all"><strong>Public:</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
-                    </div>
-                  )}
+                  
+                  <DragDropZone 
+                    label="Drop Program PDF" 
+                    category="Administrative" 
+                    wsNum={String(currentWs.number)} 
+                    fileName={`${currentWs.number}th_Program.pdf`}
+                    session="Administrative"
+                    title="Workshop Program"
+                    onSuccess={() => {
+                      const updated = [...workshops];
+                      updated[selectedIdx].program_file = `${currentWs.number}th_Program.pdf`;
+                      setWorkshops(updated);
+                    }}
+                  />
+
+                  <div className="mt-3 text-xs text-slate-400 flex flex-col gap-1 p-2 bg-slate-950/50 rounded border border-slate-700/50">
+                    <span className="flex items-center gap-2">
+                      <strong>Preview:</strong> 
+                      {currentWs.program_file ? (
+                        <PreviewHover fileName={currentWs.program_file} wsNum={currentWs.number} session="Administrative" title="Workshop Program" />
+                      ) : (
+                        <span className="text-[10px] text-slate-500">(Requires uploaded file)</span>
+                      )}
+                    </span>
+                    <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file || `${currentWs.number}th_Program.pdf`}</span>
+                    <span><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file || `${currentWs.number}th_Program.pdf`}</span>
+                    <span className="break-all"><strong>Public (Vercel):</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file || `${currentWs.number}th_Program.pdf`}</span>
+                  </div>
                 </div>
+                
                 <div className="relative">
                   <label className="block text-sm font-bold text-slate-400 mb-1">Legacy Participant List URL</label>
                   <input 
@@ -329,17 +351,37 @@ export default function WorkshopManager() {
                       setWorkshops(updated);
                     }}
                     onPaste={e => handleAdminPasteDownload(e, selectedIdx, 'participant_list_url', `${currentWs.number}th_Participant_List.pdf`)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors`} 
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors mb-2`} 
                   />
                   {downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
-                  {currentWs.participant_list_file && (
-                    <div className="mt-3 text-xs text-green-400 flex flex-col gap-1 p-2 bg-slate-950/50 rounded border border-green-900/30">
-                      <span className="flex items-center gap-2"><strong>Preview:</strong> <PreviewHover fileName={currentWs.participant_list_file} wsNum={currentWs.number} session="Administrative" title="Participant List" /></span>
-                      <span className="text-slate-400"><strong>Local:</strong> docs/archives_translation/Administrative/{currentWs.participant_list_file}</span>
-                      <span className="text-slate-400"><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
-                      <span className="text-slate-400 break-all"><strong>Public:</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
-                    </div>
-                  )}
+                  
+                  <DragDropZone 
+                    label="Drop Participant List PDF" 
+                    category="Administrative" 
+                    wsNum={String(currentWs.number)} 
+                    fileName={`${currentWs.number}th_Participant_List.pdf`}
+                    session="Administrative"
+                    title="Participant List"
+                    onSuccess={() => {
+                      const updated = [...workshops];
+                      updated[selectedIdx].participant_list_file = `${currentWs.number}th_Participant_List.pdf`;
+                      setWorkshops(updated);
+                    }}
+                  />
+
+                  <div className="mt-3 text-xs text-slate-400 flex flex-col gap-1 p-2 bg-slate-950/50 rounded border border-slate-700/50">
+                    <span className="flex items-center gap-2">
+                      <strong>Preview:</strong> 
+                      {currentWs.participant_list_file ? (
+                        <PreviewHover fileName={currentWs.participant_list_file} wsNum={currentWs.number} session="Administrative" title="Participant List" />
+                      ) : (
+                        <span className="text-[10px] text-slate-500">(Requires uploaded file)</span>
+                      )}
+                    </span>
+                    <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file || `${currentWs.number}th_Participant_List.pdf`}</span>
+                    <span><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file || `${currentWs.number}th_Participant_List.pdf`}</span>
+                    <span className="break-all"><strong>Public (Vercel):</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file || `${currentWs.number}th_Participant_List.pdf`}</span>
+                  </div>
                 </div>
               </div>
 
