@@ -808,7 +808,7 @@
         "url": "https://www.hems-workshop.org/14thWS/Abstracts/Maletic.pdf",
         "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Maletic.pdf",
         "abstract_file": "14th_Maletic_Development_of_mass_Abstract.pdf",
-        "presentation_file": "14th_Maletic_Development_of_mass_Presentation.pdf"
+        "presentation_file": ""
       },
       {
         "date": "09/27/2022",
@@ -1436,7 +1436,7 @@
             "isPresenter": true
           },
           {
-            "name": "Malte HÃ¶hn",
+            "name": "Malte Höhn",
             "isPresenter": false
           }
         ],
@@ -1742,6 +1742,8 @@
     "venue_url": "https://www.marriott.com/en-us/hotels/mlbcb-courtyard-cocoa-beach-cape-canaveral/overview/",
     "program_url": "https://www.hems-workshop.org/14thWS/Final%20Program%20SEPT21.pdf",
     "participant_list_url": "https://www.hems-workshop.org/14thWS/2022%20HEMS%20Workshop%20Attendees.pdf",
-    "dates": "September 26-29, 2022"
+    "dates": "September 26-29, 2022",
+    "participant_list_file": "14th_Participant_List.pdf",
+    "program_file": "14th_Program.pdf"
   }
 ]

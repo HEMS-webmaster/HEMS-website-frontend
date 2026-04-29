@@ -141,6 +141,31 @@ export default function WorkshopManager() {
     }
     setPushing(false);
   };
+  const handleAdminDeleteFile = async (field: string, category: string, session: string, fileName: string) => {
+    if (!confirm(`Are you sure you want to delete ${fileName}?`)) return;
+    try {
+      const res = await fetch('/api/manager/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName, category, wsNum: workshops[selectedIdx].number, session })
+      });
+      const data = await res.json();
+      if (data.success) {
+        const updated = [...workshops];
+        if (field.includes('.')) {
+           const [parent, child] = field.split('.');
+           (updated[selectedIdx] as any)[parent][child] = "";
+        } else {
+           (updated[selectedIdx] as any)[field] = "";
+        }
+        setWorkshops(updated);
+      } else {
+        alert('Error deleting file: ' + data.error);
+      }
+    } catch (err: any) {
+      alert('Error deleting file: ' + err.message);
+    }
+  };
 
   const addWorkshop = () => {
     const newWs = {
@@ -167,7 +192,7 @@ export default function WorkshopManager() {
 
   return (
     <div className="min-h-screen bg-slate-900 text-slate-200 p-8 font-sans">
-      <div className="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+      <div className="sticky top-0 z-50 bg-slate-900 flex justify-between items-center mb-8 border-b border-slate-700 pb-4 pt-4">
         <h1 className="text-3xl font-bold text-sky-400">🛠️ Workshop Manager</h1>
         <div className="space-x-4">
           <button 
@@ -194,8 +219,8 @@ export default function WorkshopManager() {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-8">
-        <div className="col-span-1 bg-slate-800 p-4 rounded border border-slate-700">
+      <div className="grid grid-cols-4 gap-8 items-start">
+        <div className="col-span-1 bg-slate-800 p-4 rounded border border-slate-700 sticky top-32 max-h-[calc(100vh-8rem)] overflow-y-auto flex flex-col">
           <h2 className="text-xl font-bold mb-4 text-sky-400">Workshops</h2>
           <ul className="space-y-2">
             {workshops.map((ws, i) => (
@@ -208,12 +233,12 @@ export default function WorkshopManager() {
               </li>
             ))}
           </ul>
-          <button 
-            onClick={addWorkshop}
-            className="mt-4 w-full bg-slate-700 hover:bg-slate-600 py-2 rounded text-sm"
-          >
-            + Add Workshop
-          </button>
+            <button 
+              onClick={addWorkshop}
+              className="mt-4 w-full bg-slate-700 hover:bg-slate-600 py-2 rounded text-sm shrink-0"
+            >
+              + Add Workshop
+            </button>
         </div>
 
         <div className="col-span-3 bg-slate-800 p-6 rounded border border-slate-700">
@@ -348,7 +373,10 @@ export default function WorkshopManager() {
                     <span className="flex items-center gap-2">
                       <strong>Preview:</strong> 
                       {currentWs.program_file ? (
-                        <PreviewHover fileName={currentWs.program_file} wsNum={currentWs.number} session="Administrative" title="Workshop Program" />
+                        <div className="flex items-center gap-1 group">
+                          <PreviewHover fileName={currentWs.program_file} wsNum={currentWs.number.toString()} session="Administrative" title="Workshop Program" />
+                          <button onClick={() => handleAdminDeleteFile('program_file', 'Administrative', 'Administrative', currentWs.program_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
+                        </div>
                       ) : (
                         <span className="text-[10px] text-slate-500">(Requires uploaded file)</span>
                       )}
@@ -396,7 +424,10 @@ export default function WorkshopManager() {
                     <span className="flex items-center gap-2">
                       <strong>Preview:</strong> 
                       {currentWs.participant_list_file ? (
-                        <PreviewHover fileName={currentWs.participant_list_file} wsNum={currentWs.number} session="Administrative" title="Participant List" />
+                        <div className="flex items-center gap-1 group">
+                          <PreviewHover fileName={currentWs.participant_list_file} wsNum={currentWs.number.toString()} session="Administrative" title="Participant List" />
+                          <button onClick={() => handleAdminDeleteFile('participant_list_file', 'Administrative', 'Administrative', currentWs.participant_list_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
+                        </div>
                       ) : (
                         <span className="text-[10px] text-slate-500">(Requires uploaded file)</span>
                       )}

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import DragDropZone from './DragDropZone';
+import PreviewHover from './PreviewHover';
 
 interface Student {
   title?: string;
@@ -89,6 +90,25 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
     onChange(updated);
   };
 
+  const handleDeleteFile = async (index: number, field: keyof Student, category: string, session: string, fileName: string) => {
+    if (!confirm(`Are you sure you want to delete ${fileName}?`)) return;
+    try {
+      const res = await fetch('/api/manager/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName, category, wsNum, session })
+      });
+      const data = await res.json();
+      if (data.success) {
+        updateItem(index, field, "");
+      } else {
+        alert('Error deleting file: ' + data.error);
+      }
+    } catch (err: any) {
+      alert('Error deleting file: ' + err.message);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
@@ -155,7 +175,12 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
                     fileName={presFileName}
                     onSuccess={() => updateItem(i, 'presentation_file', presFileName)}
                   />
-                  {s.presentation_file && <div className="mt-1 text-xs text-green-400 truncate">{s.presentation_file}</div>}
+                  {s.presentation_file && (
+                    <div className="mt-1 text-xs text-green-400 flex items-center gap-1 group">
+                      <PreviewHover fileName={s.presentation_file} wsNum={wsNum} session="Student_Award" title={s.title || 'Student Award'} />
+                      <button onClick={() => handleDeleteFile(i, 'presentation_file', 'Student_Award', 'Student_Award', s.presentation_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
+                    </div>
+                  )}
                 </div>
                 <div>
                   <DragDropZone 
@@ -165,7 +190,12 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
                     fileName={absFileName}
                     onSuccess={() => updateItem(i, 'abstract_file', absFileName)}
                   />
-                  {s.abstract_file && <div className="mt-1 text-xs text-green-400 truncate">{s.abstract_file}</div>}
+                  {s.abstract_file && (
+                    <div className="mt-1 text-xs text-green-400 flex items-center gap-1 group">
+                      <PreviewHover fileName={s.abstract_file} wsNum={wsNum} session="Student_Award" title={(s.title || 'Student Award') + ' (Abstract)'} />
+                      <button onClick={() => handleDeleteFile(i, 'abstract_file', 'Student_Award', 'Student_Award', s.abstract_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

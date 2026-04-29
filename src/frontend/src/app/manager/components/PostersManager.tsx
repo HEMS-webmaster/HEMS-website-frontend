@@ -97,6 +97,25 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
     onChange(updated);
   };
 
+  const handleDeleteFile = async (index: number, field: keyof Poster, category: string, session: string, fileName: string) => {
+    if (!confirm(`Are you sure you want to delete ${fileName}?`)) return;
+    try {
+      const res = await fetch('/api/manager/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName, category, wsNum, session })
+      });
+      const data = await res.json();
+      if (data.success) {
+        updateItem(index, field, "");
+      } else {
+        alert('Error deleting file: ' + data.error);
+      }
+    } catch (err: any) {
+      alert('Error deleting file: ' + err.message);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
@@ -281,9 +300,19 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
               {(p.poster_file || p.abstract_file) && (
                  <div className="mt-3 text-xs text-green-400 flex items-center gap-2 flex-wrap">
                    Attached: 
-                   {p.poster_file && <PreviewHover fileName={p.poster_file} wsNum={wsNum} session="Posters" title={p.title} />}
+                   {p.poster_file && (
+                     <div className="flex items-center gap-1 group">
+                       <PreviewHover fileName={p.poster_file} wsNum={wsNum} session="Posters" title={p.title} />
+                       <button onClick={() => handleDeleteFile(i, 'poster_file', 'Poster', 'Posters', p.poster_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
+                     </div>
+                   )}
                    {p.poster_file && p.abstract_file && <span className="text-slate-500">|</span>}
-                   {p.abstract_file && <PreviewHover fileName={p.abstract_file} wsNum={wsNum} session="Posters" title={p.title} />}
+                   {p.abstract_file && (
+                     <div className="flex items-center gap-1 group">
+                       <PreviewHover fileName={p.abstract_file} wsNum={wsNum} session="Posters" title={p.title + ' (Abstract)'} />
+                       <button onClick={() => handleDeleteFile(i, 'abstract_file', 'Poster', 'Posters', p.abstract_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
+                     </div>
+                   )}
                  </div>
               )}
             </div>

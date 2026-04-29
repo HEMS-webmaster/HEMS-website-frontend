@@ -301,25 +301,33 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
               <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4">Workshop Resources</h3>
               <div className="flex flex-wrap gap-4">
                 {data.resources.map((res: any, idx: number) => {
-                  const href = isLocal && res.local_target_path ? res.local_target_path : (res.public_website_url || res.legacy_url || res.url);
-                  const isAnchor = href?.startsWith('#');
-                  return (
-                  <a 
-                    key={idx}
-                    href={href} 
-                    target={isAnchor ? undefined : "_blank"} 
-                    rel={isAnchor ? undefined : "noopener noreferrer"}
-                    className={`flex items-center gap-2 bg-surface border border-foreground/10 px-4 py-2 rounded-md transition-colors text-sm font-bold ${
-                      idx === 0 ? 'hover:border-secondary hover:text-secondary' : 'hover:border-primary hover:text-primary'
-                    }`}
-                  >
-                    {res.icon === 'Download' && <Download size={16} />}
-                    {res.icon === 'Users' && <Users size={16} />}
-                    {res.icon === 'Building' && <Building size={16} />}
-                    {res.icon === 'FileText' && <FileText size={16} />}
-                    {!['Download', 'Users', 'Building', 'FileText'].includes(res.icon) && <Download size={16} />}
-                    {res.label}
-                  </a>
+                  const href = isLocal 
+                    ? (res.local_target_path !== undefined ? res.local_target_path : (res.legacy_url || res.url))
+                    : (res.public_website_url !== undefined ? res.public_website_url : (res.legacy_url || res.url));
+                  if (!href) return null;
+                  const isAnchor = href.startsWith('#');
+                  const anchorElement = (
+                    <a 
+                      key={idx}
+                      href={href} 
+                      target={isAnchor ? undefined : "_blank"} 
+                      rel={isAnchor ? undefined : "noopener noreferrer"}
+                      className={`flex items-center gap-2 bg-surface border border-foreground/10 px-4 py-2 rounded-md transition-colors text-sm font-bold ${
+                        idx === 0 ? 'hover:border-secondary hover:text-secondary' : 'hover:border-primary hover:text-primary'
+                      }`}
+                    >
+                      {res.icon === 'Download' && <Download size={16} />}
+                      {res.icon === 'Users' && <Users size={16} />}
+                      {res.icon === 'Building' && <Building size={16} />}
+                      {res.icon === 'FileText' && <FileText size={16} />}
+                      {!['Download', 'Users', 'Building', 'FileText'].includes(res.icon) && <Download size={16} />}
+                      {res.label}
+                    </a>
+                  );
+                  return isAnchor ? anchorElement : (
+                    <FrontendPreviewHover key={idx} href={href} title={res.label}>
+                      {anchorElement}
+                    </FrontendPreviewHover>
                   );
                 })}
               </div>
@@ -376,8 +384,12 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
                       {data.student_awards.map((award: any, idx: number) => {
-                        const presUrl = isLocal && award.local_target_path ? award.local_target_path : (award.public_website_url || award.legacy_url || award.presentationUrl);
-                        const absUrl = isLocal && award.local_abstract_target_path ? award.local_abstract_target_path : (award.public_abstract_url || award.legacy_abstract_url || award.abstractUrl);
+                        const presUrl = isLocal 
+                          ? (award.local_target_path !== undefined ? award.local_target_path : (award.legacy_url || award.presentationUrl || award.url))
+                          : (award.public_website_url !== undefined ? award.public_website_url : (award.legacy_url || award.presentationUrl || award.url));
+                        const absUrl = isLocal 
+                          ? (award.local_abstract_target_path !== undefined ? award.local_abstract_target_path : (award.legacy_abstract_url || award.abstractUrl || award.abstract_url))
+                          : (award.public_abstract_url !== undefined ? award.public_abstract_url : (award.legacy_abstract_url || award.abstractUrl || award.abstract_url));
                         
                         return (
                           <div key={idx} className="flex flex-col">
@@ -484,8 +496,12 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                     );
                                   }
 
-                                  const presUrl = isLocal && talk.local_target_path ? talk.local_target_path : (talk.public_website_url || talk.legacy_url || talk.presentationUrl);
-                                  const absUrl = isLocal && talk.local_abstract_target_path ? talk.local_abstract_target_path : (talk.public_abstract_url || talk.legacy_abstract_url || talk.abstractUrl);
+                                  const presUrl = isLocal 
+                                    ? (talk.local_target_path !== undefined ? talk.local_target_path : (talk.legacy_url || talk.presentationUrl || talk.url))
+                                    : (talk.public_website_url !== undefined ? talk.public_website_url : (talk.legacy_url || talk.presentationUrl || talk.url));
+                                  const absUrl = isLocal 
+                                    ? (talk.local_abstract_target_path !== undefined ? talk.local_abstract_target_path : (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url))
+                                    : (talk.public_abstract_url !== undefined ? talk.public_abstract_url : (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url));
 
                                   return (
                                     <div key={tIdx} className="py-2 first:pt-0 last:pb-0">

@@ -14,17 +14,17 @@
       "label": "Program Download",
       "icon": "Download",
       "legacy_url": "https://www.hems-workshop.org/14thWS/Final%20Program%20SEPT21.pdf",
-      "local_target_path": "",
-      "public_website_url": "",
-      "gcloud_url": ""
+      "local_target_path": "/api/manager/serve?file=14th/Administrative/14th_Program.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Administrative/14th_Program.pdf",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Administrative/14th_Program.pdf"
     },
     {
       "label": "Participant List",
       "icon": "Users",
       "legacy_url": "https://www.hems-workshop.org/14thWS/2022%20HEMS%20Workshop%20Attendees.pdf",
-      "local_target_path": "",
-      "public_website_url": "",
-      "gcloud_url": ""
+      "local_target_path": "/api/manager/serve?file=14th/Administrative/14th_Participant_List.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Administrative/14th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Administrative/14th_Participant_List.pdf"
     }
   ],
   "sponsors": [
@@ -870,7 +870,7 @@
                   "isPresenter": true
                 },
                 {
-                  "name": "Malte HÃ¶hn",
+                  "name": "Malte Höhn",
                   "isPresenter": false
                 }
               ],
