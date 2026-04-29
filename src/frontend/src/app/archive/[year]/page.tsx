@@ -4,7 +4,7 @@ import { Calendar, MapPin, Users, FileText, Download, Building, ArrowLeft, Award
 import { notFound } from "next/navigation";
 import path from "path";
 import { promises as fs } from "fs";
-
+import FrontendPreviewHover from "@/components/FrontendPreviewHover";
 export async function generateStaticParams() {
   const dataDir = path.join(process.cwd(), 'src', 'data', 'archives');
   let files = [];
@@ -18,6 +18,19 @@ export async function generateStaticParams() {
     .map((f: string) => f.replace('.json', ''));
     
   return years.map(year => ({ year }));
+}
+export async function generateMetadata({ params }: { params: Promise<{ year: string }> }) {
+  const { year } = await params;
+  const dataPath = path.join(process.cwd(), 'src', 'data', 'archives', `${year}.json`);
+  try {
+    const fileContents = await fs.readFile(dataPath, 'utf8');
+    const data = JSON.parse(fileContents);
+    return {
+      title: `${data.ordinal} HEMS Workshop | Harsh-Environment Mass Spectrometry`,
+    };
+  } catch (e) {
+    return { title: 'HEMS Workshop Archive' };
+  }
 }
 
 export default async function WorkshopArchive({ params }: { params: Promise<{ year: string }> }) {
@@ -33,6 +46,165 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
     notFound();
   }
 
+  // --- Unified Schedule Logic ---
+  const parseDayDate = (title: string): Date => {
+    if (!title) return new Date(0);
+    // Try to parse YYYY-MM-DD
+    const isoMatch = title.match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (isoMatch) {
+      return new Date(parseInt(isoMatch[1]), parseInt(isoMatch[2]) - 1, parseInt(isoMatch[3]));
+    }
+    // Try to parse text date
+    const textMatch = title.match(/(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)[,\s]+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d+)[,\s]+(\d{4})/i);
+    if (textMatch) {
+      const monthStr = textMatch[1];
+      const day = parseInt(textMatch[2]);
+      const year = parseInt(textMatch[3]);
+      const monthIdx = ['january','february','march','april','may','june','july','august','september','october','november','december'].indexOf(monthStr.toLowerCase());
+      return new Date(year, monthIdx, day);
+    }
+    // Try to parse MM/DD/YYYY (US Format)
+    const usMatch = title.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (usMatch) {
+      return new Date(parseInt(usMatch[3]), parseInt(usMatch[1]) - 1, parseInt(usMatch[2]));
+    }
+    return new Date(0);
+  };
+
+  const formatTime = (t: string) => {
+    if (!t) return '';
+    if (t.match(/^\d{2}:\d{2}$/)) {
+      const [hh, mm] = t.split(':');
+      let h = parseInt(hh);
+      const suffix = h >= 12 ? 'p.m.' : 'a.m.';
+      if (h === 0) h = 12;
+      if (h > 12) h -= 12;
+      return `${h}:${mm} ${suffix}`;
+    }
+    return t;
+  };
+
+  const formatDayTitle = (date: Date): string => {
+    if (isNaN(date.getTime()) || date.getTime() === 0) return 'Unknown Date';
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+  };
+
+  const parseDateGroupTitle = (title: string): string => {
+    if (!title) return '';
+    if (title.includes(':')) {
+       return title.split(':').slice(1).join(':').trim();
+    }
+    return '';
+  };
+
+  let unifiedSchedule: any[] = [];
+  
+  if (data.schedule && Array.isArray(data.schedule)) {
+    unifiedSchedule = JSON.parse(JSON.stringify(data.schedule)).map((day: any) => ({
+      ...day,
+      rawDateObj: parseDayDate(day.title),
+      dateGroupTitle: parseDateGroupTitle(day.title),
+      items: (day.items || []).filter((item: any) => item.type === 'session')
+    })).filter((day: any) => day.items && day.items.length > 0);
+  }
+
+  if (data.events && Array.isArray(data.events)) {
+    data.events.forEach((eg: any) => {
+      const [y, m, d] = eg.date.split('-');
+      const eventDateObj = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+      
+      let targetDay = unifiedSchedule.find((day: any) => {
+        return day.rawDateObj && day.rawDateObj.getTime() === eventDateObj.getTime();
+      });
+
+      if (!targetDay) {
+        targetDay = { rawDateObj: eventDateObj, dateGroupTitle: eg.title, items: [] };
+        unifiedSchedule.push(targetDay);
+      } else if (!targetDay.dateGroupTitle && eg.title) {
+        targetDay.dateGroupTitle = eg.title;
+      }
+
+      if (!targetDay.items) targetDay.items = [];
+
+      eg.events?.forEach((ev: any) => {
+        let formattedTime = formatTime(ev.time);
+        let formattedEndTime = formatTime(ev.end_time);
+        
+        let displayTime = formattedTime;
+        if (formattedEndTime) displayTime += ` - ${formattedEndTime}`;
+
+        let subtitleElements = [];
+        if (ev.subtitle) {
+          if (ev.subtitle_url) {
+            subtitleElements.push(`<a href="${ev.subtitle_url}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">${ev.subtitle}</a>`);
+          } else {
+            subtitleElements.push(ev.subtitle);
+          }
+        }
+        if (ev.location) {
+          if (ev.location_url) {
+            subtitleElements.push(`<a href="${ev.location_url}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">${ev.location}</a>`);
+          } else {
+            subtitleElements.push(ev.location);
+          }
+        }
+
+        targetDay.items.push({
+          type: 'event',
+          time: displayTime || ev.time,
+          rawTime: ev.time, // Keep raw time for sorting
+          title: ev.title,
+          subtitle: [ev.subtitle, ev.location].filter(Boolean).join(' | '),
+          subtitleHtml: subtitleElements.join(' | ')
+        });
+      });
+    });
+  }
+
+  const parseSortTime = (item: any) => {
+    if (item.rawTime) return item.rawTime;
+    const t = item.time || '';
+    const match = t.match(/(\d+):(\d+)\s*(a|p)/i);
+    if (match) {
+      let h = parseInt(match[1]);
+      const m = match[2];
+      const isPm = match[3].toLowerCase() === 'p';
+      if (isPm && h < 12) h += 12;
+      if (!isPm && h === 12) h = 0;
+      return `${h.toString().padStart(2, '0')}:${m}`;
+    }
+    return t; 
+  };
+
+  unifiedSchedule.forEach((day: any) => {
+    // Set the standardized title
+    if (day.rawDateObj && day.rawDateObj.getTime() !== 0) {
+      let fTitle = formatDayTitle(day.rawDateObj);
+      if (day.dateGroupTitle) fTitle += `: ${day.dateGroupTitle}`;
+      day.title = fTitle;
+    } else if (!day.title) {
+      day.title = 'Unknown Date';
+    }
+
+    if (day.items) {
+      day.items.sort((a: any, b: any) => {
+        const timeA = parseSortTime(a);
+        const timeB = parseSortTime(b);
+        return timeA.localeCompare(timeB);
+      });
+    }
+  });
+
+  // Sort days chronologically using the Date objects
+  unifiedSchedule.sort((a: any, b: any) => {
+    const timeA = a.rawDateObj ? a.rawDateObj.getTime() : 0;
+    const timeB = b.rawDateObj ? b.rawDateObj.getTime() : 0;
+    return timeA - timeB;
+  });
+  // --- End Unified Schedule Logic ---
+
   return (
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
       <Link href="/archive" className="flex items-center gap-2 text-primary font-bold hover:text-primary/80 transition-colors mb-8 w-fit">
@@ -43,14 +215,14 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
         {/* Subtle background decoration */}
         <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8 relative z-10">
           <div className="flex-1">
             <span className="inline-block bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6 font-mono">
               {data.ordinal} Annual Workshop
             </span>
             
-            <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-6">
-              {data.year} HEMS Workshop
+            <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-4">
+              {data.ordinal} HEMS Workshop
             </h1>
             
             <p className="text-xl text-foreground/80 max-w-3xl mb-8 leading-relaxed">
@@ -62,33 +234,67 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                 <Calendar className="text-secondary" size={20} />
                 <span>{data.dates}</span>
               </div>
-              <div className="flex items-start gap-3">
-                <MapPin className="text-secondary mt-1 flex-shrink-0" size={20} />
+              <div className={`flex ${data.venue ? 'items-start' : 'items-center'} gap-3`}>
+                <MapPin className={`text-secondary ${data.venue ? 'mt-1' : ''} flex-shrink-0`} size={20} />
                 <span>
-                  {data.venue_url ? (
-                    <a href={data.venue_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline transition-colors font-bold">
-                      {data.venue}
-                    </a>
-                  ) : (
-                    <span className="font-bold">{data.venue}</span>
+                  {data.venue && (
+                    <>
+                      {data.venue_url ? (
+                        <a href={data.venue_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline transition-colors font-bold">
+                          {data.venue}
+                        </a>
+                      ) : (
+                        <span className="font-bold">{data.venue}</span>
+                      )}
+                      <br/>
+                    </>
                   )}
-                  <br/>
-                  <span className="text-sm font-normal text-foreground/50">{data.address}</span>
+                  <span className={`${!data.venue ? 'font-bold' : 'text-sm font-normal text-foreground/50'}`}>{data.address}</span>
                 </span>
               </div>
             </div>
           </div>
           
-          <div className="hidden md:flex flex-shrink-0 items-center justify-center bg-white p-4 rounded-xl border border-foreground/10 shadow-lg mt-4 md:mt-0 w-[280px] lg:w-[320px]">
+          <div className="hidden md:flex flex-shrink-0 items-center justify-center bg-white p-4 rounded-xl border border-foreground/10 shadow-lg mt-4 md:mt-12 w-[240px] lg:w-[270px]">
             <Image 
               src="/hemslogo.jpg" 
               alt="HEMS Logo" 
-              width={300} 
-              height={150} 
+              width={255} 
+              height={127} 
               className="object-contain w-full h-auto rounded" 
             />
           </div>
         </div>
+
+        {data.host_corporation && data.host_corporation.name && (
+          <div className="mb-12 border-t border-foreground/10 pt-8">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4 flex items-center gap-2">
+              <Building size={16} /> Official Host
+            </h3>
+            <a 
+              href={data.host_corporation.url || '#'} 
+              target={data.host_corporation.url ? "_blank" : undefined}
+              rel={data.host_corporation.url ? "noopener noreferrer" : undefined}
+              className="inline-flex items-center gap-6 bg-surface border border-foreground/10 p-6 rounded-lg hover:border-primary hover:bg-primary/5 transition-all group"
+            >
+              {data.host_corporation.logo_file && (
+                <div className="bg-white rounded p-4 h-40 w-64 flex items-center justify-center flex-shrink-0 shadow-inner">
+                  <Image 
+                    src={`/images/sponsors/${data.host_corporation.logo_file}`}
+                    alt={data.host_corporation.name} 
+                    width={200} 
+                    height={100}
+                    className="object-contain max-h-full max-w-full" 
+                  />
+                </div>
+              )}
+              <div>
+                <h4 className="font-bold text-foreground text-xl group-hover:text-primary transition-colors">{data.host_corporation.name}</h4>
+                <span className="text-sm text-primary/80 font-bold tracking-wide uppercase">Workshop Host</span>
+              </div>
+            </a>
+          </div>
+        )}
 
           {data.resources && data.resources.length > 0 && (
             <div>
@@ -125,7 +331,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
               <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-6 flex items-center gap-2">
                 <Building size={16} /> Corporate Sponsors
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[...data.sponsors].sort((a, b) => (parseInt(a.year) || 9999) - (parseInt(b.year) || 9999)).map((sponsor: any, idx: number) => {
                   const sponsorYear = parseInt(sponsor.year);
                   const yearsSince = sponsorYear ? new Date().getFullYear() - sponsorYear : 0;
@@ -137,12 +343,12 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       rel={sponsor.url ? "noopener noreferrer" : undefined}
                       className="bg-surface border border-foreground/10 p-4 rounded-lg flex items-center gap-4 hover:border-primary hover:bg-primary/5 transition-all group"
                     >
-                      <div className="bg-white rounded p-2 h-16 w-24 flex items-center justify-center flex-shrink-0 shadow-inner">
+                      <div className="bg-white rounded p-2 h-20 w-32 flex items-center justify-center flex-shrink-0 shadow-inner">
                         <Image 
                           src={sponsor.image} 
                           alt={sponsor.name} 
-                          width={80} 
-                          height={40}
+                          width={100} 
+                          height={50}
                           className="object-contain max-h-full max-w-full transition-all duration-300" 
                         />
                       </div>
@@ -161,35 +367,54 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
             </div>
           )}
           {data.student_awards && data.student_awards.length > 0 && (
-            <div className="mt-12 border-t border-foreground/10 pt-8 mb-12">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-6 flex items-center gap-2">
-                <Award size={16} /> Student Presenters
-              </h3>
-              <div className="bg-background border border-foreground/10 rounded-lg overflow-hidden divide-y divide-foreground/5">
-                {data.student_awards.map((award: any, idx: number) => {
-                  const presUrl = isLocal && award.local_target_path ? award.local_target_path : (award.public_website_url || award.legacy_url || award.presentationUrl);
-                  const absUrl = isLocal && award.local_abstract_target_path ? award.local_abstract_target_path : (award.public_abstract_url || award.legacy_abstract_url || award.abstractUrl);
-                  
-                  return (
-                    <div key={idx} className="px-6 py-4 flex flex-col hover:bg-surface/30 transition-colors">
-                      <p className="text-base font-bold flex items-start gap-2">
-                        {presUrl ? (
-                          <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{award.title}</a>
-                        ) : (
-                          <span className="text-foreground/80 break-words flex-1 leading-snug">{award.title}</span>
-                        )}
-                      </p>
-                      <p className="text-sm text-foreground/70 mt-1">
-                        {award.authors}
-                      </p>
-                      {absUrl && (
-                        <p className="text-xs mt-2">
-                          <a href={absUrl} target="_blank" rel="noopener noreferrer" className="inline-block bg-secondary/10 text-secondary px-2 py-1 rounded hover:bg-secondary/20 transition-colors">Abstract</a>
-                        </p>
-                      )}
+            <div className="mt-12 mb-12">
+              <div className="bg-background border border-foreground/10 rounded-lg">
+                <div className="px-4 py-5 flex flex-col gap-4 bg-primary/5 border-l-4 border-primary transition-colors">
+                  <div className="flex-1">
+                    <h4 className="font-bold text-primary text-lg flex items-center gap-2 mb-4">
+                      <Award size={20} /> {data.student_awards.length === 1 ? 'Student Award' : 'Student Awards'}
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
+                      {data.student_awards.map((award: any, idx: number) => {
+                        const presUrl = isLocal && award.local_target_path ? award.local_target_path : (award.public_website_url || award.legacy_url || award.presentationUrl);
+                        const absUrl = isLocal && award.local_abstract_target_path ? award.local_abstract_target_path : (award.public_abstract_url || award.legacy_abstract_url || award.abstractUrl);
+                        
+                        return (
+                          <div key={idx} className="flex flex-col">
+                            {award.title && award.title.toLowerCase() !== 'student award' && (
+                              <div className="text-base font-bold flex items-start gap-2 mb-1">
+                                {presUrl ? (
+                                  <FrontendPreviewHover href={presUrl} title={award.title}>
+                                    <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{award.title}</a>
+                                  </FrontendPreviewHover>
+                                ) : (
+                                  <span className="text-foreground/80 break-words flex-1 leading-snug">{award.title}</span>
+                                )}
+                              </div>
+                            )}
+                            
+                            <div className={`text-sm mb-2 flex-1 ${(!award.title || award.title.toLowerCase() === 'student award') ? 'font-bold text-foreground text-base' : 'text-foreground/70'}`}>
+                              {presUrl && (!award.title || award.title.toLowerCase() === 'student award') ? (
+                                <FrontendPreviewHover href={presUrl} title={award.title || 'Student Award'}>
+                                  <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words">{award.authors}</a>
+                                </FrontendPreviewHover>
+                              ) : (
+                                award.authors
+                              )}
+                            </div>
+                            {absUrl && (
+                              <div className="text-xs">
+                                <FrontendPreviewHover href={absUrl} title={award.title}>
+                                  <a href={absUrl} target="_blank" rel="noopener noreferrer" className="inline-block bg-secondary/10 text-secondary px-2 py-1 rounded hover:bg-secondary/20 transition-colors">Abstract</a>
+                                </FrontendPreviewHover>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -200,12 +425,11 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
           <h2 className="text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
             <FileText className="text-primary" /> Technical Program
           </h2>
-          
-          <div className="bg-background border border-foreground/10 rounded-lg overflow-hidden">
+          <div className="bg-background border border-foreground/10 rounded-lg">
             
-            {data.schedule?.map((day: any, dIdx: number) => (
+            {unifiedSchedule.map((day: any, dIdx: number) => (
               <div key={dIdx} className="border-b border-foreground/10 last:border-0">
-                <div className="bg-surface px-6 py-4 border-b border-foreground/10">
+                <div className="bg-surface px-6 py-3 border-b border-foreground/10">
                   <h3 className="font-bold text-lg">{day.title}</h3>
                 </div>
                 <div className="divide-y divide-foreground/5">
@@ -213,11 +437,13 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                   {day.items?.map((item: any, iIdx: number) => {
                     if (item.type === 'event') {
                       return (
-                        <div key={iIdx} className="px-4 py-3 flex flex-col md:flex-row gap-4 hover:bg-surface/30 transition-colors border-l-4 border-transparent">
+                        <div key={iIdx} className="px-4 py-2 flex flex-col md:flex-row gap-4 hover:bg-surface/30 transition-colors border-l-4 border-transparent">
                           <div className="md:w-32 font-mono text-sm font-bold text-foreground flex-shrink-0">{item.time}</div>
                           <div>
-                            <h4 className="font-bold">{item.title}</h4>
-                            <p className="text-sm text-foreground/70 mt-1">{item.subtitle}</p>
+                            <h4 className="font-bold inline">{item.title}</h4>
+                            {(item.subtitleHtml || item.subtitle) && (
+                              <span className="text-sm text-foreground/70 ml-2 font-normal" dangerouslySetInnerHTML={{ __html: item.subtitleHtml || item.subtitle }}></span>
+                            )}
                           </div>
                         </div>
                       );
@@ -226,57 +452,62 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       const bgClass = isPlenary ? 'bg-secondary/5' : 'bg-primary/5';
                       const borderClass = isPlenary ? 'border-secondary' : 'border-primary';
                       const textClass = isPlenary ? 'text-secondary' : 'text-primary';
+                      const isPosterSession = item.title?.toLowerCase().includes('poster');
 
                       return (
-                        <div key={iIdx} className={`px-4 py-4 flex flex-col md:flex-row gap-4 ${bgClass} border-l-4 ${borderClass} transition-colors`}>
-                          <div className="md:w-32 font-mono text-sm font-bold text-foreground flex-shrink-0">{item.time}</div>
+                        <div key={iIdx} className={`px-4 py-3 flex flex-col md:flex-row gap-4 ${bgClass} border-l-4 ${borderClass} transition-colors`}>
+                          <div className="md:w-32 font-mono text-sm font-bold text-foreground flex-shrink-0">{formatTime(item.time)}</div>
                           <div className="flex-1">
                             <h4 className={`font-bold ${textClass} text-lg`}>{item.title}</h4>
                             <div className="mt-3 divide-y divide-primary/10">
                               
-                              {item.talks?.map((talk: any, tIdx: number) => {
-                                let authorElements = null;
-                                
-                                if (Array.isArray(talk.authors)) {
-                                  authorElements = talk.authors.map((a: any, i: number) => (
-                                    <span key={i}>
-                                      {a.isPresenter ? <span className="underline">{a.name}</span> : a.name}
-                                      {i < talk.authors.length - 1 ? ', ' : ''}
-                                    </span>
-                                  ));
-                                } else {
-                                  // Fallback for legacy comma-separated string if not migrated
-                                  const authorParts = typeof talk.authors === 'string' ? talk.authors.split(',') : [];
-                                  const firstAuthor = authorParts.length > 0 ? authorParts[0] : '';
-                                  const restAuthors = authorParts.length > 1 ? ',' + authorParts.slice(1).join(',') : '';
-                                  authorElements = (
-                                    <>
-                                      {firstAuthor && <span className="underline">{firstAuthor}</span>}
-                                      {restAuthors}
-                                    </>
-                                  );
-                                }
+                                {item.talks?.map((talk: any, tIdx: number) => {
+                                  let authorElements = null;
+                                  
+                                  if (Array.isArray(talk.authors)) {
+                                    authorElements = talk.authors.map((a: any, i: number) => (
+                                      <span key={i}>
+                                        {a.isPresenter ? <span className="underline">{a.name}</span> : a.name}
+                                        {i < talk.authors.length - 1 ? ', ' : ''}
+                                      </span>
+                                    ));
+                                  } else {
+                                    // Fallback for legacy comma-separated string if not migrated
+                                    const authorParts = typeof talk.authors === 'string' ? talk.authors.split(',') : [];
+                                    const firstAuthor = authorParts.length > 0 ? authorParts[0] : '';
+                                    const restAuthors = authorParts.length > 1 ? ',' + authorParts.slice(1).join(',') : '';
+                                    authorElements = (
+                                      <>
+                                        {firstAuthor && <span className="underline">{firstAuthor}</span>}
+                                        {restAuthors}
+                                      </>
+                                    );
+                                  }
 
-                                const presUrl = isLocal && talk.local_target_path ? talk.local_target_path : (talk.public_website_url || talk.legacy_url || talk.presentationUrl);
-                                const absUrl = isLocal && talk.local_abstract_target_path ? talk.local_abstract_target_path : (talk.public_abstract_url || talk.legacy_abstract_url || talk.abstractUrl);
+                                  const presUrl = isLocal && talk.local_target_path ? talk.local_target_path : (talk.public_website_url || talk.legacy_url || talk.presentationUrl);
+                                  const absUrl = isLocal && talk.local_abstract_target_path ? talk.local_abstract_target_path : (talk.public_abstract_url || talk.legacy_abstract_url || talk.abstractUrl);
 
-                                return (
-                                  <div key={tIdx} className="py-3 first:pt-0 last:pb-0">
-                                    <p className="text-sm font-bold flex items-start gap-2">
-                                      {talk.time && <span className="text-foreground/50 font-mono font-normal flex-shrink-0 mt-0.5">{talk.time}</span>}
+                                  return (
+                                    <div key={tIdx} className="py-2 first:pt-0 last:pb-0">
+                                    <div className="text-sm font-bold flex items-start gap-2">
+                                      {talk.time && !isPosterSession && <span className="text-foreground/50 font-mono font-normal flex-shrink-0 mt-0.5">{formatTime(talk.time)}</span>}
                                       {presUrl ? (
-                                        <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{talk.title}</a>
+                                        <FrontendPreviewHover href={presUrl} title={talk.title}>
+                                          <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{talk.title}</a>
+                                        </FrontendPreviewHover>
                                       ) : (
                                         <span className="text-foreground/60 break-words flex-1 leading-snug">{talk.title}</span>
                                       )}
-                                    </p>
+                                    </div>
                                     <p className="text-sm text-foreground/70 mt-1">
                                       {authorElements}
                                     </p>
                                     {absUrl && (
-                                      <p className="text-xs mt-1">
-                                        <a href={absUrl} target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Abstract</a>
-                                      </p>
+                                      <div className="text-xs mt-1">
+                                        <FrontendPreviewHover href={absUrl} title={talk.title}>
+                                          <a href={absUrl} target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">Abstract</a>
+                                        </FrontendPreviewHover>
+                                      </div>
                                     )}
                                   </div>
                                 );

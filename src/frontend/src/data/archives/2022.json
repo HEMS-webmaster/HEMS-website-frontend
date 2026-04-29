@@ -13,7 +13,7 @@
     {
       "label": "Program Download",
       "icon": "Download",
-      "legacy_url": "https://www.hems-workshop.org/14thWS/Final%20Program%20SEPT21.pdfhttps://www.hems-workshop.org/14thWS/Final%20Program%20SEPT21.pdf",
+      "legacy_url": "https://www.hems-workshop.org/14thWS/Final%20Program%20SEPT21.pdf",
       "local_target_path": "",
       "public_website_url": "",
       "gcloud_url": ""
@@ -21,7 +21,7 @@
     {
       "label": "Participant List",
       "icon": "Users",
-      "legacy_url": "https://www.hems-workshop.org/14thWS/2022%20HEMS%20Workshop%20Attendees.pdfhttps://www.hems-workshop.org/14thWS/2022%20HEMS%20Workshop%20Attendees.pdf",
+      "legacy_url": "https://www.hems-workshop.org/14thWS/2022%20HEMS%20Workshop%20Attendees.pdf",
       "local_target_path": "",
       "public_website_url": "",
       "gcloud_url": ""
@@ -79,43 +79,8 @@
   ],
   "schedule": [
     {
-      "title": "Monday, September 26, 2022: Travel Day",
+      "title": "09/27/2022",
       "items": [
-        {
-          "type": "event",
-          "time": "6:00 p.m.",
-          "title": "Welcome Reception",
-          "subtitle": "Location: Sandbar Sports Grill, 4301 Ocean Beach Blvd, Cocoa Beach, FL"
-        }
-      ]
-    },
-    {
-      "title": "Tuesday, September 27, 2022: HEMS Workshop",
-      "items": [
-        {
-          "type": "event",
-          "time": "12:00 noon",
-          "title": "Lunch",
-          "subtitle": "Sponsored by Pfeiffer (Lobby)"
-        },
-        {
-          "type": "event",
-          "time": "7:30 a.m.",
-          "title": "Set-up of vendor tables & registration",
-          "subtitle": "Mars Room"
-        },
-        {
-          "type": "event",
-          "time": "8:00 a.m.",
-          "title": "Breakfast",
-          "subtitle": "Lobby"
-        },
-        {
-          "type": "event",
-          "time": "8:45 a.m.",
-          "title": "Welcome Remarks",
-          "subtitle": "Mercury Room"
-        },
         {
           "type": "session",
           "time": "9:00 a.m.",
@@ -140,12 +105,6 @@
               "gcloud_abstract_url": ""
             }
           ]
-        },
-        {
-          "type": "event",
-          "time": "10:00 a.m.",
-          "title": "Mid-morning Break (Lobby)",
-          "subtitle": ""
         },
         {
           "type": "session",
@@ -197,11 +156,11 @@
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Abstracts/Maletic.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Maletic.pdf",
-              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Maletic_Development_of_mass_Presentation.pdf",
+              "local_target_path": "",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Maletic_Development_of_mass_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Presentation.pdf",
+              "public_website_url": "",
               "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Presentation.pdf",
+              "gcloud_url": "",
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Abstract.pdf"
             },
             {
@@ -256,11 +215,11 @@
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Li.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Li.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Li_Development_of_the_Presentation.pdf",
-              "local_abstract_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_I/14th_Li_Development_of_the_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Li_Development_of_the_Presentation.pdf",
-              "public_abstract_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Li_Development_of_the_Abstract.pdf",
               "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Li_Development_of_the_Presentation.pdf",
-              "gcloud_abstract_url": ""
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_I/14th_Li_Development_of_the_Abstract.pdf"
             }
           ]
         },
@@ -291,13 +250,13 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Lauritsen.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Lauritsen.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Li.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Presentation.pdf",
-              "local_abstract_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Presentation.pdf",
-              "public_abstract_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Abstract.pdf",
               "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Presentation.pdf",
-              "gcloud_abstract_url": ""
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Abstract.pdf"
             },
             {
               "time": "1:30 p.m.",
@@ -349,21 +308,15 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/McBride.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/McBride.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/McBride.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/McBride.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Presentation.pdf",
-              "local_abstract_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Presentation.pdf",
-              "public_abstract_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Abstract.pdf",
               "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Presentation.pdf",
-              "gcloud_abstract_url": ""
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_II/14th_McBride_Multidimensional_Portable_Mass_Abstract.pdf"
             }
           ]
-        },
-        {
-          "type": "event",
-          "time": "2:00 p.m.",
-          "title": "Coffee & Sponsor Introductions",
-          "subtitle": "Mercury Room"
         },
         {
           "type": "session",
@@ -398,11 +351,11 @@
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Sams.pdf",
               "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Szalwinski,.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Presentation.pdf",
-              "local_abstract_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Presentation.pdf",
-              "public_abstract_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Abstract.pdf",
               "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Presentation.pdf",
-              "gcloud_abstract_url": ""
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Abstract.pdf"
             },
             {
               "time": "3:30 p.m.",
@@ -434,7 +387,7 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Presentation.pdf",
@@ -475,8 +428,8 @@
                   "isPresenter": false
                 }
               ],
-              "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Panchagnula.pdfhttps://www.hems-workshop.org/14thWS/Talks/Tuesday/Panchagnula.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Panchagnula.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Panchagnula.pdf",
+              "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Panchagnula.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Panchagnula.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Presentation.pdf",
@@ -489,26 +442,8 @@
       ]
     },
     {
-      "title": "Wednesday, September 28, 2022: HEMS Workshop",
+      "title": "09/28/2022",
       "items": [
-        {
-          "type": "event",
-          "time": "12:00 noon",
-          "title": "Lunch",
-          "subtitle": "Lobby"
-        },
-        {
-          "type": "event",
-          "time": "Evening",
-          "title": "Dinner on your own",
-          "subtitle": ""
-        },
-        {
-          "type": "event",
-          "time": "7:45 a.m.",
-          "title": "Breakfast",
-          "subtitle": "Lobby"
-        },
         {
           "type": "session",
           "time": "9:00 a.m.",
@@ -524,12 +459,12 @@
                 }
               ],
               "legacy_url": "",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Binette .pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Binette .pdf",
-              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_IV/14th_Binette_MS_field_applications_Presentation.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Binette .pdf",
+              "local_target_path": "",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Presentation.pdf",
+              "public_website_url": "",
               "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Presentation.pdf",
+              "gcloud_url": "",
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract.pdf"
             },
             {
@@ -558,7 +493,7 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Eiceman.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Eiceman.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Eiceman.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Eiceman.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Presentation.pdf",
@@ -567,12 +502,6 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Abstract.pdf"
             }
           ]
-        },
-        {
-          "type": "event",
-          "time": "10:00 a.m.",
-          "title": "Mid-morning Break (Lobby)",
-          "subtitle": ""
         },
         {
           "type": "session",
@@ -673,7 +602,7 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/van Amerom.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/van%20Amerom%20.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/van%20Amerom%20.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/van%20Amerom%20.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Presentation.pdf",
@@ -703,7 +632,7 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Alberti.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Alberti.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Alberti.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Alberti.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Presentation.pdf",
@@ -757,21 +686,15 @@
                 }
               ],
               "legacy_url": "",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Wrobel.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Wrobel.pdf",
-              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Presentation.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Wrobel.pdf",
+              "local_target_path": "",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Presentation.pdf",
+              "public_website_url": "",
               "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Presentation.pdf",
+              "gcloud_url": "",
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_V/14th_Wrobel_A_Ruggedized_Portable_Abstract.pdf"
             }
           ]
-        },
-        {
-          "type": "event",
-          "time": "3:00 p.m.",
-          "title": "Mid-Afternoon Break (Lobby)",
-          "subtitle": ""
         },
         {
           "type": "session",
@@ -788,7 +711,7 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Chaudhary.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Chaudhary%20.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Chaudhary%20.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Chaudhary%20.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Presentation.pdf",
@@ -874,12 +797,12 @@
                 }
               ],
               "legacy_url": "",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Kaplan.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Kaplan.pdf",
-              "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Presentation.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Kaplan.pdf",
+              "local_target_path": "",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Presentation.pdf",
+              "public_website_url": "",
               "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Presentation.pdf",
+              "gcloud_url": "",
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VI/14th_Kaplan_Europan_Molecular_Indicators_Abstract.pdf"
             }
           ]
@@ -887,20 +810,8 @@
       ]
     },
     {
-      "title": "Thursday, September 29, 2022: HEMS Workshop",
+      "title": "09/29/2022",
       "items": [
-        {
-          "type": "event",
-          "time": "12:00 noon",
-          "title": "Workshop Ends",
-          "subtitle": ""
-        },
-        {
-          "type": "event",
-          "time": "7:30 a.m.",
-          "title": "Breakfast",
-          "subtitle": "Lobby"
-        },
         {
           "type": "session",
           "time": "8:30 a.m.",
@@ -920,7 +831,7 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Jackson.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Jackson.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Jackson.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Jackson.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Presentation.pdf",
@@ -942,7 +853,7 @@
                 }
               ],
               "legacy_url": "",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Madzunkov.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Madzunkov.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Madzunkov.pdf",
               "local_target_path": "",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Madzunkov_Lunar_Cube_Sat_Abstract.pdf",
               "public_website_url": "",
@@ -964,7 +875,7 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Thursday/Gentz.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Gentz.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Gentz.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Gentz.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Presentation.pdf",
@@ -973,12 +884,6 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Abstract.pdf"
             }
           ]
-        },
-        {
-          "type": "event",
-          "time": "10:00 a.m.",
-          "title": "Mid-morning Break (Lobby)",
-          "subtitle": ""
         },
         {
           "type": "session",
@@ -1029,7 +934,7 @@
                 }
               ],
               "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Thursday/Pedder.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Pedder.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/Pedder.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Pedder.pdf",
               "local_target_path": "/api/manager/serve?file=14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Abstract.pdf",
               "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Presentation.pdf",
@@ -1038,12 +943,6 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Technical_Session_VIII/14th_Pedder_RFOnly_Quadrupole_Mass_Abstract.pdf"
             }
           ]
-        },
-        {
-          "type": "event",
-          "time": "11:30 a.m.",
-          "title": "Closing Remarks",
-          "subtitle": ""
         }
       ]
     }
@@ -1053,15 +952,199 @@
     {
       "time": "",
       "title": "Student Award",
-      "authors": "Thomas C. Sams",
+      "authors": "Thomas C. Sams, Purdue University",
       "legacy_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Sams.pdf",
-      "legacy_abstract_url": "",
+      "legacy_abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Szalwinski,.pdf",
       "local_target_path": "/api/manager/serve?file=14th/Student_Award/14th_Thomas_C__Sams_Student_Award.pdf",
-      "local_abstract_target_path": "",
+      "local_abstract_target_path": "/api/manager/serve?file=14th/Student_Award/14th_Thomas_C__Sams_Student_Abstract.pdf",
       "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Student_Award/14th_Thomas_C__Sams_Student_Award.pdf",
-      "public_abstract_url": "",
+      "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/14th/Student_Award/14th_Thomas_C__Sams_Student_Abstract.pdf",
       "gcloud_url": "gs://hems-archive-assets/proceedings/14th/Student_Award/14th_Thomas_C__Sams_Student_Award.pdf",
-      "gcloud_abstract_url": ""
+      "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/14th/Student_Award/14th_Thomas_C__Sams_Student_Abstract.pdf"
     }
-  ]
+  ],
+  "events": [
+    {
+      "date": "2022-09-26",
+      "time": "6:00 p.m.",
+      "title": "Travel Day",
+      "subtitle": "Location: Sandbar Sports Grill, 4301 Ocean Beach Blvd, Cocoa Beach, FL",
+      "events": [
+        {
+          "time": "18:00",
+          "title": "Welcome Reception",
+          "subtitle": "Sandbar Sports Grill",
+          "location": "4301 Ocean Beach Blvd, Cocoa Beach, FL",
+          "location_url": "https://maps.app.goo.gl/2tfmm2ESQTvmvTKM6",
+          "end_time": "21:00",
+          "subtitle_url": "http://www.sandbarsportsgrill.net/"
+        }
+      ]
+    },
+    {
+      "date": "2022-09-27",
+      "time": "12:00 noon",
+      "title": "HEMS Workshop, Day 1",
+      "subtitle": "Sponsored by Pfeiffer (Lobby)",
+      "events": [
+        {
+          "time": "07:30",
+          "end_time": "",
+          "title": "Registration and Vendor Setup",
+          "subtitle": "Mars Room",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "08:00",
+          "end_time": "",
+          "title": "Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "08:45",
+          "end_time": "",
+          "title": "Welcome Remarks",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Mercury Room",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Mid-morning Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "end_time": "",
+          "title": "Lunch, Sponsored by Pfeiffer",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "14:00",
+          "end_time": "",
+          "title": "Coffee & Sponsor Introductions",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Mecury Room",
+          "location_url": ""
+        },
+        {
+          "time": "18:00",
+          "end_time": "",
+          "title": "Workshop Dinner, Sponsored by IMI Adaptas",
+          "subtitle": "Fishlips Waterfront Bar and Grill",
+          "subtitle_url": "http://fishlipswaterfront.com/",
+          "location": "610 Glen Cheek Dr, Port Canaveral, FL",
+          "location_url": "https://maps.app.goo.gl/jmyda3koQgv3My8U9"
+        }
+      ]
+    },
+    {
+      "date": "2022-09-28",
+      "title": "HEMS Workshop Day 2",
+      "events": [
+        {
+          "time": "07:45",
+          "end_time": "",
+          "title": "Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Mid-morning Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "end_time": "",
+          "title": "Lunch",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "15:00",
+          "end_time": "",
+          "title": "Mid-Afternoon Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "18:00",
+          "end_time": "",
+          "title": "Dinner on your own",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2022-09-29",
+      "title": "HEMS Workshop, Day 3",
+      "events": [
+        {
+          "time": "07:30",
+          "end_time": "",
+          "title": "Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Mid-morning Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Lobby",
+          "location_url": ""
+        },
+        {
+          "time": "11:30",
+          "end_time": "",
+          "title": "Closing Remarks",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Mercury Room",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "end_time": "",
+          "title": "Workshop Ends",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    }
+  ],
+  "host_corporation": null
 }

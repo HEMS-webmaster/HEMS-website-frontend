@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
+import fsSync from 'fs';
 import path from 'path';
 
 function getOrdinal(n: number) {
@@ -46,12 +47,32 @@ export async function POST(request: Request) {
           resources: []
         };
       }
-
+      if (ws.number !== undefined) {
+        yearData.ordinal = getOrdinal(ws.number);
+      }
       yearData.venue = ws.venue || "";
       yearData.address = ws.address || ws.city || "";
       yearData.venue_url = ws.venue_url || "";
+      if (ws.dates !== undefined) yearData.dates = ws.dates;
+
+      const proceedingsDir = path.join(process.cwd(), '..', '..', 'docs', 'archives_translation', 'proceedings');
+
+      const checkFileExists = (category: string, wsNum: number, session: string | null, fileName: string) => {
+        if (!fileName) return false;
+        let relativeDir = '';
+        if (category === 'Administrative') relativeDir = `${wsNum}th/Administrative`;
+        else if (category === 'Student_Award') relativeDir = `${wsNum}th/Student_Award`;
+        else if (category === 'Poster') relativeDir = `${wsNum}th/Posters`;
+        else {
+          const cleanSession = (session || 'General').replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
+          relativeDir = `${wsNum}th/${cleanSession}`;
+        }
+        const fullPath = path.join(proceedingsDir, relativeDir, fileName);
+        return fsSync.existsSync(fullPath);
+      };
 
       const buildCloudUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
+        if (!checkFileExists(category, wsNum, session, fileName)) return "";
         const baseUrl = 'https://storage.googleapis.com/hems-archive-assets/proceedings';
         if (category === 'Administrative') return `${baseUrl}/${wsNum}th/Administrative/${fileName}`;
         if (category === 'Student_Award') return `${baseUrl}/${wsNum}th/Student_Award/${fileName}`;
@@ -62,6 +83,7 @@ export async function POST(request: Request) {
       };
 
       const buildLocalUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
+        if (!checkFileExists(category, wsNum, session, fileName)) return "";
         const baseUrl = '/api/manager/serve?file=';
         if (category === 'Administrative') return `${baseUrl}${wsNum}th/Administrative/${fileName}`;
         if (category === 'Student_Award') return `${baseUrl}${wsNum}th/Student_Award/${fileName}`;
@@ -72,6 +94,7 @@ export async function POST(request: Request) {
       };
 
       const buildGcloudUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
+        if (!checkFileExists(category, wsNum, session, fileName)) return "";
         const baseUrl = 'gs://hems-archive-assets/proceedings';
         if (category === 'Administrative') return `${baseUrl}/${wsNum}th/Administrative/${fileName}`;
         if (category === 'Student_Award') return `${baseUrl}/${wsNum}th/Student_Award/${fileName}`;
@@ -117,19 +140,9 @@ export async function POST(request: Request) {
         yearData.sponsors = [];
       }
 
-      const daysMap = new Map<string, any[]>();
+      yearData.host_corporation = ws.host_corporation || null;
 
-      if (ws.events) {
-        for (const ev of ws.events) {
-          if (!daysMap.has(ev.date)) daysMap.set(ev.date, []);
-          daysMap.get(ev.date)!.push({
-            type: "event",
-            time: ev.time,
-            title: ev.title,
-            subtitle: ev.subtitle
-          });
-        }
-      }
+      const daysMap = new Map<string, any[]>();
 
       if (ws.presentations) {
         for (const pres of ws.presentations) {
@@ -165,34 +178,35 @@ export async function POST(request: Request) {
       }
 
       if (ws.posters && ws.posters.length > 0) {
-        const defaultDate = daysMap.keys().next().value || "Posters";
-        if (!daysMap.has(defaultDate)) daysMap.set(defaultDate, []);
-        
-        let dayItems = daysMap.get(defaultDate)!;
-        let posterSession = dayItems.find((i: any) => i.type === "session" && i.title.toLowerCase().includes("poster"));
-        
-        if (!posterSession) {
-          posterSession = {
-            type: "session",
-            time: "TBD",
-            title: "Poster Session",
-            talks: []
-          };
-          dayItems.push(posterSession);
-        }
-
         for (const poster of ws.posters) {
+          const posterDate = poster.date || daysMap.keys().next().value || "Posters";
+          if (!daysMap.has(posterDate)) daysMap.set(posterDate, []);
+          
+          let dayItems = daysMap.get(posterDate)!;
+          let posterSessionName = poster.session || "Poster Session";
+          let posterSession = dayItems.find((i: any) => i.type === "session" && i.title === posterSessionName);
+          
+          if (!posterSession) {
+            posterSession = {
+              type: "session",
+              time: poster.time || "TBD",
+              title: posterSessionName,
+              talks: []
+            };
+            dayItems.push(posterSession);
+          }
+
           posterSession.talks.push({
-            time: "",
+            time: poster.time || "",
             title: poster.title,
-            authors: poster.name + (poster.affiliation ? `, ${poster.affiliation}` : ""),
+            authors: poster.authors || (poster.name ? poster.name + (poster.affiliation ? `, ${poster.affiliation}` : "") : ""),
             legacy_url: poster.url || "",
             legacy_abstract_url: poster.abstract_url || "",
-            local_target_path: poster.presentation_file ? buildLocalUrl('Poster', ws.number, null, poster.presentation_file) : "",
+            local_target_path: (poster.poster_file || poster.presentation_file) ? buildLocalUrl('Poster', ws.number, null, (poster.poster_file || poster.presentation_file)!) : "",
             local_abstract_target_path: poster.abstract_file ? buildLocalUrl('Poster', ws.number, null, poster.abstract_file) : "",
-            public_website_url: poster.presentation_file ? buildCloudUrl('Poster', ws.number, null, poster.presentation_file) : "",
+            public_website_url: (poster.poster_file || poster.presentation_file) ? buildCloudUrl('Poster', ws.number, null, (poster.poster_file || poster.presentation_file)!) : "",
             public_abstract_url: poster.abstract_file ? buildCloudUrl('Poster', ws.number, null, poster.abstract_file) : "",
-            gcloud_url: poster.presentation_file ? buildGcloudUrl('Poster', ws.number, null, poster.presentation_file) : "",
+            gcloud_url: (poster.poster_file || poster.presentation_file) ? buildGcloudUrl('Poster', ws.number, null, (poster.poster_file || poster.presentation_file)!) : "",
             gcloud_abstract_url: poster.abstract_file ? buildGcloudUrl('Poster', ws.number, null, poster.abstract_file) : ""
           });
         }
@@ -204,7 +218,7 @@ export async function POST(request: Request) {
           yearData.student_awards.push({
             time: "",
             title: award.title || "Student Award",
-            authors: award.name + (award.affiliation ? `, ${award.affiliation}` : ""),
+            authors: award.name + (award.institute ? `, ${award.institute}` : ""),
             legacy_url: award.url || "",
             legacy_abstract_url: award.abstract_url || "",
             local_target_path: award.presentation_file ? buildLocalUrl('Student_Award', ws.number, null, award.presentation_file) : "",
@@ -242,6 +256,7 @@ export async function POST(request: Request) {
       });
       
       yearData.schedule = schedule;
+      yearData.events = ws.events || [];
 
       await fs.writeFile(yearPath, JSON.stringify(yearData, null, 2));
     }

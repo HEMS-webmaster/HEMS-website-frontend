@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PresentationsManager from './components/PresentationsManager';
 import SponsorsManager from './components/SponsorsManager';
+import HostCorporationManager from './components/HostCorporationManager';
 import StudentsManager from './components/StudentsManager';
 import PostersManager from './components/PostersManager';
 import EventsManager from './components/EventsManager';
@@ -31,6 +32,8 @@ export default function WorkshopManager() {
   ) => {
     const pastedText = e.clipboardData.getData('text');
     if (!pastedText.startsWith('http')) return;
+
+    e.preventDefault();
 
     // Update item immediately
     const updated = [...latestWorkshops.current];
@@ -146,6 +149,8 @@ export default function WorkshopManager() {
       venue: '',
       address: '',
       city: '',
+      dates: '',
+      host_corporation: null,
       presentations: [],
       sponsors: [],
       student_awards: [],
@@ -245,6 +250,20 @@ export default function WorkshopManager() {
                   />
                 </div>
                 <div>
+                  <label className="block text-sm font-bold text-slate-400 mb-1">Dates</label>
+                  <input 
+                    type="text" 
+                    value={currentWs.dates || ''} 
+                    onChange={(e) => {
+                      const updated = [...workshops];
+                      updated[selectedIdx].dates = e.target.value;
+                      setWorkshops(updated);
+                    }}
+                    placeholder="e.g. October 1-4, 2024"
+                    className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white"
+                  />
+                </div>
+                <div>
                   <label className="block text-sm font-bold text-slate-400 mb-1">City</label>
                   <input 
                     type="text" 
@@ -334,9 +353,13 @@ export default function WorkshopManager() {
                         <span className="text-[10px] text-slate-500">(Requires uploaded file)</span>
                       )}
                     </span>
-                    <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file || `${currentWs.number}th_Program.pdf`}</span>
-                    <span><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file || `${currentWs.number}th_Program.pdf`}</span>
-                    <span className="break-all"><strong>Public (Vercel):</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file || `${currentWs.number}th_Program.pdf`}</span>
+                    {currentWs.program_file && (
+                      <>
+                        <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
+                        <span><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
+                        <span className="break-all"><strong>Public (Vercel):</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
+                      </>
+                    )}
                   </div>
                 </div>
                 
@@ -378,14 +401,27 @@ export default function WorkshopManager() {
                         <span className="text-[10px] text-slate-500">(Requires uploaded file)</span>
                       )}
                     </span>
-                    <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file || `${currentWs.number}th_Participant_List.pdf`}</span>
-                    <span><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file || `${currentWs.number}th_Participant_List.pdf`}</span>
-                    <span className="break-all"><strong>Public (Vercel):</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file || `${currentWs.number}th_Participant_List.pdf`}</span>
+                    {currentWs.participant_list_file && (
+                      <>
+                        <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
+                        <span><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
+                        <span className="break-all"><strong>Public (Vercel):</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* Dynamic Components */}
+              <HostCorporationManager 
+                host={currentWs.host_corporation} 
+                wsNum={String(currentWs.number)} 
+                onChange={(host) => {
+                  const updated = [...workshops];
+                  updated[selectedIdx].host_corporation = host;
+                  setWorkshops(updated);
+                }} 
+              />
               <div className="space-y-12 mt-8">
                 <EventsManager 
                   events={currentWs.events || []} 

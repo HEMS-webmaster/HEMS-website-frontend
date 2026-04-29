@@ -10,6 +10,9 @@ interface Poster {
   title: string;
   authors: Author[];
   url: string;
+  date?: string;
+  time?: string;
+  session?: string;
   abstract_url?: string;
   poster_file?: string;
   abstract_file?: string;
@@ -33,6 +36,8 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
   ) => {
     const pastedText = e.clipboardData.getData('text');
     if (!pastedText.startsWith('http')) return;
+
+    e.preventDefault();
 
     // Update item immediately with the pasted URL
     updateItem(index, field, pastedText);
@@ -83,7 +88,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
   };
 
   const addItem = () => {
-    onChange([...posters, { title: '', authors: [], url: '' }]);
+    onChange([...posters, { title: '', authors: [], url: '', date: '', time: '', session: '' }]);
   };
 
   const removeItem = (index: number) => {
@@ -97,6 +102,42 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
         <h3 className="text-xl font-bold text-sky-400">Poster Presentations</h3>
         <button onClick={addItem} className="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-sm">+ Add Poster</button>
+      </div>
+
+      <div className="bg-slate-800 p-4 rounded border border-slate-700">
+        <h4 className="text-sm font-bold text-slate-300 mb-3">Global Poster Session Settings</h4>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-400 mb-1">Session Date (MM/DD/YYYY)</label>
+            <input 
+              type="text" 
+              value={posters.length > 0 ? (posters[0].date || '') : ''} 
+              placeholder="MM/DD/YYYY"
+              onChange={e => {
+                let val = e.target.value.replace(/[^0-9]/g, '');
+                if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2);
+                if (val.length > 5) val = val.slice(0, 5) + '/' + val.slice(5, 9);
+                const updated = posters.map(p => ({ ...p, date: val }));
+                onChange(updated);
+              }} 
+              className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" 
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-400 mb-1">Session Time (ISO 24h)</label>
+            <input type="time" value={posters.length > 0 ? (posters[0].time || '') : ''} onChange={e => {
+              const updated = posters.map(p => ({ ...p, time: e.target.value }));
+              onChange(updated);
+            }} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-400 mb-1">Session Name</label>
+            <input type="text" value={posters.length > 0 ? (posters[0].session || '') : ''} onChange={e => {
+              const updated = posters.map(p => ({ ...p, session: e.target.value }));
+              onChange(updated);
+            }} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Poster Session" />
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -130,6 +171,11 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
               </button>
 
               <div className="mb-4">
+                <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>
+                <input type="text" value={p.title || ''} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+              </div>
+
+              <div className="mb-4">
                 <label className="block text-xs font-bold text-slate-400 mb-1 flex justify-between items-end">
                   <span>Authors (Select Presenter)</span>
                   <button onClick={() => {
@@ -157,7 +203,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                       />
                       <input 
                         type="text" 
-                        value={author.name} 
+                        value={author.name || ''} 
                         placeholder="Author Name, Institution"
                         onChange={e => {
                           const updatedAuthors = [...(p.authors || [])];
@@ -186,7 +232,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
 
               <div className="mb-4">
                 <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>
-                <input type="text" value={p.title} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                <input type="text" value={p.title || ''} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-4">
@@ -194,7 +240,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                   <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Poster URL</label>
                   <input 
                     type="url" 
-                    value={p.url} 
+                    value={p.url || ''} 
                     onChange={e => updateItem(i, 'url', e.target.value)} 
                     onPaste={e => handlePasteDownload(e, i, 'url', 'Poster', posterFileName)}
                     className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 

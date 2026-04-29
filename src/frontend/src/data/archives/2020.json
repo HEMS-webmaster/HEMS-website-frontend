@@ -1,6 +1,6 @@
 {
-  "year": 2021,
-  "ordinal": "12th",
+  "year": "2020",
+  "ordinal": "13th",
   "dates": "TBD",
   "resources": [
     {
@@ -11,9 +11,9 @@
   ],
   "venue": "",
   "address": "",
-  "sponsors": [],
-  "schedule": [],
   "venue_url": "",
+  "sponsors": [],
   "student_awards": [],
+  "schedule": [],
   "events": []
 }

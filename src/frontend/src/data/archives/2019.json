@@ -1,18 +1,795 @@
 {
   "year": 2019,
-  "ordinal": "11th",
-  "dates": "TBD",
+  "ordinal": "13th",
+  "dates": "September 16–19, 2019",
   "resources": [
     {
       "label": "Workshop Program",
       "icon": "FileText",
       "url": "#technical-program"
+    },
+    {
+      "label": "Program Download",
+      "icon": "Download",
+      "legacy_url": "https://www.hems-workshop.org/13thWS/13thProgramdownload.pdf",
+      "local_target_path": "/api/manager/serve?file=13th/Administrative/13th_Program.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Administrative/13th_Program.pdf",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Administrative/13th_Program.pdf"
+    },
+    {
+      "label": "Participant List",
+      "icon": "Users",
+      "legacy_url": "https://www.hems-workshop.org/13thWS/2019%20HEMS%20Workshop%20Attendees.pdf",
+      "local_target_path": "/api/manager/serve?file=13th/Administrative/13th_Participant_List.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Administrative/13th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Administrative/13th_Participant_List.pdf"
     }
   ],
   "venue": "",
-  "address": "",
+  "address": "Myrtle Beach, South Carolina",
   "sponsors": [],
-  "schedule": [],
+  "schedule": [
+    {
+      "title": "09/12/0198",
+      "items": [
+        {
+          "type": "session",
+          "time": "10:30 a.m.",
+          "title": "Technical Session V",
+          "talks": [
+            {
+              "time": "10:30 a.m.",
+              "title": "Detection and Analysis of Simulated Chemical Warfare Agents using Portable Mass Spectrometry",
+              "authors": [
+                {
+                  "name": "Camila Anguiano Virgen - 2019 Student Award Winner",
+                  "isPresenter": true
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/09%20Virgen.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Virgen.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "09/18/2017",
+      "items": [
+        {
+          "type": "session",
+          "time": "9:30",
+          "title": "Technical Session I",
+          "talks": [
+            {
+              "time": "9:30",
+              "title": "Use of Computational Sensing Techniques to Improve the Performance of Mass Spectrometers in Harsh Environments",
+              "authors": [
+                {
+                  "name": "Jason J. Amsden",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/02%20Amsden.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Amsden.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "09/17/2019",
+      "items": [
+        {
+          "type": "session",
+          "time": "08:40",
+          "title": "Technical Session I",
+          "talks": [
+            {
+              "time": "08:40",
+              "title": "On-site Applications of MIMS and the Importance of Interface Design as Exemplified by Highly Unusual “Fragments” in MIMS Mass Spectra of Chloramines and Bromamines",
+              "authors": [
+                {
+                  "name": "Frants R. Lauritsen",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/01%20Lauritsen.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Lauritsen.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "10:30",
+          "title": "Technical Session II",
+          "talks": [
+            {
+              "time": "10:30",
+              "title": "Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis",
+              "authors": [
+                {
+                  "name": "Frédéric Progent",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/02%20Amsden.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Progent.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf"
+            },
+            {
+              "time": "11:00",
+              "title": "The Dragonfly Mission to Titan and the Enabling Technologies of the DraMS Mass Spectrometer Onboard",
+              "authors": [
+                {
+                  "name": "R. M. Danell",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/04%20Danell.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Danell.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf"
+            },
+            {
+              "time": "11:30 a.m.",
+              "title": "Evaluation of Aperture Materials for Coded Apertures Used in a Portable Cycloidal Miniature Mass Spectrometer",
+              "authors": [
+                {
+                  "name": "Tanouir Aloui - 2019 Student Award Winner",
+                  "isPresenter": true
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/05%20Aloui.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Aloui.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "16:00",
+          "title": "Poster Session",
+          "talks": [
+            {
+              "time": "16:00",
+              "title": "Determination of the Presence of Biological Compounds in Aerosol Particles with a Linear Ion Trap",
+              "authors": [
+                {
+                  "name": "Nathan Grimes",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Grimes.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf"
+            },
+            {
+              "time": "16:00",
+              "title": "Overview of the MOMA Mass Spectrometer and Examination of Some Mineral Matrices as Learning Curve for MOMA Return Data",
+              "authors": [
+                {
+                  "name": "F. H. W. van Amerom",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/23%20van%20Ameron.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/van%20Ameron.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Posters/13th_Amerom_Overview_of_the_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf"
+            },
+            {
+              "time": "16:00",
+              "title": "A Comparison of Thermionic Filament and Carbon Nanotube Field Emitter Array-based Ion Sources in Coded Aperture Miniature Mass Spectrometers",
+              "authors": [
+                {
+                  "name": "Raul Vyas",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/24%20Vyas.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Vyas.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Posters/13th_Vyas_A_Comparison_of_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf"
+            },
+            {
+              "time": "16:00",
+              "title": "In-situ Measurements of δ13C and δ18O of Dissolved CO2 using an Underwater Mass Spectrometer",
+              "authors": [
+                {
+                  "name": "Scott T. Wieman",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/25%20Wieman.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Wieman.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "09/18/2019",
+      "items": [
+        {
+          "type": "session",
+          "time": "08:30",
+          "title": "Technical Session IV",
+          "talks": [
+            {
+              "time": "08:30",
+              "title": "Electric Field Fragmentation of Mobility Selected Ions Using Tandem Ion Mobility Spectrometry at Ambient Pressure with Molecular Identification through Neural Network Analysis",
+              "authors": [
+                {
+                  "name": "Gary A. Eiceman",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Eiceman.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf"
+            },
+            {
+              "time": "09:00",
+              "title": "Chemical Ionization of Xenon and Detection Utilizing a High Precision Digital Ion Trap (DIT)",
+              "authors": [
+                {
+                  "name": "Timothy Vazquez",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/07%20Vazquez.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Vazquez.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf"
+            },
+            {
+              "time": "09:30",
+              "title": "Portable Mass Spectrometer for Explosives and Narcotics Detection",
+              "authors": [
+                {
+                  "name": "Vadym Berkout",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/08%20Berkout.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Berkout.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "11:30",
+          "title": "Technical Session V",
+          "talks": [
+            {
+              "time": "11:00 a.m.",
+              "title": "Designing a Coded Aperture Cycloidal Mass Analyzer to Detect Perfluorocarbon Tracers",
+              "authors": [
+                {
+                  "name": "Kathleen L. Horvath - 2019 Student Award Winner",
+                  "isPresenter": true
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/09%20Virgen.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Horvath.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf"
+            },
+            {
+              "time": "11:30",
+              "title": "SIMION Beyond Ion Simulation: Field Analysis, Synthesis, and Harmonic Analysis for MS Design",
+              "authors": [
+                {
+                  "name": "Robert H. Jackson",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/11%20Jackson.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Jackson.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "13:30",
+          "title": "Technical Session VI",
+          "talks": [
+            {
+              "time": "13:30",
+              "title": "Spacecraft Atmosphere Monitor (S.A.M.) First Operational Data",
+              "authors": [
+                {
+                  "name": "Stojan Madzunkov",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/12%20Madzunkov.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Madzunkov.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf"
+            },
+            {
+              "time": "14:00",
+              "title": "The Future of Linear Ion Trap Mass Spectrometer Systems for Planetary Exploration",
+              "authors": [
+                {
+                  "name": "D. A. Kaplan",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/13%20Kaplan.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Kaplan.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf"
+            },
+            {
+              "time": "14:30",
+              "title": "Onsite Analysis of Illicit Drugs by Portable Ion Trap Gas Chromatography-Mass Spectrometry (GCMS)",
+              "authors": [
+                {
+                  "name": "Charlie Schmidt",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/14%20Schmidt.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Schmidt.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "15:30",
+          "title": "Technical Session VII",
+          "talks": [
+            {
+              "time": "15:30",
+              "title": "Membrane Inlet Mass Spectrometry for Ocean Worlds",
+              "authors": [
+                {
+                  "name": "R. Timothy Short",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/15%20Short.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Short.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf"
+            },
+            {
+              "time": "16:00",
+              "title": "Evolution of a Compact TOF Mass Spectrometer from Space Exploration to the Internet of Things",
+              "authors": [
+                {
+                  "name": "D. Lasi",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/16%20Lasi.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Lasi.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf"
+            },
+            {
+              "time": "16:30",
+              "title": "Development of a Low-Cost, Low-Power, Miniature Sector Mass Spectrometer with IonCCD Detection",
+              "authors": [
+                {
+                  "name": "Noah Christian",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/17%20Christian.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Christian.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Christian_Development_of_a_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Christian_Development_of_a_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "09/19/2019",
+      "items": [
+        {
+          "type": "session",
+          "time": "09:00",
+          "title": "Technical Session VIII",
+          "talks": [
+            {
+              "time": "09:00",
+              "title": "Smart City Initiatives and Where HEMS Can Play a Role",
+              "authors": [
+                {
+                  "name": "Guido Verbek",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/18%20Verbeck.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Verbeck.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf"
+            },
+            {
+              "time": "09:30",
+              "title": "LUVMI Rover to Characterize Volatile Content in Lunar Polar Regions",
+              "authors": [
+                {
+                  "name": "Simon Sheridan",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/19%20Sheridan.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Sheridan.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "10:30",
+          "title": "Technical Session IX",
+          "talks": [
+            {
+              "time": "10:30",
+              "title": "Low-Pressure ICP-MS for Planetary Trace Elemental Analysis",
+              "authors": [
+                {
+                  "name": "Mazdak Taghioskoui",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/20%20Taghioskoui.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Taghioskoui.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf"
+            },
+            {
+              "time": "11:00",
+              "title": "QIT-Mass Spectrometer for Lunar and Planetary Applications",
+              "authors": [
+                {
+                  "name": "Frank Maiwald",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/21%20Maiwald.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Maiwald.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "venue_url": "",
-  "student_awards": []
+  "student_awards": [
+    {
+      "time": "",
+      "title": "Student Award",
+      "authors": "Kathleen L. Horvath",
+      "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/10%20Horvath.pdf",
+      "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Horvath.pdf",
+      "local_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Kathleen_L__Horvath_Student_Award.pdf",
+      "local_abstract_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Kathleen_L__Horvath_Student_Abstract.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Abstract.pdf"
+    },
+    {
+      "time": "",
+      "title": "Student Award",
+      "authors": "Tanouir Aloui, Duke University",
+      "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/05%20Aloui.pdf",
+      "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Aloui.pdf",
+      "local_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Tanouir_Aloui_Student_Award.pdf",
+      "local_abstract_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Tanouir_Aloui_Student_Abstract.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Abstract.pdf"
+    },
+    {
+      "time": "",
+      "title": "Student Award",
+      "authors": "Camila Anguiano Virgen, University of North Texas",
+      "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/09%20Virgen.pdf",
+      "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Virgen.pdf",
+      "local_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Award.pdf",
+      "local_abstract_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Abstract.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Abstract.pdf"
+    }
+  ],
+  "events": [
+    {
+      "date": "2019-09-16",
+      "title": "Travel Day",
+      "events": [
+        {
+          "time": "17:30",
+          "end_time": "19:30",
+          "title": "Registration and Welcome Reception",
+          "subtitle": "Coastal Grill Bar - Manager's Reception",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2019-09-17",
+      "title": "HEMS Workshop, Day 1",
+      "events": [
+        {
+          "time": "08:00",
+          "title": "Set-up of vendor tables and registration",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "08:30",
+          "title": "Welcome Remarks",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "title": "Mid-morning Break",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "title": "Lunch Provided",
+          "subtitle": "",
+          "location": "Palladium Terrace",
+          "location_url": ""
+        },
+        {
+          "time": "14:00",
+          "end_time": "",
+          "title": "Technical Session III: Vendor Presentations",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "15:30",
+          "title": "Poster Presenter Lightning Round",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "16:00",
+          "end_time": "19:00",
+          "title": "Poster/Vendor Session",
+          "subtitle": "Refreshments served during poster session",
+          "location": "Palladium Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "19:00",
+          "title": "Evening Free",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2019-09-18",
+      "title": "HEMS Workshop, Day 2",
+      "events": [
+        {
+          "time": "10:00",
+          "title": "Group Photo / Mid-morning Break",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "title": "Lunch on your own",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "15:00",
+          "title": "Mid-Afternoon Break",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "19:00",
+          "title": "Workshop Dinner",
+          "subtitle": "",
+          "location": "Lands End",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2019-09-19",
+      "title": "HEMS Workshop, Day 3",
+      "events": [
+        {
+          "time": "10:00",
+          "title": "Mid-morning Break",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "11:30",
+          "title": "Closing Remarks",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "title": "Workshop Ends",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    }
+  ],
+  "host_corporation": {
+    "name": "Collins Aerospace",
+    "url": "https://www.rtx.com/collinsaerospace",
+    "logo_file": "host_Collins_Aerospace.png"
+  }
 }

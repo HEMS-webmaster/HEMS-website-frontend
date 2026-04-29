@@ -41,6 +41,8 @@ export default function PresentationsManager({ presentations = [], wsNum, onChan
     const pastedText = e.clipboardData.getData('text');
     if (!pastedText.startsWith('http')) return;
 
+    e.preventDefault();
+
     // Update item immediately with the pasted URL
     updateItem(index, field, pastedText);
 
@@ -138,16 +140,27 @@ export default function PresentationsManager({ presentations = [], wsNum, onChan
             </button>
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div>
-                <label className="block text-xs font-bold text-slate-400 mb-1">Date</label>
-                <input type="text" value={p.date} onChange={e => updateItem(i, 'date', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                <label className="block text-xs font-bold text-slate-400 mb-1">Date (MM/DD/YYYY)</label>
+                <input 
+                  type="text" 
+                  value={p.date || ''} 
+                  placeholder="MM/DD/YYYY"
+                  onChange={e => {
+                    let val = e.target.value.replace(/[^0-9]/g, '');
+                    if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2);
+                    if (val.length > 5) val = val.slice(0, 5) + '/' + val.slice(5, 9);
+                    updateItem(i, 'date', val);
+                  }} 
+                  className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" 
+                />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-400 mb-1">Time</label>
-                <input type="text" value={p.time} onChange={e => updateItem(i, 'time', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                <input type="text" value={p.time || ''} onChange={e => updateItem(i, 'time', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-400 mb-1">Session</label>
-                <input type="text" value={p.session} onChange={e => updateItem(i, 'session', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                <input type="text" value={p.session || ''} onChange={e => updateItem(i, 'session', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
               </div>
             </div>
 
@@ -179,7 +192,7 @@ export default function PresentationsManager({ presentations = [], wsNum, onChan
                     />
                     <input 
                       type="text" 
-                      value={author.name} 
+                      value={author.name || ''} 
                       placeholder="Author Name, Institution"
                       onChange={e => {
                         const updatedAuthors = [...(p.authors || [])];
@@ -208,7 +221,7 @@ export default function PresentationsManager({ presentations = [], wsNum, onChan
 
             <div className="mb-4">
               <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>
-              <input type="text" value={p.title} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+              <input type="text" value={p.title || ''} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-4">
@@ -216,7 +229,7 @@ export default function PresentationsManager({ presentations = [], wsNum, onChan
                 <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Presentation URL</label>
                 <input 
                   type="url" 
-                  value={p.url} 
+                  value={p.url || ''} 
                   onChange={e => updateItem(i, 'url', e.target.value)} 
                   onPaste={e => handlePasteDownload(e, i, 'url', 'Presentation', presFileName, p.session)}
                   className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 

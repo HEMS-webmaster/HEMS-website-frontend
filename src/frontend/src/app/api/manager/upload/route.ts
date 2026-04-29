@@ -40,6 +40,12 @@ export async function POST(request: Request) {
     await fs.writeFile(filePath, buffer);
 
     try {
+      if (category === 'Sponsor') {
+        const publicSponsorDir = path.join(process.cwd(), 'public', 'images', 'sponsors');
+        await fs.mkdir(publicSponsorDir, { recursive: true });
+        await fs.writeFile(path.join(publicSponsorDir, fileName || file.name), buffer);
+      }
+      
       if (filePath.endsWith('.pdf')) {
         const { exec } = require('child_process');
         const util = require('util');

@@ -1,9 +1,7 @@
 {
-  "year": 2001,
-  "ordinal": "2nd",
-  "dates": "March 18-21, 2001",
-  "venue": "",
-  "address": "",
+  "year": "2016",
+  "ordinal": "10th",
+  "dates": "TBD",
   "resources": [
     {
       "label": "Workshop Program",
@@ -11,10 +9,12 @@
       "url": "#technical-program"
     }
   ],
-  "sponsors": [],
-  "schedule": [],
+  "venue": "",
+  "address": "",
   "venue_url": "",
+  "sponsors": [],
   "student_awards": [],
+  "schedule": [],
   "events": [],
   "host_corporation": null
 }

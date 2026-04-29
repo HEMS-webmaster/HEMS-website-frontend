@@ -25,7 +25,10 @@ export async function POST(request: Request) {
       }
     }
     
-    // 3. Git Push
+    // 3. Git Pull (Rebase)
+    await execAsync('git pull --rebase origin main', { cwd: projectRoot });
+
+    // 4. Git Push
     await execAsync('git push origin main', { cwd: projectRoot });
 
     return NextResponse.json({ 

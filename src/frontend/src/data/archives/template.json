@@ -11,6 +11,11 @@
       "icon": "Download"
     }
   ],
+  "host_corporation": {
+    "name": "",
+    "url": "",
+    "logo_file": ""
+  },
   "sponsors": [],
   "schedule": [
     {
