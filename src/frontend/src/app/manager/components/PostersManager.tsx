@@ -9,6 +9,7 @@ import { Author } from './PresentationsManager';
 interface Poster {
   title: string;
   authors: Author[];
+  institutes?: string[];
   url: string;
   date?: string;
   time?: string;
@@ -24,8 +25,43 @@ interface PostersManagerProps {
   onChange: (posters: Poster[]) => void;
 }
 
+function extractAuthorParts(rawName: string): { name: string; institute: string | null } {
+  const commaIdx = rawName.indexOf(',');
+  if (commaIdx === -1) return { name: rawName.trim(), institute: null };
+  return {
+    name: rawName.slice(0, commaIdx).trim(),
+    institute: rawName.slice(commaIdx + 1).trim() || null,
+  };
+}
+
 export default function PostersManager({ posters = [], wsNum, onChange }: PostersManagerProps) {
   const [downloadingStatus, setDownloadingStatus] = useState<Record<string, string>>({});
+  const migrated = useRef(false);
+
+  // One-time auto-extraction: split "Name, Institute" into separate fields
+  useEffect(() => {
+    if (migrated.current) return;
+    migrated.current = true;
+
+    let needsUpdate = false;
+    const updated = posters.map(poster => {
+      const institutes: string[] = [...(poster.institutes || [])];
+      const newAuthors = poster.authors.map(author => {
+        if (author.institute !== undefined) return author;
+        const { name, institute } = extractAuthorParts(author.name);
+        if (institute) {
+          needsUpdate = true;
+          if (!institutes.includes(institute)) institutes.push(institute);
+          return { ...author, name, institute };
+        }
+        return { ...author, institute: null };
+      });
+      return { ...poster, authors: newAuthors, institutes };
+    });
+
+    if (needsUpdate) onChange(updated);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlePasteDownload = async (
     e: React.ClipboardEvent<HTMLInputElement>,
@@ -38,8 +74,6 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
     if (!pastedText.startsWith('http')) return;
 
     e.preventDefault();
-
-    // Update item immediately with the pasted URL
     updateItem(index, field, pastedText);
 
     const statusKey = `${index}-${field}`;
@@ -49,13 +83,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
       const res = await fetch('/api/manager/download-legacy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          url: pastedText,
-          category,
-          wsNum,
-          fileName,
-          session: 'Posters'
-        })
+        body: JSON.stringify({ url: pastedText, category, wsNum, fileName, session: 'Posters' })
       });
       const data = await res.json();
       if (data.success) {
@@ -88,7 +116,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
   };
 
   const addItem = () => {
-    onChange([...posters, { title: '', authors: [], url: '', date: '', time: '', session: '' }]);
+    onChange([...posters, { title: '', authors: [], institutes: [], url: '', date: '', time: '', session: '' }]);
   };
 
   const removeItem = (index: number) => {
@@ -120,23 +148,18 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
     <div className="space-y-4">
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
         <h3 className="text-xl font-bold text-sky-400">Poster Presentations</h3>
-        <button onClick={addItem} className="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-sm">+ Add Poster</button>
       </div>
 
       <div className="bg-slate-800 p-4 rounded border border-slate-700">
         <h4 className="text-sm font-bold text-slate-300 mb-3">Global Poster Session Settings</h4>
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <label className="block text-xs font-bold text-slate-400 mb-1">Session Date (MM/DD/YYYY)</label>
+            <label className="block text-xs font-bold text-slate-400 mb-1">Session Date (e.g. mm/dd/yyyy)</label>
             <input 
-              type="text" 
+              type="date" 
               value={posters.length > 0 ? (posters[0].date || '') : ''} 
-              placeholder="MM/DD/YYYY"
               onChange={e => {
-                let val = e.target.value.replace(/[^0-9]/g, '');
-                if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2);
-                if (val.length > 5) val = val.slice(0, 5) + '/' + val.slice(5, 9);
-                const updated = posters.map(p => ({ ...p, date: val }));
+                const updated = posters.map(p => ({ ...p, date: e.target.value }));
                 onChange(updated);
               }} 
               className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" 
@@ -161,6 +184,8 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
 
       <div className="space-y-4">
         {posters.map((p, i) => {
+          const institutes: string[] = p.institutes || [];
+
           let presenterName = `Poster_${i}`;
           if (p.authors && p.authors.length > 0) {
             const presenter = p.authors.find(a => a.isPresenter) || p.authors[0];
@@ -172,9 +197,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
           let titleSnippet = `Topic_${i}`;
           if (p.title) {
             const words = p.title.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 0);
-            if (words.length > 0) {
-              titleSnippet = words.slice(0, 3).join('_');
-            }
+            if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
           }
 
           const posterFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Poster.pdf`;
@@ -194,12 +217,73 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                 <input type="text" value={p.title || ''} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
               </div>
 
+              {/* ── Institute List ─────────────────────────────────────── */}
+              <div className="mb-3 p-2 bg-slate-800/60 rounded border border-slate-700">
+                <div className="flex justify-between items-center mb-1.5">
+                  <label className="text-xs font-bold text-amber-400">Institutes</label>
+                  <button
+                    onClick={() => {
+                      updateItem(i, 'institutes', [...institutes, '']);
+                    }}
+                    className="text-[10px] bg-amber-700/40 hover:bg-amber-700/60 text-amber-300 px-2 py-0.5 rounded"
+                  >
+                    + Add Institute
+                  </button>
+                </div>
+                {institutes.length === 0 && (
+                  <p className="text-[10px] text-slate-500 italic">No institutes defined. Add one above.</p>
+                )}
+                <div className="space-y-1">
+                  {institutes.map((inst, iIdx) => (
+                    <div key={iIdx} className="flex items-center gap-1">
+                      <input
+                        type="text"
+                        value={inst}
+                        placeholder="e.g. University of Texas"
+                        onChange={e => {
+                          const oldName = institutes[iIdx];
+                          const newName = e.target.value;
+                          const updatedInstitutes = [...institutes];
+                          updatedInstitutes[iIdx] = newName;
+                          const updatedAuthors = p.authors.map(a =>
+                            a.institute === oldName ? { ...a, institute: newName } : a
+                          );
+                          const updatedPoster = { ...latestPosters.current[i], institutes: updatedInstitutes, authors: updatedAuthors };
+                          const updatedPosters = [...latestPosters.current];
+                          updatedPosters[i] = updatedPoster;
+                          onChange(updatedPosters);
+                        }}
+                        className="flex-1 bg-slate-900 border border-slate-600 rounded p-1 text-xs text-white"
+                      />
+                      <button
+                        onClick={() => {
+                          const removedInst = institutes[iIdx];
+                          const updatedInstitutes = [...institutes];
+                          updatedInstitutes.splice(iIdx, 1);
+                          const updatedAuthors = p.authors.map(a =>
+                            a.institute === removedInst ? { ...a, institute: null } : a
+                          );
+                          const updatedPoster = { ...latestPosters.current[i], institutes: updatedInstitutes, authors: updatedAuthors };
+                          const updatedPosters = [...latestPosters.current];
+                          updatedPosters[i] = updatedPoster;
+                          onChange(updatedPosters);
+                        }}
+                        className="text-red-400 hover:text-red-300 font-bold text-xs px-1"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Authors ───────────────────────────────────────────── */}
               <div className="mb-4">
                 <label className="block text-xs font-bold text-slate-400 mb-1 flex justify-between items-end">
                   <span>Authors (Select Presenter)</span>
                   <button onClick={() => {
                     const updatedAuthors = [...(p.authors || [])];
-                    updatedAuthors.push({ name: '', isPresenter: updatedAuthors.length === 0 });
+                    updatedAuthors.push({ name: '', isPresenter: updatedAuthors.length === 0, institute: null });
                     updateItem(i, 'authors', updatedAuthors);
                   }} className="text-[10px] bg-slate-700 px-2 py-0.5 rounded hover:bg-slate-600">+ Add Author</button>
                 </label>
@@ -217,13 +301,13 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                           }));
                           updateItem(i, 'authors', updatedAuthors);
                         }}
-                        className="cursor-pointer w-4 h-4 text-sky-500"
+                        className="cursor-pointer w-4 h-4 text-sky-500 flex-shrink-0"
                         title="Mark as Presenting Author"
                       />
                       <input 
                         type="text" 
                         value={author.name || ''} 
-                        placeholder="Author Name, Institution"
+                        placeholder="Author Name"
                         onChange={e => {
                           const updatedAuthors = [...(p.authors || [])];
                           updatedAuthors[aIdx] = { ...updatedAuthors[aIdx], name: e.target.value };
@@ -231,6 +315,22 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                         }} 
                         className="flex-1 bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" 
                       />
+                      {/* Institute dropdown */}
+                      <select
+                        value={author.institute || ''}
+                        onChange={e => {
+                          const updatedAuthors = [...(p.authors || [])];
+                          updatedAuthors[aIdx] = { ...updatedAuthors[aIdx], institute: e.target.value || null };
+                          updateItem(i, 'authors', updatedAuthors);
+                        }}
+                        className="bg-slate-900 border border-slate-600 rounded p-2 text-xs text-slate-300 outline-none focus:border-amber-500 max-w-[160px]"
+                        title="Assign Institute"
+                      >
+                        <option value="">— no institute —</option>
+                        {institutes.map((inst, iIdx) => (
+                          <option key={iIdx} value={inst}>{inst || `Institute ${iIdx + 1}`}</option>
+                        ))}
+                      </select>
                       <button 
                         onClick={() => {
                           const updatedAuthors = [...(p.authors || [])];
@@ -240,18 +340,13 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                           }
                           updateItem(i, 'authors', updatedAuthors);
                         }}
-                        className="text-red-400 hover:text-red-300 font-bold px-2"
+                        className="text-red-400 hover:text-red-300 font-bold px-2 flex-shrink-0"
                       >
                         ✕
                       </button>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>
-                <input type="text" value={p.title || ''} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-4">
@@ -319,6 +414,14 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
           );
         })}
       </div>
+
+      {/* Add Poster — bottom of list */}
+      <button
+        onClick={addItem}
+        className="w-full mt-2 py-3 rounded-lg border-2 border-dashed border-emerald-500/60 text-emerald-400 hover:border-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 font-bold text-sm transition-all"
+      >
+        ＋ Add Poster
+      </button>
     </div>
   );
 }

@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   try {
     const data = await request.json();
     const masterPath = path.join(process.cwd(), 'src', 'data', 'master_workshops.json');
-    await fs.writeFile(masterPath, JSON.stringify(data, null, 2));
+    await fs.writeFile(masterPath, JSON.stringify(data, null, 2), 'utf8');
 
     const archivesDir = path.join(process.cwd(), 'src', 'data', 'archives');
 
@@ -53,6 +53,7 @@ export async function POST(request: Request) {
       yearData.venue = ws.venue || "";
       yearData.address = ws.address || ws.city || "";
       yearData.venue_url = ws.venue_url || "";
+      yearData.venue_address_url = ws.venue_address_url || "";
       if (ws.dates !== undefined) yearData.dates = ws.dates;
 
       const proceedingsDir = path.join(process.cwd(), '..', '..', 'docs', 'archives_translation', 'proceedings');
@@ -144,36 +145,52 @@ export async function POST(request: Request) {
 
       const daysMap = new Map<string, any[]>();
 
-      if (ws.presentations) {
-        for (const pres of ws.presentations) {
-          if (!daysMap.has(pres.date)) daysMap.set(pres.date, []);
+      if (ws.presentation_sessions) {
+        for (const sessionGroup of ws.presentation_sessions) {
+          if (!daysMap.has(sessionGroup.date)) daysMap.set(sessionGroup.date, []);
           
-          let dayItems = daysMap.get(pres.date)!;
-          let sessionItem = dayItems.find((i: any) => i.type === "session" && i.title === pres.session);
+          let dayItems = daysMap.get(sessionGroup.date)!;
+          let sessionItem = dayItems.find((i: any) => i.type === "session" && i.title === sessionGroup.title);
           
           if (!sessionItem) {
+            // Find the time of the first presentation to use as the session time, or use TBD
+            const firstTime = sessionGroup.presentations && sessionGroup.presentations.length > 0 
+              ? sessionGroup.presentations[0].time 
+              : "TBD";
+              
             sessionItem = {
               type: "session",
-              time: pres.time,
-              title: pres.session,
+              time: firstTime,
+              title: sessionGroup.title,
+              location: sessionGroup.location || "",
               talks: []
             };
             dayItems.push(sessionItem);
+          } else {
+            // Update location if it's not set
+            if (!sessionItem.location && sessionGroup.location) {
+              sessionItem.location = sessionGroup.location;
+            }
           }
 
-          sessionItem.talks.push({
-            time: pres.time,
-            title: pres.title,
-            authors: pres.authors,
-            legacy_url: pres.url || "",
-            legacy_abstract_url: pres.abstract_url || "",
-            local_target_path: pres.presentation_file ? buildLocalUrl('Presentation', ws.number, pres.session, pres.presentation_file) : "",
-            local_abstract_target_path: pres.abstract_file ? buildLocalUrl('Presentation', ws.number, pres.session, pres.abstract_file) : "",
-            public_website_url: pres.presentation_file ? buildCloudUrl('Presentation', ws.number, pres.session, pres.presentation_file) : "",
-            public_abstract_url: pres.abstract_file ? buildCloudUrl('Presentation', ws.number, pres.session, pres.abstract_file) : "",
-            gcloud_url: pres.presentation_file ? buildGcloudUrl('Presentation', ws.number, pres.session, pres.presentation_file) : "",
-            gcloud_abstract_url: pres.abstract_file ? buildGcloudUrl('Presentation', ws.number, pres.session, pres.abstract_file) : ""
-          });
+          if (sessionGroup.presentations) {
+            for (const pres of sessionGroup.presentations) {
+              sessionItem.talks.push({
+                time: pres.time,
+                title: pres.title,
+                institutes: pres.institutes || [],
+                authors: pres.authors,
+                legacy_url: pres.url || "",
+                legacy_abstract_url: pres.abstract_url || "",
+                local_target_path: pres.presentation_file ? buildLocalUrl('Presentation', ws.number, sessionGroup.title, pres.presentation_file) : "",
+                local_abstract_target_path: pres.abstract_file ? buildLocalUrl('Presentation', ws.number, sessionGroup.title, pres.abstract_file) : "",
+                public_website_url: pres.presentation_file ? buildCloudUrl('Presentation', ws.number, sessionGroup.title, pres.presentation_file) : "",
+                public_abstract_url: pres.abstract_file ? buildCloudUrl('Presentation', ws.number, sessionGroup.title, pres.abstract_file) : "",
+                gcloud_url: pres.presentation_file ? buildGcloudUrl('Presentation', ws.number, sessionGroup.title, pres.presentation_file) : "",
+                gcloud_abstract_url: pres.abstract_file ? buildGcloudUrl('Presentation', ws.number, sessionGroup.title, pres.abstract_file) : ""
+              });
+            }
+          }
         }
       }
 
@@ -199,6 +216,7 @@ export async function POST(request: Request) {
           posterSession.talks.push({
             time: poster.time || "",
             title: poster.title,
+            institutes: poster.institutes || [],
             authors: poster.authors || (poster.name ? poster.name + (poster.affiliation ? `, ${poster.affiliation}` : "") : ""),
             legacy_url: poster.url || "",
             legacy_abstract_url: poster.abstract_url || "",
@@ -258,7 +276,7 @@ export async function POST(request: Request) {
       yearData.schedule = schedule;
       yearData.events = ws.events || [];
 
-      await fs.writeFile(yearPath, JSON.stringify(yearData, null, 2));
+      await fs.writeFile(yearPath, JSON.stringify(yearData, null, 2), 'utf8');
     }
 
     return NextResponse.json({ success: true });

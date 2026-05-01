@@ -1,4 +1,5 @@
-The  12th Harsh-Environment
+The  12th Harsh-Environment
+
               Mass Spectrometry Workshop October 16-18, 2018 Cologne, Germany Download the Program
 Tue, 10/16 | Travel Day
 6:00 p.m. - 9:00 p.m. | Registration and Welcome Reception Outside Hall heumarkt, Maritim Hotel
@@ -7,7 +8,8 @@ Wed, 10/17 | EuroHEMS Workshop
 9:00 a.m. | Welcome Remarks and Vendor Introductions
 10:00 a.m. | "Anomalous Uses of Mass Spectrometers at NASA" Kathleen B. Loftin, Ph.D., Deputy Center Chief Technologist, NASA Kennedy Space Center Abstract
 10:30 a.m. | Mid-morning break
-11:00 a.m. | Technical
+11:00 a.m. | Technical
+
               Session I:
 11:00 a.m. | "Development of Portable Mass Spectrometer for Explosives and Narcotics Detection" Vadym Berkout, Smiths Detection Abstract
 11:30 a.m. | "CubeSat QIT-MS: Rad Hard Miniature Instrument for Solar System Exploration" Stojan Madzunkov, Jet Propulsion Laboratory Abstract
@@ -21,26 +23,30 @@ Wed, 10/17 | EuroHEMS Workshop
 3:30 p.m. | "Field Deployable Mass Spectrometers at Tofwerk" Marc Gonin, TOFWERK Abstract
 4:00 p.m. | "Optimization of a portable QMS for environmental monitoring" T. Fildes, D.G. McIntosh, M.J. Antony Joseph, B. Smith, S. Maher, J.R. Gibson and S. Taylor Department of Electrical Engineering and Electronics, University of Liverpool Abstract
 7:00 p.m. | Workshop Dinner -
-Thu,
-            10/18 | EuroHEMS Workshop
-9:00 a.m. | Technical Session
+
+Thu, 10/18/2019 | EuroHEMS Workshop
+9:00 a.m. | Technical Session
+
             IV :
 9:00 a.m. | "Rapid Identification of Drug Seizures by ASAP-MS on a Low-Cost, Deployable, Single Quadrupole Instrument" Bryan McCullough, Chris Hopley, National Measurement Laboratory, LGC David Douce, Nicola Lumley, Steve Bajic and Kate Whyatt, Waters Corporation Abstract
 9:30 a.m. | "Mobile Mass Spectrometer Systems for Online Oil Emission and Oil Dilution Measurements in Combustion Engine Test Cells." Andreas Behn, Matthias Feindt, Sven Krause, Lars Schomann, Lubrisense GmbH Ann-Christin Preuss, Gerhard Matz, Institute of Analytical Measurement Technology Hamburg Abstract
 10:00 a.m. | Mid-morning Break
-10:30 a.m. | Technical Session
+10:30 a.m. | Technical Session
+
             V:
 10:30 a.m. | "Two-dimensional mass spectrometry on benchtop and portable ion trap mass spectrometers" Dalton Snyder, Lucas Szalwinski, Ryan Hilger, Robert Schrader, Valentina Pirro, R. Graham Cooks, Purdue University Department of Chemistry Zachary St. John, The College of New Jersey, Desmond Kaplan, KapScience LLC, Ryan Danell, Danell Consulting, Inc., Veronica Pinnick, Paul Mahaffy, NASA Goddard Space Flight Center, Mitch Wells, FLIR Systems, Inc Abstract
 11:00 a.m. | "Development of Micro-Time-Of-Flight Mass Spectrometer for in situ gas analysis" Alexandre Sonnette, Frédéric Progent, Jérôme Tupinier, Pierre-Etienne Buthier, Jean-Christophe Lictevout, Sébastien Vigne, CEA, DAM, DIF Thomas Alava, CEA, LETI, MINATEC Campus Abstract
 11:30 a.m. | "Instrumentation for Lunar Volatile Analysis" Janine Captain, NASA Kennedy Space Center Abstract
 12:00 p.m. | Buffet lunch Provided
-1:30 p.m. | Technical Session
+1:30 p.m. | Technical Session
+
               VI:
 1:30 p.m. | "Development of a robust Fourier-Transform ion trap for semiconductor manufacturing" Valerie Derpmann, Yessica Brachthäuser, Rüdiger Reuter, Michel Aliman, Alexander Laue, Hin Yiu Chung, Carl Zeiss SMT GmbH Abstract
 2:00 p.m. | "Reverse-gas stack modeling-coupled to fieldable mass spectrometry to locate chemical effluent streams for clandestine drug labs, explosives manufacturing, and chemical weapon deployment." Guido F. Verbeck, Camila Anguiano Virgen, University of North Texas Kenneth C. Wright, Jaime L. Winfield, James D. Fox, INFICON Inc Abstract
 2:30 p.m. | "Evaluation of Portable Linear Ion Trap Mass Spectrometer Coupled to Paper Spray Ionization Source for the Detection of Chemical Warfare Agents" Ethan M. McBride, Phillip M. Mach, Elizabeth S. Dhummakupt, Trevor Glaros Daniel O. Carmany, Paul S. Demond, Gabrielle R. Boyd, Excet, Inc Abstract
 3:00 p.m. | Mid-Afternoon Break
-3:30 p.m. | Technical Session
+3:30 p.m. | Technical Session
+
               VII:
 3:30 p.m. | "A Quadrupole Ion Trap for the Detection of Biomarkers at Icy Worlds" Joshua Wiley, Anton Belousov, Sarah Waller, Dragan Nikolic, Richard Kidd, Stojan Madzunkov, Morgan Cable, Murray Darrach Jet Propulsion Laboratory, California Institute of Technology Abstract
 4:00 p.m. | "Optimization of a drone based miniature mass spectrometer system (Drone-MS) for in situ gas plume measurements" Jorge Andres Diaz, Ernesto Corrales, David Diaz, Alfredo Alan, GasLAB, CICANUM. Physics School. Universidad de Costa Rica, Kenneth Wright, INFICON Inc., Robert Kline-Shoder, CREARE Inc., David Pieri, Jet Propulsion Laboratory, California Institute of Technology Abstract

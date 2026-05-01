@@ -113,7 +113,6 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
     <div className="space-y-4">
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
         <h3 className="text-xl font-bold text-sky-400">Student Award Presenters</h3>
-        <button onClick={addItem} className="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-sm">+ Add Student</button>
       </div>
 
       <div className="space-y-4">
@@ -202,6 +201,14 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
           );
         })}
       </div>
+
+      {/* Add Student — bottom of list */}
+      <button
+        onClick={addItem}
+        className="w-full mt-2 py-3 rounded-lg border-2 border-dashed border-purple-500/60 text-purple-400 hover:border-purple-400 hover:bg-purple-500/10 hover:text-purple-300 font-bold text-sm transition-all"
+      >
+        ＋ Add Student
+      </button>
     </div>
   );
 }

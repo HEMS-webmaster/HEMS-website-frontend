@@ -1,7 +1,7 @@
 {
   "year": 2019,
   "ordinal": "13th",
-  "dates": "September 16–19, 2019",
+  "dates": "September 16-19, 2019",
   "resources": [
     {
       "label": "Workshop Program",
@@ -27,49 +27,96 @@
   ],
   "venue": "",
   "address": "Myrtle Beach, South Carolina",
-  "sponsors": [],
-  "schedule": [
+  "sponsors": [
     {
-      "title": "09/12/0198",
-      "items": [
-        {
-          "type": "session",
-          "time": "10:30 a.m.",
-          "title": "Technical Session V",
-          "talks": [
-            {
-              "time": "10:30 a.m.",
-              "title": "Detection and Analysis of Simulated Chemical Warfare Agents using Portable Mass Spectrometry",
-              "authors": [
-                {
-                  "name": "Camila Anguiano Virgen - 2019 Student Award Winner",
-                  "isPresenter": true
-                }
-              ],
-              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/09%20Virgen.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Virgen.pdf",
-              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf"
-            }
-          ]
-        }
-      ]
+      "name": "Agilent Technologies",
+      "url": "http://www.vacuum-choice.com/",
+      "image": "/images/sponsors/Agilent_Technologies_2019.png",
+      "year": "2019"
     },
     {
-      "title": "09/18/2017",
+      "name": "FLIR (Griffin Analytical Technologies)",
+      "url": "http://www.icxt.com/technology/mobile-labs/",
+      "image": "/images/sponsors/FLIR__Griffin_Analytical_Technologies__2003.png",
+      "year": "2003"
+    },
+    {
+      "name": "Pfeiffer Vacuum",
+      "url": "http://www.pfeiffer-vacuum.net/",
+      "image": "/images/sponsors/Pfeiffer_Vacuum_2005.png",
+      "year": "2005"
+    },
+    {
+      "name": "Adaptas Solutions (DeTech)",
+      "url": "https://www.adaptas.com/",
+      "image": "/images/sponsors/Adaptas_Solutions__DeTech__2011.png",
+      "year": "2011"
+    },
+    {
+      "name": "Edwards",
+      "url": "http://www.edwardsvacuum.com/",
+      "image": "/images/sponsors/Edwards_2013.png",
+      "year": "2013"
+    },
+    {
+      "name": "Inficon",
+      "url": "http://www.inficon.com/",
+      "image": "/images/sponsors/Inficon_2013.png",
+      "year": "2013"
+    },
+    {
+      "name": "BaySpec, Inc.",
+      "url": "http://www.bayspec.com/",
+      "image": "/images/sponsors/BaySpec__Inc__2015.png",
+      "year": "2015"
+    },
+    {
+      "name": "MKS Instruments",
+      "url": "https://www.mksinst.com/",
+      "image": "/images/sponsors/MKS_Instruments_2017.png",
+      "year": "2017"
+    },
+    {
+      "name": "Collins Aerospace",
+      "url": "https://www.rtx.com/collinsaerospace",
+      "image": "/images/sponsors/Collins_Aerospace_2019.png",
+      "year": "2019"
+    }
+  ],
+  "schedule": [
+    {
+      "title": "2019-09-17",
       "items": [
         {
           "type": "session",
-          "time": "9:30",
+          "time": "08:40",
           "title": "Technical Session I",
+          "location": "",
           "talks": [
+            {
+              "time": "08:40",
+              "title": "On-site Applications of MIMS and the Importance of Interface Design as Exemplified by Highly Unusual \"Fragments\" in MIMS Mass Spectra of Chloramines and Bromamines",
+              "institutes": [],
+              "authors": [
+                {
+                  "name": "Frants R. Lauritsen",
+                  "isPresenter": true,
+                  "affiliation": ""
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/01%20Lauritsen.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Lauritsen.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf"
+            },
             {
               "time": "9:30",
               "title": "Use of Computational Sensing Techniques to Improve the Performance of Mass Spectrometers in Harsh Environments",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Jason J. Amsden",
@@ -87,46 +134,17 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf"
             }
           ]
-        }
-      ]
-    },
-    {
-      "title": "09/17/2019",
-      "items": [
-        {
-          "type": "session",
-          "time": "08:40",
-          "title": "Technical Session I",
-          "talks": [
-            {
-              "time": "08:40",
-              "title": "On-site Applications of MIMS and the Importance of Interface Design as Exemplified by Highly Unusual “Fragments” in MIMS Mass Spectra of Chloramines and Bromamines",
-              "authors": [
-                {
-                  "name": "Frants R. Lauritsen",
-                  "isPresenter": true,
-                  "affiliation": ""
-                }
-              ],
-              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/01%20Lauritsen.pdf",
-              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Lauritsen.pdf",
-              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf"
-            }
-          ]
         },
         {
           "type": "session",
           "time": "10:30",
           "title": "Technical Session II",
+          "location": "",
           "talks": [
             {
               "time": "10:30",
               "title": "Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Frédéric Progent",
@@ -146,6 +164,7 @@
             {
               "time": "11:00",
               "title": "The Dragonfly Mission to Titan and the Enabling Technologies of the DraMS Mass Spectrometer Onboard",
+              "institutes": [],
               "authors": [
                 {
                   "name": "R. M. Danell",
@@ -165,6 +184,7 @@
             {
               "time": "11:30 a.m.",
               "title": "Evaluation of Aperture Materials for Coded Apertures Used in a Portable Cycloidal Miniature Mass Spectrometer",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Tanouir Aloui - 2019 Student Award Winner",
@@ -185,11 +205,12 @@
         {
           "type": "session",
           "time": "16:00",
-          "title": "Poster Session",
+          "title": "Technical Session III: Poster Presenter Lightning Round",
           "talks": [
             {
               "time": "16:00",
               "title": "Determination of the Presence of Biological Compounds in Aerosol Particles with a Linear Ion Trap",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Nathan Grimes",
@@ -209,6 +230,7 @@
             {
               "time": "16:00",
               "title": "Overview of the MOMA Mass Spectrometer and Examination of Some Mineral Matrices as Learning Curve for MOMA Return Data",
+              "institutes": [],
               "authors": [
                 {
                   "name": "F. H. W. van Amerom",
@@ -228,6 +250,7 @@
             {
               "time": "16:00",
               "title": "A Comparison of Thermionic Filament and Carbon Nanotube Field Emitter Array-based Ion Sources in Coded Aperture Miniature Mass Spectrometers",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Raul Vyas",
@@ -246,7 +269,8 @@
             },
             {
               "time": "16:00",
-              "title": "In-situ Measurements of δ13C and δ18O of Dissolved CO2 using an Underwater Mass Spectrometer",
+              "title": "In-situ Measurements of δC and δO of Dissolved CO2 using an Underwater Mass Spectrometer",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Scott T. Wieman",
@@ -268,16 +292,18 @@
       ]
     },
     {
-      "title": "09/18/2019",
+      "title": "2019-09-18",
       "items": [
         {
           "type": "session",
           "time": "08:30",
           "title": "Technical Session IV",
+          "location": "",
           "talks": [
             {
               "time": "08:30",
               "title": "Electric Field Fragmentation of Mobility Selected Ions Using Tandem Ion Mobility Spectrometry at Ambient Pressure with Molecular Identification through Neural Network Analysis",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Gary A. Eiceman",
@@ -297,6 +323,7 @@
             {
               "time": "09:00",
               "title": "Chemical Ionization of Xenon and Detection Utilizing a High Precision Digital Ion Trap (DIT)",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Timothy Vazquez",
@@ -316,6 +343,7 @@
             {
               "time": "09:30",
               "title": "Portable Mass Spectrometer for Explosives and Narcotics Detection",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Vadym Berkout",
@@ -336,12 +364,33 @@
         },
         {
           "type": "session",
-          "time": "11:30",
+          "time": "10:30 a.m.",
           "title": "Technical Session V",
+          "location": "",
           "talks": [
+            {
+              "time": "10:30 a.m.",
+              "title": "Detection and Analysis of Simulated Chemical Warfare Agents using Portable Mass Spectrometry",
+              "institutes": [],
+              "authors": [
+                {
+                  "name": "Camila Anguiano Virgen - 2019 Student Award Winner",
+                  "isPresenter": true
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/13thWS/Presentations/09%20Virgen.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Virgen.pdf",
+              "local_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf"
+            },
             {
               "time": "11:00 a.m.",
               "title": "Designing a Coded Aperture Cycloidal Mass Analyzer to Detect Perfluorocarbon Tracers",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Kathleen L. Horvath - 2019 Student Award Winner",
@@ -360,6 +409,7 @@
             {
               "time": "11:30",
               "title": "SIMION Beyond Ion Simulation: Field Analysis, Synthesis, and Harmonic Analysis for MS Design",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Robert H. Jackson",
@@ -382,10 +432,12 @@
           "type": "session",
           "time": "13:30",
           "title": "Technical Session VI",
+          "location": "",
           "talks": [
             {
               "time": "13:30",
               "title": "Spacecraft Atmosphere Monitor (S.A.M.) First Operational Data",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Stojan Madzunkov",
@@ -405,6 +457,7 @@
             {
               "time": "14:00",
               "title": "The Future of Linear Ion Trap Mass Spectrometer Systems for Planetary Exploration",
+              "institutes": [],
               "authors": [
                 {
                   "name": "D. A. Kaplan",
@@ -424,6 +477,7 @@
             {
               "time": "14:30",
               "title": "Onsite Analysis of Illicit Drugs by Portable Ion Trap Gas Chromatography-Mass Spectrometry (GCMS)",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Charlie Schmidt",
@@ -446,10 +500,12 @@
           "type": "session",
           "time": "15:30",
           "title": "Technical Session VII",
+          "location": "",
           "talks": [
             {
               "time": "15:30",
               "title": "Membrane Inlet Mass Spectrometry for Ocean Worlds",
+              "institutes": [],
               "authors": [
                 {
                   "name": "R. Timothy Short",
@@ -469,6 +525,7 @@
             {
               "time": "16:00",
               "title": "Evolution of a Compact TOF Mass Spectrometer from Space Exploration to the Internet of Things",
+              "institutes": [],
               "authors": [
                 {
                   "name": "D. Lasi",
@@ -488,6 +545,7 @@
             {
               "time": "16:30",
               "title": "Development of a Low-Cost, Low-Power, Miniature Sector Mass Spectrometer with IonCCD Detection",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Noah Christian",
@@ -509,16 +567,18 @@
       ]
     },
     {
-      "title": "09/19/2019",
+      "title": "2019-09-19",
       "items": [
         {
           "type": "session",
           "time": "09:00",
           "title": "Technical Session VIII",
+          "location": "",
           "talks": [
             {
               "time": "09:00",
               "title": "Smart City Initiatives and Where HEMS Can Play a Role",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Guido Verbek",
@@ -538,6 +598,7 @@
             {
               "time": "09:30",
               "title": "LUVMI Rover to Characterize Volatile Content in Lunar Polar Regions",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Simon Sheridan",
@@ -560,10 +621,12 @@
           "type": "session",
           "time": "10:30",
           "title": "Technical Session IX",
+          "location": "",
           "talks": [
             {
               "time": "10:30",
               "title": "Low-Pressure ICP-MS for Planetary Trace Elemental Analysis",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Mazdak Taghioskoui",
@@ -583,6 +646,7 @@
             {
               "time": "11:00",
               "title": "QIT-Mass Spectrometer for Lunar and Planetary Applications",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Frank Maiwald",
@@ -694,32 +758,18 @@
           "location_url": ""
         },
         {
-          "time": "14:00",
-          "end_time": "",
-          "title": "Technical Session III: Vendor Presentations",
-          "subtitle": "",
-          "location": "",
-          "location_url": ""
-        },
-        {
-          "time": "15:30",
-          "title": "Poster Presenter Lightning Round",
-          "subtitle": "",
-          "location": "",
-          "location_url": ""
-        },
-        {
-          "time": "16:00",
-          "end_time": "19:00",
-          "title": "Poster/Vendor Session",
-          "subtitle": "Refreshments served during poster session",
-          "location": "Palladium Foyer",
-          "location_url": ""
-        },
-        {
           "time": "19:00",
           "title": "Evening Free",
           "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "14:00",
+          "end_time": "15:30",
+          "title": "Vendor Presentations",
+          "subtitle": "",
+          "subtitle_url": "",
           "location": "",
           "location_url": ""
         }
@@ -791,5 +841,6 @@
     "name": "Collins Aerospace",
     "url": "https://www.rtx.com/collinsaerospace",
     "logo_file": "host_Collins_Aerospace.png"
-  }
+  },
+  "venue_address_url": ""
 }

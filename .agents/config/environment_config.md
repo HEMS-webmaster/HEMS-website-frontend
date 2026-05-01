@@ -8,6 +8,15 @@
 
 ---
 
+<!-- 0. GoDaddy Configuration
+Customer number is 11646337. user name: HEMS
+ 931MeV
+
+president@hems-workshop.org, pass: _NzYWK86b9/PuQV
+
+-->
+
+
 ## 1. Version Control (Git)
 *   **Account Name:** `rbellAdapt`
 *   **Admin Account Email:** `adaptivesensing@gmail.com`

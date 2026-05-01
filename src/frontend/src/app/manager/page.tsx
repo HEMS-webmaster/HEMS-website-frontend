@@ -246,7 +246,7 @@ export default function WorkshopManager() {
             <p className="text-slate-400">Select a workshop to edit.</p>
           ) : (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-sky-400">Metadata</h2>
+              <h2 className="text-2xl font-bold text-sky-400">Workshop Level Input</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-slate-400 mb-1">Number</label>
@@ -328,13 +328,26 @@ export default function WorkshopManager() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-400 mb-1">Venue URL</label>
+                  <label className="block text-sm font-bold text-slate-400 mb-1">Venue URL <span className="text-xs font-normal">(Link to Venue Webpage)</span></label>
                   <input 
                     type="url" 
                     value={currentWs.venue_url || ''} 
                     onChange={(e) => {
                       const updated = [...workshops];
                       updated[selectedIdx].venue_url = e.target.value;
+                      setWorkshops(updated);
+                    }}
+                    className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-400 mb-1">Venue Address URL <span className="text-xs font-normal">(Link to Google Maps)</span></label>
+                  <input 
+                    type="url" 
+                    value={currentWs.venue_address_url || ''} 
+                    onChange={(e) => {
+                      const updated = [...workshops];
+                      updated[selectedIdx].venue_address_url = e.target.value;
                       setWorkshops(updated);
                     }}
                     className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white"
@@ -453,6 +466,16 @@ export default function WorkshopManager() {
                   setWorkshops(updated);
                 }} 
               />
+              
+              <SponsorsManager 
+                sponsors={currentWs.sponsors || []} 
+                wsNum={String(currentWs.number)}
+                onChange={(newData) => {
+                  const updated = [...workshops];
+                  updated[selectedIdx].sponsors = newData;
+                  setWorkshops(updated);
+                }}
+              />
               <div className="space-y-12 mt-8">
                 <EventsManager 
                   events={currentWs.events || []} 
@@ -464,24 +487,15 @@ export default function WorkshopManager() {
                 />
 
                 <PresentationsManager 
-                  presentations={currentWs.presentations || []} 
+                  presentation_sessions={currentWs.presentation_sessions || []} 
                   wsNum={String(currentWs.number)}
                   onChange={(newData) => {
                     const updated = [...workshops];
-                    updated[selectedIdx].presentations = newData;
+                    updated[selectedIdx].presentation_sessions = newData;
                     setWorkshops(updated);
                   }}
                 />
 
-                <SponsorsManager 
-                  sponsors={currentWs.sponsors || []} 
-                  wsNum={String(currentWs.number)}
-                  onChange={(newData) => {
-                    const updated = [...workshops];
-                    updated[selectedIdx].sponsors = newData;
-                    setWorkshops(updated);
-                  }}
-                />
 
                 <StudentsManager 
                   students={currentWs.student_awards || []} 

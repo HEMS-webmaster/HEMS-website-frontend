@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEMS Navbar Mockups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#FFFFFF',
+                        foreground: '#334155',
+                        surface: '#E2E8F0',
+                        primary: '#0284C7',
+                        secondary: '#059669'
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 2rem 0;
+        }
+        .mockup-container {
+            margin-bottom: 4rem;
+            border: 1px dashed #cbd5e1;
+            background-color: #e2e8f0;
+            padding: 2rem 0;
+            position: relative;
+        }
+        .mockup-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #334155;
+            color: white;
+            padding: 0.25rem 1rem;
+            font-size: 0.875rem;
+            font-weight: bold;
+            border-bottom-right-radius: 0.5rem;
+        }
+        
+        /* Blueprint grid pattern */
+        .bg-blueprint {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="max-w-4xl mx-auto mb-8 text-center">
+        <h1 class="text-3xl font-bold text-foreground mb-4">Navigation Bar Aesthetics</h1>
+        <p class="text-foreground/80">Built by @brand and @prod using native HTML/CSS and Tailwind.</p>
+    </div>
+
+    <!-- Mockup 1: The Solid Trust -->
+    <div class="mockup-container">
+        <div class="mockup-label">1. The Solid Trust (Traditional Scientific)</div>
+        
+        <nav class="w-full bg-primary text-white shadow-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-2xl tracking-wider">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+                            <a href="#" class="text-white hover:text-white/80 transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-white hover:text-white/80 transition-colors">Portal</a>
+                            <a href="#" class="text-white hover:text-white/80 transition-colors">About Us</a>
+                            <a href="#" class="text-white hover:text-white/80 transition-colors">Archive</a>
+                            <a href="#" class="text-white hover:text-white/80 transition-colors">Contact</a>
+                            <a href="#" class="bg-white text-primary hover:bg-surface px-4 py-2 rounded-md font-bold transition-all shadow-sm">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 2: The Diplomatic Gradient -->
+    <div class="mockup-container">
+        <div class="mockup-label">2. The Diplomatic Gradient (Modern Blend)</div>
+        
+        <nav class="w-full border-b border-primary/20 bg-gradient-to-r from-background via-surface to-primary">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-2xl text-primary tracking-wider">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+                            <a href="#" class="text-foreground hover:text-primary transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Portal</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">About Us</a>
+                            <a href="#" class="text-white hover:text-white/80 transition-colors">Archive</a>
+                            <a href="#" class="text-white hover:text-white/80 transition-colors">Contact</a>
+                            <a href="#" class="bg-white text-primary hover:bg-surface px-4 py-2 rounded-md font-bold transition-all shadow-sm">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 3: The Minimalist Underline -->
+    <div class="mockup-container">
+        <div class="mockup-label">3. The Minimalist Underline (Maximum Whitespace)</div>
+        
+        <nav class="w-full bg-background border-b-4 border-primary relative">
+            <div class="absolute bottom-0 left-0 h-1 bg-secondary w-1/3"></div> <!-- Subtle green accent -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20"> <!-- Slightly taller for breathing room -->
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-3xl text-foreground tracking-wider uppercase">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-bold uppercase tracking-wide">
+                            <a href="#" class="text-foreground/70 hover:text-primary transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-foreground/70 hover:text-primary transition-colors">Portal</a>
+                            <a href="#" class="text-foreground/70 hover:text-primary transition-colors">About Us</a>
+                            <a href="#" class="text-foreground/70 hover:text-primary transition-colors">Archive</a>
+                            <a href="#" class="text-foreground/70 hover:text-primary transition-colors">Contact</a>
+                            <a href="#" class="bg-primary/10 text-primary border border-primary/30 hover:bg-primary hover:text-white px-5 py-2 rounded-md transition-all">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 4: The Technical Blueprint -->
+    <div class="mockup-container">
+        <div class="mockup-label">4. The Technical Blueprint (Dark Mode Portal Vibe)</div>
+        
+        <nav class="w-full bg-foreground border-b border-primary/50 bg-blueprint relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/90 to-primary/20 pointer-events-none"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-2xl text-background tracking-wider">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors">Portal</a>
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors">About Us</a>
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors">Archive</a>
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors">Contact</a>
+                            <a href="#" class="bg-primary text-white hover:bg-primary/80 px-4 py-2 rounded-md font-bold transition-all shadow-md border border-primary/50">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 5: The Glass Float -->
+    <div class="mockup-container" style="background-image: url('https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center; padding: 4rem 1rem;">
+        <div class="mockup-label">5. The Glass Float (Modern Marketing)</div>
+        
+        <nav class="max-w-7xl mx-auto w-full bg-background/70 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl">
+            <div class="px-6 sm:px-8 lg:px-10">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-xl text-primary tracking-wider">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-6 text-sm font-medium">
+                            <a href="#" class="text-foreground hover:text-primary transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Portal</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">About Us</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Archive</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Contact</a>
+                            <a href="#" class="bg-primary text-white hover:bg-primary/90 px-5 py-2 rounded-full font-bold transition-all shadow-md ml-2">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 6: The Isometric Data Matrix -->
+    <div class="mockup-container">
+        <div class="mockup-label">6. The Isometric Data Matrix (Complex Network)</div>
+        
+        <nav class="w-full bg-background border-b border-primary/20 relative overflow-hidden">
+            <!-- Isometric SVG Graphic -->
+            <div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="isometric" width="40" height="23" patternUnits="userSpaceOnUse">
+                            <path d="M0,11.5 L20,0 L40,11.5 L20,23 Z" fill="none" stroke="currentColor" stroke-width="0.5" class="text-primary" />
+                            <circle cx="20" cy="11.5" r="1.5" class="text-secondary" fill="currentColor" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#isometric)" />
+                </svg>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 bg-background/60 backdrop-blur-sm">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-2xl text-primary tracking-wider">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+                            <a href="#" class="text-foreground hover:text-primary transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Portal</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">About Us</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Archive</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Contact</a>
+                            <a href="#" class="bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded-md font-bold transition-all shadow-md">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 7: The Topographic Terrain -->
+    <div class="mockup-container">
+        <div class="mockup-label">7. The Topographic Terrain (Harsh Environments)</div>
+        
+        <nav class="w-full bg-surface border-b border-primary/30 relative overflow-hidden">
+            <!-- Topographic SVG Graphic -->
+            <div class="absolute inset-0 z-0 pointer-events-none opacity-30">
+                <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,50 Q250,-20 500,50 T1000,50" fill="none" stroke="currentColor" stroke-width="1" class="text-primary" />
+                    <path d="M0,60 Q250,0 500,60 T1000,60" fill="none" stroke="currentColor" stroke-width="0.5" class="text-primary opacity-70" />
+                    <path d="M0,70 Q250,20 500,70 T1000,70" fill="none" stroke="currentColor" stroke-width="0.5" class="text-secondary opacity-50" />
+                    <path d="M0,80 Q250,40 500,80 T1000,80" fill="none" stroke="currentColor" stroke-width="0.5" class="text-foreground opacity-30" />
+                </svg>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-2xl text-foreground tracking-wider">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+                            <a href="#" class="text-foreground/90 hover:text-primary transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-foreground/90 hover:text-primary transition-colors">Portal</a>
+                            <a href="#" class="text-foreground/90 hover:text-primary transition-colors">About Us</a>
+                            <a href="#" class="text-foreground/90 hover:text-primary transition-colors">Archive</a>
+                            <a href="#" class="text-foreground/90 hover:text-primary transition-colors">Contact</a>
+                            <a href="#" class="bg-foreground text-background hover:bg-foreground/80 px-4 py-2 rounded-md font-bold transition-all shadow-md">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 8: The Particle Constellation -->
+    <div class="mockup-container">
+        <div class="mockup-label">8. The Particle Constellation (Animated Network)</div>
+        
+        <nav class="w-full bg-foreground border-b border-primary/50 relative overflow-hidden">
+            <!-- Particle SVG Graphic -->
+            <div class="absolute inset-0 z-0 pointer-events-none opacity-50">
+                <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="currentColor" class="text-primary">
+                        <circle cx="100" cy="30" r="3" class="animate-pulse" />
+                        <circle cx="300" cy="70" r="2" class="animate-ping" style="animation-duration: 3s;" />
+                        <circle cx="500" cy="40" r="4" class="animate-pulse" />
+                        <circle cx="700" cy="80" r="2" />
+                        <circle cx="900" cy="20" r="3" class="animate-pulse" />
+                    </g>
+                    <g fill="currentColor" class="text-secondary">
+                        <circle cx="200" cy="60" r="1.5" />
+                        <circle cx="400" cy="20" r="2.5" class="animate-pulse" />
+                        <circle cx="600" cy="60" r="1.5" />
+                        <circle cx="800" cy="40" r="2" class="animate-pulse" />
+                    </g>
+                    <path d="M100,30 L200,60 L300,70 L400,20 L500,40 L600,60 L700,80 L800,40 L900,20" fill="none" stroke="currentColor" stroke-width="0.5" class="text-primary opacity-30" />
+                </svg>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 bg-foreground/50 backdrop-blur-sm">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-2xl text-background tracking-wider">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors">Portal</a>
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors">About Us</a>
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors">Archive</a>
+                            <a href="#" class="text-background/80 hover:text-primary transition-colors">Contact</a>
+                            <a href="#" class="bg-primary text-white hover:bg-primary/80 px-4 py-2 rounded-md font-bold transition-all shadow-md">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 9: The Spectrometry Ribbon -->
+    <div class="mockup-container">
+        <div class="mockup-label">9. The Spectrometry Ribbon (Fluid Dynamics)</div>
+        
+        <nav class="w-full bg-background border-b border-primary/20 relative overflow-hidden">
+            <!-- Ribbon SVG Graphic -->
+            <div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+                <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,100 C250,0 500,100 750,0 C875,50 950,100 1000,100 L0,100 Z" fill="currentColor" class="text-primary" />
+                    <path d="M0,100 C300,50 600,0 800,100 L0,100 Z" fill="currentColor" class="text-secondary opacity-50" />
+                </svg>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-2xl text-primary tracking-wider">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+                            <a href="#" class="text-foreground hover:text-primary transition-colors flex items-center gap-1">
+                                Home Prototypes <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Portal</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">About Us</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Archive</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Contact</a>
+                            <a href="#" class="bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded-md font-bold transition-all shadow-md">
+                                Join HEMS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mockup 10: The Technical Schematic -->
+    <div class="mockup-container">
+        <div class="mockup-label">10. The Technical Schematic (Engineering CAD)</div>
+        
+        <nav class="w-full bg-background border-b border-primary/20 relative overflow-hidden">
+            <!-- Schematic SVG Graphic -->
+            <div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <rect width="20" height="20" fill="none" stroke="currentColor" stroke-width="0.5" class="text-primary opacity-20" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                    
+                    <!-- Crosshairs and tech elements -->
+                    <path d="M100,10 L100,90 M10,50 L190,50" fill="none" stroke="currentColor" stroke-width="0.5" class="text-secondary opacity-50" stroke-dasharray="4,4" />
+                    <circle cx="100" cy="50" r="10" fill="none" stroke="currentColor" stroke-width="0.5" class="text-secondary" />
+                    
+                    <path d="M800,10 L800,90 M710,50 L890,50" fill="none" stroke="currentColor" stroke-width="0.5" class="text-secondary opacity-50" stroke-dasharray="4,4" />
+                    <rect x="790" y="40" width="20" height="20" fill="none" stroke="currentColor" stroke-width="0.5" class="text-secondary" />
+                </svg>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 bg-background/80 backdrop-blur-sm">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-2xl text-foreground tracking-widest uppercase" style="font-family: 'IBM Plex Mono', monospace;">HEMS Workshop</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-8 text-sm font-medium" style="font-family: 'IBM Plex Mono', monospace;">
+                            <a href="#" class="text-foreground hover:text-primary transition-colors flex items-center gap-1">
+                                [PROTO] <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">[PORTAL]</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">[ABOUT]</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">[ARCHIVE]</a>
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">[CONTACT]</a>
+                            <a href="#" class="bg-primary/10 text-primary border border-primary border-dashed hover:bg-primary hover:text-background px-4 py-1.5 font-bold transition-all">
+                                {JOIN}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+</body>
+</html>

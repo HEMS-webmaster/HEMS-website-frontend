@@ -249,7 +249,13 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       <br/>
                     </>
                   )}
-                  <span className={`${!data.venue ? 'font-bold' : 'text-sm font-normal text-foreground/50'}`}>{data.address}</span>
+                  {data.venue_address_url ? (
+                    <a href={data.venue_address_url} target="_blank" rel="noopener noreferrer" className={`${!data.venue ? 'font-bold' : 'text-sm font-normal'} text-foreground/50 hover:text-primary hover:underline transition-colors`}>
+                      {data.address}
+                    </a>
+                  ) : (
+                    <span className={`${!data.venue ? 'font-bold' : 'text-sm font-normal text-foreground/50'}`}>{data.address}</span>
+                  )}
                 </span>
               </div>
             </div>
@@ -342,7 +348,6 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[...data.sponsors].sort((a, b) => (parseInt(a.year) || 9999) - (parseInt(b.year) || 9999)).map((sponsor: any, idx: number) => {
                   const sponsorYear = parseInt(sponsor.year);
-                  const yearsSince = sponsorYear ? new Date().getFullYear() - sponsorYear : 0;
                   return (
                     <a 
                       key={idx}
@@ -364,7 +369,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                         <h4 className="font-bold text-foreground truncate group-hover:text-primary transition-colors">{sponsor.name}</h4>
                         {sponsorYear ? (
                           <div className="text-xs font-bold text-secondary/80 mt-1 uppercase tracking-wider">
-                            {yearsSince > 0 ? `${yearsSince} Year Sponsor` : 'New Sponsor'}
+                            {`Sponsor since ${sponsorYear}`}
                           </div>
                         ) : null}
                       </div>
@@ -450,7 +455,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                     if (item.type === 'event') {
                       return (
                         <div key={iIdx} className="px-4 py-2 flex flex-col md:flex-row gap-4 hover:bg-surface/30 transition-colors border-l-4 border-transparent">
-                          <div className="md:w-32 font-mono text-sm font-bold text-foreground flex-shrink-0">{item.time}</div>
+                          <div className="md:w-48 font-mono text-sm font-bold text-foreground flex-shrink-0 md:text-center">{item.time}</div>
                           <div>
                             <h4 className="font-bold inline">{item.title}</h4>
                             {(item.subtitleHtml || item.subtitle) && (
@@ -462,62 +467,109 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                     } else if (item.type === 'session') {
                       const isPlenary = item.title?.toLowerCase().includes('plenary');
                       const bgClass = isPlenary ? 'bg-secondary/5' : 'bg-primary/5';
+                      const bgClassHeader = isPlenary ? 'bg-secondary/15' : 'bg-primary/15';
                       const borderClass = isPlenary ? 'border-secondary' : 'border-primary';
                       const textClass = isPlenary ? 'text-secondary' : 'text-primary';
                       const isPosterSession = item.title?.toLowerCase().includes('poster');
 
                       return (
-                        <div key={iIdx} className={`px-4 py-3 flex flex-col md:flex-row gap-4 ${bgClass} border-l-4 ${borderClass} transition-colors`}>
-                          <div className="md:w-32 font-mono text-sm font-bold text-foreground flex-shrink-0">{formatTime(item.time)}</div>
-                          <div className="flex-1">
-                            <h4 className={`font-bold ${textClass} text-lg`}>{item.title}</h4>
-                            <div className="mt-3 divide-y divide-primary/10">
-                              
-                                {item.talks?.map((talk: any, tIdx: number) => {
-                                  let authorElements = null;
-                                  
-                                  if (Array.isArray(talk.authors)) {
-                                    authorElements = talk.authors.map((a: any, i: number) => (
-                                      <span key={i}>
-                                        {a.isPresenter ? <span className="underline">{a.name}</span> : a.name}
-                                        {i < talk.authors.length - 1 ? ', ' : ''}
-                                      </span>
-                                    ));
-                                  } else {
-                                    // Fallback for legacy comma-separated string if not migrated
-                                    const authorParts = typeof talk.authors === 'string' ? talk.authors.split(',') : [];
-                                    const firstAuthor = authorParts.length > 0 ? authorParts[0] : '';
-                                    const restAuthors = authorParts.length > 1 ? ',' + authorParts.slice(1).join(',') : '';
-                                    authorElements = (
-                                      <>
-                                        {firstAuthor && <span className="underline">{firstAuthor}</span>}
-                                        {restAuthors}
-                                      </>
-                                    );
-                                  }
+                        <div key={iIdx} className={`border-l-4 ${borderClass} transition-colors overflow-hidden`}>
+                          {/* Session header row — distinct shade */}
+                          <div className={`flex flex-col md:flex-row gap-4 px-4 py-3 ${bgClassHeader}`}>
+                            <div className="md:w-48 font-mono text-sm font-bold text-foreground flex-shrink-0 md:text-center">{formatTime(item.time)}</div>
+                            <div className="flex-1">
+                              <h4 className={`font-bold ${textClass} text-lg`}>{item.title}</h4>
+                            </div>
+                          </div>
 
-                                  const presUrl = isLocal 
-                                    ? (talk.local_target_path !== undefined ? talk.local_target_path : (talk.legacy_url || talk.presentationUrl || talk.url))
-                                    : (talk.public_website_url !== undefined ? talk.public_website_url : (talk.legacy_url || talk.presentationUrl || talk.url));
-                                  const absUrl = isLocal 
-                                    ? (talk.local_abstract_target_path !== undefined ? talk.local_abstract_target_path : (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url))
-                                    : (talk.public_abstract_url !== undefined ? talk.public_abstract_url : (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url));
+                          {/* Talk rows — lighter shade */}
+                          <div className={`divide-y divide-primary/10 px-4 pb-3 pt-2 ${bgClass}`}>
+                            {item.talks?.map((talk: any, tIdx: number) => {
+                                   let authorElements = null;
 
-                                  return (
-                                    <div key={tIdx} className="py-2 first:pt-0 last:pb-0">
-                                    <div className="text-sm font-bold flex items-start gap-2">
-                                      {talk.time && !isPosterSession && <span className="text-foreground/50 font-mono font-normal flex-shrink-0 mt-0.5">{formatTime(talk.time)}</span>}
+                                   if (Array.isArray(talk.authors) && talk.authors.length > 0) {
+                                     // Check if any author has an institute reference
+                                     const hasInstitutes = talk.authors.some((a: any) => a.institute);
+                                     if (hasInstitutes) {
+                                       // Group authors by institute
+                                       const instituteMap: Record<string, any[]> = {};
+                                       const noInstitute: any[] = [];
+                                       for (const a of talk.authors) {
+                                         if (a.institute) {
+                                           if (!instituteMap[a.institute]) instituteMap[a.institute] = [];
+                                           instituteMap[a.institute].push(a);
+                                         } else {
+                                           noInstitute.push(a);
+                                         }
+                                       }
+                                       const groups: Array<{ institute: string | null; authors: any[] }> = [];
+                                       Object.entries(instituteMap).forEach(([inst, auths]) => groups.push({ institute: inst, authors: auths }));
+                                       if (noInstitute.length > 0) groups.push({ institute: null, authors: noInstitute });
+
+                                       authorElements = (
+                                         <span>
+                                           {groups.map((grp, gIdx) => (
+                                             <span key={gIdx} className="block">
+                                               {grp.authors.map((a: any, i: number) => (
+                                                 <span key={i}>
+                                                   {a.isPresenter ? <span className="underline">{a.name}</span> : a.name}
+                                                   {i < grp.authors.length - 1 ? ', ' : ''}
+                                                 </span>
+                                               ))}
+                                               {grp.institute && <span className="italic">, {grp.institute}</span>}
+                                             </span>
+                                           ))}
+                                         </span>
+                                       );
+                                     } else {
+                                       // Flat list — no institutes assigned
+                                       authorElements = talk.authors.map((a: any, i: number) => (
+                                         <span key={i}>
+                                           {a.isPresenter ? <span className="underline">{a.name}</span> : a.name}
+                                           {i < talk.authors.length - 1 ? ', ' : ''}
+                                         </span>
+                                       ));
+                                     }
+                                   } else {
+                                     // Fallback for legacy comma-separated string
+                                     const authorParts = typeof talk.authors === 'string' ? talk.authors.split(',') : [];
+                                     const firstAuthor = authorParts.length > 0 ? authorParts[0] : '';
+                                     const restAuthors = authorParts.length > 1 ? ',' + authorParts.slice(1).join(',') : '';
+                                     authorElements = (
+                                       <>
+                                         {firstAuthor && <span className="underline">{firstAuthor}</span>}
+                                         {restAuthors}
+                                       </>
+                                     );
+                                   }
+
+                                   const presUrl = isLocal
+                                     ? (talk.local_target_path !== undefined ? talk.local_target_path : (talk.legacy_url || talk.presentationUrl || talk.url))
+                                     : (talk.public_website_url !== undefined ? talk.public_website_url : (talk.legacy_url || talk.presentationUrl || talk.url));
+                                   const absUrl = isLocal
+                                     ? (talk.local_abstract_target_path !== undefined ? talk.local_abstract_target_path : (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url))
+                                     : (talk.public_abstract_url !== undefined ? talk.public_abstract_url : (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url));
+
+                              return (
+                                <div key={tIdx} className="py-2 first:pt-0 last:pb-0 flex flex-col md:flex-row gap-4">
+                                  {/* Time — right-justified in the shared left column */}
+                                  <div className="md:w-48 flex-shrink-0 md:text-right">
+                                    {talk.time && !isPosterSession && (
+                                      <span className="font-mono text-sm text-foreground/50 font-normal">{formatTime(talk.time)}</span>
+                                    )}
+                                  </div>
+                                  {/* Content */}
+                                  <div className="flex-1">
+                                    <div className="text-sm font-bold">
                                       {presUrl ? (
                                         <FrontendPreviewHover href={presUrl} title={talk.title}>
-                                          <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{talk.title}</a>
+                                          <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words leading-snug">{talk.title}</a>
                                         </FrontendPreviewHover>
                                       ) : (
-                                        <span className="text-foreground/60 break-words flex-1 leading-snug">{talk.title}</span>
+                                        <span className="text-foreground/60 break-words leading-snug">{talk.title}</span>
                                       )}
                                     </div>
-                                    <p className="text-sm text-foreground/70 mt-1">
-                                      {authorElements}
-                                    </p>
+                                    <p className="text-sm text-foreground/70 mt-1">{authorElements}</p>
                                     {absUrl && (
                                       <div className="text-xs mt-1">
                                         <FrontendPreviewHover href={absUrl} title={talk.title}>
@@ -526,10 +578,9 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                       </div>
                                     )}
                                   </div>
-                                );
-                              })}
-                              
-                            </div>
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       );

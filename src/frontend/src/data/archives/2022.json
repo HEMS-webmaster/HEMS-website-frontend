@@ -3,7 +3,7 @@
   "ordinal": "14th",
   "dates": "September 26-29, 2022",
   "venue": "Courtyard Cocoa Beach Cape Canaveral",
-  "address": "3435 North Atlantic Avenue, Cocoa Beach, Florida, 32931",
+  "address": "3435 North Atlantic Ave., Cocoa Beach, Florida, 32931",
   "resources": [
     {
       "label": "Workshop Program",
@@ -79,16 +79,18 @@
   ],
   "schedule": [
     {
-      "title": "09/27/2022",
+      "title": "2022-09-27",
       "items": [
         {
           "type": "session",
           "time": "9:00 a.m.",
-          "title": "Plenary Lecture (Mercury Room)",
+          "title": "Plenary Lecture",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "9:00 a.m.",
               "title": "Giving Humanity a Platform in Space to Improve Life on Earth",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Nate Wood",
@@ -109,11 +111,13 @@
         {
           "type": "session",
           "time": "10:30 a.m.",
-          "title": "Technical Session I (Mercury Room)",
+          "title": "Technical Session I",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "10:30 a.m.",
               "title": "Breath Markers of Disease Identifiers for Portable Mass Spectrometry",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Guido Verbeck",
@@ -132,6 +136,7 @@
             {
               "time": "11:00 a.m.",
               "title": "Development of mass spectrometer for organic molecule detection in the future space life search missions",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Dejan Maletic",
@@ -166,6 +171,7 @@
             {
               "time": "11:30 a.m.",
               "title": "Development of the Dragonfly Mass Spectrometer (DraMS)",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Xiang Li",
@@ -226,11 +232,13 @@
         {
           "type": "session",
           "time": "1:00 p.m.",
-          "title": "Technical Session II (Mercury Room)",
+          "title": "Technical Session II",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "1:00 p.m.",
               "title": "Investigation of disinfection byproduct formation during advanced water treatment",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Frants R. Lauritsen",
@@ -261,6 +269,7 @@
             {
               "time": "1:30 p.m.",
               "title": "Multi-dimensional Portable Mass Spectrometry for Biological Detection",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Ethan McBride",
@@ -321,11 +330,13 @@
         {
           "type": "session",
           "time": "3:00 p.m.",
-          "title": "Technical Session III (Mercury Room)",
+          "title": "Technical Session III",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "3:00 p.m.",
               "title": "Two-Dimensional Tandem Mass Spectrometry as a Method for Bacterial Profiling",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Thomas Sams",
@@ -360,6 +371,7 @@
             {
               "time": "3:30 p.m.",
               "title": "Planar Design Differential Ion Mobility Spectrometer (DMS)",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Erkinjon Nazarov",
@@ -398,6 +410,7 @@
             {
               "time": "4:00 p.m.",
               "title": "MT Explorer 30: A Portable Tandem Mass Spectrometer",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Venkateswarlu Panchagnula",
@@ -442,19 +455,21 @@
       ]
     },
     {
-      "title": "09/28/2022",
+      "title": "2022-09-28",
       "items": [
         {
           "type": "session",
           "time": "9:00 a.m.",
-          "title": "Technical Session IV (Mercury Room)",
+          "title": "Technical Session IV",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "9:00 a.m.",
               "title": "MS field applications in CBSA operations",
+              "institutes": [],
               "authors": [
                 {
-                  "name": "Marie-Josée Binette",
+                  "name": "Marie-JosÃ©e Binette",
                   "isPresenter": true
                 }
               ],
@@ -470,6 +485,7 @@
             {
               "time": "9:30 a.m.",
               "title": "Structural Content in Field Induced Fragmentation Spectra",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Gary Eiceman",
@@ -506,11 +522,13 @@
         {
           "type": "session",
           "time": "10:30 a.m.",
-          "title": "Technical Session V (Mercury Room)",
+          "title": "Technical Session V",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "10:30 a.m.",
               "title": "Overview and Testing of the Mars Organic Molecule Analyzer (MOMA)",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Friso van Amerom",
@@ -561,7 +579,7 @@
                   "isPresenter": false
                 },
                 {
-                  "name": "François Raulin",
+                  "name": "FranÃ§ois Raulin",
                   "isPresenter": false
                 },
                 {
@@ -589,7 +607,7 @@
                   "isPresenter": false
                 },
                 {
-                  "name": "Sandra Siljeström",
+                  "name": "Sandra SiljestrÃ¶m",
                   "isPresenter": false
                 },
                 {
@@ -613,6 +631,7 @@
             {
               "time": "11:00 a.m.",
               "title": "Plasma Ion Source for Atmospheric Pressure Ionization Mass - Spectrometry",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Jim Alberti",
@@ -643,6 +662,7 @@
             {
               "time": "11:30 a.m.",
               "title": "A Ruggedized, Portable Triple Quadrupole Mass Spectrometer",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Alexandra Wrobel",
@@ -699,11 +719,13 @@
         {
           "type": "session",
           "time": "3:30 p.m.",
-          "title": "Technical Session VI (Mercury Room)",
+          "title": "Technical Session VI",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "3:30 p.m.",
               "title": "Chip-Scale Mass Spectrometry: Yet another contender for Harsh Environments?",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Ashish Chaudhary",
@@ -722,6 +744,7 @@
             {
               "time": "4:00 p.m.",
               "title": "Europan Molecular Indicators of Life Investigation (EMILI)",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Desmond Kaplan",
@@ -810,16 +833,18 @@
       ]
     },
     {
-      "title": "09/29/2022",
+      "title": "2022-09-29",
       "items": [
         {
           "type": "session",
           "time": "8:30 a.m.",
-          "title": "Technical Session VII (Mercury Room)",
+          "title": "Technical Session VII",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "8:30 a.m.",
               "title": "Instrument Modeling: Simulation, Field Analysis, Synthesis, and Space-Charge",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Robert Jackson",
@@ -842,6 +867,7 @@
             {
               "time": "9:00 a.m.",
               "title": "Lunar Cube Sat Mass Spectrometer",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Stojan Madzunkov",
@@ -864,13 +890,14 @@
             {
               "time": "9:30 a.m.",
               "title": "An optimized membrane inlet system (MIS) for underwater sensors. - From idea to product",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Torben Gentz",
                   "isPresenter": true
                 },
                 {
-                  "name": "Malte Höhn",
+                  "name": "Malte HÃ¶hn",
                   "isPresenter": false
                 }
               ],
@@ -888,11 +915,13 @@
         {
           "type": "session",
           "time": "10:30 a.m.",
-          "title": "Technical Session VIII (Mercury Room)",
+          "title": "Technical Session VIII",
+          "location": "Mercury Room",
           "talks": [
             {
               "time": "10:30 a.m.",
               "title": "Portable MALDI-TOF Mass Spectrometer for Bioaerosol Detection",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Vadym Berkout",
@@ -927,6 +956,7 @@
             {
               "time": "11:00 a.m.",
               "title": "RF-Only Quadrupole Mass Spectrometry for High Sensitivity at High Mass Resolution",
+              "institutes": [],
               "authors": [
                 {
                   "name": "Randy Pedder",
@@ -1146,5 +1176,6 @@
       ]
     }
   ],
-  "host_corporation": null
+  "host_corporation": null,
+  "venue_address_url": "https://maps.app.goo.gl/3FnPjXT8wmFuc5S9A"
 }

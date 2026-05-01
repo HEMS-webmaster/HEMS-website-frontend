@@ -16,5 +16,6 @@
   "venue_url": "",
   "student_awards": [],
   "events": [],
-  "host_corporation": null
+  "host_corporation": null,
+  "venue_address_url": ""
 }

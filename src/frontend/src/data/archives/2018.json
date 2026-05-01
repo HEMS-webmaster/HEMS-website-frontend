@@ -2,19 +2,656 @@
   "year": 2018,
   "ordinal": "12th",
   "dates": "October 16-18, 2018",
-  "venue": "",
-  "address": "",
+  "venue": "Maritim Hotel",
+  "address": "Heumarkt 20, 50667 Köln, Germany",
   "resources": [
     {
       "label": "Workshop Program",
       "icon": "FileText",
       "url": "#technical-program"
+    },
+    {
+      "label": "Program Download",
+      "icon": "Download",
+      "legacy_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/12thProgram.html",
+      "local_target_path": "/api/manager/serve?file=12th/Administrative/12th_Program.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Administrative/12th_Program.pdf",
+      "gcloud_url": "gs://hems-archive-assets/proceedings/12th/Administrative/12th_Program.pdf"
     }
   ],
-  "sponsors": [],
-  "schedule": [],
-  "venue_url": "",
+  "sponsors": [
+    {
+      "name": "Agilent Technologies",
+      "url": "http://www.vacuum-choice.com/",
+      "image": "/images/sponsors/",
+      "year": "2019"
+    },
+    {
+      "name": "FLIR (Griffin Analytical Technologies)",
+      "url": "http://www.icxt.com/technology/mobile-labs/",
+      "image": "/images/sponsors/Teledyne_FLIR_2003.png",
+      "year": "2003"
+    },
+    {
+      "name": "Pfeiffer Vacuum",
+      "url": "http://www.pfeiffer-vacuum.net/",
+      "image": "/images/sponsors/Pfeiffer_Vacuum__2005.png",
+      "year": "2005"
+    },
+    {
+      "name": "DeTech",
+      "url": "http://www.detechinc.com/",
+      "image": "/images/sponsors/Adaptas_Solutions_2011.png",
+      "year": "2018"
+    },
+    {
+      "name": "Inficon",
+      "url": "http://www.inficon.com/",
+      "image": "/images/sponsors/inficon.png",
+      "year": "2013"
+    },
+    {
+      "name": "Leidos",
+      "url": "https://www.leidos.com/",
+      "image": "/images/sponsors/C:\\Antigravity\\HEMS-website\\docs\\archives_translation\\sponsors\\Leidos_2017.png",
+      "year": "2017"
+    },
+    {
+      "name": "Leybold",
+      "url": "https://www.leybold.com/us/en/",
+      "image": "/images/sponsors/C:\\Antigravity\\HEMS-website\\docs\\archives_translation\\sponsors\\Leybold_2018.png",
+      "year": "2018"
+    },
+    {
+      "name": "Tofwerk",
+      "url": "https://www.tofwerk.com/",
+      "image": "/images/sponsors/C:\\Antigravity\\HEMS-website\\docs\\archives_translation\\sponsors\\Tofwerk_2018.png",
+      "year": "2018"
+    }
+  ],
+  "schedule": [
+    {
+      "title": "2018-10-17",
+      "items": [
+        {
+          "type": "session",
+          "time": "10:00 a.m.",
+          "title": "Plenary Lecture",
+          "location": "",
+          "talks": [
+            {
+              "time": "10:00 a.m.",
+              "title": "Anomalous Uses of Mass Spectrometers at NASA",
+              "institutes": [
+                "Ph.D., Deputy Center Chief Technologist, NASA Kennedy Space Center"
+              ],
+              "authors": [
+                {
+                  "name": "Kathleen B. Loftin",
+                  "isPresenter": true,
+                  "institute": "Ph.D., Deputy Center Chief Technologist, NASA Kennedy Space Center"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Presentations/Loftin.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/1_Loftin.pdf",
+              "local_target_path": "/api/manager/serve?file=12th/Plenary_Lecture/12th_Loftin_Anomalous_Uses_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=12th/Plenary_Lecture/12th_Loftin_Anomalous_Uses_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Plenary_Lecture/12th_Loftin_Anomalous_Uses_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Plenary_Lecture/12th_Loftin_Anomalous_Uses_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/12th/Plenary_Lecture/12th_Loftin_Anomalous_Uses_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/12th/Plenary_Lecture/12th_Loftin_Anomalous_Uses_of_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "11:00 a.m.",
+          "title": "Technical Session I",
+          "location": "",
+          "talks": [
+            {
+              "time": "11:00 a.m.",
+              "title": "Development of Portable Mass Spectrometer for Explosives and Narcotics Detection",
+              "institutes": [
+                "Smiths Detection"
+              ],
+              "authors": [
+                {
+                  "name": "Vadym Berkout",
+                  "isPresenter": true,
+                  "institute": "Smiths Detection"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Presentations/Berkout.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/2_Berkout.pdf",
+              "local_target_path": "/api/manager/serve?file=12th/Technical_Session_I/12th_Berkout_Development_of_Portable_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=12th/Technical_Session_I/12th_Berkout_Development_of_Portable_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_I/12th_Berkout_Development_of_Portable_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_I/12th_Berkout_Development_of_Portable_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_I/12th_Berkout_Development_of_Portable_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_I/12th_Berkout_Development_of_Portable_Abstract.pdf"
+            },
+            {
+              "time": "11:30 a.m.",
+              "title": "CubeSat QIT-MS: Rad Hard Miniature Instrument for Solar System Exploration",
+              "institutes": [
+                "Jet Propulsion Laboratory"
+              ],
+              "authors": [
+                {
+                  "name": "Stojan Madzunkov",
+                  "isPresenter": true,
+                  "institute": "Jet Propulsion Laboratory"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Presentations/Madzunkov.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/3_Madzunkov.pdf",
+              "local_target_path": "/api/manager/serve?file=12th/Technical_Session_I/12th_Madzunkov_CubeSat_QITMS_Rad_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=12th/Technical_Session_I/12th_Madzunkov_CubeSat_QITMS_Rad_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_I/12th_Madzunkov_CubeSat_QITMS_Rad_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_I/12th_Madzunkov_CubeSat_QITMS_Rad_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_I/12th_Madzunkov_CubeSat_QITMS_Rad_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_I/12th_Madzunkov_CubeSat_QITMS_Rad_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "1:30 P.M.",
+          "title": "Technical Session II",
+          "location": "",
+          "talks": [
+            {
+              "time": "1:30 P.M.",
+              "title": "An optimized membrane inlet system for underwater mass spectrometry",
+              "institutes": [
+                "Alfred-Wegener-Institute for Polar and Marine Research"
+              ],
+              "authors": [
+                {
+                  "name": "Malte Höhn",
+                  "isPresenter": true,
+                  "institute": null
+                },
+                {
+                  "name": "Christian Hamm",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "Justin Chaillot",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "Marvin Frank",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "Torben Gentz",
+                  "isPresenter": false,
+                  "institute": "Alfred-Wegener-Institute for Polar and Marine Research"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Presentations/Hoehn.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/4_Hohn.pdf",
+              "local_target_path": "/api/manager/serve?file=12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Abstract.pdf"
+            },
+            {
+              "time": "2:00 P.M.",
+              "title": "Isotopic ratio study of uranyl ion with Differential mobility Spectrometry-mass spectrometry",
+              "institutes": [
+                "Dept. of Chemistry, University of South Florida",
+                "Dept. of Chemistry and Chemical Biology Rensselaer Polytechnic Institute"
+              ],
+              "authors": [
+                {
+                  "name": "Ifeoluwa Ayodeji",
+                  "isPresenter": true,
+                  "institute": null
+                },
+                {
+                  "name": "heresa Evans-Nguyen",
+                  "isPresenter": false,
+                  "institute": "Dept. of Chemistry, University of South Florida"
+                },
+                {
+                  "name": "Sunil Badal",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "Garett Maclean",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "Jacob T. Shelley",
+                  "isPresenter": false,
+                  "institute": "Dept. of Chemistry and Chemical Biology Rensselaer Polytechnic Institute"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Presentations/Ayodeji.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/5_Ayodeji.pdf",
+              "local_target_path": "/api/manager/serve?file=12th/Technical_Session_II/12th_Ayodeji_Isotopic_ratio_study_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=12th/Technical_Session_II/12th_Ayodeji_Isotopic_ratio_study_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_II/12th_Ayodeji_Isotopic_ratio_study_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_II/12th_Ayodeji_Isotopic_ratio_study_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_II/12th_Ayodeji_Isotopic_ratio_study_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_II/12th_Ayodeji_Isotopic_ratio_study_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "3:00 p.m.",
+          "title": "Technical Session III",
+          "location": "",
+          "talks": [
+            {
+              "time": "3:00 p.m.",
+              "title": "Triode-type MCP-based Ion Detector Enabling Miniature Mass Spectrometers to Operate at Higher Pressure up to 1Pa",
+              "institutes": [
+                "Hamamatsu Photonics K.K., Hamamatsu"
+              ],
+              "authors": [
+                {
+                  "name": "Masahiro Hayashi",
+                  "isPresenter": true,
+                  "institute": null
+                },
+                {
+                  "name": "Yuuya Washiyama",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "Kentaro Ishii",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "Joji Sakakiyama",
+                  "isPresenter": false,
+                  "institute": "Hamamatsu Photonics K.K., Hamamatsu"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/6_Hayashi.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=12th/Technical_Session_III/12th_Hayashi_Triodetype_MCPbased_Ion_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Hayashi_Triodetype_MCPbased_Ion_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Hayashi_Triodetype_MCPbased_Ion_Abstract.pdf"
+            },
+            {
+              "time": "3:30 p.m.",
+              "title": "Field Deployable Mass Spectrometers at Tofwerk",
+              "institutes": [
+                "TOFWERK"
+              ],
+              "authors": [
+                {
+                  "name": "Marc Gonin",
+                  "isPresenter": true,
+                  "institute": "TOFWERK"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Presentations/Gonin.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/7_Gonin.pdf",
+              "local_target_path": "/api/manager/serve?file=12th/Technical_Session_III/12th_Gonin_Field_Deployable_Mass_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=12th/Technical_Session_III/12th_Gonin_Field_Deployable_Mass_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Gonin_Field_Deployable_Mass_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Gonin_Field_Deployable_Mass_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Gonin_Field_Deployable_Mass_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Gonin_Field_Deployable_Mass_Abstract.pdf"
+            },
+            {
+              "time": "4:00 p.m.",
+              "title": "Optimization of a portable QMS for environmental monitoring",
+              "institutes": [
+                "Department of Electrical Engineering and Electronics, University of Liverpool"
+              ],
+              "authors": [
+                {
+                  "name": "T. Fildes",
+                  "isPresenter": true,
+                  "institute": null
+                },
+                {
+                  "name": "D.G. McIntosh",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "M.J. Antony Joseph",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "B. Smith",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "S. Maher",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "J.R. Gibson",
+                  "isPresenter": false,
+                  "institute": null
+                },
+                {
+                  "name": "S. Taylor",
+                  "isPresenter": false,
+                  "institute": "Department of Electrical Engineering and Electronics, University of Liverpool"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Presentations/Fildes.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/8_Fildes.pdf",
+              "local_target_path": "/api/manager/serve?file=12th/Technical_Session_III/12th_Fildes_Optimization_of_a_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=12th/Technical_Session_III/12th_Fildes_Optimization_of_a_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Fildes_Optimization_of_a_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Fildes_Optimization_of_a_Abstract.pdf",
+              "gcloud_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Fildes_Optimization_of_a_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/12th/Technical_Session_III/12th_Fildes_Optimization_of_a_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2019-10-18",
+      "items": [
+        {
+          "type": "session",
+          "time": "9:00 a.m.",
+          "title": "Technical Session IV",
+          "location": "",
+          "talks": [
+            {
+              "time": "9:00 a.m.",
+              "title": "Rapid Identification of Drug Seizures by ASAP-MS on a Low-Cost, Deployable, Single Quadrupole Instrument",
+              "institutes": [],
+              "authors": [
+                {
+                  "name": "",
+                  "isPresenter": true,
+                  "institute": null
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "9:30 a.m.",
+          "title": "Technical Session III",
+          "location": "",
+          "talks": [
+            {
+              "time": "9:30 a.m.",
+              "title": "Mobile Mass Spectrometer Systems for Online Oil Emission and Oil Dilution Measurements in Combustion Engine Test Cells.",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "10:30 a.m.",
+          "title": "Technical Session V",
+          "location": "",
+          "talks": [
+            {
+              "time": "10:30 a.m.",
+              "title": "Two-dimensional mass spectrometry on benchtop and portable ion trap mass spectrometers",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "Development of Micro-Time-Of-Flight Mass Spectrometer for in situ gas analysis",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:30 a.m.",
+              "title": "Instrumentation for Lunar Volatile Analysis",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "1:30 p.m.",
+          "title": "Technical Session VI",
+          "location": "",
+          "talks": [
+            {
+              "time": "1:30 p.m.",
+              "title": "Development of a robust Fourier-Transform ion trap for semiconductor manufacturing",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "2:00 p.m.",
+              "title": "Reverse-gas stack modeling-coupled to fieldable mass spectrometry to locate chemical effluent streams for clandestine drug labs, explosives manufacturing, and chemical weapon deployment.",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "2:30 p.m.",
+              "title": "Evaluation of Portable Linear Ion Trap Mass Spectrometer Coupled to Paper Spray Ionization Source for the Detection of Chemical Warfare Agents",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2019-10-19",
+      "items": [
+        {
+          "type": "session",
+          "time": "3:30 p.m.",
+          "title": "Technical Session VII",
+          "location": "",
+          "talks": [
+            {
+              "time": "3:30 p.m.",
+              "title": "A Quadrupole Ion Trap for the Detection of Biomarkers at Icy Worlds",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "4:00 p.m.",
+              "title": "Optimization of a drone based miniature mass spectrometer system (Drone-MS) for in situ gas plume measurements",
+              "institutes": [],
+              "authors": [],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "venue_url": "https://www.maritim.de/de/hotels/deutschland/hotel-koeln/unser-hotel?utm_campaign=yext&utm_source=kol&utm_medium=local",
   "student_awards": [],
-  "events": [],
-  "host_corporation": null
+  "events": [
+    {
+      "date": "2018-10-16",
+      "title": "Travel Day",
+      "events": [
+        {
+          "time": "18:00",
+          "title": "Registration and Welcome Reception ",
+          "subtitle": "Maritim Hotel",
+          "location": "Outside Hall heumarkt",
+          "location_url": "",
+          "end_time": "21:00",
+          "subtitle_url": "https://www.maritim.de/de/hotels/deutschland/hotel-koeln/unser-hotel?utm_campaign=yext&utm_source=kol&utm_medium=local"
+        },
+        {
+          "time": "",
+          "end_time": "",
+          "title": "",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2018-10-17",
+      "title": "EuroHEMS Workshop",
+      "events": [
+        {
+          "time": "07:00",
+          "title": "Set-up of vendor tables, poster set up and registration",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "09:00",
+          "title": "Welcome Remarks and Vendor Introductions",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "10:20",
+          "title": "Mid-morning break",
+          "subtitle": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "end_time": "",
+          "title": "Buffet lunch Provided",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "14:30",
+          "end_time": "",
+          "title": "Mid-afternoon break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "19:00",
+          "end_time": "",
+          "title": "Workshop Dinner",
+          "subtitle": "Brauhaus FRÃœH am Dom",
+          "subtitle_url": "https://www.frueh-am-dom.de/brauhaus.html",
+          "location": "map",
+          "location_url": "https://maps.app.goo.gl/dT1xQj2dkprzRvMy6"
+        }
+      ]
+    }
+  ],
+  "host_corporation": {
+    "name": "Inficon",
+    "url": "http://www.inficon.com/",
+    "logo_file": "inficon.png"
+  },
+  "venue_address_url": "https://maps.app.goo.gl/6nUZT97axxE2cWfB8"
 }

@@ -68,6 +68,32 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
     onChange(updated);
   };
 
+  const moveEvent = (fromGIdx: number, eIdx: number, toGIdx: number) => {
+    if (fromGIdx === toGIdx) return;
+    const updated = [...events];
+    
+    // Deep copy the event so we don't hold references across arrays
+    const eventToMove = { ...updated[fromGIdx].events[eIdx] };
+    
+    // Remove from old
+    updated[fromGIdx].events.splice(eIdx, 1);
+    
+    // Push to new
+    if (!updated[toGIdx].events) {
+      updated[toGIdx].events = [];
+    }
+    updated[toGIdx].events.push(eventToMove);
+    
+    // Re-sort the target group by time
+    updated[toGIdx].events.sort((a, b) => {
+      if (!a.time) return 1;
+      if (!b.time) return -1;
+      return a.time.localeCompare(b.time);
+    });
+
+    onChange(updated);
+  };
+
   const sortChronologically = () => {
     const updated = [...events];
     
@@ -96,10 +122,7 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
     <div className="space-y-6">
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
         <h3 className="text-xl font-bold text-sky-400">Itinerary Events</h3>
-        <div className="flex gap-2">
-          <button onClick={sortChronologically} className="bg-sky-700 hover:bg-sky-600 px-3 py-1 rounded text-sm text-white font-bold">Sort Chronologically</button>
-          <button onClick={addDateGroup} className="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-sm">+ Add Date Group</button>
-        </div>
+        <button onClick={sortChronologically} className="bg-sky-700 hover:bg-sky-600 px-3 py-1 rounded text-sm text-white font-bold">↕ Sort Chronologically</button>
       </div>
 
       <div className="space-y-6">
@@ -115,7 +138,7 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
             
             <div className="grid grid-cols-2 gap-4 mb-6 border-b border-slate-700 pb-4">
               <div>
-                <label className="block text-xs font-bold text-slate-400 mb-1">Date</label>
+                <label className="block text-xs font-bold text-slate-400 mb-1">Date (e.g. mm/dd/yyyy)</label>
                 <input type="date" value={group.date} onChange={e => updateDateGroup(gIdx, 'date', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
               </div>
               <div>
@@ -125,21 +148,32 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
             </div>
 
             <div className="space-y-4 pl-4 border-l-2 border-slate-700">
-              <div className="flex justify-between items-center">
-                <h4 className="text-sm font-bold text-slate-300">Events on {group.date || 'Unspecified Date'}</h4>
-                <button onClick={() => addEvent(gIdx)} className="bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-xs">+ Add Event</button>
-              </div>
+              <h4 className="text-sm font-bold text-slate-300 mb-3">Events on {group.date || 'Unspecified Date'}</h4>
 
               {(group.events || []).map((ev, eIdx) => (
-                <div key={eIdx} className="p-4 rounded border border-slate-600 relative bg-slate-900/50">
-                  <button 
-                    onClick={() => removeEvent(gIdx, eIdx)} 
-                    className="absolute top-2 right-2 text-red-400 hover:text-red-300 font-bold px-2"
-                    title="Remove Event"
-                  >
-                    ✕
-                  </button>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                <div key={eIdx} className="p-4 rounded border border-slate-600 relative bg-slate-900/50 mt-4">
+                  <div className="absolute top-2 right-2 flex items-center gap-2">
+                    {events.length > 1 && (
+                      <select 
+                        className="bg-slate-800 text-xs text-slate-300 border border-slate-600 rounded px-1 py-0.5 outline-none focus:border-sky-500"
+                        value=""
+                        onChange={(e) => moveEvent(gIdx, eIdx, parseInt(e.target.value))}
+                      >
+                        <option value="" disabled>Move to date...</option>
+                        {events.map((targetGroup, tIdx) => (
+                          tIdx !== gIdx && <option key={tIdx} value={tIdx}>{targetGroup.date || `Group ${tIdx + 1}`}</option>
+                        ))}
+                      </select>
+                    )}
+                    <button 
+                      onClick={() => removeEvent(gIdx, eIdx)} 
+                      className="text-red-400 hover:text-red-300 font-bold px-2"
+                      title="Remove Event"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3 mt-4">
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Start Time</label>
                       <input type="time" value={ev.time} onChange={e => updateEvent(gIdx, eIdx, 'time', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
@@ -175,10 +209,25 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
                   </div>
                 </div>
               ))}
+              {/* Add Event — bottom of date group */}
+              <button
+                onClick={() => addEvent(gIdx)}
+                className="w-full mt-3 py-2 rounded-lg border-2 border-dashed border-sky-600/50 text-sky-400 hover:border-sky-500 hover:bg-sky-500/10 hover:text-sky-300 font-bold text-xs transition-all"
+              >
+                ＋ Add Event
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Add Date Group — bottom, full-width */}
+      <button
+        onClick={addDateGroup}
+        className="w-full mt-2 py-3 rounded-lg border-2 border-dashed border-indigo-500/60 text-indigo-400 hover:border-indigo-400 hover:bg-indigo-500/10 hover:text-indigo-300 font-bold text-sm transition-all"
+      >
+        ＋ Add Date Group
+      </button>
     </div>
   );
 }
