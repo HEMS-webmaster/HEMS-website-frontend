@@ -116,17 +116,17 @@
         "isHost": true
       },
       {
-        "company": "Agilent Technologies (Varian Vacuum, Inc.)",
+        "company": "Agilent Technologies",
         "year": "2003",
         "link": "http://www.vacuum-choice.com/",
-        "logo_file": "",
+        "logo_file": "Agilent_Technologies.png",
         "isHost": false
       },
       {
-        "company": "FLIR (Griffin Analytical Technologies)",
+        "company": "FLIR / Griffin Analytical Technologies",
         "year": "2003",
         "link": "http://www.icxt.com/technology/mobile-labs/",
-        "logo_file": "",
+        "logo_file": "FLIR_Griffin_Analytical_Technologies.png",
         "isHost": false
       },
       {
@@ -172,17 +172,17 @@
         "isHost": false
       },
       {
-        "company": "MassTech, Inc.",
+        "company": "MassTech Inc",
         "year": "2013",
-        "link": "http://www.apmaldi.com/",
-        "logo_file": "",
+        "link": "https://www.apmaldi.com/main/",
+        "logo_file": "MassTech_Inc.png",
         "isHost": false
       },
       {
-        "company": "BaySpec, Inc.",
+        "company": "BaySpec",
         "year": "2015",
-        "link": "http://www.bayspec.com/",
-        "logo_file": "",
+        "link": "https://www.bayspec.com/product-category/mass-spectroscopy/",
+        "logo_file": "BaySpec.png",
         "isHost": false
       },
       {

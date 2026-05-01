@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import path from "path";
 import { promises as fs } from "fs";
 import FrontendPreviewHover from "@/components/FrontendPreviewHover";
+import { generateArchiveJsonLd } from "@/utils/generateArchiveJsonLd";
 export async function generateStaticParams() {
   const dataDir = path.join(process.cwd(), 'src', 'data', 'archives');
   let files = [];
@@ -25,8 +26,23 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
   try {
     const fileContents = await fs.readFile(dataPath, 'utf8');
     const data = JSON.parse(fileContents);
+    const locationStr = [data.venue, data.address].filter(Boolean).join(', ');
+    const description = `Proceedings of the ${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry${data.dates ? `, ${data.dates}` : ''}${locationStr ? ` — ${locationStr}` : ''}. Technical presentations, abstracts, and poster sessions on portable, space-flight, and field-deployable mass spectrometry.`;
+    const canonicalUrl = `https://www.hems-workshop.org/archive/${year}`;
     return {
-      title: `${data.ordinal} HEMS Workshop | Harsh-Environment Mass Spectrometry`,
+      title: `${data.ordinal} HEMS Workshop (${data.year}) | Harsh-Environment Mass Spectrometry`,
+      description,
+      keywords: ['HEMS', 'harsh-environment mass spectrometry', 'portable mass spectrometer', 'scientific proceedings', `${data.year} workshop`, data.address].filter(Boolean),
+      openGraph: {
+        title: `${data.ordinal} HEMS Workshop — ${data.dates || data.year}`,
+        description,
+        type: 'website' as const,
+        url: canonicalUrl,
+        siteName: 'HEMS Workshop',
+      },
+      alternates: {
+        canonical: canonicalUrl,
+      },
     };
   } catch (e) {
     return { title: 'HEMS Workshop Archive' };
@@ -247,7 +263,19 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
   });
   // --- End Unified Schedule Logic ---
 
+  // --- SEO: JSON-LD Structured Data ---
+  const jsonLd = generateArchiveJsonLd(data);
+
+  // --- SEO: Summary stats for sr-only text ---
+  const totalSessions = unifiedSchedule.reduce((acc: number, day: any) => acc + (day.items?.filter((i: any) => i.type === 'session').length || 0), 0);
+  const totalTalks = unifiedSchedule.reduce((acc: number, day: any) => acc + (day.items?.reduce((tAcc: number, i: any) => tAcc + (i.type === 'session' && i.talks ? i.talks.filter((t: any) => t.type !== 'event').length : 0), 0) || 0), 0);
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
       <Link href="/archive" className="flex items-center gap-2 text-primary font-bold hover:text-primary/80 transition-colors mb-8 w-fit">
         <ArrowLeft size={16} /> Back to Archives
@@ -271,10 +299,20 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
               The {data.ordinal} Workshop on Harsh-Environment Mass Spectrometry.
             </p>
 
+            {/* SEO: Screen-reader-only summary for AI crawlers */}
+            <p className="sr-only">
+              The {data.ordinal} Workshop on Harsh-Environment Mass Spectrometry was held {data.dates || `in ${data.year}`}
+              {data.address ? ` in ${data.address}` : ''}
+              {data.venue ? ` at ${data.venue}` : ''}.
+              The workshop featured {totalTalks} technical presentations across {totalSessions} sessions
+              {data.sponsors?.length ? `, ${data.sponsors.length} corporate sponsors` : ''}
+              {data.student_awards?.length ? `, and ${data.student_awards.length} student award ${data.student_awards.length === 1 ? 'recipient' : 'recipients'}` : ''}.
+            </p>
+
             <div className="flex flex-col sm:flex-row gap-6 text-foreground/70 font-medium border-b border-foreground/10 pb-8 mb-8">
               <div className="flex items-center gap-3">
                 <Calendar className="text-secondary" size={20} />
-                <span>{data.dates}</span>
+                <time>{data.dates}</time>
               </div>
               <div className={`flex ${data.venue ? 'items-start' : 'items-center'} gap-3`}>
                 <MapPin className={`text-secondary ${data.venue ? 'mt-1' : ''} flex-shrink-0`} size={20} />
@@ -316,9 +354,9 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
 
         {data.host_corporation && data.host_corporation.name && (
           <div className="mb-12 border-t border-foreground/10 pt-8">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4 flex items-center gap-2">
+            <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4 flex items-center gap-2">
               <Building size={16} /> Official Host
-            </h3>
+            </p>
             <a 
               href={data.host_corporation.url || '#'} 
               target={data.host_corporation.url ? "_blank" : undefined}
@@ -347,7 +385,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
 
           {data.resources && data.resources.length > 0 && (
             <div>
-              <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4">Workshop Resources</h3>
+              <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4">Workshop Resources</p>
               <div className="flex flex-wrap gap-4">
                 {data.resources.map((res: any, idx: number) => {
                   const href = isLocal 
@@ -385,9 +423,9 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
 
           {data.sponsors && data.sponsors.length > 0 && (
             <div className="mt-12 border-t border-foreground/10 pt-8">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-6 flex items-center gap-2">
+              <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-6 flex items-center gap-2">
                 <Building size={16} /> Corporate Sponsors
-              </h3>
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[...data.sponsors].sort((a, b) => (parseInt(a.year) || 9999) - (parseInt(b.year) || 9999)).map((sponsor: any, idx: number) => {
                   const sponsorYear = parseInt(sponsor.year);
@@ -657,5 +695,6 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
           </div>
         </div>
       </div>
+    </>
   );
 }

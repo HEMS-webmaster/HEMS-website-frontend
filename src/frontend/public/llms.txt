@@ -1,0 +1,41 @@
+# HEMS Workshop — Harsh-Environment Mass Spectrometry
+> 25+ years of scientific proceedings on mass spectrometry for space, underwater, field-deployable, and defense applications.
+
+## About
+The HEMS Workshop is a biennial scientific conference focused on mass spectrometers designed for extreme operational environments: planetary exploration (Mars, Titan, Europa), underwater oceanography, battlefield chemical detection, environmental monitoring, and industrial process control. Founded in 1999, the workshop series brings together researchers from NASA, ESA, military laboratories, and academic institutions.
+
+## Workshop Archives
+Each archive page contains: full technical program with session schedules, downloadable presentation PDFs, abstract PDFs, author/institution lists, corporate sponsor information, and student award winners.
+
+- /archive/2023: 15th HEMS Workshop (2023)
+- /archive/2022: 14th HEMS Workshop — Cocoa Beach, FL (Sept 26-29, 2022)
+- /archive/2020: Virtual HEMS Workshop (2020)
+- /archive/2019: 13th HEMS Workshop — Myrtle Beach, SC (Sept 16-19, 2019)
+- /archive/2018: 12th EuroHEMS Workshop — Köln, Germany (Oct 16-18, 2018)
+- /archive/2017: 11th HEMS Workshop (2017)
+- /archive/2016: EuroHEMS Workshop (2016)
+- /archive/2015: 10th HEMS Workshop (2015)
+- /archive/2013: 9th HEMS Workshop (2013)
+- /archive/2011: 8th HEMS Workshop (2011)
+- /archive/2009: 7th HEMS Workshop (2009)
+- /archive/2007: 6th HEMS Workshop (2007)
+- /archive/2005: 5th HEMS Workshop (2005)
+- /archive/2003: 4th HEMS Workshop (2003)
+- /archive/2002: 3rd HEMS Workshop (2002)
+- /archive/2001: 2nd HEMS Workshop (2001)
+- /archive/1999: 1st HEMS Workshop (1999)
+
+## Key Topics
+Portable mass spectrometers, miniaturized instruments, ion trap technology, time-of-flight MS, membrane inlet mass spectrometry (MIMS), MALDI-TOF, quadrupole mass filters, coded aperture design, chemical warfare agent detection, planetary surface analysis, spacecraft atmosphere monitoring, underwater dissolved gas analysis, differential mobility spectrometry, field-deployable GC-MS
+
+## Content Types
+- Technical presentations (PDF slides)
+- Extended abstracts (PDF)
+- Poster session materials
+- Student award presentations
+- Corporate sponsor directory
+- Workshop programs and participant lists
+
+## Contact
+- Website: https://www.hems-workshop.org
+- Archive: https://www.hems-workshop.org/archive
