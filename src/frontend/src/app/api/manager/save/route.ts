@@ -131,17 +131,70 @@ export async function POST(request: Request) {
       }
       
       if (ws.sponsors && ws.sponsors.length > 0) {
-        yearData.sponsors = ws.sponsors.map((s: any) => ({
-          name: s.company,
-          url: s.link || "",
-          image: `/images/sponsors/${s.logo_file}`,
-          year: s.year || ""
-        }));
+        // Load registry for logo/year resolution
+        let registryMap: Record<string, any> = {};
+        try {
+          const regRaw = await fs.readFile(path.join(process.cwd(), 'src', 'data', 'corporate_registry.json'), 'utf8');
+          const reg: any[] = JSON.parse(regRaw.replace(/^\uFEFF/, ''));
+          for (const r of reg) {
+            registryMap[r.company.trim().toLowerCase()] = r;
+          }
+        } catch { /* registry may not exist */ }
+
+        yearData.sponsors = ws.sponsors.map((s: any) => {
+          const regEntry = registryMap[s.company?.trim().toLowerCase() || ''];
+          const logoFile = s.logo_file || regEntry?.logo_file || '';
+          const year = s.year || regEntry?.year_began || '';
+          let imagePath = `/images/sponsors/${logoFile}`;
+          // Append mtime as cache-buster so swapped logos are picked up immediately
+          if (logoFile) {
+            try {
+              const logoOnDisk = path.join(process.cwd(), 'public', 'images', 'sponsors', logoFile);
+              const stat = fsSync.statSync(logoOnDisk);
+              imagePath += `?v=${Math.floor(stat.mtimeMs)}`;
+            } catch { /* file may not exist yet */ }
+          }
+          return {
+            name: s.company,
+            url: s.link || regEntry?.url || "",
+            image: imagePath,
+            year: year
+          };
+        });
       } else {
         yearData.sponsors = [];
       }
 
-      yearData.host_corporation = ws.host_corporation || null;
+      // Host corporation — derived from the sponsor flagged with isHost
+      const hostSponsor = ws.sponsors?.find((s: any) => s.isHost);
+      if (hostSponsor) {
+        let hostLogoFile = hostSponsor.logo_file || '';
+        if (!hostLogoFile) {
+          try {
+            const regRaw = await fs.readFile(path.join(process.cwd(), 'src', 'data', 'corporate_registry.json'), 'utf8');
+            const reg: any[] = JSON.parse(regRaw.replace(/^\uFEFF/, ''));
+            const regEntry = reg.find((r: any) => r.company.trim().toLowerCase() === hostSponsor.company.trim().toLowerCase());
+            if (regEntry?.logo_file) hostLogoFile = regEntry.logo_file;
+          } catch { /* registry may not exist */ }
+        }
+        const hc: any = {
+          name: hostSponsor.company,
+          url: hostSponsor.link || '',
+          logo_file: hostLogoFile
+        };
+        if (hc.logo_file) {
+          try {
+            const hcLogoPath = path.join(process.cwd(), 'public', 'images', 'sponsors', hc.logo_file);
+            const hcStat = fsSync.statSync(hcLogoPath);
+            hc.logo_file_url = `/images/sponsors/${hc.logo_file}?v=${Math.floor(hcStat.mtimeMs)}`;
+          } catch {
+            hc.logo_file_url = `/images/sponsors/${hc.logo_file}`;
+          }
+        }
+        yearData.host_corporation = hc;
+      } else {
+        yearData.host_corporation = null;
+      }
 
       const daysMap = new Map<string, any[]>();
 

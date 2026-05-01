@@ -3,12 +3,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PresentationsManager from './components/PresentationsManager';
 import SponsorsManager from './components/SponsorsManager';
-import HostCorporationManager from './components/HostCorporationManager';
+
 import StudentsManager from './components/StudentsManager';
 import PostersManager from './components/PostersManager';
 import EventsManager from './components/EventsManager';
 import PreviewHover from './components/PreviewHover';
 import DragDropZone from './components/DragDropZone';
+import { exportProgramPdf } from './utils/exportProgramPdf';
 
 export default function WorkshopManager() {
   const [workshops, setWorkshops] = useState<any[]>([]);
@@ -175,7 +176,6 @@ export default function WorkshopManager() {
       address: '',
       city: '',
       dates: '',
-      host_corporation: null,
       presentations: [],
       sponsors: [],
       student_awards: [],
@@ -246,7 +246,19 @@ export default function WorkshopManager() {
             <p className="text-slate-400">Select a workshop to edit.</p>
           ) : (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-sky-400">Workshop Level Input</h2>
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-sky-400">Workshop Level Input</h2>
+                <button
+                  onClick={() => {
+                    const pages = exportProgramPdf(currentWs);
+                    if (pages > 3) alert(`PDF generated with ${pages} pages. The schedule exceeded the 2-page target — consider reducing content or splitting sessions.`);
+                  }}
+                  className="bg-violet-700 hover:bg-violet-600 text-white px-3 py-1.5 rounded text-sm font-bold transition-colors flex items-center gap-1.5"
+                  title="Export a formatted Technical Program PDF for this workshop"
+                >
+                  📄 Export Program PDF
+                </button>
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-slate-400 mb-1">Number</label>
@@ -456,16 +468,7 @@ export default function WorkshopManager() {
                 </div>
               </div>
 
-              {/* Dynamic Components */}
-              <HostCorporationManager 
-                host={currentWs.host_corporation} 
-                wsNum={String(currentWs.number)} 
-                onChange={(host) => {
-                  const updated = [...workshops];
-                  updated[selectedIdx].host_corporation = host;
-                  setWorkshops(updated);
-                }} 
-              />
+
               
               <SponsorsManager 
                 sponsors={currentWs.sponsors || []} 

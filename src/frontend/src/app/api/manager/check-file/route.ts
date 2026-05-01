@@ -31,10 +31,12 @@ export async function GET(request: Request) {
 
     const filePath = path.join(targetDir, fileName);
     let exists = false;
+    let mtime = 0;
 
     try {
       const stat = await fs.stat(filePath);
       exists = stat.isFile();
+      mtime = stat.mtimeMs;
     } catch (e) {
       exists = false;
     }
@@ -72,7 +74,8 @@ export async function GET(request: Request) {
       filePath,
       fileUri,
       gcloudUrl,
-      websiteUrl
+      websiteUrl,
+      mtime
     });
   } catch (error: any) {
     console.error('Check File Error:', error);

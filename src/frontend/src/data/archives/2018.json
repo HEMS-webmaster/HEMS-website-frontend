@@ -23,49 +23,49 @@
     {
       "name": "Agilent Technologies",
       "url": "http://www.vacuum-choice.com/",
-      "image": "/images/sponsors/",
+      "image": "/images/sponsors/Agilent_Technologies.png?v=1777611192932",
       "year": "2019"
     },
     {
-      "name": "FLIR (Griffin Analytical Technologies)",
+      "name": "FLIR / Griffin Analytical Technologies",
       "url": "http://www.icxt.com/technology/mobile-labs/",
-      "image": "/images/sponsors/Teledyne_FLIR_2003.png",
+      "image": "/images/sponsors/FLIR_Griffin_Analytical_Technologies.png?v=1777611255839",
       "year": "2003"
     },
     {
       "name": "Pfeiffer Vacuum",
-      "url": "http://www.pfeiffer-vacuum.net/",
-      "image": "/images/sponsors/Pfeiffer_Vacuum__2005.png",
+      "url": "https://www.pfeiffervacuum.com/us/en/",
+      "image": "/images/sponsors/Pfeiffer_Vacuum.png?v=1777611411409",
       "year": "2005"
     },
     {
-      "name": "DeTech",
-      "url": "http://www.detechinc.com/",
-      "image": "/images/sponsors/Adaptas_Solutions_2011.png",
+      "name": "Edwards",
+      "url": "http://www.edwardsvacuum.com/",
+      "image": "/images/sponsors/Edwards.png?v=1777611247672",
       "year": "2018"
     },
     {
       "name": "Inficon",
       "url": "http://www.inficon.com/",
-      "image": "/images/sponsors/inficon.png",
+      "image": "/images/sponsors/Inficon.png?v=1777611262403",
       "year": "2013"
     },
     {
       "name": "Leidos",
       "url": "https://www.leidos.com/",
-      "image": "/images/sponsors/C:\\Antigravity\\HEMS-website\\docs\\archives_translation\\sponsors\\Leidos_2017.png",
+      "image": "/images/sponsors/Leidos.png?v=1777611345722",
       "year": "2017"
     },
     {
-      "name": "Leybold",
-      "url": "https://www.leybold.com/us/en/",
-      "image": "/images/sponsors/C:\\Antigravity\\HEMS-website\\docs\\archives_translation\\sponsors\\Leybold_2018.png",
+      "name": "Leybold USA",
+      "url": "https://www.leybold.com/en-us",
+      "image": "/images/sponsors/Leybold_USA.png?v=1777606835849",
       "year": "2018"
     },
     {
       "name": "Tofwerk",
       "url": "https://www.tofwerk.com/",
-      "image": "/images/sponsors/C:\\Antigravity\\HEMS-website\\docs\\archives_translation\\sponsors\\Tofwerk_2018.png",
+      "image": "/images/sponsors/Tofwerk.png?v=1777611443672",
       "year": "2018"
     }
   ],
@@ -397,15 +397,7 @@
               "public_abstract_url": "",
               "gcloud_url": "",
               "gcloud_abstract_url": ""
-            }
-          ]
-        },
-        {
-          "type": "session",
-          "time": "9:30 a.m.",
-          "title": "Technical Session III",
-          "location": "",
-          "talks": [
+            },
             {
               "time": "9:30 a.m.",
               "title": "Mobile Mass Spectrometer Systems for Online Oil Emission and Oil Dilution Measurements in Combustion Engine Test Cells.",
@@ -581,15 +573,6 @@
           "location_url": "",
           "end_time": "21:00",
           "subtitle_url": "https://www.maritim.de/de/hotels/deutschland/hotel-koeln/unser-hotel?utm_campaign=yext&utm_source=kol&utm_medium=local"
-        },
-        {
-          "time": "",
-          "end_time": "",
-          "title": "",
-          "subtitle": "",
-          "subtitle_url": "",
-          "location": "",
-          "location_url": ""
         }
       ]
     },
@@ -640,7 +623,7 @@
           "time": "19:00",
           "end_time": "",
           "title": "Workshop Dinner",
-          "subtitle": "Brauhaus FRÃœH am Dom",
+          "subtitle": "Brauhaus FRÜH am Dom",
           "subtitle_url": "https://www.frueh-am-dom.de/brauhaus.html",
           "location": "map",
           "location_url": "https://maps.app.goo.gl/dT1xQj2dkprzRvMy6"
@@ -651,7 +634,8 @@
   "host_corporation": {
     "name": "Inficon",
     "url": "http://www.inficon.com/",
-    "logo_file": "inficon.png"
+    "logo_file": "Inficon.png",
+    "logo_file_url": "/images/sponsors/Inficon.png?v=1777611262403"
   },
   "venue_address_url": "https://maps.app.goo.gl/6nUZT97axxE2cWfB8"
 }

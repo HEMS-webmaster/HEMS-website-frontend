@@ -31,49 +31,49 @@
     {
       "name": "Adaptas Solutions",
       "url": "https://lifescience.imiplc.com/",
-      "image": "/images/sponsors/Adaptas_Solutions_2011.png",
+      "image": "/images/sponsors/Adaptas_Solutions.png?v=1777579819191",
       "year": "2011"
     },
     {
       "name": "BaySpec",
       "url": "https://www.bayspec.com/product-category/mass-spectroscopy/",
-      "image": "/images/sponsors/BaySpec_2015.png",
+      "image": "/images/sponsors/BaySpec.png?v=1777579885931",
       "year": "2015"
     },
     {
       "name": "Teledyne FLIR",
       "url": "https://defense.flir.com/detection/overview/",
-      "image": "/images/sponsors/Teledyne_FLIR_2003.png",
+      "image": "/images/sponsors/FLIR_Griffin_Analytical_Technologies.png?v=1777611255839",
       "year": "2003"
     },
     {
       "name": "Pfeiffer Vacuum ",
       "url": "https://www.pfeiffervacuum.com/us/en/",
-      "image": "/images/sponsors/Pfeiffer_Vacuum__2005.png",
+      "image": "/images/sponsors/Pfeiffer_Vacuum.png?v=1777611411409",
       "year": "2005"
     },
     {
       "name": "InspectIR Systems",
       "url": "https://inspect-ir.com/",
-      "image": "/images/sponsors/InspectIR_Systems_2022.png",
+      "image": "/images/sponsors/InspectIR_Systems.png?v=1777354867050",
       "year": "2022"
     },
     {
       "name": "Leybold USA",
       "url": "https://www.leybold.com/en-us",
-      "image": "/images/sponsors/Leybold_USA_2022.png",
+      "image": "/images/sponsors/Leybold_USA.png?v=1777606835849",
       "year": "2022"
     },
     {
       "name": "MassTech Inc",
       "url": "https://www.apmaldi.com/main/",
-      "image": "/images/sponsors/MassTech_Inc_2022.png",
+      "image": "/images/sponsors/MassTech_Inc.png?v=1777611376697",
       "year": "2022"
     },
     {
       "name": "RIIS Technology",
       "url": "https://www.riis.tech/",
-      "image": "/images/sponsors/RIIS_Technology_2022.png",
+      "image": "/images/sponsors/RIIS_Technology.png?v=1777355029625",
       "year": "2022"
     }
   ],
@@ -469,7 +469,7 @@
               "institutes": [],
               "authors": [
                 {
-                  "name": "Marie-JosÃ©e Binette",
+                  "name": "Marie-Josée Binette",
                   "isPresenter": true
                 }
               ],

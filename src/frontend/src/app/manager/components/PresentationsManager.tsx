@@ -44,8 +44,62 @@ function extractAuthorParts(rawName: string): { name: string; institute: string 
   };
 }
 
+/** Normalize a free-text time string to "H:MM a.m." / "H:MM p.m." format. */
+function normalizeTime(raw: string): string {
+  if (!raw) return '';
+  const t = raw.trim();
+
+  // Match "H:MM am/pm" or "H:MM a.m./p.m." (any dot/spacing variant)
+  const ampmMatch = t.match(/^(\d{1,2}):(\d{2})\s*(a\.?\s?m\.?|p\.?\s?m\.?|am|pm)$/i);
+  if (ampmMatch) {
+    let h = parseInt(ampmMatch[1]);
+    const m = ampmMatch[2];
+    const isPm = /p/i.test(ampmMatch[3]);
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    return `${h}:${m} ${isPm ? 'p.m.' : 'a.m.'}`;
+  }
+
+  // Match bare 24h "HH:MM"
+  const h24Match = t.match(/^(\d{1,2}):(\d{2})$/);
+  if (h24Match) {
+    let h = parseInt(h24Match[1]);
+    const m = h24Match[2];
+    if (h >= 13) return `${h - 12}:${m} p.m.`;
+    if (h === 12) return `12:${m} p.m.`;
+    if (h === 0) return `12:${m} a.m.`;
+    return `${h}:${m} a.m.`;
+  }
+
+  return t; // return unchanged if unparseable
+}
+
+/** Parse a time string ("H:MM a.m." or 24h "HH:MM") into total minutes for sorting. */
+function parseTimeToMinutes(timeStr: string): number {
+  if (!timeStr) return Infinity;
+  const t = timeStr.trim().toLowerCase().replace(/\./g, '');
+
+  // "H:MM am/pm"
+  const match = t.match(/(\d{1,2}):(\d{2})\s*(am|pm)/);
+  if (match) {
+    let h = parseInt(match[1]);
+    const m = parseInt(match[2]);
+    const isPm = match[3] === 'pm';
+    if (isPm && h !== 12) h += 12;
+    if (!isPm && h === 12) h = 0;
+    return h * 60 + m;
+  }
+
+  // bare "HH:MM" (24h)
+  const h24 = t.match(/^(\d{1,2}):(\d{2})$/);
+  if (h24) return parseInt(h24[1]) * 60 + parseInt(h24[2]);
+
+  return Infinity;
+}
+
 export default function PresentationsManager({ presentation_sessions = [], wsNum, onChange }: PresentationsManagerProps) {
   const [downloadingStatus, setDownloadingStatus] = useState<Record<string, string>>({});
+  const [sessionDownloadStatus, setSessionDownloadStatus] = useState<Record<number, { total: number; done: number; errors: number; running: boolean }>>({});
   const migrated = useRef(false);
 
   // One-time auto-extraction: split "Name, Institute" into separate fields
@@ -148,10 +202,10 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
       const dateA = a.date ? new Date(a.date).getTime() : Infinity;
       const dateB = b.date ? new Date(b.date).getTime() : Infinity;
       if (dateA !== dateB) return dateA - dateB;
-      // Secondary: sort by first presentation time within same date
-      const timeA = (a.presentations?.[0]?.time || '').trim();
-      const timeB = (b.presentations?.[0]?.time || '').trim();
-      return timeA.localeCompare(timeB);
+      // Secondary: sort by first presentation start time (numeric)
+      const timeA = parseTimeToMinutes(a.presentations?.[0]?.time || '');
+      const timeB = parseTimeToMinutes(b.presentations?.[0]?.time || '');
+      return timeA - timeB;
     });
     onChange(sorted);
   };
@@ -211,6 +265,99 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
     }
   };
 
+  // Batch re-download all presentations & abstracts in a session from legacy URLs
+  const redownloadSession = async (gIdx: number) => {
+    const session = latestSessions.current[gIdx];
+    if (!session?.presentations?.length) return;
+    if (!confirm(`Re-download all presentations and abstracts in "${session.title || 'this session'}" from legacy URLs?\n\nThis will overwrite existing files.`)) return;
+
+    const jobs: { gIdx: number; pIdx: number; field: 'url' | 'abstract_url'; category: string; fileName: string }[] = [];
+
+    session.presentations.forEach((p, pIdx) => {
+      let presenterName = `Author_${pIdx}`;
+      if (p.authors && p.authors.length > 0) {
+        const presenter = p.authors.find(a => a.isPresenter) || p.authors[0];
+        const namePart = presenter.name.split(',')[0].trim();
+        const nameWords = namePart.split(' ');
+        presenterName = nameWords[nameWords.length - 1].replace(/[^a-zA-Z0-9]/g, '');
+      }
+      let titleSnippet = `Talk_${pIdx}`;
+      if (p.title) {
+        const words = p.title.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 0);
+        if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
+      }
+      const presFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Presentation.pdf`;
+      const absFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Abstract.pdf`;
+
+      if (p.url && p.url.startsWith('http')) {
+        jobs.push({ gIdx, pIdx, field: 'url', category: 'Presentation', fileName: presFileName });
+      }
+      if (p.abstract_url && p.abstract_url.startsWith('http')) {
+        jobs.push({ gIdx, pIdx, field: 'abstract_url', category: 'Abstract', fileName: absFileName });
+      }
+    });
+
+    if (jobs.length === 0) {
+      alert('No legacy URLs found in this session.');
+      return;
+    }
+
+    setSessionDownloadStatus(prev => ({ ...prev, [gIdx]: { total: jobs.length, done: 0, errors: 0, running: true } }));
+
+    let done = 0;
+    let errors = 0;
+
+    for (const job of jobs) {
+      const pres = latestSessions.current[job.gIdx].presentations[job.pIdx];
+      const legacyUrl = job.field === 'url' ? pres.url : pres.abstract_url;
+      const statusKey = `${job.gIdx}-${job.pIdx}-${job.field}`;
+      setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'downloading' }));
+
+      try {
+        const res = await fetch('/api/manager/download-legacy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            url: legacyUrl,
+            category: job.category,
+            wsNum,
+            fileName: job.fileName,
+            session: session.title || 'General'
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
+          const fileField = job.field === 'url' ? 'presentation_file' : 'abstract_file';
+          updatePresentation(job.gIdx, job.pIdx, fileField, job.fileName);
+        } else {
+          console.warn(`Download failed for ${job.fileName}: ${data.error}`);
+          setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'error' }));
+          errors++;
+        }
+      } catch (err: any) {
+        console.warn(`Network error downloading ${job.fileName}:`, err.message);
+        setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'error' }));
+        errors++;
+      }
+      done++;
+      setSessionDownloadStatus(prev => ({ ...prev, [gIdx]: { total: jobs.length, done, errors, running: done < jobs.length } }));
+    }
+
+    // Clear individual statuses after batch completes
+    setTimeout(() => {
+      jobs.forEach(job => {
+        const statusKey = `${job.gIdx}-${job.pIdx}-${job.field}`;
+        setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' }));
+      });
+      setSessionDownloadStatus(prev => {
+        const next = { ...prev };
+        delete next[gIdx];
+        return next;
+      });
+    }, 5000);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
@@ -226,13 +373,34 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
 
       {(presentation_sessions || []).map((group, gIdx) => (
         <div key={gIdx} className="bg-slate-800 p-4 rounded border border-slate-700 relative">
-          <button 
-            onClick={() => removeGroup(gIdx)} 
-            className="absolute top-2 right-2 text-red-400 hover:text-red-300 font-bold px-2"
-            title="Remove Session Group"
-          >
-            ✕
-          </button>
+          <div className="absolute top-2 right-2 flex items-center gap-2">
+            {sessionDownloadStatus[gIdx]?.running ? (
+              <span className="text-[11px] text-yellow-400 font-bold font-mono animate-pulse">
+                ⟳ {sessionDownloadStatus[gIdx].done}/{sessionDownloadStatus[gIdx].total}
+                {sessionDownloadStatus[gIdx].errors > 0 && <span className="text-red-400 ml-1">({sessionDownloadStatus[gIdx].errors} err)</span>}
+              </span>
+            ) : sessionDownloadStatus[gIdx] ? (
+              <span className="text-[11px] text-green-400 font-bold font-mono">
+                ✓ {sessionDownloadStatus[gIdx].done - sessionDownloadStatus[gIdx].errors} downloaded
+                {sessionDownloadStatus[gIdx].errors > 0 && <span className="text-red-400 ml-1">({sessionDownloadStatus[gIdx].errors} failed)</span>}
+              </span>
+            ) : null}
+            <button
+              onClick={() => redownloadSession(gIdx)}
+              disabled={sessionDownloadStatus[gIdx]?.running}
+              className="bg-amber-700/60 hover:bg-amber-600/80 disabled:opacity-40 disabled:cursor-not-allowed text-amber-200 px-2.5 py-1 rounded text-[11px] font-bold transition-colors flex items-center gap-1"
+              title="Re-download all presentations and abstracts from legacy URLs"
+            >
+              ⟳ Re-download All
+            </button>
+            <button 
+              onClick={() => removeGroup(gIdx)} 
+              className="text-red-400 hover:text-red-300 font-bold px-2"
+              title="Remove Session Group"
+            >
+              ✕
+            </button>
+          </div>
           
           <div className="grid grid-cols-3 gap-4 mb-6 border-b border-slate-700 pb-4">
             <div>
@@ -298,8 +466,8 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
                   
                   <div className="grid grid-cols-2 gap-4 mb-4 mt-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-400 mb-1">Time</label>
-                      <input type="text" value={p.time || ''} placeholder="e.g. 9:00 a.m." onChange={e => updatePresentation(gIdx, pIdx, 'time', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                      <label className="block text-xs font-bold text-slate-400 mb-1">Start Time</label>
+                      <input type="text" value={p.time || ''} placeholder="e.g. 9:00 a.m." onChange={e => updatePresentation(gIdx, pIdx, 'time', e.target.value)} onBlur={e => { const n = normalizeTime(e.target.value); if (n !== e.target.value) updatePresentation(gIdx, pIdx, 'time', n); }} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>

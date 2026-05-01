@@ -31,55 +31,55 @@
     {
       "name": "Agilent Technologies",
       "url": "http://www.vacuum-choice.com/",
-      "image": "/images/sponsors/Agilent_Technologies_2019.png",
+      "image": "/images/sponsors/Agilent_Technologies.png?v=1777611192932",
       "year": "2019"
     },
     {
       "name": "FLIR (Griffin Analytical Technologies)",
       "url": "http://www.icxt.com/technology/mobile-labs/",
-      "image": "/images/sponsors/FLIR__Griffin_Analytical_Technologies__2003.png",
+      "image": "/images/sponsors/FLIR_Griffin_Analytical_Technologies.png?v=1777611255839",
       "year": "2003"
     },
     {
       "name": "Pfeiffer Vacuum",
       "url": "http://www.pfeiffer-vacuum.net/",
-      "image": "/images/sponsors/Pfeiffer_Vacuum_2005.png",
+      "image": "/images/sponsors/Pfeiffer_Vacuum.png?v=1777611411409",
       "year": "2005"
     },
     {
       "name": "Adaptas Solutions (DeTech)",
       "url": "https://www.adaptas.com/",
-      "image": "/images/sponsors/Adaptas_Solutions__DeTech__2011.png",
+      "image": "/images/sponsors/Adaptas_Solutions.png?v=1777579819191",
       "year": "2011"
     },
     {
       "name": "Edwards",
       "url": "http://www.edwardsvacuum.com/",
-      "image": "/images/sponsors/Edwards_2013.png",
+      "image": "/images/sponsors/Edwards.png?v=1777611247672",
       "year": "2013"
     },
     {
       "name": "Inficon",
       "url": "http://www.inficon.com/",
-      "image": "/images/sponsors/Inficon_2013.png",
+      "image": "/images/sponsors/Inficon.png?v=1777611262403",
       "year": "2013"
     },
     {
       "name": "BaySpec, Inc.",
       "url": "http://www.bayspec.com/",
-      "image": "/images/sponsors/BaySpec__Inc__2015.png",
+      "image": "/images/sponsors/BaySpec.png?v=1777579885931",
       "year": "2015"
     },
     {
       "name": "MKS Instruments",
       "url": "https://www.mksinst.com/",
-      "image": "/images/sponsors/MKS_Instruments_2017.png",
+      "image": "/images/sponsors/MKS_Instruments.png?v=1777579914601",
       "year": "2017"
     },
     {
       "name": "Collins Aerospace",
       "url": "https://www.rtx.com/collinsaerospace",
-      "image": "/images/sponsors/Collins_Aerospace_2019.png",
+      "image": "/images/sponsors/Collins_Aerospace.png?v=1777579924797",
       "year": "2019"
     }
   ],
@@ -89,12 +89,12 @@
       "items": [
         {
           "type": "session",
-          "time": "08:40",
+          "time": "08:40 a.m.",
           "title": "Technical Session I",
           "location": "",
           "talks": [
             {
-              "time": "08:40",
+              "time": "08:40 a.m.",
               "title": "On-site Applications of MIMS and the Importance of Interface Design as Exemplified by Highly Unusual \"Fragments\" in MIMS Mass Spectra of Chloramines and Bromamines",
               "institutes": [],
               "authors": [
@@ -114,7 +114,7 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf"
             },
             {
-              "time": "9:30",
+              "time": "9:30 a.m.",
               "title": "Use of Computational Sensing Techniques to Improve the Performance of Mass Spectrometers in Harsh Environments",
               "institutes": [],
               "authors": [
@@ -137,12 +137,12 @@
         },
         {
           "type": "session",
-          "time": "10:30",
+          "time": "10:30 a.m.",
           "title": "Technical Session II",
           "location": "",
           "talks": [
             {
-              "time": "10:30",
+              "time": "10:30 a.m.",
               "title": "Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis",
               "institutes": [],
               "authors": [
@@ -162,7 +162,7 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf"
             },
             {
-              "time": "11:00",
+              "time": "11:00 a.m.",
               "title": "The Dragonfly Mission to Titan and the Enabling Technologies of the DraMS Mass Spectrometer Onboard",
               "institutes": [],
               "authors": [
@@ -296,12 +296,12 @@
       "items": [
         {
           "type": "session",
-          "time": "08:30",
+          "time": "8:30 a.m.",
           "title": "Technical Session IV",
           "location": "",
           "talks": [
             {
-              "time": "08:30",
+              "time": "8:30 a.m.",
               "title": "Electric Field Fragmentation of Mobility Selected Ions Using Tandem Ion Mobility Spectrometry at Ambient Pressure with Molecular Identification through Neural Network Analysis",
               "institutes": [],
               "authors": [
@@ -321,7 +321,7 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf"
             },
             {
-              "time": "09:00",
+              "time": "9:00 a.m.",
               "title": "Chemical Ionization of Xenon and Detection Utilizing a High Precision Digital Ion Trap (DIT)",
               "institutes": [],
               "authors": [
@@ -341,7 +341,7 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf"
             },
             {
-              "time": "09:30",
+              "time": "9:30 a.m.",
               "title": "Portable Mass Spectrometer for Explosives and Narcotics Detection",
               "institutes": [],
               "authors": [
@@ -407,7 +407,7 @@
               "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf"
             },
             {
-              "time": "11:30",
+              "time": "11:30 a.m.",
               "title": "SIMION Beyond Ion Simulation: Field Analysis, Synthesis, and Harmonic Analysis for MS Design",
               "institutes": [],
               "authors": [
@@ -758,18 +758,18 @@
           "location_url": ""
         },
         {
-          "time": "19:00",
-          "title": "Evening Free",
-          "subtitle": "",
-          "location": "",
-          "location_url": ""
-        },
-        {
           "time": "14:00",
           "end_time": "15:30",
           "title": "Vendor Presentations",
           "subtitle": "",
           "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "19:00",
+          "title": "Evening Free",
+          "subtitle": "",
           "location": "",
           "location_url": ""
         }
@@ -840,7 +840,8 @@
   "host_corporation": {
     "name": "Collins Aerospace",
     "url": "https://www.rtx.com/collinsaerospace",
-    "logo_file": "host_Collins_Aerospace.png"
+    "logo_file": "Collins_Aerospace.png",
+    "logo_file_url": "/images/sponsors/Collins_Aerospace.png?v=1777579924797"
   },
   "venue_address_url": ""
 }

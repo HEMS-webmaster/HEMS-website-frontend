@@ -1,19 +1,128 @@
 [
-  { "company": "Adaptas Solutions",                   "url": "https://lifescience.imiplc.com/",                          "logo_file": "Adaptas_Solutions_2011.png" },
-  { "company": "Agilent Technologies",                "url": "http://www.vacuum-choice.com/",                            "logo_file": "" },
-  { "company": "BaySpec",                             "url": "https://www.bayspec.com/product-category/mass-spectroscopy/", "logo_file": "BaySpec_2015.png" },
-  { "company": "Collins Aerospace",                   "url": "https://www.rtx.com/collinsaerospace",                     "logo_file": "host_Collins_Aerospace.png" },
-  { "company": "DeTech",                              "url": "http://www.detechinc.com/",                                "logo_file": "Adaptas_Solutions_2011.png" },
-  { "company": "Edwards",                             "url": "http://www.edwardsvacuum.com/",                            "logo_file": "" },
-  { "company": "FLIR / Griffin Analytical Technologies", "url": "http://www.icxt.com/technology/mobile-labs/",           "logo_file": "Teledyne_FLIR_2003.png" },
-  { "company": "Inficon",                             "url": "http://www.inficon.com/",                                  "logo_file": "inficon.png" },
-  { "company": "InspectIR Systems",                   "url": "https://inspect-ir.com/",                                  "logo_file": "InspectIR_Systems_2022.png" },
-  { "company": "Leidos",                              "url": "https://www.leidos.com/",                                  "logo_file": "" },
-  { "company": "Leybold USA",                         "url": "https://www.leybold.com/en-us",                            "logo_file": "Leybold_USA_2022.png" },
-  { "company": "MassTech Inc",                        "url": "https://www.apmaldi.com/main/",                            "logo_file": "MassTech_Inc_2022.png" },
-  { "company": "MKS Instruments",                     "url": "https://www.mksinst.com/",                                 "logo_file": "" },
-  { "company": "Pfeiffer Vacuum",                     "url": "https://www.pfeiffervacuum.com/us/en/",                    "logo_file": "Pfeiffer_Vacuum__2005.png" },
-  { "company": "RIIS Technology",                     "url": "https://www.riis.tech/",                                   "logo_file": "RIIS_Technology_2022.png" },
-  { "company": "Teledyne FLIR",                       "url": "https://defense.flir.com/detection/overview/",             "logo_file": "Teledyne_FLIR_2003.png" },
-  { "company": "Tofwerk",                             "url": "https://www.tofwerk.com/",                                 "logo_file": "" }
+  {
+    "company": "Adaptas Solutions",
+    "url": "https://lifescience.imiplc.com/",
+    "logo_file": "Adaptas_Solutions.png",
+    "year_began": "2011"
+  },
+  {
+    "company": "Agilent Technologies",
+    "url": "http://www.vacuum-choice.com/",
+    "logo_file": "Agilent_Technologies.png",
+    "year_began": "2003"
+  },
+  {
+    "company": "Ardara Technologies",
+    "url": "http://www.ardaratech.com/index.html",
+    "logo_file": "Ardara_Technologies.png",
+    "year_began": "2007"
+  },
+  {
+    "company": "BaySpec",
+    "url": "https://www.bayspec.com/product-category/mass-spectroscopy/",
+    "logo_file": "BaySpec.png",
+    "year_began": "2015"
+  },
+  {
+    "company": "Collins Aerospace",
+    "url": "https://www.rtx.com/collinsaerospace",
+    "logo_file": "Collins_Aerospace.png",
+    "year_began": "2019"
+  },
+  {
+    "company": "DeTech",
+    "url": "https://lifescience.imiplc.com/imi-adaptas",
+    "logo_file": "DeTech.png",
+    "year_began": "2011"
+  },
+  {
+    "company": "Edwards",
+    "url": "http://www.edwardsvacuum.com/",
+    "logo_file": "Edwards.png",
+    "year_began": "2013"
+  },
+  {
+    "company": "FLIR / Griffin Analytical Technologies",
+    "url": "http://www.icxt.com/technology/mobile-labs/",
+    "logo_file": "FLIR_Griffin_Analytical_Technologies.png",
+    "year_began": "2003"
+  },
+  {
+    "company": "In-process Instruments",
+    "url": "http://www.in-process.com/",
+    "logo_file": "In_process_Instruments.png",
+    "year_began": "2017"
+  },
+  {
+    "company": "Inficon",
+    "url": "http://www.inficon.com/",
+    "logo_file": "Inficon.png",
+    "year_began": "2013"
+  },
+  {
+    "company": "InspectIR Systems",
+    "url": "https://inspect-ir.com/",
+    "logo_file": "InspectIR_Systems.png",
+    "year_began": "2022"
+  },
+  {
+    "company": "Leidos",
+    "url": "https://www.leidos.com/",
+    "logo_file": "Leidos.png",
+    "year_began": "2017"
+  },
+  {
+    "company": "Leybold USA",
+    "url": "https://www.leybold.com/en-us",
+    "logo_file": "Leybold_USA.png",
+    "year_began": "2018"
+  },
+  {
+    "company": "MKS Instruments",
+    "url": "https://www.mksinst.com/",
+    "logo_file": "MKS_Instruments.png",
+    "year_began": "2017"
+  },
+  {
+    "company": "MassTech Inc",
+    "url": "https://www.apmaldi.com/main/",
+    "logo_file": "MassTech_Inc.png",
+    "year_began": "2013"
+  },
+  {
+    "company": "Perkin Elmer",
+    "url": "http://www.perkinelmer.com/",
+    "logo_file": "Perkin_Elmer.png",
+    "year_began": "2015"
+  },
+  {
+    "company": "Pfeiffer Vacuum",
+    "url": "https://www.pfeiffervacuum.com/us/en/",
+    "logo_file": "Pfeiffer_Vacuum.png",
+    "year_began": "2005"
+  },
+  {
+    "company": "RIIS Technology",
+    "url": "https://www.riis.tech/",
+    "logo_file": "RIIS_Technology.png",
+    "year_began": "2022"
+  },
+  {
+    "company": "Tofwerk",
+    "url": "https://www.tofwerk.com/",
+    "logo_file": "Tofwerk.png",
+    "year_began": "2018"
+  },
+  {
+    "company": "UTC Aerospace Systems",
+    "url": "https://www.rtx.com/collinsaerospace",
+    "logo_file": "UTC_Aerospace_Systems.png",
+    "year_began": "2017"
+  },
+  {
+    "company": "University of North Texas",
+    "url": "http://www.unt.edu/",
+    "logo_file": "University_of_North_Texas.png",
+    "year_began": "2011"
+  }
 ]

@@ -203,6 +203,48 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
     const timeB = b.rawDateObj ? b.rawDateObj.getTime() : 0;
     return timeA - timeB;
   });
+
+  // --- Interleave events into sessions they chronologically interrupt ---
+  unifiedSchedule.forEach((day: any) => {
+    if (!day.items || day.items.length < 2) return;
+
+    const eventsToRemove = new Set<number>();
+
+    day.items.forEach((item: any, idx: number) => {
+      if (item.type !== 'event') return;
+      const eventTime = parseSortTime(item);
+
+      for (const other of day.items) {
+        if (other.type !== 'session' || !other.talks || other.talks.length < 2) continue;
+
+        const firstTalkTime = parseSortTime(other.talks[0]);
+        const lastTalkTime = parseSortTime(other.talks[other.talks.length - 1]);
+
+        if (eventTime > firstTalkTime && eventTime < lastTalkTime) {
+          // This event falls within this session — inject it into the talks array
+          other.talks.push({
+            type: 'event',
+            time: item.time,
+            rawTime: item.rawTime || item.time,
+            title: item.title,
+            subtitle: item.subtitle,
+            subtitleHtml: item.subtitleHtml
+          });
+          other.talks.sort((a: any, b: any) => {
+            const tA = parseSortTime(a);
+            const tB = parseSortTime(b);
+            return tA.localeCompare(tB);
+          });
+          eventsToRemove.add(idx);
+          break;
+        }
+      }
+    });
+
+    if (eventsToRemove.size > 0) {
+      day.items = day.items.filter((_: any, idx: number) => !eventsToRemove.has(idx));
+    }
+  });
   // --- End Unified Schedule Logic ---
 
   return (
@@ -285,8 +327,9 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
             >
               {data.host_corporation.logo_file && (
                 <div className="bg-white rounded p-4 h-40 w-64 flex items-center justify-center flex-shrink-0 shadow-inner">
-                  <Image 
-                    src={`/images/sponsors/${data.host_corporation.logo_file}`}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img 
+                    src={data.host_corporation.logo_file_url || `/images/sponsors/${data.host_corporation.logo_file}`}
                     alt={data.host_corporation.name} 
                     width={200} 
                     height={100}
@@ -357,7 +400,8 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       className="bg-surface border border-foreground/10 p-4 rounded-lg flex items-center gap-4 hover:border-primary hover:bg-primary/5 transition-all group"
                     >
                       <div className="bg-white rounded p-2 h-20 w-32 flex items-center justify-center flex-shrink-0 shadow-inner">
-                        <Image 
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img 
                           src={sponsor.image} 
                           alt={sponsor.name} 
                           width={100} 
@@ -485,6 +529,24 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                           {/* Talk rows — lighter shade */}
                           <div className={`divide-y divide-primary/10 px-4 pb-3 pt-2 ${bgClass}`}>
                             {item.talks?.map((talk: any, tIdx: number) => {
+                                   // Render interleaved events (breaks, etc.) within the session
+                                   if (talk.type === 'event') {
+                                     return (
+                                       <div key={tIdx} className="py-3 flex flex-col md:flex-row gap-4 items-center border-t border-b border-foreground/10 my-1">
+                                         <div className="md:w-48 flex-shrink-0 md:text-center">
+                                           <span className="font-mono text-sm font-bold text-foreground/70">{talk.time}</span>
+                                         </div>
+                                         <div className="flex-1 flex items-center gap-3">
+                                           <div className="flex-1 h-px bg-foreground/10"></div>
+                                           <h4 className="font-bold text-foreground/50 text-sm uppercase tracking-wider whitespace-nowrap">{talk.title}</h4>
+                                           {(talk.subtitleHtml || talk.subtitle) && (
+                                             <span className="text-xs text-foreground/40" dangerouslySetInnerHTML={{ __html: talk.subtitleHtml || talk.subtitle }}></span>
+                                           )}
+                                           <div className="flex-1 h-px bg-foreground/10"></div>
+                                         </div>
+                                       </div>
+                                     );
+                                   }
                                    let authorElements = null;
 
                                    if (Array.isArray(talk.authors) && talk.authors.length > 0) {

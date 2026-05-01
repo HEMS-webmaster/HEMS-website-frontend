@@ -22,6 +22,7 @@ export default function DragDropZone({ label, category, wsNum, fileName, session
   const [gcloudUrl, setGcloudUrl] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [fileExists, setFileExists] = useState(false);
+  const [fileMtime, setFileMtime] = useState(0);
 
   const checkFile = async () => {
     if (!fileName) return;
@@ -33,6 +34,14 @@ export default function DragDropZone({ label, category, wsNum, fileName, session
         setExpectedUri(data.fileUri);
         setGcloudUrl(data.gcloudUrl);
         setWebsiteUrl(data.websiteUrl);
+        // Detect file change: if mtime differs, the file was swapped on disk
+        if (data.mtime && data.mtime !== fileMtime) {
+          setFileMtime(data.mtime);
+          // Reset upload status so the zone looks fresh after a backend swap
+          if (status === 'success' || status === 'error') {
+            setStatus('idle');
+          }
+        }
         setFileExists(data.exists);
       }
     } catch (e) {
@@ -73,6 +82,8 @@ export default function DragDropZone({ label, category, wsNum, fileName, session
         setStatus("success");
         setFileExists(true);
         if (onSuccess) onSuccess(data.path);
+        // Immediately re-check to pick up new mtime and path info
+        setTimeout(checkFile, 300);
       } else {
         throw new Error(data.error || "Upload failed");
       }
