@@ -28,15 +28,15 @@ You must **read the text content** of all four pages and produce a single, struc
 ```
 I need you to extract structured data from the following HEMS Workshop.
 
-**Target Workshop Number:** [2]
-**Target Workshop Year:** [2001]
+**Target Workshop Number:** [8]
+**Target Workshop Year:** [2011]
 
-**Workshop Overview URL:** [https://www.hems-workshop.org/1stWS/1stWS.html]
-**Technical Program URL:** [https://www.hems-workshop.org/1stWS/1hems_program.pdf]
+**Workshop Overview URL:** [https://www.hems-workshop.org/8thWS/8thWS.html]
+**Technical Program URL:** [https://www.hems-workshop.org/8thWS/8thprogramwpresentations.html]
 **Quick Links / Student Awards URL:** [https://www.hems-workshop.org/studenttravel%20Winners.html]
-**Corporate Sponsors URL:** [None]
+**Corporate Sponsors URL:** [https://www.hems-workshop.org/8thWS/8thSponsors2v2.html]
 
-Read the text content of ALL FOUR URLs above. If a URL does not exist, STOP and warn the user (unless 'None' is specified). Do NOT follow or open any links found within those pages.
+Read the text content of ALL FOUR URLs above. If a URL does not exeist, STOP and warn the user. Do NOT follow or open any links found within those pages.
 Produce a markdown document using the exact structure defined below.
 Every section is mandatory — if the source lacks data for a section, include the section header with a note: `> No data found in source.`
 ```

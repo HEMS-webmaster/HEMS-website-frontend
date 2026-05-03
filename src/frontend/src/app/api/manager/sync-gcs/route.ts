@@ -1,3 +1,7 @@
+// This API route is for local development only (Workshop Manager).
+// The static export build (Firebase) skips dynamic routes automatically.
+export const dynamic = 'force-static';
+
 import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
 import util from 'util';
@@ -12,7 +16,7 @@ export async function POST(request: Request) {
 
     // GCloud Sync
     // Sync the proceedings directory to the expected GCS bucket
-    const gcloudCmd = 'gsutil -m rsync -r docs/archives_translation/proceedings gs://hems-archive-assets/proceedings';
+    const gcloudCmd = 'gsutil -m rsync -r docs/archives_translation/proceedings gs://hems-workshop-archives/proceedings';
     let gcloudLog = '';
     try {
       const { stdout } = await execAsync(gcloudCmd, { cwd: projectRoot });

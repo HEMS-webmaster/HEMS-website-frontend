@@ -18,20 +18,23 @@ president@hems-workshop.org, pass: _NzYWK86b9/PuQV
 
 
 ## 1. Version Control (Git)
-*   **Account Name:** `rbellAdapt`
-*   **Admin Account Email:** `adaptivesensing@gmail.com`
-*   **Repository Name:** `hems-website-frontend`
-*   **Remote URL:** `adaptivesensing@gmail.com:rbellAdapt/hems-website-frontend.git`
+*   **Account Name:** `HEMS-webmaster`
+*   **Admin Account Email:** `webmaster@hems-workshop.org`
+*   **Repository Name:** `HEMS-website-frontend`
+*   **Remote URL:** `webmaster@hems-workshop.org:HEMS-webmaster/HEMS-website-frontend.git`
 *   **Primary Branch:** `main`
 
 ---
 
-## 2. Frontend Hosting (Vercel)
-*   **Platform:** Vercel (Next.js native hosting)
-*   **Project Name:** `[Pending Setup]`
-*   **Production URL:** `[Pending Deployment]`
-*   **Connected Repo:** `Pending Deployment`
-*   **Auto-Deploy:** Enabled on pushes to `main`
+## 2. Frontend Hosting (Firebase)
+*   **Platform:** Firebase Classic Hosting (free Spark tier, static export)
+*   **Project Name:** `hems-workshop`
+*   **Project ID:** `hems-workshop`
+*   **Preview URL:** `https://hems-workshop.web.app`
+*   **Production URL:** `https://www.hems-workshop.org` (pending DNS cutover)
+*   **Connected Repo:** `HEMS-webmaster/HEMS-website-frontend`
+*   **Auto-Deploy:** `firebase deploy --only hosting` from `main` branch
+*   **Deploy Command:** `cd src/frontend && npm run build && cd ../.. && firebase deploy --only hosting`
 
 ---
 
@@ -50,9 +53,9 @@ president@hems-workshop.org, pass: _NzYWK86b9/PuQV
 ## 4. Backend & Storage (Google Cloud / Firebase)
 *   **Platform:** Google Cloud Platform (GCS / Cloud Functions) & Cloud Firestore
 *   **Purpose:** Automated ingestion pipeline for PDFs and NoSQL metadata storage.
-*   **GCP Project ID:** `hems-workshop-production`
-*   **GCP Owner Account:** `hemsworkshop@gmail.com`
-*   **GCS Bucket Name (Archive):** `hems-archive-assets`
+*   **GCP Project ID:** `hems-workshop` (same as Firebase project)
+*   **GCP Owner Account:** `webmaster@hems-workshop.org`
+*   **GCS Bucket Name (Archive):** `hems-archive-assets` (transfer from old project pending)
 *   **Firebase Environment Variables Needed:**
     *   `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
     *   `FIREBASE_CLIENT_EMAIL` (Server-side)
@@ -62,6 +65,6 @@ president@hems-workshop.org, pass: _NzYWK86b9/PuQV
 
 ## 5. Domain & DNS
 *   **Primary Domain:** `www.hems-workshop.org`
-*   **Registrar:** `[Pending - e.g., GoDaddy, Namecheap]`
-*   **DNS Provider:** `[Pending - e.g., Cloudflare, Vercel]`
-*   **Status:** Legacy site currently active. Will require DNS repointing to Vercel upon final launch.
+*   **Registrar:** GoDaddy (Customer #11646337)
+*   **DNS Provider:** GoDaddy (pending cutover to Firebase)
+*   **Status:** Legacy site active. DNS must be repointed to Firebase after GCS transfer is confirmed.

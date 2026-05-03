@@ -13,16 +13,16 @@
       "icon": "Download",
       "legacy_url": "https://www.hems-workshop.org/13thWS/13thProgramdownload.pdf",
       "local_target_path": "/api/manager/serve?file=13th/Administrative/13th_Program.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Administrative/13th_Program.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Administrative/13th_Program.pdf"
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Administrative/13th_Program.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Administrative/13th_Program.pdf"
     },
     {
       "label": "Participant List",
       "icon": "Users",
       "legacy_url": "https://www.hems-workshop.org/13thWS/2019%20HEMS%20Workshop%20Attendees.pdf",
       "local_target_path": "/api/manager/serve?file=13th/Administrative/13th_Participant_List.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Administrative/13th_Participant_List.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Administrative/13th_Participant_List.pdf"
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Administrative/13th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Administrative/13th_Participant_List.pdf"
     }
   ],
   "venue": "",
@@ -108,10 +108,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Lauritsen.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf"
             },
             {
               "time": "9:30 a.m.",
@@ -128,10 +128,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Amsden.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf"
             }
           ]
         },
@@ -156,10 +156,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Progent.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf"
             },
             {
               "time": "11:00 a.m.",
@@ -176,10 +176,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Danell.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf"
             },
             {
               "time": "11:30 a.m.",
@@ -195,10 +195,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Aloui.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Aloui_Evaluation_of_Aperture_Abstract.pdf"
             }
           ]
         },
@@ -223,9 +223,9 @@
               "local_target_path": "",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf",
               "public_website_url": "",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf",
               "gcloud_url": "",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf"
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf"
             },
             {
               "time": "16:00",
@@ -242,10 +242,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/van%20Ameron.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Posters/13th_Amerom_Overview_of_the_Poster.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Poster.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Poster.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf"
             },
             {
               "time": "16:00",
@@ -262,10 +262,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Vyas.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Posters/13th_Vyas_A_Comparison_of_Poster.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Poster.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Poster.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf"
             },
             {
               "time": "16:00",
@@ -282,10 +282,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Wieman.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf"
             }
           ]
         }
@@ -316,9 +316,9 @@
               "local_target_path": "",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf",
               "public_website_url": "",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf",
               "gcloud_url": "",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf"
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf"
             },
             {
               "time": "9:00 a.m.",
@@ -335,10 +335,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Vazquez.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf"
             },
             {
               "time": "9:30 a.m.",
@@ -355,10 +355,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Berkout.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf"
             }
           ]
         },
@@ -382,10 +382,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Virgen.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf"
             },
             {
               "time": "11:00 a.m.",
@@ -401,10 +401,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Horvath.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf"
             },
             {
               "time": "11:30 a.m.",
@@ -421,10 +421,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Jackson.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf"
             }
           ]
         },
@@ -449,10 +449,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Madzunkov.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf"
             },
             {
               "time": "14:00",
@@ -469,10 +469,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Kaplan.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf"
             },
             {
               "time": "14:30",
@@ -489,10 +489,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Schmidt.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Schmidt_Onsite_Analysis_of_Abstract.pdf"
             }
           ]
         },
@@ -517,10 +517,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Short.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf"
             },
             {
               "time": "16:00",
@@ -537,10 +537,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Lasi.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf"
             },
             {
               "time": "16:30",
@@ -557,10 +557,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Christian.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Christian_Development_of_a_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VII/13th_Christian_Development_of_a_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Christian_Development_of_a_Abstract.pdf"
             }
           ]
         }
@@ -590,10 +590,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Verbeck.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf"
             },
             {
               "time": "09:30",
@@ -610,10 +610,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Sheridan.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Sheridan_LUVMI_Rover_to_Abstract.pdf"
             }
           ]
         },
@@ -638,10 +638,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Taghioskoui.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf"
             },
             {
               "time": "11:00",
@@ -658,10 +658,10 @@
               "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Maiwald.pdf",
               "local_target_path": "/api/manager/serve?file=13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf",
-              "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf",
-              "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf"
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf"
             }
           ]
         }
@@ -678,10 +678,10 @@
       "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Horvath.pdf",
       "local_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Kathleen_L__Horvath_Student_Award.pdf",
       "local_abstract_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Kathleen_L__Horvath_Student_Abstract.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Award.pdf",
-      "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Abstract.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Award.pdf",
-      "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Abstract.pdf"
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Student_Award/13th_Kathleen_L__Horvath_Student_Abstract.pdf"
     },
     {
       "time": "",
@@ -691,10 +691,10 @@
       "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Aloui.pdf",
       "local_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Tanouir_Aloui_Student_Award.pdf",
       "local_abstract_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Tanouir_Aloui_Student_Abstract.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Award.pdf",
-      "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Abstract.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Award.pdf",
-      "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Abstract.pdf"
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Student_Award/13th_Tanouir_Aloui_Student_Abstract.pdf"
     },
     {
       "time": "",
@@ -704,10 +704,10 @@
       "legacy_abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Virgen.pdf",
       "local_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Award.pdf",
       "local_abstract_target_path": "/api/manager/serve?file=13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Abstract.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Award.pdf",
-      "public_abstract_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Abstract.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Award.pdf",
-      "gcloud_abstract_url": "gs://hems-archive-assets/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Abstract.pdf"
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Student_Award/13th_Camila_Anguiano_Virgen_Student_Abstract.pdf"
     }
   ],
   "events": [

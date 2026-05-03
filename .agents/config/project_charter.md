@@ -5,7 +5,7 @@
 *   **Target Audience:** Scientific community, academic researchers, and government-funded participants interested in mass spectrometers in harsh environments (e.g., Mars rovers, underwater drones).
 
 ## 2. Tech Stack Boundaries (For @dev & @ops)
-*   **Frontend:** Next.js (React) hosted on Vercel. Static Site Generation (SSG) for archives, Server-Side Rendering (SSR) for the live schedule. Dark-themed UI (Slate/Charcoal) with vibrant accents (Electric Blue/Safety Orange).
+*   **Frontend:** Next.js (React) hosted on Firebase Classic Hosting (free Spark tier, static export). Static Site Generation (SSG) for all public pages. Dark-themed UI (Slate/Charcoal) with vibrant accents (Electric Blue/Safety Orange). The Workshop Manager admin tool runs locally only (`next dev`) and is never deployed.
 *   **Backend:** Google Cloud Functions (Python/Node.js) for automated ingestion and processing.
 *   **Database:** Cloud Firestore (NoSQL) for metadata, sessions, and speaker bios.
 *   **Search Engine:** Algolia (Free Tier) for instant search (<50ms).

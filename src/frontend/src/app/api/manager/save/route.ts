@@ -1,3 +1,7 @@
+// This API route is for local development only (Workshop Manager).
+// The static export build (Firebase) skips dynamic routes automatically.
+export const dynamic = 'force-static';
+
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import fsSync from 'fs';
@@ -74,7 +78,7 @@ export async function POST(request: Request) {
 
       const buildCloudUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
         if (!checkFileExists(category, wsNum, session, fileName)) return "";
-        const baseUrl = 'https://storage.googleapis.com/hems-archive-assets/proceedings';
+        const baseUrl = 'https://storage.googleapis.com/hems-workshop-archives/proceedings';
         if (category === 'Administrative') return `${baseUrl}/${wsNum}th/Administrative/${fileName}`;
         if (category === 'Student_Award') return `${baseUrl}/${wsNum}th/Student_Award/${fileName}`;
         if (category === 'Poster') return `${baseUrl}/${wsNum}th/Posters/${fileName}`;
@@ -96,7 +100,7 @@ export async function POST(request: Request) {
 
       const buildGcloudUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
         if (!checkFileExists(category, wsNum, session, fileName)) return "";
-        const baseUrl = 'gs://hems-archive-assets/proceedings';
+        const baseUrl = 'gs://hems-workshop-archives/proceedings';
         if (category === 'Administrative') return `${baseUrl}/${wsNum}th/Administrative/${fileName}`;
         if (category === 'Student_Award') return `${baseUrl}/${wsNum}th/Student_Award/${fileName}`;
         if (category === 'Poster') return `${baseUrl}/${wsNum}th/Posters/${fileName}`;

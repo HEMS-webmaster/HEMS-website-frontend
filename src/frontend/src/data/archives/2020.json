@@ -13,16 +13,16 @@
       "icon": "Download",
       "legacy_url": "https://www.hems-workshop.org/13thWS/13thProgramdownload.pdf",
       "local_target_path": "/api/manager/serve?file=13th/Administrative/13th_Program.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Administrative/13th_Program.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Administrative/13th_Program.pdf"
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Administrative/13th_Program.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Administrative/13th_Program.pdf"
     },
     {
       "label": "Participant List",
       "icon": "Users",
       "legacy_url": "https://www.hems-workshop.org/13thWS/2019%20HEMS%20Workshop%20Attendees.pdf",
       "local_target_path": "/api/manager/serve?file=13th/Administrative/13th_Participant_List.pdf",
-      "public_website_url": "https://storage.googleapis.com/hems-archive-assets/proceedings/13th/Administrative/13th_Participant_List.pdf",
-      "gcloud_url": "gs://hems-archive-assets/proceedings/13th/Administrative/13th_Participant_List.pdf"
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Administrative/13th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/13th/Administrative/13th_Participant_List.pdf"
     }
   ],
   "venue": "",

@@ -2,6 +2,8 @@ import path from 'path';
 import { promises as fs } from 'fs';
 import type { MetadataRoute } from 'next';
 
+export const dynamic = 'force-static';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const dataDir = path.join(process.cwd(), 'src', 'data', 'archives');
   let files: string[] = [];

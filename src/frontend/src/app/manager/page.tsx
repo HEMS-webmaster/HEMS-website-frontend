@@ -409,8 +409,8 @@ export default function WorkshopManager() {
                     {currentWs.program_file && (
                       <>
                         <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
-                        <span><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
-                        <span className="break-all"><strong>Public (Vercel):</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
+                        <span><strong>GCloud:</strong> gs://hems-workshop-archives/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
+                        <span className="break-all"><strong>Public (Firebase):</strong> https://storage.googleapis.com/hems-workshop-archives/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
                       </>
                     )}
                   </div>
@@ -460,8 +460,8 @@ export default function WorkshopManager() {
                     {currentWs.participant_list_file && (
                       <>
                         <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
-                        <span><strong>GCloud:</strong> gs://hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
-                        <span className="break-all"><strong>Public (Vercel):</strong> https://storage.googleapis.com/hems-archive-assets/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
+                        <span><strong>GCloud:</strong> gs://hems-workshop-archives/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
+                        <span className="break-all"><strong>Public (Firebase):</strong> https://storage.googleapis.com/hems-workshop-archives/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
                       </>
                     )}
                   </div>
