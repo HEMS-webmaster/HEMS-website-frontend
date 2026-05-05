@@ -20,6 +20,7 @@ jobs:
         with:
           workload_identity_provider: 'projects/996590178042/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
           service_account: 'firebase-github-deploy@hems-workshop.iam.gserviceaccount.com'
+          create_credentials_file: true
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -40,5 +41,6 @@ jobs:
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ steps.auth.outputs.credentials_file_path }}'
           projectId: hems-workshop
           channelId: live
