@@ -33,8 +33,10 @@ president@hems-workshop.org, pass: _NzYWK86b9/PuQV
 *   **Preview URL:** `https://hems-workshop.web.app`
 *   **Production URL:** `https://www.hems-workshop.org` (pending DNS cutover)
 *   **Connected Repo:** `HEMS-webmaster/HEMS-website-frontend`
-*   **Auto-Deploy:** `firebase deploy --only hosting` from `main` branch
-*   **Deploy Command:** `cd src/frontend && npm run build && cd ../.. && firebase deploy --only hosting`
+*   **CI/CD Pipeline:** Automated GitHub Actions (`.github/workflows/firebase-hosting-merge.yml`)
+*   **CI/CD Auth:** Google Cloud Workload Identity Federation (Keyless OIDC)
+    *   **WIF Provider:** `projects/996590178042/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider`
+    *   **Service Account:** `firebase-github-deploy@hems-workshop.iam.gserviceaccount.com`
 
 ---
 
@@ -51,11 +53,12 @@ president@hems-workshop.org, pass: _NzYWK86b9/PuQV
 ---
 
 ## 4. Backend & Storage (Google Cloud / Firebase)
-*   **Platform:** Google Cloud Platform (GCS / Cloud Functions) & Cloud Firestore
+*   **Platform:** Google Cloud Platform (GCS)
 *   **Purpose:** Automated ingestion pipeline for PDFs and NoSQL metadata storage.
 *   **GCP Project ID:** `hems-workshop` (same as Firebase project)
+*   **GCP Project Number:** `996590178042`
 *   **GCP Owner Account:** `webmaster@hems-workshop.org`
-*   **GCS Bucket Name (Archive):** `hems-archive-assets` (transfer from old project pending)
+*   **GCS Bucket Name (Archive):** `gs://hems-workshop-archives` (Transfer Complete)
 *   **Firebase Environment Variables Needed:**
     *   `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
     *   `FIREBASE_CLIENT_EMAIL` (Server-side)
