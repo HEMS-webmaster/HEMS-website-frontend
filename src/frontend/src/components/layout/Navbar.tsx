@@ -18,7 +18,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
             <Link href="/" className="font-bold text-2xl text-foreground tracking-wider flex items-center gap-2">
-              HEMS Workshop
+              HEMS Society
             </Link>
           </div>
           <div className="hidden md:block">
