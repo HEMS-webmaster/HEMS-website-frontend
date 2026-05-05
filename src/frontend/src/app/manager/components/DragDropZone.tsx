@@ -27,7 +27,7 @@ export default function DragDropZone({ label, category, wsNum, fileName, session
   const checkFile = async () => {
     if (!fileName) return;
     try {
-      const qs = new URLSearchParams({ category, wsNum, fileName, session: session || '' }).toString();
+      const qs = new URLSearchParams({ category, wsNum, fileName, session: session || '', v: '2' }).toString();
       const res = await fetch(`/api/manager/check-file?${qs}`);
       const data = await res.json();
       if (data.success) {

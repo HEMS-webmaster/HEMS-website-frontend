@@ -281,9 +281,11 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
         <ArrowLeft size={16} /> Back to Archives
       </Link>
 
-      <div className="bg-surface border border-foreground/10 rounded-lg p-8 md:p-12 mb-12 relative overflow-hidden">
-        {/* Subtle background decoration */}
-        <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="bg-surface border border-foreground/10 rounded-lg p-8 md:p-12 mb-12 relative">
+        {/* Subtle background decoration contained safely without clipping hover previews */}
+        <div className="absolute inset-0 overflow-hidden rounded-lg pointer-events-none">
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+        </div>
 
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8 relative z-10">
           <div className="flex-1">
@@ -555,7 +557,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       const isPosterSession = item.title?.toLowerCase().includes('poster');
 
                       return (
-                        <div key={iIdx} className={`border-l-4 ${borderClass} transition-colors overflow-hidden`}>
+                        <div key={iIdx} className={`border-l-4 ${borderClass} transition-colors`}>
                           {/* Session header row — distinct shade */}
                           <div className={`flex flex-col md:flex-row gap-4 px-4 py-3 ${bgClassHeader}`}>
                             <div className="md:w-48 font-mono text-sm font-bold text-foreground flex-shrink-0 md:text-center">{formatTime(item.time)}</div>

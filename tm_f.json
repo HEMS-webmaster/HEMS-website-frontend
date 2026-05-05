@@ -1,0 +1,1747 @@
+[
+  {
+    "number": 1,
+    "year": 1999,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 2,
+    "year": 2001,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 3,
+    "year": 2003,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 4,
+    "year": 2005,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 5,
+    "year": 2007,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 6,
+    "year": 2009,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 7,
+    "year": 2011,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 8,
+    "year": 2013,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 9,
+    "year": 2015,
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 10,
+    "year": "2016",
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 11,
+    "year": "2017",
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": 12,
+    "year": "2018",
+    "city": "",
+    "venue": "",
+    "presentations": [],
+    "sponsors": [],
+    "student_awards": [],
+    "posters": []
+  },
+  {
+    "number": "13",
+    "year": "2019",
+    "city": "Myrtle Beach, South Carolina",
+    "venue": "",
+    "presentations": [
+      {
+        "time": "08:40",
+        "date": "09/17/2019",
+        "session": "Technical Session I",
+        "title": "On-site Applications of MIMS and the Importance of Interface Design as Exemplified by Highly Unusual \u0393\u00c7\u00a3Fragments\u0393\u00c7\u00a5 in MIMS Mass Spectra of Chloramines and Bromamines",
+        "authors": [
+          {
+            "name": "Frants R. Lauritsen",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Lauritsen_Onsite_Applications_of_Presentation.pdf",
+        "abstract_file": "13th_Lauritsen_Onsite_Applications_of_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/01%20Lauritsen.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Lauritsen.pdf"
+      },
+      {
+        "time": "10:30",
+        "date": "09/17/2019",
+        "session": "Technical Session II",
+        "title": "Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis",
+        "authors": [
+          {
+            "name": "Fr\u251c\u2310d\u251c\u2310ric Progent",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf",
+        "abstract_file": "13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/02%20Amsden.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Progent.pdf"
+      },
+      {
+        "time": "11:00",
+        "date": "09/17/2019",
+        "session": "Technical Session II",
+        "title": "The Dragonfly Mission to Titan and the Enabling Technologies of the DraMS Mass Spectrometer Onboard",
+        "authors": [
+          {
+            "name": "R. M. Danell",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Danell_The_Dragonfly_Mission_Presentation.pdf",
+        "abstract_file": "13th_Danell_The_Dragonfly_Mission_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/04%20Danell.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Danell.pdf"
+      },
+      {
+        "time": "08:30",
+        "date": "09/18/2019",
+        "session": "Technical Session IV",
+        "title": "Electric Field Fragmentation of Mobility Selected Ions Using Tandem Ion Mobility Spectrometry at Ambient Pressure with Molecular Identification through Neural Network Analysis",
+        "authors": [
+          {
+            "name": "Gary A. Eiceman",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Eiceman_Electric_Presentation.pdf",
+        "abstract_file": "13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Eiceman.pdf"
+      },
+      {
+        "time": "09:00",
+        "date": "09/18/2019",
+        "session": "Technical Session IV",
+        "title": "Chemical Ionization of Xenon and Detection Utilizing a High Precision Digital Ion Trap (DIT)",
+        "authors": [
+          {
+            "name": "Timothy Vazquez",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Vazquez_Chemical_Ionization_of_Presentation.pdf",
+        "abstract_file": "13th_Vazquez_Chemical_Ionization_of_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/07%20Vazquez.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Vazquez.pdf"
+      },
+      {
+        "time": "09:30",
+        "date": "09/18/2019",
+        "session": "Technical Session IV",
+        "title": "Portable Mass Spectrometer for Explosives and Narcotics Detection",
+        "authors": [
+          {
+            "name": "Vadym Berkout",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Berkout_Portable_Mass_Spectrometer_Presentation.pdf",
+        "abstract_file": "13th_Berkout_Portable_Mass_Spectrometer_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/08%20Berkout.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Berkout.pdf"
+      },
+      {
+        "time": "9:30",
+        "date": "09/18/2017",
+        "session": "Technical Session I",
+        "title": "Use of Computational Sensing Techniques to Improve the Performance of Mass Spectrometers in Harsh Environments",
+        "authors": [
+          {
+            "name": "Jason J. Amsden",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Amsden_Use_of_Computational_Presentation.pdf",
+        "abstract_file": "13th_Amsden_Use_of_Computational_Abstract.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Amsden.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/02%20Amsden.pdf"
+      },
+      {
+        "time": "11:30",
+        "date": "09/18/2019",
+        "session": "Technical Session V",
+        "title": "SIMION Beyond Ion Simulation: Field Analysis, Synthesis, and Harmonic Analysis for MS Design",
+        "authors": [
+          {
+            "name": "Robert H. Jackson",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Jackson_SIMION_Beyond_Ion_Presentation.pdf",
+        "abstract_file": "13th_Jackson_SIMION_Beyond_Ion_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/11%20Jackson.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Jackson.pdf"
+      },
+      {
+        "time": "13:30",
+        "date": "09/18/2019",
+        "session": "Technical Session VI",
+        "title": "Spacecraft Atmosphere Monitor (S.A.M.) First Operational Data",
+        "authors": [
+          {
+            "name": "Stojan Madzunkov",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Presentation.pdf",
+        "abstract_file": "13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/12%20Madzunkov.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Madzunkov.pdf"
+      },
+      {
+        "time": "14:00",
+        "date": "09/18/2019",
+        "session": "Technical Session VI",
+        "title": "The Future of Linear Ion Trap Mass Spectrometer Systems for Planetary Exploration",
+        "authors": [
+          {
+            "name": "D. A. Kaplan",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Kaplan_The_Future_of_Presentation.pdf",
+        "abstract_file": "13th_Kaplan_The_Future_of_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/13%20Kaplan.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Kaplan.pdf"
+      },
+      {
+        "time": "14:30",
+        "date": "09/18/2019",
+        "session": "Technical Session VI",
+        "title": "Onsite Analysis of Illicit Drugs by Portable Ion Trap Gas Chromatography-Mass Spectrometry (GCMS)",
+        "authors": [
+          {
+            "name": "Charlie Schmidt",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Schmidt_Onsite_Analysis_of_Presentation.pdf",
+        "abstract_file": "13th_Schmidt_Onsite_Analysis_of_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/14%20Schmidt.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Schmidt.pdf"
+      },
+      {
+        "time": "15:30",
+        "date": "09/18/2019",
+        "session": "Technical Session VII",
+        "title": "Membrane Inlet Mass Spectrometry for Ocean Worlds",
+        "authors": [
+          {
+            "name": "R. Timothy Short",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Short_Membrane_Inlet_Mass_Presentation.pdf",
+        "abstract_file": "13th_Short_Membrane_Inlet_Mass_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/15%20Short.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Short.pdf"
+      },
+      {
+        "time": "16:00",
+        "date": "09/18/2019",
+        "session": "Technical Session VII",
+        "title": "Evolution of a Compact TOF Mass Spectrometer from Space Exploration to the Internet of Things",
+        "authors": [
+          {
+            "name": "D. Lasi",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Lasi_Evolution_of_a_Presentation.pdf",
+        "abstract_file": "13th_Lasi_Evolution_of_a_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/16%20Lasi.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Lasi.pdf"
+      },
+      {
+        "time": "16:30",
+        "date": "09/18/2019",
+        "session": "Technical Session VII",
+        "title": "Development of a Low-Cost, Low-Power, Miniature Sector Mass Spectrometer with IonCCD Detection",
+        "authors": [
+          {
+            "name": "Noah Christian",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Christian_Development_of_a_Presentation.pdf",
+        "abstract_file": "13th_Christian_Development_of_a_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/17%20Christian.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Christian.pdf"
+      },
+      {
+        "time": "09:00",
+        "date": "09/19/2019",
+        "session": "Technical Session VIII",
+        "title": "Smart City Initiatives and Where HEMS Can Play a Role",
+        "authors": [
+          {
+            "name": "Guido Verbek",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Verbek_Smart_City_Initiatives_Presentation.pdf",
+        "abstract_file": "13th_Verbek_Smart_City_Initiatives_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/18%20Verbeck.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Verbeck.pdf"
+      },
+      {
+        "time": "09:30",
+        "date": "09/19/2019",
+        "session": "Technical Session VIII",
+        "title": "LUVMI Rover to Characterize Volatile Content in Lunar Polar Regions",
+        "authors": [
+          {
+            "name": "Simon Sheridan",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Sheridan_LUVMI_Rover_to_Presentation.pdf",
+        "abstract_file": "13th_Sheridan_LUVMI_Rover_to_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/19%20Sheridan.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Sheridan.pdf"
+      },
+      {
+        "time": "10:30",
+        "date": "09/19/2019",
+        "session": "Technical Session IX",
+        "title": "Low-Pressure ICP-MS for Planetary Trace Elemental Analysis",
+        "authors": [
+          {
+            "name": "Mazdak Taghioskoui",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Taghioskoui_LowPressure_ICPMS_for_Presentation.pdf",
+        "abstract_file": "13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/20%20Taghioskoui.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Taghioskoui.pdf"
+      },
+      {
+        "time": "11:00",
+        "date": "09/19/2019",
+        "session": "Technical Session IX",
+        "title": "QIT-Mass Spectrometer for Lunar and Planetary Applications",
+        "authors": [
+          {
+            "name": "Frank Maiwald",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "presentation_file": "13th_Maiwald_QITMass_Spectrometer_for_Presentation.pdf",
+        "abstract_file": "13th_Maiwald_QITMass_Spectrometer_for_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/21%20Maiwald.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Maiwald.pdf"
+      },
+      {
+        "date": "09/17/2019",
+        "time": "11:30 a.m.",
+        "session": "Technical Session II",
+        "title": "Evaluation of Aperture Materials for Coded Apertures Used in a Portable Cycloidal Miniature Mass Spectrometer",
+        "authors": [
+          {
+            "name": "Tanouir Aloui - 2019 Student Award Winner",
+            "isPresenter": true
+          }
+        ],
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/05%20Aloui.pdf",
+        "presentation_file": "13th_Aloui_Evaluation_of_Aperture_Presentation.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Aloui.pdf",
+        "abstract_file": "13th_Aloui_Evaluation_of_Aperture_Abstract.pdf"
+      },
+      {
+        "date": "09/12/0198",
+        "time": "10:30 a.m.",
+        "session": "Technical Session V",
+        "title": "Detection and Analysis of Simulated Chemical Warfare Agents using Portable Mass Spectrometry",
+        "authors": [
+          {
+            "name": "Camila Anguiano Virgen - 2019 Student Award Winner",
+            "isPresenter": true
+          }
+        ],
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/09%20Virgen.pdf",
+        "presentation_file": "13th_Virgen_Detection_and_Analysis_Presentation.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Virgen.pdf",
+        "abstract_file": "13th_Virgen_Detection_and_Analysis_Abstract.pdf"
+      },
+      {
+        "date": "09/18/2019",
+        "time": "11:00 a.m.",
+        "session": "Technical Session V",
+        "title": "Designing a Coded Aperture Cycloidal Mass Analyzer to Detect Perfluorocarbon Tracers",
+        "authors": [
+          {
+            "name": "Kathleen L. Horvath - 2019 Student Award Winner",
+            "isPresenter": true
+          }
+        ],
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/09%20Virgen.pdf",
+        "presentation_file": "13th_Horvath_Designing_a_Coded_Presentation.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Horvath.pdf",
+        "abstract_file": "13th_Horvath_Designing_a_Coded_Abstract.pdf"
+      }
+    ],
+    "sponsors": [],
+    "student_awards": [
+      {
+        "time": "09:30",
+        "date": "Tuesday, September 17, 2019: HEMS Workshop",
+        "session": "Technical Session I",
+        "title": "",
+        "name": "Kathleen L. Horvath",
+        "institute": "",
+        "presentation_file": "13th_Kathleen_L__Horvath_Student_Award.pdf",
+        "abstract_file": "13th_Kathleen_L__Horvath_Student_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/10%20Horvath.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Horvath.pdf"
+      },
+      {
+        "time": "11:30",
+        "date": "Tuesday, September 17, 2019: HEMS Workshop",
+        "session": "Technical Session II",
+        "title": "",
+        "name": "Tanouir Aloui",
+        "institute": "Duke University",
+        "presentation_file": "13th_Tanouir_Aloui_Student_Award.pdf",
+        "abstract_file": "13th_Tanouir_Aloui_Student_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/05%20Aloui.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Aloui.pdf"
+      },
+      {
+        "time": "10:30",
+        "date": "Wednesday, September 18, 2019: HEMS Workshop",
+        "session": "Technical Session V",
+        "title": "",
+        "name": "Camila Anguiano Virgen",
+        "institute": "University of North Texas",
+        "presentation_file": "13th_Camila_Anguiano_Virgen_Student_Award.pdf",
+        "abstract_file": "13th_Camila_Anguiano_Virgen_Student_Abstract.pdf",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/09%20Virgen.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Virgen.pdf"
+      }
+    ],
+    "posters": [
+      {
+        "title": "Determination of the Presence of Biological Compounds in Aerosol Particles with a Linear Ion Trap",
+        "presentation_file": "13th_Grimes_Determination_Poster.pdf",
+        "abstract_file": "13th_Grimes_Determination_of_the_Abstract.pdf",
+        "authors": [
+          {
+            "name": "Nathan Grimes",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "date": "09/17/2019",
+        "time": "16:00",
+        "session": "Poster Session",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Grimes.pdf"
+      },
+      {
+        "title": "Overview of the MOMA Mass Spectrometer and Examination of Some Mineral Matrices as Learning Curve for MOMA Return Data",
+        "presentation_file": "13th_Amerom_Overview_Poster.pdf",
+        "abstract_file": "13th_Amerom_Overview_of_the_Abstract.pdf",
+        "authors": [
+          {
+            "name": "F. H. W. van Amerom",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "date": "09/17/2019",
+        "time": "16:00",
+        "session": "Poster Session",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/23%20van%20Ameron.pdf",
+        "poster_file": "13th_Amerom_Overview_of_the_Poster.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/van%20Ameron.pdf"
+      },
+      {
+        "title": "A Comparison of Thermionic Filament and Carbon Nanotube Field Emitter Array-based Ion Sources in Coded Aperture Miniature Mass Spectrometers",
+        "presentation_file": "13th_Vyas_Comparison_Poster.pdf",
+        "abstract_file": "13th_Vyas_A_Comparison_of_Abstract.pdf",
+        "authors": [
+          {
+            "name": "Raul Vyas",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "date": "09/17/2019",
+        "time": "16:00",
+        "session": "Poster Session",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/24%20Vyas.pdf",
+        "poster_file": "13th_Vyas_A_Comparison_of_Poster.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Vyas.pdf"
+      },
+      {
+        "title": "In-situ Measurements of \u256c\u252413C and \u256c\u252418O of Dissolved CO2 using an Underwater Mass Spectrometer",
+        "presentation_file": "13th_Wieman_Insitu_Poster.pdf",
+        "abstract_file": "13th_Wieman_Insitu_Measurements_of_Abstract.pdf",
+        "authors": [
+          {
+            "name": "Scott T. Wieman",
+            "isPresenter": true,
+            "affiliation": ""
+          }
+        ],
+        "date": "09/17/2019",
+        "time": "16:00",
+        "session": "Poster Session",
+        "url": "https://www.hems-workshop.org/13thWS/Presentations/25%20Wieman.pdf",
+        "poster_file": "13th_Wieman_Insitu_Measurements_of_Poster.pdf",
+        "abstract_url": "https://www.hems-workshop.org/13thWS/Abstracts/Wieman.pdf"
+      }
+    ],
+    "events": [
+      {
+        "date": "2019-09-16",
+        "title": "Travel Day",
+        "events": [
+          {
+            "time": "17:30",
+            "end_time": "19:30",
+            "title": "Registration and Welcome Reception",
+            "subtitle": "Coastal Grill Bar - Manager's Reception",
+            "location": "",
+            "location_url": ""
+          }
+        ]
+      },
+      {
+        "date": "2019-09-17",
+        "title": "HEMS Workshop, Day 1",
+        "events": [
+          {
+            "time": "08:00",
+            "title": "Set-up of vendor tables and registration",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "08:30",
+            "title": "Welcome Remarks",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "10:00",
+            "title": "Mid-morning Break",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "12:00",
+            "title": "Lunch Provided",
+            "subtitle": "",
+            "location": "Palladium Terrace",
+            "location_url": ""
+          },
+          {
+            "time": "14:00",
+            "end_time": "",
+            "title": "Technical Session III: Vendor Presentations",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "15:30",
+            "title": "Poster Presenter Lightning Round",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "16:00",
+            "end_time": "19:00",
+            "title": "Poster/Vendor Session",
+            "subtitle": "Refreshments served during poster session",
+            "location": "Palladium Foyer",
+            "location_url": ""
+          },
+          {
+            "time": "19:00",
+            "title": "Evening Free",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          }
+        ]
+      },
+      {
+        "date": "2019-09-18",
+        "title": "HEMS Workshop, Day 2",
+        "events": [
+          {
+            "time": "10:00",
+            "title": "Group Photo / Mid-morning Break",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "12:00",
+            "title": "Lunch on your own",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "15:00",
+            "title": "Mid-Afternoon Break",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "19:00",
+            "title": "Workshop Dinner",
+            "subtitle": "",
+            "location": "Lands End",
+            "location_url": ""
+          }
+        ]
+      },
+      {
+        "date": "2019-09-19",
+        "title": "HEMS Workshop, Day 3",
+        "events": [
+          {
+            "time": "10:00",
+            "title": "Mid-morning Break",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "11:30",
+            "title": "Closing Remarks",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "12:00",
+            "title": "Workshop Ends",
+            "subtitle": "",
+            "location": "",
+            "location_url": ""
+          }
+        ]
+      }
+    ],
+    "program_url": "https://www.hems-workshop.org/13thWS/13thProgramdownload.pdf",
+    "program_file": "13th_Program.pdf",
+    "participant_list_url": "https://www.hems-workshop.org/13thWS/2019%20HEMS%20Workshop%20Attendees.pdf",
+    "participant_list_file": "13th_Participant_List.pdf",
+    "host_corporation": {
+      "name": "Collins Aerospace",
+      "url": "https://www.rtx.com/collinsaerospace",
+      "logo_file": "host_Collins_Aerospace.png"
+    },
+    "dates": "September 16\u0393\u00c7\u00f419, 2019"
+  },
+  {
+    "number": 14,
+    "year": "2022",
+    "city": "Cocoa Beach",
+    "venue": "Courtyard Cocoa Beach Cape Canaveral",
+    "presentations": [
+      {
+        "date": "09/27/2022",
+        "time": "9:00 a.m.",
+        "session": "Plenary Lecture (Mercury Room)",
+        "title": "Giving Humanity a Platform in Space to Improve Life on Earth",
+        "authors": [
+          {
+            "name": "Nate Wood",
+            "isPresenter": true
+          }
+        ],
+        "url": "",
+        "abstract_url": ""
+      },
+      {
+        "date": "09/27/2022",
+        "time": "10:30 a.m.",
+        "session": "Technical Session I (Mercury Room)",
+        "title": "Breath Markers of Disease Identifiers for Portable Mass Spectrometry",
+        "authors": [
+          {
+            "name": "Guido Verbeck",
+            "isPresenter": true
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Verbeck.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Verbeck.pdf",
+        "presentation_file": "14th_Verbeck_Breath_Markers_of_Presentation.pdf",
+        "abstract_file": "14th_Verbeck_Breath_Markers_of_Abstract.pdf"
+      },
+      {
+        "date": "09/27/2022",
+        "time": "11:00 a.m.",
+        "session": "Technical Session I (Mercury Room)",
+        "title": "Development of mass spectrometer for organic molecule detection in the future space life search missions",
+        "authors": [
+          {
+            "name": "Dejan Maletic",
+            "isPresenter": true
+          },
+          {
+            "name": "Victor Abrahamsson",
+            "isPresenter": false
+          },
+          {
+            "name": "Jurij Simcic",
+            "isPresenter": false
+          },
+          {
+            "name": "Dragan Nikolic",
+            "isPresenter": false
+          },
+          {
+            "name": "Stojan Madzunkov",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Abstracts/Maletic.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Maletic.pdf",
+        "abstract_file": "14th_Maletic_Development_of_mass_Abstract.pdf",
+        "presentation_file": "14th_Maletic_Development_of_mass_Presentation.pdf"
+      },
+      {
+        "date": "09/27/2022",
+        "time": "11:30 a.m.",
+        "session": "Technical Session I (Mercury Room)",
+        "title": "Development of the Dragonfly Mass Spectrometer (DraMS)",
+        "authors": [
+          {
+            "name": "Xiang Li",
+            "isPresenter": true
+          },
+          {
+            "name": "Friso van Amerom",
+            "isPresenter": false
+          },
+          {
+            "name": "Andrej Grubisic",
+            "isPresenter": false
+          },
+          {
+            "name": "Jacob Graham",
+            "isPresenter": false
+          },
+          {
+            "name": "Ryan Danell",
+            "isPresenter": false
+          },
+          {
+            "name": "Desmond Kaplan",
+            "isPresenter": false
+          },
+          {
+            "name": "Marco Castillo",
+            "isPresenter": false
+          },
+          {
+            "name": "Matthew Francom",
+            "isPresenter": false
+          },
+          {
+            "name": "Peter Barfknecht",
+            "isPresenter": false
+          },
+          {
+            "name": "William Brinckerhoff",
+            "isPresenter": false
+          },
+          {
+            "name": "Melissa Trainer",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Li.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Li.pdf",
+        "presentation_file": "14th_Li_Development_of_the_Presentation.pdf",
+        "abstract_file": "14th_Li_Development_of_the_Abstract.pdf"
+      },
+      {
+        "date": "09/27/2022",
+        "time": "1:00 p.m.",
+        "session": "Technical Session II (Mercury Room)",
+        "title": "Investigation of disinfection byproduct formation during advanced water treatment",
+        "authors": [
+          {
+            "name": "Frants R. Lauritsen",
+            "isPresenter": true
+          },
+          {
+            "name": "James N. McPherson",
+            "isPresenter": false
+          },
+          {
+            "name": "Freja T. Larsen",
+            "isPresenter": false
+          },
+          {
+            "name": "Christine J. McKenzie",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Lauritsen.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Li.pdf",
+        "presentation_file": "14th_Lauritsen_Investigation_of_disinfection_Presentation.pdf",
+        "abstract_file": "14th_Lauritsen_Investigation_of_disinfection_Abstract.pdf"
+      },
+      {
+        "date": "09/27/2022",
+        "time": "1:30 p.m.",
+        "session": "Technical Session II (Mercury Room)",
+        "title": "Multi-dimensional Portable Mass Spectrometry for Biological Detection",
+        "authors": [
+          {
+            "name": "Ethan McBride",
+            "isPresenter": true
+          },
+          {
+            "name": "Zachary Sasiene",
+            "isPresenter": false
+          },
+          {
+            "name": "William Hlavacek",
+            "isPresenter": false
+          },
+          {
+            "name": "Nileena Velappan",
+            "isPresenter": false
+          },
+          {
+            "name": "Erick LeBrun",
+            "isPresenter": false
+          },
+          {
+            "name": "Nathan Patterson",
+            "isPresenter": false
+          },
+          {
+            "name": "Martin Dufresne",
+            "isPresenter": false
+          },
+          {
+            "name": "Melissa Farrow",
+            "isPresenter": false
+          },
+          {
+            "name": "Jeremy Norris",
+            "isPresenter": false
+          },
+          {
+            "name": "Richard Caprioli",
+            "isPresenter": false
+          },
+          {
+            "name": "Trevor Glaros",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/McBride.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/McBride.pdfhttps://www.hems-workshop.org/14thWS/Abstracts/McBride.pdf",
+        "presentation_file": "14th_McBride_Multidimensional_Portable_Mass_Presentation.pdf",
+        "abstract_file": "14th_McBride_Multidimensional_Portable_Mass_Abstract.pdf"
+      },
+      {
+        "date": "09/27/2022",
+        "time": "3:00 p.m.",
+        "session": "Technical Session III (Mercury Room)",
+        "title": "Two-Dimensional Tandem Mass Spectrometry as a Method for Bacterial Profiling",
+        "authors": [
+          {
+            "name": "Thomas Sams",
+            "isPresenter": true
+          },
+          {
+            "name": "Lucas Szalwinski",
+            "isPresenter": false
+          },
+          {
+            "name": "L. Edwin Gonzalez",
+            "isPresenter": false
+          },
+          {
+            "name": "Eric Dziekonski",
+            "isPresenter": false
+          },
+          {
+            "name": "Graham Cooks",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Sams.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Szalwinski,.pdf",
+        "presentation_file": "14th_Sams_TwoDimensional_Tandem_Mass_Presentation.pdf",
+        "abstract_file": "14th_Sams_TwoDimensional_Tandem_Mass_Abstract.pdf"
+      },
+      {
+        "date": "09/27/2022",
+        "time": "3:30 p.m.",
+        "session": "Technical Session III (Mercury Room)",
+        "title": "Planar Design Differential Ion Mobility Spectrometer (DMS)",
+        "authors": [
+          {
+            "name": "Erkinjon Nazarov",
+            "isPresenter": true
+          },
+          {
+            "name": "James Alberti",
+            "isPresenter": false
+          },
+          {
+            "name": "Peter Fowler",
+            "isPresenter": false
+          },
+          {
+            "name": "Gary Eiceman",
+            "isPresenter": false
+          },
+          {
+            "name": "Bradley Schneider",
+            "isPresenter": false
+          },
+          {
+            "name": "Thomas Covey",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Nazarov.pdf",
+        "presentation_file": "14th_Nazarov_Planar_Design_Differential_Presentation.pdf",
+        "abstract_file": "14th_Nazarov_Planar_Design_Differential_Abstract.pdf"
+      },
+      {
+        "date": "09/27/2022",
+        "time": "4:00 p.m.",
+        "session": "Technical Session III (Mercury Room)",
+        "title": "MT Explorer 30: A Portable Tandem Mass Spectrometer",
+        "authors": [
+          {
+            "name": "Venkateswarlu Panchagnula",
+            "isPresenter": true
+          },
+          {
+            "name": "Konstantin Novoselov",
+            "isPresenter": false
+          },
+          {
+            "name": "Victor Laiko",
+            "isPresenter": false
+          },
+          {
+            "name": "Caleigh O'Connor",
+            "isPresenter": false
+          },
+          {
+            "name": "Madhuri Gupta",
+            "isPresenter": false
+          },
+          {
+            "name": "Vishal Mahale",
+            "isPresenter": false
+          },
+          {
+            "name": "Vladimir Doroshenko",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Panchagnula.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Panchagnula.pdf",
+        "presentation_file": "14th_Panchagnula_MT_Explorer_30_Presentation.pdf",
+        "abstract_file": "14th_Panchagnula_MT_Explorer_30_Abstract.pdf"
+      },
+      {
+        "date": "09/28/2022",
+        "time": "9:00 a.m.",
+        "session": "Technical Session IV (Mercury Room)",
+        "title": "MS field applications in CBSA operations",
+        "authors": [
+          {
+            "name": "Marie-Jos\u251c\u2310e Binette",
+            "isPresenter": true
+          }
+        ],
+        "url": "",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Binette .pdf",
+        "presentation_file": "14th_Binette_MS_field_applications_Presentation.pdf",
+        "abstract_file": "14th_Binette_MS_field_applications_Abstract.pdf"
+      },
+      {
+        "date": "09/28/2022",
+        "time": "9:30 a.m.",
+        "session": "Technical Session IV (Mercury Room)",
+        "title": "Structural Content in Field Induced Fragmentation Spectra",
+        "authors": [
+          {
+            "name": "Gary Eiceman",
+            "isPresenter": true
+          },
+          {
+            "name": "Peter Fowler",
+            "isPresenter": false
+          },
+          {
+            "name": "Hossein Shokri",
+            "isPresenter": false
+          },
+          {
+            "name": "Erkin Nazarov",
+            "isPresenter": false
+          },
+          {
+            "name": "Ben Gardner",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Eiceman.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Eiceman.pdf",
+        "presentation_file": "14th_Eiceman_Structural_Content_in_Presentation.pdf",
+        "abstract_file": "14th_Eiceman_Structural_Content_in_Abstract.pdf"
+      },
+      {
+        "date": "09/28/2022",
+        "time": "10:30 a.m.",
+        "session": "Technical Session V (Mercury Room)",
+        "title": "Overview and Testing of the Mars Organic Molecule Analyzer (MOMA)",
+        "authors": [
+          {
+            "name": "Friso van Amerom",
+            "isPresenter": true
+          },
+          {
+            "name": "Andrej Grubisic",
+            "isPresenter": false
+          },
+          {
+            "name": "Marco Castillo",
+            "isPresenter": false
+          },
+          {
+            "name": "Desmond A. Kaplan",
+            "isPresenter": false
+          },
+          {
+            "name": "Xiang Li",
+            "isPresenter": false
+          },
+          {
+            "name": "Ryan M. Danell",
+            "isPresenter": false
+          },
+          {
+            "name": "Stephanie A. Getty",
+            "isPresenter": false
+          },
+          {
+            "name": "William B. Brinckerhoff",
+            "isPresenter": false
+          },
+          {
+            "name": "Arnaud Buch",
+            "isPresenter": false
+          },
+          {
+            "name": "Fabien Stalport",
+            "isPresenter": false
+          },
+          {
+            "name": "Naila Chaouche",
+            "isPresenter": false
+          },
+          {
+            "name": "Clara Azemard",
+            "isPresenter": false
+          },
+          {
+            "name": "Fran\u251c\u00baois Raulin",
+            "isPresenter": false
+          },
+          {
+            "name": "Noel Grand",
+            "isPresenter": false
+          },
+          {
+            "name": "Caroline Freissinet",
+            "isPresenter": false
+          },
+          {
+            "name": "Melissa Guzman",
+            "isPresenter": false
+          },
+          {
+            "name": "Cyril Szopa",
+            "isPresenter": false
+          },
+          {
+            "name": "Teresa Fornaro",
+            "isPresenter": false
+          },
+          {
+            "name": "John Robert Brucato",
+            "isPresenter": false
+          },
+          {
+            "name": "Sandra Siljestr\u251c\u2562m",
+            "isPresenter": false
+          },
+          {
+            "name": "Walter Goetz",
+            "isPresenter": false
+          },
+          {
+            "name": "Fred Goesmann",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/van Amerom.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/van%20Amerom%20.pdf",
+        "presentation_file": "14th_Amerom_Overview_and_Testing_Presentation.pdf",
+        "abstract_file": "14th_Amerom_Overview_and_Testing_Abstract.pdf"
+      },
+      {
+        "date": "09/28/2022",
+        "time": "11:00 a.m.",
+        "session": "Technical Session V (Mercury Room)",
+        "title": "Plasma Ion Source for Atmospheric Pressure Ionization Mass - Spectrometry",
+        "authors": [
+          {
+            "name": "Jim Alberti",
+            "isPresenter": true
+          },
+          {
+            "name": "Erkin Nazarov",
+            "isPresenter": false
+          },
+          {
+            "name": "Peter Fowler",
+            "isPresenter": false
+          },
+          {
+            "name": "Gary Eiceman",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Alberti.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Alberti.pdf",
+        "presentation_file": "14th_Alberti_Plasma_Ion_Source_Presentation.pdf",
+        "abstract_file": "14th_Alberti_Plasma_Ion_Source_Abstract.pdf"
+      },
+      {
+        "date": "09/28/2022",
+        "time": "11:30 a.m.",
+        "session": "Technical Session V (Mercury Room)",
+        "title": "A Ruggedized, Portable Triple Quadrupole Mass Spectrometer",
+        "authors": [
+          {
+            "name": "Alexandra Wrobel",
+            "isPresenter": true
+          },
+          {
+            "name": "Kevin Tangen",
+            "isPresenter": false
+          },
+          {
+            "name": "Geoffrey Geurtsen",
+            "isPresenter": false
+          },
+          {
+            "name": "Jeffrey Werlich",
+            "isPresenter": false
+          },
+          {
+            "name": "Anthony Castellanos",
+            "isPresenter": false
+          },
+          {
+            "name": "Vladimir Kekukh",
+            "isPresenter": false
+          },
+          {
+            "name": "Alla Ostrinskaya",
+            "isPresenter": false
+          },
+          {
+            "name": "Ta-Hsuan Ong",
+            "isPresenter": false
+          },
+          {
+            "name": "Ken Ribeiro",
+            "isPresenter": false
+          },
+          {
+            "name": "Roderick Kunz",
+            "isPresenter": false
+          }
+        ],
+        "url": "",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Wrobel.pdf",
+        "presentation_file": "14th_Wrobel_A_Ruggedized_Portable_Presentation.pdf",
+        "abstract_file": "14th_Wrobel_A_Ruggedized_Portable_Abstract.pdf"
+      },
+      {
+        "date": "09/28/2022",
+        "time": "3:30 p.m.",
+        "session": "Technical Session VI (Mercury Room)",
+        "title": "Chip-Scale Mass Spectrometry: Yet another contender for Harsh Environments?",
+        "authors": [
+          {
+            "name": "Ashish Chaudhary",
+            "isPresenter": true
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Chaudhary.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Chaudhary%20.pdf",
+        "presentation_file": "14th_Chaudhary_ChipScale_Mass_Spectrometry_Presentation.pdf",
+        "abstract_file": "14th_Chaudhary_ChipScale_Mass_Spectrometry_Abstract.pdf"
+      },
+      {
+        "date": "09/28/2022",
+        "time": "4:00 p.m.",
+        "session": "Technical Session VI (Mercury Room)",
+        "title": "Europan Molecular Indicators of Life Investigation (EMILI)",
+        "authors": [
+          {
+            "name": "Desmond Kaplan",
+            "isPresenter": true
+          },
+          {
+            "name": "M. Fernanda Mora",
+            "isPresenter": false
+          },
+          {
+            "name": "Tomas Drevinskas",
+            "isPresenter": false
+          },
+          {
+            "name": "Ryan Danell",
+            "isPresenter": false
+          },
+          {
+            "name": "Andrej Grubisic",
+            "isPresenter": false
+          },
+          {
+            "name": "Aaron Noell",
+            "isPresenter": false
+          },
+          {
+            "name": "Bethany Theiling",
+            "isPresenter": false
+          },
+          {
+            "name": "Friso van Amerom",
+            "isPresenter": false
+          },
+          {
+            "name": "Marco Castillo",
+            "isPresenter": false
+          },
+          {
+            "name": "Xiang Li",
+            "isPresenter": false
+          },
+          {
+            "name": "Antonio Ricco",
+            "isPresenter": false
+          },
+          {
+            "name": "Richard Quinn",
+            "isPresenter": false
+          },
+          {
+            "name": "Cyril Szopa",
+            "isPresenter": false
+          },
+          {
+            "name": "Caroline Freissinet",
+            "isPresenter": false
+          },
+          {
+            "name": "Arnaud Buch",
+            "isPresenter": false
+          },
+          {
+            "name": "Fabien Stalport",
+            "isPresenter": false
+          },
+          {
+            "name": "Peter Willis",
+            "isPresenter": false
+          },
+          {
+            "name": "William Brinckerhoff",
+            "isPresenter": false
+          }
+        ],
+        "url": "",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Kaplan.pdf",
+        "presentation_file": "14th_Kaplan_Europan_Molecular_Indicators_Presentation.pdf",
+        "abstract_file": "14th_Kaplan_Europan_Molecular_Indicators_Abstract.pdf"
+      },
+      {
+        "date": "09/29/2022",
+        "time": "8:30 a.m.",
+        "session": "Technical Session VII (Mercury Room)",
+        "title": "Instrument Modeling: Simulation, Field Analysis, Synthesis, and Space-Charge",
+        "authors": [
+          {
+            "name": "Robert Jackson",
+            "isPresenter": true
+          },
+          {
+            "name": "Mark Osgood",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Wednesday/Jackson.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Jackson.pdf",
+        "presentation_file": "14th_Jackson_Instrument_Modeling_Simulation_Presentation.pdf",
+        "abstract_file": "14th_Jackson_Instrument_Modeling_Simulation_Abstract.pdf"
+      },
+      {
+        "date": "09/29/2022",
+        "time": "9:00 a.m.",
+        "session": "Technical Session VII (Mercury Room)",
+        "title": "Lunar Cube Sat Mass Spectrometer",
+        "authors": [
+          {
+            "name": "Stojan Madzunkov",
+            "isPresenter": true
+          },
+          {
+            "name": "Dragan Nikolic",
+            "isPresenter": false
+          }
+        ],
+        "url": "",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Madzunkov.pdf",
+        "abstract_file": "14th_Madzunkov_Lunar_Cube_Sat_Abstract.pdf"
+      },
+      {
+        "date": "09/29/2022",
+        "time": "9:30 a.m.",
+        "session": "Technical Session VII (Mercury Room)",
+        "title": "An optimized membrane inlet system (MIS) for underwater sensors. - From idea to product",
+        "authors": [
+          {
+            "name": "Torben Gentz",
+            "isPresenter": true
+          },
+          {
+            "name": "Malte H\u251c\u00e2\u252c\u2562hn",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Thursday/Gentz.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Gentz.pdf",
+        "presentation_file": "14th_Gentz_An_optimized_membrane_Presentation.pdf",
+        "abstract_file": "14th_Gentz_An_optimized_membrane_Abstract.pdf"
+      },
+      {
+        "date": "09/29/2022",
+        "time": "10:30 a.m.",
+        "session": "Technical Session VIII (Mercury Room)",
+        "title": "Portable MALDI-TOF Mass Spectrometer for Bioaerosol Detection",
+        "authors": [
+          {
+            "name": "Vadym Berkout",
+            "isPresenter": true
+          },
+          {
+            "name": "Stuart Collymore",
+            "isPresenter": false
+          },
+          {
+            "name": "Scott Ecelberger",
+            "isPresenter": false
+          },
+          {
+            "name": "Mike McLoughlin",
+            "isPresenter": false
+          },
+          {
+            "name": "Wayne Bryden",
+            "isPresenter": false
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Thursday/Berkout.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Berkout.pdf",
+        "presentation_file": "14th_Berkout_Portable_MALDITOF_Mass_Presentation.pdf",
+        "abstract_file": "14th_Berkout_Portable_MALDITOF_Mass_Abstract.pdf"
+      },
+      {
+        "date": "09/29/2022",
+        "time": "11:00 a.m.",
+        "session": "Technical Session VIII (Mercury Room)",
+        "title": "RF-Only Quadrupole Mass Spectrometry for High Sensitivity at High Mass Resolution",
+        "authors": [
+          {
+            "name": "Randy Pedder",
+            "isPresenter": true
+          }
+        ],
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Thursday/Pedder.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Pedder.pdf",
+        "presentation_file": "14th_Pedder_RFOnly_Quadrupole_Mass_Presentation.pdf",
+        "abstract_file": "14th_Pedder_RFOnly_Quadrupole_Mass_Abstract.pdf"
+      }
+    ],
+    "sponsors": [
+      {
+        "company": "Adaptas Solutions",
+        "year": "2011",
+        "link": "https://lifescience.imiplc.com/",
+        "logo_file": "Adaptas_Solutions_2011.png"
+      },
+      {
+        "company": "BaySpec",
+        "year": "2015",
+        "link": "https://www.bayspec.com/product-category/mass-spectroscopy/",
+        "logo_file": "BaySpec_2015.png"
+      },
+      {
+        "company": "Teledyne FLIR",
+        "year": "2003",
+        "link": "https://defense.flir.com/detection/overview/",
+        "logo_file": "Teledyne_FLIR_2003.png"
+      },
+      {
+        "company": "Pfeiffer Vacuum ",
+        "year": "2005",
+        "link": "https://www.pfeiffervacuum.com/us/en/",
+        "logo_file": "Pfeiffer_Vacuum__2005.png"
+      },
+      {
+        "company": "InspectIR Systems",
+        "year": "2022",
+        "link": "https://inspect-ir.com/",
+        "logo_file": "InspectIR_Systems_2022.png"
+      },
+      {
+        "company": "Leybold USA",
+        "year": "2022",
+        "link": "https://www.leybold.com/en-us",
+        "logo_file": "Leybold_USA_2022.png"
+      },
+      {
+        "company": "MassTech Inc",
+        "year": "2022",
+        "link": "https://www.apmaldi.com/main/",
+        "logo_file": "MassTech_Inc_2022.png"
+      },
+      {
+        "company": "RIIS Technology",
+        "year": "2022",
+        "link": "https://www.riis.tech/",
+        "logo_file": "RIIS_Technology_2022.png"
+      }
+    ],
+    "student_awards": [
+      {
+        "name": "Thomas C. Sams",
+        "institute": "Purdue University",
+        "url": "https://www.hems-workshop.org/14thWS/Talks/Tuesday/Sams.pdf",
+        "presentation_file": "14th_Thomas_C__Sams_Student_Award.pdf",
+        "abstract_url": "https://www.hems-workshop.org/14thWS/Abstracts/Szalwinski,.pdf",
+        "abstract_file": "14th_Thomas_C__Sams_Student_Abstract.pdf"
+      }
+    ],
+    "posters": [],
+    "events": [
+      {
+        "date": "2022-09-26",
+        "time": "6:00 p.m.",
+        "title": "Travel Day",
+        "subtitle": "Location: Sandbar Sports Grill, 4301 Ocean Beach Blvd, Cocoa Beach, FL",
+        "events": [
+          {
+            "time": "18:00",
+            "title": "Welcome Reception",
+            "subtitle": "Sandbar Sports Grill",
+            "location": "4301 Ocean Beach Blvd, Cocoa Beach, FL",
+            "location_url": "https://maps.app.goo.gl/2tfmm2ESQTvmvTKM6",
+            "end_time": "21:00",
+            "subtitle_url": "http://www.sandbarsportsgrill.net/"
+          }
+        ]
+      },
+      {
+        "date": "2022-09-27",
+        "time": "12:00 noon",
+        "title": "HEMS Workshop, Day 1",
+        "subtitle": "Sponsored by Pfeiffer (Lobby)",
+        "events": [
+          {
+            "time": "07:30",
+            "end_time": "",
+            "title": "Registration and Vendor Setup",
+            "subtitle": "Mars Room",
+            "subtitle_url": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "08:00",
+            "end_time": "",
+            "title": "Breakfast",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "08:45",
+            "end_time": "",
+            "title": "Welcome Remarks",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Mercury Room",
+            "location_url": ""
+          },
+          {
+            "time": "10:00",
+            "end_time": "",
+            "title": "Mid-morning Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "12:00",
+            "end_time": "",
+            "title": "Lunch, Sponsored by Pfeiffer",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "14:00",
+            "end_time": "",
+            "title": "Coffee & Sponsor Introductions",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Mecury Room",
+            "location_url": ""
+          },
+          {
+            "time": "18:00",
+            "end_time": "",
+            "title": "Workshop Dinner, Sponsored by IMI Adaptas",
+            "subtitle": "Fishlips Waterfront Bar and Grill",
+            "subtitle_url": "http://fishlipswaterfront.com/",
+            "location": "610 Glen Cheek Dr, Port Canaveral, FL",
+            "location_url": "https://maps.app.goo.gl/jmyda3koQgv3My8U9"
+          }
+        ]
+      },
+      {
+        "date": "2022-09-28",
+        "title": "HEMS Workshop Day 2",
+        "events": [
+          {
+            "time": "07:45",
+            "end_time": "",
+            "title": "Breakfast",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "10:00",
+            "end_time": "",
+            "title": "Mid-morning Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "12:00",
+            "end_time": "",
+            "title": "Lunch",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "15:00",
+            "end_time": "",
+            "title": "Mid-Afternoon Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "18:00",
+            "end_time": "",
+            "title": "Dinner on your own",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "",
+            "location_url": ""
+          }
+        ]
+      },
+      {
+        "date": "2022-09-29",
+        "title": "HEMS Workshop, Day 3",
+        "events": [
+          {
+            "time": "07:30",
+            "end_time": "",
+            "title": "Breakfast",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "10:00",
+            "end_time": "",
+            "title": "Mid-morning Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Lobby",
+            "location_url": ""
+          },
+          {
+            "time": "11:30",
+            "end_time": "",
+            "title": "Closing Remarks",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Mercury Room",
+            "location_url": ""
+          },
+          {
+            "time": "12:00",
+            "end_time": "",
+            "title": "Workshop Ends",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "",
+            "location_url": ""
+          }
+        ]
+      }
+    ],
+    "address": "3435 North Atlantic Avenue, Cocoa Beach, Florida, 32931",
+    "venue_url": "https://www.marriott.com/en-us/hotels/mlbcb-courtyard-cocoa-beach-cape-canaveral/overview/",
+    "program_url": "https://www.hems-workshop.org/14thWS/Final%20Program%20SEPT21.pdf",
+    "participant_list_url": "https://www.hems-workshop.org/14thWS/2022%20HEMS%20Workshop%20Attendees.pdf",
+    "dates": "September 26-29, 2022"
+  }
+]

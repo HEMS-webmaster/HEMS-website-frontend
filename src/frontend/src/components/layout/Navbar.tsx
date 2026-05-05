@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Activity } from "lucide-react";
+import workshopsData from "@/data/master_workshops.json";
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-40 w-full bg-surface/90 backdrop-blur-md border-b border-primary/30 relative overflow-hidden">
-      {/* Topographic SVG Graphic */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
+    <nav className="sticky top-0 z-40 w-full bg-surface/90 backdrop-blur-md border-b border-primary/30 relative">
+      {/* Topographic SVG Graphic - Constrained to prevent bleeding */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-30 overflow-hidden">
         <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
           <path d="M0,50 Q250,-20 500,50 T1000,50" fill="none" stroke="currentColor" strokeWidth="1" className="text-primary" />
           <path d="M0,60 Q250,0 500,60 T1000,60" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-primary opacity-70" />
@@ -37,7 +38,26 @@ export default function Navbar() {
               </div>
               <Link href="/layout-portal" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Portal</Link>
               <Link href="/about" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">About Us</Link>
-              <Link href="/archive" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Archive</Link>
+              <div className="relative group">
+                <Link href="/archive" className="text-foreground/90 hover:text-primary transition-colors flex items-center gap-1 font-medium bg-transparent px-2 py-1 rounded-md">
+                  Archives
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                </Link>
+                <div className="absolute top-full left-0 mt-2 w-56 bg-background border border-foreground/10 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-2 max-h-[70vh] overflow-y-auto">
+                    <Link href="/archive" className="block px-4 py-2 text-sm font-bold text-primary border-b border-foreground/10 hover:bg-primary/10">Archives Home</Link>
+                    {[...workshopsData].sort((a, b) => Number(b.year) - Number(a.year)).map((ws: { year: string, ordinal: string }, idx: number) => (
+                      <Link 
+                        key={idx} 
+                        href={`/archive/${ws.year}`} 
+                        className="block px-4 py-2 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary"
+                      >
+                        {ws.ordinal} Workshop ({ws.year})
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
               <Link href="/contact" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Contact</Link>
               <Link href="/join" className="bg-foreground text-background hover:bg-foreground/80 px-4 py-2 rounded-md font-bold transition-all shadow-md">
                 Join HEMS

@@ -80,7 +80,7 @@ export default function WorkshopManager() {
   useEffect(() => {
     // In a real scenario, we'd fetch from a GET api, but to keep it simple
     // we can use dynamic import or just start with an empty array if not fetched.
-    fetch('/api/manager/workshops')
+    fetch('/api/manager/workshops?v=2')
       .then((res) => {
         if (!res.ok) throw new Error('Not found');
         return res.json();
