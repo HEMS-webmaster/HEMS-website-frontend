@@ -46,15 +46,22 @@ export default function Navbar() {
                 <div className="absolute top-full left-0 mt-2 w-56 bg-background border border-foreground/10 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                   <div className="py-2 max-h-[70vh] overflow-y-auto">
                     <Link href="/archive" className="block px-4 py-2 text-sm font-bold text-primary border-b border-foreground/10 hover:bg-primary/10">Archives Home</Link>
-                    {[...workshopsData].sort((a, b) => Number(b.year) - Number(a.year)).map((ws: { year: string, ordinal: string }, idx: number) => (
+                    {[...workshopsData].sort((a, b) => Number(b.year) - Number(a.year)).map((ws: any, idx: number) => {
+                      const getOrdinal = (n: number) => {
+                        if (n === 1) return "1st";
+                        if (n === 2) return "2nd";
+                        if (n === 3) return "3rd";
+                        return `${n}th`;
+                      };
+                      return (
                       <Link 
                         key={idx} 
                         href={`/archive/${ws.year}`} 
                         className="block px-4 py-2 text-sm text-foreground/80 hover:bg-primary/10 hover:text-primary"
                       >
-                        {ws.ordinal} Workshop ({ws.year})
+                        {getOrdinal(ws.number)} Workshop ({ws.year})
                       </Link>
-                    ))}
+                    )})}
                   </div>
                 </div>
               </div>
