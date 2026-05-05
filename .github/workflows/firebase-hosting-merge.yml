@@ -38,9 +38,5 @@ jobs:
         run: npm run build
         
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ steps.auth.outputs.credentials_file_path }}'
-          projectId: hems-workshop
-          channelId: live
+        working-directory: src/frontend
+        run: npx firebase-tools deploy --project hems-workshop --only hosting --non-interactive
