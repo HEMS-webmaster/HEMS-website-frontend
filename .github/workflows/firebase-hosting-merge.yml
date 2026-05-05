@@ -20,7 +20,6 @@ jobs:
         with:
           workload_identity_provider: 'projects/996590178042/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
           service_account: 'firebase-github-deploy@hems-workshop.iam.gserviceaccount.com'
-          token_format: 'access_token'
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,7 +37,9 @@ jobs:
         run: npm run build
         
       - name: Deploy to Firebase Hosting
-        working-directory: src/frontend
-        run: npx firebase-tools deploy --project hems-workshop --only hosting --non-interactive
-        env:
-          FIREBASE_TOKEN: ${{ steps.auth.outputs.access_token }}
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: 'firebase-github-deploy@hems-workshop.iam.gserviceaccount.com'
+          projectId: hems-workshop
+          channelId: live
