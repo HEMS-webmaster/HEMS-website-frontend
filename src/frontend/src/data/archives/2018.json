@@ -3,7 +3,7 @@
   "ordinal": "12th",
   "dates": "October 16-18, 2018",
   "venue": "Maritim Hotel",
-  "address": "Heumarkt 20, 50667 Köln, Germany",
+  "address": "Heumarkt 20, 50667 KÃ¶ln, Germany",
   "resources": [
     {
       "label": "Workshop Program",
@@ -29,13 +29,13 @@
     {
       "name": "FLIR / Griffin Analytical Technologies",
       "url": "http://www.icxt.com/technology/mobile-labs/",
-      "image": "/images/sponsors/FLIR_Griffin_Analytical_Technologies.png?v=1777611255839",
+      "image": "/images/sponsors/FLIR_Griffin_Analytical_Technologies.png?v=1778083602512",
       "year": "2003"
     },
     {
       "name": "Pfeiffer Vacuum",
       "url": "https://www.pfeiffervacuum.com/us/en/",
-      "image": "/images/sponsors/Pfeiffer_Vacuum.png?v=1777611411409",
+      "image": "/images/sponsors/Pfeiffer_Vacuum.png?v=1778083518718",
       "year": "2005"
     },
     {
@@ -47,7 +47,7 @@
     {
       "name": "Inficon",
       "url": "http://www.inficon.com/",
-      "image": "/images/sponsors/Inficon.png?v=1777611262403",
+      "image": "/images/sponsors/Inficon.png?v=1778100492331",
       "year": "2013"
     },
     {
@@ -59,7 +59,7 @@
     {
       "name": "Leybold USA",
       "url": "https://www.leybold.com/en-us",
-      "image": "/images/sponsors/Leybold_USA.png?v=1777606835849",
+      "image": "/images/sponsors/Leybold_USA.png?v=1778083583843",
       "year": "2018"
     },
     {
@@ -169,7 +169,7 @@
               ],
               "authors": [
                 {
-                  "name": "Malte Höhn",
+                  "name": "Malte HÃ¶hn",
                   "isPresenter": true,
                   "institute": null
                 },
@@ -623,7 +623,7 @@
           "time": "19:00",
           "end_time": "",
           "title": "Workshop Dinner",
-          "subtitle": "Brauhaus FRÜH am Dom",
+          "subtitle": "Brauhaus FRÃœH am Dom",
           "subtitle_url": "https://www.frueh-am-dom.de/brauhaus.html",
           "location": "map",
           "location_url": "https://maps.app.goo.gl/dT1xQj2dkprzRvMy6"
@@ -635,7 +635,7 @@
     "name": "Inficon",
     "url": "http://www.inficon.com/",
     "logo_file": "Inficon.png",
-    "logo_file_url": "/images/sponsors/Inficon.png?v=1777611262403"
+    "logo_file_url": "/images/sponsors/Inficon.png?v=1778100492331"
   },
   "venue_address_url": "https://maps.app.goo.gl/6nUZT97axxE2cWfB8"
 }

@@ -236,7 +236,6 @@ export default function SponsorsManager({ sponsors = [], wsNum, onChange }: Spon
         </div>
       )}
 
-      {/* Add-to-registry form */}
       {showNewForm && (
         <div className="p-4 rounded border border-indigo-500/50 bg-indigo-900/20 space-y-3">
           <p className="text-xs font-bold text-indigo-300 uppercase tracking-wider">Add New Company to Registry</p>
@@ -272,7 +271,32 @@ export default function SponsorsManager({ sponsors = [], wsNum, onChange }: Spon
               />
             </div>
           </div>
-          <p className="text-xs text-slate-500">After saving, the Manage Registry panel will open for you to drop a logo.</p>
+          
+          <div className="mt-4">
+            {newEntry.company.trim() ? (
+              <div className="space-y-2">
+                <DragDropZone
+                  label="Drop logo PNG"
+                  category="Sponsor"
+                  wsNum="0"
+                  fileName={newEntry.logo_file || standardLogoName(newEntry.company)}
+                  title={newEntry.company}
+                  onSuccess={(filePath: string) => {
+                    const basename = filePath.split(/[/\\]/).pop() || standardLogoName(newEntry.company);
+                    setNewEntry(prev => ({ ...prev, logo_file: basename }));
+                  }}
+                />
+                {newEntry.logo_file && (
+                  <p className="text-xs text-emerald-400 font-mono">✓ Logo staged: {newEntry.logo_file}</p>
+                )}
+              </div>
+            ) : (
+              <div className="border-2 border-dashed border-indigo-500/30 rounded p-4 text-center text-indigo-300/50 text-xs">
+                Type a company name above to enable logo upload.
+              </div>
+            )}
+          </div>
+
           {addError && <p className="text-xs text-red-400">{addError}</p>}
           <button
             onClick={saveToRegistry}

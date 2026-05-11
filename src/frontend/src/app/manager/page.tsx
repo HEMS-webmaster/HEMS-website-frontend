@@ -115,28 +115,21 @@ export default function WorkshopManager() {
     setSaving(false);
   };
 
-  const handlePush = async () => {
+  const handlePushToLive = async () => {
+    const customMessage = window.prompt("Enter an optional commit message (leave blank for auto-generation based on changed files):");
+    if (customMessage === null) return; // User cancelled
+
     setPushing(true);
     try {
-      const res = await fetch('/api/manager/push', { method: 'POST' });
+      const res = await fetch('/api/manager/push-to-live', { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: customMessage })
+      });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Push failed');
-      setLogs(data.message || 'Success');
-      alert('Pushed Frontend to Git successfully!');
-    } catch (err: any) {
-      alert('Error: ' + err.message);
-    }
-    setPushing(false);
-  };
-
-  const handleSyncGCS = async () => {
-    setPushing(true); // Re-use pushing state to block both buttons
-    try {
-      const res = await fetch('/api/manager/sync-gcs', { method: 'POST' });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Sync failed');
-      setLogs(data.gcloudLog || 'Success');
-      alert('Assets Synced to Google Cloud successfully!');
+      if (!res.ok) throw new Error(data.error || 'Push to Live failed');
+      setLogs((data.gcloudLog || '') + '\n' + (data.message || ''));
+      alert('Pushed to Live successfully!');
     } catch (err: any) {
       alert('Error: ' + err.message);
     }
@@ -203,18 +196,11 @@ export default function WorkshopManager() {
             {saving ? 'Saving...' : '💾 Save and Present on Local Host'}
           </button>
           <button 
-            onClick={handlePush}
+            onClick={handlePushToLive}
             disabled={saving || pushing}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50"
+            className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50"
           >
-            {pushing ? 'Running...' : '🚀 Push Frontend to Git'}
-          </button>
-          <button 
-            onClick={handleSyncGCS}
-            disabled={saving || pushing}
-            className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50"
-          >
-            {pushing ? 'Syncing...' : '☁️ Sync Assets to GCloud'}
+            {pushing ? 'Running...' : '🚀 Push to Live'}
           </button>
         </div>
       </div>

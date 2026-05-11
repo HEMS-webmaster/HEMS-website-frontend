@@ -2,6 +2,59 @@
 
 import React from 'react';
 
+/** Normalize a free-text time string to "H:MM a.m." / "H:MM p.m." format. */
+function normalizeTime(raw: string): string {
+  if (!raw) return '';
+  const t = raw.trim();
+
+  // Match "H:MM am/pm" or "H:MM a.m./p.m." (any dot/spacing variant)
+  const ampmMatch = t.match(/^(\d{1,2}):(\d{2})\s*(a\.?\s?m\.?|p\.?\s?m\.?|am|pm)$/i);
+  if (ampmMatch) {
+    let h = parseInt(ampmMatch[1]);
+    const m = ampmMatch[2];
+    const isPm = /p/i.test(ampmMatch[3]);
+    if (h > 12) h -= 12;
+    if (h === 0) h = 12;
+    return `${h}:${m} ${isPm ? 'p.m.' : 'a.m.'}`;
+  }
+
+  // Match bare 24h "HH:MM"
+  const h24Match = t.match(/^(\d{1,2}):(\d{2})$/);
+  if (h24Match) {
+    let h = parseInt(h24Match[1]);
+    const m = h24Match[2];
+    if (h >= 13) return `${h - 12}:${m} p.m.`;
+    if (h === 12) return `12:${m} p.m.`;
+    if (h === 0) return `12:${m} a.m.`;
+    return `${h}:${m} a.m.`;
+  }
+
+  return t; // return unchanged if unparseable
+}
+
+/** Parse a time string ("H:MM a.m." or 24h "HH:MM") into total minutes for sorting. */
+function parseTimeToMinutes(timeStr: string): number {
+  if (!timeStr) return Infinity;
+  const t = timeStr.trim().toLowerCase().replace(/\./g, '');
+
+  // "H:MM am/pm"
+  const match = t.match(/(\d{1,2}):(\d{2})\s*(am|pm)/);
+  if (match) {
+    let h = parseInt(match[1]);
+    const m = parseInt(match[2]);
+    const isPm = match[3] === 'pm';
+    if (isPm && h !== 12) h += 12;
+    if (!isPm && h === 12) h = 0;
+    return h * 60 + m;
+  }
+
+  // bare "HH:MM" (24h)
+  const h24 = t.match(/^(\d{1,2}):(\d{2})$/);
+  if (h24) return parseInt(h24[1]) * 60 + parseInt(h24[2]);
+
+  return Infinity;
+}
+
 export interface ItineraryEvent {
   time: string;
   end_time?: string;
@@ -86,9 +139,7 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
     
     // Re-sort the target group by time
     updated[toGIdx].events.sort((a, b) => {
-      if (!a.time) return 1;
-      if (!b.time) return -1;
-      return a.time.localeCompare(b.time);
+      return parseTimeToMinutes(a.time) - parseTimeToMinutes(b.time);
     });
 
     onChange(updated);
@@ -108,9 +159,7 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
     updated.forEach(group => {
       if (group.events && Array.isArray(group.events)) {
         group.events.sort((a, b) => {
-          if (!a.time) return 1;
-          if (!b.time) return -1;
-          return a.time.localeCompare(b.time);
+          return parseTimeToMinutes(a.time) - parseTimeToMinutes(b.time);
         });
       }
     });
@@ -176,11 +225,11 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3 mt-4">
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Start Time</label>
-                      <input type="time" value={ev.time} onChange={e => updateEvent(gIdx, eIdx, 'time', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                      <input type="text" value={ev.time} placeholder="e.g. 9:00 a.m." onChange={e => updateEvent(gIdx, eIdx, 'time', e.target.value)} onBlur={e => { const n = normalizeTime(e.target.value); if (n !== e.target.value) updateEvent(gIdx, eIdx, 'time', n); }} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">End Time (Optional)</label>
-                      <input type="time" value={ev.end_time || ''} onChange={e => updateEvent(gIdx, eIdx, 'end_time', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                      <input type="text" value={ev.end_time || ''} placeholder="e.g. 10:00 a.m." onChange={e => updateEvent(gIdx, eIdx, 'end_time', e.target.value)} onBlur={e => { const n = normalizeTime(e.target.value); if (n !== e.target.value) updateEvent(gIdx, eIdx, 'end_time', n); }} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>

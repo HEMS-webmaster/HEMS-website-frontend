@@ -131,7 +131,49 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePasteDownload = async (
+  
+  const handleUrlBlur = async (
+    urlText: string,
+    gIdx: number,
+    pIdx: number,
+    field: 'url' | 'abstract_url',
+    category: string,
+    fileName: string,
+    sessionTitle: string
+  ) => {
+    if (!urlText || !urlText.startsWith('http')) return;
+    
+    const statusKey = `${gIdx}-${pIdx}-${field}`;
+    if (downloadingStatus[statusKey] === 'success' || downloadingStatus[statusKey] === 'downloading') return;
+
+    setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'downloading' }));
+
+    try {
+      const res = await fetch('/api/manager/download-legacy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: urlText, category, wsNum, fileName, session: sessionTitle })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
+        if (field === 'url') {
+          updatePresentation(gIdx, pIdx, 'presentation_file', fileName);
+        } else {
+          updatePresentation(gIdx, pIdx, 'abstract_file', fileName);
+        }
+        setTimeout(() => setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' })), 3000);
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (err: any) {
+      console.error(err);
+      setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'error' }));
+      setTimeout(() => setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' })), 3000);
+    }
+  };
+
+const handlePasteDownload = async (
     e: React.ClipboardEvent<HTMLInputElement>,
     gIdx: number,
     pIdx: number,
@@ -636,6 +678,7 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
                         value={p.url || ''} 
                         onChange={e => updatePresentation(gIdx, pIdx, 'url', e.target.value)} 
                         onPaste={e => handlePasteDownload(e, gIdx, pIdx, 'url', 'Presentation', presFileName, group.title || 'General')}
+                        onBlur={e => handleUrlBlur(e.target.value, gIdx, pIdx, 'url', 'Presentation', presFileName, group.title || 'General')}
                         className={`w-full bg-slate-900 border ${downloadingStatus[`${gIdx}-${pIdx}-url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${gIdx}-${pIdx}-url`] === 'success' ? 'border-green-500' : downloadingStatus[`${gIdx}-${pIdx}-url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                       />
                       {downloadingStatus[`${gIdx}-${pIdx}-url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
@@ -647,6 +690,7 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
                         value={p.abstract_url || ''} 
                         onChange={e => updatePresentation(gIdx, pIdx, 'abstract_url', e.target.value)} 
                         onPaste={e => handlePasteDownload(e, gIdx, pIdx, 'abstract_url', 'Abstract', absFileName, group.title || 'General')}
+                        onBlur={e => handleUrlBlur(e.target.value, gIdx, pIdx, 'abstract_url', 'Abstract', absFileName, group.title || 'General')}
                         className={`w-full bg-slate-900 border ${downloadingStatus[`${gIdx}-${pIdx}-abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${gIdx}-${pIdx}-abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${gIdx}-${pIdx}-abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                       />
                       {downloadingStatus[`${gIdx}-${pIdx}-abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}

@@ -23,7 +23,7 @@
     {
       "name": "UTC Aerospace Systems",
       "url": "https://www.rtx.com/collinsaerospace",
-      "image": "/images/sponsors/UTC_Aerospace_Systems.png?v=1777647823693",
+      "image": "/images/sponsors/UTC_Aerospace_Systems.png?v=1778083564701",
       "year": "2017"
     },
     {
@@ -35,13 +35,13 @@
     {
       "name": "FLIR / Griffin Analytical Technologies",
       "url": "http://www.icxt.com/technology/mobile-labs/",
-      "image": "/images/sponsors/FLIR_Griffin_Analytical_Technologies.png?v=1777611255839",
+      "image": "/images/sponsors/FLIR_Griffin_Analytical_Technologies.png?v=1778083602512",
       "year": "2003"
     },
     {
       "name": "Pfeiffer Vacuum",
       "url": "http://www.pfeiffer-vacuum.net/",
-      "image": "/images/sponsors/Pfeiffer_Vacuum.png?v=1777611411409",
+      "image": "/images/sponsors/Pfeiffer_Vacuum.png?v=1778083518718",
       "year": "2005"
     },
     {
@@ -59,7 +59,7 @@
     {
       "name": "University of North Texas",
       "url": "http://www.unt.edu/",
-      "image": "/images/sponsors/University_of_North_Texas.png?v=1777648255145",
+      "image": "/images/sponsors/University_of_North_Texas.png?v=1778083552010",
       "year": "2011"
     },
     {
@@ -71,7 +71,7 @@
     {
       "name": "Inficon",
       "url": "http://www.inficon.com/",
-      "image": "/images/sponsors/Inficon.png?v=1777611262403",
+      "image": "/images/sponsors/Inficon.png?v=1778100492331",
       "year": "2013"
     },
     {
@@ -83,7 +83,7 @@
     {
       "name": "BaySpec",
       "url": "https://www.bayspec.com/product-category/mass-spectroscopy/",
-      "image": "/images/sponsors/BaySpec.png?v=1777579885931",
+      "image": "/images/sponsors/BaySpec.png?v=1778083618227",
       "year": "2015"
     },
     {
@@ -107,7 +107,7 @@
     {
       "name": "MKS Instruments",
       "url": "https://www.mksinst.com/",
-      "image": "/images/sponsors/MKS_Instruments.png?v=1777579914601",
+      "image": "/images/sponsors/MKS_Instruments.png?v=1778083577099",
       "year": "2017"
     }
   ],
@@ -681,7 +681,7 @@
               "institutes": [],
               "authors": [
                 {
-                  "name": "Ryan Blasé",
+                  "name": "Ryan BlasÃ©",
                   "isPresenter": true,
                   "institute": null
                 }
@@ -914,7 +914,7 @@
     "name": "UTC Aerospace Systems",
     "url": "https://www.rtx.com/collinsaerospace",
     "logo_file": "UTC_Aerospace_Systems.png",
-    "logo_file_url": "/images/sponsors/UTC_Aerospace_Systems.png?v=1777647823693"
+    "logo_file_url": "/images/sponsors/UTC_Aerospace_Systems.png?v=1778083564701"
   },
   "venue_address_url": ""
 }

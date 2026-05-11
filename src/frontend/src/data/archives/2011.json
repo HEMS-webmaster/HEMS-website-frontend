@@ -1,21 +1,1250 @@
 {
   "year": 2011,
-  "ordinal": "7th",
-  "dates": "September 19-22, 2011",
-  "venue": "",
-  "address": "",
+  "ordinal": "8th",
+  "dates": "September 19–22, 2011",
+  "venue": "Don CeSar Hotel",
+  "address": "3400 Gulf Blvd, St Pete Beach, FL 33706",
   "resources": [
     {
       "label": "Workshop Program",
       "icon": "FileText",
       "url": "#technical-program"
+    },
+    {
+      "label": "Program Download",
+      "icon": "Download",
+      "legacy_url": "https://www.hems-workshop.org/8thWS/8thprogramwpresentations.html",
+      "local_target_path": "/api/manager/serve?file=8th/Administrative/8th_Program.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Administrative/8th_Program.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Administrative/8th_Program.pdf"
+    },
+    {
+      "label": "Participant List",
+      "icon": "Users",
+      "legacy_url": "https://www.hems-workshop.org/8thWS/Final%20Attendee%20List%20HEMS%202011.pdf",
+      "local_target_path": "/api/manager/serve?file=8th/Administrative/8th_Participant_List.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Administrative/8th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Administrative/8th_Participant_List.pdf"
     }
   ],
-  "sponsors": [],
-  "schedule": [],
-  "venue_url": "",
-  "student_awards": [],
-  "events": [],
-  "host_corporation": null,
-  "venue_address_url": ""
+  "sponsors": [
+    {
+      "name": "Agilent Technologies",
+      "url": "http://www.vacuum-choice.com/",
+      "image": "/images/sponsors/Agilent_Technologies.png?v=1777611192932",
+      "year": "2003"
+    },
+    {
+      "name": "FLIR / Griffin Analytical Technologies",
+      "url": "http://www.icxt.com/technology/mobile-labs/",
+      "image": "/images/sponsors/FLIR_Griffin_Analytical_Technologies.png?v=1778083602512",
+      "year": "2003"
+    },
+    {
+      "name": "Pfeiffer Vacuum",
+      "url": "http://www.pfeiffer-vacuum.net/",
+      "image": "/images/sponsors/Pfeiffer_Vacuum.png?v=1778083518718",
+      "year": "2005"
+    },
+    {
+      "name": "Ardara Technologies",
+      "url": "http://www.ardaratech.com/index.html",
+      "image": "/images/sponsors/Ardara_Technologies.png?v=1777648181218",
+      "year": "2007"
+    },
+    {
+      "name": "Bruker",
+      "url": "https://www.bruker.com/en.html",
+      "image": "/images/sponsors/Bruker.png?v=1778522201015",
+      "year": "2007"
+    },
+    {
+      "name": "Smiths Detection",
+      "url": "http://www.smithsdetection.com/",
+      "image": "/images/sponsors/Smiths_Detection.png?v=1778522242189",
+      "year": "2007"
+    },
+    {
+      "name": "Torion",
+      "url": "http://www.torion.net",
+      "image": "/images/sponsors/Torion.png?v=1778522250721",
+      "year": "2007"
+    },
+    {
+      "name": "1st Detect",
+      "url": "http://www.1stdetect.com",
+      "image": "/images/sponsors/1st_Detect.png?v=1778100429300",
+      "year": "2009"
+    },
+    {
+      "name": "Hamilton Sundstrand",
+      "url": "http://www.hamiltonsundstrand.com/Home+Page",
+      "image": "/images/sponsors/Hamilton_Sundstrand.png?v=1778522783284",
+      "year": "2009"
+    },
+    {
+      "name": "OI Analytical",
+      "url": "http://www.oico.com/",
+      "image": "/images/sponsors/OI_Analytical.png?v=1778083998141",
+      "year": "2009"
+    },
+    {
+      "name": "Saffron Morpho",
+      "url": "http://www.morpho.com/",
+      "image": "/images/sponsors/Saffron_Morpho.png?v=1778522839725",
+      "year": "2009"
+    },
+    {
+      "name": "Brooks Automation",
+      "url": "http://www.brooks.com/",
+      "image": "/images/sponsors/Brooks_Automation.png?v=1778097662385",
+      "year": "2011"
+    },
+    {
+      "name": "Extrel",
+      "url": "http://www.extrel.com/",
+      "image": "/images/sponsors/Extrel.png?v=1778097873987",
+      "year": "2011"
+    },
+    {
+      "name": "DeTech",
+      "url": "http://www.detechinc.com/",
+      "image": "/images/sponsors/DeTech.png?v=1777612077184",
+      "year": "2011"
+    },
+    {
+      "name": "Leybold USA",
+      "url": "https://www.leybold.com/en-us",
+      "image": "/images/sponsors/Leybold_USA.png?v=1778083583843",
+      "year": "2018"
+    },
+    {
+      "name": "SAES Getters",
+      "url": "http://www.saesgetters.com/",
+      "image": "/images/sponsors/SAES_Getters.png?v=1778529772157",
+      "year": "2009"
+    },
+    {
+      "name": "SRI International",
+      "url": "http://www.sri.com/esd/marine-tech/chemsensors/",
+      "image": "/images/sponsors/SRI_International.png?v=1778522944607",
+      "year": "2011"
+    },
+    {
+      "name": "University of North Texas",
+      "url": "http://www.unt.edu/",
+      "image": "/images/sponsors/University_of_North_Texas.png?v=1778083552010",
+      "year": "2011"
+    }
+  ],
+  "schedule": [
+    {
+      "title": "2011-09-20",
+      "items": [
+        {
+          "type": "session",
+          "time": "TBD",
+          "title": "\t Poster Session, light refreshments served",
+          "talks": [
+            {
+              "time": "",
+              "title": "A Software Package for Mass Spectrometer System Operation, Trouble Shooting and Prototyping",
+              "institutes": [
+                "Engineering Services Contract, Kennedy Space Center"
+              ],
+              "authors": [
+                {
+                  "name": "C.R. Arkin",
+                  "isPresenter": true,
+                  "institute": "Engineering Services Contract, Kennedy Space Center"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Arkin.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Arkin_Poster.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Arkin_A_Software_Package_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Arkin_A_Software_Package_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Arkin_A_Software_Package_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Arkin_A_Software_Package_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Arkin_A_Software_Package_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Arkin_A_Software_Package_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "A High Density Micro-Ion Trap Array Miniature Mass Spectrometer",
+              "institutes": [
+                "University of South Florida"
+              ],
+              "authors": [
+                {
+                  "name": "T. Wu",
+                  "isPresenter": true,
+                  "institute": "University of South Florida"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Wu.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Wu_A_High_Density_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Wu_A_High_Density_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Wu_A_High_Density_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "Development of a MEMS Mass Spectrometer Based on TOF Architecture for Gas Analysis",
+              "institutes": [
+                "CEA DAM-DIF"
+              ],
+              "authors": [
+                {
+                  "name": "C.M. Tassetti",
+                  "isPresenter": true,
+                  "institute": "CEA DAM-DIF"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Tassetti.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Tassetti.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Tassetti_Development_of_a_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Tassetti_Development_of_a_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Tassetti_Development_of_a_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Tassetti_Development_of_a_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Tassetti_Development_of_a_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Tassetti_Development_of_a_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "A Study of How Alternative Buffer Gases can Affect Energetic Material Detection in an Ion Trap Mass Spectrometer",
+              "institutes": [
+                "University of North Texas, Department of Chemistry"
+              ],
+              "authors": [
+                {
+                  "name": "E. Dziekonski",
+                  "isPresenter": true,
+                  "institute": "University of North Texas, Department of Chemistry"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Dziekonski.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Dziekonski.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Dziekonski_A_Study_of_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Dziekonski_A_Study_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Dziekonski_A_Study_of_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Dziekonski_A_Study_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Dziekonski_A_Study_of_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Dziekonski_A_Study_of_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "Pulsed LIBS Ablation System with Static High Resolution Quadrupole for 3He Determination",
+              "institutes": [
+                "Savannah River National Laboratory"
+              ],
+              "authors": [
+                {
+                  "name": "W.A. Spencer",
+                  "isPresenter": true,
+                  "institute": "Savannah River National Laboratory"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Spencer.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Spencer.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Spencer_Pulsed_LIBS_Ablation_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Spencer_Pulsed_LIBS_Ablation_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Spencer_Pulsed_LIBS_Ablation_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Spencer_Pulsed_LIBS_Ablation_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Spencer_Pulsed_LIBS_Ablation_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Spencer_Pulsed_LIBS_Ablation_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "In line Nafion-based water gas remover for In Situ Mass Spectrometry",
+              "institutes": [
+                "Harvard University"
+              ],
+              "authors": [
+                {
+                  "name": "C. Vidoudez",
+                  "isPresenter": true,
+                  "institute": "Harvard University"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Vidoudez.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Vidoudez.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Vidoudez_In_line_Nafionbased_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Vidoudez_In_line_Nafionbased_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Vidoudez_In_line_Nafionbased_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Vidoudez_In_line_Nafionbased_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Vidoudez_In_line_Nafionbased_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Vidoudez_In_line_Nafionbased_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "Differential Mobility Ion Pre-filter for Field - Deployable Atmospheric Pressure Ionization Mass Spectrometers",
+              "institutes": [
+                "The Charles Stark Draper Laboratory"
+              ],
+              "authors": [
+                {
+                  "name": "T.G. Evens-Nguyen",
+                  "isPresenter": true,
+                  "institute": "The Charles Stark Draper Laboratory"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Evans-Nguyen.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Evans-Nguyen.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_EvensNguyen_Differential_Mobility_Ion_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_EvensNguyen_Differential_Mobility_Ion_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_EvensNguyen_Differential_Mobility_Ion_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_EvensNguyen_Differential_Mobility_Ion_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_EvensNguyen_Differential_Mobility_Ion_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_EvensNguyen_Differential_Mobility_Ion_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "Performance Enhancement for Miniature QMS Through Application of a Magnetic Field",
+              "institutes": [
+                "Department of Electrical Engineering and Electronics, University of Liverpool"
+              ],
+              "authors": [
+                {
+                  "name": "S. Maher",
+                  "isPresenter": true,
+                  "institute": "Department of Electrical Engineering and Electronics, University of Liverpool"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Maher.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Maher.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Maher_Performance_Enhancement_for_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Maher_Performance_Enhancement_for_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Maher_Performance_Enhancement_for_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Maher_Performance_Enhancement_for_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Maher_Performance_Enhancement_for_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Maher_Performance_Enhancement_for_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "The Development of Condensed-Phase Membrane Introduction Mass Spectrometry (CP-MIMS) for the Direct Online Analysis of Polar, Low Volatility Analytes from Complex Matrices",
+              "institutes": [
+                "University of Victoria"
+              ],
+              "authors": [
+                {
+                  "name": "K.D. Duncan",
+                  "isPresenter": true,
+                  "institute": "University of Victoria"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Duncan.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Duncan_The_Development_of_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Duncan_The_Development_of_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Duncan_The_Development_of_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "The Coaxial Ion Trap: Concentric Quadrupolar and Toroidal Trapping Regions",
+              "institutes": [
+                "Brigham Young University"
+              ],
+              "authors": [
+                {
+                  "name": "D. Austin",
+                  "isPresenter": true,
+                  "institute": "Brigham Young University"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Austin.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Austin_Poster.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Austin_The_Coaxial_Ion_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Austin_The_Coaxial_Ion_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Austin_The_Coaxial_Ion_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Austin_The_Coaxial_Ion_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Austin_The_Coaxial_Ion_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Austin_The_Coaxial_Ion_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "Transportable sector-field MS with ion detector array",
+              "institutes": [
+                "OI Analytical"
+              ],
+              "authors": [
+                {
+                  "name": "G. Kibelka",
+                  "isPresenter": true,
+                  "institute": "OI Analytical"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Kibelka.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Kibelka.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Kibelka_Transportable_sectorfield_MS_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Kibelka_Transportable_sectorfield_MS_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Kibelka_Transportable_sectorfield_MS_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Kibelka_Transportable_sectorfield_MS_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Kibelka_Transportable_sectorfield_MS_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Kibelka_Transportable_sectorfield_MS_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "Mass Spectrometer for In-Situ Detection of Organics in Martian Soil",
+              "institutes": [
+                "SRI International"
+              ],
+              "authors": [
+                {
+                  "name": "F.H.W. Van Amerom",
+                  "isPresenter": true,
+                  "institute": "SRI International"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/van%20Amerom.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Brinckerhoff.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Amerom_Mass_Spectrometer_for_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Amerom_Mass_Spectrometer_for_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Amerom_Mass_Spectrometer_for_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Amerom_Mass_Spectrometer_for_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Amerom_Mass_Spectrometer_for_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Amerom_Mass_Spectrometer_for_Abstract.pdf"
+            },
+            {
+              "time": "",
+              "title": "Design of the Portable Mass Spectrometric Sensor for Vascular and Endocrine Disease Diagnostics",
+              "institutes": [
+                "A.F. Ioffe Physical Technical Institute, Academy of Science"
+              ],
+              "authors": [
+                {
+                  "name": "A. Antonov",
+                  "isPresenter": true,
+                  "institute": "A.F. Ioffe Physical Technical Institute, Academy of Science"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Posters/Antonov.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Antonov_Poster.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Posters/8th_Antonov_Design_of_the_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Posters/8th_Antonov_Design_of_the_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Antonov_Design_of_the_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Posters/8th_Antonov_Design_of_the_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Antonov_Design_of_the_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Antonov_Design_of_the_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "9:00 a.m.",
+          "title": "Technical Session I",
+          "location": "",
+          "talks": [
+            {
+              "time": "9:00 a.m.",
+              "title": "Opening Talk: Traditional Tools in Non-Traditional Environments: Forensic Science in the Field",
+              "institutes": [
+                "The National Forensic Science Technology Center (NFSTC)"
+              ],
+              "authors": [
+                {
+                  "name": "K. Lothridge",
+                  "isPresenter": true,
+                  "institute": "The National Forensic Science Technology Center (NFSTC)"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Tuesday/1_Lothridge.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Lothridge.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Lothridge_Opening_Talk_Traditional_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Lothridge_Opening_Talk_Traditional_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lothridge_Opening_Talk_Traditional_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lothridge_Opening_Talk_Traditional_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lothridge_Opening_Talk_Traditional_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lothridge_Opening_Talk_Traditional_Abstract.pdf"
+            },
+            {
+              "time": "9:30 a.m.",
+              "title": "Underwater Cryotrap - Membrane Inlet System (CT-MIS) for Improved in situ Analysis of Gases by Mass Spectrometry",
+              "institutes": [
+                "Alfred-Wegener-Institute for Polar and Marine Research"
+              ],
+              "authors": [
+                {
+                  "name": "T. Gentz",
+                  "isPresenter": true,
+                  "institute": "Alfred-Wegener-Institute for Polar and Marine Research"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Tuesday/2_Gentz.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Gentz.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Gentz_Underwater_Cryotrap_Membrane_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Gentz_Underwater_Cryotrap_Membrane_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Gentz_Underwater_Cryotrap_Membrane_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Gentz_Underwater_Cryotrap_Membrane_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Gentz_Underwater_Cryotrap_Membrane_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Gentz_Underwater_Cryotrap_Membrane_Abstract.pdf"
+            },
+            {
+              "time": "10:30 a.m.",
+              "title": "Underwater Membrane Introduction Mass Spectrometers: Recent Developments and Deployments",
+              "institutes": [
+                "SRI International"
+              ],
+              "authors": [
+                {
+                  "name": "R.T. Short",
+                  "isPresenter": true,
+                  "institute": "SRI International"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Tuesday/3_Short.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Short.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Short_Underwater_Membrane_Introduction_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Short_Underwater_Membrane_Introduction_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Short_Underwater_Membrane_Introduction_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Short_Underwater_Membrane_Introduction_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Short_Underwater_Membrane_Introduction_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Short_Underwater_Membrane_Introduction_Abstract.pdf"
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "Modular Quantitative Air Sampling for Field Analysis using Person-Portable GC-MS",
+              "institutes": [
+                "U.S. Department of Labor"
+              ],
+              "authors": [
+                {
+                  "name": "P. Smith",
+                  "isPresenter": true,
+                  "institute": "U.S. Department of Labor"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Tuesday/4_Smith.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Smith.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Smith_Modular_Quantitative_Air_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Smith_Modular_Quantitative_Air_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Smith_Modular_Quantitative_Air_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Smith_Modular_Quantitative_Air_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Smith_Modular_Quantitative_Air_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Smith_Modular_Quantitative_Air_Abstract.pdf"
+            },
+            {
+              "time": "11:30 a.m.",
+              "title": "A Suite of Sampling Aids for the In-Field SPME Collection of Analytes from Air, Particulates, and Surfaces",
+              "institutes": [
+                "Torion Technologies, Inc."
+              ],
+              "authors": [
+                {
+                  "name": "S.A. Lammert",
+                  "isPresenter": true,
+                  "institute": "Torion Technologies, Inc."
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Tuesday/5_Lammert.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Lammert.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Lammert_A_Suite_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_I/8th_Lammert_A_Suite_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lammert_A_Suite_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lammert_A_Suite_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lammert_A_Suite_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lammert_A_Suite_of_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "1:30 p.m.",
+          "title": "Technical Session II",
+          "location": "",
+          "talks": [
+            {
+              "time": "1:30 p.m.",
+              "title": "The Sample Analysis at Mars (SAM): Developing Analytical Tools to Search for a Habitable Environment on Mars",
+              "institutes": [
+                "NASA Goddard Space Flight Center"
+              ],
+              "authors": [
+                {
+                  "name": "D. Harpold",
+                  "isPresenter": true,
+                  "institute": "NASA Goddard Space Flight Center"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Tuesday/6_Harpold.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Harpold.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_II/8th_Harpold_The_Sample_Analysis_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_II/8th_Harpold_The_Sample_Analysis_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Harpold_The_Sample_Analysis_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Harpold_The_Sample_Analysis_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Harpold_The_Sample_Analysis_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Harpold_The_Sample_Analysis_Abstract.pdf"
+            },
+            {
+              "time": "2:00 p.m.",
+              "title": "Applications of Field-Mobile Purge and Trap GC/MS for Onsite Water Analysis",
+              "institutes": [
+                "FLIR Mass Spectrometry"
+              ],
+              "authors": [
+                {
+                  "name": "G. Patterson",
+                  "isPresenter": true,
+                  "institute": "FLIR Mass Spectrometry"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Tuesday/7_Patterson.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Patterson.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_II/8th_Patterson_Applications_of_FieldMobile_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_II/8th_Patterson_Applications_of_FieldMobile_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Patterson_Applications_of_FieldMobile_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Patterson_Applications_of_FieldMobile_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Patterson_Applications_of_FieldMobile_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Patterson_Applications_of_FieldMobile_Abstract.pdf"
+            },
+            {
+              "time": "2:30 p.m.",
+              "title": "Oil-in-Water Monitoring in the North Sea using Membrane Inlet Mass Spectrometry",
+              "institutes": [
+                "University of Liverpool and Advanced Sensors Ltd."
+              ],
+              "authors": [
+                {
+                  "name": "B. Brkic",
+                  "isPresenter": true,
+                  "institute": "University of Liverpool and Advanced Sensors Ltd."
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Brkic.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_II/8th_Brkic_OilinWater_Monitoring_in_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Brkic_OilinWater_Monitoring_in_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Brkic_OilinWater_Monitoring_in_Abstract.pdf"
+            },
+            {
+              "time": "3:30 p.m.",
+              "title": "Magnet Portable Mass Spectrometer for Direct Control of Gases in Sea Water",
+              "institutes": [
+                "A.F. Ioffe Physical Technical Institute, Academy of Science"
+              ],
+              "authors": [
+                {
+                  "name": "A. Antonov",
+                  "isPresenter": true,
+                  "institute": "A.F. Ioffe Physical Technical Institute, Academy of Science"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Tuesday/9_Antonov.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Antonov.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_II/8th_Antonov_Magnet_Portable_Mass_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_II/8th_Antonov_Magnet_Portable_Mass_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Antonov_Magnet_Portable_Mass_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Antonov_Magnet_Portable_Mass_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Antonov_Magnet_Portable_Mass_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Antonov_Magnet_Portable_Mass_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2011-09-21",
+      "items": [
+        {
+          "type": "session",
+          "time": "8:30 a.m.",
+          "title": "Technical Session III",
+          "location": "",
+          "talks": [
+            {
+              "time": "8:30 a.m.",
+              "title": "Mobile High-Resolution Multiple-Reflection Time-of-Flight Mass Spectrometer for in-situ Analytics",
+              "institutes": [
+                "Giessen University"
+              ],
+              "authors": [
+                {
+                  "name": "J. Lang",
+                  "isPresenter": true,
+                  "institute": "Giessen University"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/1_Lang.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Lang.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Lang_Mobile_HighResolution_MultipleReflection_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Lang_Mobile_HighResolution_MultipleReflection_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Lang_Mobile_HighResolution_MultipleReflection_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Lang_Mobile_HighResolution_MultipleReflection_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Lang_Mobile_HighResolution_MultipleReflection_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Lang_Mobile_HighResolution_MultipleReflection_Abstract.pdf"
+            },
+            {
+              "time": "9:00 a.m.",
+              "title": "New Person Portable Gas Chromatograph for Harsh Environments – Design Criteria, and Verification Testing",
+              "institutes": [
+                "Torion Technologies, Inc."
+              ],
+              "authors": [
+                {
+                  "name": "C.S. Sadowski",
+                  "isPresenter": true,
+                  "institute": "Torion Technologies, Inc."
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/2_Sadowski.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Sandowski.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Sadowski_New_Person_Portable_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Sadowski_New_Person_Portable_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Sadowski_New_Person_Portable_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Sadowski_New_Person_Portable_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Sadowski_New_Person_Portable_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Sadowski_New_Person_Portable_Abstract.pdf"
+            },
+            {
+              "time": "9:30 a.m.",
+              "title": "Development of a Miniature Rectilinear Ion Trap Array with Independently Controlled Channels",
+              "institutes": [
+                "Purdue University, Department of Chemistry"
+              ],
+              "authors": [
+                {
+                  "name": "P. Hendricks",
+                  "isPresenter": true,
+                  "institute": "Purdue University, Department of Chemistry"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/3_Hendricks.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Hendricks.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Hendricks_Development_of_a_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Hendricks_Development_of_a_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Hendricks_Development_of_a_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Hendricks_Development_of_a_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Hendricks_Development_of_a_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Hendricks_Development_of_a_Abstract.pdf"
+            },
+            {
+              "time": "10:30 a.m.",
+              "title": "Redesign of the VAPoR Miniaturized Pyrolysis TOFMS for Improved Sensitivity",
+              "institutes": [
+                "NASA Goddard Space Flight Center"
+              ],
+              "authors": [
+                {
+                  "name": "A.E. Southard",
+                  "isPresenter": true,
+                  "institute": "NASA Goddard Space Flight Center"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/4_Southard.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Southard.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Southard_Redesign_of_the_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Southard_Redesign_of_the_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Southard_Redesign_of_the_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Southard_Redesign_of_the_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Southard_Redesign_of_the_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Southard_Redesign_of_the_Abstract.pdf"
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "Recent Advances in Portable Mass Spectrometry Systems at Kennedy Space Center",
+              "institutes": [
+                "Engineering Services Contract, Kennedy Space Center"
+              ],
+              "authors": [
+                {
+                  "name": "C.R. Arkin",
+                  "isPresenter": true,
+                  "institute": "Engineering Services Contract, Kennedy Space Center"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/5_Arkin.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Arkin.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Arkin_Recent_Advances_in_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Arkin_Recent_Advances_in_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Arkin_Recent_Advances_in_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Arkin_Recent_Advances_in_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Arkin_Recent_Advances_in_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Arkin_Recent_Advances_in_Abstract.pdf"
+            },
+            {
+              "time": "11:30 a.m.",
+              "title": "Cylindrical Toroidal Ion Trap Mass Spectrometer",
+              "institutes": [
+                "Brigham Young University"
+              ],
+              "authors": [
+                {
+                  "name": "D. Austin",
+                  "isPresenter": true,
+                  "institute": "Brigham Young University"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/6_Austin.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Austin.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Austin_Cylindrical_Toroidal_Ion_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_III/8th_Austin_Cylindrical_Toroidal_Ion_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Austin_Cylindrical_Toroidal_Ion_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Austin_Cylindrical_Toroidal_Ion_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Austin_Cylindrical_Toroidal_Ion_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Austin_Cylindrical_Toroidal_Ion_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "1:30 p.m.",
+          "title": "Technical Session IV",
+          "location": "",
+          "talks": [
+            {
+              "time": "1:30 p.m.",
+              "title": "Design and Use of Portable and Compact Sampling Systems for Mass Spectrometers",
+              "institutes": [
+                "Inficon, Inc."
+              ],
+              "authors": [
+                {
+                  "name": "K. Wright",
+                  "isPresenter": true,
+                  "institute": "Inficon, Inc."
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/7_Wright.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Wright.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Wright_Design_and_Use_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Wright_Design_and_Use_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wright_Design_and_Use_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wright_Design_and_Use_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wright_Design_and_Use_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wright_Design_and_Use_Abstract.pdf"
+            },
+            {
+              "time": "2:00 p.m.",
+              "title": "Design of Pocket Mass Spectrometer in a Mobile Phone Size",
+              "institutes": [
+                "Korea Basic Science Institute"
+              ],
+              "authors": [
+                {
+                  "name": "M. Yang",
+                  "isPresenter": true,
+                  "institute": "Korea Basic Science Institute"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/8_Yang.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Yang.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Yang_Design_of_Pocket_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Yang_Design_of_Pocket_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Yang_Design_of_Pocket_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Yang_Design_of_Pocket_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Yang_Design_of_Pocket_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Yang_Design_of_Pocket_Abstract.pdf"
+            },
+            {
+              "time": "3:00 p.m.",
+              "title": "A Completely Handheld Ambient Ionization Source for Mass Spectrometry Based on a Low-Temperature Plasma (LTP)",
+              "institutes": [
+                "Purdue University"
+              ],
+              "authors": [
+                {
+                  "name": "J.S. Wiley",
+                  "isPresenter": true,
+                  "institute": "Purdue University"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wednesday/9_Wiley.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Wiley.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Wiley_A_Completely_Handheld_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Wiley_A_Completely_Handheld_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wiley_A_Completely_Handheld_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wiley_A_Completely_Handheld_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wiley_A_Completely_Handheld_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wiley_A_Completely_Handheld_Abstract.pdf"
+            },
+            {
+              "time": "3:30 p.m.",
+              "title": "A Miniaturized Laser-Ablation Mass Spectrometer Designed for in-situ Measurements on Planetary Space Missions",
+              "institutes": [
+                "Institute of Physics, Space Research and Planetary Sciences"
+              ],
+              "authors": [
+                {
+                  "name": "A. Riedo",
+                  "isPresenter": true,
+                  "institute": "Institute of Physics, Space Research and Planetary Sciences"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Riedo.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Riedo_A_Miniaturized_LaserAblation_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Riedo_A_Miniaturized_LaserAblation_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Riedo_A_Miniaturized_LaserAblation_Abstract.pdf"
+            },
+            {
+              "time": "4:00 p.m.",
+              "title": "Autoresonant Ion Trap Mass Spectrometry (ART MS)",
+              "institutes": [
+                "Granville-Phillips Vacuum Products, Brooks Automation, Inc."
+              ],
+              "authors": [
+                {
+                  "name": "G.A. Brucker",
+                  "isPresenter": true,
+                  "institute": "Granville-Phillips Vacuum Products, Brooks Automation, Inc."
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Brucker.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Brucker1.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Brucker_Autoresonant_Ion_Trap_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_IV/8th_Brucker_Autoresonant_Ion_Trap_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Brucker_Autoresonant_Ion_Trap_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Brucker_Autoresonant_Ion_Trap_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Brucker_Autoresonant_Ion_Trap_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Brucker_Autoresonant_Ion_Trap_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2011-09-22",
+      "items": [
+        {
+          "type": "session",
+          "time": "8:30 a.m.",
+          "title": "Technical Session V",
+          "location": "",
+          "talks": [
+            {
+              "time": "8:30 a.m.",
+              "title": "Negative Ions for Fieldable Mass Spectrometry",
+              "institutes": [
+                "Oak Ridge National Laboratory"
+              ],
+              "authors": [
+                {
+                  "name": "W.B. Whitten",
+                  "isPresenter": true,
+                  "institute": "Oak Ridge National Laboratory"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Whitten.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Whitten_Negative_Ions_for_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Whitten_Negative_Ions_for_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Whitten_Negative_Ions_for_Abstract.pdf"
+            },
+            {
+              "time": "9:00 a.m.",
+              "title": "Mobile Mass Spectrometer in Daily Use – Experiences Made by Non-Scientific Operators",
+              "institutes": [
+                "Bruker Daltonik GmbH"
+              ],
+              "authors": [
+                {
+                  "name": "F. Lange",
+                  "isPresenter": true,
+                  "institute": "Bruker Daltonik GmbH"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Thursday/2_Ludwig.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Lange.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Lange_Mobile_Mass_Spectrometer_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Lange_Mobile_Mass_Spectrometer_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Lange_Mobile_Mass_Spectrometer_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Lange_Mobile_Mass_Spectrometer_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Lange_Mobile_Mass_Spectrometer_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Lange_Mobile_Mass_Spectrometer_Abstract.pdf"
+            },
+            {
+              "time": "9:30 a.m.",
+              "title": "Utilization of Lightweight MS based Instrumentation and Small UAV Platforms for In-Situ Volcanic Plume Analysis",
+              "institutes": [
+                "CICANUM, Universidad de Costa Rica"
+              ],
+              "authors": [
+                {
+                  "name": "J.A. Diaz",
+                  "isPresenter": true,
+                  "institute": "CICANUM, Universidad de Costa Rica"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Thursday/3_Diaz.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Diaz.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Diaz_Utilization_of_Lightweight_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Diaz_Utilization_of_Lightweight_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Diaz_Utilization_of_Lightweight_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Diaz_Utilization_of_Lightweight_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Diaz_Utilization_of_Lightweight_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Diaz_Utilization_of_Lightweight_Abstract.pdf"
+            },
+            {
+              "time": "10:30 a.m.",
+              "title": "A Transportable FTICR/MS for Direct and Real-Time Analysis of VOC Contaminants in Air and Water",
+              "institutes": [
+                "Universite Paris Sud-CNRS"
+              ],
+              "authors": [
+                {
+                  "name": "E. Louarn",
+                  "isPresenter": true,
+                  "institute": "Universite Paris Sud-CNRS"
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Thursday/4_Louarn.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Louarn.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Louarn_A_Transportable_FTICRMS_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Louarn_A_Transportable_FTICRMS_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Louarn_A_Transportable_FTICRMS_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Louarn_A_Transportable_FTICRMS_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Louarn_A_Transportable_FTICRMS_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Louarn_A_Transportable_FTICRMS_Abstract.pdf"
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "Low Power Atmospheric Gas Sampling System Based on ART MS Sensor and NEG-Ion Pump System",
+              "institutes": [
+                "Granville-Phillips Vacuum Products, Brooks Automation, Inc."
+              ],
+              "authors": [
+                {
+                  "name": "G.A. Brucker",
+                  "isPresenter": true,
+                  "institute": "Granville-Phillips Vacuum Products, Brooks Automation, Inc."
+                }
+              ],
+              "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Thursday/5_Brucker.pdf",
+              "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Brucker2.pdf",
+              "local_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Brucker_Low_Power_Atmospheric_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=8th/Technical_Session_V/8th_Brucker_Low_Power_Atmospheric_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Brucker_Low_Power_Atmospheric_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Brucker_Low_Power_Atmospheric_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Brucker_Low_Power_Atmospheric_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Brucker_Low_Power_Atmospheric_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "venue_url": "https://www.doncesar.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp_listing",
+  "student_awards": [
+    {
+      "time": "",
+      "title": "Mobile High-Resolution Multiple-Reflection Time-of-Flight Mass Spectrometer for in-Situ Analytics",
+      "authors": "Johannes Lang, Universität Giessen",
+      "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Lang.pdf",
+      "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Lang.pdf",
+      "local_target_path": "/api/manager/serve?file=8th/Student_Award/8th_Johannes_Lang_Student_Award.pdf",
+      "local_abstract_target_path": "/api/manager/serve?file=8th/Student_Award/8th_Johannes_Lang_Student_Abstract.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Student_Award/8th_Johannes_Lang_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Student_Award/8th_Johannes_Lang_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Student_Award/8th_Johannes_Lang_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Student_Award/8th_Johannes_Lang_Student_Abstract.pdf"
+    },
+    {
+      "time": "",
+      "title": "A Completely Handheld Ambient Ionization  Source for Mass Spectrometry Based on a Low Temperature Plasma (LTP) ",
+      "authors": "Josh S. Wiley, Purdue University",
+      "legacy_url": "https://www.hems-workshop.org/8thWS/Presentations/Wiley.pdf",
+      "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Wiley.pdf",
+      "local_target_path": "/api/manager/serve?file=8th/Student_Award/8th_Josh_S__Wiley_Student_Award.pdf",
+      "local_abstract_target_path": "/api/manager/serve?file=8th/Student_Award/8th_Josh_S__Wiley_Student_Abstract.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Student_Award/8th_Josh_S__Wiley_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Student_Award/8th_Josh_S__Wiley_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Student_Award/8th_Josh_S__Wiley_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Student_Award/8th_Josh_S__Wiley_Student_Abstract.pdf"
+    },
+    {
+      "time": "",
+      "title": "Performance Enhancement for Miniature QMS Through Application of a Magnetic Field ",
+      "authors": "Simon Maher, University of Liverpool",
+      "legacy_url": "",
+      "legacy_abstract_url": "https://www.hems-workshop.org/8thWS/Abstracts/Maher.pdf",
+      "local_target_path": "/api/manager/serve?file=8th/Student_Award/8th_Simon_Maher_Student_Award.pdf",
+      "local_abstract_target_path": "/api/manager/serve?file=8th/Student_Award/8th_Simon_Maher_Student_Abstract.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Student_Award/8th_Simon_Maher_Student_Award.pdf",
+      "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Student_Award/8th_Simon_Maher_Student_Abstract.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Student_Award/8th_Simon_Maher_Student_Award.pdf",
+      "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Student_Award/8th_Simon_Maher_Student_Abstract.pdf"
+    }
+  ],
+  "events": [
+    {
+      "date": "2011-09-19",
+      "title": "Travel Day",
+      "events": [
+        {
+          "time": "7:00 p.m.",
+          "end_time": "",
+          "title": "Welcome Reception",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Don CeSar Beach Pavilion",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2011-09-20",
+      "title": "HEMS Workshop",
+      "events": [
+        {
+          "time": "07:00",
+          "end_time": "",
+          "title": "Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Grand Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "08:40",
+          "end_time": "",
+          "title": "Welcome Remarks",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Mid-morning Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "end_time": "",
+          "title": "Lunch on your own",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "16:30",
+          "end_time": "",
+          "title": "Evening Free",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2011-09-21",
+      "title": "HEMS Workshop",
+      "events": [
+        {
+          "time": "07:00",
+          "end_time": "",
+          "title": "Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Grand Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Group Photo / Mid-morning Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "end_time": "",
+          "title": "Lunch on your own",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "14:30",
+          "end_time": "",
+          "title": "Mid-Afternoon Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "16:30",
+          "end_time": "",
+          "title": "Free Time",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "18:30",
+          "end_time": "",
+          "title": "Workshop Dinner",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Don CeSar's Sunset Pavilion",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2011-09-22",
+      "title": "HEMS Workshop",
+      "events": [
+        {
+          "time": "07:00",
+          "end_time": "",
+          "title": "Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Grand Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Mid-morning Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "11:30",
+          "end_time": "",
+          "title": "Workshop ends",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    }
+  ],
+  "host_corporation": {
+    "name": "University of North Texas",
+    "url": "http://www.unt.edu/",
+    "logo_file": "University_of_North_Texas.png",
+    "logo_file_url": "/images/sponsors/University_of_North_Texas.png?v=1778083552010"
+  },
+  "venue_address_url": "https://maps.app.goo.gl/FNQ7Ag5kfj1DpjEL6"
 }

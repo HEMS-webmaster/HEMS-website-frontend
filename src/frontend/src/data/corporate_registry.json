@@ -1,5 +1,11 @@
 [
   {
+    "company": "1st Detect",
+    "url": "https://www.1stdetect.com/",
+    "logo_file": "1st_Detect.png",
+    "year_began": "2009"
+  },
+  {
     "company": "Adaptas Solutions",
     "url": "https://lifescience.imiplc.com/",
     "logo_file": "Adaptas_Solutions.png",
@@ -24,6 +30,18 @@
     "year_began": "2015"
   },
   {
+    "company": "Brooks Automation",
+    "url": "https://www.brooks.com/",
+    "logo_file": "Brooks_Automation.png",
+    "year_began": "2011"
+  },
+  {
+    "company": "Bruker",
+    "url": "https://www.bruker.com/en.html",
+    "logo_file": "Bruker.png",
+    "year_began": "2007"
+  },
+  {
     "company": "Collins Aerospace",
     "url": "https://www.rtx.com/collinsaerospace",
     "logo_file": "Collins_Aerospace.png",
@@ -42,9 +60,27 @@
     "year_began": "2013"
   },
   {
+    "company": "Extrel",
+    "url": "https://www.process-insights.com/products-3/products-industrial/mass-spectrometers-gas-analyzers/",
+    "logo_file": "Extrel.png",
+    "year_began": "2011"
+  },
+  {
     "company": "FLIR / Griffin Analytical Technologies",
     "url": "http://www.icxt.com/technology/mobile-labs/",
     "logo_file": "FLIR_Griffin_Analytical_Technologies.png",
+    "year_began": "2003"
+  },
+  {
+    "company": "Hamilton Sundstrand",
+    "url": "www.hamiltonsundstrand.com",
+    "logo_file": "Hamilton_Sundstrand.png",
+    "year_began": "2009"
+  },
+  {
+    "company": "ICX Technologies",
+    "url": "http://www.icxt.com/technology/mobile-labs/",
+    "logo_file": "ICX_Technologies.png",
     "year_began": "2003"
   },
   {
@@ -78,15 +114,27 @@
     "year_began": "2018"
   },
   {
+    "company": "MassTech Inc",
+    "url": "https://www.apmaldi.com/main/",
+    "logo_file": "MassTech_Inc.png",
+    "year_began": "2013"
+  },
+  {
     "company": "MKS Instruments",
     "url": "https://www.mksinst.com/",
     "logo_file": "MKS_Instruments.png",
     "year_began": "2017"
   },
   {
-    "company": "MassTech Inc",
-    "url": "https://www.apmaldi.com/main/",
-    "logo_file": "MassTech_Inc.png",
+    "company": "OI Analytical",
+    "url": "https://www.ysi.com/oi-analytical",
+    "logo_file": "OI_Analytical.png",
+    "year_began": "2009"
+  },
+  {
+    "company": "Pascal Technologies",
+    "url": "pascaltechnologies.com",
+    "logo_file": "Pascal_Technologies.png",
     "year_began": "2013"
   },
   {
@@ -108,10 +156,58 @@
     "year_began": "2022"
   },
   {
+    "company": "SAES Getters",
+    "url": "http://www.saesgetters.com/",
+    "logo_file": "SAES_Getters.png",
+    "year_began": "2009"
+  },
+  {
+    "company": "Safran Morpho",
+    "url": "http://www.morpho.com/",
+    "logo_file": "Safran_Morpho.png",
+    "year_began": "2009"
+  },
+  {
+    "company": "Smiths Detection",
+    "url": "https://www.smithsdetection.com/",
+    "logo_file": "Smiths_Detection.png",
+    "year_began": "2007"
+  },
+  {
+    "company": "Spyglass Technologies",
+    "url": "SpyglassWater.com",
+    "logo_file": "Spyglass_Technologies.png",
+    "year_began": "2013"
+  },
+  {
+    "company": "SRI International",
+    "url": "https://www.sri.com/esd/marine-tech/chemsensors/",
+    "logo_file": "SRI_International.png",
+    "year_began": "2011"
+  },
+  {
+    "company": "Syagen",
+    "url": "http://www.syagen.com/",
+    "logo_file": "Syagen.png",
+    "year_began": "2009"
+  },
+  {
     "company": "Tofwerk",
     "url": "https://www.tofwerk.com/",
     "logo_file": "Tofwerk.png",
     "year_began": "2018"
+  },
+  {
+    "company": "Torion",
+    "url": "http://www.torion.com/",
+    "logo_file": "Torion.png",
+    "year_began": "2007"
+  },
+  {
+    "company": "University of North Texas",
+    "url": "http://www.unt.edu/",
+    "logo_file": "University_of_North_Texas.png",
+    "year_began": "2011"
   },
   {
     "company": "UTC Aerospace Systems",
@@ -120,9 +216,9 @@
     "year_began": "2017"
   },
   {
-    "company": "University of North Texas",
-    "url": "http://www.unt.edu/",
-    "logo_file": "University_of_North_Texas.png",
-    "year_began": "2011"
+    "company": "Varian, Inc",
+    "url": "http://www.varianinc.com/cgi-bin/nav?/",
+    "logo_file": "Varian_Inc.png",
+    "year_began": "2003"
   }
 ]

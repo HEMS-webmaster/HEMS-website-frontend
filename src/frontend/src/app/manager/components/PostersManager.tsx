@@ -36,6 +36,7 @@ function extractAuthorParts(rawName: string): { name: string; institute: string 
 
 export default function PostersManager({ posters = [], wsNum, onChange }: PostersManagerProps) {
   const [downloadingStatus, setDownloadingStatus] = useState<Record<string, string>>({});
+  const [postersDownloadStatus, setPostersDownloadStatus] = useState<{ total: number; done: number; errors: number; running: boolean } | null>(null);
   const migrated = useRef(false);
 
   // One-time auto-extraction: split "Name, Institute" into separate fields
@@ -63,7 +64,48 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlePasteDownload = async (
+  
+  const handleUrlBlur = async (
+    urlText: string,
+    index: number,
+    field: 'url' | 'abstract_url',
+    category: string,
+    fileName: string
+  ) => {
+    if (!urlText || !urlText.startsWith('http')) return;
+    
+    // Prevent redundant downloads if it's already success
+    const statusKey = `${index}-${field}`;
+    if (downloadingStatus[statusKey] === 'success' || downloadingStatus[statusKey] === 'downloading') return;
+
+    setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'downloading' }));
+
+    try {
+      const res = await fetch('/api/manager/download-legacy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: urlText, category, wsNum, fileName, session: 'Posters' })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
+        if (field === 'url') {
+          updateItem(index, 'poster_file', fileName);
+        } else {
+          updateItem(index, 'abstract_file', fileName);
+        }
+        setTimeout(() => setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' })), 3000);
+      } else {
+        throw new Error(data.error);
+      }
+    } catch (err: any) {
+      console.error(err);
+      setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'error' }));
+      setTimeout(() => setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' })), 3000);
+    }
+  };
+
+const handlePasteDownload = async (
     e: React.ClipboardEvent<HTMLInputElement>,
     index: number,
     field: 'url' | 'abstract_url',
@@ -144,10 +186,118 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
     }
   };
 
+
+  const redownloadAllPosters = async () => {
+    if (!latestPosters.current?.length) return;
+    if (!confirm('Re-download all posters and abstracts from legacy URLs?\n\nThis will overwrite existing files.')) return;
+
+    const jobs: { pIdx: number; field: 'url' | 'abstract_url'; category: string; fileName: string }[] = [];
+
+    latestPosters.current.forEach((p, pIdx) => {
+      let presenterName = `Poster_${pIdx}`;
+      if (p.authors && p.authors.length > 0) {
+        const presenter = p.authors.find(a => a.isPresenter) || p.authors[0];
+        const namePart = presenter.name.split(',')[0].trim();
+        const nameWords = namePart.split(' ');
+        presenterName = nameWords[nameWords.length - 1].replace(/[^a-zA-Z0-9]/g, '');
+      }
+      let titleSnippet = `Topic_${pIdx}`;
+      if (p.title) {
+        const words = p.title.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 0);
+        if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
+      }
+      const posterFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Poster.pdf`;
+      const abstractFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Abstract.pdf`;
+
+      if (p.url && p.url.startsWith('http')) {
+        jobs.push({ pIdx, field: 'url', category: 'Poster', fileName: posterFileName });
+      }
+      if (p.abstract_url && p.abstract_url.startsWith('http')) {
+        jobs.push({ pIdx, field: 'abstract_url', category: 'Abstract', fileName: abstractFileName });
+      }
+    });
+
+    if (jobs.length === 0) {
+      alert('No legacy URLs found in posters.');
+      return;
+    }
+
+    setPostersDownloadStatus({ total: jobs.length, done: 0, errors: 0, running: true });
+
+    let done = 0;
+    let errors = 0;
+
+    for (const job of jobs) {
+      const p = latestPosters.current[job.pIdx];
+      const legacyUrl = job.field === 'url' ? p.url : p.abstract_url;
+      const statusKey = `${job.pIdx}-${job.field}`;
+      setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'downloading' }));
+
+      try {
+        const res = await fetch('/api/manager/download-legacy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            url: legacyUrl,
+            category: job.category,
+            wsNum,
+            fileName: job.fileName,
+            session: 'Posters'
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
+          const fileField = job.field === 'url' ? 'poster_file' : 'abstract_file';
+          updateItem(job.pIdx, fileField, job.fileName);
+        } else {
+          setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'error' }));
+          errors++;
+        }
+      } catch (err: any) {
+        setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'error' }));
+        errors++;
+      }
+      done++;
+      setPostersDownloadStatus({ total: jobs.length, done, errors, running: done < jobs.length });
+    }
+
+    setTimeout(() => {
+      jobs.forEach(job => {
+        const statusKey = `${job.pIdx}-${job.field}`;
+        setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' }));
+      });
+      setPostersDownloadStatus(null);
+    }, 5000);
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
+        
         <h3 className="text-xl font-bold text-sky-400">Poster Presentations</h3>
+        <div className="flex items-center gap-2">
+          {postersDownloadStatus?.running ? (
+            <span className="text-[11px] text-yellow-400 font-bold font-mono animate-pulse">
+              ⟳ {postersDownloadStatus.done}/{postersDownloadStatus.total}
+              {postersDownloadStatus.errors > 0 && <span className="text-red-400 ml-1">({postersDownloadStatus.errors} err)</span>}
+            </span>
+          ) : postersDownloadStatus ? (
+            <span className="text-[11px] text-green-400 font-bold font-mono">
+              ✓ {postersDownloadStatus.done - postersDownloadStatus.errors} downloaded
+              {postersDownloadStatus.errors > 0 && <span className="text-red-400 ml-1">({postersDownloadStatus.errors} failed)</span>}
+            </span>
+          ) : null}
+          <button
+            onClick={redownloadAllPosters}
+            disabled={postersDownloadStatus?.running}
+            className="bg-amber-700/60 hover:bg-amber-600/80 disabled:opacity-40 disabled:cursor-not-allowed text-amber-200 px-3 py-1.5 rounded text-[12px] font-bold transition-colors flex items-center gap-1"
+            title="Re-download all posters and abstracts from legacy URLs"
+          >
+            ⟳ Re-download All
+          </button>
+        </div>
+
       </div>
 
       <div className="bg-slate-800 p-4 rounded border border-slate-700">
@@ -357,6 +507,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                     value={p.url || ''} 
                     onChange={e => updateItem(i, 'url', e.target.value)} 
                     onPaste={e => handlePasteDownload(e, i, 'url', 'Poster', posterFileName)}
+                    onBlur={e => handleUrlBlur(e.target.value, i, 'url', 'Poster', posterFileName)}
                     className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                   />
                   {downloadingStatus[`${i}-url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
@@ -368,6 +519,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                     value={p.abstract_url || ''} 
                     onChange={e => updateItem(i, 'abstract_url', e.target.value)} 
                     onPaste={e => handlePasteDownload(e, i, 'abstract_url', 'Poster', abstractFileName)}
+                    onBlur={e => handleUrlBlur(e.target.value, i, 'abstract_url', 'Poster', abstractFileName)}
                     className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                   />
                   {downloadingStatus[`${i}-abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}

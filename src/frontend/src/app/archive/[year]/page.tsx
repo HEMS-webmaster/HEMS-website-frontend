@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import path from "path";
 import { promises as fs } from "fs";
 import FrontendPreviewHover from "@/components/FrontendPreviewHover";
+import CollapsiblePosterList from "@/components/CollapsiblePosterList";
 import { generateArchiveJsonLd } from "@/utils/generateArchiveJsonLd";
 export async function generateStaticParams() {
   const dataDir = path.join(process.cwd(), 'src', 'data', 'archives');
@@ -179,19 +180,29 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
     });
   }
 
-  const parseSortTime = (item: any) => {
-    if (item.rawTime) return item.rawTime;
-    const t = item.time || '';
-    const match = t.match(/(\d+):(\d+)\s*(a|p)/i);
+  const parseSortTime = (item: any): number => {
+    const t = (item.rawTime || item.time || '').trim().toLowerCase().replace(/\./g, '');
+    if (!t) return Infinity;
+
+    const match = t.match(/(\d{1,2}):(\d{2})\s*(a|p)/);
     if (match) {
       let h = parseInt(match[1]);
-      const m = match[2];
-      const isPm = match[3].toLowerCase() === 'p';
-      if (isPm && h < 12) h += 12;
+      const m = parseInt(match[2]);
+      const isPm = match[3] === 'p';
+      if (isPm && h !== 12) h += 12;
       if (!isPm && h === 12) h = 0;
-      return `${h.toString().padStart(2, '0')}:${m}`;
+      return h * 60 + m;
     }
-    return t; 
+
+    const h24 = t.match(/^(\d{1,2}):(\d{2})$/);
+    if (h24) {
+      let h = parseInt(h24[1]);
+      const m = parseInt(h24[2]);
+      if (h >= 1 && h <= 6) h += 12;
+      return h * 60 + m;
+    }
+
+    return Infinity;
   };
 
   unifiedSchedule.forEach((day: any) => {
@@ -208,7 +219,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
       day.items.sort((a: any, b: any) => {
         const timeA = parseSortTime(a);
         const timeB = parseSortTime(b);
-        return timeA.localeCompare(timeB);
+        return timeA - timeB;
       });
     }
   });
@@ -249,7 +260,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
           other.talks.sort((a: any, b: any) => {
             const tA = parseSortTime(a);
             const tB = parseSortTime(b);
-            return tA.localeCompare(tB);
+            return tA - tB;
           });
           eventsToRemove.add(idx);
           break;
@@ -567,8 +578,9 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                           </div>
 
                           {/* Talk rows — lighter shade */}
-                          <div className={`divide-y divide-primary/10 px-4 pb-3 pt-2 ${bgClass}`}>
-                            {item.talks?.map((talk: any, tIdx: number) => {
+                          <div className={`px-4 pb-3 pt-2 ${bgClass}`}>
+                            <CollapsiblePosterList isPosterSession={isPosterSession} items={
+                              item.talks?.map((talk: any, tIdx: number) => {
                                    // Render interleaved events (breaks, etc.) within the session
                                    if (talk.type === 'event') {
                                      return (
@@ -682,7 +694,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                   </div>
                                 </div>
                               );
-                            })}
+                            })} />
                           </div>
                         </div>
                       );
