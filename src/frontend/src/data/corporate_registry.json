@@ -18,9 +18,21 @@
     "year_began": "2003"
   },
   {
+    "company": "Alcatel Vacuum",
+    "url": "http://www.adixen-usa.com/",
+    "logo_file": "Alcatel_Vacuum.png",
+    "year_began": "2007"
+  },
+  {
     "company": "Ardara Technologies",
     "url": "http://www.ardaratech.com/index.html",
     "logo_file": "Ardara_Technologies.png",
+    "year_began": "2007"
+  },
+  {
+    "company": "ASRC Aerospace Corporation",
+    "url": "http://www.akspace.com/",
+    "logo_file": "ASRC_Aerospace_Corporation.png",
     "year_began": "2007"
   },
   {
@@ -100,6 +112,12 @@
     "url": "https://inspect-ir.com/",
     "logo_file": "InspectIR_Systems.png",
     "year_began": "2022"
+  },
+  {
+    "company": "Ionicon Analytik",
+    "url": "http://www.ptrms.com/",
+    "logo_file": "Ionicon_Analytik.png",
+    "year_began": "2007"
   },
   {
     "company": "Leidos",
@@ -190,6 +208,12 @@
     "url": "http://www.syagen.com/",
     "logo_file": "Syagen.png",
     "year_began": "2009"
+  },
+  {
+    "company": "Synergy Vacuum",
+    "url": "http://www.synergyvacuum.com/",
+    "logo_file": "Synergy_Vacuum.png",
+    "year_began": "2007"
   },
   {
     "company": "Tofwerk",

@@ -10,11 +10,11 @@ interface Poster {
   title: string;
   authors: Author[];
   institutes?: string[];
-  url: string;
+  legacy_url: string;
   date?: string;
   time?: string;
   session?: string;
-  abstract_url?: string;
+  legacy_abstract_url?: string;
   poster_file?: string;
   abstract_file?: string;
 }
@@ -68,7 +68,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
   const handleUrlBlur = async (
     urlText: string,
     index: number,
-    field: 'url' | 'abstract_url',
+    field: 'legacy_url' | 'legacy_abstract_url',
     category: string,
     fileName: string
   ) => {
@@ -89,7 +89,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
       const data = await res.json();
       if (data.success) {
         setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
-        if (field === 'url') {
+        if (field === 'legacy_url') {
           updateItem(index, 'poster_file', fileName);
         } else {
           updateItem(index, 'abstract_file', fileName);
@@ -108,7 +108,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
 const handlePasteDownload = async (
     e: React.ClipboardEvent<HTMLInputElement>,
     index: number,
-    field: 'url' | 'abstract_url',
+    field: 'legacy_url' | 'legacy_abstract_url',
     category: string,
     fileName: string
   ) => {
@@ -130,7 +130,7 @@ const handlePasteDownload = async (
       const data = await res.json();
       if (data.success) {
         setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
-        if (field === 'url') {
+        if (field === 'legacy_url') {
           updateItem(index, 'poster_file', fileName);
         } else {
           updateItem(index, 'abstract_file', fileName);
@@ -158,7 +158,7 @@ const handlePasteDownload = async (
   };
 
   const addItem = () => {
-    onChange([...posters, { title: '', authors: [], institutes: [], url: '', date: '', time: '', session: '' }]);
+    onChange([...posters, { title: '', authors: [], institutes: [], legacy_url: '', date: '', time: '', session: '' }]);
   };
 
   const removeItem = (index: number) => {
@@ -191,7 +191,7 @@ const handlePasteDownload = async (
     if (!latestPosters.current?.length) return;
     if (!confirm('Re-download all posters and abstracts from legacy URLs?\n\nThis will overwrite existing files.')) return;
 
-    const jobs: { pIdx: number; field: 'url' | 'abstract_url'; category: string; fileName: string }[] = [];
+    const jobs: { pIdx: number; field: 'legacy_url' | 'legacy_abstract_url'; category: string; fileName: string }[] = [];
 
     latestPosters.current.forEach((p, pIdx) => {
       let presenterName = `Poster_${pIdx}`;
@@ -209,11 +209,11 @@ const handlePasteDownload = async (
       const posterFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Poster.pdf`;
       const abstractFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Abstract.pdf`;
 
-      if (p.url && p.url.startsWith('http')) {
-        jobs.push({ pIdx, field: 'url', category: 'Poster', fileName: posterFileName });
+      if (p.legacy_url && p.legacy_url.startsWith('http')) {
+        jobs.push({ pIdx, field: 'legacy_url', category: 'Poster', fileName: posterFileName });
       }
-      if (p.abstract_url && p.abstract_url.startsWith('http')) {
-        jobs.push({ pIdx, field: 'abstract_url', category: 'Abstract', fileName: abstractFileName });
+      if (p.legacy_abstract_url && p.legacy_abstract_url.startsWith('http')) {
+        jobs.push({ pIdx, field: 'legacy_abstract_url', category: 'Abstract', fileName: abstractFileName });
       }
     });
 
@@ -229,7 +229,7 @@ const handlePasteDownload = async (
 
     for (const job of jobs) {
       const p = latestPosters.current[job.pIdx];
-      const legacyUrl = job.field === 'url' ? p.url : p.abstract_url;
+      const legacyUrl = job.field === 'legacy_url' ? p.legacy_url : p.legacy_abstract_url;
       const statusKey = `${job.pIdx}-${job.field}`;
       setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'downloading' }));
 
@@ -248,7 +248,7 @@ const handlePasteDownload = async (
         const data = await res.json();
         if (data.success) {
           setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
-          const fileField = job.field === 'url' ? 'poster_file' : 'abstract_file';
+          const fileField = job.field === 'legacy_url' ? 'poster_file' : 'abstract_file';
           updateItem(job.pIdx, fileField, job.fileName);
         } else {
           setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'error' }));
@@ -504,25 +504,25 @@ const handlePasteDownload = async (
                   <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Poster URL</label>
                   <input 
                     type="url" 
-                    value={p.url || ''} 
-                    onChange={e => updateItem(i, 'url', e.target.value)} 
-                    onPaste={e => handlePasteDownload(e, i, 'url', 'Poster', posterFileName)}
-                    onBlur={e => handleUrlBlur(e.target.value, i, 'url', 'Poster', posterFileName)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                    value={p.legacy_url || ''} 
+                    onChange={e => updateItem(i, 'legacy_url', e.target.value)} 
+                    onPaste={e => handlePasteDownload(e, i, 'legacy_url', 'Poster', posterFileName)}
+                    onBlur={e => handleUrlBlur(e.target.value, i, 'legacy_url', 'Poster', posterFileName)}
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                   />
-                  {downloadingStatus[`${i}-url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  {downloadingStatus[`${i}-legacy_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
                 </div>
                 <div className="relative">
                   <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Abstract URL</label>
                   <input 
                     type="url" 
-                    value={p.abstract_url || ''} 
-                    onChange={e => updateItem(i, 'abstract_url', e.target.value)} 
-                    onPaste={e => handlePasteDownload(e, i, 'abstract_url', 'Poster', abstractFileName)}
-                    onBlur={e => handleUrlBlur(e.target.value, i, 'abstract_url', 'Poster', abstractFileName)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                    value={p.legacy_abstract_url || ''} 
+                    onChange={e => updateItem(i, 'legacy_abstract_url', e.target.value)} 
+                    onPaste={e => handlePasteDownload(e, i, 'legacy_abstract_url', 'Poster', abstractFileName)}
+                    onBlur={e => handleUrlBlur(e.target.value, i, 'legacy_abstract_url', 'Poster', abstractFileName)}
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                   />
-                  {downloadingStatus[`${i}-abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  {downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
                 </div>
               </div>
 

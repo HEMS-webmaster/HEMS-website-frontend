@@ -1030,3 +1030,39 @@ ode.exe\ process hosting the dev server to force a fresh disk read of \master_wo
 - Actions: Identified that the \uthors\ field was parsed as a flat string instead of an array of objects matching the \master_workshops.json\ schema. Updated \scratch/parse_6th_ws.py\ to split the authors string by commas/ands and map them into the required array of \{name, isPresenter, institute}\ objects. Regenerated the JSON and restarted the dev server.
 - Outcome: Schema integrity restored and the Workshop Manager UI renders the authors properly without throwing an error.
 
+
+## [2026-05-12] - @dev
+- Task: Collect author information for 6th Workshop.
+- Actions: Identified that the legacy markdown summary only contained a single author per presentation. To collect the complete author lists, wrote a Python script (scratch/extract_6th_ws_authors.py) to systematically fetch the legacy abstract PDFs via PyMuPDF, parse the title and author blocks, extract all co-authors, and normalize them into the master_workshops.json database.
+- Outcome: Successfully parsed 23 abstract PDFs and updated the master JSON with full co-author arrays for both oral sessions and posters.
+
+
+## [2026-05-12] - @dev
+- Task: Fix missing institutes in Workshop Manager.
+- Actions: Discovered that while the extraction script successfully populated the \institute\ field on individual \uthor\ objects, the Workshop Manager's schema requires an \institutes: string[]\ array at the top level of the \Presentation\ / \Poster\ object to render the dropdowns properly. Ran a Python script to iterate through the master JSON and hoist unique institute names from the authors array into the top-level \institutes\ array for each presentation.
+- Outcome: The UI now correctly receives the list of defined institutes and populates the author dropdowns accordingly.
+
+
+## [2026-05-12] - @dev
+- Task: Hydrate legacy URLs for the 6th Workshop.
+- Actions: Ran a Python patch over \master_workshops.json\ to prepend 'https://www.hems-workshop.org/6thWS/' to all relative \legacy_url\ and \legacy_abstract_url\ values for presentations, posters, and student awards.
+- Outcome: Hydrated 65 URLs. The Workshop Manager will now correctly map and re-download these assets directly from the legacy website without pathing errors.
+
+
+### SCoT Log - @arch - Make PDF Export Denser
+
+1. Moving the Export Program PDF button to the top level sticky navbar in page.tsx.
+2. Removing it from the Workshop Level Input section.
+3. Modifying exportProgramPdf.ts to decrease page margins (M=24), reduce font sizes by 1-2 points, and reduce line heights for events, sessions, and talks to make the schedule fit more compactly within 2-3 pages.
+
+### SCoT Log - @dev - Fix PDF Margins & Overlap
+
+1. Identified margin requirement: 1 inch = 72 pt.
+2. Updated M = 72 and BOTTOM = H - 72 in exportProgramPdf.ts.
+3. Identified root cause of overlapping text: doc.text renders line-spacing based on font size (usually fontSize * 1.15), but y was being artificially incremented by a smaller lineH.
+4. Refactored rendering loops to advance y by actual doc.getLineHeight() multiplied by the number of text lines, guaranteeing mathematically precise vertical spacing without overlaps.
+
+### SCoT Log - @dev - Fix Event Font Change and Box Heights
+
+1. Investigated horizontal overlap on events. The subtitle was positioned using doc.getTextWidth(title) after the font had already been shrunk down, yielding a narrower width than the rendered title. Stored the width variable before changing the font to fix.
+2. Investigated vertical overlap on Day/Session headings. The doc.text(..., y + 9) followed by y += 18 advanced the global baseline inconsistently. Modified the background rectangles to be anchored around the current baseline (y - lh + 2) and incremented y directly by the line height plus padding to secure a safe baseline for subsequent text rows.

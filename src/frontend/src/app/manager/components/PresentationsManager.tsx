@@ -15,8 +15,8 @@ interface Presentation {
   title: string;
   authors: Author[];
   institutes?: string[];
-  url: string;
-  abstract_url?: string;
+  legacy_url: string;
+  legacy_abstract_url?: string;
   presentation_file?: string;
   abstract_file?: string;
 }
@@ -136,7 +136,7 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
     urlText: string,
     gIdx: number,
     pIdx: number,
-    field: 'url' | 'abstract_url',
+    field: 'legacy_url' | 'legacy_abstract_url',
     category: string,
     fileName: string,
     sessionTitle: string
@@ -157,7 +157,7 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
       const data = await res.json();
       if (data.success) {
         setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
-        if (field === 'url') {
+        if (field === 'legacy_url') {
           updatePresentation(gIdx, pIdx, 'presentation_file', fileName);
         } else {
           updatePresentation(gIdx, pIdx, 'abstract_file', fileName);
@@ -177,7 +177,7 @@ const handlePasteDownload = async (
     e: React.ClipboardEvent<HTMLInputElement>,
     gIdx: number,
     pIdx: number,
-    field: 'url' | 'abstract_url',
+    field: 'legacy_url' | 'legacy_abstract_url',
     category: string,
     fileName: string,
     sessionTitle: string
@@ -200,7 +200,7 @@ const handlePasteDownload = async (
       const data = await res.json();
       if (data.success) {
         setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
-        if (field === 'url') {
+        if (field === 'legacy_url') {
           updatePresentation(gIdx, pIdx, 'presentation_file', fileName);
         } else {
           updatePresentation(gIdx, pIdx, 'abstract_file', fileName);
@@ -256,7 +256,7 @@ const handlePasteDownload = async (
   const addPresentation = (gIdx: number) => {
     const updated = [...presentation_sessions];
     updated[gIdx].presentations.push({
-      time: '', title: '', authors: [], institutes: [], url: ''
+      time: '', title: '', authors: [], institutes: [], legacy_url: ''
     });
     onChange(updated);
   };
@@ -313,7 +313,7 @@ const handlePasteDownload = async (
     if (!session?.presentations?.length) return;
     if (!confirm(`Re-download all presentations and abstracts in "${session.title || 'this session'}" from legacy URLs?\n\nThis will overwrite existing files.`)) return;
 
-    const jobs: { gIdx: number; pIdx: number; field: 'url' | 'abstract_url'; category: string; fileName: string }[] = [];
+    const jobs: { gIdx: number; pIdx: number; field: 'legacy_url' | 'legacy_abstract_url'; category: string; fileName: string }[] = [];
 
     session.presentations.forEach((p, pIdx) => {
       let presenterName = `Author_${pIdx}`;
@@ -331,11 +331,11 @@ const handlePasteDownload = async (
       const presFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Presentation.pdf`;
       const absFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Abstract.pdf`;
 
-      if (p.url && p.url.startsWith('http')) {
-        jobs.push({ gIdx, pIdx, field: 'url', category: 'Presentation', fileName: presFileName });
+      if (p.legacy_url && p.legacy_url.startsWith('http')) {
+        jobs.push({ gIdx, pIdx, field: 'legacy_url', category: 'Presentation', fileName: presFileName });
       }
-      if (p.abstract_url && p.abstract_url.startsWith('http')) {
-        jobs.push({ gIdx, pIdx, field: 'abstract_url', category: 'Abstract', fileName: absFileName });
+      if (p.legacy_abstract_url && p.legacy_abstract_url.startsWith('http')) {
+        jobs.push({ gIdx, pIdx, field: 'legacy_abstract_url', category: 'Abstract', fileName: absFileName });
       }
     });
 
@@ -351,7 +351,7 @@ const handlePasteDownload = async (
 
     for (const job of jobs) {
       const pres = latestSessions.current[job.gIdx].presentations[job.pIdx];
-      const legacyUrl = job.field === 'url' ? pres.url : pres.abstract_url;
+      const legacyUrl = job.field === 'legacy_url' ? pres.legacy_url : pres.legacy_abstract_url;
       const statusKey = `${job.gIdx}-${job.pIdx}-${job.field}`;
       setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'downloading' }));
 
@@ -370,7 +370,7 @@ const handlePasteDownload = async (
         const data = await res.json();
         if (data.success) {
           setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
-          const fileField = job.field === 'url' ? 'presentation_file' : 'abstract_file';
+          const fileField = job.field === 'legacy_url' ? 'presentation_file' : 'abstract_file';
           updatePresentation(job.gIdx, job.pIdx, fileField, job.fileName);
         } else {
           console.warn(`Download failed for ${job.fileName}: ${data.error}`);
@@ -675,25 +675,25 @@ const handlePasteDownload = async (
                       <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Presentation URL</label>
                       <input 
                         type="url" 
-                        value={p.url || ''} 
-                        onChange={e => updatePresentation(gIdx, pIdx, 'url', e.target.value)} 
-                        onPaste={e => handlePasteDownload(e, gIdx, pIdx, 'url', 'Presentation', presFileName, group.title || 'General')}
-                        onBlur={e => handleUrlBlur(e.target.value, gIdx, pIdx, 'url', 'Presentation', presFileName, group.title || 'General')}
-                        className={`w-full bg-slate-900 border ${downloadingStatus[`${gIdx}-${pIdx}-url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${gIdx}-${pIdx}-url`] === 'success' ? 'border-green-500' : downloadingStatus[`${gIdx}-${pIdx}-url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                        value={p.legacy_url || ''} 
+                        onChange={e => updatePresentation(gIdx, pIdx, 'legacy_url', e.target.value)} 
+                        onPaste={e => handlePasteDownload(e, gIdx, pIdx, 'legacy_url', 'Presentation', presFileName, group.title || 'General')}
+                        onBlur={e => handleUrlBlur(e.target.value, gIdx, pIdx, 'legacy_url', 'Presentation', presFileName, group.title || 'General')}
+                        className={`w-full bg-slate-900 border ${downloadingStatus[`${gIdx}-${pIdx}-legacy_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${gIdx}-${pIdx}-legacy_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${gIdx}-${pIdx}-legacy_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                       />
-                      {downloadingStatus[`${gIdx}-${pIdx}-url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                      {downloadingStatus[`${gIdx}-${pIdx}-legacy_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
                     </div>
                     <div className="relative">
                       <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Abstract URL</label>
                       <input 
                         type="url" 
-                        value={p.abstract_url || ''} 
-                        onChange={e => updatePresentation(gIdx, pIdx, 'abstract_url', e.target.value)} 
-                        onPaste={e => handlePasteDownload(e, gIdx, pIdx, 'abstract_url', 'Abstract', absFileName, group.title || 'General')}
-                        onBlur={e => handleUrlBlur(e.target.value, gIdx, pIdx, 'abstract_url', 'Abstract', absFileName, group.title || 'General')}
-                        className={`w-full bg-slate-900 border ${downloadingStatus[`${gIdx}-${pIdx}-abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${gIdx}-${pIdx}-abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${gIdx}-${pIdx}-abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                        value={p.legacy_abstract_url || ''} 
+                        onChange={e => updatePresentation(gIdx, pIdx, 'legacy_abstract_url', e.target.value)} 
+                        onPaste={e => handlePasteDownload(e, gIdx, pIdx, 'legacy_abstract_url', 'Abstract', absFileName, group.title || 'General')}
+                        onBlur={e => handleUrlBlur(e.target.value, gIdx, pIdx, 'legacy_abstract_url', 'Abstract', absFileName, group.title || 'General')}
+                        className={`w-full bg-slate-900 border ${downloadingStatus[`${gIdx}-${pIdx}-legacy_abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${gIdx}-${pIdx}-legacy_abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${gIdx}-${pIdx}-legacy_abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                       />
-                      {downloadingStatus[`${gIdx}-${pIdx}-abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                      {downloadingStatus[`${gIdx}-${pIdx}-legacy_abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
                     </div>
                   </div>
 

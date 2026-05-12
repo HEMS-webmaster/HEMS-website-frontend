@@ -126,14 +126,12 @@ function buildSchedule(ws: any): DaySchedule[] {
   return days;
 }
 
-// ── PDF rendering ─────────────────────────────────────────────────────────────
-
 export function exportProgramPdf(ws: any) {
   const doc = new jsPDF({ unit: 'pt', format: 'letter', putOnlyUsedFonts: true });
   const W = 612, H = 792;
-  const M = 40; // margin
+  const M = 72; // 1-inch margin
   const CW = W - 2 * M; // content width
-  const BOTTOM = H - 36;
+  const BOTTOM = H - 72; // 1-inch bottom margin
   let y = M;
   let pageNum = 1;
 
@@ -149,39 +147,39 @@ export function exportProgramPdf(ws: any) {
 
   // Title block
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(22);
+  doc.setFontSize(20);
   const ordinal = getOrdinal(parseInt(String(ws.number)));
   doc.text(`${ordinal} HEMS Workshop`, W / 2, y, { align: 'center' });
-  y += 26;
+  y += 22;
 
-  doc.setFontSize(11);
+  doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.text('Workshop on Harsh-Environment Mass Spectrometry', W / 2, y, { align: 'center' });
-  y += 22;
+  y += 18;
 
   // Dates
   if (ws.dates) {
-    doc.setFontSize(11);
+    doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.text(ws.dates, W / 2, y, { align: 'center' });
-    y += 16;
+    y += 14;
   }
 
   // Venue + Address
   const locParts = [ws.venue, ws.address || ws.city].filter(Boolean);
   if (locParts.length > 0) {
-    doc.setFontSize(10);
+    doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
     doc.text(locParts.join(' — '), W / 2, y, { align: 'center' });
-    y += 16;
+    y += 14;
   }
 
   // Divider
-  y += 4;
+  y += 2;
   doc.setDrawColor(180);
   doc.setLineWidth(0.5);
   doc.line(M, y, W - M, y);
-  y += 14;
+  y += 12;
 
   // Host
   const hostSponsor = ws.sponsors?.find((s: any) => s.isHost);
@@ -276,15 +274,15 @@ export function exportProgramPdf(ws: any) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(14);
   doc.text('Technical Program', W / 2, y, { align: 'center' });
-  y += 22;
+  y += 20;
 
   const schedule = buildSchedule(ws);
 
   // Adaptive font size: estimate total content height at 8pt, scale down if needed
-  const TALK_LINE_H = 10;  // height per talk line
-  const SESSION_H = 16;    // session header height
-  const EVENT_H = 12;      // event item height
-  const DAY_H = 18;        // day header height
+  const TALK_LINE_H = 8.5;  // height per talk line
+  const SESSION_H = 14;    // session header height
+  const EVENT_H = 10;      // event item height
+  const DAY_H = 15;        // day header height
   let estHeight = 0;
   for (const day of schedule) {
     estHeight += DAY_H;
@@ -299,7 +297,6 @@ export function exportProgramPdf(ws: any) {
   const availableH = (BOTTOM - M - 22) * 2; // 2 pages of content (minus title space on page 2)
   const scaleFactor = estHeight > availableH ? availableH / estHeight : 1;
   const baseFontSize = Math.max(6.5, Math.min(8.5, 8.5 * scaleFactor));
-  const lineH = Math.max(8, TALK_LINE_H * scaleFactor);
 
   const ensureSpace = (needed: number) => {
     if (y + needed > BOTTOM) {
@@ -318,13 +315,14 @@ export function exportProgramPdf(ws: any) {
     ensureSpace(DAY_H + 20);
 
     // Day heading — shaded bar
-    doc.setFillColor(230, 230, 235);
-    doc.rect(M, y - 2, CW, 16, 'F');
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(baseFontSize + 1.5);
+    let dayLH = doc.getLineHeight();
+    doc.setFillColor(230, 230, 235);
+    doc.rect(M, y - dayLH + 2, CW, dayLH + 6, 'F');
     doc.setTextColor(40);
-    doc.text(day.heading, M + 6, y + 10);
-    y += 20;
+    doc.text(day.heading, M + 6, y);
+    y += dayLH + 8;
 
     for (const item of day.items) {
       if (item.type === 'event') {
@@ -336,34 +334,37 @@ export function exportProgramPdf(ws: any) {
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(60);
         doc.text(item.title, CONTENT_X, y);
+        let eventLH = doc.getLineHeight();
+        const titleWidth = doc.getTextWidth(item.title + '  ');
         if (item.subtitle) {
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(baseFontSize - 1);
           doc.setTextColor(120);
-          const subLines = doc.splitTextToSize(item.subtitle, CONTENT_W);
-          doc.text(subLines[0] || '', CONTENT_X + doc.getTextWidth(item.title + '  '), y);
+          const subLines = doc.splitTextToSize(item.subtitle, Math.max(10, CONTENT_W - titleWidth));
+          doc.text(subLines[0] || '', CONTENT_X + titleWidth, y);
         }
-        y += lineH + 2;
+        y += eventLH + 2;
         doc.setTextColor(0);
       } else {
         // Session
-        ensureSpace(SESSION_H + (item.talks?.length || 0) * lineH * 2);
+        ensureSpace(SESSION_H + (item.talks?.length || 0) * (baseFontSize * 2));
 
         // Session header
-        doc.setFillColor(220, 230, 245);
-        doc.rect(M, y - 2, CW, 14, 'F');
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(baseFontSize + 0.5);
+        let sessionLH = doc.getLineHeight();
+        doc.setFillColor(220, 230, 245);
+        doc.rect(M, y - sessionLH + 2, CW, sessionLH + 6, 'F');
         doc.setTextColor(30, 60, 120);
-        doc.text(item.time, M + 4, y + 9);
-        doc.text(item.title, CONTENT_X, y + 9);
-        y += 18;
+        doc.text(item.time, M + 4, y);
+        doc.text(item.title, CONTENT_X, y);
+        y += sessionLH + 8;
         doc.setTextColor(0);
 
         // Talks
         if (item.talks) {
           for (const talk of item.talks) {
-            ensureSpace(lineH * 2.5);
+            ensureSpace(baseFontSize * 3);
 
             // Time
             doc.setFont('helvetica', 'normal');
@@ -377,7 +378,7 @@ export function exportProgramPdf(ws: any) {
             doc.setTextColor(0);
             const titleLines = doc.splitTextToSize(talk.title, CONTENT_W);
             doc.text(titleLines, CONTENT_X, y);
-            y += titleLines.length * lineH;
+            y += titleLines.length * doc.getLineHeight();
 
             // Authors
             if (talk.authors) {
@@ -386,7 +387,7 @@ export function exportProgramPdf(ws: any) {
               doc.setTextColor(80);
               const authLines = doc.splitTextToSize(talk.authors, CONTENT_W);
               doc.text(authLines, CONTENT_X, y);
-              y += authLines.length * (lineH - 1);
+              y += authLines.length * doc.getLineHeight();
             }
             y += 4;
           }

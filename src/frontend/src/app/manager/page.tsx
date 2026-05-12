@@ -187,7 +187,19 @@ export default function WorkshopManager() {
     <div className="min-h-screen bg-slate-900 text-slate-200 p-8 font-sans">
       <div className="sticky top-0 z-50 bg-slate-900 flex justify-between items-center mb-8 border-b border-slate-700 pb-4 pt-4">
         <h1 className="text-3xl font-bold text-sky-400">🛠️ Workshop Manager</h1>
-        <div className="space-x-4">
+        <div className="space-x-4 flex items-center">
+          {currentWs && (
+            <button
+              onClick={() => {
+                const pages = exportProgramPdf(currentWs);
+                if (pages > 3) alert(`PDF generated with ${pages} pages. The schedule exceeded the 2-page target — consider reducing content or splitting sessions.`);
+              }}
+              className="bg-violet-700 hover:bg-violet-600 text-white px-4 py-2 rounded font-bold transition-colors flex items-center gap-1.5"
+              title="Export a formatted Technical Program PDF for this workshop"
+            >
+              📄 Export PDF
+            </button>
+          )}
           <button 
             onClick={handleSave} 
             disabled={saving || pushing}
@@ -234,16 +246,6 @@ export default function WorkshopManager() {
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-sky-400">Workshop Level Input</h2>
-                <button
-                  onClick={() => {
-                    const pages = exportProgramPdf(currentWs);
-                    if (pages > 3) alert(`PDF generated with ${pages} pages. The schedule exceeded the 2-page target — consider reducing content or splitting sessions.`);
-                  }}
-                  className="bg-violet-700 hover:bg-violet-600 text-white px-3 py-1.5 rounded text-sm font-bold transition-colors flex items-center gap-1.5"
-                  title="Export a formatted Technical Program PDF for this workshop"
-                >
-                  📄 Export Program PDF
-                </button>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>

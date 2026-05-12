@@ -8,8 +8,8 @@ interface Student {
   title?: string;
   name: string;
   institute: string;
-  url?: string;
-  abstract_url?: string;
+  legacy_url?: string;
+  legacy_abstract_url?: string;
   presentation_file?: string;
   abstract_file?: string;
 }
@@ -32,7 +32,7 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
   const handlePasteDownload = async (
     e: React.ClipboardEvent<HTMLInputElement>,
     index: number,
-    field: 'url' | 'abstract_url',
+    field: 'legacy_url' | 'legacy_abstract_url',
     category: string,
     fileName: string
   ) => {
@@ -61,7 +61,7 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
       const data = await res.json();
       if (data.success) {
         setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'success' }));
-        const targetFileField = field === 'url' ? 'presentation_file' : 'abstract_file';
+        const targetFileField = field === 'legacy_url' ? 'presentation_file' : 'abstract_file';
         updateItem(index, targetFileField, fileName);
         setTimeout(() => setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' })), 3000);
       } else {
@@ -81,7 +81,7 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
   };
 
   const addItem = () => {
-    onChange([...students, { title: '', name: '', institute: '', url: '', abstract_url: '' }]);
+    onChange([...students, { title: '', name: '', institute: '', legacy_url: '', legacy_abstract_url: '' }]);
   };
 
   const removeItem = (index: number) => {
@@ -146,23 +146,23 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
                   <label className="block text-xs font-bold text-slate-400 mb-1">Legacy URL</label>
                   <input 
                     type="url" 
-                    value={s.url || ''} 
-                    onChange={e => updateItem(i, 'url', e.target.value)} 
-                    onPaste={e => handlePasteDownload(e, i, 'url', 'Student_Award', presFileName)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                    value={s.legacy_url || ''} 
+                    onChange={e => updateItem(i, 'legacy_url', e.target.value)} 
+                    onPaste={e => handlePasteDownload(e, i, 'legacy_url', 'Student_Award', presFileName)}
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                   />
-                  {downloadingStatus[`${i}-url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  {downloadingStatus[`${i}-legacy_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
                 </div>
                 <div className="col-span-2 relative">
                   <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Abstract URL</label>
                   <input 
                     type="url" 
-                    value={s.abstract_url || ''} 
-                    onChange={e => updateItem(i, 'abstract_url', e.target.value)} 
-                    onPaste={e => handlePasteDownload(e, i, 'abstract_url', 'Student_Award', absFileName)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                    value={s.legacy_abstract_url || ''} 
+                    onChange={e => updateItem(i, 'legacy_abstract_url', e.target.value)} 
+                    onPaste={e => handlePasteDownload(e, i, 'legacy_abstract_url', 'Student_Award', absFileName)}
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
                   />
-                  {downloadingStatus[`${i}-abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  {downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
                 </div>
               </div>
               <div className="w-48 flex flex-col gap-2">
