@@ -21,7 +21,7 @@
     "company": "Alcatel Vacuum",
     "url": "http://www.adixen-usa.com/",
     "logo_file": "Alcatel_Vacuum.png",
-    "year_began": "2007"
+    "year_began": "2005"
   },
   {
     "company": "Ardara Technologies",
@@ -52,6 +52,12 @@
     "url": "https://www.bruker.com/en.html",
     "logo_file": "Bruker.png",
     "year_began": "2007"
+  },
+  {
+    "company": "Burle",
+    "url": "http://www.burle.com/",
+    "logo_file": "Burle.png",
+    "year_began": "2005"
   },
   {
     "company": "Collins Aerospace",
@@ -138,10 +144,22 @@
     "year_began": "2013"
   },
   {
+    "company": "Microsaic Systems",
+    "url": "http://www.microsaic.com/",
+    "logo_file": "Microsaic_Systems.png",
+    "year_began": "2005"
+  },
+  {
     "company": "MKS Instruments",
     "url": "https://www.mksinst.com/",
     "logo_file": "MKS_Instruments.png",
     "year_began": "2017"
+  },
+  {
+    "company": "Monitor Instruments",
+    "url": "http://www.monitorinstruments.com",
+    "logo_file": "Monitor_Instruments.png",
+    "year_began": "2005"
   },
   {
     "company": "OI Analytical",
@@ -184,6 +202,12 @@
     "url": "http://www.morpho.com/",
     "logo_file": "Safran_Morpho.png",
     "year_began": "2009"
+  },
+  {
+    "company": "Siemens",
+    "url": "http://www.sea.siemens.com/ia/product/aiquantra.html",
+    "logo_file": "Siemens.png",
+    "year_began": "2005"
   },
   {
     "company": "Smiths Detection",
@@ -232,6 +256,12 @@
     "url": "http://www.unt.edu/",
     "logo_file": "University_of_North_Texas.png",
     "year_began": "2011"
+  },
+  {
+    "company": "University of South Florida",
+    "url": "https://www.usf.edu/marine-science/",
+    "logo_file": "University_of_South_Florida.png",
+    "year_began": "2003"
   },
   {
     "company": "UTC Aerospace Systems",

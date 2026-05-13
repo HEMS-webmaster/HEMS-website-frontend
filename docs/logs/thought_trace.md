@@ -1066,3 +1066,69 @@ ode.exe\ process hosting the dev server to force a fresh disk read of \master_wo
 
 1. Investigated horizontal overlap on events. The subtitle was positioned using doc.getTextWidth(title) after the font had already been shrunk down, yielding a narrower width than the rendered title. Stored the width variable before changing the font to fix.
 2. Investigated vertical overlap on Day/Session headings. The doc.text(..., y + 9) followed by y += 18 advanced the global baseline inconsistently. Modified the background rectangles to be anchored around the current baseline (y - lh + 2) and incremented y directly by the line height plus padding to secure a safe baseline for subsequent text rows.
+
+### SCoT Log - @ops - Force Sync
+
+1. Validated user completed interactive auth challenge.
+2. Re-executed gsutil rsync command to push legacy assets to GCS.
+3. Command exited 0, successfully transferring the proceedings directory.
+
+### SCoT Log - @ops - Force Firebase Deploy
+
+1. Killed local dev server locking the manager files.
+2. Executed npm run build, successfully generating the static export.
+3. Executed local firebase deploy, but it failed due to an expired local Firebase CLI token (requires interactive firebase login --reauth).
+4. Pushing status back to user to decide whether to re-auth locally or rely on the already-triggered GitHub Action.
+
+### SCoT Log - @dev - Start Local Host
+
+1. Initialized npm run dev in the src/frontend directory to restore the Workshop Manager environment.
+
+### SCoT Log - @dev - 2005 Data Ingestion
+
+1. Read source-material/Old site docs/05thWorkshopSummary.md.
+2. Formatted legacy_url and legacy_abstract_url strings with the 5thWS root.
+3. Replaced the 2005 workshop entry in src/frontend/src/data/master_workshops.json with the fully extracted structured metadata, sponsors, events, presentations, posters, and student awards.
+
+### SCoT Log - @dev - Fix 2005 Author Schema
+
+1. Identified runtime error in PostersManager due to p.authors.find not being a function.
+2. Realized the newly ingested 2005 data stored authors as a flat comma-separated string rather than an array of objects matching the master schema.
+3. Ran a migration script to parse the authors string, check against the presenter string, and rebuild the object array structure for all 2005 presentations and posters.
+
+### SCoT Log - @dev - Fix 2005 Institutes Schema
+
+1. Identified runtime error in PostersManager due to institutes.map not being a function.
+2. The newly ingested 2005 data stored institutes as a semicolon-separated string rather than an array of strings.
+3. Ran a migration script to split the institutes string by semicolon and map into a flat string array across all 2005 presentations and posters.
+
+### SCoT Log - @dev - 2005 Corporate Sponsors Sync
+
+1. Identified that 2005 sponsors were written using a loose schema (using 'name' instead of 'company') causing the frontend to drop them.
+2. Wrote a script to map the 2005 raw company strings into the official corporate registry format (company, url, logo_file).
+3. Discovered several sponsors from 2005 (Monitor Instruments, Siemens, Burle, Microsaic) were entirely missing from the global corporate_registry.json.
+4. Injected the missing sponsors into the global registry, and updated Alcatel Vacuum's year_began backwards to 2005.
+
+### SCoT Log - @dev - 2005 Events Schema Restructure
+
+1. Identified that the 2005 events were ingested as a single, flat array.
+2. Recognized the UI requires a nested schedule structure grouped by Day blocks.
+3. Ran a migration script to map the flat list into the correct nested schema grouped by dates (Travel Day, Day 1, Day 2, Day 3).
+
+### SCoT Log - @dev - 2005 Sessions Schema Restructure
+
+1. Identified that the 2005 presentations were ingested as a single, flat array.
+2. Recognized the UI requires a nested schedule structure grouped by Session blocks (similar to the Events itinerary).
+3. Ran a migration script to map the flat list into the correct nested 'sessions' schema grouped by dates and AM/PM logic (e.g. 'Technical Session (Wednesday AM)').
+
+### SCoT Log - @qa - 2005 Presentation Key Bind Fix
+
+1. QA check initiated on missing 2005 Oral Presentations.
+2. Discovered that the previous migration script successfully structured the data but saved it under the key 'sessions'.
+3. The Workshop Manager's page.tsx explicitly binds the PresentationsManager component to the 'presentation_sessions' key.
+4. Ran a one-line script to rename 'sessions' to 'presentation_sessions' in the 2005 block of master_workshops.json.
+
+### SCoT Log - @dev - 2005 Title Quotes Cleanup
+
+1. Observed that the raw 2005 program extraction contained literal quotation marks surrounding presentation and poster titles.
+2. Executed a targeted regex replacement script against the 2005 block in master_workshops.json to strip standard and stylized quotation marks from all oral and poster titles.

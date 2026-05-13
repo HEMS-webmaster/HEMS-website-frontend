@@ -40,14 +40,1366 @@
     "presentation_sessions": []
   },
   {
-    "number": 5,
+    "number": "5",
     "year": "2005",
-    "city": "",
-    "venue": "",
-    "sponsors": [],
+    "city": "Sarasota, Florida",
+    "venue": "Holiday Inn Lido Beach",
+    "sponsors": [
+      {
+        "company": "University of South Florida",
+        "isHost": true,
+        "link": "https://www.usf.edu/marine-science/",
+        "logo_file": "University_of_South_Florida.png",
+        "year": "2003"
+      },
+      {
+        "company": "FLIR / Griffin Analytical Technologies",
+        "url": "http://www.griffinanalytical.com/",
+        "logo_file": "FLIR_Griffin_Analytical_Technologies.png"
+      },
+      {
+        "company": "Monitor Instruments",
+        "url": "http://www.monitorinstruments.com",
+        "logo_file": "Monitor_Instruments.png"
+      },
+      {
+        "company": "Siemens",
+        "url": "http://www.sea.siemens.com/ia/product/aiquantra.html",
+        "logo_file": "Siemens.png"
+      },
+      {
+        "company": "Varian, Inc",
+        "url": "http://www.varianinc.com/cgi-bin/nav?/",
+        "logo_file": "Varian_Inc.png"
+      },
+      {
+        "company": "Alcatel Vacuum",
+        "url": "http://www.adixen-usa.com/?gclid=CLzMqKn5zpUCFQpzHgodnUzviQ",
+        "logo_file": "Alcatel_Vacuum.png"
+      },
+      {
+        "company": "Burle",
+        "url": "http://www.burle.com/",
+        "logo_file": "Burle.png"
+      },
+      {
+        "company": "Microsaic Systems",
+        "url": "http://www.microsaic.com/",
+        "logo_file": "Microsaic_Systems.png"
+      },
+      {
+        "company": "Pfeiffer Vacuum",
+        "url": "http://www.pfeiffer-vacuum.net/",
+        "logo_file": "Pfeiffer_Vacuum.png"
+      }
+    ],
     "student_awards": [],
-    "posters": [],
-    "presentation_sessions": []
+    "posters": [
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "Underwater mass spectrometry—Calibration issues for membrane introduction interfaces",
+        "authors": [
+          {
+            "name": "R.J. Bell",
+            "isPresenter": true
+          },
+          {
+            "name": "F.H.W. van Amerom",
+            "isPresenter": false
+          },
+          {
+            "name": "S.K. Toler",
+            "isPresenter": false
+          },
+          {
+            "name": "P. G. Wenner",
+            "isPresenter": false
+          },
+          {
+            "name": "R.T. Short",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "Center for Ocean Technology, College of Marine Science, University of South Florida, St. Petersburg, FL"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Bell.pdf",
+        "poster_file": "5th_Bell_Underwater_mass_spectrometryCalibration_Poster.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "LIGA fabricated high aspect ratio nickel gas chromatograph (GC) columns as a step towards a portable and fast GC instrument",
+        "authors": [
+          {
+            "name": "Abhinav Bhushan",
+            "isPresenter": true
+          },
+          {
+            "name": "Dawit Yemane",
+            "isPresenter": false
+          },
+          {
+            "name": "Jost Goettert",
+            "isPresenter": false
+          },
+          {
+            "name": "Edward B. Overton",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "CAMD, Louisiana State University",
+          "Department of Environmental Studies, LSU, Baton Rouge, LA"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/poster-Abhinav.pdf",
+        "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Bhushan.pdf",
+        "poster_file": "5th_Bhushan_LIGA_fabricated_high_Poster.pdf",
+        "abstract_file": "5th_Bhushan_LIGA_fabricated_high_Abstract.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "Implications of Miniaturising Linear Ion Trap Arrays for Portable Detectors",
+        "authors": [
+          {
+            "name": "S.N. Cairns",
+            "isPresenter": true
+          },
+          {
+            "name": "D.P.A. Kilgour",
+            "isPresenter": false
+          },
+          {
+            "name": "J. Murrell",
+            "isPresenter": false
+          },
+          {
+            "name": "M.D. Brookes",
+            "isPresenter": false
+          },
+          {
+            "name": "J.F.J. Todd",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "Defence Science and Technology Laboratory (Dstl), Fort Halstead, Sevenoaks, Kent, United Kingdom",
+          "University of Kent, Canterbury, Kent, United Kingdom"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Brookes.pdf",
+        "poster_file": "5th_Cairns_Implications_of_Miniaturising_Poster.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "Performance Characteristics of Detectors Operated in Harsh Environments",
+        "authors": [
+          {
+            "name": "Raymond F. Cochran",
+            "isPresenter": true
+          },
+          {
+            "name": "Bruce N. Laprade",
+            "isPresenter": false
+          },
+          {
+            "name": "Richard Prunier",
+            "isPresenter": false
+          },
+          {
+            "name": "Lenny Erickson",
+            "isPresenter": false
+          },
+          {
+            "name": "William Dunn",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "BURLE Electro-Optics Inc., Sturbridge, MA"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/Burle.pdf",
+        "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Cochran.pdf",
+        "poster_file": "5th_Cochran_Performance_Characteristics_of_Poster.pdf",
+        "abstract_file": "5th_Cochran_Performance_Characteristics_of_Abstract.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "Gas Concentration Mapping of Arenal Volcano using AVEMS",
+        "authors": [
+          {
+            "name": "J. Andres Diaz",
+            "isPresenter": true
+          },
+          {
+            "name": "C. Richard Arkin",
+            "isPresenter": false
+          },
+          {
+            "name": "Timothy P. Griffin",
+            "isPresenter": false
+          },
+          {
+            "name": "Elian Conejo",
+            "isPresenter": false
+          },
+          {
+            "name": "Kristel Heinrich",
+            "isPresenter": false
+          },
+          {
+            "name": "Carlomagno Soto",
+            "isPresenter": false
+          },
+          {
+            "name": "Laura Bogantes",
+            "isPresenter": false
+          },
+          {
+            "name": "Guy R. Naylor",
+            "isPresenter": false
+          },
+          {
+            "name": "Charles Curley",
+            "isPresenter": false
+          },
+          {
+            "name": "David Floyd",
+            "isPresenter": false
+          },
+          {
+            "name": "Oliver Gomez",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "National Program for Airborne and Remote Sensing Research (PRIAS), CENAT. Costa Rica",
+          "ASRC Aerospace Corp., Kennedy Space Center, FL",
+          "National Aeronautics and Space Administration, YA-F2, Kennedy Space Center, FL",
+          "CICANUM, Universidad de Costa Rica, Costa Rica"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Diaz.pdf",
+        "poster_file": "5th_Diaz_Gas_Concentration_Mapping_Poster.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "In-situ programmable, reconfigurable fluidic processor for waterborne biomolecular sample prep: towards the develpment of an automated bio-mass spec.",
+        "authors": [
+          {
+            "name": "Brian Gregson",
+            "isPresenter": true
+          },
+          {
+            "name": "Andrew Farmer",
+            "isPresenter": false
+          },
+          {
+            "name": "Matt Smith",
+            "isPresenter": false
+          },
+          {
+            "name": "David Fries",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "Center for Ocean Technology, College of Marine Science, University of South Florida, St. Petersburg, FL"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Gregson.pdf",
+        "poster_file": "5th_Gregson_Insitu_programmable_reconfigurable_Poster.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "Characterization of a Mini Membrane Inlet Mass Spectrometer Operating at High Pressure (˜ 1•10-3 torr) Using Different Types of Microporous Membranes",
+        "authors": [
+          {
+            "name": "Frants R. Lauritsen",
+            "isPresenter": true
+          },
+          {
+            "name": "Christian Janfelt",
+            "isPresenter": false
+          },
+          {
+            "name": "Christian Schack Pedersen",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "Chemistry, Copenhagen University, Copenhagen, Denmark"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Lauritsen.pdf",
+        "poster_file": "5th_Lauritsen_Characterization_of_a_Poster.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "Mobile water mass-spectrometer",
+        "authors": [
+          {
+            "name": "Dimitrii Lebedev",
+            "isPresenter": true
+          },
+          {
+            "name": "Viktor Kogan",
+            "isPresenter": false
+          },
+          {
+            "name": "Anatolii Pavlov",
+            "isPresenter": false
+          },
+          {
+            "name": "Yurii Chichagov",
+            "isPresenter": false
+          },
+          {
+            "name": "Yurii Tubol’tsev",
+            "isPresenter": false
+          },
+          {
+            "name": "Olga Viktorova",
+            "isPresenter": false
+          },
+          {
+            "name": "Mihail Savchenko",
+            "isPresenter": false
+          },
+          {
+            "name": "Boris Dubenskii",
+            "isPresenter": false
+          },
+          {
+            "name": "Sergei Nikonov",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "A. F. Ioffe Physico-Technical Institute, St. Petersburg, Russia",
+          "CFTI Analytic, St.Petersburg, Russia"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Lebedev.pdf",
+        "poster_file": "5th_Lebedev_Mobile_water_massspectrometer_Poster.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "A High-Performance Vapor-Jet Micropump for Miniaturized Mass-Spectrometers",
+        "authors": [
+          {
+            "name": "Eric Wapelhorst",
+            "isPresenter": true
+          },
+          {
+            "name": "M. Doms",
+            "isPresenter": false
+          },
+          {
+            "name": "J. Müller",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "Hamburg-Harburg University of Technology, Hamburg, Germany"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/Wapelhorst_Poster%20HEMS.pdf",
+        "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Wapelhorst.pdf",
+        "poster_file": "5th_Wapelhorst_A_HighPerformance_VaporJet_Poster.pdf",
+        "abstract_file": "5th_Wapelhorst_A_HighPerformance_VaporJet_Abstract.pdf"
+      },
+      {
+        "date": "2005-09-21",
+        "time": "3:30 p.m.",
+        "title": "Analysis of Atmospheric Samples using a Comprehensive Two-Dimensional Gas Chromatograph Coupled to a Time-of-Flight Mass Spectrometer",
+        "authors": [
+          {
+            "name": "J. Yu",
+            "isPresenter": true
+          },
+          {
+            "name": "J. H. Waite",
+            "isPresenter": false
+          },
+          {
+            "name": "B. P. Block",
+            "isPresenter": false
+          },
+          {
+            "name": "M. E. McGuigan",
+            "isPresenter": false
+          },
+          {
+            "name": "S. Scherer",
+            "isPresenter": false
+          },
+          {
+            "name": "R. D. Sacks",
+            "isPresenter": false
+          },
+          {
+            "name": "M. J. Libardoni",
+            "isPresenter": false
+          },
+          {
+            "name": "A. L. Payeur",
+            "isPresenter": false
+          },
+          {
+            "name": "P. T. Stevens",
+            "isPresenter": false
+          },
+          {
+            "name": "E. F. Hasselbrink",
+            "isPresenter": false
+          }
+        ],
+        "institutes": [
+          "Department of Atmospheric, Oceanic and Space Sciences, Space Physics Research Laboratory, University of Michigan",
+          "Department of Chemistry, University of Michigan",
+          "Department of Mechanical Engineering, College of Engineering University of Michigan"
+        ],
+        "legacy_url": "https://www.hems-workshop.org/5thWS/abstracts/Posters/Yu.pdf",
+        "poster_file": "5th_Yu_Analysis_of_Atmospheric_Poster.pdf"
+      }
+    ],
+    "presentation_sessions": [
+      {
+        "date": "2005-09-21",
+        "title": "Technical Session (Wednesday AM)",
+        "time": "9:00 a.m.",
+        "end_time": "",
+        "location": "SandDollar Rooftop Restaurant",
+        "presentations": [
+          {
+            "date": "2005-09-21",
+            "time": "9:00 a.m.",
+            "title": "Applications of membrane inlet mass spectrometry for long term monitoring in the field",
+            "authors": [
+              {
+                "name": "Frants Lauritsen",
+                "isPresenter": true,
+                "institute": "Copenhagen University"
+              },
+              {
+                "name": "Anders Feilberg",
+                "isPresenter": false,
+                "institute": "Danish Technological Institute, Aarhus, Denmark"
+              }
+            ],
+            "institutes": [
+              "Copenhagen University",
+              "Danish Technological Institute, Aarhus, Denmark"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/Lauritsen.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Lauritsen.pdf",
+            "presentation_file": "5th_Lauritsen_Applications_of_membrane_Presentation.pdf",
+            "abstract_file": "5th_Lauritsen_Applications_of_membrane_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-21",
+            "time": "9:30 a.m.",
+            "title": "Field-Portable GC/MS Characterization and Testing",
+            "authors": [
+              {
+                "name": "Garth E. Patterson",
+                "isPresenter": true,
+                "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+              },
+              {
+                "name": "J. Mitchell Wells",
+                "isPresenter": false,
+                "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+              },
+              {
+                "name": "John W. Grossenbacher",
+                "isPresenter": false,
+                "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+              },
+              {
+                "name": "Anthony J. Cochran",
+                "isPresenter": false,
+                "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+              },
+              {
+                "name": "Caryn R. O’Hearn",
+                "isPresenter": false,
+                "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+              }
+            ],
+            "institutes": [
+              "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/Patterson.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Patterson.pdf",
+            "presentation_file": "5th_Patterson_FieldPortable_GCMS_Characterization_Presentation.pdf",
+            "abstract_file": "5th_Patterson_FieldPortable_GCMS_Characterization_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-21",
+            "time": "10:30 a.m.",
+            "title": "A Field-Portable Thermal Desorption Time-of-Flight Mass Spectrometer",
+            "authors": [
+              {
+                "name": "M. Brookes",
+                "isPresenter": true
+              },
+              {
+                "name": "A. Marr",
+                "isPresenter": false
+              },
+              {
+                "name": "S. Mullock",
+                "isPresenter": false
+              },
+              {
+                "name": "F. Nuber",
+                "isPresenter": false
+              },
+              {
+                "name": "F. Reich",
+                "isPresenter": false
+              },
+              {
+                "name": "C. Corlett",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Defence Science and Technology Laboratory (Dstl), Fort Halstead, Seveoaks, Kent, UK",
+              "Kore Technology Ltd, Ely, UK"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/Brookes.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Brookes.pdf",
+            "presentation_file": "5th_Brookes_A_FieldPortable_Thermal_Presentation.pdf",
+            "abstract_file": "5th_Brookes_A_FieldPortable_Thermal_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-21",
+            "time": "11:00 a.m.",
+            "title": "Waterborne CB Agent Detection System",
+            "authors": [
+              {
+                "name": "Steve Smith",
+                "isPresenter": true
+              },
+              {
+                "name": "Rao Mangina",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "JPL/Caltech, Pasedena, CA",
+              "Ionfinity, LLC"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/Smith.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Smith.pdf",
+            "presentation_file": "5th_Smith_Waterborne_CB_Agent_Presentation.pdf",
+            "abstract_file": "5th_Smith_Waterborne_CB_Agent_Abstract.pdf"
+          }
+        ]
+      },
+      {
+        "date": "2005-09-21",
+        "title": "Technical Session (Wednesday PM)",
+        "time": "1:30 p.m.",
+        "end_time": "",
+        "location": "SandDollar Rooftop Restaurant",
+        "presentations": [
+          {
+            "date": "2005-09-21",
+            "time": "1:30 p.m.",
+            "title": "An Ion Trap Mass Spectrometer System for Continuous Monitoring of Biological and Chemical Backgrounds",
+            "authors": [
+              {
+                "name": "Ben D. Gardner",
+                "isPresenter": true
+              },
+              {
+                "name": "William Donaldson",
+                "isPresenter": false
+              },
+              {
+                "name": "Richard Chun",
+                "isPresenter": false
+              },
+              {
+                "name": "Wai Tak Lee",
+                "isPresenter": false
+              },
+              {
+                "name": "Michael Tissandier",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Hamilton Sundstrand, Pomona, CA"
+            ],
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Gardner.pdf",
+            "abstract_file": "5th_Gardner_An_Ion_Trap_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-21",
+            "time": "2:00 p.m.",
+            "title": "Detection of Explosives at a Formerly Used Defense Site with a Portable SPME/GC-Cylindrical Ion Trap Mass Spectrometer",
+            "authors": [
+              {
+                "name": "Denise K. MacMillan",
+                "isPresenter": true
+              },
+              {
+                "name": "Randy D. Laubscher",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Engineer Research and Development Center, Omaha, NE",
+              "Analytical Services Incorporated, Vicksburg, MS"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/MacMillan.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/MacMillan.pdf",
+            "presentation_file": "5th_MacMillan_Detection_of_Explosives_Presentation.pdf",
+            "abstract_file": "5th_MacMillan_Detection_of_Explosives_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-21",
+            "time": "2:30 p.m.",
+            "title": "CT-1128 Portable Gas Chromatograph – Mass Spectrometer",
+            "authors": [
+              {
+                "name": "Jay D. Sheffer",
+                "isPresenter": true
+              }
+            ],
+            "institutes": [
+              "Constellation Technology Corp, Largo, FL"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Wednesday/Sheffer.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Sheffer.pdf",
+            "presentation_file": "5th_Sheffer_CT1128_Portable_Gas_Presentation.pdf",
+            "abstract_file": "5th_Sheffer_CT1128_Portable_Gas_Abstract.pdf"
+          }
+        ]
+      },
+      {
+        "date": "2005-09-22",
+        "title": "Technical Session (Thursday AM)",
+        "time": "8:30 a.m.",
+        "end_time": "",
+        "location": "SandDollar Rooftop Restaurant",
+        "presentations": [
+          {
+            "date": "2005-09-22",
+            "time": "8:30 a.m.",
+            "title": "3D Gas Concentration Mapping of Active Volcanoes using Mass Spectrometry",
+            "authors": [
+              {
+                "name": "J. Andres Diaz",
+                "isPresenter": true
+              },
+              {
+                "name": "C. Richard Arkin",
+                "isPresenter": false
+              },
+              {
+                "name": "Timothy P. Griffin",
+                "isPresenter": false
+              },
+              {
+                "name": "Elian Conejo",
+                "isPresenter": false
+              },
+              {
+                "name": "Kristel Heinrich",
+                "isPresenter": false
+              },
+              {
+                "name": "Carlomagno Soto",
+                "isPresenter": false
+              },
+              {
+                "name": "Laura Bogantes",
+                "isPresenter": false
+              },
+              {
+                "name": "Guy R. Naylor",
+                "isPresenter": false
+              },
+              {
+                "name": "Charles Curley",
+                "isPresenter": false
+              },
+              {
+                "name": "David Floyd",
+                "isPresenter": false
+              },
+              {
+                "name": "Oliver Gomez",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "National Program for Airborne and Remote Sensing Research (PRIAS), CENAT. Costa Rica",
+              "ASRC Aerospace Corp., Kennedy Space Center, FL",
+              "National Aeronautics and Space Administration, YA-F2, Kennedy Space Center, FL",
+              "CICANUM, Universidad de Costa Rica, Costa Rica"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Diaz.pdf",
+            "presentation_file": "5th_Diaz_3D_Gas_Concentration_Presentation.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "9:00 a.m.",
+            "title": "The Cassini/Huygens Gas Chromatograph Mass Spectrometer",
+            "authors": [
+              {
+                "name": "Dan Harpold",
+                "isPresenter": true
+              }
+            ],
+            "institutes": [
+              "NASA/GSFC, Greenbelt, MD"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/Harpold.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Harpold.pdf",
+            "presentation_file": "5th_Harpold_The_CassiniHuygens_Gas_Presentation.pdf",
+            "abstract_file": "5th_Harpold_The_CassiniHuygens_Gas_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "9:30 a.m.",
+            "title": "Laser TOF-MS instrumentation for planetary missions",
+            "authors": [
+              {
+                "name": "W. B. Brinckerhoff",
+                "isPresenter": true
+              },
+              {
+                "name": "C. M. Corrigan",
+                "isPresenter": false
+              },
+              {
+                "name": "T. J. Cornish",
+                "isPresenter": false
+              },
+              {
+                "name": "S. A. Ecelberger",
+                "isPresenter": false
+              },
+              {
+                "name": "A. L. Ganesan",
+                "isPresenter": false
+              },
+              {
+                "name": "T. J. McCoy",
+                "isPresenter": false
+              },
+              {
+                "name": "E. P. Vicenzi",
+                "isPresenter": false
+              },
+              {
+                "name": "P. R. Mahaffy",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "JHU/APL",
+              "NMNH Dept. Mineral Sci.",
+              "NASA/GSFC"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/Brinckerhoff.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Brinckerhoff.pdf",
+            "presentation_file": "5th_Brinckerhoff_Laser_TOFMS_instrumentation_Presentation.pdf",
+            "abstract_file": "5th_Brinckerhoff_Laser_TOFMS_instrumentation_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "10:30 a.m.",
+            "title": "Offgas from Radiolysis – Difficult analysis needing High Resolution Mass Spectrometry",
+            "authors": [
+              {
+                "name": "William A. Spencer",
+                "isPresenter": true
+              },
+              {
+                "name": "Charles L. Crawford",
+                "isPresenter": false
+              },
+              {
+                "name": "Thomas L. White",
+                "isPresenter": false
+              },
+              {
+                "name": "Stephen L. Crump",
+                "isPresenter": false
+              },
+              {
+                "name": "Robert J. Lascola",
+                "isPresenter": false
+              },
+              {
+                "name": "Laura L. Tovo",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Savannah River National Laboratory, Westinghouse Savannah River Company, Aiken, SC"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/Spencer.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Spencer.pdf",
+            "presentation_file": "5th_Spencer_Offgas_from_Radiolysis_Presentation.pdf",
+            "abstract_file": "5th_Spencer_Offgas_from_Radiolysis_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "11:00 a.m.",
+            "title": "Comprehensive Two-Dimensional Gas Chromatography Coupled with Time-of-Flight Mass Spectrometry for Broad Spectrum Organic Analysis",
+            "authors": [
+              {
+                "name": "S. Scherer",
+                "isPresenter": true
+              },
+              {
+                "name": "J. H. Waite",
+                "isPresenter": false
+              },
+              {
+                "name": "B. P. Block",
+                "isPresenter": false
+              },
+              {
+                "name": "M. E. McGuigan",
+                "isPresenter": false
+              },
+              {
+                "name": "J. Yu",
+                "isPresenter": false
+              },
+              {
+                "name": "R. D. Sacks",
+                "isPresenter": false
+              },
+              {
+                "name": "M. J. Libardoni",
+                "isPresenter": false
+              },
+              {
+                "name": "A. L. Payeur",
+                "isPresenter": false
+              },
+              {
+                "name": "P. T. Stevens",
+                "isPresenter": false
+              },
+              {
+                "name": "E. F. Hasselbrink",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Department of Atmospheric, Oceanic and Space Sciences, Space Physics Research Laboratory, University of Michigan",
+              "Department of Chemistry, University of Michigan",
+              "Department of Mechanical Engineering, College of Engineering University of Michigan"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/SCHERER.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Scherer.pdf",
+            "presentation_file": "5th_Scherer_Comprehensive_TwoDimensional_Gas_Presentation.pdf",
+            "abstract_file": "5th_Scherer_Comprehensive_TwoDimensional_Gas_Abstract.pdf"
+          }
+        ]
+      },
+      {
+        "date": "2005-09-22",
+        "title": "Technical Session (Thursday PM)",
+        "time": "1:30 p.m.",
+        "end_time": "",
+        "location": "SandDollar Rooftop Restaurant",
+        "presentations": [
+          {
+            "date": "2005-09-22",
+            "time": "1:30 p.m.",
+            "title": "Ion trapping in microfabricated ion trap arrays",
+            "authors": [
+              {
+                "name": "D. Cruz",
+                "isPresenter": true
+              },
+              {
+                "name": "M. Fico",
+                "isPresenter": false
+              },
+              {
+                "name": "A. J. Guymon",
+                "isPresenter": false
+              },
+              {
+                "name": "R. G. Cooks",
+                "isPresenter": false
+              },
+              {
+                "name": "J. P. Chang",
+                "isPresenter": false
+              },
+              {
+                "name": "M. G. Blain",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Sandia National Laboratories, Albuquerque, NM",
+              "University of California, Los Angeles, Los Angeles, CA",
+              "Purdue University, West Lafayette, IN"
+            ],
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Cruz.pdf",
+            "abstract_file": "5th_Cruz_Ion_trapping_in_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "2:00 p.m.",
+            "title": "Miniature ion traps and arrays for high pressure mass spectrometry",
+            "authors": [
+              {
+                "name": "W. B. Whitten",
+                "isPresenter": true
+              },
+              {
+                "name": "J. Moxom",
+                "isPresenter": false
+              },
+              {
+                "name": "G. F. Verbeck",
+                "isPresenter": false
+              },
+              {
+                "name": "P. T. A. Reilly",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Oak Ridge National Laboratory, Oak Ridge, TN"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/7_WBW.HEMS.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Whitten.pdf",
+            "presentation_file": "5th_Whitten_Miniature_ion_traps_Presentation.pdf",
+            "abstract_file": "5th_Whitten_Miniature_ion_traps_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "2:30 p.m.",
+            "title": "MEMS fabrication techniques for miniaturization of cylindircal ion trap arrays",
+            "authors": [
+              {
+                "name": "Friso van Amerom",
+                "isPresenter": true
+              },
+              {
+                "name": "Ashish Chaudhary",
+                "isPresenter": false
+              },
+              {
+                "name": "Mary Voorhees",
+                "isPresenter": false
+              },
+              {
+                "name": "Michelle Cardenas",
+                "isPresenter": false
+              },
+              {
+                "name": "Tim Short",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/van%20Amerom.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/van%20Amerom.pdf",
+            "presentation_file": "5th_Amerom_MEMS_fabrication_techniques_Presentation.pdf",
+            "abstract_file": "5th_Amerom_MEMS_fabrication_techniques_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "3:30 p.m.",
+            "title": "A Fully Integrated Micro Mass Spectrometer",
+            "authors": [
+              {
+                "name": "Eric Wapelhorst",
+                "isPresenter": true
+              },
+              {
+                "name": "Jan-Peter Hauschild",
+                "isPresenter": false
+              },
+              {
+                "name": "Joerg Mueller",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Hamburg University of Technology, Germany"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/Wapelhorst.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Wapelhorst.pdf",
+            "presentation_file": "5th_Wapelhorst_A_Fully_Integrated_Presentation.pdf",
+            "abstract_file": "5th_Wapelhorst_A_Fully_Integrated_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "4:00 p.m.",
+            "title": "Portable mass-spectrograph with linear segmented detector array",
+            "authors": [
+              {
+                "name": "Dmitrii Lebedev",
+                "isPresenter": true
+              },
+              {
+                "name": "Viktor Kogan",
+                "isPresenter": false
+              },
+              {
+                "name": "Olga Viktorova",
+                "isPresenter": false
+              },
+              {
+                "name": "Sergey Manninen",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "A.F.Ioffe Physico-Technical Institute, RAS, St. Petersburg, Russia"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/Lebedev.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Lebedev.pdf",
+            "presentation_file": "5th_Lebedev_Portable_massspectrograph_with_Presentation.pdf",
+            "abstract_file": "5th_Lebedev_Portable_massspectrograph_with_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-22",
+            "time": "4:30 p.m.",
+            "title": "A CCD detector array for direct ion measurement",
+            "authors": [
+              {
+                "name": "Gottfried Kibelka",
+                "isPresenter": true
+              }
+            ],
+            "institutes": [
+              "OI Analytical / CMS Field Products, Pelham, AL"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Thursday/Kibelka.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Kibelka.pdf",
+            "presentation_file": "5th_Kibelka_A_CCD_detector_Presentation.pdf",
+            "abstract_file": "5th_Kibelka_A_CCD_detector_Abstract.pdf"
+          }
+        ]
+      },
+      {
+        "date": "2005-09-23",
+        "title": "Technical Session (Friday AM)",
+        "time": "9:00 a.m.",
+        "end_time": "",
+        "location": "SandDollar Rooftop Restaurant",
+        "presentations": [
+          {
+            "date": "2005-09-23",
+            "time": "9:00 a.m.",
+            "title": "Development of the DOMS Deep-Ocean Mass Spectrometer System",
+            "authors": [
+              {
+                "name": "Gary McMurtry",
+                "isPresenter": true
+              },
+              {
+                "name": "Lloyd C. French",
+                "isPresenter": false
+              },
+              {
+                "name": "Gindi D. French",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "SOEST, University of Hawaii",
+              "Hawaii Institute of Geophysics & Planetology, Univ. of Hawaii",
+              "Dept. of Oceanography, Univ. of Hawaii, Honolulu, HI"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Friday/McMurtry.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/McMurtry.pdf",
+            "presentation_file": "5th_McMurtry_Development_of_the_Presentation.pdf",
+            "abstract_file": "5th_McMurtry_Development_of_the_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-23",
+            "time": "9:30 a.m.",
+            "title": "Determination of dissolved gas concentrations in natural waters using an in-situ, membrane inlet mass spectrometer",
+            "authors": [
+              {
+                "name": "Pete Wenner",
+                "isPresenter": true
+              },
+              {
+                "name": "R.J. Bell",
+                "isPresenter": false
+              },
+              {
+                "name": "F.H.W. van Amerom",
+                "isPresenter": false
+              },
+              {
+                "name": "S.K. Toler",
+                "isPresenter": false
+              },
+              {
+                "name": "M.L. Hall",
+                "isPresenter": false
+              },
+              {
+                "name": "R.T. Short",
+                "isPresenter": false
+              }
+            ],
+            "institutes": [
+              "Center for Ocean Technology, College of Marine Science, University of South Florida, St. Petersburg, FL"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Friday/Wenner.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Wenner.pdf",
+            "presentation_file": "5th_Wenner_Determination_of_dissolved_Presentation.pdf",
+            "abstract_file": "5th_Wenner_Determination_of_dissolved_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-23",
+            "time": "10:30 a.m.",
+            "title": "Paradigm shifts in mass spectrometry",
+            "authors": [
+              {
+                "name": "Mark Rippen",
+                "isPresenter": true
+              }
+            ],
+            "institutes": [
+              "Concurrent Technologies Corp, Largo, FL"
+            ],
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Rippen.pdf",
+            "abstract_file": "5th_Rippen_Paradigm_shifts_in_Abstract.pdf"
+          },
+          {
+            "date": "2005-09-23",
+            "time": "11:00 a.m.",
+            "title": "DoD’s SBIR & STTR Programs: An Overview",
+            "authors": [
+              {
+                "name": "Larry Pollack",
+                "isPresenter": true
+              }
+            ],
+            "institutes": [
+              "Joint Science and Technology Office for Chemical and Biological Defense, Defense Threat Reduction Agency, Ft. Belvoir, Virginia"
+            ],
+            "legacy_url": "https://www.hems-workshop.org/5thWS/Talks/Friday/Pollack.pdf",
+            "legacy_abstract_url": "https://www.hems-workshop.org/5thWS/abstracts/Talks/Pollack.pdf",
+            "presentation_file": "5th_Pollack_DoDs_SBIR_STTR_Presentation.pdf",
+            "abstract_file": "5th_Pollack_DoDs_SBIR_STTR_Abstract.pdf"
+          }
+        ]
+      }
+    ],
+    "dates": "September 20-23, 2005",
+    "events": [
+      {
+        "time": "7:00 p.m.",
+        "end_time": "",
+        "title": "Travel Day",
+        "subtitle": "",
+        "location": "",
+        "date": "2005-09-20",
+        "events": [
+          {
+            "time": "7:00 p.m.",
+            "end_time": "",
+            "title": "Welcome Reception",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Holiday Inn Lido Beach KoKoNuts Pool Deck",
+            "location_url": ""
+          }
+        ]
+      },
+      {
+        "time": "7:30 a.m.",
+        "end_time": "",
+        "title": "HEMS Workshop, Day 1",
+        "subtitle": "",
+        "location": "",
+        "date": "2005-09-21",
+        "events": [
+          {
+            "time": "7:30 a.m.",
+            "end_time": "",
+            "title": "Continental Breakfast",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "8:30 a.m.",
+            "end_time": "",
+            "title": "Welcoming Remarks",
+            "subtitle": "Larry Langebrake, Tim Short",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "10:00 a.m.",
+            "end_time": "",
+            "title": "Coffee Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "11:30 a.m.",
+            "end_time": "",
+            "title": "Lunch on your own",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "3:00 p.m.",
+            "end_time": "",
+            "title": "Afternoon Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "5:30 p.m.",
+            "end_time": "",
+            "title": "Evening Free",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "",
+            "location_url": ""
+          }
+        ]
+      },
+      {
+        "time": "7:30 a.m.",
+        "end_time": "",
+        "title": "HEMS Workshop, Day 2",
+        "subtitle": "",
+        "location": "",
+        "date": "2005-09-22",
+        "events": [
+          {
+            "time": "7:30 a.m.",
+            "end_time": "",
+            "title": "Continental Breakfast",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "10:00 a.m.",
+            "end_time": "",
+            "title": "Coffee Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "11:30 a.m.",
+            "end_time": "",
+            "title": "Lunch on your own",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "3:00 p.m.",
+            "end_time": "",
+            "title": "Afternoon Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "5:00 p.m.",
+            "end_time": "",
+            "title": "Free Time",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "",
+            "location_url": ""
+          },
+          {
+            "time": "6:00 p.m.",
+            "end_time": "",
+            "title": "Workshop Dinner",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "Mote Marine Laboratory",
+            "location_url": ""
+          }
+        ]
+      },
+      {
+        "time": "7:30 a.m.",
+        "end_time": "",
+        "title": "HEMS Workshop, Day 3",
+        "subtitle": "",
+        "location": "",
+        "date": "2005-09-23",
+        "events": [
+          {
+            "time": "7:30 a.m.",
+            "end_time": "",
+            "title": "Continental Breakfast",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "10:00 a.m.",
+            "end_time": "",
+            "title": "Coffee Break",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "SandDollar Rooftop Restaurant",
+            "location_url": ""
+          },
+          {
+            "time": "11:30 a.m.",
+            "end_time": "",
+            "title": "Workshop ends",
+            "subtitle": "",
+            "subtitle_url": "",
+            "location": "",
+            "location_url": ""
+          }
+        ]
+      }
+    ],
+    "students": [
+      {
+        "name": "Andrew Hampton",
+        "institute": "University of North Carolina - Chapel Hill"
+      }
+    ]
   },
   {
     "number": 6,
