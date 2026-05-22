@@ -80,7 +80,7 @@ The agent must produce a markdown file with the following exact structure:
 
 ## 3. Corporate Sponsors
 
-List every sponsor mentioned in the program (often found in meal/break descriptions like "Lunch, Sponsored by Pfeiffer" or in a dedicated sponsors section).
+List every sponsor mentioned in the program (often found in meal/break descriptions like "Lunch, Sponsored by Pfeiffer" or in a dedicated sponsors section). Do NOT include the Host Corporation in this list, as their sponsorship is implied.
 
 | # | Company Name | URL | Year Began |
 |:--|:-------------|:----|:-----------|

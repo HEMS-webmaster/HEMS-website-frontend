@@ -1,21 +1,1586 @@
 {
   "year": 2003,
   "ordinal": "4th",
-  "dates": "October 7-9, 2003",
-  "venue": "",
-  "address": "",
+  "dates": "October 7–10 2003",
+  "venue": "Tradewinds Sirata Beach Resort",
+  "address": "5500 Gulf Blvd, St Pete Beach, FL 33706",
   "resources": [
     {
       "label": "Workshop Program",
       "icon": "FileText",
       "url": "#technical-program"
+    },
+    {
+      "label": "Participant List",
+      "icon": "Users",
+      "legacy_url": "https://www.hems-workshop.org/4thWS/ParticipantContactInformation.pdf",
+      "local_target_path": "/api/manager/serve?file=4th/Administrative/4th_Participant_List.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Administrative/4th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Administrative/4th_Participant_List.pdf"
     }
   ],
-  "sponsors": [],
-  "schedule": [],
-  "venue_url": "",
+  "sponsors": [
+    {
+      "name": "ICX Technologies",
+      "url": "http://www.icxt.com/technology/mobile-labs/",
+      "image": "/images/sponsors/ICX_Technologies.png?v=1778532340240",
+      "year": "2003"
+    },
+    {
+      "name": "Monitor Instruments",
+      "url": "http://www.monitorinstruments.com",
+      "image": "/images/sponsors/Monitor_Instruments.png?v=1778697000751",
+      "year": "2005"
+    },
+    {
+      "name": "Siemens",
+      "url": "http://www.sea.siemens.com/ia/product/aiquantra.html",
+      "image": "/images/sponsors/Siemens.png?v=1778697453886",
+      "year": "2005"
+    },
+    {
+      "name": "Varian, Inc",
+      "url": "http://www.varianinc.com/cgi-bin/nav?/",
+      "image": "/images/sponsors/Varian_Inc.png?v=1778532378128",
+      "year": "2003"
+    },
+    {
+      "name": "DeTech",
+      "url": "https://lifescience.imiplc.com/imi-adaptas",
+      "image": "/images/sponsors/DeTech.png?v=1777612077184",
+      "year": "2011"
+    },
+    {
+      "name": "ENG Concepts",
+      "url": "",
+      "image": "/images/sponsors/ENG_Concepts.png?v=1778697256714",
+      "year": "2003"
+    },
+    {
+      "name": "Ionwerks Inc",
+      "url": "http://www.ionwerks.com/",
+      "image": "/images/sponsors/Ionwerks_Inc.png?v=1778697346656",
+      "year": "2003"
+    },
+    {
+      "name": "Stanford Research Systems",
+      "url": "http://www.thinksrs.com/",
+      "image": "/images/sponsors/Stanford_Research_Systems.png?v=1778697306716",
+      "year": "2003"
+    }
+  ],
+  "schedule": [
+    {
+      "title": "2003-10-08",
+      "items": [
+        {
+          "type": "session",
+          "time": "9:00 a.m.",
+          "title": "Technical Session: Field MS Systems",
+          "location": "Royal Palm Ballroom",
+          "talks": [
+            {
+              "time": "9:00 a.m.",
+              "title": "Detection of Gas Phase Chemical Warfare Agents using Field-Portable Gas Chromatography-Mass Spectrometry Systems: Instrument and Sampling Strategy Considerations",
+              "institutes": [
+                "Uniformed Services University of the Health Sciences, Bethesda, MD",
+                "Defense Research and Development, Alberta, Canada",
+                "Federal Bureau of Investigation, Forensics Research Laboratory, Quantico, VA",
+                "U.S. Marine Corps Chemical and Biological Incident Response Force, Indian Head, MD"
+              ],
+              "authors": [
+                {
+                  "name": "Philip A. Smith",
+                  "isPresenter": true,
+                  "institute": "Uniformed Services University of the Health Sciences, Bethesda, MD"
+                },
+                {
+                  "name": "Carmela Jackson Lepage",
+                  "isPresenter": false,
+                  "institute": "Defense Research and Development, Alberta, Canada"
+                },
+                {
+                  "name": "David Kock",
+                  "isPresenter": false,
+                  "institute": "Uniformed Services University of the Health Sciences, Bethesda, MD"
+                },
+                {
+                  "name": "Haley Wyatt",
+                  "isPresenter": false,
+                  "institute": "Defense Research and Development, Alberta, Canada"
+                },
+                {
+                  "name": "Brian A. Eckenrode",
+                  "isPresenter": false,
+                  "institute": "Federal Bureau of Investigation, Forensics Research Laboratory, Quantico, VA"
+                },
+                {
+                  "name": "Gary L. Hook",
+                  "isPresenter": false,
+                  "institute": "Uniformed Services University of the Health Sciences, Bethesda, MD"
+                },
+                {
+                  "name": "Geoffrey Betsinger",
+                  "isPresenter": false,
+                  "institute": "U.S. Marine Corps Chemical and Biological Incident Response Force, Indian Head, MD"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Abstract.pdf"
+            },
+            {
+              "time": "9:30 a.m.",
+              "title": "Transportable Miniature FTMS for Analysis of Corrosives and Chemical Warfare Agents",
+              "institutes": [
+                "Siemens Applied Automation, Austin, TX"
+              ],
+              "authors": [
+                {
+                  "name": "Wayne Rimkus",
+                  "isPresenter": true,
+                  "institute": "Siemens Applied Automation, Austin, TX"
+                },
+                {
+                  "name": "Dean Davis",
+                  "isPresenter": false,
+                  "institute": "Siemens Applied Automation, Austin, TX"
+                },
+                {
+                  "name": "Kenneth Gallaher",
+                  "isPresenter": false,
+                  "institute": "Siemens Applied Automation, Austin, TX"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Abstract.pdf"
+            },
+            {
+              "time": "10:30 a.m.",
+              "title": "Performance Characterization and Field Testing of a Portable Tandem Mass Spectrometer",
+              "institutes": [
+                "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+              ],
+              "authors": [
+                {
+                  "name": "John Grossenbacher",
+                  "isPresenter": true,
+                  "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+                },
+                {
+                  "name": "J. Mitchell Wells",
+                  "isPresenter": false,
+                  "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+                },
+                {
+                  "name": "Garth E. Patterson",
+                  "isPresenter": false,
+                  "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+                },
+                {
+                  "name": "Brent A. Knecht",
+                  "isPresenter": false,
+                  "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+                },
+                {
+                  "name": "Dennis J. Barket Jr",
+                  "isPresenter": false,
+                  "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+                },
+                {
+                  "name": "Brent D. Rardin",
+                  "isPresenter": false,
+                  "institute": "Griffin Analytical Technologies, Inc., West Lafayette, IN"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Abstract.pdf"
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "A Small, Rugged, Autonomous Mass Spectrometer System for Environmental Analysis",
+              "institutes": [
+                "ASRC Aerospace Corporation, Kennedy Space Center, FL",
+                "NASA, Kennedy Space Center, FL",
+                "The University of Costa Rica"
+              ],
+              "authors": [
+                {
+                  "name": "C. Richard Arkin",
+                  "isPresenter": true,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Timothy Griffin",
+                  "isPresenter": false,
+                  "institute": "NASA, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Ric Adams",
+                  "isPresenter": false,
+                  "institute": "NASA, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Duke Follistein",
+                  "isPresenter": false,
+                  "institute": "NASA, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Charles Curley",
+                  "isPresenter": false,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Guy Naylor",
+                  "isPresenter": false,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "David Floyd",
+                  "isPresenter": false,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Bill Haskell",
+                  "isPresenter": false,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "J. Andres Diaz",
+                  "isPresenter": false,
+                  "institute": "The University of Costa Rica"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "15:30",
+          "title": "\tPoster Session",
+          "talks": [
+            {
+              "time": "15:30",
+              "title": "The Hazardous Gas Detection Lab at NASA’s Kennedy Space Center",
+              "institutes": [
+                "ASRC Aerospace Corporation, Kennedy Space Center, FL",
+                "NASA, Kennedy Space Center, FL"
+              ],
+              "authors": [
+                {
+                  "name": "C. Richard Arkin",
+                  "isPresenter": true,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Timothy Griffin",
+                  "isPresenter": false,
+                  "institute": "NASA, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Ric Adams",
+                  "isPresenter": false,
+                  "institute": "NASA, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Duke Follistein",
+                  "isPresenter": false,
+                  "institute": "NASA, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Charles Curley",
+                  "isPresenter": false,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Guy Naylor",
+                  "isPresenter": false,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "David Floyd",
+                  "isPresenter": false,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                },
+                {
+                  "name": "Bill Haskell",
+                  "isPresenter": false,
+                  "institute": "ASRC Aerospace Corporation, Kennedy Space Center, FL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Arkin_The_Hazardous_Gas_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Arkin_The_Hazardous_Gas_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Arkin_The_Hazardous_Gas_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Arkin_The_Hazardous_Gas_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Arkin_The_Hazardous_Gas_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Arkin_The_Hazardous_Gas_Abstract.pdf"
+            },
+            {
+              "time": "15:30",
+              "title": "Underwater Mass Spectroscopy for in situ Monitoring of Polar and Non-polar Molecules",
+              "institutes": [
+                "Center for Ocean Technology, Department of Marine Science, University of South Florida, St. Petersburg, FL"
+              ],
+              "authors": [
+                {
+                  "name": "R. J. Bell",
+                  "isPresenter": true,
+                  "institute": "Center for Ocean Technology, Department of Marine Science, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "F.H.W. van Amerom",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, Department of Marine Science, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "R.T. Short",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, Department of Marine Science, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "B. Byrne",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, Department of Marine Science, University of South Florida, St. Petersburg, FL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Abstract.pdf"
+            },
+            {
+              "time": "15:30",
+              "title": "A Novel Aerosol Mass Spectrometer for Submicron Chemical and Organic Species",
+              "institutes": [
+                "Argonne National Laboratory, Energy, Argonne, IL",
+                "American Advanced Ion Beam, Inc., San Francisco, CA",
+                "SLAC Stanford University"
+              ],
+              "authors": [
+                {
+                  "name": "Zinetulla Insepov",
+                  "isPresenter": true,
+                  "institute": "Argonne National Laboratory, Energy, Argonne, IL"
+                },
+                {
+                  "name": "Y. Glukhoy",
+                  "isPresenter": false,
+                  "institute": "American Advanced Ion Beam, Inc., San Francisco, CA"
+                },
+                {
+                  "name": "V. Ivanov",
+                  "isPresenter": false,
+                  "institute": "SLAC Stanford University"
+                },
+                {
+                  "name": "G. Popov",
+                  "isPresenter": false,
+                  "institute": "American Advanced Ion Beam, Inc., San Francisco, CA"
+                },
+                {
+                  "name": "A. Hassanein",
+                  "isPresenter": false,
+                  "institute": "Argonne National Laboratory, Energy, Argonne, IL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "15:30",
+              "title": "Innovative Vacuum Pumps to Support Mass Spectrometry in Harsh Environments",
+              "institutes": [
+                "Creare, Inc., Hanover, NH"
+              ],
+              "authors": [
+                {
+                  "name": "Marc Kenton",
+                  "isPresenter": true,
+                  "institute": "Creare, Inc., Hanover, NH"
+                },
+                {
+                  "name": "Robert Kline-Schoder",
+                  "isPresenter": false,
+                  "institute": "Creare, Inc., Hanover, NH"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Abstract.pdf"
+            },
+            {
+              "time": "15:30",
+              "title": "Miniaturized Mass-Selective Detector with Atmospheric Pressure Chemical Ionization",
+              "institutes": [
+                "Design Technological Institute of Instrument Engineering for Geophysics and Ecology Siberian Branch of the Russian Academia of Sciences, Novosibirisk, Russian Federation"
+              ],
+              "authors": [
+                {
+                  "name": "A.L. Makas’",
+                  "isPresenter": true,
+                  "institute": "Design Technological Institute of Instrument Engineering for Geophysics and Ecology Siberian Branch of the Russian Academia of Sciences, Novosibirisk, Russian Federation"
+                },
+                {
+                  "name": "M.L. Troshkov",
+                  "isPresenter": false,
+                  "institute": "Design Technological Institute of Instrument Engineering for Geophysics and Ecology Siberian Branch of the Russian Academia of Sciences, Novosibirisk, Russian Federation"
+                },
+                {
+                  "name": "A.S. Kudryavtsev",
+                  "isPresenter": false,
+                  "institute": "Design Technological Institute of Instrument Engineering for Geophysics and Ecology Siberian Branch of the Russian Academia of Sciences, Novosibirisk, Russian Federation"
+                },
+                {
+                  "name": "V.M. Lunin",
+                  "isPresenter": false,
+                  "institute": "Design Technological Institute of Instrument Engineering for Geophysics and Ecology Siberian Branch of the Russian Academia of Sciences, Novosibirisk, Russian Federation"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "15:30",
+              "title": "Inexpensive Mass Spectrometer for Field Applications",
+              "institutes": [
+                "Mass Sensors Inc., St.Louis, MO"
+              ],
+              "authors": [
+                {
+                  "name": "Henry Rohrs",
+                  "isPresenter": true,
+                  "institute": "Mass Sensors Inc., St.Louis, MO"
+                },
+                {
+                  "name": "Bella G. Bloom",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors Inc., St.Louis, MO"
+                },
+                {
+                  "name": "David R. Asher",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors Inc., St.Louis, MO"
+                },
+                {
+                  "name": "Joel R. Brandt",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors Inc., St.Louis, MO"
+                },
+                {
+                  "name": "Mark V. Reinders",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors Inc., St.Louis, MO"
+                },
+                {
+                  "name": "Rajiv S. Chhatwal",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors Inc., St.Louis, MO"
+                },
+                {
+                  "name": "Philip S. Berger",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors Inc., St.Louis, MO"
+                },
+                {
+                  "name": "W. Ronald Gentry",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors Inc., St.Louis, MO"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Abstract.pdf"
+            },
+            {
+              "time": "15:30",
+              "title": "Multivariate Analysis of North Sea Natural Gas",
+              "institutes": [
+                "University of Liverpool, Liverpool",
+                "SIRA Ltd. South Hill, Chistlehurst, Kent",
+                "British Gas, Reading",
+                "British Petroleum",
+                "ITF, Aberdeen"
+              ],
+              "authors": [
+                {
+                  "name": "Phillip Turner",
+                  "isPresenter": true,
+                  "institute": "University of Liverpool, Liverpool"
+                },
+                {
+                  "name": "S. Taylor",
+                  "isPresenter": false,
+                  "institute": "University of Liverpool, Liverpool"
+                },
+                {
+                  "name": "T. Matthews",
+                  "isPresenter": false,
+                  "institute": "University of Liverpool, Liverpool"
+                },
+                {
+                  "name": "K. Cooke",
+                  "isPresenter": false,
+                  "institute": "SIRA Ltd. South Hill, Chistlehurst, Kent"
+                },
+                {
+                  "name": "C. Harwood",
+                  "isPresenter": false,
+                  "institute": "British Gas, Reading"
+                },
+                {
+                  "name": "H. Frampton",
+                  "isPresenter": false,
+                  "institute": "British Petroleum"
+                },
+                {
+                  "name": "D. Anderson",
+                  "isPresenter": false,
+                  "institute": "ITF, Aberdeen"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "15:30",
+              "title": "Advance of the Portable Magnetic Mass Spectrometer to Mass Spectrograph",
+              "institutes": [
+                "A. F. Ioffe Physico-Technical Institute, St. Petersburg, Russia",
+                "University of Texas at Dallas, Dallas, TX"
+              ],
+              "authors": [
+                {
+                  "name": "Olga Victorova",
+                  "isPresenter": true,
+                  "institute": "A. F. Ioffe Physico-Technical Institute, St. Petersburg, Russia"
+                },
+                {
+                  "name": "Viktor Kogan",
+                  "isPresenter": false,
+                  "institute": "A. F. Ioffe Physico-Technical Institute, St. Petersburg, Russia"
+                },
+                {
+                  "name": "Sergey Manninen",
+                  "isPresenter": false,
+                  "institute": "A. F. Ioffe Physico-Technical Institute, St. Petersburg, Russia"
+                },
+                {
+                  "name": "Dimitrii Lebedev",
+                  "isPresenter": false,
+                  "institute": "A. F. Ioffe Physico-Technical Institute, St. Petersburg, Russia"
+                },
+                {
+                  "name": "John Hoffman",
+                  "isPresenter": false,
+                  "institute": "University of Texas at Dallas, Dallas, TX"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "15:30",
+              "title": "Circular Cycloid Mass Spectrometer with Mass Selective Ionizers",
+              "institutes": [
+                "Monitor Instruments Co., LLC, Cheswick, PA"
+              ],
+              "authors": [
+                {
+                  "name": "Guenter Voss",
+                  "isPresenter": true,
+                  "institute": "Monitor Instruments Co., LLC, Cheswick, PA"
+                },
+                {
+                  "name": "Anthony Duryea",
+                  "isPresenter": false,
+                  "institute": "Monitor Instruments Co., LLC, Cheswick, PA"
+                },
+                {
+                  "name": "James Buchner",
+                  "isPresenter": false,
+                  "institute": "Monitor Instruments Co., LLC, Cheswick, PA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "15:30",
+              "title": "A Study of Miniature Cylindrical Ion Trap Mass Spectrometers as a Basis for Micro-fabricated Underwater Mass Spectrometer Sensors.",
+              "institutes": [
+                "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+              ],
+              "authors": [
+                {
+                  "name": "F.H.W. van Amerom",
+                  "isPresenter": true,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "Ashish Chaudhary",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "R.T. Short",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Amerom_A_Study_of_Poster.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Amerom_A_Study_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Amerom_A_Study_of_Poster.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Amerom_A_Study_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Amerom_A_Study_of_Poster.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Amerom_A_Study_of_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2003-10-09",
+      "items": [
+        {
+          "type": "session",
+          "time": "9:00 a.m.",
+          "title": "Technical Session: Cylindrical Ion Traps (Royal Palm Ballroom)",
+          "location": "",
+          "talks": [
+            {
+              "time": "9:00 a.m.",
+              "title": "Miniature Mass Spectrometer Based on the Cylindrical Ion Trap (CIT) and Design and Construction of a Rectilinear Ion Trap (RIT)",
+              "institutes": [
+                "Department of Chemistry, Purdue University, West Lafayette, IN"
+              ],
+              "authors": [
+                {
+                  "name": "Amy M. Tabert",
+                  "isPresenter": true,
+                  "institute": "Department of Chemistry, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Leah S. Riter",
+                  "isPresenter": false,
+                  "institute": "Department of Chemistry, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Zheng Ouyang",
+                  "isPresenter": false,
+                  "institute": "Department of Chemistry, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Huanwen Chen",
+                  "isPresenter": false,
+                  "institute": "Department of Chemistry, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Eric S. Handberg",
+                  "isPresenter": false,
+                  "institute": "Department of Chemistry, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Brian C. Laughlin",
+                  "isPresenter": false,
+                  "institute": "Department of Chemistry, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Guangxiang Wu",
+                  "isPresenter": false,
+                  "institute": "Department of Chemistry, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Graham Cooks",
+                  "isPresenter": false,
+                  "institute": "Department of Chemistry, Purdue University, West Lafayette, IN"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Abstract.pdf"
+            },
+            {
+              "time": "9:30 a.m.",
+              "title": "Mass Spectrometry of UF6 in a Micro Ion Trap",
+              "institutes": [
+                "Oak Ridge National Laboratory, Oak Ridge, TN"
+              ],
+              "authors": [
+                {
+                  "name": "William B. Whitten",
+                  "isPresenter": true,
+                  "institute": "Oak Ridge National Laboratory, Oak Ridge, TN"
+                },
+                {
+                  "name": "Peter T. Reilly",
+                  "isPresenter": false,
+                  "institute": "Oak Ridge National Laboratory, Oak Ridge, TN"
+                },
+                {
+                  "name": "Guido Verbeck",
+                  "isPresenter": false,
+                  "institute": "Oak Ridge National Laboratory, Oak Ridge, TN"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Abstract.pdf"
+            },
+            {
+              "time": "10:30 a.m.",
+              "title": "Design and Simulation of a Micromachined Cylindrical Ion Trap (CIT) Array",
+              "institutes": [
+                "MicroAnalytical Systems Department, Sandia National Laboratories, Albuquerque, NM",
+                "Chemistry Department, Purdue University, West Lafayette, IN",
+                "Dept. of Chemical Engineering, UCLA, Los Angeles, CA"
+              ],
+              "authors": [
+                {
+                  "name": "Dolores Cruz",
+                  "isPresenter": true,
+                  "institute": "MicroAnalytical Systems Department, Sandia National Laboratories, Albuquerque, NM"
+                },
+                {
+                  "name": "Matthew G. Blain",
+                  "isPresenter": false,
+                  "institute": "MicroAnalytical Systems Department, Sandia National Laboratories, Albuquerque, NM"
+                },
+                {
+                  "name": "Daniel E. Austin",
+                  "isPresenter": false,
+                  "institute": "MicroAnalytical Systems Department, Sandia National Laboratories, Albuquerque, NM"
+                },
+                {
+                  "name": "Leah S. Riter",
+                  "isPresenter": false,
+                  "institute": "Chemistry Department, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Guangxiang Wu",
+                  "isPresenter": false,
+                  "institute": "Chemistry Department, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "R. Graham Cooks",
+                  "isPresenter": false,
+                  "institute": "Chemistry Department, Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Jane P. Chang",
+                  "isPresenter": false,
+                  "institute": "Dept. of Chemical Engineering, UCLA, Los Angeles, CA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "Development of Field Portable Mass Spectrometers for the Detection of Explosives",
+              "institutes": [
+                "Detection Department, Fort Halstead, Sevenoaks, Kent, UK",
+                "Detection Department, Dstl Porton Down, Salisbury, Wiltshire, UK"
+              ],
+              "authors": [
+                {
+                  "name": "N.J. Alcock",
+                  "isPresenter": true,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                },
+                {
+                  "name": "M.D. Brookes",
+                  "isPresenter": false,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                },
+                {
+                  "name": "S.N. Cairns",
+                  "isPresenter": false,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                },
+                {
+                  "name": "P.A. Cartwright",
+                  "isPresenter": false,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                },
+                {
+                  "name": "S.R. Dixon",
+                  "isPresenter": false,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                },
+                {
+                  "name": "A.J. Marr",
+                  "isPresenter": false,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                },
+                {
+                  "name": "J. Murrell",
+                  "isPresenter": false,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                },
+                {
+                  "name": "B. Povey",
+                  "isPresenter": false,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                },
+                {
+                  "name": "D.M. Groves",
+                  "isPresenter": false,
+                  "institute": "Detection Department, Fort Halstead, Sevenoaks, Kent, UK"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "1:30 p.m.",
+          "title": "Technical Session: Underwater MS (Royal Palm Ballroom)",
+          "location": "",
+          "talks": [
+            {
+              "time": "1:30 p.m.",
+              "title": "Underwater Mass Spectrometry: Applications of NEREUS in the Study of Lake Geochemistry",
+              "institutes": [
+                "Massachusetts Institute of Technology, Cambridge, MA"
+              ],
+              "authors": [
+                {
+                  "name": "Harry Hemond",
+                  "isPresenter": true,
+                  "institute": "Massachusetts Institute of Technology, Cambridge, MA"
+                },
+                {
+                  "name": "R. Camilli",
+                  "isPresenter": false,
+                  "institute": "Massachusetts Institute of Technology, Cambridge, MA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Abstract.pdf"
+            },
+            {
+              "time": "2:00 p.m.",
+              "title": "Mass SURFER Underwater Mass Spectrometer System Development",
+              "institutes": [
+                "SOEST, University of Hawaii, Honolulu, HI",
+                "Jet Propulsion Laboratory, California Institute of Technology, Pasadena, CA"
+              ],
+              "authors": [
+                {
+                  "name": "Gary M. McMurtry",
+                  "isPresenter": true,
+                  "institute": "SOEST, University of Hawaii, Honolulu, HI"
+                },
+                {
+                  "name": "Steven J. Smith",
+                  "isPresenter": false,
+                  "institute": "SOEST, University of Hawaii, Honolulu, HI"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Abstract.pdf"
+            },
+            {
+              "time": "2:30 p.m.",
+              "title": "Real-time Monitoring of Aquatic Environments with an Underwater Mass Spectrometer.",
+              "institutes": [
+                "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+              ],
+              "authors": [
+                {
+                  "name": "P.G. Wenner",
+                  "isPresenter": true,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "F.H.W. van Amerom",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "J.E. Edkins",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "S.K. Toler",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "K. Koehn",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "R. J. Bell",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "M.L. Hall",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "R.T. Short",
+                  "isPresenter": false,
+                  "institute": "Center for Ocean Technology, University of South Florida, St. Petersburg, FL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2003-10-10",
+      "items": [
+        {
+          "type": "session",
+          "time": "8:30 a.m.",
+          "title": "Technical Session: New & Enabling Technologies",
+          "location": "Royal Palm Ballroom",
+          "talks": [
+            {
+              "time": "8:30 a.m.",
+              "title": "Status of the Knudsen Compressor for Use in Distributed and Autonomous Sampling Systems",
+              "institutes": [
+                "University of Southern California, Los Angeles, CA",
+                "Jet Propulsion Laboratory, Pasadena, CA"
+              ],
+              "authors": [
+                {
+                  "name": "M. Young",
+                  "isPresenter": true,
+                  "institute": "University of Southern California, Los Angeles, CA"
+                },
+                {
+                  "name": "Y.L. Han",
+                  "isPresenter": false,
+                  "institute": "University of Southern California, Los Angeles, CA"
+                },
+                {
+                  "name": "E.P. Muntz",
+                  "isPresenter": false,
+                  "institute": "University of Southern California, Los Angeles, CA"
+                },
+                {
+                  "name": "G. Shiflett",
+                  "isPresenter": false,
+                  "institute": "University of Southern California, Los Angeles, CA"
+                },
+                {
+                  "name": "A. Green",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                },
+                {
+                  "name": "S. Jones",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Abstract.pdf"
+            },
+            {
+              "time": "9:00 a.m.",
+              "title": "New Technologies for a Portable Mass Spectrometer Helium Leak Detector",
+              "institutes": [
+                "MKS Instruments, Metheun, MA"
+              ],
+              "authors": [
+                {
+                  "name": "Wayne Cole",
+                  "isPresenter": true,
+                  "institute": "MKS Instruments, Metheun, MA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:30 a.m.",
+              "title": "Comparing a Mass Spectrometer, a Total Pressure Gauge and Quartz Crystal Microbalances as an Environmental Sensor in Space",
+              "institutes": [
+                "The Johns Hopkins University Applied Physics Laboratory",
+                "Physical Sciences, Inc",
+                "BWACS",
+                "Aerospace Corporation"
+              ],
+              "authors": [
+                {
+                  "name": "O. Manuel Uy",
+                  "isPresenter": true,
+                  "institute": "The Johns Hopkins University Applied Physics Laboratory"
+                },
+                {
+                  "name": "Richard C. Benson",
+                  "isPresenter": false,
+                  "institute": "The Johns Hopkins University Applied Physics Laboratory"
+                },
+                {
+                  "name": "Terry Phillips",
+                  "isPresenter": false,
+                  "institute": "The Johns Hopkins University Applied Physics Laboratory"
+                },
+                {
+                  "name": "Jeffrey Lesho",
+                  "isPresenter": false,
+                  "institute": "The Johns Hopkins University Applied Physics Laboratory"
+                },
+                {
+                  "name": "Russell Cain",
+                  "isPresenter": false,
+                  "institute": "The Johns Hopkins University Applied Physics Laboratory"
+                },
+                {
+                  "name": "Mark Boies",
+                  "isPresenter": false,
+                  "institute": "Physical Sciences, Inc"
+                },
+                {
+                  "name": "Gary Galica",
+                  "isPresenter": false,
+                  "institute": "Physical Sciences, Inc"
+                },
+                {
+                  "name": "David Green",
+                  "isPresenter": false,
+                  "institute": "Physical Sciences, Inc"
+                },
+                {
+                  "name": "Bobby Wood",
+                  "isPresenter": false,
+                  "institute": "BWACS"
+                },
+                {
+                  "name": "David Hall",
+                  "isPresenter": false,
+                  "institute": "Aerospace Corporation"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Abstract.pdf"
+            },
+            {
+              "time": "10:30 a.m.",
+              "title": "Application of Miniature Mass Spectrometers for Real Time Hydrogen and Hydrogen Isotopic Measurements",
+              "institutes": [
+                "Westinghouse Savannah River Company, Aiken, SC"
+              ],
+              "authors": [
+                {
+                  "name": "William A. Spencer",
+                  "isPresenter": true,
+                  "institute": "Westinghouse Savannah River Company, Aiken, SC"
+                },
+                {
+                  "name": "Laura L. Tovo",
+                  "isPresenter": false,
+                  "institute": "Westinghouse Savannah River Company, Aiken, SC"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Abstract.pdf"
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "LiGA Fabricated Quadrupole Mass Filter and Scroll Pump for Meso-scale Mass Spectrometer",
+              "institutes": [
+                "Jet Propulsion Laboratory, Pasadena, CA"
+              ],
+              "authors": [
+                {
+                  "name": "Beverly Eyre",
+                  "isPresenter": true,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                },
+                {
+                  "name": "Nosang Myung",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                },
+                {
+                  "name": "Dean Wiberg",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "1:30 p.m.",
+          "title": "Technical Session: MS and Source Design (Royal Palm Ballroom)",
+          "location": "",
+          "talks": [
+            {
+              "time": "1:30 p.m.",
+              "title": "A Miniature MALDI-TOF Mass Spectrometer using Electric Fields that are Non-Homogeneous in Space and Time",
+              "institutes": [
+                "Johns Hopkins University School of Medicine, Baltimore, MD"
+              ],
+              "authors": [
+                {
+                  "name": "Ben D. Gardner",
+                  "isPresenter": true,
+                  "institute": "Johns Hopkins University School of Medicine, Baltimore, MD"
+                },
+                {
+                  "name": "Robert J. Cotter",
+                  "isPresenter": false,
+                  "institute": "Johns Hopkins University School of Medicine, Baltimore, MD"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "2:30 p.m.",
+              "title": "Miniaturized Confocal Plane Mass Spectrometer (or “How to Start a Company”)",
+              "institutes": [
+                "Intelligent Ion Inc., Seattle, WA"
+              ],
+              "authors": [
+                {
+                  "name": "Gottfried Kibelka",
+                  "isPresenter": true,
+                  "institute": "Intelligent Ion Inc., Seattle, WA"
+                },
+                {
+                  "name": "Adi Scheidemann",
+                  "isPresenter": false,
+                  "institute": "Intelligent Ion Inc., Seattle, WA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Abstract.pdf"
+            },
+            {
+              "time": "3:30 p.m.",
+              "title": "Membrane Inlet Systems for Portable Mass Spectrometers",
+              "institutes": [
+                "Ioffe Physico-Technical Institute",
+                "Russian Academy of Sciences, St. Petersburg, Russia"
+              ],
+              "authors": [
+                {
+                  "name": "Olga Victorova",
+                  "isPresenter": true,
+                  "institute": "Ioffe Physico-Technical Institute"
+                },
+                {
+                  "name": "Viktor Kogan",
+                  "isPresenter": false,
+                  "institute": "Russian Academy of Sciences, St. Petersburg, Russia"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Abstract.pdf"
+            },
+            {
+              "time": "4:00 p.m.",
+              "title": "Recent Developments with the Rotating Field Mass Spectrometer (RFMS) and Nanospray Ionizer",
+              "institutes": [
+                "Jet Propulsion Laboratory, Pasadena, CA",
+                "SOEST, University of Hawaii, Honolulu, HI"
+              ],
+              "authors": [
+                {
+                  "name": "Steven J. Smith",
+                  "isPresenter": true,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                },
+                {
+                  "name": "Gary McMurtry",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "venue_url": "https://www.tradewindsresort.com/island-grand-beach-resort?NCK=8002491667&utm_source=gmb&utm_medium=organic&utm_campaign=LST_gmb_ig",
   "student_awards": [],
-  "events": [],
-  "host_corporation": null,
-  "venue_address_url": ""
+  "events": [
+    {
+      "date": "2003-10-07",
+      "title": "Travel Day",
+      "time": "",
+      "end_time": "",
+      "location": "",
+      "events": [
+        {
+          "time": "7:00 p.m.",
+          "end_time": "",
+          "title": "Welcome Reception",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Tradewinds Sirata Beach Resort",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2003-10-08",
+      "title": "HEMS Workshop, Day 1",
+      "time": "7:30 a.m.",
+      "end_time": "",
+      "location": "",
+      "events": [
+        {
+          "time": "7:30 a.m.",
+          "end_time": "",
+          "title": "Continental Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Royal Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "8:30 a.m.",
+          "end_time": "",
+          "title": "Welcoming Remarks",
+          "subtitle": "Peter Betzer, Tim Short",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "10:00 a.m.",
+          "end_time": "",
+          "title": "Coffee Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Royal Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "11:30 a.m.",
+          "end_time": "",
+          "title": "Lunch on your own",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "3:00 p.m.",
+          "end_time": "",
+          "title": "Afternoon Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Royal Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "5:30 p.m.",
+          "end_time": "",
+          "title": "Evening Free",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2003-10-09",
+      "title": "HEMS Workshop, Day 2",
+      "time": "7:30 a.m.",
+      "end_time": "",
+      "location": "",
+      "events": [
+        {
+          "time": "7:30 a.m.",
+          "end_time": "",
+          "title": "Continental Breakfast and Vendor Expo",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Royal Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "10:00 a.m.",
+          "end_time": "",
+          "title": "Coffee Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Royal Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "11:30 a.m.",
+          "end_time": "",
+          "title": "Lunch on your own",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "3:00 p.m.",
+          "end_time": "",
+          "title": "Afternoon Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Royal Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "4:30 p.m.",
+          "end_time": "",
+          "title": "Free Time",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "6:30 p.m.",
+          "end_time": "",
+          "title": "Workshop Dinner",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Breezeway",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2003-10-10",
+      "title": "HEMS Workshop, Day 3",
+      "time": "7:30 a.m.",
+      "end_time": "",
+      "location": "",
+      "events": [
+        {
+          "time": "7:30 a.m.",
+          "end_time": "",
+          "title": "Continental Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Royal Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "10:00 a.m.",
+          "end_time": "",
+          "title": "Coffee Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Royal Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "11:30 a.m.",
+          "end_time": "",
+          "title": "Lunch",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Mediterranean Palm Ballroom",
+          "location_url": ""
+        },
+        {
+          "time": "1:00 p.m.",
+          "end_time": "",
+          "title": "Workshop ends",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    }
+  ],
+  "host_corporation": {
+    "name": "Center for Ocean Technology, College of Marine Science, USF",
+    "url": "http://www.marine.usf.edu/COT/",
+    "logo_file": "Center_for_Ocean_Technology_College_of_Marine_Science_USF.png",
+    "logo_file_url": "/images/sponsors/Center_for_Ocean_Technology_College_of_Marine_Science_USF.png?v=1778696767962"
+  },
+  "venue_address_url": "https://maps.app.goo.gl/hqvktMnb7H3e7fLh8",
+  "title": "4th HEMS Workshop",
+  "tagline": "The 4th Workshop on Harsh-Environment Mass Spectrometry."
 }

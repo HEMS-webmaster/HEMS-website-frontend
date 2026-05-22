@@ -1329,11 +1329,8 @@
       ]
     }
   ],
-  "host_corporation": {
-    "name": "University of North Texas",
-    "url": "http://www.unt.edu/",
-    "logo_file": "University_of_North_Texas.png",
-    "logo_file_url": "/images/sponsors/University_of_North_Texas.png?v=1778083552010"
-  },
-  "venue_address_url": "https://maps.app.goo.gl/U2KZR19399wcNAcB8"
+  "host_corporation": null,
+  "venue_address_url": "https://maps.app.goo.gl/U2KZR19399wcNAcB8",
+  "title": "9th HEMS Workshop",
+  "tagline": "The 9th Workshop on Harsh-Environment Mass Spectrometry."
 }

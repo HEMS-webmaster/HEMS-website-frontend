@@ -631,11 +631,8 @@
       ]
     }
   ],
-  "host_corporation": {
-    "name": "Inficon",
-    "url": "http://www.inficon.com/",
-    "logo_file": "Inficon.png",
-    "logo_file_url": "/images/sponsors/Inficon.png?v=1778100492331"
-  },
-  "venue_address_url": "https://maps.app.goo.gl/6nUZT97axxE2cWfB8"
+  "host_corporation": null,
+  "venue_address_url": "https://maps.app.goo.gl/6nUZT97axxE2cWfB8",
+  "title": "12th HEMS Workshop",
+  "tagline": "The 12th Workshop on Harsh-Environment Mass Spectrometry."
 }

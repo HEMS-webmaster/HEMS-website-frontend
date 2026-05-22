@@ -1,21 +1,1070 @@
 {
   "year": 2001,
   "ordinal": "2nd",
-  "dates": "March 18-21, 2001",
+  "dates": "March 18–21",
   "venue": "",
-  "address": "",
+  "address": "St. Petersburg, Florida",
   "resources": [
     {
       "label": "Workshop Program",
       "icon": "FileText",
       "url": "#technical-program"
+    },
+    {
+      "label": "Program Download",
+      "icon": "Download",
+      "legacy_url": "https://www.hems-workshop.org/2ndWS/2hems_program.pdf",
+      "local_target_path": "/api/manager/serve?file=2th/Administrative/2th_Program.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Administrative/2th_Program.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/2th/Administrative/2th_Program.pdf"
+    },
+    {
+      "label": "Participant List",
+      "icon": "Users",
+      "legacy_url": "https://www.hems-workshop.org/2ndWS/participants.pdf",
+      "local_target_path": "/api/manager/serve?file=2th/Administrative/2th_Participant_List.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Administrative/2th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/2th/Administrative/2th_Participant_List.pdf"
     }
   ],
   "sponsors": [],
-  "schedule": [],
+  "schedule": [
+    {
+      "title": "2001-03-19",
+      "items": [
+        {
+          "type": "session",
+          "time": "9:00 AM",
+          "title": "Technical Session I",
+          "location": "UNKNOWN",
+          "talks": [
+            {
+              "time": "9:00 AM",
+              "title": "Mass Spectrometers for In-Situ Planetary Exploration",
+              "institutes": [
+                "Jet Propulsion Laboratory, Pasadena, CA"
+              ],
+              "authors": [
+                {
+                  "name": "Pat Beauchamp",
+                  "isPresenter": true,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBeauchamp.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_I/2th_Beauchamp_Mass_Spectrometers_for_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_I/2th_Beauchamp_Mass_Spectrometers_for_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_I/2th_Beauchamp_Mass_Spectrometers_for_Abstract.pdf"
+            },
+            {
+              "time": "9:30 AM",
+              "title": "A small multiple reflectron time-of-flight mass spectrometer (MR-TOF-MS) for in-situ investigations",
+              "institutes": [
+                "Justus-Liebig University, Giessen, Germany",
+                "Max-Planck Institute fuer Aeronomie (MPIE), Katlenburg-Lindau, Germany"
+              ],
+              "authors": [
+                {
+                  "name": "A. Casares",
+                  "isPresenter": true,
+                  "institute": "Justus-Liebig University, Giessen, Germany"
+                },
+                {
+                  "name": "H. Wollnik",
+                  "isPresenter": false,
+                  "institute": "Justus-Liebig University, Giessen, Germany"
+                },
+                {
+                  "name": "F. Goesmann",
+                  "isPresenter": false,
+                  "institute": "Max-Planck Institute fuer Aeronomie (MPIE), Katlenburg-Lindau, Germany"
+                },
+                {
+                  "name": "A. Kholomeev",
+                  "isPresenter": false,
+                  "institute": "Justus-Liebig University, Giessen, Germany"
+                },
+                {
+                  "name": "R. Roll",
+                  "isPresenter": false,
+                  "institute": "Max-Planck Institute fuer Aeronomie (MPIE), Katlenburg-Lindau, Germany"
+                },
+                {
+                  "name": "H. Rosenbauer",
+                  "isPresenter": false,
+                  "institute": "Max-Planck Institute fuer Aeronomie (MPIE), Katlenburg-Lindau, Germany"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractWollnik.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_I/2th_Casares_A_small_multiple_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_I/2th_Casares_A_small_multiple_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_I/2th_Casares_A_small_multiple_Abstract.pdf"
+            },
+            {
+              "time": "10:30 AM",
+              "title": "In-situ Laser TOF MS on Planets and Small Bodies",
+              "institutes": [
+                "Applied Physics Laboratory, The Johns Hopkins University, Laurel, MD"
+              ],
+              "authors": [
+                {
+                  "name": "Will Brinckerhoff",
+                  "isPresenter": true,
+                  "institute": "Applied Physics Laboratory, The Johns Hopkins University, Laurel, MD"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBrinckerhoff.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_I/2th_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_I/2th_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_I/2th_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf"
+            },
+            {
+              "time": "11:00 AM",
+              "title": "A Fully Redundant On-Line Mass Spectrometric System for the Space Shuttle Used to Monitor Cyogenic Fuel Leaks",
+              "institutes": [
+                "NASA Kennedy Space Center, FL",
+                "Dynacs Inc., Kennedy Space Center, FL"
+              ],
+              "authors": [
+                {
+                  "name": "T. P. Griffin",
+                  "isPresenter": true,
+                  "institute": "NASA Kennedy Space Center, FL"
+                },
+                {
+                  "name": "G. R. Naylor",
+                  "isPresenter": false,
+                  "institute": "Dynacs Inc., Kennedy Space Center, FL"
+                },
+                {
+                  "name": "W. D. Haskell",
+                  "isPresenter": false,
+                  "institute": "Dynacs Inc., Kennedy Space Center, FL"
+                },
+                {
+                  "name": "G. S. Breznik",
+                  "isPresenter": false,
+                  "institute": "NASA Kennedy Space Center, FL"
+                },
+                {
+                  "name": "C. A. Mizell",
+                  "isPresenter": false,
+                  "institute": "NASA Kennedy Space Center, FL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractGriffin.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_I/2th_Griffin_A_Fully_Redundant_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_I/2th_Griffin_A_Fully_Redundant_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_I/2th_Griffin_A_Fully_Redundant_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "1:30 PM",
+          "title": "Technical Session II",
+          "location": "UNKNOWN",
+          "talks": [
+            {
+              "time": "1:30 PM",
+              "title": "A Miniaturized Cylindrical lon Trap Mass Spectrometer",
+              "institutes": [
+                "Purdue University, West Lafayette, IN"
+              ],
+              "authors": [
+                {
+                  "name": "Garth E. Patterson",
+                  "isPresenter": true,
+                  "institute": "Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "R. Graham Cooks",
+                  "isPresenter": false,
+                  "institute": "Purdue University, West Lafayette, IN"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractPatterson.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_II/2th_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_II/2th_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_II/2th_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf"
+            },
+            {
+              "time": "2:00 PM",
+              "title": "Recent Developments in Micro lon Trap Mass Spectrometry",
+              "institutes": [
+                "Oak Ridge National Laboratory, Oak Ridge, TN"
+              ],
+              "authors": [
+                {
+                  "name": "Jeremy Moxom",
+                  "isPresenter": true,
+                  "institute": "Oak Ridge National Laboratory, Oak Ridge, TN"
+                },
+                {
+                  "name": "William B. Whitten",
+                  "isPresenter": false,
+                  "institute": "Oak Ridge National Laboratory, Oak Ridge, TN"
+                },
+                {
+                  "name": "Peter T. A. Reilly",
+                  "isPresenter": false,
+                  "institute": "Oak Ridge National Laboratory, Oak Ridge, TN"
+                },
+                {
+                  "name": "J. Michael Ramsey",
+                  "isPresenter": false,
+                  "institute": "Oak Ridge National Laboratory, Oak Ridge, TN"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMoxom.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_II/2th_Moxom_Recent_Developments_in_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_II/2th_Moxom_Recent_Developments_in_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_II/2th_Moxom_Recent_Developments_in_Abstract.pdf"
+            },
+            {
+              "time": "2:30 PM",
+              "title": "Miniature TOF Mass Spectrometer using a Flexible Circuitboard Reflectron",
+              "institutes": [
+                "Applied Physics Laboratory, The Johns Hopkins University, Laurel, MD"
+              ],
+              "authors": [
+                {
+                  "name": "Tim Cornish",
+                  "isPresenter": true,
+                  "institute": "Applied Physics Laboratory, The Johns Hopkins University, Laurel, MD"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractCornish.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_II/2th_Cornish_Miniature_TOF_Mass_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_II/2th_Cornish_Miniature_TOF_Mass_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_II/2th_Cornish_Miniature_TOF_Mass_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "3:30 PM",
+          "title": "Poster Session",
+          "talks": [
+            {
+              "time": "3:30 PM",
+              "title": "Compact and Rugged Multipurpose TOF",
+              "institutes": [
+                "lonwerks, Inc., Houston, TX"
+              ],
+              "authors": [
+                {
+                  "name": "M. Gonin",
+                  "isPresenter": true,
+                  "institute": "lonwerks, Inc., Houston, TX"
+                },
+                {
+                  "name": "K. Fuhrer",
+                  "isPresenter": false,
+                  "institute": "lonwerks, Inc., Houston, TX"
+                },
+                {
+                  "name": "J.A. Schultz",
+                  "isPresenter": false,
+                  "institute": "lonwerks, Inc., Houston, TX"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractGonin.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Posters/2th_Gonin_Compact_and_Rugged_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Posters/2th_Gonin_Compact_and_Rugged_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Posters/2th_Gonin_Compact_and_Rugged_Abstract.pdf"
+            },
+            {
+              "time": "3:30 PM",
+              "title": "Development of a Low Cost Miniature Mass Spectrometer",
+              "institutes": [
+                "Mass Sensors, Inc., St. Louis, MO"
+              ],
+              "authors": [
+                {
+                  "name": "Henry W. Rohrs",
+                  "isPresenter": true,
+                  "institute": "Mass Sensors, Inc., St. Louis, MO"
+                },
+                {
+                  "name": "Rajiv S. Chhatwal",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors, Inc., St. Louis, MO"
+                },
+                {
+                  "name": "W. Ronald Gentry",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors, Inc., St. Louis, MO"
+                },
+                {
+                  "name": "Philip S. Berger",
+                  "isPresenter": false,
+                  "institute": "Mass Sensors, Inc., St. Louis, MO"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractRohrs.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Posters/2th_Rohrs_Development_of_a_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Posters/2th_Rohrs_Development_of_a_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Posters/2th_Rohrs_Development_of_a_Abstract.pdf"
+            },
+            {
+              "time": "3:30 PM",
+              "title": "Project NEREUS: Construction of a practical autonomous underwater gas analyzer",
+              "institutes": [
+                "Massachusetts Institute of Technology, Cambridge, Ma."
+              ],
+              "authors": [
+                {
+                  "name": "R. Camilli",
+                  "isPresenter": true,
+                  "institute": "Massachusetts Institute of Technology, Cambridge, Ma."
+                },
+                {
+                  "name": "H. F. Hemond",
+                  "isPresenter": false,
+                  "institute": "Massachusetts Institute of Technology, Cambridge, Ma."
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractCamilli.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Posters/2th_Camilli_Project_NEREUS_Construction_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Posters/2th_Camilli_Project_NEREUS_Construction_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Posters/2th_Camilli_Project_NEREUS_Construction_Abstract.pdf"
+            },
+            {
+              "time": "3:30 PM",
+              "title": "Remotely Operated Mass Spectrometers: Adaptive Search Platforms for Field Chemical Profiling",
+              "institutes": [
+                "The University of South Florida, St. Petersburg, FL"
+              ],
+              "authors": [
+                {
+                  "name": "D. P. Fries",
+                  "isPresenter": true,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "R. T. Short",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "G. Kibelka",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "M. L. Kerr",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "J. Patten",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "L. Langebrake",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractFries.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Posters/2th_Fries_Remotely_Operated_Mass_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Posters/2th_Fries_Remotely_Operated_Mass_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Posters/2th_Fries_Remotely_Operated_Mass_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2001-03-20",
+      "items": [
+        {
+          "type": "session",
+          "time": "9:30 AM",
+          "title": "Technical Session III",
+          "location": "UNKNOWN",
+          "talks": [
+            {
+              "time": "9:30 AM",
+              "title": "Disaster Management Using Mobile Mass Spectrometers",
+              "institutes": [
+                "Technical University of Hamburg-Harburg, Hamburg, Germany"
+              ],
+              "authors": [
+                {
+                  "name": "Gerhard Matz",
+                  "isPresenter": true,
+                  "institute": "Technical University of Hamburg-Harburg, Hamburg, Germany"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMatz.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_III/2th_Matz_Disaster_Management_Using_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_III/2th_Matz_Disaster_Management_Using_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_III/2th_Matz_Disaster_Management_Using_Abstract.pdf"
+            },
+            {
+              "time": "10:00 AM",
+              "title": "Direct Sampling Mass Spectrometry in Atmospheric Chemistry",
+              "institutes": [
+                "Purdue University, West Lafayette, IN"
+              ],
+              "authors": [
+                {
+                  "name": "Dennis Barket, Jr.",
+                  "isPresenter": true,
+                  "institute": "Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Julia Hurst",
+                  "isPresenter": false,
+                  "institute": "Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Amanda Grannas",
+                  "isPresenter": false,
+                  "institute": "Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Christophe Guimbaud",
+                  "isPresenter": false,
+                  "institute": "Purdue University, West Lafayette, IN"
+                },
+                {
+                  "name": "Paul Shepson",
+                  "isPresenter": false,
+                  "institute": "Purdue University, West Lafayette, IN"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBarket.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_III/2th_Barket_Direct_Sampling_Mass_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_III/2th_Barket_Direct_Sampling_Mass_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_III/2th_Barket_Direct_Sampling_Mass_Abstract.pdf"
+            },
+            {
+              "time": "10:30 AM",
+              "title": "MS for Trace Explosives Detection in Aviation Security",
+              "institutes": [
+                "FAA/Wm. J. Hughes Tech. Ctr., Atlantic City, NJ",
+                "Syagen Technology, Inc., Tustin, CA",
+                "Sandia National Laboratory, Albuquerque, NM"
+              ],
+              "authors": [
+                {
+                  "name": "R. T. Chamberlain",
+                  "isPresenter": true,
+                  "institute": "FAA/Wm. J. Hughes Tech. Ctr., Atlantic City, NJ"
+                },
+                {
+                  "name": "Richard Lareau",
+                  "isPresenter": false,
+                  "institute": "FAA/Wm. J. Hughes Tech. Ctr., Atlantic City, NJ"
+                },
+                {
+                  "name": "Karl Hanold",
+                  "isPresenter": false,
+                  "institute": "Syagen Technology, Inc., Tustin, CA"
+                },
+                {
+                  "name": "Jack Syagen",
+                  "isPresenter": false,
+                  "institute": "Syagen Technology, Inc., Tustin, CA"
+                },
+                {
+                  "name": "Kevin Linker",
+                  "isPresenter": false,
+                  "institute": "Sandia National Laboratory, Albuquerque, NM"
+                },
+                {
+                  "name": "Chuck Rhykerd",
+                  "isPresenter": false,
+                  "institute": "Sandia National Laboratory, Albuquerque, NM"
+                },
+                {
+                  "name": "Frank Bouchier",
+                  "isPresenter": false,
+                  "institute": "Sandia National Laboratory, Albuquerque, NM"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractChamberlain.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_III/2th_Chamberlain_MS_for_Trace_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_III/2th_Chamberlain_MS_for_Trace_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_III/2th_Chamberlain_MS_for_Trace_Abstract.pdf"
+            },
+            {
+              "time": "11:00 AM",
+              "title": "Volcanic Monitoring using Field-Portable Mass Spectrometers: Towards On-Site and Real Time Gas Analysis at Fumaroles",
+              "institutes": [
+                "Universidad de Costa Rica"
+              ],
+              "authors": [
+                {
+                  "name": "Jorge A. Diaz",
+                  "isPresenter": true,
+                  "institute": "Universidad de Costa Rica"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractDiaz.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_III/2th_Diaz_Volcanic_Monitoring_using_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_III/2th_Diaz_Volcanic_Monitoring_using_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_III/2th_Diaz_Volcanic_Monitoring_using_Abstract.pdf"
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "2:00 PM",
+          "title": "Technical Session IV",
+          "location": "UNKNOWN",
+          "talks": [
+            {
+              "time": "2:00 PM",
+              "title": "Project NEREUS: Concepts and principles for in-situ MS",
+              "institutes": [
+                "Massachusetts Institute of Technology, Cambridge, MA"
+              ],
+              "authors": [
+                {
+                  "name": "H. F. Hemond",
+                  "isPresenter": true,
+                  "institute": "Massachusetts Institute of Technology, Cambridge, MA"
+                },
+                {
+                  "name": "R. Camilli",
+                  "isPresenter": false,
+                  "institute": "Massachusetts Institute of Technology, Cambridge, MA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractHemond.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_IV/2th_Hemond_Project_NEREUS_Concepts_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_Hemond_Project_NEREUS_Concepts_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_Hemond_Project_NEREUS_Concepts_Abstract.pdf"
+            },
+            {
+              "time": "2:30 PM",
+              "title": "Development of an Underwater Mass Spectrometer for Dissolved Gases, Solutes, and Large Organic Compounds",
+              "institutes": [
+                "SOEST, University of Hawaii, Honolulu, Hawaii",
+                "Jet Propulsion Laboratory/California Institute of Technology, Pasadena, CA"
+              ],
+              "authors": [
+                {
+                  "name": "Gary M. McMurtry",
+                  "isPresenter": true,
+                  "institute": "SOEST, University of Hawaii, Honolulu, Hawaii"
+                },
+                {
+                  "name": "Steven J. Smith",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory/California Institute of Technology, Pasadena, CA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMcMurtry.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_IV/2th_McMurtry_Development_of_an_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_McMurtry_Development_of_an_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_McMurtry_Development_of_an_Abstract.pdf"
+            },
+            {
+              "time": "3:30 PM",
+              "title": "Applications of in-water mass spectrometry for detection of volatile organic compounds and dissolved gases",
+              "institutes": [
+                "The University of South Florida, St. Petersburg, FL"
+              ],
+              "authors": [
+                {
+                  "name": "R. T. Short",
+                  "isPresenter": true,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "D. P. Fries",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "G. Kibelka",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "M. L. Kerr",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "S. K. Toler",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "P. G. Wenner",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                },
+                {
+                  "name": "R. H. Byrne",
+                  "isPresenter": false,
+                  "institute": "The University of South Florida, St. Petersburg, FL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractShort.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_IV/2th_Short_Applications_of_inwater_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_Short_Applications_of_inwater_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_Short_Applications_of_inwater_Abstract.pdf"
+            },
+            {
+              "time": "4:00 PM",
+              "title": "Polymeric Membrane Chlorocarbon Permeabilities Determined by Membrane Introduction Mass Spectrometry (MIMS)",
+              "institutes": [
+                "Idaho National Engineering and Environmental Laboratory/Bechtel, Idaho Falls, ID"
+              ],
+              "authors": [
+                {
+                  "name": "Mark L. Stone",
+                  "isPresenter": true,
+                  "institute": "Idaho National Engineering and Environmental Laboratory/Bechtel, Idaho Falls, ID"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractStone.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_IV/2th_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf"
+            },
+            {
+              "time": "4:30 PM",
+              "title": "Solid phase microextraction as a method for sampling with analysis by gas chromatography/mass spectrometry in the field",
+              "institutes": [
+                "Uniformed Services University of the Health Sciences, Bethesda, MD",
+                "U.S. Army Center for Health Promotion and Preventive Medicine, Edgewood, MD"
+              ],
+              "authors": [
+                {
+                  "name": "LCDR Gary Hook",
+                  "isPresenter": true,
+                  "institute": "Uniformed Services University of the Health Sciences, Bethesda, MD"
+                },
+                {
+                  "name": "LCDR Phil Smith",
+                  "isPresenter": false,
+                  "institute": "Uniformed Services University of the Health Sciences, Bethesda, MD"
+                },
+                {
+                  "name": "Kenneth Williams",
+                  "isPresenter": false,
+                  "institute": "U.S. Army Center for Health Promotion and Preventive Medicine, Edgewood, MD"
+                },
+                {
+                  "name": "Michael Sheely",
+                  "isPresenter": false,
+                  "institute": "U.S. Army Center for Health Promotion and Preventive Medicine, Edgewood, MD"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractHook.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_IV/2th_Hook_Solid_phase_microextraction_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_Hook_Solid_phase_microextraction_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_IV/2th_Hook_Solid_phase_microextraction_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2001-03-21",
+      "items": [
+        {
+          "type": "session",
+          "time": "8:30 AM",
+          "title": "Technical Session V",
+          "location": "UNKNOWN",
+          "talks": [
+            {
+              "time": "8:30 AM",
+              "title": "Tiny Time-of-Flight (TOF) Mass Spectrometer for Biodetection",
+              "institutes": [
+                "Applied Physics Laboratory, The Johns Hopkins University, Laurel, MD"
+              ],
+              "authors": [
+                {
+                  "name": "Wayne Bryden",
+                  "isPresenter": true,
+                  "institute": "Applied Physics Laboratory, The Johns Hopkins University, Laurel, MD"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBryden.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_V/2th_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_V/2th_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_V/2th_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf"
+            },
+            {
+              "time": "9:00 AM",
+              "title": "Biological applications on a miniaturized delayed extraction TOF mass spectrometer",
+              "institutes": [
+                "The Johns Hopkins University, Baltimore, MD"
+              ],
+              "authors": [
+                {
+                  "name": "M. C. Prieto",
+                  "isPresenter": true,
+                  "institute": "The Johns Hopkins University, Baltimore, MD"
+                },
+                {
+                  "name": "V. Kovtoun",
+                  "isPresenter": false,
+                  "institute": "The Johns Hopkins University, Baltimore, MD"
+                },
+                {
+                  "name": "R. J. Cotter",
+                  "isPresenter": false,
+                  "institute": "The Johns Hopkins University, Baltimore, MD"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractPrieto.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_V/2th_Prieto_Biological_applications_on_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_V/2th_Prieto_Biological_applications_on_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_V/2th_Prieto_Biological_applications_on_Abstract.pdf"
+            },
+            {
+              "time": "10:00 AM",
+              "title": "The Portable Horiba-Kore Mass Spectrometer MS-200",
+              "institutes": [
+                "Kore Technology Ltd., Cambridge, England"
+              ],
+              "authors": [
+                {
+                  "name": "Frank Nuber",
+                  "isPresenter": true,
+                  "institute": "Kore Technology Ltd., Cambridge, England"
+                },
+                {
+                  "name": "Dr. Steve Mullock",
+                  "isPresenter": false,
+                  "institute": "Kore Technology Ltd., Cambridge, England"
+                },
+                {
+                  "name": "Clive Corlett",
+                  "isPresenter": false,
+                  "institute": "Kore Technology Ltd., Cambridge, England"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractNuber.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_V/2th_Nuber_The_Portable_HoribaKore_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_V/2th_Nuber_The_Portable_HoribaKore_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_V/2th_Nuber_The_Portable_HoribaKore_Abstract.pdf"
+            },
+            {
+              "time": "10:30 AM",
+              "title": "Progress Toward Highly Miniaturized Vacuum Pumps",
+              "institutes": [
+                "Jet Propulsion Laboratory, Pasadena, CA"
+              ],
+              "authors": [
+                {
+                  "name": "Dean Wiberg",
+                  "isPresenter": true,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                },
+                {
+                  "name": "Beverly Eyre",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                },
+                {
+                  "name": "Kirill Shcheglov",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                },
+                {
+                  "name": "Victor White",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                },
+                {
+                  "name": "Vachik Garkanian",
+                  "isPresenter": false,
+                  "institute": "Jet Propulsion Laboratory, Pasadena, CA"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractWiberg.pdf",
+              "local_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=2th/Technical_Session_V/2th_Wiberg_Progress_Toward_Highly_Abstract.pdf",
+              "public_website_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/2th/Technical_Session_V/2th_Wiberg_Progress_Toward_Highly_Abstract.pdf",
+              "gcloud_url": "",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2th/Technical_Session_V/2th_Wiberg_Progress_Toward_Highly_Abstract.pdf"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "venue_url": "",
   "student_awards": [],
-  "events": [],
+  "events": [
+    {
+      "date": "2001-03-18",
+      "title": "Travel Day",
+      "events": [
+        {
+          "time": "7:00 p.m.",
+          "end_time": "",
+          "title": "Welcome reception",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "The Pier Aquarium",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2001-03-19",
+      "title": "HEMS Workshop, Day 1",
+      "events": [
+        {
+          "time": "8:00 a.m.",
+          "end_time": "",
+          "title": "Continental Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "8:30 a.m.",
+          "end_time": "",
+          "title": "Welcoming",
+          "subtitle": "Peter Betzer, Tim Short",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "10:00 a.m.",
+          "end_time": "",
+          "title": "Coffee break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "11:30 a.m.",
+          "end_time": "",
+          "title": "Lunch on your own",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "3:00 p.m.",
+          "end_time": "",
+          "title": "Afternoon break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "5:00 p.m.",
+          "end_time": "",
+          "title": "Evening on your own",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2001-03-20",
+      "title": "HEMS Workshop, Day 2",
+      "events": [
+        {
+          "time": "8:00 a.m.",
+          "end_time": "",
+          "title": "Continental Breakfast & Vendor Exposition",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "11:30 a.m.",
+          "end_time": "",
+          "title": "Lunch on your own",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "3:00 p.m.",
+          "end_time": "",
+          "title": "Afternoon break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "6:30 p.m.",
+          "end_time": "",
+          "title": "Conference Dinner",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Florida International Museum",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2001-03-21",
+      "title": "HEMS Workshop, Day 3",
+      "events": [
+        {
+          "time": "8:00 a.m.",
+          "end_time": "",
+          "title": "Continental Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "9:30 a.m.",
+          "end_time": "",
+          "title": "Coffee break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "11:00 a.m.",
+          "end_time": "",
+          "title": "Closing remarks",
+          "subtitle": "David Fries",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "11:30 a.m.",
+          "end_time": "",
+          "title": "Lunch",
+          "subtitle": "Guest Speaker: Science at Disney",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "2:00 p.m.",
+          "end_time": "",
+          "title": "Informal tour",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Center for Ocean Technology",
+          "location_url": ""
+        }
+      ]
+    }
+  ],
   "host_corporation": null,
-  "venue_address_url": ""
+  "venue_address_url": "",
+  "title": "2nd HEMS Workshop",
+  "tagline": "The 2nd Workshop on Harsh-Environment Mass Spectrometry."
 }

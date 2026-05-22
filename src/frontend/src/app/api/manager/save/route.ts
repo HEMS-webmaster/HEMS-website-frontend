@@ -1,4 +1,4 @@
-﻿// This API route is for local development only (Workshop Manager).
+// This API route is for local development only (Workshop Manager).
 // The static export build (Firebase) skips dynamic routes automatically.
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
@@ -52,6 +52,8 @@ export async function POST(request: Request) {
       if (ws.number !== undefined) {
         yearData.ordinal = getOrdinal(ws.number);
       }
+      yearData.title = ws.title || "";
+      yearData.tagline = ws.tagline || "";
       yearData.venue = ws.venue || "";
       yearData.address = ws.address || ws.city || "";
       yearData.venue_url = ws.venue_url || "";
@@ -111,21 +113,21 @@ export async function POST(request: Request) {
       // Hardcoded anchor link to the program section below
       yearData.resources.push({ label: "Workshop Program", icon: "FileText", url: "#technical-program" });
       
-      if (ws.program_url) {
+      if (ws.program_url || ws.program_file) {
         yearData.resources.push({ 
           label: "Program Download", 
           icon: "Download", 
-          legacy_url: ws.program_url,
+          legacy_url: ws.program_url || "",
           local_target_path: ws.program_file ? buildLocalUrl('Administrative', ws.number, null, ws.program_file) : "",
           public_website_url: ws.program_file ? buildCloudUrl('Administrative', ws.number, null, ws.program_file) : "",
           gcloud_url: ws.program_file ? buildGcloudUrl('Administrative', ws.number, null, ws.program_file) : ""
         });
       }
-      if (ws.participant_list_url) {
+      if (ws.participant_list_url || ws.participant_list_file) {
         yearData.resources.push({ 
           label: "Participant List", 
           icon: "Users", 
-          legacy_url: ws.participant_list_url,
+          legacy_url: ws.participant_list_url || "",
           local_target_path: ws.participant_list_file ? buildLocalUrl('Administrative', ws.number, null, ws.participant_list_file) : "",
           public_website_url: ws.participant_list_file ? buildCloudUrl('Administrative', ws.number, null, ws.participant_list_file) : "",
           gcloud_url: ws.participant_list_file ? buildGcloudUrl('Administrative', ws.number, null, ws.participant_list_file) : ""
@@ -167,21 +169,21 @@ export async function POST(request: Request) {
         yearData.sponsors = [];
       }
 
-      // Host corporation — derived from the sponsor flagged with isHost
-      const hostSponsor = ws.sponsors?.find((s: any) => s.isHost);
-      if (hostSponsor) {
+      // Host corporation
+      const hostSponsor = ws.host_corporation;
+      if (hostSponsor && hostSponsor.name) {
         let hostLogoFile = hostSponsor.logo_file || '';
         if (!hostLogoFile) {
           try {
             const regRaw = await fs.readFile(path.join(process.cwd(), 'src', 'data', 'corporate_registry.json'), 'utf8');
             const reg: any[] = JSON.parse(regRaw.replace(/^\uFEFF/, ''));
-            const regEntry = reg.find((r: any) => r.company.trim().toLowerCase() === hostSponsor.company.trim().toLowerCase());
+            const regEntry = reg.find((r: any) => r.company.trim().toLowerCase() === hostSponsor.name.trim().toLowerCase());
             if (regEntry?.logo_file) hostLogoFile = regEntry.logo_file;
           } catch { /* registry may not exist */ }
         }
         const hc: any = {
-          name: hostSponsor.company,
-          url: hostSponsor.link || '',
+          name: hostSponsor.name,
+          url: hostSponsor.url || '',
           logo_file: hostLogoFile
         };
         if (hc.logo_file) {

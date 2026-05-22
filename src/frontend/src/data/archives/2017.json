@@ -910,11 +910,8 @@
       ]
     }
   ],
-  "host_corporation": {
-    "name": "UTC Aerospace Systems",
-    "url": "https://www.rtx.com/collinsaerospace",
-    "logo_file": "UTC_Aerospace_Systems.png",
-    "logo_file_url": "/images/sponsors/UTC_Aerospace_Systems.png?v=1778083564701"
-  },
-  "venue_address_url": ""
+  "host_corporation": null,
+  "venue_address_url": "",
+  "title": "11th HEMS Workshop",
+  "tagline": "The 11th Workshop on Harsh-Environment Mass Spectrometry."
 }

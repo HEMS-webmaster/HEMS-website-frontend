@@ -15,7 +15,6 @@ export interface Sponsor {
   year: string;
   link: string;
   logo_file?: string;
-  isHost?: boolean;
 }
 
 interface SponsorsManagerProps {
@@ -121,13 +120,7 @@ export default function SponsorsManager({ sponsors = [], wsNum, onChange }: Spon
     onChange(updated);
   };
 
-  const toggleHost = (i: number) => {
-    const updated = sponsors.map((s, idx) => ({
-      ...s,
-      isHost: idx === i ? !s.isHost : false,
-    }));
-    onChange(updated);
-  };
+  // Host toggle removed
 
   // Sponsors not yet in this list (for the dropdown)
   const availableCompanies = registry.filter(
@@ -316,10 +309,8 @@ export default function SponsorsManager({ sponsors = [], wsNum, onChange }: Spon
           return (
             <div
               key={i}
-              className={`p-4 rounded relative flex gap-4 items-start border-l-4 ${
-                s.isHost
-                  ? 'border-amber-400 bg-amber-900/20'
-                  : 'border-emerald-500 ' + (i % 2 === 0 ? 'bg-slate-700/50' : 'bg-slate-800')
+              className={`p-4 rounded relative flex gap-4 items-start border-l-4 border-emerald-500 ${
+                i % 2 === 0 ? 'bg-slate-700/50' : 'bg-slate-800'
               }`}
             >
               <button
@@ -356,24 +347,7 @@ export default function SponsorsManager({ sponsors = [], wsNum, onChange }: Spon
                       <option value="__new__">＋ Add new company to registry…</option>
                     </select>
                   </div>
-                  {/* Host checkbox */}
-                  <div className="flex-shrink-0 pb-1">
-                    <label className={`flex items-center gap-2 px-3 py-2 rounded border cursor-pointer transition-all ${
-                      s.isHost
-                        ? 'border-amber-400 bg-amber-900/30 text-amber-300'
-                        : 'border-slate-600 bg-slate-800 text-slate-400 hover:border-amber-500/50 hover:text-amber-400/70'
-                    }`}>
-                      <input
-                        type="checkbox"
-                        checked={!!s.isHost}
-                        onChange={() => toggleHost(i)}
-                        className="accent-amber-400"
-                      />
-                      <span className="text-xs font-bold whitespace-nowrap">
-                        {s.isHost ? '★ Workshop Host' : '☆ Host'}
-                      </span>
-                    </label>
-                  </div>
+                  {/* Host checkbox removed */}
                 </div>
                 {/* Read-only resolved fields */}
                 <div className="grid grid-cols-3 gap-3">

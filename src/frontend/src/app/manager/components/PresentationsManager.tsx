@@ -404,13 +404,25 @@ const handlePasteDownload = async (
     <div className="space-y-6">
       <div className="flex justify-between items-center border-b border-slate-700 pb-2">
         <h3 className="text-xl font-bold text-sky-400">Oral Presentations</h3>
-        <button
-          onClick={sortChronologically}
-          className="bg-slate-600 hover:bg-slate-500 px-3 py-1 rounded text-sm text-slate-200"
-          title="Sort session groups by date then time"
-        >
-          ↕ Sort Chronologically
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              if (!confirm('Re-download ALL presentations and abstracts in ALL sessions from legacy URLs?\n\nThis will overwrite existing files.')) return;
+              (presentation_sessions || []).forEach((_, gIdx) => redownloadSession(gIdx));
+            }}
+            className="bg-amber-700/80 hover:bg-amber-600 px-3 py-1 rounded text-sm font-bold text-amber-100 flex items-center gap-1 transition-colors"
+            title="Re-download all oral presentations across all sessions"
+          >
+            ⟳ Re-Download All Oral Presentions
+          </button>
+          <button
+            onClick={sortChronologically}
+            className="bg-slate-600 hover:bg-slate-500 px-3 py-1 rounded text-sm text-slate-200"
+            title="Sort session groups by date then time"
+          >
+            ↕ Sort Chronologically
+          </button>
+        </div>
       </div>
 
       {(presentation_sessions || []).map((group, gIdx) => (
@@ -433,7 +445,7 @@ const handlePasteDownload = async (
               className="bg-amber-700/60 hover:bg-amber-600/80 disabled:opacity-40 disabled:cursor-not-allowed text-amber-200 px-2.5 py-1 rounded text-[11px] font-bold transition-colors flex items-center gap-1"
               title="Re-download all presentations and abstracts from legacy URLs"
             >
-              ⟳ Re-download All
+              ⟳ Re-download this section
             </button>
             <button 
               onClick={() => removeGroup(gIdx)} 

@@ -1,5 +1,5 @@
 # Handover Note
-**Summary:** Refactored legacy URL data binding in manager components, optimized PDF export layout for high density with 1-inch margins, and fixed text overlapping issues.
-**Current Task:** Workshop Manager PDF generation and Data Schema consistency.
-**Next Step:** Await user directions or continue ingesting legacy workshop data.
-**Timestamp:** 2026-05-12 12:48
+**Summary:** Fix program and participant list PDF resource link generation in save API route by supporting local files in addition to legacy URLs.
+**Current Task:** QA Bug Fixes.
+**Next Step:** Verify "Save and Present" links in the frontend.
+**Timestamp:** 2026-05-22 15:25

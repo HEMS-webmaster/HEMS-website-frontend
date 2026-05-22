@@ -1836,11 +1836,8 @@
       "events": []
     }
   ],
-  "host_corporation": {
-    "name": "Hamilton Sundstrand",
-    "url": "http://www.hamiltonsundstrand.com/vgn-ext-templating-hs/v/index.jsp?vgnextoid=873f0b791c152110VgnVCM1000007301000aRCRD",
-    "logo_file": "Hamilton_Sundstrand.png",
-    "logo_file_url": "/images/sponsors/Hamilton_Sundstrand.png?v=1778522783284"
-  },
-  "venue_address_url": "https://maps.app.goo.gl/Y9mpcimiRCHCFisJ9"
+  "host_corporation": null,
+  "venue_address_url": "https://maps.app.goo.gl/Y9mpcimiRCHCFisJ9",
+  "title": "7th HEMS Workshop",
+  "tagline": "The 7th Workshop on Harsh-Environment Mass Spectrometry."
 }

@@ -2,21 +2,29 @@
   "year": 2005,
   "ordinal": "5th",
   "dates": "September 20-23, 2005",
-  "venue": "Holiday Inn Lido Beach",
-  "address": "Sarasota, Florida",
+  "venue": "Cirque St. Armands Beachside (formerly Holiday Inn)",
+  "address": "233 Benjamin Franklin Dr, Sarasota, FL 34236",
   "resources": [
     {
       "label": "Workshop Program",
       "icon": "FileText",
       "url": "#technical-program"
+    },
+    {
+      "label": "Participant List",
+      "icon": "Users",
+      "legacy_url": "https://www.hems-workshop.org/5thWS/Participantslist.pdf",
+      "local_target_path": "/api/manager/serve?file=5th/Administrative/5th_Participant_List.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/5th/Administrative/5th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/5th/Administrative/5th_Participant_List.pdf"
     }
   ],
   "sponsors": [
     {
-      "name": "University of South Florida",
-      "url": "https://www.usf.edu/marine-science/",
-      "image": "/images/sponsors/University_of_South_Florida.png?v=1778642262875",
-      "year": "2003"
+      "name": "Center for Ocean Technology, College of Marine Science, USF",
+      "url": "http://www.marine.usf.edu/COT/",
+      "image": "/images/sponsors/Center_for_Ocean_Technology_College_of_Marine_Science_USF.png?v=1778696767962",
+      "year": "2001"
     },
     {
       "name": "FLIR / Griffin Analytical Technologies",
@@ -27,14 +35,14 @@
     {
       "name": "Monitor Instruments",
       "url": "http://www.monitorinstruments.com",
-      "image": "/images/sponsors/Monitor_Instruments.png?v=1778642063626",
+      "image": "/images/sponsors/Monitor_Instruments.png?v=1778697000751",
       "year": "2005"
     },
     {
       "name": "Siemens",
       "url": "http://www.sea.siemens.com/ia/product/aiquantra.html",
-      "image": "/images/sponsors/Siemens.png?v=1778642562400",
-      "year": "2005"
+      "image": "/images/sponsors/Siemens.png?v=1778697453886",
+      "year": "2003"
     },
     {
       "name": "Varian, Inc",
@@ -1313,7 +1321,7 @@
       ]
     }
   ],
-  "venue_url": "",
+  "venue_url": "https://www.opalcollection.com/cirque-st-armands/?utm_source=google&utm_medium=listing&utm_campaign=opal+cirque+st+armands+beachside",
   "student_awards": [],
   "events": [
     {
@@ -1501,11 +1509,8 @@
       ]
     }
   ],
-  "host_corporation": {
-    "name": "University of South Florida",
-    "url": "https://www.usf.edu/marine-science/",
-    "logo_file": "University_of_South_Florida.png",
-    "logo_file_url": "/images/sponsors/University_of_South_Florida.png?v=1778642262875"
-  },
-  "venue_address_url": ""
+  "host_corporation": null,
+  "venue_address_url": "https://maps.app.goo.gl/zDQy6PMyhnREjeoF8",
+  "title": "5th HEMS Workshop",
+  "tagline": "The 5th Workshop on Harsh-Environment Mass Spectrometry."
 }

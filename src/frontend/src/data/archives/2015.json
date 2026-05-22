@@ -684,12 +684,7 @@
   ],
   "venue_url": "http://www.pharmacy.umaryland.edu/",
   "venue_address_url": "https://maps.app.goo.gl/xq7AKxoDfLG4yf7W6",
-  "host_corporation": {
-    "name": "OI Analytical",
-    "url": "https://www.ysi.com/oi-analytical",
-    "logo_file": "OI_Analytical.png",
-    "logo_file_url": "/images/sponsors/OI_Analytical.png?v=1778083998141"
-  },
+  "host_corporation": null,
   "student_awards": [
     {
       "time": "",
@@ -838,5 +833,7 @@
         }
       ]
     }
-  ]
+  ],
+  "title": "10th HEMS Workshop",
+  "tagline": "The 10th Workshop on Harsh-Environment Mass Spectrometry."
 }

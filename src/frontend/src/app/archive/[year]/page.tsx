@@ -305,11 +305,11 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
             </span>
             
             <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-4">
-              {data.ordinal} HEMS Workshop
+              {data.title || `${data.ordinal} HEMS Workshop`}
             </h1>
             
             <p className="text-xl text-foreground/80 max-w-3xl mb-8 leading-relaxed">
-              The {data.ordinal} Workshop on Harsh-Environment Mass Spectrometry.
+              {data.tagline || `The ${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry.`}
             </p>
 
             {/* SEO: Screen-reader-only summary for AI crawlers */}

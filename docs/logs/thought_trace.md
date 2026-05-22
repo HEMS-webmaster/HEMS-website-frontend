@@ -1132,3 +1132,513 @@ ode.exe\ process hosting the dev server to force a fresh disk read of \master_wo
 
 1. Observed that the raw 2005 program extraction contained literal quotation marks surrounding presentation and poster titles.
 2. Executed a targeted regex replacement script against the 2005 block in master_workshops.json to strip standard and stylized quotation marks from all oral and poster titles.
+
+### SCoT Log - @qa / @ops - Fix Firebase Abstract Previews
+
+1. [@qa] Investigated why Firebase frontend abstract previews were failing while slide previews (images) worked.
+2. [@qa] Identified that Firebase Frontend issues a cross-origin fetch() for the .txt abstract excerpts. While images load directly via <img> tags (which bypass CORS), fetch() requires an Access-Control-Allow-Origin header.
+3. [@qa] Verified via gsutil that the hems-workshop-archives GCS bucket lacked a CORS policy. Handed off to @ops.
+4. [@ops] Created infrastructure/cors.json to allow GET/HEAD/OPTIONS from any origin (*).
+5. [@ops] Applied the CORS policy to the GCS bucket via 'gsutil cors set'.
+
+### SCoT Log - @dev - /dir Direct Execution: Homepage Layout Pruning
+
+1. User invoked direct execution workflow to prune the homepage.
+2. Removed the 'Core Disciplines / Focus Areas' section from src/app/page.tsx.
+3. Cleaned up unused lucide-react icon imports (Globe, Database, Cpu) to ensure strict compile health.
+4. The homepage now strictly features the primary Hero layout.
+
+### SCoT Log - @dev - Homepage Layout Reversion
+
+1. User requested reverting the homepage to include the 3-column layout and deleting alternative layouts.
+2. Restored src/frontend/src/app/page.tsx to its previous state (with the split hero and 3-column layout) using git checkout.
+3. Deleted the experimental layout directories layout-expo and layout-editorial.
+4. The primary split-hero design remains the default home page.
+
+### SCoT Log - @dev - /dir Direct Execution: Navigation Bar Update
+
+1. User invoked direct execution workflow to finalize the navigation bar.
+2. Edited src/frontend/src/components/layout/Navbar.tsx to remove the 'Home Prototypes' dropdown.
+3. Replaced it with a standard, single 'Home' link pointing to the root (/) split-hero layout.
+
+
+## @ops SCoT - 2026-05-22
+- **Task**: Run the local version of the website.
+- **Analysis**:
+  - The website frontend is a Next.js project located in src/frontend.
+  - The scripts in package.json show that npm run dev starts the local server.
+  - As @ops, running the server and setting up the environment fits our domain perfectly.
+- **Plan**:
+  - Run npm run dev in src/frontend.
+  - Verify the server starts successfully and report back.
+
+## Antigravity SCoT - 2026-05-22 09:32:53
+
+Continuing the task of generating styled PDFs and text previews for the 12 poster abstracts in the HEMS 3rd Workshop. First, we will inspect the truncated recovered_generator.py to see how previous oral presentations were styled to ensure identical styling for posters.
+
+
+## Antigravity SCoT - 2026-05-22 09:34:20
+
+Refining Poster 5 authors and institutes in 3rdposter.md to fix a legacy typo and standardize it into a bulleted list of authors and institutes, aligning it with the other multi-institute abstracts before running the PDF generator.
+
+
+## Antigravity SCoT - 2026-05-22 09:34:40
+
+Executing the generate_3rd_poster_pdfs.py script to build the 12 beautifully formatted HEMS poster abstract PDFs and dynamically recreate their corresponding preview.txt files using PyMuPDF.
+
+
+## Antigravity SCoT - 2026-05-22 09:34:52
+
+Cleaning up the temporary helper scripts inspect_recovered.py, recovered_generator_nice.py, and generate_3rd_poster_pdfs.py from the scratch folder to leave the workspace in a pristine state.
+
+
+### SCoT Log - 2026-05-22
+- **Objective**: Ingest the 2nd HEMS workshop itinerary events from source-material/Old site docs/02thWorkshopSummary.md and insert them into the master_workshops.json dataset.
+- **Phase 1: Discovery**:
+  - Locate the exact structure of master_workshops.json for HEMS workshop 2.
+  - Understand the schema for itinerary/schedule events by inspecting adjacent workshops (e.g., workshop 3 or 4).
+- **Phase 2: Injection**:
+  - Construct a Python script to programmatically parse and insert the 16 itinerary events into the 2nd workshop object in src/frontend/src/data/master_workshops.json.
+  - Maintain the "Source of Truth Lock" by editing ONLY the master file, not the compiled/archived files.
+  - Follow the banned words protocol strictly in any text we output or insert.
+- **Phase 3: Validation**:
+  - Run the frontend verification steps, checking for correct JSON parsing and format.
+
+### SCoT Log - 2026-05-22 Phase 2 & 3
+- **Objective**: Inject the 16 itinerary events into src/frontend/src/data/master_workshops.json and sync with src/frontend/src/data/archives/2001.json.
+- **Implementation Details**:
+  - Define the structured JSON payload for the 16 itinerary events of the 2nd HEMS workshop (2001).
+  - Write a python injection script scratch/populate_itinerary_2.py that loads master_workshops.json, locates the 2nd workshop object, and populates the events field.
+  - Also update src/frontend/src/data/archives/2001.json with the exact same events array to maintain compilation consistency.
+  - Validate that the JSON formatting is perfect.
+  - Clean up the scratch script afterwards.
+
+### SCoT Log - 2026-05-22 Oral Ingestion
+- **Objective**: Populate the oral presentations for HEMS workshop 2 in master_workshops.json and sync with 2001.json (focusing on author/institute structures).
+- **Phase 1: Discovery**:
+  - Inspect presentation_sessions in Workshop 3 or 4 in master_workshops.json to get the exact schema for oral presentations, authors, isPresenter, and institutes.
+
+### SCoT Trace: Ingesting 2nd HEMS Workshop Oral Presentations
+Date: 2026-05-22
+Agent: @dev
+
+- Mapped all 5 Technical Sessions, presentations, authors, presenter flags, and their corresponding institute affiliations from 02thWorkshopSummary.md.
+- Verified multi-author institute assignments with high-fidelity matching.
+- Formulated a Python database injection script to write directly to master_workshops.json under Workshop 2.
+- Designed a Node synchronization helper to compile and update archives/2001.json programmatically, matching the save route compiler.
+- Commencing code execution and validation.
+
+
+## HEMS Workshop 2 Oral Presentations Compilation
+- **Date**: 2026-05-22
+- **Objective**: Execute compile_archives.js to synchronize the newly populated oral presentations in master_workshops.json into 2001.json.
+- **Verification Plan**: Inspect the generated 2001.json to ensure the schedule and session lists are properly structured and matching the HEMS Workshop 2 schema.
+
+
+## HEMS Workshop 2 Oral Presentations Synchronization Completed
+- **Date**: 2026-05-22
+- **Action**: Compiled and verified the archive for year 2001. All Technical Sessions (I through V) have been populated with exact times, titles, presenter initials, presenter flags, and meticulous mapping of author-to-institute affiliations.
+- **Result**: The master_workshops.json is fully updated, and the archives file src/frontend/src/data/archives/2001.json is fully synchronized. Verified that the dev server is successfully serving the new content.
+
+## SCoT Trace - 2026-05-22 10:05:00
+### Action: Ingesting and Populating Poster Presentations for 2nd HEMS Workshop (2001)
+
+#### 1. Context and Objective
+We are tasked with populating the Poster Presentations for the 2nd HEMS Workshop (2001). The source material is `source-material\Old site docs\02thWorkshopSummary.md`.
+We must:
+- Extract all 4 poster presentations.
+- Set author-to-institute associations correctly with high fidelity.
+- Double-focus on institute affiliations, ensuring legacy spelling anomalies are preserved ("lonwerks, Inc., Houston, TX", "Massachusetts Institute of Technology, Cambridge, Ma.").
+- Run the compiler `node scratch/compile_archives.js` to synchronize the changes to `src/frontend/src/data/archives/2001.json`.
+
+#### 2. Detailed Data Mapping
+- **Session Info**:
+  - Session Title: "Poster Session"
+  - Date: "2001-03-19"
+  - Time: "3:30 PM"
+
+- **Poster 1**:
+  - Title: "Compact and Rugged Multipurpose TOF"
+  - Authors:
+    - M. Gonin (Presenter: True, Institute: "lonwerks, Inc., Houston, TX")
+    - K. Fuhrer (Presenter: False, Institute: "lonwerks, Inc., Houston, TX")
+    - J.A. Schultz (Presenter: False, Institute: "lonwerks, Inc., Houston, TX")
+  - Institutes: ["lonwerks, Inc., Houston, TX"]
+
+- **Poster 2**:
+  - Title: "Development of a Low Cost Miniature Mass Spectrometer"
+  - Authors:
+    - Henry W. Rohrs (Presenter: True, Institute: "Mass Sensors, Inc., St. Louis, MO")
+    - Rajiv S. Chhatwal (Presenter: False, Institute: "Mass Sensors, Inc., St. Louis, MO")
+    - W. Ronald Gentry (Presenter: False, Institute: "Mass Sensors, Inc., St. Louis, MO")
+    - Philip S. Berger (Presenter: False, Institute: "Mass Sensors, Inc., St. Louis, MO")
+  - Institutes: ["Mass Sensors, Inc., St. Louis, MO"]
+
+- **Poster 3**:
+  - Title: "Project NEREUS: Construction of a practical autonomous underwater gas analyzer"
+  - Authors:
+    - R. Camilli (Presenter: True, Institute: "Massachusetts Institute of Technology, Cambridge, Ma.")
+    - H. F. Hemond (Presenter: False, Institute: "Massachusetts Institute of Technology, Cambridge, Ma.")
+  - Institutes: ["Massachusetts Institute of Technology, Cambridge, Ma."]
+
+- **Poster 4**:
+  - Title: "Remotely Operated Mass Spectrometers: Adaptive Search Platforms for Field Chemical Profiling"
+  - Authors:
+    - D. P. Fries (Presenter: True, Institute: "The University of South Florida, St. Petersburg, FL")
+    - R. T. Short (Presenter: False, Institute: "The University of South Florida, St. Petersburg, FL")
+    - G. Kibelka (Presenter: False, Institute: "The University of South Florida, St. Petersburg, FL")
+    - M. L. Kerr (Presenter: False, Institute: "The University of South Florida, St. Petersburg, FL")
+    - J. Patten (Presenter: False, Institute: "The University of South Florida, St. Petersburg, FL")
+    - L. Langebrake (Presenter: False, Institute: "The University of South Florida, St. Petersburg, FL")
+  - Institutes: ["The University of South Florida, St. Petersburg, FL"]
+
+#### 3. Execution Plan
+1. Append this thought trace to `docs/logs/thought_trace.md` via Python to adhere strictly to the Silent Chain-of-Thought (SCoT) Protocol.
+2. Write a script `scratch/populate_posters_2.py` to inject these posters into `src/frontend/src/data/master_workshops.json` where `number` is `2`.
+3. Run `python scratch/populate_posters_2.py` to update the master workshops.
+4. Run `node scratch/compile_archives.js` to compile the frontend JSON asset.
+5. Verify `src/frontend/src/data/archives/2001.json` schema and entries.
+6. Clean up temporary files.
+
+## SCoT Trace - 2026-05-22 10:15:00
+### Action: Extracting and Injecting Legacy Abstract URLs into 2nd Workshop Summary (02thWorkshopSummary.md)
+
+#### 1. Context and Objective
+The user has asked us to:
+- Retrieve `https://www.hems-workshop.org/2ndWS/2ndprogrampresentations.html`.
+- Extract the relative URL paths for all oral and poster abstracts.
+- Place them in the `Legacy Abstract URL` fields of `source-material\Old site docs\02thWorkshopSummary.md`.
+- Ensure we do not follow any links or interpret HTML beyond extracting URL text.
+
+#### 2. Extracted Abstract Mapping
+From the HTML content:
+- **Oral Presentations**:
+  1. "Mass Spectrometers for In-Situ Planetary Exploration" -> `abstracts2nd/AbstractBeauchamp.pdf`
+  2. "A small multiple reflectron time-of-flight mass spectrometer (MR-TOF-MS) for in-situ investigations" -> `abstracts2nd/AbstractWollnik.pdf`
+  3. "In-situ Laser TOF MS on Planets and Small Bodies" -> `abstracts2nd/AbstractBrinckerhoff.pdf`
+  4. "A Fully Redundant On-Line Mass Spectrometric System for the Space Shuttle Used to Monitor Cyogenic Fuel Leaks" -> `abstracts2nd/AbstractGriffin.pdf`
+  5. "A Miniaturized Cylindrical lon Trap Mass Spectrometer" -> `abstracts2nd/AbstractPatterson.pdf`
+  6. "Recent Developments in Micro lon Trap Mass Spectrometry" -> `abstracts2nd/AbstractMoxom.pdf`
+  7. "Miniature TOF Mass Spectrometer using a Flexible Circuitboard Reflectron" -> `abstracts2nd/AbstractCornish.pdf`
+  8. "Disaster Management Using Mobile Mass Spectrometers" -> `abstracts2nd/AbstractMatz.pdf`
+  9. "Direct Sampling Mass Spectrometry in Atmospheric Chemistry" -> `abstracts2nd/AbstractBarket.pdf`
+  10. "MS for Trace Explosives Detection in Aviation Security" -> `abstracts2nd/AbstractChamberlain.pdf`
+  11. "Volcanic Monitoring using Field-Portable Mass Spectrometers: Towards On-Site and Real Time Gas Analysis at Fumaroles" -> `abstracts2nd/AbstractDiaz.pdf`
+  12. "Project NEREUS: Concepts and principles for in-situ MS" -> `abstracts2nd/AbstractHemond.pdf`
+  13. "Development of an Underwater Mass Spectrometer for Dissolved Gases, Solutes, and Large Organic Compounds" -> `abstracts2nd/AbstractMcMurtry.pdf`
+  14. "Applications of in-water mass spectrometry for detection of volatile organic compounds and dissolved gases" -> `abstracts2nd/AbstractShort.pdf`
+  15. "Polymeric Membrane Chlorocarbon Permeabilities Determined by Membrane Introduction Mass Spectrometry (MIMS)" -> `abstracts2nd/AbstractStone.pdf`
+  16. "Solid phase microextraction as a method for sampling with analysis by gas chromatography/mass spectrometry in the field" -> `abstracts2nd/AbstractHook.pdf`
+  17. "Tiny Time-of-Flight (TOF) Mass Spectrometer for Biodetection" -> `abstracts2nd/AbstractBryden.pdf`
+  18. "Biological applications on a miniaturized delayed extraction TOF mass spectrometer" -> `abstracts2nd/AbstractPrieto.pdf`
+  19. "The Portable Horiba-Kore Mass Spectrometer MS-200" -> `abstracts2nd/AbstractNuber.pdf`
+  20. "Progress Toward Highly Miniaturized Vacuum Pumps" -> `abstracts2nd/AbstractWiberg.pdf`
+
+- **Poster Presentations**:
+  1. "Compact and Rugged Multipurpose TOF" -> `abstracts2nd/PosterAbstractGonin.pdf`
+  2. "Development of a Low Cost Miniature Mass Spectrometer" -> `abstracts2nd/PosterAbstractRohrs.pdf`
+  3. "Project NEREUS: Construction of a practical autonomous underwater gas analyzer" -> `abstracts2nd/PosterAbstractCamilli.pdf`
+  4. "Remotely Operated Mass Spectrometers: Adaptive Search Platforms for Field Chemical Profiling" -> `abstracts2nd/PosterAbstractFries.pdf`
+
+#### 3. Ingestion Strategy
+We will write a python script `scratch/populate_abstract_urls.py` that reads `02thWorkshopSummary.md`, parses the oral sessions and posters table rows, matches the abstract URLs, injects them into the correct column positions, and saves the file.
+
+## SCoT Trace - 2026-05-22 10:12:14
+### Action: Extracting Abstract URLs for 2nd Workshop and Encountering Immutable Reference Lock
+
+#### 1. Context and Objective
+We fetched and parsed `https://www.hems-workshop.org/2ndWS/2ndprogrampresentations.html` to find the abstract URL for each oral and poster presentation.
+We successfully extracted the abstract URLs:
+- For Oral Presentation: Jorge A. Diaz ("Volcanic Monitoring using Field-Portable Mass Spectrometers...") -> `abstracts2nd/AbstractDiaz.pdf`
+- For Poster Presentation: D. P. Fries ("Remotely Operated Mass Spectrometers...") -> `abstracts2nd/PosterAbstractFries.pdf`
+
+The user's instruction is to put them in the currently-empty abstract fields of `source-material\Old site docs\02thWorkshopSummary.md`.
+
+#### 2. Lock Encounter
+The file `source-material\Old site docs\02thWorkshopSummary.md` is located within the `source-material/` directory, which is protected under the **IMMUTABLE REFERENCE LOCK (READ-ONLY)** (Rule #1) of `locksrules.md`.
+Rule #1 states:
+- Protected Directory: `/source-material` (and all subdirectories containing datasets, academic literature, or legacy reference code).
+- Restriction: READ-ONLY.
+- Modification Policy: You are strictly prohibited from modifying, deleting, or refactoring any file within this folder. It is for context and extraction only.
+
+#### 3. Execution Plan / Escape Hatch Activation
+Because the task requires writing to a file inside the protected `/source-material` folder, we must invoke **Rule #6: ESCAPE HATCH (WORKFLOW OVERRIDE)**:
+1. STOP all execution immediately.
+2. Output in the main chat the exact message:
+   "SYSTEM LOCK ENCOUNTERED: I need to modify source-material\Old site docs\02thWorkshopSummary.md which violates Lock Rule #1 (IMMUTABLE REFERENCE LOCK). User, do I have explicit permission to bypass this lock for this task?"
+3. Await explicit human approval before making the file modification.
+
+## SCoT Trace - 2026-05-22 10:15:00
+### Action: Extracting and Injecting Legacy Abstract URLs into 2nd Workshop Summary (02thWorkshopSummary.md)
+
+#### 1. Context and Objective
+The user has asked us to:
+- Retrieve `https://www.hems-workshop.org/2ndWS/2ndprogrampresentations.html`.
+- Extract the relative URL paths for all oral and poster abstracts.
+- Place them in the `Legacy Abstract URL` fields of `source-material\Old site docs\02thWorkshopSummary.md`.
+- Ensure we do not follow any links or interpret HTML beyond extracting URL text.
+
+#### 2. Extracted Abstract Mapping
+From the HTML content:
+- **Oral Presentations**:
+  1. "Mass Spectrometers for In-Situ Planetary Exploration" -> `abstracts2nd/AbstractBeauchamp.pdf`
+  2. "A small multiple reflectron time-of-flight mass spectrometer (MR-TOF-MS) for in-situ investigations" -> `abstracts2nd/AbstractWollnik.pdf`
+  3. "In-situ Laser TOF MS on Planets and Small Bodies" -> `abstracts2nd/AbstractBrinckerhoff.pdf`
+  4. "A Fully Redundant On-Line Mass Spectrometric System for the Space Shuttle Used to Monitor Cyogenic Fuel Leaks" -> `abstracts2nd/AbstractGriffin.pdf`
+  5. "A Miniaturized Cylindrical lon Trap Mass Spectrometer" -> `abstracts2nd/AbstractPatterson.pdf`
+  6. "Recent Developments in Micro lon Trap Mass Spectrometry" -> `abstracts2nd/AbstractMoxom.pdf`
+  7. "Miniature TOF Mass Spectrometer using a Flexible Circuitboard Reflectron" -> `abstracts2nd/AbstractCornish.pdf`
+  8. "Disaster Management Using Mobile Mass Spectrometers" -> `abstracts2nd/AbstractMatz.pdf`
+  9. "Direct Sampling Mass Spectrometry in Atmospheric Chemistry" -> `abstracts2nd/AbstractBarket.pdf`
+  10. "MS for Trace Explosives Detection in Aviation Security" -> `abstracts2nd/AbstractChamberlain.pdf`
+  11. "Volcanic Monitoring using Field-Portable Mass Spectrometers: Towards On-Site and Real Time Gas Analysis at Fumaroles" -> `abstracts2nd/AbstractDiaz.pdf`
+  12. "Project NEREUS: Concepts and principles for in-situ MS" -> `abstracts2nd/AbstractHemond.pdf`
+  13. "Development of an Underwater Mass Spectrometer for Dissolved Gases, Solutes, and Large Organic Compounds" -> `abstracts2nd/AbstractMcMurtry.pdf`
+  14. "Applications of in-water mass spectrometry for detection of volatile organic compounds and dissolved gases" -> `abstracts2nd/AbstractShort.pdf`
+  15. "Polymeric Membrane Chlorocarbon Permeabilities Determined by Membrane Introduction Mass Spectrometry (MIMS)" -> `abstracts2nd/AbstractStone.pdf`
+  16. "Solid phase microextraction as a method for sampling with analysis by gas chromatography/mass spectrometry in the field" -> `abstracts2nd/AbstractHook.pdf`
+  17. "Tiny Time-of-Flight (TOF) Mass Spectrometer for Biodetection" -> `abstracts2nd/AbstractBryden.pdf`
+  18. "Biological applications on a miniaturized delayed extraction TOF mass spectrometer" -> `abstracts2nd/AbstractPrieto.pdf`
+  19. "The Portable Horiba-Kore Mass Spectrometer MS-200" -> `abstracts2nd/AbstractNuber.pdf`
+  20. "Progress Toward Highly Miniaturized Vacuum Pumps" -> `abstracts2nd/AbstractWiberg.pdf`
+
+- **Poster Presentations**:
+  1. "Compact and Rugged Multipurpose TOF" -> `abstracts2nd/PosterAbstractGonin.pdf`
+  2. "Development of a Low Cost Miniature Mass Spectrometer" -> `abstracts2nd/PosterAbstractRohrs.pdf`
+  3. "Project NEREUS: Construction of a practical autonomous underwater gas analyzer" -> `abstracts2nd/PosterAbstractCamilli.pdf`
+  4. "Remotely Operated Mass Spectrometers: Adaptive Search Platforms for Field Chemical Profiling" -> `abstracts2nd/PosterAbstractFries.pdf`
+
+#### 3. Ingestion Strategy
+We will write a python script `scratch/populate_abstract_urls.py` that reads `02thWorkshopSummary.md`, parses the oral sessions and posters table rows, matches the abstract URLs, injects them into the correct column positions, and saves the file.
+
+## SCoT Trace - 2026-05-22 10:30:00
+### Action: Populating Absolute Abstract URLs for 2nd HEMS Workshop (2001)
+
+#### 1. Context and Objective
+The user has requested to populate absolute legacy abstract URLs for the oral and poster presentations of the 2nd HEMS Workshop (2001).
+We will use the root path 'https://www.hems-workshop.org/2ndWS/' to prepend to all the relative paths like 'abstracts2nd/AbstractBeauchamp.pdf'.
+This change must be reflected in two main places:
+1. `source-material/Old site docs/02thWorkshopSummary.md` - Updating all oral and poster table cells in the 'Legacy Abstract URL' columns.
+2. `src/frontend/src/data/master_workshops.json` - In the object representing Workshop 2, updating 'legacy_abstract_url' and 'abstract_url' for each presentation and poster.
+3. Finally, we must run `node scratch/compile_archives.js` to compile the database changes into the static asset `src/frontend/src/data/archives/2001.json`.
+
+#### 2. Detailed Verification & Lock Bypass
+- The summary file `02thWorkshopSummary.md` lies in `/source-material/`, which is protected by a READ-ONLY lock (Lock Rule #1).
+- The user has explicitly granted permission to bypass this lock for this task.
+- We will be modifying `source-material/Old site docs/02thWorkshopSummary.md` and `src/frontend/src/data/master_workshops.json`.
+
+#### 3. Action Plan
+- Modify `scratch/populate_abstract_urls_v2.py` or write a new script to prepend the absolute URL root and run it to update the markdown summary.
+- Modify `scratch/populate_abstracts_to_master.py` or write a new script to prepend the absolute URL root and run it to update the database.
+- Run `node scratch/compile_archives.js` to build/recompile `2001.json`.
+- Verify the updates across all three locations.
+
+## SCoT Trace - 2026-05-22 10:35:00
+### Action: Ingesting and Populating 1st HEMS Workshop (1999) Data
+
+#### 1. Context and Objective
+We are tasked with populating the 1st HEMS Workshop (1999) content in the database `src/frontend/src/data/master_workshops.json` using the data from `source-material/Old site docs/01stWorkshopSummary.md`.
+We must:
+- Populate metadata (dates, city, program URL, program file, host corporation).
+- Populate itinerary events for Sunday, Monday, and Tuesday.
+- Populate oral presentation sessions (Monday and Tuesday) with correct presentations, authors, presenters, presenter initials, and institutes.
+- Run `node scratch/compile_archives.js` to regenerate `1999.json` and other archives.
+
+#### 2. Detailed Data Ingestion Mapping
+- **Metadata**:
+  - Dates: "February 21-23, 1999" (normalized to "February 21–23" or "February 21-23, 1999")
+  - City: "St. Petersburg, Florida"
+  - Program URL: "https://www.hems-workshop.org/1stWS/1hems_program.pdf"
+  - Program File: "1th_Program.pdf"
+  - Host Corporation: "University of South Florida, Marine Science Department, Center for Ocean Technology"
+
+- **Itinerary**:
+  - Sunday, 1999-02-21: Informal reception at "Moon over Water Restaurant, St. Petersburg" at 7:00 PM.
+  - Monday, 1999-02-22:
+    - 8:50 AM: Opening remarks (Peter Betzer)
+    - 10:00 AM: Break (Refreshments Provided)
+    - 11:00 AM: Lunch Break
+    - 2:00 PM: Break
+    - 3:00 PM: Break
+    - 3:30 PM - 7:00 PM: Excursion and Dinner (R/V Suncoaster Cruise in Tampa Bay)
+  - Tuesday, 1999-02-23:
+    - 10:00 AM: Break
+    - 11:20 AM: Closing Remarks... (David Fries and Tim Short)
+
+- **Presentation Sessions**:
+  - **Monday Presentations** (1999-02-22):
+    1. Tim Short - "Mass Spectrometer on an Autonomous Underwater Vehicle (AUV)" (USF)
+    2. John Callahan - "Mass Spectrometers aboard US Navy Submarines: Will Yesterday's Solutions Solve Tomorrow's Problems?" (NRL)
+    3. Alan Volpe - "ICP-Mass Spectrometer: Extended At-Sea Trials" (LLNL)
+    4. Woody Weed - "The Road to Miniaturizing Vacuum Pumps" (SNL)
+    5. David Koppenaal - "Mass Spectrometry in Harsh Environments: The Use & Abuse of MS Techniques" (PNNL)
+    6. Tim Cornish - "Miniature Time-of-Flight Mass Analyzers for Remote Sensing of Biochemical Agents" (APL)
+    7. Steven Smith - "Miniature Mass Spectrometer-Based Sampling System for In Situ Measurement of Dissolved Gas, Solutes and Proteins present in Marine Waters" (JPL)
+    8. John Olson - "A Transportable lon Trap Secondary lon Mass Spectrometer for Munitions Assessment" (INEEL)
+    9. Ethan Badman - "Quadrupole lon Traps: Miniaturization and Mass Spectrometer Arrays" (Purdue Univ.)
+    10. Chuck Wilkerson - "Current and Future Applications of Mass Spectrometric Analyses in Non-Traditional Environments" (LANL)
+  - **Tuesday Presentations** (1999-02-23):
+    1. David Fries - "Underwater MS: Making more Scents" (USF)
+    2. UNKNOWN - "A Mini-lon Cyclotron Resonance Mass spectrometer with Portable Potential" (UNKNOWN)
+    3. Will Brinckerhoff - "Laser Time-of-Flight Mass Spectrometry for Planetary Exploration" (APL)
+    4. Garth Patterson - "Fourier Transform Non-Destructive Detection in Quadrupole lon Traps" (Purdue Univ.)
+    5. Steve Balsley - "Mass Spectrometric Profiling of the Lower Atmosphere: Go Fly a Kite" (Sandia)
+    6. Marc Gonin - "Ruggedized Time-of-Flight Mass Spectrometer for Trace Gas Analysis" (University of Houston/lonWerks)
+
+#### 3. Execution Plan
+- Write and run a python script `scratch/populate_1st_workshop.py` to parse/load this structured data and inject it directly into the `number: 1` object in `src/frontend/src/data/master_workshops.json`.
+- Compile using `node scratch/compile_archives.js`.
+- Verify the generated `1999.json` and master workshops JSON data.
+
+## SCoT Trace - 2026-05-22 14:15:00
+### Action: Extracting and Formatting 15th HEMS Workshop Summary (2025)
+
+#### 1. Context and Objective
+We need to generate a standardized summary for the 15th HEMS workshop (2025). The source material is the program PDF text and the participant list PDF text.
+We must structure the output file exactly like `source-material/Old site docs/11thWorkshopSummary.md`.
+The target path for the output is `source-material/Old site docs/15thWorkshopSummary.md`.
+Because of the read-only lock on the `source-material` directory, we need to handle permissions properly.
+
+#### 2. Detailed Data Mapping
+- **Workshop Metadata**:
+  - Number: 15
+  - Year: 2025
+  - Dates: September 15-18, 2025
+  - City: Virginia Beach, VA
+  - Venue Name: Sheraton Virginia Beach Oceanfront
+  - Venue Address: UNKNOWN
+  - Venue URL: UNKNOWN
+  - Venue Address URL: UNKNOWN
+  - Legacy Program URL: UNKNOWN
+  - Participant List URL: UNKNOWN
+
+- **Host Corporation**:
+  - Name: UNKNOWN
+  - URL: UNKNOWN
+
+- **Corporate Sponsors**:
+  - Listed 12 sponsors matching history: Agilent, Teledyne FLIR, Pfeiffer, Ardara, DeTech, UNT, Edwards, Inficon, MassTech, BaySpec, Leidos, MKS.
+
+- **Itinerary Events**:
+  - Monday Sept 15: Meet & Greet
+  - Tuesday Sept 16: Registration, Breakfast, Welcoming, Session I, Lunch, Sponsor Introductions, Session II, Break, Session III, Dinner.
+  - Wednesday Sept 17: Breakfast, Session IV, Break, Session V, Lunch, Session VI, Break, Session VII, Workshop Dinner.
+  - Thursday Sept 18: Breakfast, Session VIII, Break, Session IX (Technical Session IV), Program Survey and Closing.
+
+- **Oral Presentation Sessions**:
+  - Technical Sessions I to IX. All mapped with exact times, titles, authors, presenters, and respective affiliations.
+  - Affiliation spelling anomalies from participant list: `BaySepc, Inc` and `Adara Technologies, LP` are preserved.
+
+- **Posters & Student Awards**:
+  - None identified in the source program, listed as "No poster presentations identified in source" and "No student award presenters identified in source".
+
+#### 3. Execution Plan
+1. Append this thought trace to log.
+2. Output a request to the user to bypass the IMMUTABLE REFERENCE LOCK for writing `source-material/Old site docs/15thWorkshopSummary.md`.
+3. Once approved, write the compiled Markdown file to `source-material/Old site docs/15thWorkshopSummary.md`.
+4. Perform validation and verify structural consistency.
+
+## SCoT Trace - 2026-05-22 14:43:00
+### Action: Populating Itinerary Events for 15th HEMS Workshop (2025)
+
+#### 1. Context and Objective
+The user asked us to populate the Itinerary Events grouped by date for the 15th HEMS workshop, using the newly created `source-material/Old site docs/15thWorkshopSummary.md`.
+We must:
+- Inject the structured events directly into `src/frontend/src/data/master_workshops.json` for the workshop entry where `number` is `15`.
+- Follow the exact schema found in other workshop entries (e.g. `number` 11).
+- Ensure all 24-hour time conversions, day groupings, titles, locations, and subtitle details are perfectly mapped.
+- Run the compiler `node scratch/compile_archives.js` to compile the events into the frontend archive `2025.json`.
+
+#### 2. Detailed Data Mapping
+- Dates:
+  - 2025-09-15: Travel Day
+  - 2025-09-16: HEMS Workshop
+  - 2025-09-17: HEMS Workshop
+  - 2025-09-18: HEMS Workshop
+- Items under each day mapped to corresponding 24-hour start and end times, titles, locations, and optional subtitle (for the Sponsor Introductions).
+
+#### 3. Execution Plan
+1. Append this thought trace to `docs/logs/thought_trace.md` via Python.
+2. Create and run `scratch/populate_events_15.py` to write the events JSON array directly into `master_workshops.json`.
+3. Run the compiler `node scratch/compile_archives.js` to rebuild archives.
+4. Verify compiling results in `src/frontend/src/data/archives/2025.json`.
+
+## SCoT Trace - 2026-05-22 14:50:00
+### Action: Populating 15th HEMS Workshop (2025) Oral Presentations
+
+#### 1. Context and Objective
+We need to populate the oral presentations for the 15th HEMS workshop (2025) grouped by session.
+We will extract this information from `source-material/Old site docs/15thWorkshopSummary.md`.
+We must pay close attention to author-to-institution mapping and maintain specific spelling anomalies from the participant list, specifically:
+- `BaySepc, Inc` (instead of BaySpec, Inc) for Nathan Grimes' talk.
+- `Adara Technologies, LP` (instead of Ardara Technologies, LP) for Randy Pedder's talk.
+- `Cornell Universiity` (with two i's) for Jorge Coppin-Massanet's talk.
+
+#### 2. Data Structure Setup
+We will update `src/frontend/src/data/master_workshops.json` for workshop `number: 15`.
+We will construct the `presentation_sessions` array, containing 9 sessions.
+Each session will contain:
+- `session_title`: e.g. "Technical Session I"
+- `title`: e.g. "Technical Session I"
+- `date`: e.g. "2025-09-16"
+- `location`: "Ocean Grand Ballroom - Cape Charles" (as defined in our daily events/program)
+- `presentations`: A list of talks, where each talk contains:
+  - `time`: e.g. "10:00 a.m."
+  - `end_time`: ""
+  - `title`: e.g. "Using Classes of Molecules to Identify Air Health"
+  - `authors`: An array of objects: `[{"name": "Guido Verbeck", "isPresenter": true, "institute": "Augusta University"}]`
+  - `presenter`: "Guido Verbeck"
+  - `presenter_initials`: "G. V."
+  - `institutes`: `["Augusta University"]`
+  - `legacy_url`: ""
+  - `legacy_abstract_url`: ""
+  - `abstract_url`: ""
+
+#### 3. Ingestion and Verification Workflow
+1. Write this trace to `docs/logs/thought_trace.md`.
+2. Write a Python script `scratch/populate_orals_15.py` to inject the presentations data into the 15th workshop block in `master_workshops.json`.
+3. Run the Python script.
+4. Execute `node scratch/compile_archives.js` to compile the database.
+5. Verify the compiled file `src/frontend/src/data/archives/2025.json` to make sure it includes the presentations in the correct structure.
+
+## SCoT Trace - 2026-05-22 14:58:00
+### Action: Verifying 15th HEMS Workshop (2025) Poster Presentations
+
+#### 1. Context and Objective
+The user requested to populate the poster presentations for the 15th HEMS workshop (2025) using `source-material/Old site docs/15thWorkshopSummary.md`.
+We need to check the source documents and summarize the findings.
+
+#### 2. Verification Findings
+- We checked `source-material/Old site docs/15thWorkshopSummary.md` and found that Section 6 explicitly states: "No poster presentations identified in source."
+- We checked the extracted text of the 15th HEMS Program PDF (`scratch/15th_pdf_extracted.txt`) and found no occurrences of the word "poster" or any poster sessions in the schedule.
+- The 15th HEMS workshop has no poster presentations in its official materials.
+- The database entry for the 15th HEMS workshop in `master_workshops.json` currently has `"posters": []`, and the compiled `src/frontend/src/data/archives/2025.json` file is correctly compiled with no poster items.
+
+#### 3. Execution Plan
+- Report these findings to the user.
+- Confirm that no action is needed as the database already correctly reflects that there are no poster presentations for this workshop.
+
+## SCoT Trace - 2026-05-22 15:05:00
+### Action: Fixing Resource Conditions in compile_archives.js
+
+#### 1. Context and Objective
+The user wants to ensure that even if there is no legacy URL (e.g. `program_url` or `participant_list_url`), as long as a corresponding local file (`program_file` or `participant_list_file`) has been loaded, it should still be included in the compiled `resources` list. This ensures the files are rendered in the website template.
+
+#### 2. Change Proposal
+We will modify `scratch/compile_archives.js` to check:
+- `ws.program_url || ws.program_file` instead of only `ws.program_url`
+- `ws.participant_list_url || ws.participant_list_file` instead of only `ws.participant_list_url`
+We will make sure to set `legacy_url: ws.program_url || ""` and `legacy_url: ws.participant_list_url || ""` respectively, so that empty fields don't cause issues.
+
+#### 3. Ingestion and Compilation
+- Edit `scratch/compile_archives.js`
+- Run `node scratch/compile_archives.js` to compile the database for all years, including 2025.
+- Verify `src/frontend/src/data/archives/2025.json` to make sure it includes the PDF resource entries.
+
+# SCoT - 
+We identified that the backend save router (src/frontend/src/app/api/manager/save/route.ts) restricts adding the program download and participant list resources only when legacy URL fields (program_url and participant_list_url) are populated. In contrast, the standalone compilation script (scratch/compile_archives.js) has been updated to also check for local files (program_file and participant_list_file). For 2025, these local files are loaded, but their legacy URLs are empty. We will update the save API route to use the same logic as the compilation script so that these links are correctly generated upon save.
+
+
+# SCoT
+We identified that the backend save router (src/frontend/src/app/api/manager/save/route.ts) restricts adding the program download and participant list resources only when legacy URL fields (program_url and participant_list_url) are populated. In contrast, the standalone compilation script (scratch/compile_archives.js) has been updated to also check for local files (program_file and participant_list_file). For 2025, these local files are loaded, but their legacy URLs are empty. We will update the save API route to use the same logic as the compilation script so that these links are correctly generated upon save.
+

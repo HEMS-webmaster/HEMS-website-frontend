@@ -149,12 +149,14 @@ export function exportProgramPdf(ws: any) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(20);
   const ordinal = getOrdinal(parseInt(String(ws.number)));
-  doc.text(`${ordinal} HEMS Workshop`, W / 2, y, { align: 'center' });
+  const titleText = ws.title || `${ordinal} HEMS Workshop`;
+  doc.text(titleText, W / 2, y, { align: 'center' });
   y += 22;
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  doc.text('Workshop on Harsh-Environment Mass Spectrometry', W / 2, y, { align: 'center' });
+  const taglineText = ws.tagline || 'Workshop on Harsh-Environment Mass Spectrometry';
+  doc.text(taglineText, W / 2, y, { align: 'center' });
   y += 18;
 
   // Dates
@@ -182,8 +184,8 @@ export function exportProgramPdf(ws: any) {
   y += 12;
 
   // Host
-  const hostSponsor = ws.sponsors?.find((s: any) => s.isHost);
-  if (hostSponsor) {
+  const hostSponsor = ws.host_corporation;
+  if (hostSponsor && hostSponsor.name) {
     doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(120);
@@ -191,12 +193,12 @@ export function exportProgramPdf(ws: any) {
     y += 13;
     doc.setFontSize(12);
     doc.setTextColor(0);
-    doc.text(hostSponsor.company, M, y);
+    doc.text(hostSponsor.name, M, y);
     y += 8;
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100);
-    if (hostSponsor.link) doc.text(hostSponsor.link, M, y + 10);
+    if (hostSponsor.url) doc.text(hostSponsor.url, M, y + 10);
     y += 18;
     doc.setDrawColor(220);
     doc.line(M, y, W - M, y);
@@ -219,14 +221,12 @@ export function exportProgramPdf(ws: any) {
     for (let i = 0; i < sponsors.length; i += 2) {
       const s1 = sponsors[i];
       const s2 = sponsors[i + 1];
-      const badge1 = s1.isHost ? ' ★' : '';
       const yr1 = s1.year ? ` (${s1.year})` : '';
       doc.setFont('helvetica', 'normal');
-      doc.text(`•  ${s1.company}${yr1}${badge1}`, M + 4, y);
+      doc.text(`•  ${s1.company}${yr1}`, M + 4, y);
       if (s2) {
-        const badge2 = s2.isHost ? ' ★' : '';
         const yr2 = s2.year ? ` (${s2.year})` : '';
-        doc.text(`•  ${s2.company}${yr2}${badge2}`, M + col + 4, y);
+        doc.text(`•  ${s2.company}${yr2}`, M + col + 4, y);
       }
       y += 12;
     }

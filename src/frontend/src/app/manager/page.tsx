@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PresentationsManager from './components/PresentationsManager';
 import SponsorsManager from './components/SponsorsManager';
+import HostManager from './components/HostManager';
 
 import StudentsManager from './components/StudentsManager';
 import PostersManager from './components/PostersManager';
@@ -164,6 +165,8 @@ export default function WorkshopManager() {
   const addWorkshop = () => {
     const newWs = {
       number: workshops.length + 1,
+      title: `${workshops.length + 1}th HEMS Workshop`,
+      tagline: `The ${workshops.length + 1}th Workshop on Harsh-Environment Mass Spectrometry.`,
       year: new Date().getFullYear(),
       venue: '',
       address: '',
@@ -248,6 +251,32 @@ export default function WorkshopManager() {
                 <h2 className="text-2xl font-bold text-sky-400">Workshop Level Input</h2>
               </div>
               <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className="block text-sm font-bold text-slate-400 mb-1">Title</label>
+                  <input 
+                    type="text" 
+                    value={currentWs.title || ''} 
+                    onChange={(e) => {
+                      const updated = [...workshops];
+                      updated[selectedIdx].title = e.target.value;
+                      setWorkshops(updated);
+                    }}
+                    className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white font-bold text-lg"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-bold text-slate-400 mb-1">Tagline</label>
+                  <input 
+                    type="text" 
+                    value={currentWs.tagline || ''} 
+                    onChange={(e) => {
+                      const updated = [...workshops];
+                      updated[selectedIdx].tagline = e.target.value;
+                      setWorkshops(updated);
+                    }}
+                    className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-white italic"
+                  />
+                </div>
                 <div>
                   <label className="block text-sm font-bold text-slate-400 mb-1">Number</label>
                   <input 
@@ -457,7 +486,15 @@ export default function WorkshopManager() {
               </div>
 
 
-              
+              <HostManager 
+                host={currentWs.host_corporation || { name: '', url: '', logo_file: '' }}
+                onChange={(newData) => {
+                  const updated = [...workshops];
+                  updated[selectedIdx].host_corporation = newData;
+                  setWorkshops(updated);
+                }}
+              />
+              <div className="mt-8"></div>
               <SponsorsManager 
                 sponsors={currentWs.sponsors || []} 
                 wsNum={String(currentWs.number)}

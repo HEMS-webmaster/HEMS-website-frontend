@@ -60,6 +60,12 @@
     "year_began": "2005"
   },
   {
+    "company": "Center for Ocean Technology, College of Marine Science, USF",
+    "url": "http://www.marine.usf.edu/COT/",
+    "logo_file": "Center_for_Ocean_Technology_College_of_Marine_Science_USF.png",
+    "year_began": "2001"
+  },
+  {
     "company": "Collins Aerospace",
     "url": "https://www.rtx.com/collinsaerospace",
     "logo_file": "Collins_Aerospace.png",
@@ -69,13 +75,19 @@
     "company": "DeTech",
     "url": "https://lifescience.imiplc.com/imi-adaptas",
     "logo_file": "DeTech.png",
-    "year_began": "2011"
+    "year_began": "2003"
   },
   {
     "company": "Edwards",
     "url": "http://www.edwardsvacuum.com/",
     "logo_file": "Edwards.png",
     "year_began": "2013"
+  },
+  {
+    "company": "ENG Concepts",
+    "url": "",
+    "logo_file": "ENG_Concepts.png",
+    "year_began": "2003"
   },
   {
     "company": "Extrel",
@@ -94,6 +106,12 @@
     "url": "www.hamiltonsundstrand.com",
     "logo_file": "Hamilton_Sundstrand.png",
     "year_began": "2009"
+  },
+  {
+    "company": "ICX (Griffin Analytical Technologies)",
+    "url": "http://www.griffinanalytical.com/",
+    "logo_file": "ICX_Griffin_Analytical_Technologies.png",
+    "year_began": "2003"
   },
   {
     "company": "ICX Technologies",
@@ -124,6 +142,18 @@
     "url": "http://www.ptrms.com/",
     "logo_file": "Ionicon_Analytik.png",
     "year_began": "2007"
+  },
+  {
+    "company": "Ionwerks Inc",
+    "url": "http://www.ionwerks.com/",
+    "logo_file": "Ionwerks_Inc.png",
+    "year_began": "2003"
+  },
+  {
+    "company": "Jet Propulsion Laboratory/NASA",
+    "url": "https://www.caltech.edu/",
+    "logo_file": "Jet_Propulsion_Laboratory_NASA.png",
+    "year_began": "2002"
   },
   {
     "company": "Leidos",
@@ -207,7 +237,7 @@
     "company": "Siemens",
     "url": "http://www.sea.siemens.com/ia/product/aiquantra.html",
     "logo_file": "Siemens.png",
-    "year_began": "2005"
+    "year_began": "2003"
   },
   {
     "company": "Smiths Detection",
@@ -226,6 +256,12 @@
     "url": "https://www.sri.com/esd/marine-tech/chemsensors/",
     "logo_file": "SRI_International.png",
     "year_began": "2011"
+  },
+  {
+    "company": "Stanford Research Systems",
+    "url": "http://www.thinksrs.com/",
+    "logo_file": "Stanford_Research_Systems.png",
+    "year_began": "2003"
   },
   {
     "company": "Syagen",

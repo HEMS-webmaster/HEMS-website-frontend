@@ -837,11 +837,8 @@
       ]
     }
   ],
-  "host_corporation": {
-    "name": "Collins Aerospace",
-    "url": "https://www.rtx.com/collinsaerospace",
-    "logo_file": "Collins_Aerospace.png",
-    "logo_file_url": "/images/sponsors/Collins_Aerospace.png?v=1778083613265"
-  },
-  "venue_address_url": ""
+  "host_corporation": null,
+  "venue_address_url": "",
+  "title": "13th HEMS Workshop",
+  "tagline": "The 13th Workshop on Harsh-Environment Mass Spectrometry."
 }

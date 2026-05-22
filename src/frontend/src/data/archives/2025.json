@@ -1,0 +1,884 @@
+{
+  "year": "2025",
+  "ordinal": "15th",
+  "dates": "September 15-18, 2025",
+  "resources": [
+    {
+      "label": "Workshop Program",
+      "icon": "FileText",
+      "url": "#technical-program"
+    },
+    {
+      "label": "Program Download",
+      "icon": "Download",
+      "legacy_url": "",
+      "local_target_path": "/api/manager/serve?file=15th/Administrative/15th_Program.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Administrative/15th_Program.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Administrative/15th_Program.pdf"
+    },
+    {
+      "label": "Participant List",
+      "icon": "Users",
+      "legacy_url": "",
+      "local_target_path": "/api/manager/serve?file=15th/Administrative/15th_Participant_List.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Administrative/15th_Participant_List.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Administrative/15th_Participant_List.pdf"
+    }
+  ],
+  "title": "15th HEMS Workshop",
+  "tagline": "The 15th Workshop on Harsh-Environment Mass Spectrometry.",
+  "venue": "Sheraton Virginia Beach Oceanfront Hotel,",
+  "address": "3501 Atlantic Ave, Virginia Beach, VA 23451",
+  "venue_url": "https://www.marriott.com/en-us/hotels/orfvs-sheraton-virginia-beach-oceanfront-hotel/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0",
+  "venue_address_url": "https://maps.app.goo.gl/iryzq94Cg5gTFS2J7",
+  "sponsors": [],
+  "host_corporation": null,
+  "student_awards": [],
+  "schedule": [
+    {
+      "title": "2025-09-16",
+      "items": [
+        {
+          "type": "session",
+          "time": "10:00 a.m.",
+          "title": "Technical Session I",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "10:00 a.m.",
+              "title": "Using Classes of Molecules to Identify Air Health",
+              "institutes": [
+                "Augusta University"
+              ],
+              "authors": [
+                {
+                  "name": "Guido Verbeck",
+                  "isPresenter": true,
+                  "institute": "Augusta University"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "10:30 a.m.",
+              "title": "ARAMMIS: Autonomous Robots for Area Mapping, Monitoring and In-situ gas Sensing, focused on Lunar exploration and Earth Science applications",
+              "institutes": [
+                "INFICON ISS Emerging Technologies and New Markets Research Group"
+              ],
+              "authors": [
+                {
+                  "name": "James Fox",
+                  "isPresenter": true,
+                  "institute": "INFICON ISS Emerging Technologies and New Markets Research Group"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "A cart-portable TOF-MS coupled with a thermal desorber for in-field analysis of CBRNE threat materials",
+              "institutes": [
+                "Canadian Nuclear Laboratories"
+              ],
+              "authors": [
+                {
+                  "name": "Bett Kimutai",
+                  "isPresenter": true,
+                  "institute": "Canadian Nuclear Laboratories"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:30 a.m.",
+              "title": "Spaceflight Laser Desorption Orbitrap Mass Spectrometry",
+              "institutes": [
+                "University of Maryland, College Park"
+              ],
+              "authors": [
+                {
+                  "name": "Madeline Raith",
+                  "isPresenter": true,
+                  "institute": "University of Maryland, College Park"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "2:00 p.m.",
+          "title": "Technical Session II",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "2:00 p.m.",
+              "title": "A rugged and field deployable multi-laser resonance Single Particle Mass Spectrometer: Ship-based detection of trace metal-containing aerosols in the atmosphere of the Indian Ocean",
+              "institutes": [
+                "University of Rostock"
+              ],
+              "authors": [
+                {
+                  "name": "Aleksandrs Kalamasnikovs",
+                  "isPresenter": true,
+                  "institute": "University of Rostock"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "2:30 p.m.",
+              "title": "Non-proximate, Handheld Probe with Positional Feedback for Real-time Analysis of Three-dimensional Object Surfaces",
+              "institutes": [
+                "Smithsonian Museum Conservation Institute"
+              ],
+              "authors": [
+                {
+                  "name": "G. Asher Newsome",
+                  "isPresenter": true,
+                  "institute": "Smithsonian Museum Conservation Institute"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "3:30 p.m.",
+          "title": "Technical Session III",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "3:30 p.m.",
+              "title": "2D MS/MS using a small ion trap mass spectrometer",
+              "institutes": [
+                "Purdue University"
+              ],
+              "authors": [
+                {
+                  "name": "Joseph Caruso",
+                  "isPresenter": true,
+                  "institute": "Purdue University"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "4:00 p.m.",
+              "title": "Instrument Simulation --Why, What to Expect, What tools to use",
+              "institutes": [
+                "Ashwood Labs"
+              ],
+              "authors": [
+                {
+                  "name": "Bob Jackson",
+                  "isPresenter": true,
+                  "institute": "Ashwood Labs"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2025-09-17",
+      "items": [
+        {
+          "type": "session",
+          "time": "8:30 a.m.",
+          "title": "Technical Session IV",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "8:30 a.m.",
+              "title": "Novel ship-based and submersible Membrane Inlet-Photo-Ionization Mass Spectrometer (MI-PIMS) for on-line detection of fuel spills, environmental contaminants and TNT in sea water",
+              "institutes": [
+                "University of Rostock, Helmholtz Zentrum München"
+              ],
+              "authors": [
+                {
+                  "name": "Ralf Zimmermann",
+                  "isPresenter": true,
+                  "institute": "University of Rostock, Helmholtz Zentrum München"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:00 a.m.",
+              "title": "Simultaneous MIMS and UV/VIS absorption for chemical reaction kinetic studies exemplified by disinfection byproduct formation from environmental contaminants",
+              "institutes": [
+                "University of Southern Denmark"
+              ],
+              "authors": [
+                {
+                  "name": "Frants Lauritsen",
+                  "isPresenter": true,
+                  "institute": "University of Southern Denmark"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:30 a.m.",
+              "title": "SPion®: Flexible Ion Guide for Mass Spectrometry",
+              "institutes": [
+                "Trace Matters"
+              ],
+              "authors": [
+                {
+                  "name": "Mazdak Taghioskoui",
+                  "isPresenter": true,
+                  "institute": "Trace Matters"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "10:30 a.m.",
+          "title": "Technical Session V",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "10:30 a.m.",
+              "title": "Design and Performance of a Person-portable Two-dimensional Tandem Mass Spectrometer for Machine-Learning Enhanced Identification of Threats",
+              "institutes": [
+                "Teledyne FLIR Detection"
+              ],
+              "authors": [
+                {
+                  "name": "Dalton Snyder",
+                  "isPresenter": true,
+                  "institute": "Teledyne FLIR Detection"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "Integration of the Submersible Under-Ice Mass Spectrometer (SUIMS) with the Icefin ROV for Dissolved Gas Measurements at the Grounding Zone of a Marine-Terminating Glacier",
+              "institutes": [
+                "Cornell Universiity"
+              ],
+              "authors": [
+                {
+                  "name": "Jorge Coppin-Massanet",
+                  "isPresenter": true,
+                  "institute": "Cornell Universiity"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "1:30 p.m.",
+          "title": "Technical Sessions VI",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "1:30 p.m.",
+              "title": "A New Aerosol Threat Detector",
+              "institutes": [
+                "Detect-ION"
+              ],
+              "authors": [
+                {
+                  "name": "Gottfried Kibelka",
+                  "isPresenter": true,
+                  "institute": "Detect-ION"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "2:00 p.m.",
+              "title": "Multimodal Ionization Strategies for Broad-Spectrum Threat Detection with a Miniature Field Mass Spectrometer",
+              "institutes": [
+                "BaySepc, Inc"
+              ],
+              "authors": [
+                {
+                  "name": "Nathan Grimes",
+                  "isPresenter": true,
+                  "institute": "BaySepc, Inc"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "3:00 p.m.",
+          "title": "Technical Sessions VII",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "3:00 p.m.",
+              "title": "Vertical transport of biogenic CO2, O2 and DO2/Ar in eddies and at fronts is revealed by submersible mass spectrometer",
+              "institutes": [
+                "URI Graduate School of Oceanography"
+              ],
+              "authors": [
+                {
+                  "name": "Brice Loose",
+                  "isPresenter": true,
+                  "institute": "URI Graduate School of Oceanography"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "3:30 p.m.",
+              "title": "Development of the Dragonfly Mass Spectrometer (DraMS) for Titan",
+              "institutes": [
+                "KapScience LLC"
+              ],
+              "authors": [
+                {
+                  "name": "Desmond Kaplan",
+                  "isPresenter": true,
+                  "institute": "KapScience LLC"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "2025-09-18",
+      "items": [
+        {
+          "type": "session",
+          "time": "8:30 a.m.",
+          "title": "Technical Session VIII",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "8:30 a.m.",
+              "title": "Standoff Laser Ablation Mass Analyzer (LAMA) for Lunar Surface Analysis",
+              "institutes": [
+                "NASA Goddard Space Flight Center"
+              ],
+              "authors": [
+                {
+                  "name": "Xiang Li",
+                  "isPresenter": true,
+                  "institute": "NASA Goddard Space Flight Center"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:00 a.m.",
+              "title": "Under Water Coded Aperture Miniature Mass Spectrometer for Measurements of Methane Content in the Ocean",
+              "institutes": [
+                "Duke University",
+                "Department of Electrical and Computer Engin"
+              ],
+              "authors": [
+                {
+                  "name": "Raphael Bento Serpa",
+                  "isPresenter": true,
+                  "institute": "Duke University"
+                },
+                {
+                  "name": "Jason Amsden",
+                  "isPresenter": true,
+                  "institute": "Department of Electrical and Computer Engin"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:30 a.m.",
+              "title": "Extraterrestrial Molecular Indicators of Life Investigation (EMILI): Development of Flight-Like Prototype",
+              "institutes": [
+                "NASA Goddard Space Flight Center"
+              ],
+              "authors": [
+                {
+                  "name": "William Brinkerhoff",
+                  "isPresenter": true,
+                  "institute": "NASA Goddard Space Flight Center"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        },
+        {
+          "type": "session",
+          "time": "10:30 a.m.",
+          "title": "Technical Session IX (labeled Technical Session IV)",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "talks": [
+            {
+              "time": "10:30 a.m.",
+              "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+              "institutes": [
+                "Beaver Creek Analytical, LLC"
+              ],
+              "authors": [
+                {
+                  "name": "Ryan Bell",
+                  "isPresenter": true,
+                  "institute": "Beaver Creek Analytical, LLC"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:00 a.m.",
+              "title": "Concurrent Cloud Distributed Simulation with Space Charge using SIMION",
+              "institutes": [
+                "Ashwood Labs"
+              ],
+              "authors": [
+                {
+                  "name": "Mark Osgood",
+                  "isPresenter": true,
+                  "institute": "Ashwood Labs"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:30 a.m.",
+              "title": "Surface Induced Dissociation (SID) with Quadrupole Mass Filters: MS/MS without Collision Gas",
+              "institutes": [
+                "Adara Technologies, LP"
+              ],
+              "authors": [
+                {
+                  "name": "Randy Pedder",
+                  "isPresenter": true,
+                  "institute": "Adara Technologies, LP"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "date": "2025-09-15",
+      "title": "Travel Day",
+      "events": [
+        {
+          "time": "18:00",
+          "end_time": "20:00",
+          "title": "Registration - Meet & Greet",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Sheraton Virginia Beach Oceanfront - Ocean Grand Hallway & Foyer",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2025-09-16",
+      "title": "HEMS Workshop",
+      "events": [
+        {
+          "time": "07:30",
+          "title": "Registration and Corporate Sponsor Set-up",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Hallway",
+          "location_url": ""
+        },
+        {
+          "time": "08:00",
+          "end_time": "",
+          "title": "Continental Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "09:45",
+          "end_time": "",
+          "title": "Welcoming by Dave Vincett",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Technical Session I",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "title": "Lunch",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "13:30",
+          "end_time": "",
+          "title": "Sponsor Introductions",
+          "subtitle": "BaySpec, MassTech, Teledyne FLIR & Pfeiffer",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "14:00",
+          "end_time": "",
+          "title": "Technical Session II",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "15:00",
+          "end_time": "",
+          "title": "Afternoon Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "15:30",
+          "end_time": "",
+          "title": "Technical Session III",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "16:30",
+          "title": "Dinner (on your own)",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2025-09-17",
+      "title": "HEMS Workshop",
+      "events": [
+        {
+          "time": "07:30",
+          "end_time": "",
+          "title": "Continental Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "08:30",
+          "end_time": "",
+          "title": "Technical Session IV",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Mid-Morning Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "10:30",
+          "end_time": "",
+          "title": "Technical Session V",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "11:30",
+          "title": "Lunch (on your own)",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "13:30",
+          "end_time": "",
+          "title": "Technical Sessions VI",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "14:30",
+          "end_time": "",
+          "title": "Afternoon Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Grand Ocean Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "15:00",
+          "end_time": "",
+          "title": "Technical Sessions VII",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "18:30",
+          "end_time": "",
+          "title": "Workshop Dinner",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Foyer",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "2025-09-18",
+      "title": "HEMS Workshop",
+      "events": [
+        {
+          "time": "07:30",
+          "end_time": "",
+          "title": "Continental Breakfast",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "08:30",
+          "end_time": "",
+          "title": "Technical Session VIII",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "10:00",
+          "end_time": "",
+          "title": "Mid-Morning Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Foyer",
+          "location_url": ""
+        },
+        {
+          "time": "10:30",
+          "end_time": "",
+          "title": "Technical Session IX (labeled Technical Session IV)",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        },
+        {
+          "time": "12:00",
+          "title": "Program Survey and Closing",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Ocean Grand Ballroom - Cape Charles",
+          "location_url": ""
+        }
+      ]
+    }
+  ]
+}

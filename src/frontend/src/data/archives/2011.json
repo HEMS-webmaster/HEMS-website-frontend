@@ -110,7 +110,7 @@
       "name": "DeTech",
       "url": "http://www.detechinc.com/",
       "image": "/images/sponsors/DeTech.png?v=1777612077184",
-      "year": "2011"
+      "year": "2003"
     },
     {
       "name": "Leybold USA",
@@ -1240,11 +1240,8 @@
       ]
     }
   ],
-  "host_corporation": {
-    "name": "University of North Texas",
-    "url": "http://www.unt.edu/",
-    "logo_file": "University_of_North_Texas.png",
-    "logo_file_url": "/images/sponsors/University_of_North_Texas.png?v=1778083552010"
-  },
-  "venue_address_url": "https://maps.app.goo.gl/FNQ7Ag5kfj1DpjEL6"
+  "host_corporation": null,
+  "venue_address_url": "https://maps.app.goo.gl/FNQ7Ag5kfj1DpjEL6",
+  "title": "8th HEMS Workshop",
+  "tagline": "The 8th Workshop on Harsh-Environment Mass Spectrometry."
 }

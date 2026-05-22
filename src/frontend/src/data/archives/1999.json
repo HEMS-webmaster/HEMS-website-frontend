@@ -1,21 +1,515 @@
 {
   "year": 1999,
   "ordinal": "1st",
-  "dates": "February 21-23, 1999",
+  "dates": "February 21–23",
   "venue": "",
-  "address": "",
+  "address": "St. Petersburg, Florida",
   "resources": [
     {
       "label": "Workshop Program",
       "icon": "FileText",
       "url": "#technical-program"
+    },
+    {
+      "label": "Program Download",
+      "icon": "Download",
+      "legacy_url": "https://www.hems-workshop.org/1stWS/1hems_program.pdf",
+      "local_target_path": "/api/manager/serve?file=1th/Administrative/1th_Program.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/1th/Administrative/1th_Program.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/1th/Administrative/1th_Program.pdf"
     }
   ],
   "sponsors": [],
-  "schedule": [],
+  "schedule": [
+    {
+      "title": "1999-02-22",
+      "items": [
+        {
+          "type": "session",
+          "time": "9:00 AM",
+          "title": "Monday Presentations",
+          "location": "",
+          "talks": [
+            {
+              "time": "9:00 AM",
+              "title": "Mass Spectrometer on an Autonomous Underwater Vehicle (AUV)",
+              "institutes": [
+                "USF"
+              ],
+              "authors": [
+                {
+                  "name": "Tim Short",
+                  "isPresenter": true,
+                  "institute": "USF"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:20 AM",
+              "title": "Mass Spectrometers aboard US Navy Submarines: Will Yesterday's Solutions Solve Tomorrow's Problems?",
+              "institutes": [
+                "NRL"
+              ],
+              "authors": [
+                {
+                  "name": "John Callahan",
+                  "isPresenter": true,
+                  "institute": "NRL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:40 AM",
+              "title": "ICP-Mass Spectrometer: Extended At-Sea Trials",
+              "institutes": [
+                "LLNL"
+              ],
+              "authors": [
+                {
+                  "name": "Alan Volpe",
+                  "isPresenter": true,
+                  "institute": "LLNL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "10:20 AM",
+              "title": "The Road to Miniaturizing Vacuum Pumps",
+              "institutes": [
+                "SNL"
+              ],
+              "authors": [
+                {
+                  "name": "Woody Weed",
+                  "isPresenter": true,
+                  "institute": "SNL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "10:40 AM",
+              "title": "Mass Spectrometry in Harsh Environments: The Use & Abuse of MS Techniques",
+              "institutes": [
+                "PNNL"
+              ],
+              "authors": [
+                {
+                  "name": "David Koppenaal",
+                  "isPresenter": true,
+                  "institute": "PNNL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "1:00 PM",
+              "title": "Miniature Time-of-Flight Mass Analyzers for Remote Sensing of Biochemical Agents",
+              "institutes": [
+                "APL"
+              ],
+              "authors": [
+                {
+                  "name": "Tim Cornish",
+                  "isPresenter": true,
+                  "institute": "APL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "1:20 PM",
+              "title": "Miniature Mass Spectrometer-Based Sampling System for In Situ Measurement of Dissolved Gas, Solutes and Proteins present in Marine Waters",
+              "institutes": [
+                "JPL"
+              ],
+              "authors": [
+                {
+                  "name": "Steven Smith",
+                  "isPresenter": true,
+                  "institute": "JPL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "1:40 PM",
+              "title": "A Transportable lon Trap Secondary lon Mass Spectrometer for Munitions Assessment",
+              "institutes": [
+                "INEEL"
+              ],
+              "authors": [
+                {
+                  "name": "John Olson",
+                  "isPresenter": true,
+                  "institute": "INEEL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "2:20 PM",
+              "title": "Quadrupole lon Traps: Miniaturization and Mass Spectrometer Arrays",
+              "institutes": [
+                "Purdue Univ."
+              ],
+              "authors": [
+                {
+                  "name": "Ethan Badman",
+                  "isPresenter": true,
+                  "institute": "Purdue Univ."
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "2:40 PM",
+              "title": "Current and Future Applications of Mass Spectrometric Analyses in Non-Traditional Environments",
+              "institutes": [
+                "LANL"
+              ],
+              "authors": [
+                {
+                  "name": "Chuck Wilkerson",
+                  "isPresenter": true,
+                  "institute": "LANL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "1999-02-23",
+      "items": [
+        {
+          "type": "session",
+          "time": "9:00 AM",
+          "title": "Tuesday Presentations",
+          "location": "",
+          "talks": [
+            {
+              "time": "9:00 AM",
+              "title": "Underwater MS: Making more Scents",
+              "institutes": [
+                "USF"
+              ],
+              "authors": [
+                {
+                  "name": "David Fries",
+                  "isPresenter": true,
+                  "institute": "USF"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:20 AM",
+              "title": "A Mini-lon Cyclotron Resonance Mass spectrometer with Portable Potential",
+              "institutes": [
+                ""
+              ],
+              "authors": [
+                {
+                  "name": "",
+                  "isPresenter": true,
+                  "institute": ""
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "9:40 AM",
+              "title": "Laser Time-of-Flight Mass Spectrometry for Planetary Exploration",
+              "institutes": [
+                "APL"
+              ],
+              "authors": [
+                {
+                  "name": "Will Brinckerhoff",
+                  "isPresenter": true,
+                  "institute": "APL"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "10:20 AM",
+              "title": "Fourier Transform Non-Destructive Detection in Quadrupole lon Traps",
+              "institutes": [
+                "Purdue Univ."
+              ],
+              "authors": [
+                {
+                  "name": "Garth Patterson",
+                  "isPresenter": true,
+                  "institute": "Purdue Univ."
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "10:40 AM",
+              "title": "Mass Spectrometric Profiling of the Lower Atmosphere: Go Fly a Kite",
+              "institutes": [
+                "Sandia"
+              ],
+              "authors": [
+                {
+                  "name": "Steve Balsley",
+                  "isPresenter": true,
+                  "institute": "Sandia"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            },
+            {
+              "time": "11:00 AM",
+              "title": "Ruggedized Time-of-Flight Mass Spectrometer for Trace Gas Analysis",
+              "institutes": [
+                "University of Houston/lonWerks"
+              ],
+              "authors": [
+                {
+                  "name": "Marc Gonin",
+                  "isPresenter": true,
+                  "institute": "University of Houston/lonWerks"
+                }
+              ],
+              "legacy_url": "",
+              "legacy_abstract_url": "",
+              "local_target_path": "",
+              "local_abstract_target_path": "",
+              "public_website_url": "",
+              "public_abstract_url": "",
+              "gcloud_url": "",
+              "gcloud_abstract_url": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "venue_url": "",
   "student_awards": [],
-  "events": [],
-  "host_corporation": null,
-  "venue_address_url": ""
+  "events": [
+    {
+      "date": "1999-02-21",
+      "title": "Opening Day",
+      "events": [
+        {
+          "time": "7:00 PM",
+          "end_time": "",
+          "title": "Informal reception",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "Moon over Water Restaurant, St. Petersburg",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "1999-02-22",
+      "title": "HEMS Workshop, Day 1",
+      "events": [
+        {
+          "time": "8:50 AM",
+          "end_time": "",
+          "title": "Opening remarks",
+          "subtitle": "Peter Betzer, Chair, Department of Marine Science, USF",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "10:00 AM",
+          "end_time": "",
+          "title": "Break",
+          "subtitle": "Refreshments Provided",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "11:00 AM",
+          "end_time": "",
+          "title": "Lunch Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "2:00 PM",
+          "end_time": "",
+          "title": "Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "3:00 PM",
+          "end_time": "",
+          "title": "Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "3:30 PM",
+          "end_time": "7:00 PM",
+          "title": "Excursion and Dinner",
+          "subtitle": "Cruise on the Research Vessel (R/V) Suncoaster",
+          "subtitle_url": "",
+          "location": "Tampa Bay",
+          "location_url": ""
+        }
+      ]
+    },
+    {
+      "date": "1999-02-23",
+      "title": "HEMS Workshop, Day 2",
+      "events": [
+        {
+          "time": "10:00 AM",
+          "end_time": "",
+          "title": "Break",
+          "subtitle": "",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        },
+        {
+          "time": "11:20 AM",
+          "end_time": "",
+          "title": "Closing Remarks...",
+          "subtitle": "David Fries and Tim Short, USF",
+          "subtitle_url": "",
+          "location": "",
+          "location_url": ""
+        }
+      ]
+    }
+  ],
+  "host_corporation": {
+    "name": "Center for Ocean Technology, College of Marine Science, USF",
+    "url": "http://www.marine.usf.edu/COT/",
+    "logo_file": "Center_for_Ocean_Technology_College_of_Marine_Science_USF.png",
+    "logo_file_url": "/images/sponsors/Center_for_Ocean_Technology_College_of_Marine_Science_USF.png?v=1778696767962"
+  },
+  "venue_address_url": "",
+  "title": "1st HEMS Workshop",
+  "tagline": "The 1st Workshop on Harsh-Environment Mass Spectrometry."
 }
