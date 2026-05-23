@@ -1670,3 +1670,8 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
 - **Objective:** Increase the sponsor logo white backdrop size back to its original h-20 w-32 dimensions while retaining the tight 2px padding, maximizing active logo size within the grid.
 - **Log Size vs Backdrop:** Restored logo wrapper container size to h-20 w-32. Kept 2px padding (p-[2px]) and updated image width/height inside to 124x76 to allow logos to scale up to the maximum dimensions allowed by the original backdrop size.
 - **Verification Plan:** Compile with static HTML export build (npm run build) to ensure complete TypeScript correctness, then restart Next.js dev server.
+
+## 2026-05-23 14:14 — Fluid Grid & Minimum Card Width Optimization (@dev)
+- **Objective:** Increase the minimum width of each sponsor container by approximately 25% to prevent name squishing and improve the layout balance.
+- **Log Size vs Backdrop:** Transitioned the hardcoded sponsor grid (grid-cols-2 md:grid-cols-3 lg:grid-cols-4) to a highly fluid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] system. This dynamically guarantees a minimum width of 200px for every card (a ~25% increase from the previous ~160px layout on narrow screens) while automatically calculating the optimal column count across all devices.
+- **Verification Plan:** Verify compile success with npm run build, and then restart the Next.js dev server.

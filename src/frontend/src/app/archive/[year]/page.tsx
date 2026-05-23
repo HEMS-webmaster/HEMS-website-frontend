@@ -439,7 +439,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
               <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4 flex items-center gap-2">
                 <Building size={16} /> Corporate Sponsors
               </p>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2">
                 {[...data.sponsors].sort((a, b) => (parseInt(a.year) || 9999) - (parseInt(b.year) || 9999)).map((sponsor: any, idx: number) => {
                   const sponsorYear = parseInt(sponsor.year);
                   return (
