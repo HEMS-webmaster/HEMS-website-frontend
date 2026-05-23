@@ -1,5 +1,5 @@
 # Handover Note
-**Summary:** Fix program and participant list PDF resource link generation in save API route by supporting local files in addition to legacy URLs.
+**Summary:** Fix strict !== undefined URL resolution checks in archive template to correctly fallback to legacy URLs for resources, talks, posters, and student awards when local/cloud targets are empty.
 **Current Task:** QA Bug Fixes.
-**Next Step:** Verify "Save and Present" links in the frontend.
-**Timestamp:** 2026-05-22 15:25
+**Next Step:** Verify presentation and abstract links in both local and production modes.
+**Timestamp:** 2026-05-22 15:58

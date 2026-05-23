@@ -1642,3 +1642,7 @@ We identified that the backend save router (src/frontend/src/app/api/manager/sav
 # SCoT
 We identified that the backend save router (src/frontend/src/app/api/manager/save/route.ts) restricts adding the program download and participant list resources only when legacy URL fields (program_url and participant_list_url) are populated. In contrast, the standalone compilation script (scratch/compile_archives.js) has been updated to also check for local files (program_file and participant_list_file). For 2025, these local files are loaded, but their legacy URLs are empty. We will update the save API route to use the same logic as the compilation script so that these links are correctly generated upon save.
 
+
+# SCoT
+We identified that the oral presentations, posters, student awards, and resources in src/frontend/src/app/archive/[year]/page.tsx use strict !== undefined checks to resolve their local or public target paths. Since these fields default to an empty string when files are not uploaded, the strict checks return the empty string, blocking the legacy URL fallbacks. We will refactor these to use the logical OR (||) operator, ensuring that any empty or undefined target path correctly falls back to legacy URLs.
+

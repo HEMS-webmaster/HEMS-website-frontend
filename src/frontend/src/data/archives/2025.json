@@ -60,11 +60,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "",
-              "local_abstract_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Abstract.pdf",
               "public_website_url": "",
-              "public_abstract_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Abstract.pdf",
               "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Abstract.pdf"
             },
             {
               "time": "10:30 a.m.",
@@ -82,11 +82,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "",
-              "local_abstract_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Abstract.pdf",
               "public_website_url": "",
-              "public_abstract_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Abstract.pdf",
               "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Abstract.pdf"
             },
             {
               "time": "11:00 a.m.",

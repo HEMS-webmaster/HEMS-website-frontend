@@ -5,3 +5,5 @@
 ## Timestamp: 2026-05-11 17:51
 **Product Value Insight:** Implementing a deterministic, pure-array truncation strategy for the Poster Sessions (rather than opaque React Children slicing) not only hardens the frontend against Next.js App Router 500 errors but also scales gracefully. This ensures the UX remains lightweight and performant even if a workshop scales up to feature hundreds of academic posters, protecting SEO value without overwhelming the browser's DOM constraints.
 
+## Timestamp: 2026-05-22 15:56
+**Product Value Insight:** Updating the template link calculations to use truthy logical OR statements instead of strict undefined checks ensures that local and cloud file paths always fall back seamlessly to legacy URLs when empty, unifying the data rendering engine and preventing broken links for partially-migrated workshop proceedings.
