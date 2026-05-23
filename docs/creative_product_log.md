@@ -28,3 +28,6 @@
 
 ## Timestamp: 2026-05-23 15:40
 **Product Value Insight:** Transitioning the sponsor cards to a minimum width of 280px while completely removing name truncation constraints ensures that complex corporate names (e.g., featuring long words like "Technologies") can flow onto multiple lines naturally without truncation. This preserves the absolute layout integrity across all device viewports while maximizing visual clarity.
+
+## Timestamp: 2026-05-23 16:22
+**Product Value Insight:** Recalibrating the dynamic grid minmax columns to exactly 246px mathematically guarantees exactly 90px of pure horizontal space for the sponsor text block. This provides a perfectly balanced, compact corporate wall that maximizes screen space on mobile/tablet viewports while guaranteeing that standard long words like "Technologies" fit beautifully on a single line without wrapping.

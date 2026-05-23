@@ -1682,3 +1682,14 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
   1. Removed line-clamp-2 from the sponsor name heading to completely prevent any ellipsis truncation, letting the name flow onto multiple lines naturally.
   2. Increased the dynamic grid minimum card width from 200px to 280px using grid-cols-[repeat(auto-fill,minmax(280px,1fr))]. With the 128px logo, 12px gap, and 16px padding, this guarantees at least 124px of horizontal space for the text block, which is more than enough to fit long words like Technologies (~84px wide at 12px bold font) on a single line without breaking.
 - **Verification:** Verify static compilation with npm run build, and then restart the Next.js dev server.
+
+## 2026-05-23 16:22 — Mathematical Sponsor Card Min-Width Calibration (@dev)
+- **Objective:** Redo the mathematical calculation to set the pure horizontal space of the text block to exactly 90px, ensuring words like Technologies fit perfectly while making the cards as compact as possible.
+- **Math Calculation:**
+  - Logo container: 128px (w-32)
+  - Card padding: 16px (p-2 on left and right)
+  - Logo-text gap: 12px (gap-3)
+  - Requested text width: 90px
+  - Total minimum card width = 128 + 16 + 12 + 90 = 246px.
+- **Log Size vs Backdrop:** Updated the grid container's dynamic minmax values to minmax(246px, 1fr).
+- **Verification Plan:** Verify static compilation with npm run build, and then restart the Next.js dev server.
