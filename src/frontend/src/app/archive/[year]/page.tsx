@@ -450,13 +450,13 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       rel={sponsor.url ? "noopener noreferrer" : undefined}
                       className="bg-surface border border-foreground/10 p-2 rounded-lg flex items-center gap-3 hover:border-primary hover:bg-primary/5 transition-all group"
                     >
-                      <div className="bg-white rounded p-[2px] h-12 w-20 flex items-center justify-center flex-shrink-0 shadow-inner">
+                      <div className="bg-white rounded p-[2px] h-20 w-32 flex items-center justify-center flex-shrink-0 shadow-inner">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img 
                           src={sponsor.image} 
                           alt={sponsor.name} 
-                          width={80} 
-                          height={40}
+                          width={124} 
+                          height={76}
                           className="object-contain max-h-full max-w-full transition-all duration-300" 
                         />
                       </div>

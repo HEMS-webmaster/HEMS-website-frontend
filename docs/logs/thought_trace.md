@@ -1665,3 +1665,8 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
 - **Spacing Reduction:** Decreased card gap vertically and horizontally by changing container grid to grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2. Tightened the card padding to p-2 and inner gap to gap-3.
 - **Sponsor Name Wrapping:** Removed truncate limit. Enabled multi-line text flow using line-clamp-2 break-words with text-xs leading-tight to let the sponsor name wrap up to two lines cleanly without overflows.
 - **Verification:** Ran successful npm run build static compilation check on the Next.js frontend application with zero errors, then successfully restored the local development environment (npm run dev task-1569).
+
+## 2026-05-23 14:12 — Logo Backdrop Dimension Optimization (@dev)
+- **Objective:** Increase the sponsor logo white backdrop size back to its original h-20 w-32 dimensions while retaining the tight 2px padding, maximizing active logo size within the grid.
+- **Log Size vs Backdrop:** Restored logo wrapper container size to h-20 w-32. Kept 2px padding (p-[2px]) and updated image width/height inside to 124x76 to allow logos to scale up to the maximum dimensions allowed by the original backdrop size.
+- **Verification Plan:** Compile with static HTML export build (npm run build) to ensure complete TypeScript correctness, then restart Next.js dev server.
