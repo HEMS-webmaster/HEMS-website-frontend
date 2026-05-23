@@ -25,3 +25,6 @@
 
 ## Timestamp: 2026-05-23 15:07
 **Product Value Insight:** Implementing a fluid grid layout with a guaranteed minimum sponsor card width of 200px (a 25% increase) establishes a highly responsive grid. This ensures that no individual sponsor card becomes squished on small viewports, giving names and large logo backdrops ample breathing room while dynamically distributing columns across wider displays.
+
+## Timestamp: 2026-05-23 15:40
+**Product Value Insight:** Transitioning the sponsor cards to a minimum width of 280px while completely removing name truncation constraints ensures that complex corporate names (e.g., featuring long words like "Technologies") can flow onto multiple lines naturally without truncation. This preserves the absolute layout integrity across all device viewports while maximizing visual clarity.

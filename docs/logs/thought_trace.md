@@ -1675,3 +1675,10 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
 - **Objective:** Increase the minimum width of each sponsor container by approximately 25% to prevent name squishing and improve the layout balance.
 - **Log Size vs Backdrop:** Transitioned the hardcoded sponsor grid (grid-cols-2 md:grid-cols-3 lg:grid-cols-4) to a highly fluid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] system. This dynamically guarantees a minimum width of 200px for every card (a ~25% increase from the previous ~160px layout on narrow screens) while automatically calculating the optimal column count across all devices.
 - **Verification Plan:** Verify compile success with npm run build, and then restart the Next.js dev server.
+
+## 2026-05-23 15:10 — Sponsor Card Min-Width Enlargement & Clamping Removal (@dev)
+- **Objective:** Eliminate sponsor name truncation and ensure the minimum card width has ample space for the logo and the longest word, like Technologies.
+- **Log Size vs Backdrop:**
+  1. Removed line-clamp-2 from the sponsor name heading to completely prevent any ellipsis truncation, letting the name flow onto multiple lines naturally.
+  2. Increased the dynamic grid minimum card width from 200px to 280px using grid-cols-[repeat(auto-fill,minmax(280px,1fr))]. With the 128px logo, 12px gap, and 16px padding, this guarantees at least 124px of horizontal space for the text block, which is more than enough to fit long words like Technologies (~84px wide at 12px bold font) on a single line without breaking.
+- **Verification:** Verify static compilation with npm run build, and then restart the Next.js dev server.
