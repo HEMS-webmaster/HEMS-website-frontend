@@ -1650,3 +1650,7 @@ We identified that the oral presentations, posters, student awards, and resource
 # SCoT
 We checked the official workshops in master_workshops.json and compared them against the compiled JSON files in src/frontend/src/data/archives/. We identified four obsolete year files (2016.json, 2020.json, 2021.json, and 2023.json) that do not correspond to any valid HEMS workshop. We will delete these four files to eliminate the dead webpages from the static build generation.
 
+
+# SCoT
+We identified that the hover preview url replacement in src/frontend/src/components/FrontendPreviewHover.tsx uses strict end-of-string regex matches to find the file extension. If the URL contains query parameters (such as trailing cache busters or generation tokens), the extension replacement fails, causing the preview component to load the raw PDF as an image and fail silently. We will refactor this to use a case-insensitive replace(/\.pdf/i, ...) statement, which robustly handles any trailing query parameters.
+

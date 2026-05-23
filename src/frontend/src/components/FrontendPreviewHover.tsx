@@ -23,9 +23,9 @@ export default function FrontendPreviewHover({ href, title, children }: Frontend
       
       // Handle the replacement safely depending on if it's a local /api/manager/serve link or a GCloud link
       if (isAbstract) {
-        previewUrl = href.replace(/\.pdf$/, '_preview.txt').replace(/\.pdf&/, '_preview.txt&');
+        previewUrl = href.replace(/\.pdf/i, '_preview.txt');
       } else {
-        previewUrl = href.replace(/\.pdf$/, '_preview.png').replace(/\.pdf&/, '_preview.png&');
+        previewUrl = href.replace(/\.pdf/i, '_preview.png');
       }
 
       if (isAbstract) {

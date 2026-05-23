@@ -10,3 +10,6 @@
 
 ## Timestamp: 2026-05-23 06:40
 **Product Value Insight:** Eliminating dead and incorrect JSON records from the archives directory hardens the static generation process against redundant routes, reducing Netlify/Firebase build times and ensuring a strictly clean index for search engine crawlers.
+
+## Timestamp: 2026-05-23 07:22
+**Product Value Insight:** Transitioning to case-insensitive global regular expression replacements inside the client-side hover component ensures that generated program, attendee, and abstract preview requests are completely query-safe, resolving broken hover previews under modern browser tracking protections or custom cache-busting configurations.

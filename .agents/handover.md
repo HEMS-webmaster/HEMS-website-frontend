@@ -1,5 +1,5 @@
 # Handover Note
-**Summary:** Remove dead archive JSON files from the workspace to eliminate obsolete static pages from Next.js builds.
-**Current Task:** Workspace cleanup.
-**Next Step:** Perform final reviews and assist the user with any other requests.
-**Timestamp:** 2026-05-23 06:40
+**Summary:** Fix hover-preview file extension replacement logic in FrontendPreviewHover component to robustly handle cache busters and case-insensitive `.PDF` file names.
+**Current Task:** Preview components stability.
+**Next Step:** Perform final verification of all archive page interactive hovers.
+**Timestamp:** 2026-05-23 07:23
