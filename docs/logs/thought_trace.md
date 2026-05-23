@@ -1654,3 +1654,14 @@ We checked the official workshops in master_workshops.json and compared them aga
 # SCoT
 We identified that the hover preview url replacement in src/frontend/src/components/FrontendPreviewHover.tsx uses strict end-of-string regex matches to find the file extension. If the URL contains query parameters (such as trailing cache busters or generation tokens), the extension replacement fails, causing the preview component to load the raw PDF as an image and fail silently. We will refactor this to use a case-insensitive replace(/\.pdf/i, ...) statement, which robustly handles any trailing query parameters.
 
+
+# SCoT
+We will tidy up the corporate sponsor layout in the archive page template (src/frontend/src/app/archive/[year]/page.tsx) to match the tighter visual style. We will reduce card padding to p-2, internal gap to gap-3, and grid gap to gap-2. We will set the logo backdrop padding to p-0.5 to leave exactly 2px of padding, and use line-clamp-2 break-words for the sponsor names to allow two-line wrapping.
+
+
+## 2026-05-23 14:07 — Corporate Sponsor Layout Tidy-Up (@dev)
+- **Objective:** Tidy up the corporate sponsor section on the archive template.
+- **Log Size vs Backdrop:** Reduced padding around logo image from p-2 to p-[2px] to maximize image surface area while guaranteeing a minimum 2px white padding. Logo container size adjusted to h-12 w-20 to keep the layout compact and uniform.
+- **Spacing Reduction:** Decreased card gap vertically and horizontally by changing container grid to grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2. Tightened the card padding to p-2 and inner gap to gap-3.
+- **Sponsor Name Wrapping:** Removed truncate limit. Enabled multi-line text flow using line-clamp-2 break-words with text-xs leading-tight to let the sponsor name wrap up to two lines cleanly without overflows.
+- **Verification:** Ran successful npm run build static compilation check on the Next.js frontend application with zero errors, then successfully restored the local development environment (npm run dev task-1569).

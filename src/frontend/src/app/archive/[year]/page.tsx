@@ -436,10 +436,10 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
 
           {data.sponsors && data.sponsors.length > 0 && (
             <div className="mt-12 border-t border-foreground/10 pt-8">
-              <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-6 flex items-center gap-2">
+              <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4 flex items-center gap-2">
                 <Building size={16} /> Corporate Sponsors
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                 {[...data.sponsors].sort((a, b) => (parseInt(a.year) || 9999) - (parseInt(b.year) || 9999)).map((sponsor: any, idx: number) => {
                   const sponsorYear = parseInt(sponsor.year);
                   return (
@@ -448,23 +448,23 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       href={sponsor.url || '#'}
                       target={sponsor.url ? "_blank" : undefined}
                       rel={sponsor.url ? "noopener noreferrer" : undefined}
-                      className="bg-surface border border-foreground/10 p-4 rounded-lg flex items-center gap-4 hover:border-primary hover:bg-primary/5 transition-all group"
+                      className="bg-surface border border-foreground/10 p-2 rounded-lg flex items-center gap-3 hover:border-primary hover:bg-primary/5 transition-all group"
                     >
-                      <div className="bg-white rounded p-2 h-20 w-32 flex items-center justify-center flex-shrink-0 shadow-inner">
+                      <div className="bg-white rounded p-[2px] h-12 w-20 flex items-center justify-center flex-shrink-0 shadow-inner">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img 
                           src={sponsor.image} 
                           alt={sponsor.name} 
-                          width={100} 
-                          height={50}
+                          width={80} 
+                          height={40}
                           className="object-contain max-h-full max-w-full transition-all duration-300" 
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-foreground truncate group-hover:text-primary transition-colors">{sponsor.name}</h4>
+                        <h4 className="font-bold text-foreground text-xs leading-tight line-clamp-2 break-words group-hover:text-primary transition-colors">{sponsor.name}</h4>
                         {sponsorYear ? (
-                          <div className="text-xs font-bold text-secondary/80 mt-1 uppercase tracking-wider">
-                            {`Sponsor since ${sponsorYear}`}
+                          <div className="text-[10px] font-bold text-secondary/80 mt-0.5 uppercase tracking-wider">
+                            {`Since ${sponsorYear}`}
                           </div>
                         ) : null}
                       </div>
