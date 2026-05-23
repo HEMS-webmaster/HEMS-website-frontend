@@ -59,11 +59,11 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Abstract.pdf",
-              "public_website_url": "",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Presentation.pdf",
               "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Abstract.pdf",
-              "gcloud_url": "",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Presentation.pdf",
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Abstract.pdf"
             },
             {
@@ -81,11 +81,11 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Abstract.pdf",
-              "public_website_url": "",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Presentation.pdf",
               "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Abstract.pdf",
-              "gcloud_url": "",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Presentation.pdf",
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Abstract.pdf"
             },
             {
@@ -103,12 +103,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Kimutai_A_cartportable_TOFMS_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Kimutai_A_cartportable_TOFMS_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Kimutai_A_cartportable_TOFMS_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Kimutai_A_cartportable_TOFMS_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Kimutai_A_cartportable_TOFMS_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Kimutai_A_cartportable_TOFMS_Abstract.pdf"
             },
             {
               "time": "11:30 a.m.",
@@ -125,12 +125,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Raith_Spaceflight_Laser_Desorption_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_I/15th_Raith_Spaceflight_Laser_Desorption_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Raith_Spaceflight_Laser_Desorption_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Raith_Spaceflight_Laser_Desorption_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Raith_Spaceflight_Laser_Desorption_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Raith_Spaceflight_Laser_Desorption_Abstract.pdf"
             }
           ]
         },
@@ -155,12 +155,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_II/15th_Kalamasnikovs_A_rugged_and_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_II/15th_Kalamasnikovs_A_rugged_and_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Kalamasnikovs_A_rugged_and_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Kalamasnikovs_A_rugged_and_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Kalamasnikovs_A_rugged_and_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Kalamasnikovs_A_rugged_and_Abstract.pdf"
             },
             {
               "time": "2:30 p.m.",
@@ -177,12 +177,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_II/15th_Newsome_Nonproximate_Handheld_Probe_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_II/15th_Newsome_Nonproximate_Handheld_Probe_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Newsome_Nonproximate_Handheld_Probe_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Newsome_Nonproximate_Handheld_Probe_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Newsome_Nonproximate_Handheld_Probe_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Newsome_Nonproximate_Handheld_Probe_Abstract.pdf"
             }
           ]
         },
@@ -207,12 +207,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_III/15th_Caruso_2D_MSMS_using_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_III/15th_Caruso_2D_MSMS_using_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Caruso_2D_MSMS_using_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Caruso_2D_MSMS_using_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Caruso_2D_MSMS_using_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Caruso_2D_MSMS_using_Abstract.pdf"
             },
             {
               "time": "4:00 p.m.",
@@ -229,12 +229,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_III/15th_Jackson_Instrument_Simulation_Why_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_III/15th_Jackson_Instrument_Simulation_Why_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Jackson_Instrument_Simulation_Why_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Jackson_Instrument_Simulation_Why_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Jackson_Instrument_Simulation_Why_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Jackson_Instrument_Simulation_Why_Abstract.pdf"
             }
           ]
         }
@@ -265,11 +265,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "",
-              "local_abstract_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_IV/15th_Zimmermann_Novel_shipbased_and_Abstract.pdf",
               "public_website_url": "",
-              "public_abstract_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Zimmermann_Novel_shipbased_and_Abstract.pdf",
               "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Zimmermann_Novel_shipbased_and_Abstract.pdf"
             },
             {
               "time": "9:00 a.m.",
@@ -286,12 +286,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_IV/15th_Lauritsen_Simultaneous_MIMS_and_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_IV/15th_Lauritsen_Simultaneous_MIMS_and_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Lauritsen_Simultaneous_MIMS_and_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Lauritsen_Simultaneous_MIMS_and_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Lauritsen_Simultaneous_MIMS_and_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Lauritsen_Simultaneous_MIMS_and_Abstract.pdf"
             },
             {
               "time": "9:30 a.m.",
@@ -308,12 +308,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_IV/15th_Taghioskoui_SPion_Flexible_Ion_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_IV/15th_Taghioskoui_SPion_Flexible_Ion_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Taghioskoui_SPion_Flexible_Ion_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Taghioskoui_SPion_Flexible_Ion_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Taghioskoui_SPion_Flexible_Ion_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Taghioskoui_SPion_Flexible_Ion_Abstract.pdf"
             }
           ]
         },
@@ -338,12 +338,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_V/15th_Snyder_Design_and_Performance_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_V/15th_Snyder_Design_and_Performance_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_Snyder_Design_and_Performance_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_Snyder_Design_and_Performance_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_Snyder_Design_and_Performance_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_Snyder_Design_and_Performance_Abstract.pdf"
             },
             {
               "time": "11:00 a.m.",
@@ -360,12 +360,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_V/15th_CoppinMassanet_Integration_of_the_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_V/15th_CoppinMassanet_Integration_of_the_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_CoppinMassanet_Integration_of_the_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_CoppinMassanet_Integration_of_the_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_CoppinMassanet_Integration_of_the_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_CoppinMassanet_Integration_of_the_Abstract.pdf"
             }
           ]
         },
@@ -390,12 +390,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Sessions_VI/15th_Kibelka_A_New_Aerosol_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Sessions_VI/15th_Kibelka_A_New_Aerosol_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Kibelka_A_New_Aerosol_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Kibelka_A_New_Aerosol_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Kibelka_A_New_Aerosol_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Kibelka_A_New_Aerosol_Abstract.pdf"
             },
             {
               "time": "2:00 p.m.",
@@ -412,12 +412,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Sessions_VI/15th_Grimes_Multimodal_Ionization_Strategies_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Sessions_VI/15th_Grimes_Multimodal_Ionization_Strategies_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Grimes_Multimodal_Ionization_Strategies_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Grimes_Multimodal_Ionization_Strategies_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Grimes_Multimodal_Ionization_Strategies_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Grimes_Multimodal_Ionization_Strategies_Abstract.pdf"
             }
           ]
         },
@@ -442,12 +442,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Sessions_VII/15th_Loose_Vertical_transport_of_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Sessions_VII/15th_Loose_Vertical_transport_of_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Loose_Vertical_transport_of_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Loose_Vertical_transport_of_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Loose_Vertical_transport_of_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Loose_Vertical_transport_of_Abstract.pdf"
             },
             {
               "time": "3:30 p.m.",
@@ -464,12 +464,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Sessions_VII/15th_Kaplan_Development_of_the_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Sessions_VII/15th_Kaplan_Development_of_the_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Kaplan_Development_of_the_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Kaplan_Development_of_the_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Kaplan_Development_of_the_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Kaplan_Development_of_the_Abstract.pdf"
             }
           ]
         }
@@ -499,12 +499,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_VIII/15th_Li_Standoff_Laser_Ablation_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_VIII/15th_Li_Standoff_Laser_Ablation_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Li_Standoff_Laser_Ablation_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Li_Standoff_Laser_Ablation_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Li_Standoff_Laser_Ablation_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Li_Standoff_Laser_Ablation_Abstract.pdf"
             },
             {
               "time": "9:00 a.m.",
@@ -527,12 +527,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_VIII/15th_Serpa_Under_Water_Coded_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_VIII/15th_Serpa_Under_Water_Coded_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Serpa_Under_Water_Coded_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Serpa_Under_Water_Coded_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Serpa_Under_Water_Coded_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Serpa_Under_Water_Coded_Abstract.pdf"
             },
             {
               "time": "9:30 a.m.",
@@ -549,19 +549,19 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_VIII/15th_Brinkerhoff_Extraterrestrial_Molecular_Indicators_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_VIII/15th_Brinkerhoff_Extraterrestrial_Molecular_Indicators_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Brinkerhoff_Extraterrestrial_Molecular_Indicators_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Brinkerhoff_Extraterrestrial_Molecular_Indicators_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Brinkerhoff_Extraterrestrial_Molecular_Indicators_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Brinkerhoff_Extraterrestrial_Molecular_Indicators_Abstract.pdf"
             }
           ]
         },
         {
           "type": "session",
           "time": "10:30 a.m.",
-          "title": "Technical Session IX (labeled Technical Session IV)",
+          "title": "Technical Session IX",
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
@@ -580,11 +580,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "",
-              "local_abstract_target_path": "",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Abstract.pdf",
               "public_website_url": "",
-              "public_abstract_url": "",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Abstract.pdf",
               "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Abstract.pdf"
             },
             {
               "time": "11:00 a.m.",
@@ -601,12 +601,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_IX/15th_Osgood_Concurrent_Cloud_Distributed_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_IX/15th_Osgood_Concurrent_Cloud_Distributed_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Osgood_Concurrent_Cloud_Distributed_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Osgood_Concurrent_Cloud_Distributed_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Osgood_Concurrent_Cloud_Distributed_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Osgood_Concurrent_Cloud_Distributed_Abstract.pdf"
             },
             {
               "time": "11:30 a.m.",
@@ -623,12 +623,12 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
-              "local_abstract_target_path": "",
-              "public_website_url": "",
-              "public_abstract_url": "",
-              "gcloud_url": "",
-              "gcloud_abstract_url": ""
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_IX/15th_Pedder_Surface_Induced_Dissociation_Presentation.pdf",
+              "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_IX/15th_Pedder_Surface_Induced_Dissociation_Abstract.pdf",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Pedder_Surface_Induced_Dissociation_Presentation.pdf",
+              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Pedder_Surface_Induced_Dissociation_Abstract.pdf",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Pedder_Surface_Induced_Dissociation_Presentation.pdf",
+              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Pedder_Surface_Induced_Dissociation_Abstract.pdf"
             }
           ]
         }

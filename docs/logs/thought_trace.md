@@ -1646,3 +1646,7 @@ We identified that the backend save router (src/frontend/src/app/api/manager/sav
 # SCoT
 We identified that the oral presentations, posters, student awards, and resources in src/frontend/src/app/archive/[year]/page.tsx use strict !== undefined checks to resolve their local or public target paths. Since these fields default to an empty string when files are not uploaded, the strict checks return the empty string, blocking the legacy URL fallbacks. We will refactor these to use the logical OR (||) operator, ensuring that any empty or undefined target path correctly falls back to legacy URLs.
 
+
+# SCoT
+We checked the official workshops in master_workshops.json and compared them against the compiled JSON files in src/frontend/src/data/archives/. We identified four obsolete year files (2016.json, 2020.json, 2021.json, and 2023.json) that do not correspond to any valid HEMS workshop. We will delete these four files to eliminate the dead webpages from the static build generation.
+

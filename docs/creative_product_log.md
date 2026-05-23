@@ -7,3 +7,6 @@
 
 ## Timestamp: 2026-05-22 15:56
 **Product Value Insight:** Updating the template link calculations to use truthy logical OR statements instead of strict undefined checks ensures that local and cloud file paths always fall back seamlessly to legacy URLs when empty, unifying the data rendering engine and preventing broken links for partially-migrated workshop proceedings.
+
+## Timestamp: 2026-05-23 06:40
+**Product Value Insight:** Eliminating dead and incorrect JSON records from the archives directory hardens the static generation process against redundant routes, reducing Netlify/Firebase build times and ensuring a strictly clean index for search engine crawlers.
