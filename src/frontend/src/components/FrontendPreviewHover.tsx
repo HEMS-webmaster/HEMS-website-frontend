@@ -21,12 +21,13 @@ export default function FrontendPreviewHover({ href, title, children }: Frontend
     if (isHovered && isPreviewable && !previewData && !error) {
       let previewUrl = '';
       
-      // Handle the replacement safely depending on if it's a local /api/manager/serve link or a GCloud link
+      const cacheBuster = `t=${Date.now()}`;
       if (isAbstract) {
         previewUrl = href.replace(/\.pdf/i, '_preview.txt');
       } else {
         previewUrl = href.replace(/\.pdf/i, '_preview.png');
       }
+      previewUrl += (previewUrl.includes('?') ? '&' : '?') + cacheBuster;
 
       if (isAbstract) {
         fetch(previewUrl)
