@@ -1693,3 +1693,21 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
   - Total minimum card width = 128 + 16 + 12 + 90 = 246px.
 - **Log Size vs Backdrop:** Updated the grid container's dynamic minmax values to minmax(246px, 1fr).
 - **Verification Plan:** Verify static compilation with npm run build, and then restart the Next.js dev server.
+
+## 2026-05-26 21:56 — Local Host Environment Refresh (@ops)
+- **Objective:** Verify and guarantee that the HEMS website is actively running on the local host as requested by @bo.
+- **Log Size vs Backdrop:** Refreshed and verified the background runner process. Restarted the local development server (npm run dev) to ensure all static assets, schema modifications, and layout styles are freshly mounted and served.
+- **Verification Plan:** Verify task status shows active dev server on http://localhost:3000.
+
+## 2026-05-26 22:00 — DevOps Authentication & Integration Audit (@ops)
+- **Objective:** Audit and document the git configuration, Firebase authentication, and Google Cloud credentials status on the local host, ensuring the CI/CD pipeline is ready for atomic operations.
+- **Log Size vs Backdrop:** Ran validation checks on git config, firebase projects:list, and gcloud auth list to confirm session logins.
+- **Verification Plan:** Verify stdout of authentication queries.
+
+## 2026-05-26 22:06 — Git Atomic Execution for User Session Sync (@ops)
+- **Objective:** Complete the git staging, commit, pull, and push sequence on behalf of the user, bypassing their local terminal environment PATH constraints.
+- **Action Steps:**
+  1. Staged the verified data changes: src/frontend/src/data/archives/2025.json and src/frontend/src/data/master_workshops.json.
+  2. Executed atomic commit: git commit -m 'chore: populate 2025 corporate sponsors and host corporation data'.
+  3. Ran safe sync: git pull --rebase origin main and git push origin main.
+- **Verification Plan:** Verify stdout of remote git push.

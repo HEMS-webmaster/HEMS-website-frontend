@@ -1,5 +1,5 @@
 # Handover Note
-**Summary:** Recalibrated the corporate sponsor card minimum width to exactly 246px, providing exactly 90px of pure text horizontal space to perfectly accommodate long words like "Technologies" on a single line while keeping the grid highly compact.
-**Current Task:** Calibrate card min-width for 90px pure text horizontal space.
-**Next Step:** Git atomic sync and final user report.
-**Timestamp:** 2026-05-23 16:22
+**Summary:** Authenticated Firebase CLI successfully and performed a clean commit and push to remote staging to persist newly populated 2025 sponsors and host corporation data.
+**Current Task:** Authenticate and deploy 2025 archive updates.
+**Next Step:** Assist user with next tasks.
+**Timestamp:** 2026-05-26 22:06

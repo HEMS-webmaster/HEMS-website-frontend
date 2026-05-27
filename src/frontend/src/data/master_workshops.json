@@ -14675,7 +14675,32 @@
     "city": "Virginia Beach, Virginia",
     "dates": "September 15-18, 2025",
     "presentations": [],
-    "sponsors": [],
+    "sponsors": [
+      {
+        "company": "BaySpec",
+        "year": "2015",
+        "link": "https://www.bayspec.com/product-category/mass-spectroscopy/",
+        "logo_file": "BaySpec.png"
+      },
+      {
+        "company": "MassTech Inc",
+        "year": "2013",
+        "link": "https://www.apmaldi.com/main/",
+        "logo_file": "MassTech_Inc.png"
+      },
+      {
+        "company": "FLIR / Griffin Analytical Technologies",
+        "year": "2003",
+        "link": "http://www.icxt.com/technology/mobile-labs/",
+        "logo_file": "FLIR_Griffin_Analytical_Technologies.png"
+      },
+      {
+        "company": "Pfeiffer Vacuum",
+        "year": "2005",
+        "link": "https://www.pfeiffervacuum.com/us/en/",
+        "logo_file": "Pfeiffer_Vacuum.png"
+      }
+    ],
     "student_awards": [],
     "posters": [],
     "events": [
@@ -15536,6 +15561,11 @@
           }
         ]
       }
-    ]
+    ],
+    "host_corporation": {
+      "name": "Pfeiffer Vacuum",
+      "url": "https://www.pfeiffervacuum.com/us/en/",
+      "logo_file": "Pfeiffer_Vacuum.png"
+    }
   }
 ]
