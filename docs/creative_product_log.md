@@ -31,3 +31,7 @@
 
 ## Timestamp: 2026-05-23 16:22
 **Product Value Insight:** Recalibrating the dynamic grid minmax columns to exactly 246px mathematically guarantees exactly 90px of pure horizontal space for the sponsor text block. This provides a perfectly balanced, compact corporate wall that maximizes screen space on mobile/tablet viewports while guaranteeing that standard long words like "Technologies" fit beautifully on a single line without wrapping.
+
+## Timestamp: 2026-05-27 22:45
+**Product Value Insight:** Resolving legacy HEMS URL pathways to map directly to local lowercased PDF assets guarantees that our full-text pre-compilation script processes 100% of available slides and abstracts, increasing the index size from simulated templates to 2,913 actual page-level records. By using the JSON extraction cache, we reduce subsequent static rebuild times to under 1 second, guaranteeing a zero-delay local-first content verification and deployment pipeline.
+

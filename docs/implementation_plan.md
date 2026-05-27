@@ -1,70 +1,64 @@
-# Implementation Plan - HEMS Local Scientific Synonym Thesaurus & Query Expansion
+# Implementation Plan - HEMS Deep Full-Text PDF Extraction, Spelling Correction, & Search Operators
 
-This plan outlines the architecture and execution steps to implement a local, curated scientific synonym thesaurus and semantic query expansion engine inside HEMS search components, enabling cost-free semantic matching.
+This plan outlines the architecture and execution steps to implement:
+1. **Did You Mean (Client-Side Spelling Correction)** using Levenshtein distance.
+2. **Logical Search Operators** supporting exact phrases (`"phrase"`) and exclusions (`-exclude`).
+3. **Deep PDF Content Extraction & Caching Pipeline** using a pure JS `pdf-parse` engine to index actual rare words deep inside HEMS presentation and abstract PDFs.
+
+---
 
 ## User Review Required
 
 > [!IMPORTANT]
-> **Scientific Thesaurus Data File**:
-> We will create a static scientific synonym index at `src/frontend/src/data/scientific_synonyms.json` containing HEMS-specific research fields. This keeps our data model clean and modifiable.
+> **PDF Parser Integration (`pdf-parse`)**:
+> We will install `pdf-parse` to dynamically read local slide presentation PDFs. To avoid heavy CPU loads and long build times on massive PDFs, we will implement an automatic caching mechanism under `src/frontend/public/assets/archives/cache/`.
 >
-> **Tiered Relevance Ranking**:
-> To prevent synonym matches from cluttering search results, we will implement a weighted scoring model. Exact keyword matches in title/authors will rank highest, followed by exact matches in slide text, followed by semantic synonym matches in title, and finally synonym matches in slide text.
+> **Fuzzy Spelling Correction**:
+> We will compile a dynamic dictionary of ~1,000 valid HEMS-specific terms from synonyms and workshop metadata to enable highly accurate "Did you mean?" suggestions on the client side.
 
 ## Open Questions
 
 > [!WARNING]
-> 1. **Default Synonym Mapping**: Are there specific technical or chemical terminology mappings you want added to the initial dictionary? Our proposed default dictionary covers *Spaceflight*, *Marine*, *Instrumentation*, and *Miniaturization* concepts.
-> 2. **Synonym Search Toggle**: Should search expansions run automatically on all queries, or would you prefer a checkbox UI option (e.g. "Enable Semantic Synonym Search") to let users toggle it manually? (Recommended: Run automatically with exact matches ranked first).
+> 1. **Cache Pre-Population**: Would you like us to parse and commit a pre-extracted text cache for the existing 2018 presentations folder so that your initial local builds remain extremely fast? (Recommended: Yes, this keeps build times under 5 seconds).
 
 ---
 
-## Proposed Architecture & Changes
+## Proposed Changes
 
-### 1. Scientific Synonym Data Model
+### 1. Ingestion Pipeline
+#### [MODIFY] [package.json](file:///c:/Antigravity/HEMS-website/src/frontend/package.json)
+- Add `"pdf-parse": "^1.1.1"` to dependencies.
 
-#### [NEW] [scientific_synonyms.json](file:///c:/Antigravity/HEMS-website/src/frontend/src/data/scientific_synonyms.json)
-- Create a structured JSON dictionary of scientific synonym groups:
-  ```json
-  {
-    "spaceflight": ["space", "mars", "planetary", "lunar", "titan", "europa", "venus", "probe", "atmosphere"],
-    "marine": ["underwater", "oceanic", "sea", "vent", "plume", "hydrothermal", "lake", "mims", "cruise", "suncoaster"],
-    "quadrupole": ["qms", "mass filter", "mass analyzer", "ion trap", "vacuum", "tof", "time-of-flight", "magnetic sector"],
-    "miniaturization": ["portable", "handheld", "micro", "mems", "field", "compact"]
-  }
-  ```
+#### [MODIFY] [index-pdf-contents.js](file:///c:/Antigravity/HEMS-website/src/frontend/scripts/index-pdf-contents.js)
+- Integrate `pdf-parse` into the pre-compilation document indexer:
+  - Add search logic to check for the presence of local PDFs in `public/assets/archives/[year]/presentations/` and `abstracts/`.
+  - Implement a **JSON Text Cache**: check if a cached page-text JSON file exists under `public/assets/archives/cache/[year]/[file].json`. If yes, read from cache.
+  - If cache is missing, extract actual text page-by-page using `pdf-parse`, save it to the cache folder, and write it to the static index records.
+  - Fall back to metadata-based simulated slide content if the PDF is not present or extraction fails, ensuring a 100% resilient build.
 
 ---
 
-### 2. Frontend Semantic Search Expansion
-
+### 2. Frontend Search Logic
 #### [MODIFY] [page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/archive/page.tsx)
-- Import the synonym dictionary `scientific_synonyms.json`.
-- Implement a **Query Expansion Tokenizer**:
-  - Split the search input string into keywords.
-  - Expand each keyword by adding related synonyms from the dictionary.
-  - Transition the strict `\bterm\b` regex matches into leading-only `\bterm` prefix matching to allow suffix variations (e.g., matching plural forms like 'seeps', gerunds like 'seeping', and derivatives).
-  - Normalize plural words by trimming trailing 's' characters (stemming to singular) when terms are longer than 3 letters and do not end in 'ss', ensuring singular queries match plural targets and vice-versa.
-- Implement **Relevance Score Calculation**:
-  - For each paper and matched slide, compute a match score based on query matching rules:
-    - **Exact Title Match**: +10 points.
-    - **Exact Author/Affiliation Match**: +8 points.
-    - **Exact Slide Content Match**: +5 points.
-    - **Synonym Title Match**: +3 points.
-    - **Synonym Slide Content Match**: +1 point.
-  - Sort search results chronologically within their respective score tiers, ensuring exact matches are presented first.
-- Align the active category filter buttons with the JSON synonym dictionary to use a single, unified data model.
+- **Fuzzy Did-You-Mean Parser**:
+  - Implement client-side Levenshtein distance calculations.
+  - Build a dynamic HEMS dictionary of ~1,000 valid words.
+  - Display a clean suggested chip (e.g. `"Did you mean: quadrupole?"`) when query words are misspelled.
+- **Logical Search Operators Parser**:
+  - Parse exact phrase quotes (`"deep sea Cold seeps"`) and contiguous strings.
+  - Parse exclude tags (`-mars`) and reject matched cards containing excluded keywords.
 
 ---
 
 ## Verification Plan
 
 ### Automated Tests
-- Validate compilation success:
+- Validate successful build compilation:
   ```powershell
   npm run build
   ```
 
 ### Manual Verification
-- **Semantic Expansion Test**: Search for "Mars" and verify that papers containing "Spaceflight" or "Planetary" appear in results, ranked below exact "Mars" title matches.
-- **Category Alignment Test**: Select the "Marine" topic category and verify that all related oceanic, underwater, and sea vent papers filter correctly.
+- **Fuzzy Match Test**: Search for `"quadropule"` and verify it suggests `"quadrupole"`.
+- **Operator Test**: Search for `"Mass Spectrometry" -shuttle` and verify Shuttle papers are excluded.
+- **Deep Word Test**: Search for `"ayodeji"` or `"wiley"` (rare words in local PDFs) and verify matching slide text snippets appear.

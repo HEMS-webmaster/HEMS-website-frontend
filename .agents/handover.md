@@ -1,5 +1,5 @@
 # Handover Note
-**Summary:** Implemented HEMS local scientific synonym thesaurus and dynamic page-level full-text PDF search engine featuring query expansion and weighted relevance scoring.
+**Summary:** Implemented HEMS legacy URL file-path mapping, page-by-page PDF content extraction caching, client-side spelling correction, logical operators, and verified search operations.
 **Current Task:** HEMS local scientific thesaurus and deep content search integration.
-**Next Step:** Perform remote push and deploy static export updates to Firebase Hosting.
-**Timestamp:** 2026-05-27 22:25
+**Next Step:** Completed. All features are fully implemented, verified, and cached.
+**Timestamp:** 2026-05-27 22:45

@@ -25,6 +25,176 @@ export default function Archive() {
 
   const suggestedKeywords = ["Martian Regolith", "Deep Sea Vent", "Quadrupole", "Miniaturization"];
 
+  // Dynamically build a dictionary of ~1,000 highly relevant HEMS technical terms for typo detection
+  const HEMS_DICTIONARY = useMemo(() => {
+    const words = new Set<string>();
+    
+    // Add all scientific synonyms
+    Object.values(scientificSynonyms).forEach((groupValues) => {
+      groupValues.forEach((val) => words.add(val.toLowerCase()));
+    });
+    
+    // Helper to clean and add strings
+    const cleanAndAdd = (str: string) => {
+      if (!str) return;
+      str.toLowerCase().split(/[\s,.:()"\-/]+/).forEach(w => {
+        if (w.length > 3 && /^[a-z]+$/.test(w)) {
+          words.add(w);
+        }
+      });
+    };
+    
+    // Add terms from workshops titles, authors, and institutions
+    workshopsData.forEach((ws: any) => {
+      if (ws.presentation_sessions) {
+        ws.presentation_sessions.forEach((session: any) => {
+          cleanAndAdd(session.session_title);
+          if (session.presentations) {
+            session.presentations.forEach((talk: any) => {
+              cleanAndAdd(talk.title);
+              if (Array.isArray(talk.authors)) {
+                talk.authors.forEach((a: any) => cleanAndAdd(a.name));
+              } else if (typeof talk.authors === 'string') {
+                cleanAndAdd(talk.authors);
+              }
+              if (Array.isArray(talk.institutes)) {
+                talk.institutes.forEach((inst: string) => cleanAndAdd(inst));
+              }
+            });
+          }
+        });
+      }
+      
+      if (ws.posters) {
+        ws.posters.forEach((poster: any) => {
+          cleanAndAdd(poster.title);
+          if (Array.isArray(poster.authors)) {
+            poster.authors.forEach((a: any) => cleanAndAdd(a.name));
+          } else if (typeof poster.authors === 'string') {
+            cleanAndAdd(poster.authors);
+          }
+          if (Array.isArray(poster.institutes)) {
+            poster.institutes.forEach((inst: string) => cleanAndAdd(inst));
+          }
+        });
+      }
+    });
+    
+    return Array.from(words);
+  }, []);
+
+  // Compute Levenshtein distance between two strings for spelling similarity checking
+  const getLevenshteinDistance = (a: string, b: string): number => {
+    const matrix = [];
+    if (a.length === 0) return b.length;
+    if (b.length === 0) return a.length;
+    for (let i = 0; i <= a.length; i++) matrix[i] = [i];
+    for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+    for (let i = 1; i <= a.length; i++) {
+      for (let j = 1; j <= b.length; j++) {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+        );
+      }
+    }
+    return matrix[a.length][b.length];
+  };
+
+  // Generate suggested query string if potential spelling typos are encountered
+  const spellingSuggestion = useMemo(() => {
+    if (!searchQuery.trim()) return null;
+    
+    // Spellcheck tokens only (filtering exclusions and exact phrases)
+    const words = searchQuery.toLowerCase().trim()
+      .replace(/"[^"]+"/g, "")
+      .split(/\s+/)
+      .map(w => w.replace(/^-/, ""))
+      .filter(w => w.length > 3 && /^[a-z]+$/.test(w));
+      
+    if (words.length === 0) return null;
+    
+    const suggestions: Record<string, string> = {};
+    let hasCorrection = false;
+    
+    words.forEach(word => {
+      if (HEMS_DICTIONARY.includes(word)) {
+        suggestions[word] = word;
+        return;
+      }
+      
+      let closestWord = word;
+      let minDistance = 3; // Match threshold distance <= 2
+      
+      for (const dictWord of HEMS_DICTIONARY) {
+        const dist = getLevenshteinDistance(word, dictWord);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestWord = dictWord;
+        }
+      }
+      
+      if (closestWord !== word) {
+        suggestions[word] = closestWord;
+        hasCorrection = true;
+      } else {
+        suggestions[word] = word;
+      }
+    });
+    
+    if (!hasCorrection) return null;
+    
+    // Reconstruct query with corrected terms
+    const parts = searchQuery.split(/\s+/);
+    const correctedParts = parts.map(part => {
+      const clean = part.toLowerCase().replace(/^-/, "").replace(/"/g, "");
+      if (suggestions[clean]) {
+        const isNeg = part.startsWith("-");
+        const hasQuotes = part.startsWith('"') && part.endsWith('"');
+        let term = suggestions[clean];
+        if (hasQuotes) term = `"${term}"`;
+        return (isNeg ? "-" : "") + term;
+      }
+      return part;
+    });
+    
+    return correctedParts.join(" ");
+  }, [searchQuery, HEMS_DICTIONARY]);
+
+  // Query operators parser: exact phrase quotes ("phrase") and excludes (-term)
+  const queryTerms = useMemo(() => {
+    const exactPhrases: string[] = [];
+    const excludedTerms: string[] = [];
+    const normalKeywords: string[] = [];
+    
+    if (!searchQuery.trim()) {
+      return { exactPhrases, excludedTerms, normalKeywords };
+    }
+    
+    let workingQuery = searchQuery.toLowerCase().trim();
+    
+    // Extract exact phrases
+    const quoteRegex = /"([^"]+)"/g;
+    let match;
+    while ((match = quoteRegex.exec(workingQuery)) !== null) {
+      exactPhrases.push(match[1].trim());
+    }
+    workingQuery = workingQuery.replace(/"[^"]+"/g, " ");
+    
+    // Extract exclusions and standard keywords
+    const tokens = workingQuery.split(/\s+/).filter(Boolean);
+    tokens.forEach(token => {
+      if (token.startsWith("-") && token.length > 1) {
+        excludedTerms.push(token.slice(1));
+      } else {
+        normalKeywords.push(token);
+      }
+    });
+    
+    return { exactPhrases, excludedTerms, normalKeywords };
+  }, [searchQuery]);
+
   // Initialize Algolia search client if credentials are set
   const algoliaIndex = useMemo(() => {
     if (ALGOLIA_APP_ID && ALGOLIA_SEARCH_KEY) {
@@ -143,7 +313,7 @@ export default function Archive() {
   const fullTextSearchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
 
-    const queryKeywords = searchQuery.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    const { exactPhrases, excludedTerms, normalKeywords } = queryTerms;
     let matchedChunks: any[] = [];
 
     // Mode A: Local mock PDF chunks database fallback
@@ -152,51 +322,81 @@ export default function Archive() {
         let chunkScore = 0;
         let isMatched = false;
 
-        queryKeywords.forEach((keyword) => {
-          const expandedTerms = getExpandedTerms(keyword);
-          
-          // Match keyword or any of its synonyms
-          expandedTerms.forEach((term) => {
-            const isExact = term === keyword;
-            let pattern = term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-            if (term.length > 3 && term.endsWith('s') && !term.endsWith('ss')) {
-              const stem = term.slice(0, -1);
-              const escapedStem = stem.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-              pattern = `(?:${pattern}|${escapedStem}\\b)`;
-            }
-            const termRegex = new RegExp(`\\b${pattern}`, "i");
-            
-            // 1. Match in Title
-            if (termRegex.test(chunk.title)) {
-              chunkScore += isExact ? 10 : 3;
-              isMatched = true;
-            }
-            
-            // 2. Match in Slide Text Content
-            if (termRegex.test(chunk.text_content)) {
-              chunkScore += isExact ? 5 : 1;
-              isMatched = true;
-            }
+        const authorsStr = Array.isArray(chunk.authors) ? chunk.authors.join(" ") : String(chunk.authors || "");
+        const institutionsStr = Array.isArray(chunk.institutions) ? chunk.institutions.join(" ") : String(chunk.institutions || "");
+        const combinedText = `${chunk.title} ${chunk.text_content} ${authorsStr} ${institutionsStr}`.toLowerCase();
 
-            // 3. Match in Authors
-            const authorMatch = Array.isArray(chunk.authors) 
-              ? chunk.authors.some((name: string) => termRegex.test(name))
-              : typeof chunk.authors === "string" && termRegex.test(chunk.authors);
-            if (authorMatch) {
-              chunkScore += isExact ? 8 : 2;
-              isMatched = true;
-            }
-
-            // 4. Match in Institutions
-            const instMatch = Array.isArray(chunk.institutions)
-              ? chunk.institutions.some((inst: string) => termRegex.test(inst))
-              : false;
-            if (instMatch) {
-              chunkScore += isExact ? 8 : 2;
-              isMatched = true;
-            }
-          });
+        // 1. Enforce Exclude Operators (-exclude)
+        const hasExcluded = excludedTerms.some(term => {
+          const regex = new RegExp(`\\b${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")}`, "i");
+          return regex.test(combinedText);
         });
+        if (hasExcluded) return { ...chunk, relevanceScore: 0, isMatched: false };
+
+        // 2. Enforce Exact Phrase Quotes ("phrase")
+        const hasAllExact = exactPhrases.every(phrase => {
+          return combinedText.includes(phrase);
+        });
+        if (exactPhrases.length > 0 && !hasAllExact) return { ...chunk, relevanceScore: 0, isMatched: false };
+
+        // Exact phrases match without normal keywords
+        if (exactPhrases.length > 0 && normalKeywords.length === 0) {
+          let phraseScore = 0;
+          exactPhrases.forEach(phrase => {
+            if (chunk.title.toLowerCase().includes(phrase)) phraseScore += 10;
+            if (chunk.text_content.toLowerCase().includes(phrase)) phraseScore += 5;
+            if (authorsStr.toLowerCase().includes(phrase)) phraseScore += 8;
+          });
+          return { ...chunk, relevanceScore: phraseScore || 1, isMatched: true };
+        }
+
+        // 3. Match Normal Keywords with Synonym Expansion
+        if (normalKeywords.length > 0) {
+          normalKeywords.forEach((keyword) => {
+            const expandedTerms = getExpandedTerms(keyword);
+            
+            expandedTerms.forEach((term) => {
+              const isExact = term === keyword;
+              let pattern = term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+              if (term.length > 3 && term.endsWith('s') && !term.endsWith('ss')) {
+                const stem = term.slice(0, -1);
+                const escapedStem = stem.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+                pattern = `(?:${pattern}|${escapedStem}\\b)`;
+              }
+              const termRegex = new RegExp(`\\b${pattern}`, "i");
+              
+              // 1. Match in Title
+              if (termRegex.test(chunk.title)) {
+                chunkScore += isExact ? 10 : 3;
+                isMatched = true;
+              }
+              
+              // 2. Match in Slide Text Content
+              if (termRegex.test(chunk.text_content)) {
+                chunkScore += isExact ? 5 : 1;
+                isMatched = true;
+              }
+
+              // 3. Match in Authors
+              const authorMatch = Array.isArray(chunk.authors) 
+                ? chunk.authors.some((name: string) => termRegex.test(name))
+                : typeof chunk.authors === "string" && termRegex.test(chunk.authors);
+              if (authorMatch) {
+                chunkScore += isExact ? 8 : 2;
+                isMatched = true;
+              }
+
+              // 4. Match in Institutions
+              const instMatch = Array.isArray(chunk.institutions)
+                ? chunk.institutions.some((inst: string) => termRegex.test(inst))
+                : false;
+              if (instMatch) {
+                chunkScore += isExact ? 8 : 2;
+                isMatched = true;
+              }
+            });
+          });
+        }
 
         return { ...chunk, relevanceScore: chunkScore, isMatched };
       }).filter(chunk => chunk.isMatched && chunk.relevanceScore > 0);
@@ -239,10 +439,18 @@ export default function Archive() {
 
       // Check if this chunk has actual text content matches for query terms
       const textToSearch = chunk.text_content.toLowerCase();
-      const hasTextMatch = queryKeywords.some(keyword => {
-        const expanded = getExpandedTerms(keyword);
-        return expanded.some(term => textToSearch.includes(term));
-      });
+      let hasTextMatch = false;
+
+      if (normalKeywords.length > 0) {
+        hasTextMatch = normalKeywords.some(keyword => {
+          const expanded = getExpandedTerms(keyword);
+          return expanded.some(term => textToSearch.includes(term));
+        });
+      } else if (exactPhrases.length > 0) {
+        hasTextMatch = exactPhrases.some(phrase => {
+          return textToSearch.includes(phrase);
+        });
+      }
 
       if (hasTextMatch) {
         paperGroups[key].matches.push({
@@ -314,66 +522,97 @@ export default function Archive() {
   const metadataSearchResults = useMemo(() => {
     if (isSearchActive && searchMode !== "metadata") return [];
 
+    const { exactPhrases, excludedTerms, normalKeywords } = queryTerms;
     let results = allPapers;
 
     if (searchQuery.trim().length > 0) {
-      const queryKeywords = searchQuery.toLowerCase().trim().split(/\s+/).filter(Boolean);
-      
       results = results.map((paper) => {
         let paperScore = 0;
         let isMatched = false;
 
-        queryKeywords.forEach((keyword) => {
-          const expandedTerms = getExpandedTerms(keyword);
+        const authorsStr = Array.isArray(paper.authors)
+          ? paper.authors.map((a: any) => typeof a === "string" ? a : a.name).join(" ")
+          : String(paper.authors || "");
+        const institutesStr = Array.isArray(paper.institutes) ? paper.institutes.join(" ") : "";
+        const combinedText = `${paper.title} ${paper.sessionTitle} ${authorsStr} ${institutesStr} ${paper.workshopYear}`.toLowerCase();
 
-          expandedTerms.forEach((term) => {
-            const isExact = term === keyword;
-            let pattern = term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-            if (term.length > 3 && term.endsWith('s') && !term.endsWith('ss')) {
-              const stem = term.slice(0, -1);
-              const escapedStem = stem.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-              pattern = `(?:${pattern}|${escapedStem}\\b)`;
-            }
-            const termRegex = new RegExp(`\\b${pattern}`, "i");
-
-            // 1. Title Match
-            if (termRegex.test(paper.title)) {
-              paperScore += isExact ? 10 : 3;
-              isMatched = true;
-            }
-
-            // 2. Authors Match
-            let authMatch = false;
-            if (Array.isArray(paper.authors)) {
-              authMatch = paper.authors.some((a: any) => {
-                const name = typeof a === "string" ? a : a.name;
-                return termRegex.test(name);
-              });
-            } else if (typeof paper.authors === "string") {
-              authMatch = termRegex.test(paper.authors);
-            }
-            if (authMatch) {
-              paperScore += isExact ? 8 : 2;
-              isMatched = true;
-            }
-
-            // 3. Affiliation/Institution Match
-            let instMatch = false;
-            if (Array.isArray(paper.institutes)) {
-              instMatch = paper.institutes.some((inst: string) => termRegex.test(inst));
-            }
-            if (instMatch) {
-              paperScore += isExact ? 8 : 2;
-              isMatched = true;
-            }
-
-            // 4. Session Title/Year Match
-            if (termRegex.test(paper.sessionTitle) || String(paper.workshopYear).includes(term)) {
-              paperScore += 1;
-              isMatched = true;
-            }
-          });
+        // 1. Enforce Exclude Operators
+        const hasExcluded = excludedTerms.some(term => {
+          const regex = new RegExp(`\\b${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")}`, "i");
+          return regex.test(combinedText);
         });
+        if (hasExcluded) return { ...paper, relevanceScore: 0, isMatched: false };
+
+        // 2. Enforce Exact Phrase Quotes
+        const hasAllExact = exactPhrases.every(phrase => {
+          return combinedText.includes(phrase);
+        });
+        if (exactPhrases.length > 0 && !hasAllExact) return { ...paper, relevanceScore: 0, isMatched: false };
+
+        // Exact phrases match without normal keywords
+        if (exactPhrases.length > 0 && normalKeywords.length === 0) {
+          let phraseScore = 0;
+          exactPhrases.forEach(phrase => {
+            if (paper.title.toLowerCase().includes(phrase)) phraseScore += 10;
+            if (authorsStr.toLowerCase().includes(phrase)) phraseScore += 8;
+          });
+          return { ...paper, relevanceScore: phraseScore || 1, isMatched: true };
+        }
+
+        // 3. Match Normal Keywords
+        if (normalKeywords.length > 0) {
+          normalKeywords.forEach((keyword) => {
+            const expandedTerms = getExpandedTerms(keyword);
+
+            expandedTerms.forEach((term) => {
+              const isExact = term === keyword;
+              let pattern = term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+              if (term.length > 3 && term.endsWith('s') && !term.endsWith('ss')) {
+                const stem = term.slice(0, -1);
+                const escapedStem = stem.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+                pattern = `(?:${pattern}|${escapedStem}\\b)`;
+              }
+              const termRegex = new RegExp(`\\b${pattern}`, "i");
+
+              // 1. Title Match
+              if (termRegex.test(paper.title)) {
+                paperScore += isExact ? 10 : 3;
+                isMatched = true;
+              }
+
+              // 2. Authors Match
+              let authMatch = false;
+              if (Array.isArray(paper.authors)) {
+                authMatch = paper.authors.some((a: any) => {
+                  const name = typeof a === "string" ? a : a.name;
+                  return termRegex.test(name);
+                });
+              } else if (typeof paper.authors === "string") {
+                authMatch = termRegex.test(paper.authors);
+              }
+              if (authMatch) {
+                paperScore += isExact ? 8 : 2;
+                isMatched = true;
+              }
+
+              // 3. Affiliation/Institution Match
+              let instMatch = false;
+              if (Array.isArray(paper.institutes)) {
+                instMatch = paper.institutes.some((inst: string) => termRegex.test(inst));
+              }
+              if (instMatch) {
+                paperScore += isExact ? 8 : 2;
+                isMatched = true;
+              }
+
+              // 4. Session Title/Year Match
+              if (termRegex.test(paper.sessionTitle) || String(paper.workshopYear).includes(term)) {
+                paperScore += 1;
+                isMatched = true;
+              }
+            });
+          });
+        }
 
         return { ...paper, relevanceScore: paperScore, isMatched };
       }).filter((paper: any) => paper.isMatched && paper.relevanceScore > 0);
@@ -569,6 +808,21 @@ export default function Archive() {
               >
                 <X size={18} />
               </button>
+            )}
+            {spellingSuggestion && (
+              <div className="text-xs mt-2 text-foreground/60 flex items-center gap-1.5 animate-fadeIn">
+                <span>Did you mean:</span>
+                <button
+                  onClick={() => {
+                    setSearchQuery(spellingSuggestion);
+                    setDisplayLimit(25);
+                  }}
+                  className="text-primary hover:underline font-bold"
+                >
+                  {spellingSuggestion}
+                </button>
+                <span>?</span>
+              </div>
             )}
           </div>
           
