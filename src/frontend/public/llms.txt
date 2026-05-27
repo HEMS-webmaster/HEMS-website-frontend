@@ -7,6 +7,10 @@ The HEMS Workshop is a biennial scientific conference focused on mass spectromet
 ## Workshop Archives
 Each archive page contains: full technical program with session schedules, downloadable presentation PDFs, abstract PDFs, author/institution lists, corporate sponsor information, and student award winners.
 
+### Machine & AI Ingestion Interface
+To allow AI search agents, academic citation scrapers, and custom models to map and digest the entire HEMS body of work with zero HTML scraping overhead, a flat machine-readable proceedings database is served at:
+- [/archives-index.json](file:///archives-index.json): Full flat array of all 436 historical presentations, posters, and abstracts (including authors lists, affiliated institutions, workshop years, session titles, presentation slides PDF links, and abstract PDF coordinates).
+
 - /archive/2023: 15th HEMS Workshop (2023)
 - /archive/2022: 14th HEMS Workshop — Cocoa Beach, FL (Sept 26-29, 2022)
 - /archive/2020: Virtual HEMS Workshop (2020)

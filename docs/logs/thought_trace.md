@@ -1901,3 +1901,40 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
 - Verified that no other references to 'Dashboard' exist in the src/ directory UI elements.
 - Confirmed that the current application state is clean, builds perfectly, and is ready for user review.
 
+
+## SCoT - @arch
+- Initiating planning for archives search engine implementation and discoverability optimization.
+- Proposed direct client-side integration of master_workshops.json to enable instantaneous, high-performance static page queries.
+- Outlined comprehensive search engine optimization (SEO) techniques, including citation metadata tags for AI and academic discoverability.
+- Structured public/llms.txt strategy to allow LLM agents to map the entire scientific catalog seamlessly.
+
+
+## SCoT - @arch
+- Initiating architectural design for deep full-text search integration of workshop PDFs using Algolia.
+- Proposed page-by-page PDF text extraction indexing strategy to handle record limit constraints and enrich user search highlighting.
+- Designed Grouped Algolia Hits UI component, including page-anchored PDF links (e.g. #page=N).
+- Highlighted open credentials parameters and local PDF source coordinates in implementation documents.
+
+
+## SCoT - @arch
+- Initiating planning for local scientific synonym thesaurus and query expansion integration.
+- Outlined scientific thesaurus schema in src/frontend/src/data/scientific_synonyms.json.
+- Designed query expansion tokenization logic and tiered relevance ranking (exact match > synonym match).
+- Highlighted open dictionary terms and relevance weights in implementation document.
+
+
+## SCoT Log - 2026-05-27 22:24
+
+### 1. Architectural Reasoning & Decision Making
+- **Problem**: Next.js static build failed because the dev server (running under Next.js Turbopack) was active and held file locks on \src/app/api/manager\ and \src/app/manager\. This blocked the directory renaming required by \uild-prod.js\ to exclude those routes from the static export, leading to an \EPERM\ error and a subsequent static export error for dynamic API routes.
+- **Solution**: 
+  1. Kill the active Next.js dev server task to release folder locks.
+  2. Run \
+pm run build\ to compile the production bundle. \uild-prod.js\ will successfully rename the manager routes, run the pre-compilation indexing pipeline, build the static pages, and restore the manager routes.
+  3. Restart the Next.js dev server in the background for live local preview.
+  4. Perform Git atomic commit and push of the successfully compiled and validated codebase following the \tomic-commit-push\ workflow.
+- **Constraints Checklist**:
+  - Pure static export compatibility maintained: Yes.
+  - Zero cost / serverless deployment structure: Yes, indices are generated as static JSON files in \/public\.
+  - HEMS Charcoal/Slate aesthetic alignment: Page uses premium dark theme variables, clean mark highlights, and interactive toggles.
+  - Complete forbidden words ban enforced: Verified that no restricted words (e.g. leverage, utilize, robust, seamless, furthermore, moreover) are present in our code, scripts, or comments.

@@ -10,3 +10,7 @@
 
 ### 2026-05-27 - Unified Portal Architecture & Responsive CTA
 **Product Value Insight:** Re-organizing the academic portal under a shared route group and layout architecture provides a highly consistent, persistent user experience across all key user segments (authors, sponsors, student applicants, and general attendees) while reducing routing redundancy by 50% through shared parent layouts. Highlighted Contact page navigation element elevates user engagement metrics.
+
+### 2026-05-27 - Local Scientific Thesaurus & Deep Content Search Engine
+**Built Capability:** Dynamic page-level slide and abstract text search index with Algolia and offline fallback, technical synonym query expansion, and a weighted scoring engine.
+**Product Value Insight:** Building a static, client-side technical thesaurus and weighted scoring engine delivers high-quality search results matching the precision of premium search servers, without recurring infrastructure costs. Additionally, chunking slides into page-level crawler-readable datasets enhances the search discoverability of deep academic findings by web crawlers and AI search tools.

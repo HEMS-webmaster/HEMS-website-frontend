@@ -13,6 +13,12 @@ interface JsonLdArticle {
   '@type': 'ScholarlyArticle';
   name: string;
   author?: JsonLdPerson[];
+  associatedMedia?: {
+    '@type': 'MediaObject';
+    contentUrl: string;
+    encodingFormat: string;
+    name?: string;
+  }[];
 }
 
 interface JsonLdSubEvent {
@@ -176,6 +182,18 @@ export function generateArchiveJsonLd(data: any): JsonLdEvent {
             }
           }
 
+          // Helper for absolute URLs for search crawler/AI compatibility
+          const getAbsoluteUrl = (urlStr: string) => {
+            if (!urlStr) return "";
+            if (urlStr.startsWith("http://") || urlStr.startsWith("https://")) {
+              return urlStr;
+            }
+            if (urlStr.startsWith("/")) {
+              return `https://www.hems-workshop.org${urlStr}`;
+            }
+            return `https://www.hems-workshop.org/${urlStr}`;
+          };
+
           // Map talks → ScholarlyArticle
           if (item.talks && item.talks.length > 0) {
             sessionEvent.workPerformed = item.talks
@@ -189,6 +207,31 @@ export function generateArchiveJsonLd(data: any): JsonLdEvent {
                 if (authors.length > 0) {
                   article.author = authors;
                 }
+
+                // Map dynamic PDF downloads as associatedMedia for crawlability
+                const media: any[] = [];
+                const slidesUrlStr = talk.public_website_url || talk.legacy_url || talk.presentationUrl || talk.url || "";
+                if (slidesUrlStr) {
+                  media.push({
+                    "@type": "MediaObject",
+                    "contentUrl": getAbsoluteUrl(slidesUrlStr),
+                    "encodingFormat": "application/pdf",
+                    "name": "Presentation Slides"
+                  });
+                }
+                const abstractUrlStr = talk.public_abstract_url || talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url || "";
+                if (abstractUrlStr) {
+                  media.push({
+                    "@type": "MediaObject",
+                    "contentUrl": getAbsoluteUrl(abstractUrlStr),
+                    "encodingFormat": "application/pdf",
+                    "name": "Extended Abstract"
+                  });
+                }
+                if (media.length > 0) {
+                  article.associatedMedia = media;
+                }
+
                 return article;
               });
           }

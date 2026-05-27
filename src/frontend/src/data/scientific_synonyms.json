@@ -1,0 +1,8 @@
+{
+  "spaceflight": ["space", "mars", "planetary", "lunar", "titan", "europa", "venus", "probe", "orbit", "lander", "rover", "atmosphere", "cosmic", "satellite", "astrobiology", "extra-terrestrial", "flight"],
+  "marine": ["ocean", "oceanic", "underwater", "sea", "vent", "plume", "hydrothermal", "lake", "mims", "cruise", "suncoaster", "subsea", "aquatic", "marine", "submersible", "dissolved gas", "oceanography", "abyssal"],
+  "quadrupole": ["qms", "mass filter", "mass analyzer", "ion trap", "vacuum", "tof", "time-of-flight", "magnetic sector", "cyclotron", "octopole", "hexapole", "vacuum pump", "turbo pump", "roughing pump"],
+  "miniaturization": ["portable", "handheld", "micro", "mems", "field", "compact", "rugged", "ruggedized", "sub-miniature", "low-power", "deployable", "miniature"],
+  "spectrometry": ["spectrometer", "mass spec", "ms", "spec", "mass spectrometry", "analyzer", "detection", "chemical profiling", "sampling", "analytical"],
+  "sensor": ["detector", "sensor", "probe", "monitoring", "measurement", "real-time", "autonomous", "in situ", "profiling", "instrument"]
+}
