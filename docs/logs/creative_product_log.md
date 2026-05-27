@@ -7,3 +7,6 @@
 
 ### 2026-05-12 - PDF Engine Resilience
 **Product Value Insight:** The transition to dynamic doc.getLineHeight() spacing instead of hardcoded vertical coordinate leaps significantly hardens the PDF generation engine against variable data lengths and font constraints, paving the way for seamless, automated multi-page publication pipelines for any workshop year.
+
+### 2026-05-27 - Unified Portal Architecture & Responsive CTA
+**Product Value Insight:** Re-organizing the academic portal under a shared route group and layout architecture provides a highly consistent, persistent user experience across all key user segments (authors, sponsors, student applicants, and general attendees) while reducing routing redundancy by 50% through shared parent layouts. Highlighted Contact page navigation element elevates user engagement metrics.

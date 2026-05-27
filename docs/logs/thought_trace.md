@@ -1776,3 +1776,128 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
 - Portal page integration complete.
 - Production build run successfully with zero errors.
 - All files verified against forbidden words constraint.
+
+
+## [2026-05-27] @dev/arch Execution Phase (Follow-up): Adding Accommodations Page
+
+### Objectives
+1. Create a new /accommodations informational page.
+2. Link it from layout-portal sidebar resources.
+3. Add a card in layout-portal main panel.
+4. Verify build compiled successfully with zero errors.
+
+
+## [2026-05-27] @dev/arch Completion Phase (Follow-up): Accommodations page verified
+
+### Verification Results
+- Creation of accommodations page complete.
+- Integration in portal sidebar resources and main panel grid complete.
+- Production build run successfully with zero errors.
+- Verified zero forbidden words used in code or text assets.
+
+
+## [2026-05-27] @dev/arch Execution Phase: Sidebar Re-org & Call for Papers Page
+
+### Objectives
+1. Move Accommodations up under Dashboard in the portal sidebar.
+2. Replace Technical Program with Call for Papers link in the portal sidebar.
+3. Create /call-for-papers/page.tsx with abstract guidelines and submission links.
+4. Verify build compiled successfully with zero errors.
+
+
+## [2026-05-27] @dev/arch Completion Phase (Follow-up): Call for Papers page & re-org verified
+
+### Verification Results
+- Sidebar re-organization completed: Moved Accommodations under Dashboard and replaced Technical Program with Call for Papers.
+- Call for Papers page creation complete.
+- Production build run successfully with zero errors.
+- All changes checked for forbidden words constraint.
+
+
+## [2026-05-27] @dev/arch Execution Phase (Follow-up): Registration & Formatting Pages
+
+### Objectives
+1. Create /registration/page.tsx template with pricing tiers and checkout instructions.
+2. Create /formatting-guidelines/page.tsx template with abstract margins and layout specifications.
+3. Link both pages from layout-portal sidebar resources and dashboard.
+4. Verify build compiles successfully with zero errors.
+
+
+## [2026-05-27] @dev/arch Completion Phase (Follow-up): Registration & Formatting templates verified
+
+### Verification Results
+- Registration template page complete.
+- Formatting Guidelines template page complete.
+- Integration in portal sidebar complete.
+- Production build run successfully with zero errors.
+- All files double checked for forbidden words constraint.
+
+
+## [2026-05-27] @dev/arch Completion Phase: Shared layout route group & guidelines linkage complete
+
+### Verification Results
+- Shared route group layout wraps /layout-portal, /call-for-papers, /accommodations, /registration.
+- Formatting Guidelines removed from portal sidebar.
+- Formatting Guidelines linked inside Call for Papers page sidebar.
+- Production build compiles perfectly with zero errors.
+- Verified zero forbidden words used in code or text assets.
+
+
+## [2026-05-27] @dev/arch Execution Phase (Follow-up): Sidebar Restructure & Portal Integration
+
+### Objectives
+1. Move Student Awards and Corporate Sponsorship up under Dashboard in the portal sidebar.
+2. Relocate both pages inside the (portal) route group so they share the vertical sidebar layout wrapper.
+3. Remove Workshop Archive and the entire Resources section from the portal sidebar nav.
+4. Verify build compiles successfully with zero errors.
+
+
+## [2026-05-27] @dev/arch Completion Phase: Unified dashboard sidebar confirmed
+
+### Verification Results
+- Relocated Student Awards and Corporate Sponsorship inside (portal) route group.
+- Portal sidebar updated to a single unified Dashboard list (Overview, Call for Papers, Student Awards, Corporate Sponsorship, Accommodations, Registration).
+- Obsolete Resources section and Workshop Archive link removed.
+- Production build compiles perfectly with zero errors.
+- All files double checked for forbidden words constraint.
+
+
+## [2026-05-27] @dev/arch Execution Phase (Follow-up): Sidebar Re-order & Premium Styling
+
+### Objectives
+1. Re-order portal navbar links by order of importance.
+2. Add custom icons to each sidebar item.
+3. Apply a premium active-link highlight style (left colored border, background tint, bold text).
+4. Verify build compiles successfully with zero errors.
+
+
+## [2026-05-27] @dev/arch Completion Phase: Re-ordered premium sidebar layout verified
+
+### Verification Results
+- Sidebar items sorted in technical importance hierarchy.
+- Custom lucide icons rendered for each sidebar list item.
+- Premium active highlight styling implemented successfully (tinted background, left border, bold text font).
+- Production build compiles perfectly with zero errors.
+- Verified zero forbidden words in code or text variables.
+
+
+## [2026-05-27] @dev/arch Direct Execution: Rename Dashboard to Workshop Portal
+
+### Objectives
+1. Replace the string " Dashboard\ with \Workshop Portal\ in src/frontend/src/app/(portal)/layout.tsx.
+2. Run production build and verify.
+
+
+## [2026-05-27] @dev/arch Completion Phase: Renamed sidebar header to Workshop Portal confirmed
+
+### Verification Results
+- Changed " Dashboard\ to \Workshop Portal\ in src/frontend/src/app/(portal)/layout.tsx.
+- Production build compiles perfectly with zero errors.
+- Verified zero forbidden words in code or text variables.
+
+## SCoT - @dev
+- Verified that the string 'Dashboard' was replaced with 'Workshop Portal' in the portal sidebar navigation header within src/frontend/src/app/(portal)/layout.tsx (line 27).
+- Verified that 'Dashboard' only appears in lucide-react imports (LayoutDashboard icon) and has been successfully renamed to 'Workshop Portal' in the user-facing navigation header.
+- Verified that no other references to 'Dashboard' exist in the src/ directory UI elements.
+- Confirmed that the current application state is clean, builds perfectly, and is ready for user review.
+

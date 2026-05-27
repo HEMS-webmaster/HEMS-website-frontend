@@ -1,14 +1,18 @@
 # Implementation Plan - HEMS Page & Navigation Refactoring
 
-This plan outlines the steps required to remove the "Join HEMS" page, update the navigation bar to highlight the "Contact" page as a prominent call-to-action button, create two new informational pages for "Student Awards" and "Corporate Sponsorship" populated with legacy website content, and integrate links to these new pages within the Portal page.
+This plan outlines the steps required to remove the "Join HEMS" page, update the navigation bar to highlight the "Contact" page as a prominent call-to-action button, create six new informational pages for "Student Awards", "Corporate Sponsorship", "Accommodations", "Call for Papers", "Registration", and "Formatting Guidelines" populated with legacy website content, and integrate links to these new pages within the Portal page.
 
 ## User Review Required
 
 > [!IMPORTANT]
 > The new "Student Awards" page will outline eligibility criteria and submission guidelines for the $1,500.00 travel grants. Applications are to be sent via email to `hemsworkshop@hems-workshop.org`.
 > The new "Corporate Sponsorship" page will document the sponsorship benefits, rate packages ($1,350 full or $850/$500 split), past sponsors registry, and contact info (Tim Short at `rtshort00@gmail.com`). 
+> The new "Accommodations" page will document the workshop venue (Sheraton Virginia Beach Oceanfront Hotel), room block pricing ($124.00/night), booking deadline (Friday, September 5, 2025), and direct reservation links.
+> The new "Call for Papers" page will document technical submission scope, oral and poster presentations, formatting guidelines, deadline cutoff (Friday, July 1, 2025), and direct links to Ex Ordo portal for submissions (`https://hems-workshop2025.exordo.com/submissions/new`).
+> The new "Registration" page templates ticket categories ($250 student, $500 professional, and $1,350 sponsor), billing details, key deadlines, cancellation terms, and links to Ex Ordo registration.
+> The new "Formatting Guidelines" page templates abstract specifications, margin metrics (1-inch), typographies (Times New Roman/Arial, 11-12pt), naming protocols, structural sections, and document templates download links.
 
-Please verify if the planned slugs `/student-awards` and `/corporate-sponsorship` are correct.
+Please verify if the planned slugs `/student-awards`, `/corporate-sponsorship`, `/accommodations`, `/call-for-papers`, `/registration`, and `/formatting-guidelines` are correct.
 
 ## Proposed Changes
 
@@ -26,35 +30,38 @@ Please verify if the planned slugs `/student-awards` and `/corporate-sponsorship
 
 ---
 
-### Portal Hub Integration
+### Portal Hub Shared Layout Route Group
 
-#### [MODIFY] [layout-portal/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/layout-portal/page.tsx)
-- Add direct navigation links to `/student-awards` and `/corporate-sponsorship` under the "Resources" category in the left sidebar.
-- Build a new dashboard grid section in the main portal layout containing card representations for both "Student Travel Awards" and "Corporate Sponsorship opportunities". Each card will show a concise summary and a clear call-to-action link.
+#### [NEW] [(portal)/layout.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/(portal)/layout.tsx)
+- Shared Client Component layout wrapper rendering the left Portal Sidebar Navigation bar (Portal navbar) and yielding children inside a main panel container (`p-6 md:p-12 bg-surface`).
+- Keeps the sidebar visible across all six dashboard sub-routes: `/layout-portal` (Overview), `/call-for-papers`, `/student-awards`, `/corporate-sponsorship`, `/accommodations`, and `/registration` to allow easy browsing.
+- Removed the obsolete Resources section entirely from the sidebar.
+
+#### [MODIFY] [(portal)/layout-portal/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/(portal)/layout-portal/page.tsx)
+- Move portal overview page to the shared route group directory and refactor to yield inner content dynamically inside the shared portal layout.
+
+#### [MODIFY] [(portal)/call-for-papers/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/(portal)/call-for-papers/page.tsx)
+- Move technical papers page to the shared route group directory, and refactor to yield inner content.
+- Integrate a new **Formatting Guidelines** resource sidebar card to prompt authors directly during technical submissions prep.
+
+#### [MODIFY] [(portal)/student-awards/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/(portal)/student-awards/page.tsx)
+- Relocated inside the shared layout route group directory, refactored to leverage the shared layout and display the portal sidebar navbar dynamically.
+
+#### [MODIFY] [(portal)/corporate-sponsorship/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/(portal)/corporate-sponsorship/page.tsx)
+- Relocated inside the shared layout route group directory, refactored to leverage the shared layout and display the portal sidebar navbar dynamically.
+
+#### [MODIFY] [(portal)/accommodations/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/(portal)/accommodations/page.tsx)
+- Move lodging page to the shared route group directory, and refactor to yield inner content.
+
+#### [MODIFY] [(portal)/registration/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/(portal)/registration/page.tsx)
+- Move tickets page to the shared route group directory, and refactor to yield inner content.
 
 ---
 
-### New Informational Pages
+### Other Informational Pages
 
-#### [NEW] [student-awards/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/student-awards/page.tsx)
-- Create a dedicated informational page.
-- Layout:
-  - Header: Clean academic page banner, with title and deadline.
-  - Section 1: Introduction and Award Amount ($1,500.00).
-  - Section 2: Eligibility Requirements (full-time graduate students).
-  - Section 3: Step-by-step Application Guidelines (cover letter, advisor letter, abstract info, CV).
-  - Section 4: Award Criteria (academic merit, abstract quality, publication potential).
-  - Section 5: Callout box for Email Submission with a link to `hemsworkshop@hems-workshop.org`.
-
-#### [NEW] [corporate-sponsorship/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/corporate-sponsorship/page.tsx)
-- Create a dedicated corporate sponsorship guide.
-- Layout:
-  - Header: Clean sponsor page banner with options download action.
-  - Section 1: Overview and Value (supporting the workshop and student awards).
-  - Section 2: Sponsorship Benefits (display tables, banner credits, website logotype link, poster space).
-  - Section 3: Pricing Table & Rates ($1,350 full or $850/$500 split options for corporate spending guidelines).
-  - Section 4: Contact card pointing to Tim Short at `rtshort00@gmail.com` for queries.
-  - Section 5: Past Sponsors Registry (visual typographic grid highlighting loyal corporate contributors).
+#### [NEW] [formatting-guidelines/page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/formatting-guidelines/page.tsx)
+- Create a dedicated manuscript styling specs catalog.
 
 ---
 
@@ -70,4 +77,4 @@ Please verify if the planned slugs `/student-awards` and `/corporate-sponsorship
 - Verify the navigation header layout: confirm the "Join HEMS" link is removed and the "Contact" link is styled as a highlighted button.
 - Verify the footer layout: confirm "Join" is removed.
 - Verify the Portal Hub links in both the sidebar and the main content cards.
-- Inspect `/student-awards` and `/corporate-sponsorship` on desktop and mobile viewports to ensure they are visually consistent, engaging, and match the site's styling system.
+- Inspect all new templates on desktop and mobile viewports to ensure they are visually consistent, engaging, and match the site's styling system.
