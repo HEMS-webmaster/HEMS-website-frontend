@@ -66,7 +66,9 @@ try {
               session_title: sessionTitle,
               type: "presentation",
               presentation_url: getAbsoluteUrl(talk.public_website_url || talk.local_target_path || talk.legacy_url || talk.presentationUrl || talk.url || ""),
-              abstract_url: getAbsoluteUrl(talk.public_abstract_url || talk.local_abstract_target_path || talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url || "")
+              abstract_url: getAbsoluteUrl(talk.public_abstract_url || talk.local_abstract_target_path || talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url || ""),
+              presentation_file: talk.presentation_file || "",
+              abstract_file: talk.abstract_file || ""
             });
           });
         }
@@ -107,7 +109,9 @@ try {
           session_title: "Poster Session",
           type: "poster",
           presentation_url: getAbsoluteUrl(poster.public_website_url || poster.local_target_path || poster.legacy_url || poster.presentationUrl || poster.url || ""),
-          abstract_url: getAbsoluteUrl(poster.public_abstract_url || poster.local_abstract_target_path || poster.legacy_abstract_url || poster.abstractUrl || poster.abstract_url || "")
+          abstract_url: getAbsoluteUrl(poster.public_abstract_url || poster.local_abstract_target_path || poster.legacy_abstract_url || poster.abstractUrl || poster.abstract_url || ""),
+          presentation_file: poster.presentation_file || "",
+          abstract_file: poster.abstract_file || ""
         });
       });
     }

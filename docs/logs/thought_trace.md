@@ -2023,3 +2023,26 @@ The deep PDF text parsing pipeline currently falls back to simulated template sl
 ### Constraints Check
 - No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
 - Modifying only frontend script files, which keeps operations aligned with the allowed domain boundaries.
+
+
+## SCoT Log - 2026-05-27 - Phase 2 (Rare Terms & Historical PDFs)
+
+### Current Assessment
+The user reported that a rare term 'Hexblock' was not found in deep searches. This term resides in the 8th HEMS Workshop (2011) presentation PDF by K. Wright. Our indexer previously bypassed historical PDFs because they are located under the translation folder `docs/archives_translation/proceedings/` rather than the standard client assets folders.
+
+### Objectives
+1. Modify `generate-archives-index.js` to preserve `presentation_file` and `abstract_file` filename keys in the flat index database.
+2. Implement `findFileRecursively` in `index-pdf-contents.js` to search recursively inside `docs/archives_translation/proceedings/[ordinal]th/` for local PDFs.
+3. Update `getLocalFilePath` to fall back to this recursive search if standard URL path matching fails.
+4. Re-run flat index and PDF content indexing.
+5. Verify successful full-text extraction of 7,302 items.
+6. Verify the word 'Hexblock' is successfully parsed and indexed on K. Wright's 2011 slides (specifically slides 11, 12, 13, and 16).
+7. Recompile production static export to ensure 100% build compatibility.
+
+### Results
+- Historical PDFs are successfully located, parsed, and cached. The index size expanded to 7,302 deep full-text chunks.
+- The term 'Hexblock' is confirmed as successfully parsed on slides 11, 12, 13, and 16 of Wright's 2011 presentation.
+- Static production build succeeded with zero warnings.
+
+### Constraints Check
+- No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.

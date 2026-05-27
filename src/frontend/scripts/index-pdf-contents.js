@@ -28,27 +28,56 @@ if (!fs.existsSync(cacheDir)) {
   fs.mkdirSync(cacheDir, { recursive: true });
 }
 
+// Recursively searches a directory for a file matching the filename (case-insensitive)
+function findFileRecursively(dir, filename) {
+  if (!fs.existsSync(dir)) return null;
+  try {
+    const items = fs.readdirSync(dir);
+    for (const item of items) {
+      const fullPath = path.join(dir, item);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        const found = findFileRecursively(fullPath, filename);
+        if (found) return found;
+      } else if (item.toLowerCase() === filename.toLowerCase()) {
+        return fullPath;
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+  return null;
+}
+
 // Resolves local PDF file path from catalog relative or absolute URL, with fallback legacy HEMS path mapping
-function getLocalFilePath(urlStr, year, type) {
-  if (!urlStr) return null;
+function getLocalFilePath(urlStr, year, type, ordinal, filename) {
+  if (!urlStr && !filename) return null;
+
+  // 1. Try finding in proceedings translation folder if filename and ordinal are provided
+  if (ordinal && filename) {
+    const proceedingsDir = path.join(__dirname, '..', '..', '..', 'docs', 'archives_translation', 'proceedings', `${ordinal}th`);
+    const foundPath = findFileRecursively(proceedingsDir, filename);
+    if (foundPath) return foundPath;
+  }
+
+  // 2. Try URL-based assets archives folder
   try {
     let pathname = urlStr;
-    if (urlStr.startsWith('http://') || urlStr.startsWith('https://')) {
+    if (urlStr && (urlStr.startsWith('http://') || urlStr.startsWith('https://'))) {
       const url = new URL(urlStr);
       pathname = url.pathname;
     }
-    // E.g. '/assets/archives/2018/presentations/gonin.pdf'
-    if (pathname.includes('/assets/archives/')) {
+    if (pathname && pathname.includes('/assets/archives/')) {
       const relativePart = pathname.substring(pathname.indexOf('/assets/archives/'));
       return path.join(__dirname, '..', 'public', relativePart);
     }
 
     // Try legacy URL mapping if year and document type are provided
-    if (year && type) {
+    if (year && type && urlStr) {
       const decodedPathname = decodeURIComponent(pathname);
-      const filename = path.basename(decodedPathname).toLowerCase();
-      if (filename && filename.endsWith('.pdf')) {
-        const localPath = path.join(__dirname, '..', 'public', 'assets', 'archives', String(year), type, filename);
+      const baseName = path.basename(decodedPathname).toLowerCase();
+      if (baseName && baseName.endsWith('.pdf')) {
+        const localPath = path.join(__dirname, '..', 'public', 'assets', 'archives', String(year), type, baseName);
         if (fs.existsSync(localPath)) {
           return localPath;
         }
@@ -57,6 +86,22 @@ function getLocalFilePath(urlStr, year, type) {
   } catch (e) {
     // ignore parsing errors
   }
+
+  // 3. Fallback: try finding base URL name in proceedings even without filename
+  if (ordinal && urlStr) {
+    try {
+      const decodedPathname = decodeURIComponent(urlStr);
+      const baseName = path.basename(decodedPathname);
+      if (baseName && baseName.toLowerCase().endsWith('.pdf')) {
+        const proceedingsDir = path.join(__dirname, '..', '..', '..', 'docs', 'archives_translation', 'proceedings', `${ordinal}th`);
+        const foundPath = findFileRecursively(proceedingsDir, baseName);
+        if (foundPath) return foundPath;
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
+
   return null;
 }
 
@@ -136,8 +181,20 @@ async function runIndexer() {
     const paper = papers[pIdx];
     const paperId = `${paper.workshop_year}_${paper.workshop_ordinal}_${pIdx}`;
     
-    const localPresentationPath = getLocalFilePath(paper.presentation_url, paper.workshop_year, 'presentations');
-    const localAbstractPath = getLocalFilePath(paper.abstract_url, paper.workshop_year, 'abstracts');
+    const localPresentationPath = getLocalFilePath(
+      paper.presentation_url,
+      paper.workshop_year,
+      'presentations',
+      paper.workshop_ordinal,
+      paper.presentation_file
+    );
+    const localAbstractPath = getLocalFilePath(
+      paper.abstract_url,
+      paper.workshop_year,
+      'abstracts',
+      paper.workshop_ordinal,
+      paper.abstract_file
+    );
     
     let presentationPages = null;
     let abstractPages = null;
