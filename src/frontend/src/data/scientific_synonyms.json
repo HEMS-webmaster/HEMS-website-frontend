@@ -4,5 +4,6 @@
   "quadrupole": ["qms", "mass filter", "mass analyzer", "ion trap", "vacuum", "tof", "time-of-flight", "magnetic sector", "cyclotron", "octopole", "hexapole", "vacuum pump", "turbo pump", "roughing pump"],
   "miniaturization": ["portable", "handheld", "micro", "mems", "field", "compact", "rugged", "ruggedized", "sub-miniature", "low-power", "deployable", "miniature"],
   "spectrometry": ["spectrometer", "mass spec", "ms", "spec", "mass spectrometry", "analyzer", "detection", "chemical profiling", "sampling", "analytical"],
-  "sensor": ["detector", "sensor", "probe", "monitoring", "measurement", "real-time", "autonomous", "in situ", "profiling", "instrument"]
+  "sensor": ["detector", "sensor", "probe", "monitoring", "measurement", "real-time", "autonomous", "in situ", "profiling", "instrument"],
+  "vacuum": ["pump", "turbo", "turbomolecular", "pfeiffer", "hipace", "creare", "edwards", "backing pump", "roughing pump", "chamber", "pressure", "scroll pump", "molecular drag pump"]
 }

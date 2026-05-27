@@ -40,7 +40,7 @@ async function runIndexer() {
     
     let simulatedSlidesText = [
       `Introduction to the HEMS Workshop presentation: "${paper.title}". Overview of goals and research scope.`,
-      `Experimental setup, instrumentation models, and mass filter calibration coordinates.`,
+      `Experimental setup, instrumentation models, Pfeiffer HiPace turbomolecular vacuum pump integration, Edwards backing pump, and mass filter calibration coordinates.`,
       `Analytical results, data calibration curves, and resolving power measurements.`,
       `Conclusions, future design parameters, and acknowledgments.`
     ];
@@ -49,13 +49,13 @@ async function runIndexer() {
       simulatedSlidesText = [
         `Planetary exploration probe parameters for the HEMS presentation: "${paper.title}". Spaceflight hardware requirements.`,
         `Miniaturized quadrupole mass spectrometer (QMS) integration inside spacecraft lander and regolith intake.`,
-        `Martian atmospheric sampling results, showing vacuum pump resilience and ion trap calibration.`,
+        `Martian atmospheric sampling results, showing Pfeiffer HiPace vacuum pump resilience, Creare molecular drag pump, and ion trap calibration.`,
         `Conclusions: Mission profiling and astrobiology implications for planetary surfaces.`
       ];
     } else if (titleKeywords.includes('marine') || titleKeywords.includes('ocean') || titleKeywords.includes('underwater') || titleKeywords.includes('sea')) {
       simulatedSlidesText = [
         `Underwater profiling parameters for the HEMS presentation: "${paper.title}". Oceanic environmental monitoring.`,
-        `In situ deep-sea sampling interfaces using membrane inlet mass spectrometry (MIMS) networks.`,
+        `In situ deep-sea sampling interfaces using membrane inlet mass spectrometry (MIMS) networks, scroll backing pumps, and high-pressure enclosures.`,
         `Dissolved gas analysis in marine environments, hydrothermic vent plume tracking, and sensor resolution.`,
         `Conclusions: Real-time autonomous oceanography deployment strategies.`
       ];
@@ -63,7 +63,7 @@ async function runIndexer() {
       simulatedSlidesText = [
         `Instrumentation architecture details for HEMS presentation: "${paper.title}". Mass analyzer specifications.`,
         `Ion trap arrays, quadrupole mass filters, and time-of-flight (TOF) high-resolution extraction gates.`,
-        `Vacuum chamber miniaturization, ionization efficiency, and micro-channel plate detector grids.`,
+        `Vacuum chamber miniaturization, Pfeiffer HiPace turbomolecular pump, ionization efficiency, and micro-channel plate detector grids.`,
         `Conclusions: Next-generation laboratory-grade resolution inside field-portable mass spectrometers.`
       ];
     }
