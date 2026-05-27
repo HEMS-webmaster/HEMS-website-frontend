@@ -1739,3 +1739,40 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
   2. Executed a clean static pages production build (npm run build).
   3. Deployed the built frontend directly to Firebase Hosting via firebase deploy --only hosting (Success: release complete at https://hems-workshop.web.app).
 - **Verification Plan:** Verify dev server is restored and running cleanly at http://localhost:3000.
+
+
+## [2026-05-27] @arch Planning Phase: Remove Join page, Highlight Contact, Create Student Awards & Corporate Sponsorship pages
+
+### Objectives
+1. Remove the /join page and all its references.
+2. Update Navbar to make /contact look like a highlighted button and remove /join.
+3. Update Footer to remove the /join link.
+4. Create two new informational pages: /student-awards and /corporate-sponsorship, populated with legacy content.
+5. Integrate both pages into the portal (/layout-portal) sidebar and main panel.
+
+### Design Strategy
+- Aesthetic consistency: Harmonious dark mode surfaces, sleek grid styling, glassmorphism, and responsive layout.
+- SEO best practices: Semantic elements, unique heading hierarchies, and descriptive page titles.
+- Code Quality: Clean components, robust TypeScript definitions, zero forbidden words.
+
+
+## [2026-05-27] @dev/arch Execution Phase: Commencing page updates and refactoring
+
+### Actions
+1. Refactor Navbar: Highlight Contact and remove Join.
+2. Refactor Footer: Remove Join link.
+3. Delete join page directory.
+4. Implement student-awards informational page.
+5. Implement corporate-sponsorship informational page.
+6. Add Portal integrations.
+
+
+## [2026-05-27] @dev/arch Completion Phase: Refactoring successfully verified
+
+### Verification Results
+- Deletion of Join page and removal from navigation complete.
+- Highlighting of Contact page complete.
+- Ingestion of legacy URLs into /student-awards and /corporate-sponsorship complete.
+- Portal page integration complete.
+- Production build run successfully with zero errors.
+- All files verified against forbidden words constraint.

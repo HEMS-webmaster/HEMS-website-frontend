@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Calendar, FileText, Bell, Clock, ArrowRight, Download } from "lucide-react";
+import { Calendar, FileText, Bell, Clock, ArrowRight, Download, Award, Building2 } from "lucide-react";
 
 export default function LayoutPortal() {
   return (
@@ -29,6 +29,12 @@ export default function LayoutPortal() {
               <nav className="space-y-2">
                 <Link href="/archive" className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary px-3 py-2 rounded transition-colors">
                   <FileText size={16} /> Workshop Archive
+                </Link>
+                <Link href="/student-awards" className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary px-3 py-2 rounded transition-colors">
+                  <Award size={16} /> Student Awards
+                </Link>
+                <Link href="/corporate-sponsorship" className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary px-3 py-2 rounded transition-colors">
+                  <Building2 size={16} /> Corporate Sponsorship
                 </Link>
                 <Link href="#" className="flex items-center gap-2 text-sm text-foreground/70 hover:text-primary px-3 py-2 rounded transition-colors">
                   <Download size={16} /> Formatting Guidelines
@@ -65,6 +71,36 @@ export default function LayoutPortal() {
                     <span className="text-xs font-mono text-foreground/50 block mb-1">2025-03-01</span>
                     <h4 className="font-bold text-foreground hover:text-primary cursor-pointer transition-colors">Venue Announced: Virginia Beach</h4>
                     <p className="text-sm text-foreground/70 mt-1">We have secured the waterfront conference center for the 15th iteration of the workshop.</p>
+                  </div>
+                </div>
+              </section>
+
+              <section className="bg-background border border-foreground/10 rounded-lg p-6 shadow-sm">
+                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <Award className="text-primary" size={20} /> Opportunities & Funding
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="border border-foreground/10 rounded-md p-4 hover:border-primary/50 transition-colors flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-bold text-base mb-1">Student Travel Awards</h3>
+                      <p className="text-xs text-foreground/70 mb-4">
+                        We offer $1,500.00 travel grants for M.S. and Ph.D. students presenting papers. Application deadline extended to August 8, 2025.
+                      </p>
+                    </div>
+                    <Link href="/student-awards" className="text-sm text-primary hover:underline font-bold inline-flex items-center gap-1">
+                      Learn More & Apply <ArrowRight size={14} />
+                    </Link>
+                  </div>
+                  <div className="border border-foreground/10 rounded-md p-4 hover:border-primary/50 transition-colors flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-bold text-base mb-1">Corporate Sponsorships</h3>
+                      <p className="text-xs text-foreground/70 mb-4">
+                        Promote your brand through literature and hardware exhibition space, website listing, and banner credits. Rates start at $850.
+                      </p>
+                    </div>
+                    <Link href="/corporate-sponsorship" className="text-sm text-primary hover:underline font-bold inline-flex items-center gap-1">
+                      Explore Benefits & Rates <ArrowRight size={14} />
+                    </Link>
                   </div>
                 </div>
               </section>

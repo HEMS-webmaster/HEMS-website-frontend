@@ -53,9 +53,8 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
-              <Link href="/contact" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Contact</Link>
-              <Link href="/join" className="bg-foreground text-background hover:bg-foreground/80 px-4 py-2 rounded-md font-bold transition-all shadow-md">
-                Join HEMS
+              <Link href="/contact" className="bg-foreground text-background hover:bg-foreground/80 px-4 py-2 rounded-md font-bold transition-all shadow-md">
+                Contact
               </Link>
             </div>
           </div>
