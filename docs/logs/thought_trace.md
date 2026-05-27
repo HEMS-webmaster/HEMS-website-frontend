@@ -1728,3 +1728,14 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
   - Ran a verification check gsutil ls gs://hems-workshop-archives/ which completed successfully with zero errors, listing gs://hems-workshop-archives/proceedings/.
   - This confirms that gsutil now successfully loads credentials directly from the active gcloud config, eliminating the login error completely.
 - **Verification Plan:** Verify Push to Live button works cleanly now.
+
+## 2026-05-27 08:45 — Unified Direct GCS, Git & Firebase Deploy Sync (@ops)
+- **Objective:** Fix the Push to Live child process authentication block and perform a direct, unified sync across GCloud, Git, and Firebase Hosting.
+- **Diagnostics & Logic:**
+  - Checked the Next.js dev server log tail and discovered that spawning gsutil rsync inside a child process under the IDE execution environment resulted in an Anonymous caller 401 block, because the child shell session did not import the user's active AppData credential folder or oauth2client paths.
+  - Successfully bypassed this legacy gsutil client block by utilizing the modern, unified gcloud storage rsync command, which directly integrates with the active gcloud login session.
+- **Actions Executed:**
+  1. Ran gcloud storage rsync docs/archives_translation/proceedings gs://hems-workshop-archives/proceedings --recursive which completed with 100% success (Average throughput: 40.8MiB/s).
+  2. Executed a clean static pages production build (npm run build).
+  3. Deployed the built frontend directly to Firebase Hosting via firebase deploy --only hosting (Success: release complete at https://hems-workshop.web.app).
+- **Verification Plan:** Verify dev server is restored and running cleanly at http://localhost:3000.
