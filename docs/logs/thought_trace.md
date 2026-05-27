@@ -1711,3 +1711,20 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
   2. Executed atomic commit: git commit -m 'chore: populate 2025 corporate sponsors and host corporation data'.
   3. Ran safe sync: git pull --rebase origin main and git push origin main.
 - **Verification Plan:** Verify stdout of remote git push.
+
+## 2026-05-26 22:10 — GCloud Reauth Diagnostics (@ops)
+- **Objective:** Diagnose the GCloud / gsutil login failure on the Push to Live button and provide a resolution workflow.
+- **Diagnostics:** Ran test gsutil ls gs://hems-workshop-archives/ which failed with google_reauth.errors.ReauthUnattendedError. This indicates that Google Cloud SDK requires interactive re-authentication which fails in dynamic child processes.
+- **Resolution:** Instruct the user to run gcloud auth login webmaster@hems-workshop.org in their local interactive terminal.
+
+## 2026-05-27 08:26 — GCS Credentials Override Conflict Resolution (@ops)
+- **Objective:** Fix the persistent login issue on GCloud sync where gsutil complained about re-authorization despite the user being logged in.
+- **Diagnostics & Logic:**
+  - Ran a verbose trace (gsutil -d ls) and identified that gsutil was loading a legacy .boto config file located in C:\Users\ryanb\AppData\Roaming\gcloud\legacy_credentials\webmaster@hems-workshop.org\.boto.
+  - This legacy file contained a hardcoded gs_oauth2_refresh_token that was expired and triggered a non-interactive ReauthUnattendedError when gsutil tried to refresh it.
+  - This hardcoded token was overriding the active, valid Google Cloud CLI session credentials for webmaster@hems-workshop.org.
+- **Resolution:**
+  - Renamed the legacy .boto file to .boto.backup.
+  - Ran a verification check gsutil ls gs://hems-workshop-archives/ which completed successfully with zero errors, listing gs://hems-workshop-archives/proceedings/.
+  - This confirms that gsutil now successfully loads credentials directly from the active gcloud config, eliminating the login error completely.
+- **Verification Plan:** Verify Push to Live button works cleanly now.
