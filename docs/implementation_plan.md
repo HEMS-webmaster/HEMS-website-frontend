@@ -43,6 +43,8 @@ This plan outlines the architecture and execution steps to implement a local, cu
 - Implement a **Query Expansion Tokenizer**:
   - Split the search input string into keywords.
   - Expand each keyword by adding related synonyms from the dictionary.
+  - Transition the strict `\bterm\b` regex matches into leading-only `\bterm` prefix matching to allow suffix variations (e.g., matching plural forms like 'seeps', gerunds like 'seeping', and derivatives).
+  - Normalize plural words by trimming trailing 's' characters (stemming to singular) when terms are longer than 3 letters and do not end in 'ss', ensuring singular queries match plural targets and vice-versa.
 - Implement **Relevance Score Calculation**:
   - For each paper and matched slide, compute a match score based on query matching rules:
     - **Exact Title Match**: +10 points.

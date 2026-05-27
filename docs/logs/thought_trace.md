@@ -1938,3 +1938,18 @@ pm run build\ to compile the production bundle. \uild-prod.js\ will successfull
   - Zero cost / serverless deployment structure: Yes, indices are generated as static JSON files in \/public\.
   - HEMS Charcoal/Slate aesthetic alignment: Page uses premium dark theme variables, clean mark highlights, and interactive toggles.
   - Complete forbidden words ban enforced: Verified that no restricted words (e.g. leverage, utilize, robust, seamless, furthermore, moreover) are present in our code, scripts, or comments.
+
+## SCoT Log - 2026-05-27 22:28 (QA Investigation)
+
+### 1. Bug Investigation: Missing Term 'seep'
+- **Observation**: User reports search is missing terms like 'seep' that are present in the HEMS archives.
+- **Verification**: Ran \grep_search\ on the database. The term 'seeps' (plural) is clearly present in paper titles such as:
+  1. "In-water Mass Spectrometry for Characterization of Light Hydrocarbon Seeps and Leaks" (2015)
+  2. "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps" (2025)
+- **Root Cause Analysis**: The query expansion and scoring engine in \src/frontend/src/app/archive/page.tsx\ compiles matching regexes using exact word boundaries:
+  \const termRegex = new RegExp("\\\\b" + term.replace(/[-\/\\\\^$*+?.()|[\\]{}]/g, "\\\\$&") + "\\\\b", "i");\
+  Since word boundaries are strict on both sides, the query \"seep"\ (regex \\bseep\b\) does not match the plural \"seeps"\.
+- **Architectural Resolution Proposal**: 
+  - We must enable prefix-tolerant matching by dropping the trailing \\b\ (making it \\bterm\).
+  - Normalize queries by trimming trailing 's' characters (stemming plural terms to singular, e.g., \"seeps"\ to \"seep"\) when the query is longer than 3 characters and does not end in \"ss"\, so it matches both singular and plural forms.
+- **Strict Domain Compliance**: As \@qa\, I am not permitted to modify \src/\ files. I will document this bug in my QA Report, tag \@arch\ to update the implementation plan, and tag \@dev\ to execute the code fix in \src/frontend/src/app/archive/page.tsx\.

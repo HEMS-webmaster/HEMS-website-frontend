@@ -158,7 +158,13 @@ export default function Archive() {
           // Match keyword or any of its synonyms
           expandedTerms.forEach((term) => {
             const isExact = term === keyword;
-            const termRegex = new RegExp(`\\b${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")}\\b`, "i");
+            let pattern = term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+            if (term.length > 3 && term.endsWith('s') && !term.endsWith('ss')) {
+              const stem = term.slice(0, -1);
+              const escapedStem = stem.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+              pattern = `(?:${pattern}|${escapedStem}\\b)`;
+            }
+            const termRegex = new RegExp(`\\b${pattern}`, "i");
             
             // 1. Match in Title
             if (termRegex.test(chunk.title)) {
@@ -322,7 +328,13 @@ export default function Archive() {
 
           expandedTerms.forEach((term) => {
             const isExact = term === keyword;
-            const termRegex = new RegExp(`\\b${term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")}\\b`, "i");
+            let pattern = term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+            if (term.length > 3 && term.endsWith('s') && !term.endsWith('ss')) {
+              const stem = term.slice(0, -1);
+              const escapedStem = stem.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+              pattern = `(?:${pattern}|${escapedStem}\\b)`;
+            }
+            const termRegex = new RegExp(`\\b${pattern}`, "i");
 
             // 1. Title Match
             if (termRegex.test(paper.title)) {
