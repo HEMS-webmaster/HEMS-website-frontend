@@ -2116,3 +2116,44 @@ We will now verify the written headers using the `--verify` flag, update our tas
 
 ### Constraints Check
 - No forbidden words (e.g. leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
+
+
+## SCoT Log - 2026-05-27 - Phase 4 (3rd Workshop Fake PDFs Clean Up)
+
+### Current Assessment
+The user explained that for the 3rd HEMS workshop, papers that do not have real PDFs uploaded should simply have their PDF references removed from the database to avoid dead links and MIME formatting issues.
+The uploaded real PDFs (the ones that are actual PDFs) are working perfectly and have had their keywords/headers loaded.
+We will write a script to clean up `master_workshops.json` by setting those HTML-disguised PDF references to `""` in the database, deleting the physical HTML files from disk, re-compiling the SEO registry, and verifying the injected properties.
+
+### Plan
+1. Create a Python script `scratch/cleanup_3th_fake_pdfs.py` to:
+   - Scan `master_workshops.json` for 3rd HEMS workshop presentations and posters.
+   - Check if the linked files are actually HTML pages.
+   - Set those file references to `""` in the database.
+   - Delete the physical HTML files from the disk.
+   - Overwrite `master_workshops.json` with the updated clean data.
+2. Re-run `generate_seo_registry.py` to update the central SEO registry.
+3. Re-run `inject_pdf_metadata.py` to ensure that 100% of active documents are processed with zero failures.
+
+### Constraints Check
+- No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
+
+
+## SCoT Log - 2026-05-27 - Phase 4 (3rd Workshop Cleanup Verification & Git Synchronization)
+
+### Current Assessment
+The database cleanup has been successfully executed.
+- `master_workshops.json` was updated to remove references to the 15 HTML-disguised PDF files.
+- The physical HTML files were deleted from the proceedings directory.
+- The SEO registry has been recompiled and now lists exactly 654 active PDFs.
+- The metadata injector script successfully ran on all active files: 653 processed, 1 encrypted skipped, 0 failures.
+
+This is a complete success. We will stage, commit, and push the updated database, registry, and cleanup script.
+
+### Plan
+1. Stage modified files: `src/frontend/src/data/master_workshops.json`, `docs/design/pdf_seo_registry.md`, `docs/logs/thought_trace.md`, and the new script `scratch/cleanup_3th_fake_pdfs.py`.
+2. Commit and push changes.
+3. Update `task.md` and `walkthrough.md` artifacts.
+
+### Constraints Check
+- No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.

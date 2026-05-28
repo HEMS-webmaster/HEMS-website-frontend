@@ -2052,7 +2052,7 @@
               "NASA/ Goddard Space Flight Center"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Mass",
-            "abstract_file": "3th_Mahaffy_Mass_Spectrometers_in_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           },
           {
@@ -2089,7 +2089,7 @@
               "NASA/ Kennedy Space Center"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Quadrupole",
-            "abstract_file": "3th_Ottens_Quadrupole_Ion_Trap_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Ottens/ottens.pdf",
             "presentation_file": "3th_Ottens_Quadrupole_Ion_Trap_Presentation.pdf"
           },
@@ -2255,7 +2255,7 @@
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Underwater",
             "abstract_file": "3th_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Kibelka/hems3.zip",
-            "presentation_file": "3th_Kibelka_Underwater_Mass_Spectrometers_Presentation.pdf"
+            "presentation_file": ""
           },
           {
             "time": "3:45 p.m.",
@@ -2445,7 +2445,7 @@
               "The George Washington University, Department of Forensic Sciences"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Addressing",
-            "abstract_file": "3th_Eckenrode_Addressing_Forensic_Field_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           }
         ],
@@ -2782,7 +2782,7 @@
               "University of Southern California"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Technical",
-            "abstract_file": "3th_Muntz_The_Technical_Issues_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           },
           {
@@ -2822,7 +2822,7 @@
               "Jet Propulsion Laboratory"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Meso",
-            "abstract_file": "3th_Eyre_MesoScale_Scroll_Pump_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           },
           {
@@ -2872,7 +2872,7 @@
               "University of Southern California"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Performance",
-            "abstract_file": "3th_Moore_Performance_Analysis_for_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Moore/moore.pdf"
           },
           {
@@ -2908,7 +2908,7 @@
               "Jet Propulsion Laboratory"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Knudsen",
-            "abstract_file": "3th_Young_The_Knudsen_Compressor_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Young/young.pdf"
           },
           {
@@ -2938,7 +2938,7 @@
               "Umachines, Inc."
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#MEMS",
-            "abstract_file": "3th_Tsao_MEMSbased_LowFlow_Meters_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           }
         ],
@@ -2966,7 +2966,7 @@
               "Alcatel Vaccum Products, Inc."
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Issues",
-            "abstract_file": "3th_Kardok_The_Issues_Limiting_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           },
           {
@@ -2986,7 +2986,7 @@
               "Creare, Inc."
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Development",
-            "abstract_file": "3th_Kenton_Development_of_Turbomolecular_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Kenton/kenton.pdf"
           },
           {
@@ -3011,7 +3011,7 @@
               "Phoenix Analysis & Design Technologies"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Turbo",
-            "abstract_file": "3th_Rowan_Miniature_Turbomolecular_Pump_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           },
           {
@@ -3047,7 +3047,7 @@
               "Dynacs, Kennedy Space Center"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#KSC",
-            "abstract_file": "3th_Adams_KSC_Miniature_Rugged_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Adams/adams.pdf"
           },
           {
@@ -3072,7 +3072,7 @@
               "Jet Propulsion Laboratory"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Peristaltic",
-            "abstract_file": "3th_Feldman_Miniature_Peristaltic_Vacuum_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           },
           {
@@ -3092,7 +3092,7 @@
               "Jet Propulsion Laboratory"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Pump",
-            "abstract_file": "3th_Sinha_Development_of_a_Abstract.pdf",
+            "abstract_file": "",
             "legacy_url": ""
           }
         ]
