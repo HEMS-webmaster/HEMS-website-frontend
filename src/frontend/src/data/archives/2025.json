@@ -609,11 +609,11 @@
               ],
               "legacy_url": "",
               "legacy_abstract_url": "",
-              "local_target_path": "",
+              "local_target_path": "/api/manager/serve?file=15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Presentation.pdf",
               "local_abstract_target_path": "/api/manager/serve?file=15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Abstract.pdf",
-              "public_website_url": "",
+              "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Presentation.pdf",
               "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Abstract.pdf",
-              "gcloud_url": "",
+              "gcloud_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Presentation.pdf",
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Abstract.pdf"
             },
             {
