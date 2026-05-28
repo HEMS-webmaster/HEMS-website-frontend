@@ -82,10 +82,34 @@ export async function POST(request: Request) {
     // 6. Git Push
     await execAsync('git push origin main', { cwd: projectRoot });
 
+    // 7. Build Static Export
+    let buildLog = '';
+    try {
+      const frontendDir = path.join(projectRoot, 'src', 'frontend');
+      const { stdout } = await execAsync('npm run build', { cwd: frontendDir });
+      buildLog = stdout;
+    } catch (buildErr: any) {
+      console.warn('Local build failed:', buildErr.message);
+      return NextResponse.json({ success: false, error: 'Local build failed: ' + buildErr.message }, { status: 500 });
+    }
+
+    // 8. Deploy to Firebase Hosting
+    let firebaseLog = '';
+    try {
+      const { stdout } = await execAsync('npx firebase deploy --only hosting', { cwd: projectRoot });
+      firebaseLog = stdout;
+    } catch (firebaseErr: any) {
+      console.warn('Firebase Deploy failed (you may need to run npx firebase login --reauth):', firebaseErr.message);
+      firebaseLog = 'Firebase Deploy failed: ' + firebaseErr.message;
+      return NextResponse.json({ success: false, error: firebaseLog }, { status: 500 });
+    }
+
     return NextResponse.json({ 
       success: true, 
-      message: 'Assets synced to GCS and frontend pushed to Git successfully!',
+      message: 'Assets synced to GCS, frontend pushed to Git, and site deployed to Firebase successfully!',
       gcloudLog,
+      buildLog,
+      firebaseLog,
       commitMessage
     });
   } catch (error: any) {

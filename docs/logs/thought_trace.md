@@ -2046,3 +2046,20 @@ The user reported that a rare term 'Hexblock' was not found in deep searches. Th
 
 ### Constraints Check
 - No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
+
+
+## SCoT Log - 2026-05-27 - Phase 3 (Push-To-Live Pipeline Expansion)
+
+### Current Assessment
+The user requested adding a manual build and deploy step to the 'Push to Live' Workshop Manager pipeline. This ensures that any data updates made locally in the Workshop Manager are compiled and deployed to Firebase Hosting immediately, rather than relying solely on git triggers which the user reported do not auto-deploy.
+
+### Objectives
+1. Modify `push-to-live` route (`src/frontend/src/app/api/manager/push-to-live/route.ts`) to run Next.js compilation (`npm run build`) in `src/frontend`.
+2. Run Firebase Hosting deployment (`npx firebase deploy --only hosting`) in the project root.
+3. Catch and log errors, providing a warning if credentials need re-authentication.
+
+### Results
+- Successfully added the compile and deploy steps to the route. Clicking 'Push to Live' will now fully build the static package with all the latest full-text search indexes and deploy them live to Firebase.
+
+### Constraints Check
+- No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
