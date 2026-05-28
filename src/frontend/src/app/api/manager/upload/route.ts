@@ -1,8 +1,21 @@
-﻿// This API route is for local development only (Workshop Manager).
+// This API route is for local development only (Workshop Manager).
 // The static export build (Firebase) skips dynamic routes automatically.
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
+
+function getOrdinalSuffix(num: number): string {
+  const j = num % 10;
+  const k = num % 100;
+  if (j === 1 && k !== 11) return "st";
+  if (j === 2 && k !== 12) return "nd";
+  if (j === 3 && k !== 13) return "rd";
+  return "th";
+}
+
+function formatOrdinal(num: number): string {
+  return `${num}${getOrdinalSuffix(num)}`;
+}
 
 export async function POST(request: Request) {
   try {
@@ -21,18 +34,19 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(bytes);
 
     let targetDir = path.join(process.cwd(), '..', '..', 'docs', 'archives_translation', 'proceedings');
+    const wsOrdinal = formatOrdinal(parseInt(wsNum));
 
     if (category === 'Sponsor') {
       targetDir = path.join(process.cwd(), '..', '..', 'docs', 'archives_translation', 'sponsors');
     } else if (category === 'Presentation' || category === 'Abstract') {
       const cleanSession = session.replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
-      targetDir = path.join(targetDir, `${wsNum}th`, cleanSession);
+      targetDir = path.join(targetDir, wsOrdinal, cleanSession);
     } else if (category === 'Student_Award') {
-      targetDir = path.join(targetDir, `${wsNum}th`, 'Student_Award');
+      targetDir = path.join(targetDir, wsOrdinal, 'Student_Award');
     } else if (category === 'Poster') {
-      targetDir = path.join(targetDir, `${wsNum}th`, 'Posters');
+      targetDir = path.join(targetDir, wsOrdinal, 'Posters');
     } else {
-      targetDir = path.join(targetDir, `${wsNum}th`, 'Administrative');
+      targetDir = path.join(targetDir, wsOrdinal, 'Administrative');
     }
 
     // Ensure directory exists

@@ -4,6 +4,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import DragDropZone from './DragDropZone';
 import PreviewHover from './PreviewHover';
 
+function getOrdinalSuffix(num: number): string {
+  const j = num % 10;
+  const k = num % 100;
+  if (j === 1 && k !== 11) return "st";
+  if (j === 2 && k !== 12) return "nd";
+  if (j === 3 && k !== 13) return "rd";
+  return "th";
+}
+
+function formatOrdinal(num: number): string {
+  return `${num}${getOrdinalSuffix(num)}`;
+}
+
 interface Student {
   title?: string;
   name: string;
@@ -118,8 +131,9 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
       <div className="space-y-4">
         {students.map((s, i) => {
           const cleanName = s.name ? s.name.replace(/[^a-zA-Z0-9]/g, '_') : `Student_${i}`;
-          const presFileName = `${wsNum}th_${cleanName}_Student_Award.pdf`;
-          const absFileName = `${wsNum}th_${cleanName}_Student_Abstract.pdf`;
+          const wsOrdinal = formatOrdinal(parseInt(wsNum));
+          const presFileName = `${wsOrdinal}_${cleanName}_Student_Award.pdf`;
+          const absFileName = `${wsOrdinal}_${cleanName}_Student_Abstract.pdf`;
 
           return (
             <div key={i} className={`p-4 rounded border-l-4 border-purple-500 relative flex gap-4 items-start ${i % 2 === 0 ? 'bg-slate-700/50' : 'bg-slate-800'}`}>

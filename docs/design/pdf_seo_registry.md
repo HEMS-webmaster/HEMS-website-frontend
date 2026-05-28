@@ -5,745 +5,745 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 ---
 
 ### Registry ID: 1
-*   **Filename**: `2th_Beauchamp_Mass_Spectrometers_for_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_I\2th_Beauchamp_Mass_Spectrometers_for_Abstract.pdf`
+*   **Filename**: `2nd_Beauchamp_Mass_Spectrometers_for_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_I\2nd_Beauchamp_Mass_Spectrometers_for_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Mass Spectrometers for In-Situ Planetary Exploration
 *   **Authors**: Pat Beauchamp
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session I.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session I.
 *   **Keywords**: mass, spectrometers, planetary, exploration
 
 ---
 
 ### Registry ID: 2
-*   **Filename**: `2th_Casares_A_small_multiple_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_I\2th_Casares_A_small_multiple_Abstract.pdf`
+*   **Filename**: `2nd_Casares_A_small_multiple_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_I\2nd_Casares_A_small_multiple_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: A small multiple reflectron time-of-flight mass spectrometer (MR-TOF-MS) for in-situ investigations
 *   **Authors**: A. Casares, H. Wollnik, F. Goesmann, A. Kholomeev, R. Roll, H. Rosenbauer
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session I.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session I.
 *   **Keywords**: small, multiple, reflectron, mass, spectrometer, investigations
 
 ---
 
 ### Registry ID: 3
-*   **Filename**: `2th_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_I\2th_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf`
+*   **Filename**: `2nd_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_I\2nd_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: In-situ Laser TOF MS on Planets and Small Bodies
 *   **Authors**: Will Brinckerhoff
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session I.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session I.
 *   **Keywords**: laser, planets, small, bodies
 
 ---
 
 ### Registry ID: 4
-*   **Filename**: `2th_Griffin_A_Fully_Redundant_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_I\2th_Griffin_A_Fully_Redundant_Abstract.pdf`
+*   **Filename**: `2nd_Griffin_A_Fully_Redundant_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_I\2nd_Griffin_A_Fully_Redundant_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: A Fully Redundant On-Line Mass Spectrometric System for the Space Shuttle Used to Monitor Cyogenic Fuel Leaks
 *   **Authors**: T. P. Griffin, G. R. Naylor, W. D. Haskell, G. S. Breznik, C. A. Mizell
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session I.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session I.
 *   **Keywords**: fully, redundant, mass, spectrometric, system, space
 
 ---
 
 ### Registry ID: 5
-*   **Filename**: `2th_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_II\2th_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf`
+*   **Filename**: `2nd_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_II\2nd_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: A Miniaturized Cylindrical lon Trap Mass Spectrometer
 *   **Authors**: Garth E. Patterson, R. Graham Cooks
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session II.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session II.
 *   **Keywords**: miniaturized, cylindrical, trap, mass, spectrometer
 
 ---
 
 ### Registry ID: 6
-*   **Filename**: `2th_Moxom_Recent_Developments_in_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_II\2th_Moxom_Recent_Developments_in_Abstract.pdf`
+*   **Filename**: `2nd_Moxom_Recent_Developments_in_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_II\2nd_Moxom_Recent_Developments_in_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Recent Developments in Micro lon Trap Mass Spectrometry
 *   **Authors**: Jeremy Moxom, William B. Whitten, Peter T. A. Reilly, J. Michael Ramsey
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session II.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session II.
 *   **Keywords**: recent, developments, micro, trap, mass, spectrometry
 
 ---
 
 ### Registry ID: 7
-*   **Filename**: `2th_Cornish_Miniature_TOF_Mass_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_II\2th_Cornish_Miniature_TOF_Mass_Abstract.pdf`
+*   **Filename**: `2nd_Cornish_Miniature_TOF_Mass_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_II\2nd_Cornish_Miniature_TOF_Mass_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Miniature TOF Mass Spectrometer using a Flexible Circuitboard Reflectron
 *   **Authors**: Tim Cornish
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session II.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session II.
 *   **Keywords**: miniature, mass, spectrometer, flexible, circuitboard, reflectron
 
 ---
 
 ### Registry ID: 8
-*   **Filename**: `2th_Matz_Disaster_Management_Using_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_III\2th_Matz_Disaster_Management_Using_Abstract.pdf`
+*   **Filename**: `2nd_Matz_Disaster_Management_Using_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_III\2nd_Matz_Disaster_Management_Using_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Disaster Management Using Mobile Mass Spectrometers
 *   **Authors**: Gerhard Matz
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session III.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session III.
 *   **Keywords**: disaster, management, mobile, mass, spectrometers
 
 ---
 
 ### Registry ID: 9
-*   **Filename**: `2th_Barket_Direct_Sampling_Mass_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_III\2th_Barket_Direct_Sampling_Mass_Abstract.pdf`
+*   **Filename**: `2nd_Barket_Direct_Sampling_Mass_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_III\2nd_Barket_Direct_Sampling_Mass_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Direct Sampling Mass Spectrometry in Atmospheric Chemistry
 *   **Authors**: Dennis Barket, Jr., Julia Hurst, Amanda Grannas, Christophe Guimbaud, Paul Shepson
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session III.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session III.
 *   **Keywords**: direct, sampling, mass, spectrometry, atmospheric, chemistry
 
 ---
 
 ### Registry ID: 10
-*   **Filename**: `2th_Chamberlain_MS_for_Trace_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_III\2th_Chamberlain_MS_for_Trace_Abstract.pdf`
+*   **Filename**: `2nd_Chamberlain_MS_for_Trace_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_III\2nd_Chamberlain_MS_for_Trace_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: MS for Trace Explosives Detection in Aviation Security
 *   **Authors**: R. T. Chamberlain, Richard Lareau, Karl Hanold, Jack Syagen, Kevin Linker, Chuck Rhykerd, Frank Bouchier
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session III.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session III.
 *   **Keywords**: trace, explosives, detection, aviation, security
 
 ---
 
 ### Registry ID: 11
-*   **Filename**: `2th_Diaz_Volcanic_Monitoring_using_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_III\2th_Diaz_Volcanic_Monitoring_using_Abstract.pdf`
+*   **Filename**: `2nd_Diaz_Volcanic_Monitoring_using_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_III\2nd_Diaz_Volcanic_Monitoring_using_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Volcanic Monitoring using Field-Portable Mass Spectrometers: Towards On-Site and Real Time Gas Analysis at Fumaroles
 *   **Authors**: Jorge A. Diaz
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session III.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session III.
 *   **Keywords**: volcanic, monitoring, mass, spectrometers, towards, real
 
 ---
 
 ### Registry ID: 12
-*   **Filename**: `2th_Hemond_Project_NEREUS_Concepts_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_IV\2th_Hemond_Project_NEREUS_Concepts_Abstract.pdf`
+*   **Filename**: `2nd_Hemond_Project_NEREUS_Concepts_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_IV\2nd_Hemond_Project_NEREUS_Concepts_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Project NEREUS: Concepts and principles for in-situ MS
 *   **Authors**: H. F. Hemond, R. Camilli
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session IV.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session IV.
 *   **Keywords**: project, nereus, concepts, principles
 
 ---
 
 ### Registry ID: 13
-*   **Filename**: `2th_McMurtry_Development_of_an_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_IV\2th_McMurtry_Development_of_an_Abstract.pdf`
+*   **Filename**: `2nd_McMurtry_Development_of_an_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_IV\2nd_McMurtry_Development_of_an_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Development of an Underwater Mass Spectrometer for Dissolved Gases, Solutes, and Large Organic Compounds
 *   **Authors**: Gary M. McMurtry, Steven J. Smith
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session IV.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session IV.
 *   **Keywords**: development, underwater, mass, spectrometer, dissolved, gases
 
 ---
 
 ### Registry ID: 14
-*   **Filename**: `2th_Short_Applications_of_inwater_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_IV\2th_Short_Applications_of_inwater_Abstract.pdf`
+*   **Filename**: `2nd_Short_Applications_of_inwater_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_IV\2nd_Short_Applications_of_inwater_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Applications of in-water mass spectrometry for detection of volatile organic compounds and dissolved gases
 *   **Authors**: R. T. Short, D. P. Fries, G. Kibelka, M. L. Kerr, S. K. Toler, P. G. Wenner, R. H. Byrne
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session IV.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session IV.
 *   **Keywords**: applications, mass, spectrometry, detection, volatile, organic
 
 ---
 
 ### Registry ID: 15
-*   **Filename**: `2th_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_IV\2th_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf`
+*   **Filename**: `2nd_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_IV\2nd_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Polymeric Membrane Chlorocarbon Permeabilities Determined by Membrane Introduction Mass Spectrometry (MIMS)
 *   **Authors**: Mark L. Stone
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session IV.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session IV.
 *   **Keywords**: polymeric, membrane, chlorocarbon, permeabilities, determined, membrane
 
 ---
 
 ### Registry ID: 16
-*   **Filename**: `2th_Hook_Solid_phase_microextraction_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_IV\2th_Hook_Solid_phase_microextraction_Abstract.pdf`
+*   **Filename**: `2nd_Hook_Solid_phase_microextraction_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_IV\2nd_Hook_Solid_phase_microextraction_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Solid phase microextraction as a method for sampling with analysis by gas chromatography/mass spectrometry in the field
 *   **Authors**: LCDR Gary Hook, LCDR Phil Smith, Kenneth Williams, Michael Sheely
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session IV.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session IV.
 *   **Keywords**: solid, phase, microextraction, method, sampling, analysis
 
 ---
 
 ### Registry ID: 17
-*   **Filename**: `2th_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_V\2th_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf`
+*   **Filename**: `2nd_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_V\2nd_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Tiny Time-of-Flight (TOF) Mass Spectrometer for Biodetection
 *   **Authors**: Wayne Bryden
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session V.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session V.
 *   **Keywords**: tiny, mass, spectrometer, biodetection
 
 ---
 
 ### Registry ID: 18
-*   **Filename**: `2th_Prieto_Biological_applications_on_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_V\2th_Prieto_Biological_applications_on_Abstract.pdf`
+*   **Filename**: `2nd_Prieto_Biological_applications_on_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_V\2nd_Prieto_Biological_applications_on_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Biological applications on a miniaturized delayed extraction TOF mass spectrometer
 *   **Authors**: M. C. Prieto, V. Kovtoun, R. J. Cotter
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session V.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session V.
 *   **Keywords**: biological, applications, miniaturized, delayed, extraction, mass
 
 ---
 
 ### Registry ID: 19
-*   **Filename**: `2th_Nuber_The_Portable_HoribaKore_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_V\2th_Nuber_The_Portable_HoribaKore_Abstract.pdf`
+*   **Filename**: `2nd_Nuber_The_Portable_HoribaKore_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_V\2nd_Nuber_The_Portable_HoribaKore_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: The Portable Horiba-Kore Mass Spectrometer MS-200
 *   **Authors**: Frank Nuber, Dr. Steve Mullock, Clive Corlett
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session V.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session V.
 *   **Keywords**: portable, mass, spectrometer
 
 ---
 
 ### Registry ID: 20
-*   **Filename**: `2th_Wiberg_Progress_Toward_Highly_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Technical_Session_V\2th_Wiberg_Progress_Toward_Highly_Abstract.pdf`
+*   **Filename**: `2nd_Wiberg_Progress_Toward_Highly_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Technical_Session_V\2nd_Wiberg_Progress_Toward_Highly_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Progress Toward Highly Miniaturized Vacuum Pumps
 *   **Authors**: Dean Wiberg, Beverly Eyre, Kirill Shcheglov, Victor White, Vachik Garkanian
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Technical Session V.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Technical Session V.
 *   **Keywords**: progress, toward, highly, miniaturized, vacuum, pumps
 
 ---
 
 ### Registry ID: 21
-*   **Filename**: `2th_Gonin_Compact_and_Rugged_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Posters\2th_Gonin_Compact_and_Rugged_Abstract.pdf`
+*   **Filename**: `2nd_Gonin_Compact_and_Rugged_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Posters\2nd_Gonin_Compact_and_Rugged_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Compact and Rugged Multipurpose TOF
 *   **Authors**: M. Gonin, K. Fuhrer, J.A. Schultz
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Poster Session.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Poster Session.
 *   **Keywords**: compact, rugged, multipurpose
 
 ---
 
 ### Registry ID: 22
-*   **Filename**: `2th_Rohrs_Development_of_a_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Posters\2th_Rohrs_Development_of_a_Abstract.pdf`
+*   **Filename**: `2nd_Rohrs_Development_of_a_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Posters\2nd_Rohrs_Development_of_a_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Development of a Low Cost Miniature Mass Spectrometer
 *   **Authors**: Henry W. Rohrs, Rajiv S. Chhatwal, W. Ronald Gentry, Philip S. Berger
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Poster Session.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Poster Session.
 *   **Keywords**: development, cost, miniature, mass, spectrometer
 
 ---
 
 ### Registry ID: 23
-*   **Filename**: `2th_Camilli_Project_NEREUS_Construction_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Posters\2th_Camilli_Project_NEREUS_Construction_Abstract.pdf`
+*   **Filename**: `2nd_Camilli_Project_NEREUS_Construction_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Posters\2nd_Camilli_Project_NEREUS_Construction_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Project NEREUS: Construction of a practical autonomous underwater gas analyzer
 *   **Authors**: R. Camilli, H. F. Hemond
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Poster Session.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Poster Session.
 *   **Keywords**: project, nereus, construction, practical, autonomous, underwater
 
 ---
 
 ### Registry ID: 24
-*   **Filename**: `2th_Fries_Remotely_Operated_Mass_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\2th\Posters\2th_Fries_Remotely_Operated_Mass_Abstract.pdf`
+*   **Filename**: `2nd_Fries_Remotely_Operated_Mass_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\2nd\Posters\2nd_Fries_Remotely_Operated_Mass_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2001`
 *   **Title**: Remotely Operated Mass Spectrometers: Adaptive Search Platforms for Field Chemical Profiling
 *   **Authors**: D. P. Fries, R. T. Short, G. Kibelka, M. L. Kerr, J. Patten, L. Langebrake
-*   **Subject**: Abstract from the 2th HEMS Workshop (2001), Poster Session.
+*   **Subject**: Abstract from the 2nd HEMS Workshop (2001), Poster Session.
 *   **Keywords**: remotely, operated, mass, spectrometers, adaptive, search
 
 ---
 
 ### Registry ID: 25
-*   **Filename**: `3th_Beauchamp_Novel_Mass_Spectrometric_Presentation.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_I__Space_Environments\3th_Beauchamp_Novel_Mass_Spectrometric_Presentation.pdf`
+*   **Filename**: `3rd_Beauchamp_Novel_Mass_Spectrometric_Presentation.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_I__Space_Environments\3rd_Beauchamp_Novel_Mass_Spectrometric_Presentation.pdf`
 *   **Type**: `Presentation`
 *   **Year**: `2002`
 *   **Title**: Novel Mass Spectrometric Approaches to the In situ Chemical Analysis of Galactic and Cometary Dust Particles
 *   **Authors**: Jack Beauchamp, Daniel E. Austin, Thomas J. Ahrens
-*   **Subject**: Presentation from the 3th HEMS Workshop (2002), Technical Session I: Space Environments.
+*   **Subject**: Presentation from the 3rd HEMS Workshop (2002), Technical Session I: Space Environments.
 *   **Keywords**: novel, mass, spectrometric, approaches, situ, chemical
 
 ---
 
 ### Registry ID: 26
-*   **Filename**: `3th_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_I__Space_Environments\3th_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf`
+*   **Filename**: `3rd_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_I__Space_Environments\3rd_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Novel Mass Spectrometric Approaches to the In situ Chemical Analysis of Galactic and Cometary Dust Particles
 *   **Authors**: Jack Beauchamp, Daniel E. Austin, Thomas J. Ahrens
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session I: Space Environments.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session I: Space Environments.
 *   **Keywords**: novel, mass, spectrometric, approaches, situ, chemical
 
 ---
 
 ### Registry ID: 27
-*   **Filename**: `3th_Ottens_Quadrupole_Ion_Trap_Presentation.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_I__Space_Environments\3th_Ottens_Quadrupole_Ion_Trap_Presentation.pdf`
+*   **Filename**: `3rd_Ottens_Quadrupole_Ion_Trap_Presentation.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_I__Space_Environments\3rd_Ottens_Quadrupole_Ion_Trap_Presentation.pdf`
 *   **Type**: `Presentation`
 *   **Year**: `2002`
 *   **Title**: Quadrupole Ion Trap Mass Spectrometry for Space Shuttle Ground Support
 *   **Authors**: Andrew Ottens, W. Harrison, Timothy Griffin, William Helms
-*   **Subject**: Presentation from the 3th HEMS Workshop (2002), Technical Session I: Space Environments.
+*   **Subject**: Presentation from the 3rd HEMS Workshop (2002), Technical Session I: Space Environments.
 *   **Keywords**: quadrupole, trap, mass, spectrometry, space, shuttle
 
 ---
 
 ### Registry ID: 28
-*   **Filename**: `3th_Diaz_Test_of_the_Presentation.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_I__Space_Environments\3th_Diaz_Test_of_the_Presentation.pdf`
+*   **Filename**: `3rd_Diaz_Test_of_the_Presentation.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_I__Space_Environments\3rd_Diaz_Test_of_the_Presentation.pdf`
 *   **Type**: `Presentation`
 *   **Year**: `2002`
 *   **Title**: Test of the a Miniature Double-Focusing Mass Spectrometer for the Variable Specific Magnetoplasma Rocket (VASIMR) at the Advanced Space Propulsion Laboratory (ASPL)
 *   **Authors**: Jorge Diaz, Franklin Chang-Diaz, Jared P. Squire, Verlin Jacobson, Greg McCaskill, Andres E. Mora Vargas, Henry Rohrs, Rajiv Chhatwal
-*   **Subject**: Presentation from the 3th HEMS Workshop (2002), Technical Session I: Space Environments.
+*   **Subject**: Presentation from the 3rd HEMS Workshop (2002), Technical Session I: Space Environments.
 *   **Keywords**: test, miniature, mass, spectrometer, variable, specific
 
 ---
 
 ### Registry ID: 29
-*   **Filename**: `3th_Diaz_Test_of_the_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_I__Space_Environments\3th_Diaz_Test_of_the_Abstract.pdf`
+*   **Filename**: `3rd_Diaz_Test_of_the_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_I__Space_Environments\3rd_Diaz_Test_of_the_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Test of the a Miniature Double-Focusing Mass Spectrometer for the Variable Specific Magnetoplasma Rocket (VASIMR) at the Advanced Space Propulsion Laboratory (ASPL)
 *   **Authors**: Jorge Diaz, Franklin Chang-Diaz, Jared P. Squire, Verlin Jacobson, Greg McCaskill, Andres E. Mora Vargas, Henry Rohrs, Rajiv Chhatwal
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session I: Space Environments.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session I: Space Environments.
 *   **Keywords**: test, miniature, mass, spectrometer, variable, specific
 
 ---
 
 ### Registry ID: 30
-*   **Filename**: `3th_Hoffman_Regolith_Evolved_Gas_Presentation.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_I__Space_Environments\3th_Hoffman_Regolith_Evolved_Gas_Presentation.pdf`
+*   **Filename**: `3rd_Hoffman_Regolith_Evolved_Gas_Presentation.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_I__Space_Environments\3rd_Hoffman_Regolith_Evolved_Gas_Presentation.pdf`
 *   **Type**: `Presentation`
 *   **Year**: `2002`
 *   **Title**: Regolith Evolved Gas Analyzer (REGA): An Instrument to Characterize the Martian Soil Mineralogy and Atmospheric Composition
 *   **Authors**: John H. Hoffman
-*   **Subject**: Presentation from the 3th HEMS Workshop (2002), Technical Session I: Space Environments.
+*   **Subject**: Presentation from the 3rd HEMS Workshop (2002), Technical Session I: Space Environments.
 *   **Keywords**: regolith, evolved, analyzer, rega, instrument, characterize
 
 ---
 
 ### Registry ID: 31
-*   **Filename**: `3th_Hoffman_Regolith_Evolved_Gas_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_I__Space_Environments\3th_Hoffman_Regolith_Evolved_Gas_Abstract.pdf`
+*   **Filename**: `3rd_Hoffman_Regolith_Evolved_Gas_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_I__Space_Environments\3rd_Hoffman_Regolith_Evolved_Gas_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Regolith Evolved Gas Analyzer (REGA): An Instrument to Characterize the Martian Soil Mineralogy and Atmospheric Composition
 *   **Authors**: John H. Hoffman
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session I: Space Environments.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session I: Space Environments.
 *   **Keywords**: regolith, evolved, analyzer, rega, instrument, characterize
 
 ---
 
 ### Registry ID: 32
-*   **Filename**: `3th_Delaney_The_NEPTUNE_Project_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3th_Delaney_The_NEPTUNE_Project_Abstract.pdf`
+*   **Filename**: `3rd_Delaney_The_NEPTUNE_Project_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3rd_Delaney_The_NEPTUNE_Project_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: The NEPTUNE Project: An Interactive Earth-Ocean Observatory at the Scale of a Tectonic Plate
 *   **Authors**: John Delaney
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
 *   **Keywords**: neptune, project, interactive, observatory, scale, tectonic
 
 ---
 
 ### Registry ID: 33
-*   **Filename**: `3th_Hemond_Underwater_Mass_Spectrometers_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3th_Hemond_Underwater_Mass_Spectrometers_Abstract.pdf`
+*   **Filename**: `3rd_Hemond_Underwater_Mass_Spectrometers_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3rd_Hemond_Underwater_Mass_Spectrometers_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Underwater Mass Spectrometers: Some Critical Engineering Issues
 *   **Authors**: Harold F. Hemond, Richard Camilli
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
 *   **Keywords**: underwater, mass, spectrometers, some, critical, engineering
 
 ---
 
 ### Registry ID: 34
-*   **Filename**: `3th_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3th_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf`
+*   **Filename**: `3rd_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3rd_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Underwater Mass Spectrometers for Detection of VOCs and Dissolved Gases
 *   **Authors**: Gottfried Kibelka, Tim Short, David Fries
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
 *   **Keywords**: underwater, mass, spectrometers, detection, vocs, dissolved
 
 ---
 
 ### Registry ID: 35
-*   **Filename**: `3th_McMurtry_Mass_SURFER_Field_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3th_McMurtry_Mass_SURFER_Field_Abstract.pdf`
+*   **Filename**: `3rd_McMurtry_Mass_SURFER_Field_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3rd_McMurtry_Mass_SURFER_Field_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Mass SURFER Field Mass Spectrometer System for Deep Ocean and Planetary Lander Applications
 *   **Authors**: Gary McMurtry, Steven J. Smith
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
 *   **Keywords**: mass, surfer, field, mass, spectrometer, system
 
 ---
 
 ### Registry ID: 36
-*   **Filename**: `3th_Camilli_Multisensor_Data_Integration_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3th_Camilli_Multisensor_Data_Integration_Abstract.pdf`
+*   **Filename**: `3rd_Camilli_Multisensor_Data_Integration_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications\3rd_Camilli_Multisensor_Data_Integration_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Multisensor Data Integration and Adaptive Sampling Strategies for an Autonomous Underwater Mass Spectrometer
 *   **Authors**: Richard Camilli, Harold F. Hemond
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session II: Mass Spectrometers for Underwater Applications.
 *   **Keywords**: multisensor, data, integration, adaptive, sampling, strategies
 
 ---
 
 ### Registry ID: 37
-*   **Filename**: `3th_Meuzelaar_Mapping_and_Monitoring_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_III__Earth_Environments\3th_Meuzelaar_Mapping_and_Monitoring_Abstract.pdf`
+*   **Filename**: `3rd_Meuzelaar_Mapping_and_Monitoring_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_III__Earth_Environments\3rd_Meuzelaar_Mapping_and_Monitoring_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Mapping and Monitoring Complex Chemical Components in Ambient Air using Fast GC/MS and Multivariate Data Analysis
 *   **Authors**: Henk Meuzelaar, Neil S. Arnold
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session III: Earth Environments.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session III: Earth Environments.
 *   **Keywords**: mapping, monitoring, complex, chemical, components, ambient
 
 ---
 
 ### Registry ID: 38
-*   **Filename**: `3th_Syage_FieldPortable_Fast_GCTOFMS_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_III__Earth_Environments\3th_Syage_FieldPortable_Fast_GCTOFMS_Abstract.pdf`
+*   **Filename**: `3rd_Syage_FieldPortable_Fast_GCTOFMS_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_III__Earth_Environments\3rd_Syage_FieldPortable_Fast_GCTOFMS_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Field-Portable, Fast GC/TOFMS
 *   **Authors**: Jack Syage, Brian Nies, Rick Harkewicz
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session III: Earth Environments.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session III: Earth Environments.
 *   **Keywords**: fast
 
 ---
 
 ### Registry ID: 39
-*   **Filename**: `3th_Viktorova_Portable_DoubleFocus_Mass_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_III__Earth_Environments\3th_Viktorova_Portable_DoubleFocus_Mass_Abstract.pdf`
+*   **Filename**: `3rd_Viktorova_Portable_DoubleFocus_Mass_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_III__Earth_Environments\3rd_Viktorova_Portable_DoubleFocus_Mass_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Portable Double-Focus Mass Spectrograph with Multymembrane Inlet
 *   **Authors**: Olga Viktorova, Viktor Kogan, Sergey Manninen
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session III: Earth Environments.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session III: Earth Environments.
 *   **Keywords**: portable, mass, spectrograph, multymembrane, inlet
 
 ---
 
 ### Registry ID: 40
-*   **Filename**: `3th_Basile_Detection_of_Microorganisms_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_IV__Bio_applications\3th_Basile_Detection_of_Microorganisms_Abstract.pdf`
+*   **Filename**: `3rd_Basile_Detection_of_Microorganisms_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_IV__Bio_applications\3rd_Basile_Detection_of_Microorganisms_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Detection of Microorganisms with MS: Field-Portable Instrumentation and Innovative Methodology
 *   **Authors**: Franco Basile, Angelo Madonna, Kent J. Voorhees, Stephen Lammert, Brian Musselman, Vladimir Doroshenko
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session IV: Bio-applications.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session IV: Bio-applications.
 *   **Keywords**: detection, microorganisms, instrumentation, innovative, methodology
 
 ---
 
 ### Registry ID: 41
-*   **Filename**: `3th_Gardner_Design_of_a_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_IV__Bio_applications\3th_Gardner_Design_of_a_Abstract.pdf`
+*   **Filename**: `3rd_Gardner_Design_of_a_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_IV__Bio_applications\3rd_Gardner_Design_of_a_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Design of a Novel Miniature MALDI-TOF Mass Spectrometer for High Throughput Medical Screening
 *   **Authors**: Ben Gardner, Robert English, Robert Cotter
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session IV: Bio-applications.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session IV: Bio-applications.
 *   **Keywords**: design, novel, miniature, mass, spectrometer, high
 
 ---
 
 ### Registry ID: 42
-*   **Filename**: `3th_Bryden_Fieldable_MALDITOF_Bioaerosol_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_IV__Bio_applications\3th_Bryden_Fieldable_MALDITOF_Bioaerosol_Abstract.pdf`
+*   **Filename**: `3rd_Bryden_Fieldable_MALDITOF_Bioaerosol_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_IV__Bio_applications\3rd_Bryden_Fieldable_MALDITOF_Bioaerosol_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Fieldable MALDI-TOF Bioaerosol Analysis System
 *   **Authors**: Wayne A. Bryden
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session IV: Bio-applications.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session IV: Bio-applications.
 *   **Keywords**: fieldable, bioaerosol, analysis, system
 
 ---
 
 ### Registry ID: 43
-*   **Filename**: `3th_Chutjian_Miniature_Mass_Spectrometers_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_V__Novel_Concepts___Miniaturization\3th_Chutjian_Miniature_Mass_Spectrometers_Abstract.pdf`
+*   **Filename**: `3rd_Chutjian_Miniature_Mass_Spectrometers_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_V__Novel_Concepts___Miniaturization\3rd_Chutjian_Miniature_Mass_Spectrometers_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Miniature Mass Spectrometers and Front-End Interfaces
 *   **Authors**: Ara Chutjian, Murray Darrach, Otto Orient, Paul Holland
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
 *   **Keywords**: miniature, mass, spectrometers, interfaces
 
 ---
 
 ### Registry ID: 44
-*   **Filename**: `3th_Arkin_Evaluation_of_Small_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_V__Novel_Concepts___Miniaturization\3th_Arkin_Evaluation_of_Small_Abstract.pdf`
+*   **Filename**: `3rd_Arkin_Evaluation_of_Small_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_V__Novel_Concepts___Miniaturization\3rd_Arkin_Evaluation_of_Small_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Evaluation of Small Mass Spectrometer Systems as Candidates for the Development of Miniature Mass Spectrometer Systems
 *   **Authors**: Richard Arkin, Timothy Griffin, Andrew Ottens, Jorge Diaz, Duke Follestein, Fredrick Adams, William Helms
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
 *   **Keywords**: evaluation, small, mass, spectrometer, systems, candidates
 
 ---
 
 ### Registry ID: 45
-*   **Filename**: `3th_Moxom_Miniature_cylindrical_ion_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_V__Novel_Concepts___Miniaturization\3th_Moxom_Miniature_cylindrical_ion_Abstract.pdf`
+*   **Filename**: `3rd_Moxom_Miniature_cylindrical_ion_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_V__Novel_Concepts___Miniaturization\3rd_Moxom_Miniature_cylindrical_ion_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Miniature cylindrical ion trap mass spectrometry
 *   **Authors**: Jeremy Moxom, William Whitten, Peter Reilly, Michael Ramsey
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
 *   **Keywords**: miniature, cylindrical, trap, mass, spectrometry
 
 ---
 
 ### Registry ID: 46
-*   **Filename**: `3th_Myung_A_LIGA_Fabricated_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_V__Novel_Concepts___Miniaturization\3th_Myung_A_LIGA_Fabricated_Abstract.pdf`
+*   **Filename**: `3rd_Myung_A_LIGA_Fabricated_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_V__Novel_Concepts___Miniaturization\3rd_Myung_A_LIGA_Fabricated_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: A LIGA Fabricated Two-Dimensional Quadrupole Array for High Resolution Mass Spectroscopy
 *   **Authors**: Nosang V. Myung, Otto Orient, Kirill Shcheglov, Beverley Eyre, Dean Wiberg
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
 *   **Keywords**: liga, fabricated, quadrupole, array, high, resolution
 
 ---
 
 ### Registry ID: 47
-*   **Filename**: `3th_Scheidemann_Concept_for_a_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Technical_Session_V__Novel_Concepts___Miniaturization\3th_Scheidemann_Concept_for_a_Abstract.pdf`
+*   **Filename**: `3rd_Scheidemann_Concept_for_a_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Technical_Session_V__Novel_Concepts___Miniaturization\3rd_Scheidemann_Concept_for_a_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Concept for a Miniaturized Confocal Plane Mass Spectrometer using Micromachined Detector Array
 *   **Authors**: Adi Scheidemann, Mahadeva Sinha, Bruce Darling
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Technical Session V: Novel Concepts / Miniaturization.
 *   **Keywords**: concept, miniaturized, confocal, plane, mass, spectrometer
 
 ---
 
 ### Registry ID: 48
-*   **Filename**: `3th_Jimenez_Airborne_Deployment_of_Poster.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Jimenez_Airborne_Deployment_of_Poster.pdf`
+*   **Filename**: `3rd_Jimenez_Airborne_Deployment_of_Poster.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Jimenez_Airborne_Deployment_of_Poster.pdf`
 *   **Type**: `Poster`
 *   **Year**: `2002`
 *   **Title**: Airborne Deployment of the Aerosol Mass Spectrometer during the ACE-Asia Field Campaign
 *   **Authors**: Jose Jimenez, Roya Bahreini, Richard Flagan, John H. Seinfeld, Haflidi Jonnson, John Jayne, Douglas Worsnop
-*   **Subject**: Poster from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Poster from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: airborne, deployment, aerosol, mass, spectrometer, during
 
 ---
 
 ### Registry ID: 49
-*   **Filename**: `3th_Jimenez_Airborne_Deployment_of_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Jimenez_Airborne_Deployment_of_Abstract.pdf`
+*   **Filename**: `3rd_Jimenez_Airborne_Deployment_of_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Jimenez_Airborne_Deployment_of_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Airborne Deployment of the Aerosol Mass Spectrometer during the ACE-Asia Field Campaign
 *   **Authors**: Jose Jimenez, Roya Bahreini, Richard Flagan, John H. Seinfeld, Haflidi Jonnson, John Jayne, Douglas Worsnop
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: airborne, deployment, aerosol, mass, spectrometer, during
 
 ---
 
 ### Registry ID: 50
-*   **Filename**: `3th_Short_Microfabrication_of_Cylindrical_Poster.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Short_Microfabrication_of_Cylindrical_Poster.pdf`
+*   **Filename**: `3rd_Short_Microfabrication_of_Cylindrical_Poster.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Short_Microfabrication_of_Cylindrical_Poster.pdf`
 *   **Type**: `Poster`
 *   **Year**: `2002`
 *   **Title**: Microfabrication of Cylindrical Ion Trap Mass Spectrometer Arrays
 *   **Authors**: Tim Short, David Fries, Gottfried P. G. Kibelka, Himani Peddanenikalva, Shekhar Bhansali
-*   **Subject**: Poster from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Poster from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: microfabrication, cylindrical, trap, mass, spectrometer, arrays
 
 ---
 
 ### Registry ID: 51
-*   **Filename**: `3th_Short_Microfabrication_of_Cylindrical_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Short_Microfabrication_of_Cylindrical_Abstract.pdf`
+*   **Filename**: `3rd_Short_Microfabrication_of_Cylindrical_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Short_Microfabrication_of_Cylindrical_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Microfabrication of Cylindrical Ion Trap Mass Spectrometer Arrays
 *   **Authors**: Tim Short, David Fries, Gottfried P. G. Kibelka, Himani Peddanenikalva, Shekhar Bhansali
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: microfabrication, cylindrical, trap, mass, spectrometer, arrays
 
 ---
 
 ### Registry ID: 52
-*   **Filename**: `3th_Mueller_Adaptation_of_a_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Mueller_Adaptation_of_a_Abstract.pdf`
+*   **Filename**: `3rd_Mueller_Adaptation_of_a_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Mueller_Adaptation_of_a_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Adaptation of a commercially available RGA for use onboard the ISS
 *   **Authors**: Norbert Mueller, Roman Sonderegger, Daniel Vogel, Carlos Pereira
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: adaptation, commercially, available, onboard
 
 ---
 
 ### Registry ID: 53
-*   **Filename**: `3th_Holland_Miniaturized_GCMS_Instrumentation_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Holland_Miniaturized_GCMS_Instrumentation_Abstract.pdf`
+*   **Filename**: `3rd_Holland_Miniaturized_GCMS_Instrumentation_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Holland_Miniaturized_GCMS_Instrumentation_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Miniaturized GC/MS Instrumentation: MEMS-based Gas Chromatography Coupled with Miniature Quadrupole Array and Paul Ion Trap Mass Spectrometers
 *   **Authors**: Paul M. Holland, Ara Chutjian, Murray Darrach, Otto Orient
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: miniaturized, instrumentation, chromatography, coupled, miniature, quadrupole
 
 ---
 
 ### Registry ID: 54
-*   **Filename**: `3th_Brinckerhoff_Dual_Source_TimeofFlight_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Brinckerhoff_Dual_Source_TimeofFlight_Abstract.pdf`
+*   **Filename**: `3rd_Brinckerhoff_Dual_Source_TimeofFlight_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Brinckerhoff_Dual_Source_TimeofFlight_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Dual Source Time-of-Flight Mass Spectrometer and Sample Handling System
 *   **Authors**: William B. Brinckerhoff, Timothy J. Cornish, P. R. Mahaffy
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: dual, source, mass, spectrometer, sample, handling
 
 ---
 
 ### Registry ID: 55
-*   **Filename**: `3th_Diaz_Real_Time_Volcanic_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Diaz_Real_Time_Volcanic_Abstract.pdf`
+*   **Filename**: `3rd_Diaz_Real_Time_Volcanic_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Diaz_Real_Time_Volcanic_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Real Time Volcanic Gas Monitoring Station using "In-Situ" Mass Spectrometry at Irazu Volcano
 *   **Authors**: Jorge A. Diaz, W. Ronald Gentry, Clayton F. Giese, Eduardo Malavassi, Erick Fernandez, Eliecer Duarte, Juan Valdez
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: real, time, volcanic, monitoring, station, mass
 
 ---
 
 ### Registry ID: 56
-*   **Filename**: `3th_Appelhans_Ion_Trap_Secondary_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Appelhans_Ion_Trap_Secondary_Abstract.pdf`
+*   **Filename**: `3rd_Appelhans_Ion_Trap_Secondary_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Appelhans_Ion_Trap_Secondary_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Ion Trap Secondary Ion Mass Spectrometry - Moving Toward Fieldable Systems
 *   **Authors**: Anthony D. Appelhans, J. E. Olson
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: trap, secondary, mass, spectrometry, moving, toward
 
 ---
 
 ### Registry ID: 57
-*   **Filename**: `3th_Ecelberger_The_Improved_TeenyTOF_Poster.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Ecelberger_The_Improved_TeenyTOF_Poster.pdf`
+*   **Filename**: `3rd_Ecelberger_The_Improved_TeenyTOF_Poster.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Ecelberger_The_Improved_TeenyTOF_Poster.pdf`
 *   **Type**: `Poster`
 *   **Year**: `2002`
 *   **Title**: The Improved Teeny-TOF Mass Spectrometer for Chemical and Biological Sensing
 *   **Authors**: Scott A. Ecelberger, Timothy J. Cornish, Wayne A. Bryden
-*   **Subject**: Poster from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Poster from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: improved, mass, spectrometer, chemical, biological, sensing
 
 ---
 
 ### Registry ID: 58
-*   **Filename**: `3th_Ecelberger_The_Improved_TeenyTOF_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Ecelberger_The_Improved_TeenyTOF_Abstract.pdf`
+*   **Filename**: `3rd_Ecelberger_The_Improved_TeenyTOF_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Ecelberger_The_Improved_TeenyTOF_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: The Improved Teeny-TOF Mass Spectrometer for Chemical and Biological Sensing
 *   **Authors**: Scott A. Ecelberger, Timothy J. Cornish, Wayne A. Bryden
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: improved, mass, spectrometer, chemical, biological, sensing
 
 ---
 
 ### Registry ID: 59
-*   **Filename**: `3th_Viktorova_Multimembrane_Inlet_System_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Viktorova_Multimembrane_Inlet_System_Abstract.pdf`
+*   **Filename**: `3rd_Viktorova_Multimembrane_Inlet_System_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Viktorova_Multimembrane_Inlet_System_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Multimembrane Inlet System for Mass Spectrometry Analysis
 *   **Authors**: Olga S. Viktorova, V. T.Kogan, A. K.Pavlov, Y. V. Chichagov, B. M. Dubenskii, S. P. Parinov, A. G. Vitenberg, T. Kotiaho, R. Ketola
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: multimembrane, inlet, system, mass, spectrometry, analysis
 
 ---
 
 ### Registry ID: 60
-*   **Filename**: `3th_Yu_A_HighPerformance_Handheld_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Yu_A_HighPerformance_Handheld_Abstract.pdf`
+*   **Filename**: `3rd_Yu_A_HighPerformance_Handheld_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Yu_A_HighPerformance_Handheld_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: A High-Performance Handheld Gas Chromatograph
 *   **Authors**: Conrad M. Yu
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: handheld, chromatograph
 
 ---
 
 ### Registry ID: 61
-*   **Filename**: `3th_Hart_Detection_of_Unknown_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Hart_Detection_of_Unknown_Abstract.pdf`
+*   **Filename**: `3rd_Hart_Detection_of_Unknown_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Hart_Detection_of_Unknown_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: Detection of 'Unknown Agents' in Harsh Environments using a Newly Developed Ruggedized Mass Spectrometer
 *   **Authors**: Kevin J. Hart, Irene F. Robbins, Marcus B. Wise, Wayne H. Griest, Stephen A. Lammert, Cyril V. Thompson
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: detection, unknown, agents, harsh, environments, newly
 
 ---
 
 ### Registry ID: 62
-*   **Filename**: `3th_Gonin_A_Rugged_and_Abstract.pdf`
-*   **Path**: `docs\archives_translation\proceedings\3th\Posters\3th_Gonin_A_Rugged_and_Abstract.pdf`
+*   **Filename**: `3rd_Gonin_A_Rugged_and_Abstract.pdf`
+*   **Path**: `docs\archives_translation\proceedings\3rd\Posters\3rd_Gonin_A_Rugged_and_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2002`
 *   **Title**: A Rugged and Compact Time-of-Flight Mass Spectrometer for Fast and Sensitive Leak Detection
 *   **Authors**: Marc Gonin, Katrin Fuhrer, Michael Ugarov, Val Vaughn, Steve Ulrich, Michael McCully, Albert Schultz
-*   **Subject**: Abstract from the 3th HEMS Workshop (2002), Poster Session.
+*   **Subject**: Abstract from the 3rd HEMS Workshop (2002), Poster Session.
 *   **Keywords**: rugged, compact, mass, spectrometer, fast, sensitive
 
 ---

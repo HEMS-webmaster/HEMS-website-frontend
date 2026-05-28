@@ -65,12 +65,13 @@ export async function POST(request: Request) {
       const checkFileExists = (category: string, wsNum: number, session: string | null, fileName: string) => {
         if (!fileName) return false;
         let relativeDir = '';
-        if (category === 'Administrative') relativeDir = `${wsNum}th/Administrative`;
-        else if (category === 'Student_Award') relativeDir = `${wsNum}th/Student_Award`;
-        else if (category === 'Poster') relativeDir = `${wsNum}th/Posters`;
+        const wsOrdinal = getOrdinal(wsNum);
+        if (category === 'Administrative') relativeDir = `${wsOrdinal}/Administrative`;
+        else if (category === 'Student_Award') relativeDir = `${wsOrdinal}/Student_Award`;
+        else if (category === 'Poster') relativeDir = `${wsOrdinal}/Posters`;
         else {
           const cleanSession = (session || 'General').replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
-          relativeDir = `${wsNum}th/${cleanSession}`;
+          relativeDir = `${wsOrdinal}/${cleanSession}`;
         }
         const fullPath = path.join(proceedingsDir, relativeDir, fileName);
         return fsSync.existsSync(fullPath);
@@ -79,34 +80,37 @@ export async function POST(request: Request) {
       const buildCloudUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
         if (!checkFileExists(category, wsNum, session, fileName)) return "";
         const baseUrl = 'https://storage.googleapis.com/hems-workshop-archives/proceedings';
-        if (category === 'Administrative') return `${baseUrl}/${wsNum}th/Administrative/${fileName}`;
-        if (category === 'Student_Award') return `${baseUrl}/${wsNum}th/Student_Award/${fileName}`;
-        if (category === 'Poster') return `${baseUrl}/${wsNum}th/Posters/${fileName}`;
+        const wsOrdinal = getOrdinal(wsNum);
+        if (category === 'Administrative') return `${baseUrl}/${wsOrdinal}/Administrative/${fileName}`;
+        if (category === 'Student_Award') return `${baseUrl}/${wsOrdinal}/Student_Award/${fileName}`;
+        if (category === 'Poster') return `${baseUrl}/${wsOrdinal}/Posters/${fileName}`;
         
         const cleanSession = (session || 'General').replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
-        return `${baseUrl}/${wsNum}th/${cleanSession}/${fileName}`;
+        return `${baseUrl}/${wsOrdinal}/${cleanSession}/${fileName}`;
       };
 
       const buildLocalUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
         if (!checkFileExists(category, wsNum, session, fileName)) return "";
         const baseUrl = '/api/manager/serve?file=';
-        if (category === 'Administrative') return `${baseUrl}${wsNum}th/Administrative/${fileName}`;
-        if (category === 'Student_Award') return `${baseUrl}${wsNum}th/Student_Award/${fileName}`;
-        if (category === 'Poster') return `${baseUrl}${wsNum}th/Posters/${fileName}`;
+        const wsOrdinal = getOrdinal(wsNum);
+        if (category === 'Administrative') return `${baseUrl}${wsOrdinal}/Administrative/${fileName}`;
+        if (category === 'Student_Award') return `${baseUrl}${wsOrdinal}/Student_Award/${fileName}`;
+        if (category === 'Poster') return `${baseUrl}${wsOrdinal}/Posters/${fileName}`;
         
         const cleanSession = (session || 'General').replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
-        return `${baseUrl}${wsNum}th/${cleanSession}/${fileName}`;
+        return `${baseUrl}${wsOrdinal}/${cleanSession}/${fileName}`;
       };
 
       const buildGcloudUrl = (category: string, wsNum: number, session: string | null, fileName: string) => {
         if (!checkFileExists(category, wsNum, session, fileName)) return "";
         const baseUrl = 'gs://hems-workshop-archives/proceedings';
-        if (category === 'Administrative') return `${baseUrl}/${wsNum}th/Administrative/${fileName}`;
-        if (category === 'Student_Award') return `${baseUrl}/${wsNum}th/Student_Award/${fileName}`;
-        if (category === 'Poster') return `${baseUrl}/${wsNum}th/Posters/${fileName}`;
+        const wsOrdinal = getOrdinal(wsNum);
+        if (category === 'Administrative') return `${baseUrl}/${wsOrdinal}/Administrative/${fileName}`;
+        if (category === 'Student_Award') return `${baseUrl}/${wsOrdinal}/Student_Award/${fileName}`;
+        if (category === 'Poster') return `${baseUrl}/${wsOrdinal}/Posters/${fileName}`;
         
         const cleanSession = (session || 'General').replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
-        return `${baseUrl}/${wsNum}th/${cleanSession}/${fileName}`;
+        return `${baseUrl}/${wsOrdinal}/${cleanSession}/${fileName}`;
       };
 
       yearData.resources = [];

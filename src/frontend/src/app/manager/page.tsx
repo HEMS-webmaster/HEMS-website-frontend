@@ -12,6 +12,20 @@ import PreviewHover from './components/PreviewHover';
 import DragDropZone from './components/DragDropZone';
 import { exportProgramPdf } from './utils/exportProgramPdf';
 
+function getOrdinalSuffix(num: number): string {
+  const j = num % 10;
+  const k = num % 100;
+  if (j === 1 && k !== 11) return "st";
+  if (j === 2 && k !== 12) return "nd";
+  if (j === 3 && k !== 13) return "rd";
+  return "th";
+}
+
+function formatOrdinal(num: number): string {
+  return `${num}${getOrdinalSuffix(num)}`;
+}
+
+
 export default function WorkshopManager() {
   const [workshops, setWorkshops] = useState<any[]>([]);
   const [selectedIdx, setSelectedIdx] = useState<number>(-1);
@@ -165,8 +179,8 @@ export default function WorkshopManager() {
   const addWorkshop = () => {
     const newWs = {
       number: workshops.length + 1,
-      title: `${workshops.length + 1}th HEMS Workshop`,
-      tagline: `The ${workshops.length + 1}th Workshop on Harsh-Environment Mass Spectrometry.`,
+      title: `${formatOrdinal(workshops.length + 1)} HEMS Workshop`,
+      tagline: `The ${formatOrdinal(workshops.length + 1)} Workshop on Harsh-Environment Mass Spectrometry.`,
       year: new Date().getFullYear(),
       venue: '',
       address: '',
@@ -230,7 +244,7 @@ export default function WorkshopManager() {
                 className={`p-2 cursor-pointer rounded ${selectedIdx === i ? 'bg-sky-900 text-sky-100' : 'hover:bg-slate-700'}`}
                 onClick={() => setSelectedIdx(i)}
               >
-                {ws.number}th Workshop ({ws.year})
+                {formatOrdinal(ws.number)} Workshop ({ws.year})
               </li>
             ))}
           </ul>
@@ -392,7 +406,7 @@ export default function WorkshopManager() {
                       updated[selectedIdx].program_url = e.target.value;
                       setWorkshops(updated);
                     }}
-                    onPaste={e => handleAdminPasteDownload(e, selectedIdx, 'program_url', `${currentWs.number}th_Program.pdf`)}
+                    onPaste={e => handleAdminPasteDownload(e, selectedIdx, 'program_url', `${formatOrdinal(currentWs.number)}_Program.pdf`)}
                     className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors mb-2`} 
                   />
                   {downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
@@ -401,12 +415,12 @@ export default function WorkshopManager() {
                     label="Drop Program PDF" 
                     category="Administrative" 
                     wsNum={String(currentWs.number)} 
-                    fileName={`${currentWs.number}th_Program.pdf`}
+                    fileName={`${formatOrdinal(currentWs.number)}_Program.pdf`}
                     session="Administrative"
                     title="Workshop Program"
                     onSuccess={() => {
                       const updated = [...workshops];
-                      updated[selectedIdx].program_file = `${currentWs.number}th_Program.pdf`;
+                      updated[selectedIdx].program_file = `${formatOrdinal(currentWs.number)}_Program.pdf`;
                       setWorkshops(updated);
                     }}
                   />
@@ -425,9 +439,9 @@ export default function WorkshopManager() {
                     </span>
                     {currentWs.program_file && (
                       <>
-                        <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
-                        <span><strong>GCloud:</strong> gs://hems-workshop-archives/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
-                        <span className="break-all"><strong>Public (Firebase):</strong> https://storage.googleapis.com/hems-workshop-archives/proceedings/{currentWs.number}th/Administrative/{currentWs.program_file}</span>
+                        <span><strong>Local:</strong> docs/archives_translation/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.program_file}</span>
+                        <span><strong>GCloud:</strong> gs://hems-workshop-archives/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.program_file}</span>
+                        <span className="break-all"><strong>Public (Firebase):</strong> https://storage.googleapis.com/hems-workshop-archives/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.program_file}</span>
                       </>
                     )}
                   </div>
@@ -443,7 +457,7 @@ export default function WorkshopManager() {
                       updated[selectedIdx].participant_list_url = e.target.value;
                       setWorkshops(updated);
                     }}
-                    onPaste={e => handleAdminPasteDownload(e, selectedIdx, 'participant_list_url', `${currentWs.number}th_Participant_List.pdf`)}
+                    onPaste={e => handleAdminPasteDownload(e, selectedIdx, 'participant_list_url', `${formatOrdinal(currentWs.number)}_Participant_List.pdf`)}
                     className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors mb-2`} 
                   />
                   {downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
@@ -452,12 +466,12 @@ export default function WorkshopManager() {
                     label="Drop Participant List PDF" 
                     category="Administrative" 
                     wsNum={String(currentWs.number)} 
-                    fileName={`${currentWs.number}th_Participant_List.pdf`}
+                    fileName={`${formatOrdinal(currentWs.number)}_Participant_List.pdf`}
                     session="Administrative"
                     title="Participant List"
                     onSuccess={() => {
                       const updated = [...workshops];
-                      updated[selectedIdx].participant_list_file = `${currentWs.number}th_Participant_List.pdf`;
+                      updated[selectedIdx].participant_list_file = `${formatOrdinal(currentWs.number)}_Participant_List.pdf`;
                       setWorkshops(updated);
                     }}
                   />
@@ -476,9 +490,9 @@ export default function WorkshopManager() {
                     </span>
                     {currentWs.participant_list_file && (
                       <>
-                        <span><strong>Local:</strong> docs/archives_translation/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
-                        <span><strong>GCloud:</strong> gs://hems-workshop-archives/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
-                        <span className="break-all"><strong>Public (Firebase):</strong> https://storage.googleapis.com/hems-workshop-archives/proceedings/{currentWs.number}th/Administrative/{currentWs.participant_list_file}</span>
+                        <span><strong>Local:</strong> docs/archives_translation/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.participant_list_file}</span>
+                        <span><strong>GCloud:</strong> gs://hems-workshop-archives/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.participant_list_file}</span>
+                        <span className="break-all"><strong>Public (Firebase):</strong> https://storage.googleapis.com/hems-workshop-archives/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.participant_list_file}</span>
                       </>
                     )}
                   </div>

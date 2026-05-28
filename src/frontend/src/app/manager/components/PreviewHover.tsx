@@ -15,8 +15,18 @@ export default function PreviewHover({ fileName, wsNum, session, title, children
   const [previewData, setPreviewData] = useState<string | null>(null);
   const [error, setError] = useState(false);
 
+  const getOrdinalSuffix = (num: number): string => {
+    const j = num % 10;
+    const k = num % 100;
+    if (j === 1 && k !== 11) return "st";
+    if (j === 2 && k !== 12) return "nd";
+    if (j === 3 && k !== 13) return "rd";
+    return "th";
+  };
+
   const cleanSession = session.replace(/\s*\(.*?\)\s*/g, '').trim().replace(/[^a-zA-Z0-9]/g, '_');
-  const relativePath = `${wsNum}th/${cleanSession}/${fileName}`;
+  const wsOrdinal = `${wsNum}${getOrdinalSuffix(parseInt(wsNum))}`;
+  const relativePath = `${wsOrdinal}/${cleanSession}/${fileName}`;
   const isAbstract = fileName.includes('_Abstract.pdf');
 
   useEffect(() => {

@@ -2157,3 +2157,82 @@ This is a complete success. We will stage, commit, and push the updated database
 
 ### Constraints Check
 - No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
+
+
+## SCoT Log - 2026-05-27 - Phase 4 (Fixing Improper Workshop Suffixes and Ordinals)
+
+### Current Assessment
+The user identified that the workshop titles in the manager navbar and the file naming conventions use improper ordinal suffixes (e.g., `1th`, `2th`, `3th` instead of `1st`, `2nd`, `3rd`).
+This error spans across:
+1. The physical directory structure: folders on disk are named `1th/`, `2th/`, and `3th/`.
+2. The physical files inside: files are named `1th_...`, `2th_...`, and `3th_...`.
+3. The master database `master_workshops.json` which references these file paths.
+4. The manager frontend dashboard (`page.tsx`) and backend API routes (`upload`, `save`, `serve`, `PreviewHover`) which have hardcoded `th` suffix logic (e.g. `${wsNum}th`).
+
+### Plan
+1. Create a Python script `scratch/fix_incorrect_ordinals.py` to:
+   - Rename local proceedings directories: `1th` -> `1st`, `2th` -> `2nd`, `3th` -> `3rd`.
+   - Rename all filenames starting with `1th_`, `2th_`, or `3th_` to start with `1st_`, `2nd_`, or `3rd_`.
+   - Read `master_workshops.json` and replace all references to `1th_`, `2th_`, and `3th_` with `1st_`, `2nd_`, and `3rd_`.
+   - Overwrite `master_workshops.json` with the updated paths.
+2. Edit `src/frontend/src/app/manager/page.tsx` to display proper ordinal suffixes in the sidebar list (e.g. `3rd Workshop` instead of `3th Workshop`) and use the correct ordinal naming when adding a workshop or serving a file link.
+3. Edit the manager API routes to use the `getOrdinal` calculation instead of the hardcoded `${wsNum}th` logic:
+   - `src/frontend/src/app/api/manager/upload/route.ts`
+   - `src/frontend/src/app/api/manager/save/route.ts`
+   - `src/frontend/src/app/manager/components/PreviewHover.tsx`
+4. Re-compile the SEO registry and re-run metadata injection.
+
+### Constraints Check
+- No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
+
+## SCoT Trace - 2026-05-28 04:22:00
+### Action: Fixing Incorrect Ordinals in HEMS Proceedings and Database
+
+#### 1. Context and Objective
+We are correcting improper ordinal suffixes in HEMS Workshop Manager:
+- Rename directory structure `docs/archives_translation/proceedings/1th/` to `1st/`, `2th/` to `2nd/`, `3th/` to `3rd/`.
+- Rename all files inside starting with `1th_`, `2th_`, `3th_` to `1st_`, `2nd_`, `3rd_`.
+- Safely update references in `src/frontend/src/data/master_workshops.json` to map to `1st`, `2nd`, `3rd` using negative lookbehind regular expressions to avoid corrupting `11th`, `12th`, `13th`.
+- Recompile frontend static archive assets using `node scratch/compile_archives.js`.
+- Re-run SEO registry generation via `python scratch/generate_seo_registry.py` and metadata injection via `python scratch/inject_pdf_metadata.py`.
+
+#### 2. Verification Plan
+- Verify directory rename and file rename outputs on disk.
+- Run `inspect_3th.py` to confirm no more occurrences of single-digit `[1-3]th` exist in the master database.
+- Recompile the workshop JSON files and check that files resolve correctly.
+
+## SCoT Trace - 2026-05-28 04:27:00
+### Action: Fixing Bad Ordinals in drag-and-drop info fields (check-file API route)
+
+#### 1. Context and Objective
+We identified that `src/frontend/src/app/api/manager/check-file/route.ts` still hardcodes the `{wsNum}th` proceedings directory path and URL. This causes "Local Target path", "GCloud URL", and "Public website URL" in the DragDropZone frontend components to display incorrect suffixes (e.g. `3th` instead of `3rd`).
+
+#### 2. Proposed Changes
+- Modify `check-file/route.ts` to define the standard `getOrdinal` helper.
+- Update target directories and URL builders in `check-file/route.ts` to resolve using the proper computed ordinal prefix.
+
+#### 3. Verification Plan
+- Inspect `check-file/route.ts` changes to ensure clean, compile-ready TypeScript.
+- Verify on local page that checking files resolves to paths under `3rd` rather than `3th`.
+
+## SCoT Trace - 2026-05-28 04:45:00
+### Action: Fixing React Uncontrolled-to-Controlled Input Warning in EventsManager.tsx
+
+#### 1. Context and Objective
+The user encountered a React console error:
+`A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen.`
+This is triggered in `EventsManager.tsx` on line 252 for `ev.location` because the value starts as `undefined` for new or incomplete itinerary events, and React interprets it as uncontrolled before transition to a string value.
+
+#### 2. Proposed Changes
+Modify all input value bindings in `src/frontend/src/app/manager/components/EventsManager.tsx` to safely fallback to empty strings (`|| ''`) to guarantee that they are treated as controlled components for their entire lifecycle:
+- `group.date || ''`
+- `group.title || ''`
+- `ev.time || ''`
+- `ev.title || ''`
+- `ev.subtitle || ''`
+- `ev.location || ''`
+- `ev.location_url || ''`
+
+#### 3. Verification Plan
+- Edit `EventsManager.tsx` to include fallback string bindings.
+- Validate that the warning is eliminated on page rendering and event creation.

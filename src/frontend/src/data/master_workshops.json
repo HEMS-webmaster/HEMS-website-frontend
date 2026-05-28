@@ -368,7 +368,7 @@
     "venue_url": "",
     "venue_address_url": "",
     "program_url": "https://www.hems-workshop.org/1stWS/1hems_program.pdf",
-    "program_file": "1th_Program.pdf",
+    "program_file": "1st_Program.pdf",
     "participant_list_url": "",
     "participant_list_file": "",
     "host_corporation": {
@@ -514,7 +514,7 @@
         "legacy_url": "",
         "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractGonin.pdf",
         "poster_file": "",
-        "abstract_file": "2th_Gonin_Compact_and_Rugged_Abstract.pdf",
+        "abstract_file": "2nd_Gonin_Compact_and_Rugged_Abstract.pdf",
         "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractGonin.pdf"
       },
       {
@@ -550,7 +550,7 @@
         "legacy_url": "",
         "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractRohrs.pdf",
         "poster_file": "",
-        "abstract_file": "2th_Rohrs_Development_of_a_Abstract.pdf",
+        "abstract_file": "2nd_Rohrs_Development_of_a_Abstract.pdf",
         "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractRohrs.pdf"
       },
       {
@@ -576,7 +576,7 @@
         "legacy_url": "",
         "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractCamilli.pdf",
         "poster_file": "",
-        "abstract_file": "2th_Camilli_Project_NEREUS_Construction_Abstract.pdf",
+        "abstract_file": "2nd_Camilli_Project_NEREUS_Construction_Abstract.pdf",
         "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractCamilli.pdf"
       },
       {
@@ -622,7 +622,7 @@
         "legacy_url": "",
         "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractFries.pdf",
         "poster_file": "",
-        "abstract_file": "2th_Fries_Remotely_Operated_Mass_Abstract.pdf",
+        "abstract_file": "2nd_Fries_Remotely_Operated_Mass_Abstract.pdf",
         "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/PosterAbstractFries.pdf"
       }
     ],
@@ -652,7 +652,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBeauchamp.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBeauchamp.pdf",
-            "abstract_file": "2th_Beauchamp_Mass_Spectrometers_for_Abstract.pdf"
+            "abstract_file": "2nd_Beauchamp_Mass_Spectrometers_for_Abstract.pdf"
           },
           {
             "time": "9:30 AM",
@@ -699,7 +699,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractWollnik.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractWollnik.pdf",
-            "abstract_file": "2th_Casares_A_small_multiple_Abstract.pdf"
+            "abstract_file": "2nd_Casares_A_small_multiple_Abstract.pdf"
           },
           {
             "time": "10:30 AM",
@@ -720,7 +720,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBrinckerhoff.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBrinckerhoff.pdf",
-            "abstract_file": "2th_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf"
+            "abstract_file": "2nd_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf"
           },
           {
             "time": "11:00 AM",
@@ -762,7 +762,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractGriffin.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractGriffin.pdf",
-            "abstract_file": "2th_Griffin_A_Fully_Redundant_Abstract.pdf"
+            "abstract_file": "2nd_Griffin_A_Fully_Redundant_Abstract.pdf"
           }
         ]
       },
@@ -796,7 +796,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractPatterson.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractPatterson.pdf",
-            "abstract_file": "2th_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf"
+            "abstract_file": "2nd_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf"
           },
           {
             "time": "2:00 PM",
@@ -832,7 +832,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMoxom.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMoxom.pdf",
-            "abstract_file": "2th_Moxom_Recent_Developments_in_Abstract.pdf"
+            "abstract_file": "2nd_Moxom_Recent_Developments_in_Abstract.pdf"
           },
           {
             "time": "2:30 PM",
@@ -853,7 +853,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractCornish.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractCornish.pdf",
-            "abstract_file": "2th_Cornish_Miniature_TOF_Mass_Abstract.pdf"
+            "abstract_file": "2nd_Cornish_Miniature_TOF_Mass_Abstract.pdf"
           }
         ]
       },
@@ -882,7 +882,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMatz.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMatz.pdf",
-            "abstract_file": "2th_Matz_Disaster_Management_Using_Abstract.pdf"
+            "abstract_file": "2nd_Matz_Disaster_Management_Using_Abstract.pdf"
           },
           {
             "time": "10:00 AM",
@@ -923,7 +923,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBarket.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBarket.pdf",
-            "abstract_file": "2th_Barket_Direct_Sampling_Mass_Abstract.pdf"
+            "abstract_file": "2nd_Barket_Direct_Sampling_Mass_Abstract.pdf"
           },
           {
             "time": "10:30 AM",
@@ -976,7 +976,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractChamberlain.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractChamberlain.pdf",
-            "abstract_file": "2th_Chamberlain_MS_for_Trace_Abstract.pdf"
+            "abstract_file": "2nd_Chamberlain_MS_for_Trace_Abstract.pdf"
           },
           {
             "time": "11:00 AM",
@@ -997,7 +997,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractDiaz.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractDiaz.pdf",
-            "abstract_file": "2th_Diaz_Volcanic_Monitoring_using_Abstract.pdf"
+            "abstract_file": "2nd_Diaz_Volcanic_Monitoring_using_Abstract.pdf"
           }
         ]
       },
@@ -1031,7 +1031,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractHemond.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractHemond.pdf",
-            "abstract_file": "2th_Hemond_Project_NEREUS_Concepts_Abstract.pdf"
+            "abstract_file": "2nd_Hemond_Project_NEREUS_Concepts_Abstract.pdf"
           },
           {
             "time": "2:30 PM",
@@ -1058,7 +1058,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMcMurtry.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractMcMurtry.pdf",
-            "abstract_file": "2th_McMurtry_Development_of_an_Abstract.pdf"
+            "abstract_file": "2nd_McMurtry_Development_of_an_Abstract.pdf"
           },
           {
             "time": "3:30 PM",
@@ -1109,7 +1109,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractShort.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractShort.pdf",
-            "abstract_file": "2th_Short_Applications_of_inwater_Abstract.pdf"
+            "abstract_file": "2nd_Short_Applications_of_inwater_Abstract.pdf"
           },
           {
             "time": "4:00 PM",
@@ -1130,7 +1130,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractStone.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractStone.pdf",
-            "abstract_file": "2th_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf"
+            "abstract_file": "2nd_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf"
           },
           {
             "time": "4:30 PM",
@@ -1167,7 +1167,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractHook.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractHook.pdf",
-            "abstract_file": "2th_Hook_Solid_phase_microextraction_Abstract.pdf"
+            "abstract_file": "2nd_Hook_Solid_phase_microextraction_Abstract.pdf"
           }
         ]
       },
@@ -1196,7 +1196,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBryden.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractBryden.pdf",
-            "abstract_file": "2th_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf"
+            "abstract_file": "2nd_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf"
           },
           {
             "time": "9:00 AM",
@@ -1227,7 +1227,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractPrieto.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractPrieto.pdf",
-            "abstract_file": "2th_Prieto_Biological_applications_on_Abstract.pdf"
+            "abstract_file": "2nd_Prieto_Biological_applications_on_Abstract.pdf"
           },
           {
             "time": "10:00 AM",
@@ -1258,7 +1258,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractNuber.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractNuber.pdf",
-            "abstract_file": "2th_Nuber_The_Portable_HoribaKore_Abstract.pdf"
+            "abstract_file": "2nd_Nuber_The_Portable_HoribaKore_Abstract.pdf"
           },
           {
             "time": "10:30 AM",
@@ -1299,7 +1299,7 @@
             "legacy_url": "",
             "legacy_abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractWiberg.pdf",
             "abstract_url": "https://www.hems-workshop.org/2ndWS/abstracts2nd/AbstractWiberg.pdf",
-            "abstract_file": "2th_Wiberg_Progress_Toward_Highly_Abstract.pdf"
+            "abstract_file": "2nd_Wiberg_Progress_Toward_Highly_Abstract.pdf"
           }
         ]
       }
@@ -1478,9 +1478,9 @@
     ],
     "venue_url": "",
     "program_url": "https://www.hems-workshop.org/2ndWS/2hems_program.pdf",
-    "program_file": "2th_Program.pdf",
+    "program_file": "2nd_Program.pdf",
     "participant_list_url": "https://www.hems-workshop.org/2ndWS/participants.pdf",
-    "participant_list_file": "2th_Participant_List.pdf",
+    "participant_list_file": "2nd_Participant_List.pdf",
     "dates": "March 18–21"
   },
   {
@@ -1541,9 +1541,9 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Jimenez_Airborne_Deployment_of_Abstract.pdf",
+        "abstract_file": "3rd_Jimenez_Airborne_Deployment_of_Abstract.pdf",
         "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Jimenez/jimenez.pdf",
-        "poster_file": "3th_Jimenez_Airborne_Deployment_of_Poster.pdf"
+        "poster_file": "3rd_Jimenez_Airborne_Deployment_of_Poster.pdf"
       },
       {
         "title": "Microfabrication of Cylindrical Ion Trap Mass Spectrometer Arrays",
@@ -1584,9 +1584,9 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Short_Microfabrication_of_Cylindrical_Abstract.pdf",
+        "abstract_file": "3rd_Short_Microfabrication_of_Cylindrical_Abstract.pdf",
         "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Short/short.pdf",
-        "poster_file": "3th_Short_Microfabrication_of_Cylindrical_Poster.pdf"
+        "poster_file": "3rd_Short_Microfabrication_of_Cylindrical_Poster.pdf"
       },
       {
         "title": "Adaptation of a commercially available RGA for use onboard the ISS",
@@ -1622,7 +1622,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Mueller_Adaptation_of_a_Abstract.pdf",
+        "abstract_file": "3rd_Mueller_Adaptation_of_a_Abstract.pdf",
         "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Mueller/mueller.pdf"
       },
       {
@@ -1658,7 +1658,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Holland_Miniaturized_GCMS_Instrumentation_Abstract.pdf",
+        "abstract_file": "3rd_Holland_Miniaturized_GCMS_Instrumentation_Abstract.pdf",
         "legacy_url": ""
       },
       {
@@ -1690,7 +1690,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Brinckerhoff_Dual_Source_TimeofFlight_Abstract.pdf",
+        "abstract_file": "3rd_Brinckerhoff_Dual_Source_TimeofFlight_Abstract.pdf",
         "legacy_url": ""
       },
       {
@@ -1744,7 +1744,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Diaz_Real_Time_Volcanic_Abstract.pdf",
+        "abstract_file": "3rd_Diaz_Real_Time_Volcanic_Abstract.pdf",
         "legacy_url": ""
       },
       {
@@ -1770,7 +1770,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Appelhans_Ion_Trap_Secondary_Abstract.pdf",
+        "abstract_file": "3rd_Appelhans_Ion_Trap_Secondary_Abstract.pdf",
         "legacy_url": ""
       },
       {
@@ -1801,9 +1801,9 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Ecelberger_The_Improved_TeenyTOF_Abstract.pdf",
+        "abstract_file": "3rd_Ecelberger_The_Improved_TeenyTOF_Abstract.pdf",
         "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Ecelberger/ecelberger.pdf",
-        "poster_file": "3th_Ecelberger_The_Improved_TeenyTOF_Poster.pdf"
+        "poster_file": "3rd_Ecelberger_The_Improved_TeenyTOF_Poster.pdf"
       },
       {
         "title": "Multimembrane Inlet System for Mass Spectrometry Analysis",
@@ -1867,7 +1867,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Viktorova_Multimembrane_Inlet_System_Abstract.pdf",
+        "abstract_file": "3rd_Viktorova_Multimembrane_Inlet_System_Abstract.pdf",
         "legacy_url": ""
       },
       {
@@ -1888,7 +1888,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Yu_A_HighPerformance_Handheld_Abstract.pdf",
+        "abstract_file": "3rd_Yu_A_HighPerformance_Handheld_Abstract.pdf",
         "legacy_url": ""
       },
       {
@@ -1934,7 +1934,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Hart_Detection_of_Unknown_Abstract.pdf",
+        "abstract_file": "3rd_Hart_Detection_of_Unknown_Abstract.pdf",
         "legacy_url": ""
       },
       {
@@ -1985,7 +1985,7 @@
         "session": "Poster Session",
         "time": "16:45",
         "date": "2002-03-26",
-        "abstract_file": "3th_Gonin_A_Rugged_and_Abstract.pdf",
+        "abstract_file": "3rd_Gonin_A_Rugged_and_Abstract.pdf",
         "legacy_url": ""
       }
     ],
@@ -2021,9 +2021,9 @@
               "California Institute of Technology"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm",
-            "abstract_file": "3th_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf",
+            "abstract_file": "3rd_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Beauchamp/beauchamp.pdf",
-            "presentation_file": "3th_Beauchamp_Novel_Mass_Spectrometric_Presentation.pdf"
+            "presentation_file": "3rd_Beauchamp_Novel_Mass_Spectrometric_Presentation.pdf"
           },
           {
             "time": "9:45 a.m.",
@@ -2091,7 +2091,7 @@
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Quadrupole",
             "abstract_file": "",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Ottens/ottens.pdf",
-            "presentation_file": "3th_Ottens_Quadrupole_Ion_Trap_Presentation.pdf"
+            "presentation_file": "3rd_Ottens_Quadrupole_Ion_Trap_Presentation.pdf"
           },
           {
             "time": "11:00 a.m.",
@@ -2148,9 +2148,9 @@
               "Mass Sensors, Inc."
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Test",
-            "abstract_file": "3th_Diaz_Test_of_the_Abstract.pdf",
+            "abstract_file": "3rd_Diaz_Test_of_the_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Diaz/diaz.pdf",
-            "presentation_file": "3th_Diaz_Test_of_the_Presentation.pdf"
+            "presentation_file": "3rd_Diaz_Test_of_the_Presentation.pdf"
           },
           {
             "time": "11:30 a.m.",
@@ -2169,9 +2169,9 @@
               "University of Texas at Dallas"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Regolith",
-            "abstract_file": "3th_Hoffman_Regolith_Evolved_Gas_Abstract.pdf",
+            "abstract_file": "3rd_Hoffman_Regolith_Evolved_Gas_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Hoffman/hoffman.pdf",
-            "presentation_file": "3th_Hoffman_Regolith_Evolved_Gas_Presentation.pdf"
+            "presentation_file": "3rd_Hoffman_Regolith_Evolved_Gas_Presentation.pdf"
           }
         ],
         "title": "Technical Session I: Space Environments",
@@ -2198,7 +2198,7 @@
               "School of Oceanography, University of Washington"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#NEPTUNE",
-            "abstract_file": "3th_Delaney_The_NEPTUNE_Project_Abstract.pdf",
+            "abstract_file": "3rd_Delaney_The_NEPTUNE_Project_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2223,7 +2223,7 @@
               "Massachusetts Institute of Technology"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Underwater",
-            "abstract_file": "3th_Hemond_Underwater_Mass_Spectrometers_Abstract.pdf",
+            "abstract_file": "3rd_Hemond_Underwater_Mass_Spectrometers_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2253,7 +2253,7 @@
               "Center for Ocean Technology, University of South Florida"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Underwater",
-            "abstract_file": "3th_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf",
+            "abstract_file": "3rd_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Kibelka/hems3.zip",
             "presentation_file": ""
           },
@@ -2280,7 +2280,7 @@
               "Jet Propulsion Laboratory"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#SURFER",
-            "abstract_file": "3th_McMurtry_Mass_SURFER_Field_Abstract.pdf",
+            "abstract_file": "3rd_McMurtry_Mass_SURFER_Field_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2305,7 +2305,7 @@
               "Massachusetts Institute of Technology"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Multisensor",
-            "abstract_file": "3th_Camilli_Multisensor_Data_Integration_Abstract.pdf",
+            "abstract_file": "3rd_Camilli_Multisensor_Data_Integration_Abstract.pdf",
             "legacy_url": ""
           }
         ],
@@ -2338,7 +2338,7 @@
               "University of Utah"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Mapping",
-            "abstract_file": "3th_Meuzelaar_Mapping_and_Monitoring_Abstract.pdf",
+            "abstract_file": "3rd_Meuzelaar_Mapping_and_Monitoring_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2368,7 +2368,7 @@
               "Syagen Technology, Inc."
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Field-Portable",
-            "abstract_file": "3th_Syage_FieldPortable_Fast_GCTOFMS_Abstract.pdf",
+            "abstract_file": "3rd_Syage_FieldPortable_Fast_GCTOFMS_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2398,7 +2398,7 @@
               "A. F. Ioffe Physical Technical Institute, St. Petersburg, Russia"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Portable",
-            "abstract_file": "3th_Viktorova_Portable_DoubleFocus_Mass_Abstract.pdf",
+            "abstract_file": "3rd_Viktorova_Portable_DoubleFocus_Mass_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Viktorova/viktorova.pdf"
           },
           {
@@ -2500,7 +2500,7 @@
               "Science & Engineering Services, Inc. (SESI)"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Detection",
-            "abstract_file": "3th_Basile_Detection_of_Microorganisms_Abstract.pdf",
+            "abstract_file": "3rd_Basile_Detection_of_Microorganisms_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2530,7 +2530,7 @@
               "Johns Hopkins University School of Medicine"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Design",
-            "abstract_file": "3th_Gardner_Design_of_a_Abstract.pdf",
+            "abstract_file": "3rd_Gardner_Design_of_a_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Gardner/gardner.pdf"
           },
           {
@@ -2550,7 +2550,7 @@
               "Johns Hopkins University Applied Physics Laboratory"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Fieldable",
-            "abstract_file": "3th_Bryden_Fieldable_MALDITOF_Bioaerosol_Abstract.pdf",
+            "abstract_file": "3rd_Bryden_Fieldable_MALDITOF_Bioaerosol_Abstract.pdf",
             "legacy_url": ""
           }
         ],
@@ -2594,7 +2594,7 @@
               "Thorleaf Research, Inc."
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Mini",
-            "abstract_file": "3th_Chutjian_Miniature_Mass_Spectrometers_Abstract.pdf",
+            "abstract_file": "3rd_Chutjian_Miniature_Mass_Spectrometers_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2647,7 +2647,7 @@
               "NASA/ Kennedy Space Center"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Evaluation",
-            "abstract_file": "3th_Arkin_Evaluation_of_Small_Abstract.pdf",
+            "abstract_file": "3rd_Arkin_Evaluation_of_Small_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Arkin/arkin.pdf"
           },
           {
@@ -2682,7 +2682,7 @@
               "Oak Ridge National Laboratory"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Miniature",
-            "abstract_file": "3th_Moxom_Miniature_cylindrical_ion_Abstract.pdf",
+            "abstract_file": "3rd_Moxom_Miniature_cylindrical_ion_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2722,7 +2722,7 @@
               "Jet Propulsion Laboratory"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#LIGA",
-            "abstract_file": "3th_Myung_A_LIGA_Fabricated_Abstract.pdf",
+            "abstract_file": "3rd_Myung_A_LIGA_Fabricated_Abstract.pdf",
             "legacy_url": ""
           },
           {
@@ -2754,7 +2754,7 @@
               "University of Washington"
             ],
             "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Concept",
-            "abstract_file": "3th_Scheidemann_Concept_for_a_Abstract.pdf",
+            "abstract_file": "3rd_Scheidemann_Concept_for_a_Abstract.pdf",
             "legacy_url": ""
           }
         ],

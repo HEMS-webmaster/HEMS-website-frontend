@@ -188,11 +188,11 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
             <div className="grid grid-cols-2 gap-4 mb-6 border-b border-slate-700 pb-4">
               <div>
                 <label className="block text-xs font-bold text-slate-400 mb-1">Date (e.g. mm/dd/yyyy)</label>
-                <input type="date" value={group.date} onChange={e => updateDateGroup(gIdx, 'date', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                <input type="date" value={group.date || ''} onChange={e => updateDateGroup(gIdx, 'date', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-400 mb-1">Date Title (e.g. Travel Day)</label>
-                <input type="text" value={group.title} onChange={e => updateDateGroup(gIdx, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                <input type="text" value={group.title || ''} onChange={e => updateDateGroup(gIdx, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
               </div>
             </div>
 
@@ -225,7 +225,7 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3 mt-4">
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Start Time</label>
-                      <input type="text" value={ev.time} placeholder="e.g. 9:00 a.m." onChange={e => updateEvent(gIdx, eIdx, 'time', e.target.value)} onBlur={e => { const n = normalizeTime(e.target.value); if (n !== e.target.value) updateEvent(gIdx, eIdx, 'time', n); }} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                      <input type="text" value={ev.time || ''} placeholder="e.g. 9:00 a.m." onChange={e => updateEvent(gIdx, eIdx, 'time', e.target.value)} onBlur={e => { const n = normalizeTime(e.target.value); if (n !== e.target.value) updateEvent(gIdx, eIdx, 'time', n); }} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">End Time (Optional)</label>
@@ -233,13 +233,13 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>
-                      <input type="text" value={ev.title} onChange={e => updateEvent(gIdx, eIdx, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Breakfast" />
+                      <input type="text" value={ev.title || ''} onChange={e => updateEvent(gIdx, eIdx, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Breakfast" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Subtitle / Details</label>
-                      <input type="text" value={ev.subtitle} onChange={e => updateEvent(gIdx, eIdx, 'subtitle', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Dinner on your own" />
+                      <input type="text" value={ev.subtitle || ''} onChange={e => updateEvent(gIdx, eIdx, 'subtitle', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Dinner on your own" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Subtitle URL (Hyperlink)</label>
@@ -249,11 +249,11 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Location</label>
-                      <input type="text" value={ev.location} onChange={e => updateEvent(gIdx, eIdx, 'location', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Room 402" />
+                      <input type="text" value={ev.location || ''} onChange={e => updateEvent(gIdx, eIdx, 'location', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Room 402" />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Location URL (Hyperlink)</label>
-                      <input type="url" value={ev.location_url} onChange={e => updateEvent(gIdx, eIdx, 'location_url', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="https://maps..." />
+                      <input type="url" value={ev.location_url || ''} onChange={e => updateEvent(gIdx, eIdx, 'location_url', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="https://maps..." />
                     </div>
                   </div>
                 </div>

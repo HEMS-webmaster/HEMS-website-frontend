@@ -4,6 +4,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import DragDropZone from './DragDropZone';
 import PreviewHover from './PreviewHover';
 
+function getOrdinalSuffix(num: number): string {
+  const j = num % 10;
+  const k = num % 100;
+  if (j === 1 && k !== 11) return "st";
+  if (j === 2 && k !== 12) return "nd";
+  if (j === 3 && k !== 13) return "rd";
+  return "th";
+}
+
+function formatOrdinal(num: number): string {
+  return `${num}${getOrdinalSuffix(num)}`;
+}
+
 import { Author } from './PresentationsManager';
 
 interface Poster {
@@ -206,8 +219,9 @@ const handlePasteDownload = async (
         const words = p.title.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 0);
         if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
       }
-      const posterFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Poster.pdf`;
-      const abstractFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Abstract.pdf`;
+      const wsOrdinal = formatOrdinal(parseInt(wsNum));
+      const posterFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Poster.pdf`;
+      const abstractFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Abstract.pdf`;
 
       if (p.legacy_url && p.legacy_url.startsWith('http')) {
         jobs.push({ pIdx, field: 'legacy_url', category: 'Poster', fileName: posterFileName });
@@ -350,8 +364,9 @@ const handlePasteDownload = async (
             if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
           }
 
-          const posterFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Poster.pdf`;
-          const abstractFileName = `${wsNum}th_${presenterName}_${titleSnippet}_Abstract.pdf`;
+          const wsOrdinal = formatOrdinal(parseInt(wsNum));
+          const posterFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Poster.pdf`;
+          const abstractFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Abstract.pdf`;
 
           return (
             <div key={i} className={`p-4 rounded border-l-4 border-yellow-500 relative ${i % 2 === 0 ? 'bg-slate-700/50' : 'bg-slate-800'}`}>
