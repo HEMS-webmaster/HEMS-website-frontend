@@ -2063,3 +2063,56 @@ The user requested adding a manual build and deploy step to the 'Push to Live' W
 
 ### Constraints Check
 - No forbidden words (such as leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
+
+
+## SCoT Log - 2026-05-27 - Phase 4 (PDF SEO Optimization Planning)
+
+### Current Assessment
+The user requested SEO optimization for the historical proceedings PDF files. A structured registry markdown file `docs/design/pdf_seo_registry.md` has been successfully created containing Title, Author, Subject, and Keyword entries for 669 PDF files.
+The immediate objective is to build a Python script that parses this registry and writes the metadata directly into the internal binary headers of the local PDF files.
+Additionally, we must propose and execute other enhancements to ensure the maximum discoverability of these files by Google and other search engines.
+
+### Objectives
+1. Create a Python injection script `scratch/inject_pdf_metadata.py` that uses PyPDF2 to apply the registry metadata properties to each local PDF.
+2. Propose other discoverability techniques, such as confirming crawlable links and structured JSON-LD schemas, to make sure search engine spiders find and index the PDFs properly.
+3. Update the Implementation Plan to detail this two-stage approach and present it for user review.
+
+### Constraints Check
+- No forbidden words (e.g. leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.
+- We will use PyPDF2 3.0.1 which is already available on the system.
+
+
+## SCoT Log - 2026-05-27 - Phase 4 (PDF SEO Metadata Injection Execution)
+
+### Current Assessment
+The user has issued approval ("ok go") to proceed with the PDF SEO Optimization Plan.
+We are now entering the execution phase. The primary tasks are to track progress using the task checklist and develop the Python metadata injection script `scratch/inject_pdf_metadata.py`.
+
+### Plan
+1. Create the `task.md` artifact to track current execution progress.
+2. Draft and write the `scratch/inject_pdf_metadata.py` script. The script must parse the markdown SEO registry and apply `/Title`, `/Author`, `/Subject`, and `/Keywords` headers to all 669 local PDFs using `PyPDF2`.
+3. Support dry-run and validation flags to ensure file paths are accurate and that injected properties are written correctly.
+
+### Constraints Check
+- Ensure that no forbidden words are included in the trace, task, or script comments.
+
+
+## SCoT Log - 2026-05-27 - Phase 4 (PDF SEO Injection Completion & Verification)
+
+### Current Assessment
+The background PDF injection script (task-3435) has successfully finished with 100% execution fidelity:
+- 655 files successfully updated with targeted SEO properties.
+- 13 legacy files (HTML/ZIP disguised as PDFs) were correctly identified and skipped.
+- 1 AES-encrypted PDF was safely identified and skipped.
+- 0 failed writes.
+
+We will now verify the written headers using the `--verify` flag, update our task tracking checklist, create the walkthrough artifact, and commit the script and registry.
+
+### Plan
+1. Run `python scratch/inject_pdf_metadata.py --verify` to confirm that the `/Title`, `/Author`, `/Subject`, and `/Keywords` headers are present and correct in the updated PDF files.
+2. Update the `task.md` checklist artifact to mark all execution items as completed.
+3. Write a `walkthrough.md` artifact detailing the changes.
+4. Perform git stage, commit, and push.
+
+### Constraints Check
+- No forbidden words (e.g. leverage, utilize, robust, seamless, furthermore, moreover) are present in this trace or will be used in any files.

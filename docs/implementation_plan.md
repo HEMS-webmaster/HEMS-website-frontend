@@ -1,64 +1,77 @@
-# Implementation Plan - HEMS Deep Full-Text PDF Extraction, Spelling Correction, & Search Operators
+# HEMS Proceedings PDF SEO Optimization & Discoverability Plan
 
-This plan outlines the architecture and execution steps to implement:
-1. **Did You Mean (Client-Side Spelling Correction)** using Levenshtein distance.
-2. **Logical Search Operators** supporting exact phrases (`"phrase"`) and exclusions (`-exclude`).
-3. **Deep PDF Content Extraction & Caching Pipeline** using a pure JS `pdf-parse` engine to index actual rare words deep inside HEMS presentation and abstract PDFs.
+This plan outlines the approach to enhance the discoverability of all 669 proceedings PDF files (abstracts and slides) across the HEMS Workshop archives (1st to 15th workshops). By parsing the structured metadata registry at `docs/design/pdf_seo_registry.md`, we will write targeted metadata properties directly to the internal headers of each local PDF file.
 
 ---
 
 ## User Review Required
 
 > [!IMPORTANT]
-> **PDF Parser Integration (`pdf-parse`)**:
-> We will install `pdf-parse` to dynamically read local slide presentation PDFs. To avoid heavy CPU loads and long build times on massive PDFs, we will implement an automatic caching mechanism under `src/frontend/public/assets/archives/cache/`.
->
-> **Fuzzy Spelling Correction**:
-> We will compile a dynamic dictionary of ~1,000 valid HEMS-specific terms from synonyms and workshop metadata to enable highly accurate "Did you mean?" suggestions on the client side.
+> **Binary PDF Header Modification**:
+> We will write a Python script `scratch/inject_pdf_metadata.py` using `PyPDF2` to update the internal metadata headers of the physical files in `docs/archives_translation/proceedings/`. 
+> Because the proceedings directory is ignored by Git, these changes will affect your local storage. To deploy these optimized PDFs live, you will need to sync them to the Google Cloud Storage bucket (or the public file hosting server where the static PDF downloads are served).
+
+---
 
 ## Open Questions
 
 > [!WARNING]
-> 1. **Cache Pre-Population**: Would you like us to parse and commit a pre-extracted text cache for the existing 2018 presentations folder so that your initial local builds remain extremely fast? (Recommended: Yes, this keeps build times under 5 seconds).
+> 1. **Asset Deployment Command**: 
+>    Could you confirm the exact command or pipeline used to synchronize local proceedings PDFs to your live assets server (e.g., GCloud Storage bucket)? Once we know the sync command, we can integrate it or document it for your deployment steps.
 
 ---
 
 ## Proposed Changes
 
-### 1. Ingestion Pipeline
-#### [MODIFY] [package.json](file:///c:/Antigravity/HEMS-website/src/frontend/package.json)
-- Add `"pdf-parse": "^1.1.1"` to dependencies.
+### PDF Metadata Injection Pipeline
 
-#### [MODIFY] [index-pdf-contents.js](file:///c:/Antigravity/HEMS-website/src/frontend/scripts/index-pdf-contents.js)
-- Integrate `pdf-parse` into the pre-compilation document indexer:
-  - Add search logic to check for the presence of local PDFs in `public/assets/archives/[year]/presentations/` and `abstracts/`.
-  - Implement a **JSON Text Cache**: check if a cached page-text JSON file exists under `public/assets/archives/cache/[year]/[file].json`. If yes, read from cache.
-  - If cache is missing, extract actual text page-by-page using `pdf-parse`, save it to the cache folder, and write it to the static index records.
-  - Fall back to metadata-based simulated slide content if the PDF is not present or extraction fails, ensuring a 100% resilient build.
+#### [NEW] [inject_pdf_metadata.py](file:///c:/Antigravity/HEMS-website/scratch/inject_pdf_metadata.py)
+- Create a Python script `scratch/inject_pdf_metadata.py` that will:
+  1. Open and parse the registry at `docs/design/pdf_seo_registry.md`.
+  2. For each record, locate the PDF at the specified path.
+  3. Load the PDF using `PyPDF2.PdfReader`.
+  4. Build a new PDF using `PyPDF2.PdfWriter` containing the same pages, and inject the matching metadata:
+     - `/Title` (Paper Title)
+     - `/Author` (List of authors)
+     - `/Subject` (Descriptive subject referencing the workshop year and session)
+     - `/Keywords` (Extracted key search terms)
+  5. Save the updated PDF back to its original location.
+  6. Support a `--dry-run` flag to validate the registry paths without modifying any files.
+  7. Support a `--verify` flag to print current metadata headers of all proceeding PDFs.
+
+#### [MODIFY] [implementation_plan.md](file:///c:/Antigravity/HEMS-website/docs/implementation_plan.md)
+- Update the system blueprint document to reflect the PDF SEO optimization work.
 
 ---
 
-### 2. Frontend Search Logic
-#### [MODIFY] [page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/archive/page.tsx)
-- **Fuzzy Did-You-Mean Parser**:
-  - Implement client-side Levenshtein distance calculations.
-  - Build a dynamic HEMS dictionary of ~1,000 valid words.
-  - Display a clean suggested chip (e.g. `"Did you mean: quadrupole?"`) when query words are misspelled.
-- **Logical Search Operators Parser**:
-  - Parse exact phrase quotes (`"deep sea Cold seeps"`) and contiguous strings.
-  - Parse exclude tags (`-mars`) and reject matched cards containing excluded keywords.
+## Discoverability Enhancements (How Else to Prepare the Files)
+
+To maximize how search engine bots and AI indexers crawl and understand the HEMS proceedings, we also recommend the following structural discoverability steps:
+
+1. **Structured Data Markup (JSON-LD)**:
+   - Ensure every archive workshop page renders Schema.org structured data. This has been established in `src/frontend/src/utils/generateArchiveJsonLd.ts` using `ScholarlyArticle` markup with `associatedMedia` properties linking directly to the PDF files. This is highly effective for Google Scholar.
+2. **Crawlable Standard Link Anchors**:
+   - Ensure the proceedings and archive pages render standard `<a>` tags with absolute or relative URLs pointing directly to the PDF downloads. Search engine crawlers only follow standard `<a href="...">` elements and will ignore interactive JavaScript download buttons.
+3. **Robots.txt Configuration**:
+   - Confirm that the `robots.txt` configuration does not block the crawl paths for the `/assets/archives/` or `/proceedings/` subdirectories, allowing spiders to fully read and parse the text content.
 
 ---
 
 ## Verification Plan
 
-### Automated Tests
-- Validate successful build compilation:
+### Automated Verification
+- We will execute the injector script in dry-run mode to verify all file paths:
   ```powershell
-  npm run build
+  python scratch/inject_pdf_metadata.py --dry-run
+  ```
+- We will run the complete injection script to update all files:
+  ```powershell
+  python scratch/inject_pdf_metadata.py
+  ```
+- We will verify that the metadata is correctly embedded by running the script with the verify flag:
+  ```powershell
+  python scratch/inject_pdf_metadata.py --verify
   ```
 
 ### Manual Verification
-- **Fuzzy Match Test**: Search for `"quadropule"` and verify it suggests `"quadrupole"`.
-- **Operator Test**: Search for `"Mass Spectrometry" -shuttle` and verify Shuttle papers are excluded.
-- **Deep Word Test**: Search for `"ayodeji"` or `"wiley"` (rare words in local PDFs) and verify matching slide text snippets appear.
+- We will open a few updated PDF files in a browser or PDF reader (e.g. Chrome, Acrobat) and inspect their document properties to ensure Title, Author, and Keywords are present and accurate.
