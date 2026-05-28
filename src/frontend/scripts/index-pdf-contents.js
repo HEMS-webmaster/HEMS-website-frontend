@@ -164,6 +164,15 @@ async function getOrExtractPdfText(localPath, cacheKey) {
 async function runIndexer() {
   console.log('HEMS Full-Text Indexer starting up...');
   
+  // Skip re-indexing on CI/CD servers to preserve the committed static full-text chunks database
+  if (process.env.CI || process.env.GITHUB_ACTIONS) {
+    const mockDbPath = path.join(__dirname, '..', 'public', 'mock-pdf-chunks.json');
+    if (fs.existsSync(mockDbPath)) {
+      console.log('CI/CD environment detected. Preserving checked-in mock-pdf-chunks.json and skipping PDF re-indexing.');
+      return;
+    }
+  }
+  
   const indexJsonPath = path.join(__dirname, '..', 'public', 'archives-index.json');
   if (!fs.existsSync(indexJsonPath)) {
     console.error('Flat proceedings index file not found. Please run scripts/generate-archives-index.js first!');

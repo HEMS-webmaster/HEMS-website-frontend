@@ -143410,7 +143410,7 @@
     "type": "presentation",
     "slide_number": 1,
     "content_type": "slide_text",
-    "text_content": "Underwater profiling parameters for the HEMS presentation: \"Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps\". Oceanic environmental monitoring.",
+    "text_content": "Underwater Mass Spectrometry Advancements \nfor Real-time Geochemical Analysis of Deep-sea \nCold Seeps\nSeptember 18, 2025\nDr. Ryan Bell\nBeaver Creek Analytical, LLC  (BCA)\nryan.bell@bcanalytical.com\nwww.bcanalytical.com\nDr. Torben Gentz -AWI-Bremerhaven \nMr. Malte Höhn - AWI-Bremerhaven\nWith content from our partners at:\nWorkshop on Harsh-Environment Mass \nSpectrometry",
     "presentation_url": "",
     "abstract_url": ""
   },
@@ -143429,7 +143429,7 @@
     "type": "presentation",
     "slide_number": 2,
     "content_type": "slide_text",
-    "text_content": "In situ deep-sea sampling interfaces using membrane inlet mass spectrometry (MIMS) networks, scroll backing pumps, and high-pressure enclosures.",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nOutline\n•Company Introduction\n•In Situ Sensing\n•Seeps Description\n•UMS Description and Upgrades\n•Cruise Results",
     "presentation_url": "",
     "abstract_url": ""
   },
@@ -143448,7 +143448,7 @@
     "type": "presentation",
     "slide_number": 3,
     "content_type": "slide_text",
-    "text_content": "Dissolved gas analysis in marine environments, hydrothermic vent plume tracking, and sensor resolution.",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCompany Introduction",
     "presentation_url": "",
     "abstract_url": ""
   },
@@ -143467,7 +143467,805 @@
     "type": "presentation",
     "slide_number": 4,
     "content_type": "slide_text",
-    "text_content": "Conclusions: Real-time autonomous oceanography deployment strategies.",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nWho we are... \n•Managing Owner, Dr. Ryan Bell\n•Doctorate in Chemical Oceanography (USF)\n•20+ years of portable instrument development (chemical, electrical, \nmechanical, firmware, software, deployment, data analysis, reporting)\n•Mass Spectrometry\n•Dr Tim Short\n•Instrumentation and Geochemistry\n•Dr Torben Gentz, Malte Höhn",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_5",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 5,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nWhat we do...\n•Products for real-time, in situ chemical analysis\n•Dissolved gas sensors, Underwater mass spectrometry, others\n•Subsea accessories (pumps and valves)\n•Sales/rental\n•Services – Offshore/onshore Campaigns\n•Consulting\n•Offshore seep characterization campaign management\n•Shipboard Analytical Chemistry Services\n•Hydrocarbon composition and isotopes\n•Sensor-triggered discrete sample collection\n•Software\n•Automation and data presentation of subsea analysis system\n•Mobile lab interface for real-time emissions data\n•MS interface for portable chemical analyzers (MKS, Detect-ION)\n•Contract R&D\n•Custom sensors\n•Targeted sample collection (porewater, bubbles, seep-fluid)",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_6",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 6,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nIn Situ Sensing",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_7",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 7,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nBenefits of In Situ Data\n•Reduced sample contamination\n•Critical for volatile and reactive analytes\n•Increased sampling speed/density\n•Broad, dense coverage aids data-interpretation\n•Gradient mapping\n•Capturing many points along a gradient ensures \nextreme transients or local minima/maxima are not \noverlooked",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_8",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 8,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nBenefits of Real-time Data\n•Intelligent, adaptive sampling to optimize ship-time\n•Low-interest areas: reduce sampling, save ship-time\n•High-interest area: increase sampling, improve chemometrics\n•Rapid response to emergent threats\n•Rapidly deployment of response equipment\n•Reduce false positive responses\n•Self-directed platforms\n•AUVs can execute targeted sampling paths independently\n•Sensor-triggered discrete sampling\n•Sensor data can trigger collection of discrete samples for shipboard \nor accredited lab analysis",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_9",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 9,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nUnderwater Mass Spectrometry - Overview",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_10",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 10,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nSimultaneous Detection of Multiple Analytes\nMethaneTolueneCarbazoleTotal Sulfide\nGroupExample SourcesExamples\nAtmospheric GasesAir-sea interfaceNitrogen, oxygen, argon, carbon dioxide, \nnoble gases\nAliphatic hydrocarbonsNatural gas, crude oil, refined products \n(e.g. hydraulic fluids)\nC1-C7 alkanes (Methane, ethane, propane...)\nC5-C7 cycloalkanes (Cyclopentane...)\nAromaticsFossil fuels, industrialToluene, benzene, xylene, ethylbenzene\nSulfidesThermal vents, anoxic bodies (sink holes, \nfjords, basins, brine-pools), blooms\nHydrogen sulfide, methanethiol, dimethyl \nsulfide\nHalocarbonsTreated water, hypersaline bodies, Chlorobenzenes, chloroform, bromoform, \nmany more\nNon-volatiles\n(via reagent addition)\nvariousDIC, total hydrogen sulfide, various break-\ndown products by oxidation, or chlorination\nLarger MW Compound\n(via thermal release)\nPersistent organic pollutants, crude \ncomponents, drugs, toxins\nPCBs, pesticides, dioxins, furans, flame \nretardants, carbazole",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_11",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 11,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nNo sample preparation\nIncoming sample may be heated for improved \nanalyte response time and provide consistent \ncalibration conditions \nDissolved gases from seawater passed along a \nmembrane’s surface diffuse through a polymeric \nmembrane. Vacuum on the membrane’s inside \nthen enables rapid gas transport to the analyzer.\nDissolved Gas Membrane Inlet\nSample in (e.g. air or water)\nVolatile analyte (e.g. VOC)\nHollow fiber capillary (PDMS)\nThermocouple\nSample out\nTo analyzer",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_12",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 12,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nMembrane Support\nMembrane assemblies\n•7,000 or 10,000 psi max test pressure\n•50 cycles and 1 week sustained max P\n•Qualified for 3000 m depth (4500 psi)\n•Isolated from vacuum by high P valve\n•Various membranes used\nWe’ve used many different types of membrane support.\nWe are currently using this laser-bored steel tubing provided \nby Dr. Torben Gentz.",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_13",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 13,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nPortable Mass Spectrometry - Past\nPredecessor systems at USF and SRI.\n2004\n2011\n2002",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_14",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 14,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nPortable Mass Spectrometry - Present\nBCA has developed multiple UMS system for the oil and gas industry. \nRated to 3000 m and typically integrated into are larger deployment system for sampling seep-affected seawater\nEach system is a custom builds.  Systems available for lease.\nBCA has been partnered with Dr Torben Gentz and Malte Höhn in Bremerhaven to produce another system.\nCryotrap, internal \nflow control\nNo Cryotrap, external \nflow control\nCryotrap, external \nflow control",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_15",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 15,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nPlatform Independent\nProfiler/Lander/Tow\nROV\nAUV\nUSV\nDiver\nMoored",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_16",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 16,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nOperational Specifications\n•Depth Rating: 3000 m\n•Power: 65 to 80W\n•Primary Input: 110 - 250 VAC\n•Secondary Input: 18 to 60 V\n•Hot swappable power between platforms\n•Diameter: 202 mm (8 in)\n•Length: 526 mm (20.7 in)\n•Weight: 34 kg in Air, 17 kg in seawater (MSW)\n•Communication: Serial (57600 baud, 8N1), internal data storage\n•Networking: 12 W supply and RS-485 from the UMS enables networking with additional sensors",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_17",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 17,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nDeployable Schematic Overview\nMembrane \nInlet\nGas-Water Separation\nIsolation Valve\nSeawater Protection\nTurbo Pump\nHigh Vacuum, 1e-5 torr\nDiaphragm \nPump\nRough Vacuum, 2 torr\nGas \nSequestration\nStorage of Exhaust Gas at 1 atm\nLiquid Flow\nGas Flow\nSubsea Housing, 1 atm\nMass \nSpectrometer\nGas Analyzer\nVacuum \nGauge\nProtection\nFlow \nSensor\nQA/QC\nFluidic \nPenetrator\nFluidic \nPenetrator\nSample \nPump\nEpoxy Molded\nStream \nSelector \nA\nOptional\nMarine Environment, 0 to 3000 dBar\nHeater\nOptional\nStream \nSelector B\nOptional\nExhaust\nAmbient \nSource\nExt. Standards \n1,2, ..., N\nSample 1\nSample 2\nSample N\nPressure \nSensor\n(Gas-tight, lossless bags or syringes)",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_18",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 18,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nBCA UMS Microcontroller\nMCUVacuum\nRough Pump\nTurbo Pump\nPressure Gauge\nIsolation Valves\nEnvironmental\nHousing conditions\nIndependent Depth\nTemperature, Salinity, O\n2\n, pH\nAltimetry\nFluidics\nMIMS Temperature (optional control)\nSeawater flow control\n    - flow meter\n    - sample pump (x2)\nFluidic valving\n    - sample intake selections\n    - sample outflow directive\nMass Spec\nVarious Inficon \nGenera\nData collection\nData analysis (real-time)\nMS mode control\nMass calibrations\nAuto-Gain optimization\nInterface\nAutonomous operation\nSerial API Communication\nInterfaces with Underway\nSD card storage; USB offload",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_19",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 19,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nSubsea Valves for In Situ Analytics\nValve TaskConsequence\nInlet-to-sensor timing \ncalibrations \nTiming offsets for mapping corrections \non fast moving vehicles\nSensor-to-sampler timing \ncalibrations\nSensor-triggered sample collection for \naccredited laboratory analysis\nUMS sensitivity calibrations Baseline, sensitivity and detection limit\nRecirculationSteady-state measurements\nBCA 4-position subsea valve \nwith internal sample pump\nMulti position valve apparatus can be plumbed according to research needs:",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_20",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 20,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nAnalytical Specification - Detection Limits\nExcellent detection limits for dissolved gases (by 3*σ at background)\nA\nB\nC\nA\nB\nC\nMethane – <20 nM (0.3 ppb)\nEthane – 30 nM (0.9 ppb)\nPropane – 30 nM (1.3 ppb)\nButane – 30 nM (1.7 ppb)\nTypical Concentrations\nDetection Limits",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_21",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 21,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nAnalytical Specification - Response Time\nMethane\nExcellent response times, T90 = 20 - 60s for most analytes",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_22",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 22,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nUMS Mode Selection\n•User can rapidly switch between UMS modes:\n1.Survey Mode – Rapid, quantitative detection for C\n1\n-C\n4\n1.Optimized for methane detection limit (about 2 nmol/kg)\n2.Extremely low interferences for methane\n3.Very rapid scan rate and high sample flow rate\n2.Extended Mode – Semi-quantitative detection\n1.Optimized for VOC detection limits\n2.Full scan picks up unexpected analytes\n3.Heated membrane\nSemi-Quantitative Analytes\nCyclopentane\nCyclohexane\nPentane\nBenzene\nToluene\nC5+ Alkanes",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_23",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 23,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nAnalytical Specification - Linear Dynamic Range\n•The UMS has a linear dynamic range of x10\n6\n•Map distant plume with low DL\n•Obtain ratiometrics from within plume source\n•With simultaneous detection of multiple analytes, collection ratiometric \ndata with vastly different concentrations is enabled\n•This is where the mass spectrometer shines\nBernard diagrams covers 6 orders of \nmagnitude for C1/C2\nPlume data from Hechanova, ITAC 2016",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_24",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 24,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCalibration Approaches\n•Qualitative → low effort\n•Semi-quantitative → ship-board calibrations, corrections\n•Quantitative → in situ calibrations, subsea fluidics\nHardware and techniques to accomplish each of these objective have been deployed",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_25",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 25,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCryotrap\n•Stirling pump, at a few watts, dramatically \nreduces instrumental noise by trapping water \nvapor between the membrane and analyzer\n•Requires periodic regeneration\n•Enables further improvements in detection limits\n•Dramatically extends filament lifetime",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_26",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 26,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nOperational Software - Underway\n•Control interface for UMS and \nadditional sensors\n•Data logging and display for 10 \nadditional sensor\n•3-Graph, 6 y-axis timeseries for \nplotting data and metadata\n•Report generation\nMulti-sensor timeseries",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_27",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 27,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nOperational Software - Underway\n•Calculation of custom mathematics, seawater \nproperties and coordinates system \ntransformations\n•In situ, dissolved gas calibration features\n•Real-time UDP data transmission\nMulti-point, on-site, in situ calibration\nRaw MS output",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_28",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 28,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nOperational Software - Underway\n•Real-time 2D and 3D mapping\n•Export of timeseries and maps as \nself-contained, interactive html file",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_29",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 29,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nSeeps Description",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_30",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 30,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCold Seeps - Occurrence\n•There are numerous mechanisms through which cold seeps \ncontaining oil and gas are known to occur\n•One mechanism particularly relevant to many offshore \nformations is hydraulic fracturing\n•Typical features:\n•Complex geologies\n•Salt diapers\n•Brines\n•Mud volcanoes\n•Hydraulic pressure and fracturing\n•Tectonic fracturing\n•Benthic communities\n•Buoyancy forces\n•Hydrate formation\nSultan et al, 2020",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_31",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 31,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\n1.Oil and gas reservoirs establish an \noverpressure:\n 1. Rapid or lateral compaction\n 2. Hydrocarbon Generation\n 3. Thermal expansion\n2.Reservoir overpressure is relieved by hydraulic fracturing which \nleads to Pipe/Channel formation and blow-outs\n3.Continued, steady, seepage through blowout channels relieves \nthe continued development of reservoir overpressure\nCold Seeps - Hydraulics\nGraue et al, \n2011\nBlow-out pockmarks located by multibeam and pipes located by seismic",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_32",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 32,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCold Seeps - Occurrence\nBoles et al, 2023\nHydraulic link between extraction and seeps\nDays\nSeepage Rate\n•Hydrocarbon seepage rate can be controlled by hydraulic pressure.  Seepage can \nbe reduced through\n•Well-head draw-down (e.g. extraction)\n•Top-side pressure changes (e.g. tides)\nHydraulic link between tides and seeps\nSeepage Rate\nDays\nTemp (C)\nSultan et al, 2020",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_33",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 33,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCold Seeps - Occurrence\nSeep fluid, driven rapidly to the surface through \nestablished pipes, provides a direct link to reservoir \nconditions.\nUnder the right conditions, direct analysis of active \nseep fluids enables characterizations of reservoir \nfluids.\nBy our math, a fluid flowing at 1 \nmL/min through a 10mm\n2\n vein could \ntake about  7 days to travel 1 km \n(e.g. reservoir to seafloor)",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_34",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 34,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCold Seeps - Tracking\nChemical\nMultibeam\nM3 Sonar \nFLS Beam\nM3 Sonar \nHF Beam\nLaser \nBeams\nSonar\nRen et al, 2023\nShort et al, 2015\nNSF (Adam Skarke)",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_35",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 35,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCold Seeps - Characterization\nSurvey Area\n•Detection of CH\n4\n and possibly C\n2\nH\n6\n \n•Establish likelihood of thermogenic with C1/C2 ratio.\n•C1/C2 < 20  - likely thermogenic\n•C1/C2 > 100  - likely biogenic\n•UMS-triggered sample collection for accredited ex situ \nanalysis (full composition and isotopes)\nExtended Analysis\n•UMS detection of certain light hydrocarbons indicate the \nseep fluid is ‘live’ or ‘unwashed’, suggesting a direct-to-\nreservoir pathway\n•Collect visual data, bio-data, seep fluids, and cores\n•The precision of an ROV can avoid degraded oil in the near-\nseep vicinity and target the active seep fluid\nBernard Diagram",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_36",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 36,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nOily Seeps\nMud Volcanoes\nGassy Seeps\nSublittoral Seeps\nCold Seeps - Variety",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_37",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 37,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCold Seeps - Variety\nSubsea brine pools",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_38",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 38,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nMethane in the Water Column is Dynamic\n•Methane sources in the ocean are limited and localized\n•Rivers, seeps (biogenic, thermogenic)\n• Major sinks in the ocean are strong and vast\n•methanotrophic bacteria\n•air-sea interaction\nAs a result, methane concentrations are extremely \ntransient and are reduced to less than 10 nM (0.16ppb) \nvery rapidly",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_39",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 39,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nQuantifying Dynamic Hydrocarbons Ratiometrically\nRatio data steady when steady state analysis is achieved\nRatiometric data is wild during survey-mode analysis\n•Problem\n•The UMS produces methane, ethane, propane, and butane data \neach with different response functions\n•Directly comparing one to another ratiometrically is challenging \nand error prone \n•Customer Solution: Recirculate the sample at the UMS inlet and \nperform analysis for an extended period.\n퐹\n푡\n=퐹\n푆푆\n1+2෍\n푛=1\n∞\n−1\n푛\n푒\n–푛\nΤ\nπ푑\n2\n퐷푡",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_40",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 40,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nMethane and ethane exploration over known vents (1100 m)\nCold Seeps - Approach\nSurvey: Seep discovered (sonar) and \nC1/C2 ratio roughly establish\nAt Seep: C1/C2 accurately determined, \nand VOCs detected",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_41",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 41,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nResults",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_42",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 42,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nCommercial UMS Usage\n>150 seeps characterized by \nROV over multiple cruises\nSeep characterization and \nbroad area survey by lander \n(over 500 sites surveyed via \n24 hr operations) \nSeep plume mapping by AUV",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_43",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 43,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nPlume Mapping by AUV",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_44",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 44,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nSeep Characterizations by ROV\n•On board control center\n•24 hr operations\n•2 to 4 weeks at sea\n•Multiple operator training required",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_45",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 45,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nI open the door to questions...\n...and hope to untangle them.",
+    "presentation_url": "",
+    "abstract_url": ""
+  },
+  {
+    "objectID": "2025_15_433_slide_46",
+    "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
+    "authors": [
+      "Ryan Bell"
+    ],
+    "institutions": [
+      "Beaver Creek Analytical, LLC"
+    ],
+    "workshop_year": "2025",
+    "workshop_ordinal": 15,
+    "session_title": "Technical Session IX (labeled Technical Session IV)",
+    "type": "presentation",
+    "slide_number": 46,
+    "content_type": "slide_text",
+    "text_content": "Beaver Creek Analytical, LLC Copyright 2025\nwww.bcanalytical.com",
     "presentation_url": "",
     "abstract_url": ""
   },
