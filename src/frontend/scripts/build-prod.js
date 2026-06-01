@@ -27,7 +27,38 @@ function renameWithRetry(src, dest, retries = 15, delay = 200) {
       }
     }
   }
+// Helper to automatically find and terminate a running Next.js dev server on Windows to clear file locks
+function killDevServerOnPort(port = 3000) {
+  if (process.platform !== 'win32') return;
+  try {
+    const netstatOut = execSync(`netstat -ano | findstr LISTENING | findstr :${port}`, { encoding: 'utf8' });
+    if (netstatOut) {
+      const lines = netstatOut.trim().split('\n');
+      for (const line of lines) {
+        if (line.includes(`:${port}`)) {
+          const parts = line.trim().split(/\s+/);
+          const pid = parts[parts.length - 1];
+          if (pid && pid !== '0') {
+            console.log(`📡 Detected running development server on port ${port} (PID: ${pid}).`);
+            console.log(`📡 Terminating process ${pid} to release Windows directory locks...`);
+            execSync(`taskkill /F /PID ${pid}`);
+            // Wait 500ms for OS to fully release the handles after process termination
+            const start = Date.now();
+            while (Date.now() - start < 500) {}
+            console.log(`✅ Process terminated and port ${port} is clear.\n`);
+            return;
+          }
+        }
+      }
+    }
+  } catch (err) {
+    // Port not in use, which is the expected case
+  }
 }
+
+// Pre-terminate active dev server to clear persistent directory locks
+killDevServerOnPort(3000);
+killDevServerOnPort(3001);
 
 // Generate flat proceedings index for AI search engine visibility and crawler indexing
 try {

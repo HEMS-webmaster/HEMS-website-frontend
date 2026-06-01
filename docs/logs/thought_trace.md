@@ -2325,3 +2325,8 @@ Logic: The GCS sync step inside the push-to-live script was using a relative pat
 ## SCoT Log - Repository Root Path Correction in Push-to-Live CLI Script
 Task: Fix repoRoot path resolution inside scripts/push-to-live.js.
 Logic: The scripts/push-to-live.js constructed the repoRoot as two directories up from __dirname (which is src/frontend/scripts), resolving to src/ instead of the true repository root. We will correct this path resolution to resolved three directories up (or relative to frontendDir) to properly target the true repository root, resolving the gsutil rsync path mapping issue on Windows.
+
+
+## SCoT Log - Active Dev Server Self-Termination inside Production Build
+Task: Integrate automatic dev server process killer in build-prod.js.
+Logic: To prevent persistent EPERM file locking failures on Windows when a production build is executed, we will implement a killDevServerOnPort function inside scripts/build-prod.js. When a build is triggered, the script will check if Next.js ports (3000 and 3001) are in use, extract the running PID, automatically terminate the active dev server to release all locks, wait 500ms for handles to clear, and then proceed with the folder renaming and build cleanly.
