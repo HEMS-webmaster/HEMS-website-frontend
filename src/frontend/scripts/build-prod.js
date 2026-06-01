@@ -8,6 +8,27 @@ const managerPath = path.join('src', 'app', 'manager');
 const tempManagerPath = path.join('src', 'app', '_manager');
 const nextPath = '.next';
 
+// Helper to rename a file/folder with retry and backoff on Windows
+function renameWithRetry(src, dest, retries = 15, delay = 200) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      if (fs.existsSync(src)) {
+        fs.renameSync(src, dest);
+      }
+      return;
+    } catch (err) {
+      if (i === retries - 1) {
+        throw err;
+      }
+      console.warn(`⚠️  Windows file lock encountered on ${src}. Retrying in ${delay}ms... (${i + 1}/${retries})`);
+      const start = Date.now();
+      while (Date.now() - start < delay) {
+        // Busy wait
+      }
+    }
+  }
+}
+
 // Generate flat proceedings index for AI search engine visibility and crawler indexing
 try {
   console.log('Pre-compiling HEMS proceedings index database...');
@@ -25,18 +46,15 @@ try {
 }
 
 try {
-  if (fs.existsSync(apiManagerPath)) {
-    fs.renameSync(apiManagerPath, apiTempManagerPath);
-  }
-  if (fs.existsSync(managerPath)) {
-    fs.renameSync(managerPath, tempManagerPath);
-  }
+  renameWithRetry(apiManagerPath, apiTempManagerPath);
+  renameWithRetry(managerPath, tempManagerPath);
   console.log('Manager routes temporarily excluded from production build.');
 } catch (e) {
   console.error('\n❌ CRITICAL BUILD ERROR: Failed to temporarily exclude manager routes.');
   console.error('Error Details:', e.message);
   console.error('\n👉 This is usually caused by Windows file locks.');
-  console.error('👉 Please make sure to STOP your running development server (npm run dev) before building!\n');
+  console.error('👉 Please make sure to STOP your running development server (npm run dev) before building!');
+  console.error('👉 Also make sure no active terminals or file explorer windows are open inside `src/app/manager`!\n');
   process.exit(1);
 }
 
@@ -50,12 +68,8 @@ try {
   process.exitCode = 1;
 } finally {
   try {
-    if (fs.existsSync(apiTempManagerPath)) {
-      fs.renameSync(apiTempManagerPath, apiManagerPath);
-    }
-    if (fs.existsSync(tempManagerPath)) {
-      fs.renameSync(tempManagerPath, managerPath);
-    }
+    renameWithRetry(apiTempManagerPath, apiManagerPath);
+    renameWithRetry(tempManagerPath, managerPath);
     console.log('Manager routes restored.');
   } catch (e) {
     console.error('Failed to restore manager routes:', e.message);

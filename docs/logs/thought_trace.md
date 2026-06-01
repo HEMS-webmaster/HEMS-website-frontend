@@ -2300,3 +2300,8 @@ We are diagnosing the Windows EPERM file-locking paradox: when the Push to Live 
 ## SCoT Log - Startup and Next.js Dev Server Launch
 Task: Startup and start the local development server.
 Logic: The user requested starting the local server as @ops. Under the Scrum Rules, since a new conversation has begun, we are performing the Cold Start initialization. We will read the project documentation (such as docs/implementation_plan.md and .agents/handover.md) to understand the tech stack and local settings. Then, we will start the Next.js development server.
+
+
+## SCoT Log - Windows File Lock Retry Mitigation in Production Build
+Task: Resolve Windows file lock failures during build-time directory renaming.
+Logic: The user encountered a Windows EPERM file locking issue during the folder renaming phase of the production build. Windows often retains locks on folders due to lingering dev servers, IDE file indexing, or active terminals. To resolve this, we will implement a retry mechanism with synchronous delays and backoffs inside the build script. If a lock occurs, the script will retry the rename operation up to 15 times with a 200ms delay. We will also provide advice on checking active terminal paths if the rename ultimately fails.
