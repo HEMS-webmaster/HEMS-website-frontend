@@ -772,7 +772,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Mass",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Mahaffy_Mass_Spectrometers_in_Abstract.pdf"
   },
   {
     "title": "Quadrupole Ion Trap Mass Spectrometry for Space Shuttle Ground Support",
@@ -794,7 +794,7 @@
     "presentation_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Ottens/ottens.pdf",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Quadrupole",
     "presentation_file": "3rd_Ottens_Quadrupole_Ion_Trap_Presentation.pdf",
-    "abstract_file": ""
+    "abstract_file": "3rd_Ottens_Quadrupole_Ion_Trap_Abstract.pdf"
   },
   {
     "title": "Test of the a Miniature Double-Focusing Mass Spectrometer for the Variable Specific Magnetoplasma Rocket (VASIMR) at the Advanced Space Propulsion Laboratory (ASPL)",
@@ -891,7 +891,7 @@
     "type": "presentation",
     "presentation_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Kibelka/hems3.zip",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Underwater",
-    "presentation_file": "",
+    "presentation_file": "3rd_Kibelka_Underwater_Mass_Spectrometers_Presentation.pdf",
     "abstract_file": "3rd_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf"
   },
   {
@@ -1009,7 +1009,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#Addressing",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Eckenrode_Addressing_Forensic_Field_Abstract.pdf"
   },
   {
     "title": "Detection of Microorganisms with MS: Field-Portable Instrumentation and Innovative Methodology",
@@ -1195,7 +1195,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Technical",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Muntz_The_Technical_Issues_Associated_Abstract.pdf"
   },
   {
     "title": "Meso-Scale Scroll Pump Array Fabricated using LIGA Technology for Portable, High-resolution Mass Spectrometer",
@@ -1216,7 +1216,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Meso",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Eyre_MesoScale_Scroll_Pump_Array_Abstract.pdf"
   },
   {
     "title": "Performance Analysis for Meso-Scale Scroll Pumps",
@@ -1239,7 +1239,7 @@
     "presentation_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Moore/moore.pdf",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Performance",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Moore_Performance_Analysis_for_MesoScale_Abstract.pdf"
   },
   {
     "title": "The Knudsen Compressor as an Energy Efficient Micro-Scale Vacuum Pump",
@@ -1260,7 +1260,7 @@
     "presentation_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Young/young.pdf",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Knudsen",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Young_The_Knudsen_Compressor_as_Abstract.pdf"
   },
   {
     "title": "MEMS-based Low-Flow Meters",
@@ -1279,7 +1279,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#MEMS",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Tsao_MEMSbased_LowFlow_Meters_Abstract.pdf"
   },
   {
     "title": "The Issues Limiting Large-scale Commercialization of Miniature Vacuum Systems",
@@ -1296,7 +1296,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Issues",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Kardok_The_Issues_Limiting_Largescale_Abstract.pdf"
   },
   {
     "title": "Development of Turbomolecular Pumps for Demanding Environments",
@@ -1312,8 +1312,8 @@
     "type": "presentation",
     "presentation_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Kenton/kenton.pdf",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Development",
-    "presentation_file": "",
-    "abstract_file": ""
+    "presentation_file": "3rd_Kenton_Development_of_Turbomolecular_Presentation.pdf",
+    "abstract_file": "3rd_Kenton_Development_of_Turbomolecular_Pumps_Abstract.pdf"
   },
   {
     "title": "Miniature Turbo-molecular Pump",
@@ -1331,7 +1331,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Turbo",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Rowan_Miniature_Turbomolecular_Pump_Abstract.pdf"
   },
   {
     "title": "KSC Miniature, Rugged Mass Spectrometer Applications and Development Progress",
@@ -1351,8 +1351,8 @@
     "type": "presentation",
     "presentation_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Adams/adams.pdf",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#KSC",
-    "presentation_file": "",
-    "abstract_file": ""
+    "presentation_file": "3rd_Adams_KSC_Miniature_Rugged_Presentation.pdf",
+    "abstract_file": "3rd_Adams_KSC_Miniature_Rugged_Mass_Abstract.pdf"
   },
   {
     "title": "Miniature Peristaltic Vacuum Pump with Magnetic Actuation",
@@ -1370,7 +1370,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Peristaltic",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Feldman_Miniature_Peristaltic_Vacuum_Pump_Abstract.pdf"
   },
   {
     "title": "Development of a Miniature Lightweight Ion Pump",
@@ -1387,7 +1387,7 @@
     "presentation_url": "",
     "abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#Pump",
     "presentation_file": "",
-    "abstract_file": ""
+    "abstract_file": "3rd_Sinha_Development_of_a_Miniature_Abstract.pdf"
   },
   {
     "title": "Airborne Deployment of the Aerosol Mass Spectrometer during the ACE-Asia Field Campaign",

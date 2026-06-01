@@ -2340,3 +2340,72 @@ Logic: A closing brace for renameWithRetry was cut off in build-prod.js when app
 ## SCoT Log - GCS Deletion Synchronization inside Push-to-Live Scripts
 Task: Add -d flag to gsutil rsync in push-to-live.js and route.ts to enable deletion synchronization.
 Logic: The GCS sync step inside the push-to-live script was using gsutil rsync without the -d option. Because of this, when a local asset is deleted, the corresponding file was never removed from the GCS bucket. The HEAD presence check inside check-file/route.ts therefore still reported the file as present on GCloud, causing the frontend to permanently display "🗑️ Deletion Pending". To resolve this, we will add the -d flag to gsutil rsync inside both scripts/push-to-live.js and the push-to-live API route to ensure deleted local assets are properly removed from the bucket on live deployment.
+
+
+## SCoT Trace - 2026-06-01 14:52:00
+### Action: Producing Missing Abstract PDF and Preview Text for Beauchamp in 3rd HEMS Workshop
+
+#### 1. Context and Objective
+We are tasked with producing the missing abstract PDF and preview text for the 3rd HEMS Workshop (2002), keeping the identical PDF formatting as existing documents.
+Specifically:
+- Target file: `docs/archives_translation/proceedings/3rd/Technical_Session_I__Space_Environments/3rd_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf`
+- Preview text: `docs/archives_translation/proceedings/3rd/Technical_Session_I__Space_Environments/3rd_Beauchamp_Novel_Mass_Spectrometric_Abstract_preview.txt`
+
+#### 2. Detailed Data Mapping (from scratch/3rdhemstalks.htm)
+- Title: "Novel Mass Spectrometric Approaches to the In situ Chemical Analysis of Galactic and Cometary Dust Particles"
+- Authors: "Jack Beauchamp, Daniel E. Austin, Thomas J. Ahrens"
+- Institute: "California Institute of Technology"
+- Abstract Body text: "Analysis of the chemical composition of cosmic dust particles..."
+
+#### 3. Styling & PDF Generation Blueprint
+- We will construct a script `scratch/generate_beauchamp_abstract.py` to compile the PDF matching the design of the other 3rd workshop abstracts.
+- Elements and parameters:
+  - Base Document: Letter size (612 x 792 pt), Margins (left=54 pt, right=54 pt, top=72 pt, bottom=54 pt).
+  - Page Canvas Header:
+    - Text: "3rd Harsh-Environment Mass Spectrometry Workshop (2002)" (Helvetica-Oblique, 8.0 pt, color `#7f8c8d`) at X=54, Y=748.
+    - Dark blue filled rectangle: X=54, Y=738, width=504, height=3 (color `#1f3a56`).
+  - Page Canvas Footer:
+    - Left text: "https://www.hems-workshop.org" (Helvetica, 8.0 pt, color `#7f8c8d`) at X=54, Y=32.
+    - Right text: "Presented Talk Abstract" (Helvetica, 8.0 pt, color `#7f8c8d`) right-aligned at X=558, Y=32.
+  - Story Flowables:
+    - Paragraph 1: "3RD HARSH-ENVIRONMENT MASS SPECTROMETRY WORKSHOP" (Helvetica-Bold, 8.5 pt, color `#b38f4d`), spaceAfter=8 pt.
+    - Paragraph 2 (Title): "Novel Mass Spectrometric Approaches to the In situ Chemical Analysis of Galactic and Cometary Dust Particles" (Helvetica-Bold, 13 pt, color `#1f3a56`, leading=15 pt), spaceAfter=12 pt.
+    - Divider Line Table: Empty table with a bottom border width of 0.75 pt (color `#e2e8f0`), spaceAfter=10 pt.
+    - Paragraph 3 (Authors): "Authors: Jack Beauchamp, Daniel E. Austin, Thomas J. Ahrens" (Helvetica-Bold, 9.5 pt, color `#2c3e50`, leading=12 pt).
+    - Paragraph 4 (Institute): "<b><i>Institute</i></b>: California Institute of Technology" (Helvetica-Oblique, 8.5 pt, color `#7f8c8d`, leading=11 pt), spaceAfter=15 pt.
+    - Paragraph 5 (Abstract Header): "ABSTRACT" (Helvetica-Bold, 9.0 pt, color `#1f3a56`, leading=12 pt), spaceAfter=8 pt.
+    - Paragraph 6 (Abstract Body): The abstract text body (Helvetica, 9.5 pt, color `#1a1a1a`, leading=13.5 pt).
+
+#### 4. Execution Workflow
+1. Write and run a python script to append this thought trace to the memory firewall `docs/logs/thought_trace.md`.
+2. Write and run `scratch/generate_beauchamp_abstract.py` to generate the PDF and call `scratch/preview_generator.py` to output the preview text.
+3. Validate the styling of the generated PDF using a script to check that the page layout, fonts, and sizes exactly match.
+4. Run index compilation (`npm run build` or compilation commands) if required to update search index.
+
+## SCoT Trace - 2026-06-01 15:56:00
+### Action: Redoing and Generating Missing HEMS 3rd Workshop (2002) Pumps Session Oral Abstracts
+
+#### 1. Context and Objective
+We are tasked with generating the missing HEMS 3rd Workshop (2002) oral abstracts from "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdpumpstalks.htm#MEMS".
+We must:
+- Parse `scratch/3rdpumpstalks.htm` to extract all 11 abstracts for the pumps workshop.
+- Match them with oral presentation entries in `master_workshops.json` by matching their URL anchors.
+- Assign standard abstract filenames to the `abstract_file` attribute of each oral presentation in `master_workshops.json`.
+- Compile 11 premium PDFs via ReportLab with consistent branding, HEMS workshop headers, and structured metadata.
+- Compile clean 100-word preview texts (Title + 100 words body) for each abstract, excluding authors and institutes.
+- Save everything under the respective proceedings subfolders:
+  - Session I: `docs/archives_translation/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues`
+  - Session II: `docs/archives_translation/proceedings/3rd/Technical_Session_II__Commercialization_Issues`
+- Clean up any legacy obsolete preview or PDF files on disk that are no longer active in the database.
+- Run `node scratch/compile_archives.js` to compile the frontend JSON archive.
+- Rebuild search indexes (`generate-archives-index.js` and `index-pdf-contents.js`) to make the abstracts fully searchable down to page level.
+
+#### 2. Detailed Execution Steps
+1. Parse the 11 blocks from `scratch/3rdpumpstalks.htm` to extract anchors, titles, and body texts.
+2. In `generate_pumps_abstracts.py`, match each master workshops entry using `legacy_abstract_url` anchor hashes.
+3. Assign filenames and update the database in `master_workshops.json`.
+4. Compile standard ReportLab PDFs on disk matching HEMS visual guidelines.
+5. Create clean text previews with strict 100-word truncation.
+6. Delete old duplicate/obsolete placeholder files using `cleanup_old_pumps_files.py`.
+7. Recompile the database archives and rebuild search index chunks.
+8. Audit files with `find_missing_abstracts.py` to confirm 100% resolution.
