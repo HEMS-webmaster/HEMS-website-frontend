@@ -2335,3 +2335,8 @@ Logic: To prevent persistent EPERM file locking failures on Windows when a produ
 ## SCoT Log - Syntax Error Fix in Production Build Script
 Task: Fix syntax error (unexpected end of input) inside scripts/build-prod.js.
 Logic: A closing brace for renameWithRetry was cut off in build-prod.js when applying the dev server termination helper. We will add the missing closing curly brace to fix the syntax error and restore correct execution of the build script.
+
+
+## SCoT Log - GCS Deletion Synchronization inside Push-to-Live Scripts
+Task: Add -d flag to gsutil rsync in push-to-live.js and route.ts to enable deletion synchronization.
+Logic: The GCS sync step inside the push-to-live script was using gsutil rsync without the -d option. Because of this, when a local asset is deleted, the corresponding file was never removed from the GCS bucket. The HEAD presence check inside check-file/route.ts therefore still reported the file as present on GCloud, causing the frontend to permanently display "🗑️ Deletion Pending". To resolve this, we will add the -d flag to gsutil rsync inside both scripts/push-to-live.js and the push-to-live API route to ensure deleted local assets are properly removed from the bucket on live deployment.
