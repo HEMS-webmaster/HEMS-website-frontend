@@ -2315,3 +2315,8 @@ Logic: The user requested that the manager page should not be pushed to git. Add
 ## SCoT Log - Restore Manager Page Tailwind CSS v4 Source Scanning
 Task: Explicitly scan gitignored manager folder for Tailwind CSS classes.
 Logic: Tailwind CSS v4 automatically honors .gitignore rules and skips scanning ignored folders to speed up compilation. Since the manager page is now gitignored, Tailwind v4 stopped generating its utility classes, causing it to lose formatting in the browser. To resolve this, we will add an explicit @source directive pointing to the manager folder in globals.css, instructing Tailwind v4 to scan it despite being gitignored.
+
+
+## SCoT Log - Absolute Local Path Resolution for GCS Sync on Windows
+Task: Resolve CommandException in gsutil GCS sync inside push-to-live scripts.
+Logic: The GCS sync step inside the push-to-live script was using a relative path with forward slashes (docs/archives_translation/proceedings), which causes a CommandException in gsutil under Windows environment. To resolve this, we will update both scripts/push-to-live.js and the push-to-live API route to construct a fully qualified absolute path with correct platform-specific slashes using path.resolve and path.join, and wrap the path in quotes for the execution command.

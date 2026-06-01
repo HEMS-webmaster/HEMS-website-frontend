@@ -10,7 +10,8 @@ const frontendDir = path.resolve(__dirname, '..');
 // 1. Google Cloud Storage Sync
 try {
   console.log('📦 Syncing assets to Google Cloud Storage bucket...');
-  const gcloudCmd = 'gsutil -m rsync -r docs/archives_translation/proceedings gs://hems-workshop-archives/proceedings';
+  const proceedingsPath = path.resolve(repoRoot, 'docs', 'archives_translation', 'proceedings');
+  const gcloudCmd = `gsutil -m rsync -r "${proceedingsPath}" gs://hems-workshop-archives/proceedings`;
   execSync(gcloudCmd, { cwd: repoRoot, stdio: 'inherit' });
   console.log('✅ GCS Asset sync complete.\n');
 } catch (e) {
