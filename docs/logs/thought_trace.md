@@ -2310,3 +2310,8 @@ Logic: The user encountered a Windows EPERM file locking issue during the folder
 ## SCoT Log - Git Exclusion and API Route Safety Gate for Windows File Locks
 Task: Untrack and ignore manager folders in git, and prevent Windows EPERM crashes inside the live push API route.
 Logic: The user requested that the manager page should not be pushed to git. Additionally, triggering the production build inside the Next.js dev server itself (when calling the push-to-live API route from the browser) is guaranteed to fail under Windows due to the active dev server locking its own files. To resolve this, we will untrack and ignore the manager paths. We will also modify the dynamic push-to-live API route to check process.platform and return a helpful error indicating that terminal-based deployment via npm run push-to-live is required on Windows when the dev server is active.
+
+
+## SCoT Log - Restore Manager Page Tailwind CSS v4 Source Scanning
+Task: Explicitly scan gitignored manager folder for Tailwind CSS classes.
+Logic: Tailwind CSS v4 automatically honors .gitignore rules and skips scanning ignored folders to speed up compilation. Since the manager page is now gitignored, Tailwind v4 stopped generating its utility classes, causing it to lose formatting in the browser. To resolve this, we will add an explicit @source directive pointing to the manager folder in globals.css, instructing Tailwind v4 to scan it despite being gitignored.
