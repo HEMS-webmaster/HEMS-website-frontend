@@ -4,7 +4,7 @@ const fs = require('fs');
 
 console.log('🚀 Starting HEMS Push-to-Live Production Deploy...\n');
 
-const repoRoot = path.resolve(__dirname, '..', '..');
+const repoRoot = path.resolve(__dirname, '..', '..', '..');
 const frontendDir = path.resolve(__dirname, '..');
 
 // 1. Google Cloud Storage Sync

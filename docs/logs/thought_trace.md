@@ -2320,3 +2320,8 @@ Logic: Tailwind CSS v4 automatically honors .gitignore rules and skips scanning 
 ## SCoT Log - Absolute Local Path Resolution for GCS Sync on Windows
 Task: Resolve CommandException in gsutil GCS sync inside push-to-live scripts.
 Logic: The GCS sync step inside the push-to-live script was using a relative path with forward slashes (docs/archives_translation/proceedings), which causes a CommandException in gsutil under Windows environment. To resolve this, we will update both scripts/push-to-live.js and the push-to-live API route to construct a fully qualified absolute path with correct platform-specific slashes using path.resolve and path.join, and wrap the path in quotes for the execution command.
+
+
+## SCoT Log - Repository Root Path Correction in Push-to-Live CLI Script
+Task: Fix repoRoot path resolution inside scripts/push-to-live.js.
+Logic: The scripts/push-to-live.js constructed the repoRoot as two directories up from __dirname (which is src/frontend/scripts), resolving to src/ instead of the true repository root. We will correct this path resolution to resolved three directories up (or relative to frontendDir) to properly target the true repository root, resolving the gsutil rsync path mapping issue on Windows.
