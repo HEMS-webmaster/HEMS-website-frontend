@@ -44,3 +44,9 @@ next-env.d.ts
 /public/assets/archives
 
 .vercel
+
+# HEMS Workshop Manager (local development only)
+/src/app/manager/
+/src/app/api/manager/
+/src/app/_manager/
+/src/app/api/_manager/
