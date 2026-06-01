@@ -2330,3 +2330,8 @@ Logic: The scripts/push-to-live.js constructed the repoRoot as two directories u
 ## SCoT Log - Active Dev Server Self-Termination inside Production Build
 Task: Integrate automatic dev server process killer in build-prod.js.
 Logic: To prevent persistent EPERM file locking failures on Windows when a production build is executed, we will implement a killDevServerOnPort function inside scripts/build-prod.js. When a build is triggered, the script will check if Next.js ports (3000 and 3001) are in use, extract the running PID, automatically terminate the active dev server to release all locks, wait 500ms for handles to clear, and then proceed with the folder renaming and build cleanly.
+
+
+## SCoT Log - Syntax Error Fix in Production Build Script
+Task: Fix syntax error (unexpected end of input) inside scripts/build-prod.js.
+Logic: A closing brace for renameWithRetry was cut off in build-prod.js when applying the dev server termination helper. We will add the missing closing curly brace to fix the syntax error and restore correct execution of the build script.

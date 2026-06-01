@@ -27,6 +27,8 @@ function renameWithRetry(src, dest, retries = 15, delay = 200) {
       }
     }
   }
+}
+
 // Helper to automatically find and terminate a running Next.js dev server on Windows to clear file locks
 function killDevServerOnPort(port = 3000) {
   if (process.platform !== 'win32') return;
