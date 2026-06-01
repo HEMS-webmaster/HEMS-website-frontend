@@ -2305,3 +2305,8 @@ Logic: The user requested starting the local server as @ops. Under the Scrum Rul
 ## SCoT Log - Windows File Lock Retry Mitigation in Production Build
 Task: Resolve Windows file lock failures during build-time directory renaming.
 Logic: The user encountered a Windows EPERM file locking issue during the folder renaming phase of the production build. Windows often retains locks on folders due to lingering dev servers, IDE file indexing, or active terminals. To resolve this, we will implement a retry mechanism with synchronous delays and backoffs inside the build script. If a lock occurs, the script will retry the rename operation up to 15 times with a 200ms delay. We will also provide advice on checking active terminal paths if the rename ultimately fails.
+
+
+## SCoT Log - Git Exclusion and API Route Safety Gate for Windows File Locks
+Task: Untrack and ignore manager folders in git, and prevent Windows EPERM crashes inside the live push API route.
+Logic: The user requested that the manager page should not be pushed to git. Additionally, triggering the production build inside the Next.js dev server itself (when calling the push-to-live API route from the browser) is guaranteed to fail under Windows due to the active dev server locking its own files. To resolve this, we will untrack and ignore the manager paths. We will also modify the dynamic push-to-live API route to check process.platform and return a helpful error indicating that terminal-based deployment via npm run push-to-live is required on Windows when the dev server is active.
