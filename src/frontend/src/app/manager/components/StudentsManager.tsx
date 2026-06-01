@@ -25,6 +25,8 @@ interface Student {
   legacy_abstract_url?: string;
   presentation_file?: string;
   abstract_file?: string;
+  presentation_redirect_only?: boolean;
+  abstract_redirect_only?: boolean;
 }
 
 interface StudentsManagerProps {
@@ -56,6 +58,14 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
 
     // Update item immediately with the pasted URL
     updateItem(index, field, pastedText);
+
+    const student = latestStudents.current[index];
+    const isRedirect = field === 'legacy_url' ? student.presentation_redirect_only : student.abstract_redirect_only;
+    if (isRedirect) {
+      const fileField = field === 'legacy_url' ? 'presentation_file' : 'abstract_file';
+      updateItem(index, fileField, '');
+      return;
+    }
 
     const statusKey = `${index}-${field}`;
     setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'downloading' }));
@@ -94,7 +104,7 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
   };
 
   const addItem = () => {
-    onChange([...students, { title: '', name: '', institute: '', legacy_url: '', legacy_abstract_url: '' }]);
+    onChange([...students, { title: '', name: '', institute: '', legacy_url: '', legacy_abstract_url: '', presentation_redirect_only: false, abstract_redirect_only: false }]);
   };
 
   const removeItem = (index: number) => {
@@ -163,9 +173,32 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
                     value={s.legacy_url || ''} 
                     onChange={e => updateItem(i, 'legacy_url', e.target.value)} 
                     onPaste={e => handlePasteDownload(e, i, 'legacy_url', 'Student_Award', presFileName)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors mb-1`} 
                   />
                   {downloadingStatus[`${i}-legacy_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  
+                  <div className="flex items-center mt-1 mb-2">
+                    <input
+                      type="checkbox"
+                      id={`student_pres_redirect_only_${i}`}
+                      checked={!!s.presentation_redirect_only}
+                      onChange={(e) => {
+                        const updated = [...latestStudents.current];
+                        updated[i] = {
+                          ...updated[i],
+                          presentation_redirect_only: e.target.checked
+                        };
+                        if (e.target.checked) {
+                          updated[i].presentation_file = '';
+                        }
+                        onChange(updated);
+                      }}
+                      className="h-3.5 w-3.5 bg-slate-900 border border-slate-600 rounded text-sky-500 focus:ring-sky-500 focus:ring-offset-slate-900"
+                    />
+                    <label htmlFor={`student_pres_redirect_only_${i}`} className="ml-1.5 text-[10px] text-slate-400 select-none">
+                      No Download, Legacy URL for 301 Redirect only
+                    </label>
+                  </div>
                 </div>
                 <div className="col-span-2 relative">
                   <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Abstract URL</label>
@@ -174,9 +207,32 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
                     value={s.legacy_abstract_url || ''} 
                     onChange={e => updateItem(i, 'legacy_abstract_url', e.target.value)} 
                     onPaste={e => handlePasteDownload(e, i, 'legacy_abstract_url', 'Student_Award', absFileName)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors mb-1`} 
                   />
                   {downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  
+                  <div className="flex items-center mt-1 mb-2">
+                    <input
+                      type="checkbox"
+                      id={`student_abs_redirect_only_${i}`}
+                      checked={!!s.abstract_redirect_only}
+                      onChange={(e) => {
+                        const updated = [...latestStudents.current];
+                        updated[i] = {
+                          ...updated[i],
+                          abstract_redirect_only: e.target.checked
+                        };
+                        if (e.target.checked) {
+                          updated[i].abstract_file = '';
+                        }
+                        onChange(updated);
+                      }}
+                      className="h-3.5 w-3.5 bg-slate-900 border border-slate-600 rounded text-sky-500 focus:ring-sky-500 focus:ring-offset-slate-900"
+                    />
+                    <label htmlFor={`student_abs_redirect_only_${i}`} className="ml-1.5 text-[10px] text-slate-400 select-none">
+                      No Download, Legacy URL for 301 Redirect only
+                    </label>
+                  </div>
                 </div>
               </div>
               <div className="w-48 flex flex-col gap-2">
@@ -188,12 +244,7 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
                     fileName={presFileName}
                     onSuccess={() => updateItem(i, 'presentation_file', presFileName)}
                   />
-                  {s.presentation_file && (
-                    <div className="mt-1 text-xs text-green-400 flex items-center gap-1 group">
-                      <PreviewHover fileName={s.presentation_file} wsNum={wsNum} session="Student_Award" title={s.title || 'Student Award'} />
-                      <button onClick={() => handleDeleteFile(i, 'presentation_file', 'Student_Award', 'Student_Award', s.presentation_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
-                    </div>
-                  )}
+
                 </div>
                 <div>
                   <DragDropZone 
@@ -203,12 +254,7 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
                     fileName={absFileName}
                     onSuccess={() => updateItem(i, 'abstract_file', absFileName)}
                   />
-                  {s.abstract_file && (
-                    <div className="mt-1 text-xs text-green-400 flex items-center gap-1 group">
-                      <PreviewHover fileName={s.abstract_file} wsNum={wsNum} session="Student_Award" title={(s.title || 'Student Award') + ' (Abstract)'} />
-                      <button onClick={() => handleDeleteFile(i, 'abstract_file', 'Student_Award', 'Student_Award', s.abstract_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
-                    </div>
-                  )}
+
                 </div>
               </div>
             </div>

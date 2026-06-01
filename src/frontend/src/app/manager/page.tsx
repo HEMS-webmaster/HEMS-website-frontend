@@ -51,9 +51,20 @@ export default function WorkshopManager() {
 
     e.preventDefault();
 
+    const currentWs = latestWorkshops.current[index];
+    const isRedirect = field === 'program_url' ? currentWs.program_redirect_only : currentWs.participant_list_redirect_only;
+
     // Update item immediately
     const updated = [...latestWorkshops.current];
     updated[index] = { ...updated[index], [field]: pastedText };
+    
+    if (isRedirect) {
+      const fileField = field === 'program_url' ? 'program_file' : 'participant_list_file';
+      updated[index][fileField] = '';
+      setWorkshops(updated);
+      return;
+    }
+
     setWorkshops(updated);
 
     const statusKey = `${index}-${field}`;
@@ -407,9 +418,29 @@ export default function WorkshopManager() {
                       setWorkshops(updated);
                     }}
                     onPaste={e => handleAdminPasteDownload(e, selectedIdx, 'program_url', `${formatOrdinal(currentWs.number)}_Program.pdf`)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors mb-2`} 
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-program_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors mb-1`} 
                   />
                   {downloadingStatus[`${selectedIdx}-program_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  
+                  <div className="flex items-center mb-2">
+                    <input
+                      type="checkbox"
+                      id={`program_redirect_only_${selectedIdx}`}
+                      checked={!!currentWs.program_redirect_only}
+                      onChange={(e) => {
+                        const updated = [...workshops];
+                        updated[selectedIdx].program_redirect_only = e.target.checked;
+                        if (e.target.checked) {
+                          updated[selectedIdx].program_file = '';
+                        }
+                        setWorkshops(updated);
+                      }}
+                      className="h-4 w-4 bg-slate-900 border border-slate-600 rounded text-sky-500 focus:ring-sky-500 focus:ring-offset-slate-900"
+                    />
+                    <label htmlFor={`program_redirect_only_${selectedIdx}`} className="ml-2 text-xs text-slate-300 select-none">
+                      No Download, Legacy URL for 301 Redirect only
+                    </label>
+                  </div>
                   
                   <DragDropZone 
                     label="Drop Program PDF" 
@@ -425,26 +456,7 @@ export default function WorkshopManager() {
                     }}
                   />
 
-                  <div className="mt-3 text-xs text-slate-400 flex flex-col gap-1 p-2 bg-slate-950/50 rounded border border-slate-700/50">
-                    <span className="flex items-center gap-2">
-                      <strong>Preview:</strong> 
-                      {currentWs.program_file ? (
-                        <div className="flex items-center gap-1 group">
-                          <PreviewHover fileName={currentWs.program_file} wsNum={currentWs.number.toString()} session="Administrative" title="Workshop Program" />
-                          <button onClick={() => handleAdminDeleteFile('program_file', 'Administrative', 'Administrative', currentWs.program_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
-                        </div>
-                      ) : (
-                        <span className="text-[10px] text-slate-500">(Requires uploaded file)</span>
-                      )}
-                    </span>
-                    {currentWs.program_file && (
-                      <>
-                        <span><strong>Local:</strong> docs/archives_translation/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.program_file}</span>
-                        <span><strong>GCloud:</strong> gs://hems-workshop-archives/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.program_file}</span>
-                        <span className="break-all"><strong>Public (Firebase):</strong> https://storage.googleapis.com/hems-workshop-archives/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.program_file}</span>
-                      </>
-                    )}
-                  </div>
+
                 </div>
                 
                 <div className="relative">
@@ -458,9 +470,29 @@ export default function WorkshopManager() {
                       setWorkshops(updated);
                     }}
                     onPaste={e => handleAdminPasteDownload(e, selectedIdx, 'participant_list_url', `${formatOrdinal(currentWs.number)}_Participant_List.pdf`)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors mb-2`} 
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${selectedIdx}-participant_list_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-white transition-colors mb-1`} 
                   />
                   {downloadingStatus[`${selectedIdx}-participant_list_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  
+                  <div className="flex items-center mb-2">
+                    <input
+                      type="checkbox"
+                      id={`participant_list_redirect_only_${selectedIdx}`}
+                      checked={!!currentWs.participant_list_redirect_only}
+                      onChange={(e) => {
+                        const updated = [...workshops];
+                        updated[selectedIdx].participant_list_redirect_only = e.target.checked;
+                        if (e.target.checked) {
+                          updated[selectedIdx].participant_list_file = '';
+                        }
+                        setWorkshops(updated);
+                      }}
+                      className="h-4 w-4 bg-slate-900 border border-slate-600 rounded text-sky-500 focus:ring-sky-500 focus:ring-offset-slate-900"
+                    />
+                    <label htmlFor={`participant_list_redirect_only_${selectedIdx}`} className="ml-2 text-xs text-slate-300 select-none">
+                      No Download, Legacy URL for 301 Redirect only
+                    </label>
+                  </div>
                   
                   <DragDropZone 
                     label="Drop Participant List PDF" 
@@ -475,27 +507,6 @@ export default function WorkshopManager() {
                       setWorkshops(updated);
                     }}
                   />
-
-                  <div className="mt-3 text-xs text-slate-400 flex flex-col gap-1 p-2 bg-slate-950/50 rounded border border-slate-700/50">
-                    <span className="flex items-center gap-2">
-                      <strong>Preview:</strong> 
-                      {currentWs.participant_list_file ? (
-                        <div className="flex items-center gap-1 group">
-                          <PreviewHover fileName={currentWs.participant_list_file} wsNum={currentWs.number.toString()} session="Administrative" title="Participant List" />
-                          <button onClick={() => handleAdminDeleteFile('participant_list_file', 'Administrative', 'Administrative', currentWs.participant_list_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
-                        </div>
-                      ) : (
-                        <span className="text-[10px] text-slate-500">(Requires uploaded file)</span>
-                      )}
-                    </span>
-                    {currentWs.participant_list_file && (
-                      <>
-                        <span><strong>Local:</strong> docs/archives_translation/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.participant_list_file}</span>
-                        <span><strong>GCloud:</strong> gs://hems-workshop-archives/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.participant_list_file}</span>
-                        <span className="break-all"><strong>Public (Firebase):</strong> https://storage.googleapis.com/hems-workshop-archives/proceedings/{formatOrdinal(currentWs.number)}/Administrative/{currentWs.participant_list_file}</span>
-                      </>
-                    )}
-                  </div>
                 </div>
               </div>
 

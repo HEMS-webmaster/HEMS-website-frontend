@@ -2020,10 +2020,11 @@
             "institutes": [
               "California Institute of Technology"
             ],
-            "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm",
+            "legacy_abstract_url": "https://www.hems-workshop.org/3rdWS/Abstracts%203rd/3rdhemstalks.htm#novel",
             "abstract_file": "3rd_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf",
             "legacy_url": "https://www.hems-workshop.org/3rdWS/Presentations%203rd/Beauchamp/beauchamp.pdf",
-            "presentation_file": "3rd_Beauchamp_Novel_Mass_Spectrometric_Presentation.pdf"
+            "presentation_file": "3rd_Beauchamp_Novel_Mass_Spectrometric_Presentation.pdf",
+            "abstract_redirect_only": false
           },
           {
             "time": "9:45 a.m.",
@@ -3095,7 +3096,9 @@
             "abstract_file": "",
             "legacy_url": ""
           }
-        ]
+        ],
+        "title": "Technical Session II: Commercialization Issues",
+        "location": "Chair: Merrilee Fellows, Jet Propulsion Laboratory"
       }
     ],
     "dates": "March 25-28, 2002",
@@ -3274,7 +3277,9 @@
           }
         ]
       }
-    ]
+    ],
+    "participant_list_url": "https://www.hems-workshop.org/3rdWS/attendees.pdf",
+    "participant_list_file": "3rd_Participant_List.pdf"
   },
   {
     "number": 4,
@@ -3400,8 +3405,8 @@
         "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/Arkin.pdf",
         "session": "\tPoster Session",
         "poster_file": "4th_Arkin_The_Hazardous_Gas_Poster.pdf",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/Arkin.pdf",
-        "abstract_file": "4th_Arkin_The_Hazardous_Gas_Abstract.pdf"
+        "legacy_abstract_url": "",
+        "abstract_file": ""
       },
       {
         "date": "2003-10-08",
@@ -3435,8 +3440,8 @@
         "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/Bell.pdf",
         "session": "\tPoster Session",
         "poster_file": "4th_Bell_Underwater_Mass_Spectroscopy_Poster.pdf",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/Bell.pdf",
-        "abstract_file": "4th_Bell_Underwater_Mass_Spectroscopy_Abstract.pdf"
+        "legacy_abstract_url": "",
+        "abstract_file": ""
       },
       {
         "date": "2003-10-08",
@@ -3476,7 +3481,7 @@
         ],
         "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Insepov.pdf",
         "session": "\tPoster Session",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Insepov.pdf"
+        "legacy_abstract_url": ""
       },
       {
         "date": "2003-10-08",
@@ -3500,8 +3505,8 @@
         "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/Kenton.pdf",
         "session": "\tPoster Session",
         "poster_file": "4th_Kenton_Innovative_Vacuum_Pumps_Poster.pdf",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/Kenton.pdf",
-        "abstract_file": "4th_Kenton_Innovative_Vacuum_Pumps_Abstract.pdf"
+        "legacy_abstract_url": "",
+        "abstract_file": ""
       },
       {
         "date": "2003-10-08",
@@ -3532,9 +3537,9 @@
         "institutes": [
           "Design Technological Institute of Instrument Engineering for Geophysics and Ecology Siberian Branch of the Russian Academia of Sciences, Novosibirisk, Russian Federation"
         ],
-        "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Makas.pdf",
+        "legacy_url": "",
         "session": "\tPoster Session",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Makas.pdf"
+        "legacy_abstract_url": ""
       },
       {
         "date": "2003-10-08",
@@ -3588,8 +3593,8 @@
         "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/Rohrs.pdf",
         "session": "\tPoster Session",
         "poster_file": "4th_Rohrs_Inexpensive_Mass_Spectrometer_Poster.pdf",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/Rohrs.pdf",
-        "abstract_file": "4th_Rohrs_Inexpensive_Mass_Spectrometer_Abstract.pdf"
+        "legacy_abstract_url": "",
+        "abstract_file": ""
       },
       {
         "date": "2003-10-08",
@@ -3641,7 +3646,7 @@
         ],
         "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Turner.pdf",
         "session": "\tPoster Session",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Turner.pdf"
+        "legacy_abstract_url": ""
       },
       {
         "date": "2003-10-08",
@@ -3680,7 +3685,7 @@
         ],
         "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Victorova%20-%20poster.doc",
         "session": "\tPoster Session",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Victorova%20-%20poster.doc"
+        "legacy_abstract_url": ""
       },
       {
         "date": "2003-10-08",
@@ -3708,7 +3713,7 @@
         ],
         "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Voss.doc",
         "session": "\tPoster Session",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Voss.doc"
+        "legacy_abstract_url": ""
       },
       {
         "date": "2003-10-08",
@@ -3737,8 +3742,8 @@
         "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/CITPOSTERFRISO.pdf",
         "session": "\tPoster Session",
         "poster_file": "4th_Amerom_A_Study_of_Poster.pdf",
-        "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Posters/CITPOSTERFRISO.pdf",
-        "abstract_file": "4th_Amerom_A_Study_of_Abstract.pdf"
+        "legacy_abstract_url": "",
+        "abstract_file": ""
       }
     ],
     "presentation_sessions": [
@@ -3798,8 +3803,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/P%20Smith.pdf",
             "presentation_file": "4th_Smith_Detection_of_Gas_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/P%20Smith.pdf",
-            "abstract_file": "4th_Smith_Detection_of_Gas_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-08",
@@ -3827,8 +3832,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Rimkus.pdf",
             "presentation_file": "4th_Rimkus_Transportable_Miniature_FTMS_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Rimkus.pdf",
-            "abstract_file": "4th_Rimkus_Transportable_Miniature_FTMS_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-08",
@@ -3871,8 +3876,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Grossenbacher.pdf",
             "presentation_file": "4th_Grossenbacher_Performance_Characterization_and_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Grossenbacher.pdf",
-            "abstract_file": "4th_Grossenbacher_Performance_Characterization_and_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-08",
@@ -3932,8 +3937,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Arkin.pdf",
             "presentation_file": "4th_Arkin_A_Small_Rugged_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Arkin.pdf",
-            "abstract_file": "4th_Arkin_A_Small_Rugged_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           }
         ]
       },
@@ -3965,8 +3970,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Hemond.pdf",
             "presentation_file": "4th_Hemond_Underwater_Mass_Spectrometry_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Hemond.pdf",
-            "abstract_file": "4th_Hemond_Underwater_Mass_Spectrometry_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-08",
@@ -3990,8 +3995,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/McMurtry.pdf",
             "presentation_file": "4th_McMurtry_Mass_SURFER_Underwater_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/McMurtry.pdf",
-            "abstract_file": "4th_McMurtry_Mass_SURFER_Underwater_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-08",
@@ -4044,8 +4049,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Wenner.pdf",
             "presentation_file": "4th_Wenner_Realtime_Monitoring_of_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Wenner.pdf",
-            "abstract_file": "4th_Wenner_Realtime_Monitoring_of_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           }
         ]
       },
@@ -4107,8 +4112,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Tabert.pdf",
             "presentation_file": "4th_Tabert_Miniature_Mass_Spectrometer_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Tabert.pdf",
-            "abstract_file": "4th_Tabert_Miniature_Mass_Spectrometer_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-09",
@@ -4136,8 +4141,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Whitten.pdf",
             "presentation_file": "4th_Whitten_Mass_Spectrometry_of_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Whitten.pdf",
-            "abstract_file": "4th_Whitten_Mass_Spectrometry_of_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-09",
@@ -4186,7 +4191,7 @@
               "Dept. of Chemical Engineering, UCLA, Los Angeles, CA"
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Cruz.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Cruz.pdf"
+            "legacy_abstract_url": ""
           },
           {
             "date": "2003-10-09",
@@ -4245,8 +4250,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Groves.pdf",
             "presentation_file": "4th_Alcock_Development_of_Field_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Groves.pdf",
-            "abstract_file": "4th_Alcock_Development_of_Field_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           }
         ]
       },
@@ -4277,7 +4282,7 @@
               "Johns Hopkins University School of Medicine, Baltimore, MD"
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Gardner.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Gardner.pdf"
+            "legacy_abstract_url": ""
           },
           {
             "date": "2003-10-09",
@@ -4300,8 +4305,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Kibelka.pdf",
             "presentation_file": "4th_Kibelka_Miniaturized_Confocal_Plane_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Kibelka.pdf",
-            "abstract_file": "4th_Kibelka_Miniaturized_Confocal_Plane_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-09",
@@ -4325,8 +4330,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Victorova.pdf",
             "presentation_file": "4th_Victorova_Membrane_Inlet_Systems_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Victorova.pdf",
-            "abstract_file": "4th_Victorova_Membrane_Inlet_Systems_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-09",
@@ -4350,8 +4355,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Smith.pdf",
             "presentation_file": "4th_Smith_Recent_Developments_with_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Smith.pdf",
-            "abstract_file": "4th_Smith_Recent_Developments_with_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           }
         ]
       },
@@ -4404,8 +4409,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Young.pdf",
             "presentation_file": "4th_Young_Status_of_the_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Young.pdf",
-            "abstract_file": "4th_Young_Status_of_the_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-10",
@@ -4422,7 +4427,7 @@
               "MKS Instruments, Metheun, MA"
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Cole.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Cole.pdf"
+            "legacy_abstract_url": ""
           },
           {
             "date": "2003-10-10",
@@ -4488,8 +4493,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Uy.pdf",
             "presentation_file": "4th_Uy_Comparing_a_Mass_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Uy.pdf",
-            "abstract_file": "4th_Uy_Comparing_a_Mass_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-10",
@@ -4512,8 +4517,8 @@
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Presentations/Spencer.pdf",
             "presentation_file": "4th_Spencer_Application_of_Miniature_Presentation.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Presentations/Spencer.pdf",
-            "abstract_file": "4th_Spencer_Application_of_Miniature_Abstract.pdf"
+            "legacy_abstract_url": "",
+            "abstract_file": ""
           },
           {
             "date": "2003-10-10",
@@ -4540,7 +4545,7 @@
               "Jet Propulsion Laboratory, Pasadena, CA"
             ],
             "legacy_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Eyre.pdf",
-            "legacy_abstract_url": "https://www.hems-workshop.org/4thWS/Workshop%20booklet/Eyre.pdf"
+            "legacy_abstract_url": ""
           }
         ]
       }

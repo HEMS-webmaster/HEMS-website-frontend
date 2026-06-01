@@ -57,12 +57,18 @@ export async function GET(request: Request) {
     // Generate GCloud and Website URLs
     let gcloudUrl = '';
     let websiteUrl = '';
+    let devWebsiteUrl = '';
+    let localWebsiteUrl = '';
+    let gcloudConsoleUri = '';
+    let subDir = '';
     
     if (category === 'Sponsor') {
       gcloudUrl = `https://storage.googleapis.com/hems-workshop-archives/sponsors/${fileName}`;
       websiteUrl = `https://www.hems-workshop.org/images/sponsors/${fileName}`;
+      devWebsiteUrl = `https://hems-workshop.web.app/images/sponsors/${fileName}`;
+      localWebsiteUrl = `http://localhost:3000/images/sponsors/${fileName}`;
+      gcloudConsoleUri = 'https://console.cloud.google.com/storage/browser/hems-workshop-archives/sponsors';
     } else {
-      let subDir = '';
       if (category === 'Student_Award') {
         subDir = 'Student_Award';
       } else if (category === 'Poster') {
@@ -75,6 +81,19 @@ export async function GET(request: Request) {
       }
       gcloudUrl = `https://storage.googleapis.com/hems-workshop-archives/proceedings/${wsOrdinal}/${subDir}/${fileName}`;
       websiteUrl = `https://www.hems-workshop.org/archive/proceedings/${wsOrdinal}/${subDir}/${fileName}`;
+      devWebsiteUrl = `https://hems-workshop.web.app/archive/proceedings/${wsOrdinal}/${subDir}/${fileName}`;
+      localWebsiteUrl = `http://localhost:3000/archive/proceedings/${wsOrdinal}/${subDir}/${fileName}`;
+      gcloudConsoleUri = `https://console.cloud.google.com/storage/browser/hems-workshop-archives/proceedings/${wsOrdinal}/${subDir}`;
+    }
+
+    let gcloudExists = false;
+    try {
+      const gcloudHead = await fetch(gcloudUrl, { method: 'HEAD' });
+      if (gcloudHead.ok) {
+        gcloudExists = true;
+      }
+    } catch (e) {
+      gcloudExists = false;
     }
 
     return NextResponse.json({ 
@@ -83,7 +102,11 @@ export async function GET(request: Request) {
       filePath,
       fileUri,
       gcloudUrl,
+      gcloudConsoleUri,
+      gcloudExists,
       websiteUrl,
+      devWebsiteUrl,
+      localWebsiteUrl,
       mtime
     });
   } catch (error: any) {

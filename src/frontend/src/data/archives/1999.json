@@ -14,9 +14,9 @@
       "label": "Program Download",
       "icon": "Download",
       "legacy_url": "https://www.hems-workshop.org/1stWS/1hems_program.pdf",
-      "local_target_path": "",
-      "public_website_url": "",
-      "gcloud_url": ""
+      "local_target_path": "/api/manager/serve?file=1st/Administrative/1st_Program.pdf",
+      "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/1st/Administrative/1st_Program.pdf",
+      "gcloud_url": "gs://hems-workshop-archives/proceedings/1st/Administrative/1st_Program.pdf"
     }
   ],
   "sponsors": [],

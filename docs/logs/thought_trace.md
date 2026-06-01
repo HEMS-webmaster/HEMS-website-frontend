@@ -2236,3 +2236,43 @@ Modify all input value bindings in `src/frontend/src/app/manager/components/Even
 #### 3. Verification Plan
 - Edit `EventsManager.tsx` to include fallback string bindings.
 - Validate that the warning is eliminated on page rendering and event creation.
+
+
+## SCoT Log - 2026-05-30
+We are preparing an implementation plan to add 'No Download, Legacy URL for 301 Redirect only' checkboxes next to legacy URL inputs in the HEMS Workshop Manager. We will modify the database schema at the workshop, presentation, poster, and student presenter levels in master_workshops.json. We will update the React manager UI components (page.tsx, PresentationsManager.tsx, PostersManager.tsx, and StudentsManager.tsx) to render checkboxes and disable automatic downloader triggers (paste, blur, batch re-downloads) when the checkbox is active. The implementation plan will be saved in the artifacts directory and submitted to the user for explicit approval.
+
+
+## SCoT Log - page.tsx modifications
+We are editing src/frontend/src/app/manager/page.tsx to render checkboxes for 'program_redirect_only' and 'participant_list_redirect_only' next to the Program and Participant List URLs. We will modify the handleAdminPasteDownload function to verify these flags and skip calling the download-legacy endpoint when redirect-only is enabled, instead clearing the program_file or participant_list_file field.
+
+
+## SCoT Log - PresentationsManager.tsx modifications
+We are editing src/frontend/src/app/manager/components/PresentationsManager.tsx to add redirect-only checkboxes next to 'Legacy Presentation URL' and 'Legacy Abstract URL'. We will update the interface definition, handleUrlBlur, handlePasteDownload, and redownloadSession to respect these flags, skipping fetch triggers and overwriting file fields with empty strings when they are enabled.
+
+
+## SCoT Log - PostersManager.tsx modifications
+We are editing src/frontend/src/app/manager/components/PostersManager.tsx to add redirect-only checkboxes next to 'Legacy Poster URL' and 'Legacy Abstract URL'. We will update the interface definition, handleUrlBlur, handlePasteDownload, and redownloadAllPosters to respect these flags, skipping fetch triggers and overwriting file fields with empty strings when they are enabled.
+
+
+## SCoT Log - StudentsManager.tsx modifications
+We are editing src/frontend/src/app/manager/components/StudentsManager.tsx to add redirect-only checkboxes next to 'Legacy URL' and 'Legacy Abstract URL'. We will update the interface definition and handlePasteDownload to respect these flags, skipping fetch triggers and overwriting file fields with empty strings when they are enabled.
+
+
+## SCoT Log - 2026-05-30 UI Overhaul
+We are preparing an implementation plan to enhance the DragDropZone component's display. We will update check-file/route.ts to perform a HEAD request to GCloud Storage to check if the file has been uploaded. We will create a new open-folder/route.ts endpoint using child_process.exec to open the local parent folder in Windows Explorer. In DragDropZone.tsx, we will grey out values if the local file does not exist. If it exists, we will show a checkmark next to Local Target Path, add a hyperlink that calls our open-folder endpoint on click, add a delete ? button, and render specific GCloud upload/deletion status indicators. Finally, we will remove the redundant attached preview sections from the main page, presentation, poster, and student presenter managers.
+
+
+## SCoT Log - check-file/route.ts modifications
+We are editing src/frontend/src/app/api/manager/check-file/route.ts to run a fetch HEAD check on the GCloud URL to set gcloudExists and generate a console link to the bucket proceedings/sponsors subfolder.
+
+
+## SCoT Log - Verification and Walkthrough Finalization
+We are validating the completed implementation of the Workshop Manager Asset Status Overhaul. The Next.js production build succeeded with zero errors, confirming typescript safety and syntax correctness. We are updating the task checklist and walkthrough documents to reflect that the GCloud URL state querying, local directory explorer opening, drag-and-drop file deletion, and parent sheet preview cleanup features have been fully implemented and verified.
+
+
+## SCoT Log - Public Website URL Refinement
+We are updating the check-file API route to generate and return separate URLs for local (localhost:3000), dev (Firebase web.app), and release (live domain) targets. We will modify DragDropZone.tsx to fetch, store, and display these three URLs with clear labels under the Public Website URLs header.
+
+
+## SCoT Log - PreviewHover on Local Target Path
+We are importing PreviewHover inside DragDropZone.tsx and wrapping the local target path anchor tag within the PreviewHover component. This will maintain the helpful file/abstract content previews directly on hover over the target path link in the file details card, restoring the lost preview functionality while retaining the open-folder click capability.

@@ -30,6 +30,8 @@ interface Poster {
   legacy_abstract_url?: string;
   poster_file?: string;
   abstract_file?: string;
+  poster_redirect_only?: boolean;
+  abstract_redirect_only?: boolean;
 }
 
 interface PostersManagerProps {
@@ -87,6 +89,14 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
   ) => {
     if (!urlText || !urlText.startsWith('http')) return;
     
+    const poster = latestPosters.current[index];
+    const isRedirect = field === 'legacy_url' ? poster.poster_redirect_only : poster.abstract_redirect_only;
+    if (isRedirect) {
+      const fileField = field === 'legacy_url' ? 'poster_file' : 'abstract_file';
+      updateItem(index, fileField, '');
+      return;
+    }
+
     // Prevent redundant downloads if it's already success
     const statusKey = `${index}-${field}`;
     if (downloadingStatus[statusKey] === 'success' || downloadingStatus[statusKey] === 'downloading') return;
@@ -118,7 +128,7 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
     }
   };
 
-const handlePasteDownload = async (
+  const handlePasteDownload = async (
     e: React.ClipboardEvent<HTMLInputElement>,
     index: number,
     field: 'legacy_url' | 'legacy_abstract_url',
@@ -130,6 +140,14 @@ const handlePasteDownload = async (
 
     e.preventDefault();
     updateItem(index, field, pastedText);
+
+    const poster = latestPosters.current[index];
+    const isRedirect = field === 'legacy_url' ? poster.poster_redirect_only : poster.abstract_redirect_only;
+    if (isRedirect) {
+      const fileField = field === 'legacy_url' ? 'poster_file' : 'abstract_file';
+      updateItem(index, fileField, '');
+      return;
+    }
 
     const statusKey = `${index}-${field}`;
     setDownloadingStatus(prev => ({ ...prev, [statusKey]: 'downloading' }));
@@ -148,7 +166,7 @@ const handlePasteDownload = async (
         } else {
           updateItem(index, 'abstract_file', fileName);
         }
-        setTimeout(() => setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' })), 3000);
+        setTimeout(() => setDownloadingStatus(prev => ({ ...prev, [statusKey]: '' })), 3500);
       } else {
         throw new Error(data.error);
       }
@@ -171,7 +189,7 @@ const handlePasteDownload = async (
   };
 
   const addItem = () => {
-    onChange([...posters, { title: '', authors: [], institutes: [], legacy_url: '', date: '', time: '', session: '' }]);
+    onChange([...posters, { title: '', authors: [], institutes: [], legacy_url: '', date: '', time: '', session: '', legacy_abstract_url: '', poster_redirect_only: false, abstract_redirect_only: false }]);
   };
 
   const removeItem = (index: number) => {
@@ -223,10 +241,10 @@ const handlePasteDownload = async (
       const posterFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Poster.pdf`;
       const abstractFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Abstract.pdf`;
 
-      if (p.legacy_url && p.legacy_url.startsWith('http')) {
+      if (p.legacy_url && p.legacy_url.startsWith('http') && !p.poster_redirect_only) {
         jobs.push({ pIdx, field: 'legacy_url', category: 'Poster', fileName: posterFileName });
       }
-      if (p.legacy_abstract_url && p.legacy_abstract_url.startsWith('http')) {
+      if (p.legacy_abstract_url && p.legacy_abstract_url.startsWith('http') && !p.abstract_redirect_only) {
         jobs.push({ pIdx, field: 'legacy_abstract_url', category: 'Abstract', fileName: abstractFileName });
       }
     });
@@ -523,9 +541,32 @@ const handlePasteDownload = async (
                     onChange={e => updateItem(i, 'legacy_url', e.target.value)} 
                     onPaste={e => handlePasteDownload(e, i, 'legacy_url', 'Poster', posterFileName)}
                     onBlur={e => handleUrlBlur(e.target.value, i, 'legacy_url', 'Poster', posterFileName)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors mb-1`} 
                   />
                   {downloadingStatus[`${i}-legacy_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  
+                  <div className="flex items-center mt-1 mb-2">
+                    <input
+                      type="checkbox"
+                      id={`poster_redirect_only_${i}`}
+                      checked={!!p.poster_redirect_only}
+                      onChange={(e) => {
+                        const updated = [...latestPosters.current];
+                        updated[i] = {
+                          ...updated[i],
+                          poster_redirect_only: e.target.checked
+                        };
+                        if (e.target.checked) {
+                          updated[i].poster_file = '';
+                        }
+                        onChange(updated);
+                      }}
+                      className="h-3.5 w-3.5 bg-slate-900 border border-slate-600 rounded text-sky-500 focus:ring-sky-500 focus:ring-offset-slate-900"
+                    />
+                    <label htmlFor={`poster_redirect_only_${i}`} className="ml-1.5 text-[10px] text-slate-400 select-none">
+                      No Download, Legacy URL for 301 Redirect only
+                    </label>
+                  </div>
                 </div>
                 <div className="relative">
                   <label className="block text-xs font-bold text-slate-400 mb-1">Legacy Abstract URL</label>
@@ -535,9 +576,32 @@ const handlePasteDownload = async (
                     onChange={e => updateItem(i, 'legacy_abstract_url', e.target.value)} 
                     onPaste={e => handlePasteDownload(e, i, 'legacy_abstract_url', 'Poster', abstractFileName)}
                     onBlur={e => handleUrlBlur(e.target.value, i, 'legacy_abstract_url', 'Poster', abstractFileName)}
-                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors`} 
+                    className={`w-full bg-slate-900 border ${downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' ? 'border-yellow-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'success' ? 'border-green-500' : downloadingStatus[`${i}-legacy_abstract_url`] === 'error' ? 'border-red-500' : 'border-slate-600'} rounded p-2 text-sm text-white transition-colors mb-1`} 
                   />
                   {downloadingStatus[`${i}-legacy_abstract_url`] === 'downloading' && <span className="absolute top-1 right-2 text-[10px] text-yellow-500 font-bold">Downloading...</span>}
+                  
+                  <div className="flex items-center mt-1 mb-2">
+                    <input
+                      type="checkbox"
+                      id={`poster_abs_redirect_only_${i}`}
+                      checked={!!p.abstract_redirect_only}
+                      onChange={(e) => {
+                        const updated = [...latestPosters.current];
+                        updated[i] = {
+                          ...updated[i],
+                          abstract_redirect_only: e.target.checked
+                        };
+                        if (e.target.checked) {
+                          updated[i].abstract_file = '';
+                        }
+                        onChange(updated);
+                      }}
+                      className="h-3.5 w-3.5 bg-slate-900 border border-slate-600 rounded text-sky-500 focus:ring-sky-500 focus:ring-offset-slate-900"
+                    />
+                    <label htmlFor={`poster_abs_redirect_only_${i}`} className="ml-1.5 text-[10px] text-slate-400 select-none">
+                      No Download, Legacy URL for 301 Redirect only
+                    </label>
+                  </div>
                 </div>
               </div>
 
@@ -559,24 +623,7 @@ const handlePasteDownload = async (
                   onSuccess={() => updateItem(i, 'abstract_file', abstractFileName)}
                 />
               </div>
-              {(p.poster_file || p.abstract_file) && (
-                 <div className="mt-3 text-xs text-green-400 flex items-center gap-2 flex-wrap">
-                   Attached: 
-                   {p.poster_file && (
-                     <div className="flex items-center gap-1 group">
-                       <PreviewHover fileName={p.poster_file} wsNum={wsNum} session="Posters" title={p.title} />
-                       <button onClick={() => handleDeleteFile(i, 'poster_file', 'Poster', 'Posters', p.poster_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
-                     </div>
-                   )}
-                   {p.poster_file && p.abstract_file && <span className="text-slate-500">|</span>}
-                   {p.abstract_file && (
-                     <div className="flex items-center gap-1 group">
-                       <PreviewHover fileName={p.abstract_file} wsNum={wsNum} session="Posters" title={p.title + ' (Abstract)'} />
-                       <button onClick={() => handleDeleteFile(i, 'abstract_file', 'Poster', 'Posters', p.abstract_file!)} className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity ml-1" title="Delete File">✕</button>
-                     </div>
-                   )}
-                 </div>
-              )}
+
             </div>
           );
         })}

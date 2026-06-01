@@ -128,11 +128,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Smith_Detection_of_Gas_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "9:30 a.m.",
@@ -160,11 +160,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Rimkus_Transportable_Miniature_FTMS_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "10:30 a.m.",
@@ -207,11 +207,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Grossenbacher_Performance_Characterization_and_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "11:00 a.m.",
@@ -271,11 +271,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Field_MS_Systems/4th_Arkin_A_Small_Rugged_Abstract.pdf"
+              "gcloud_abstract_url": ""
             }
           ]
         },
@@ -336,11 +336,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Arkin_The_Hazardous_Gas_Poster.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Arkin_The_Hazardous_Gas_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Arkin_The_Hazardous_Gas_Poster.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Arkin_The_Hazardous_Gas_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Arkin_The_Hazardous_Gas_Poster.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Arkin_The_Hazardous_Gas_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "15:30",
@@ -373,11 +373,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Poster.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Poster.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Poster.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Bell_Underwater_Mass_Spectroscopy_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "15:30",
@@ -444,11 +444,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Poster.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Poster.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Poster.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Kenton_Innovative_Vacuum_Pumps_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "15:30",
@@ -538,11 +538,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Poster.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Poster.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Poster.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Rohrs_Inexpensive_Mass_Spectrometer_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "15:30",
@@ -701,11 +701,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Posters/4th_Amerom_A_Study_of_Poster.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Posters/4th_Amerom_A_Study_of_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Amerom_A_Study_of_Poster.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Posters/4th_Amerom_A_Study_of_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Amerom_A_Study_of_Poster.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Posters/4th_Amerom_A_Study_of_Abstract.pdf"
+              "gcloud_abstract_url": ""
             }
           ]
         }
@@ -771,11 +771,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Tabert_Miniature_Mass_Spectrometer_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "9:30 a.m.",
@@ -803,11 +803,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Whitten_Mass_Spectrometry_of_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "10:30 a.m.",
@@ -920,11 +920,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Cylindrical_Ion_Traps/4th_Alcock_Development_of_Field_Abstract.pdf"
+              "gcloud_abstract_url": ""
             }
           ]
         },
@@ -955,11 +955,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Hemond_Underwater_Mass_Spectrometry_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "2:00 p.m.",
@@ -983,11 +983,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_McMurtry_Mass_SURFER_Underwater_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "2:30 p.m.",
@@ -1040,11 +1040,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__Underwater_MS/4th_Wenner_Realtime_Monitoring_of_Abstract.pdf"
+              "gcloud_abstract_url": ""
             }
           ]
         }
@@ -1101,11 +1101,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Young_Status_of_the_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "9:00 a.m.",
@@ -1193,11 +1193,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Uy_Comparing_a_Mass_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "10:30 a.m.",
@@ -1220,11 +1220,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__New___Enabling_Technologies/4th_Spencer_Application_of_Miniature_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "11:00 a.m.",
@@ -1314,11 +1314,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Kibelka_Miniaturized_Confocal_Plane_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "3:30 p.m.",
@@ -1342,11 +1342,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Victorova_Membrane_Inlet_Systems_Abstract.pdf"
+              "gcloud_abstract_url": ""
             },
             {
               "time": "4:00 p.m.",
@@ -1370,11 +1370,11 @@
               "legacy_url": "",
               "legacy_abstract_url": "",
               "local_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Presentation.pdf",
-              "local_abstract_target_path": "/api/manager/serve?file=4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Abstract.pdf",
+              "local_abstract_target_path": "",
               "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Presentation.pdf",
-              "public_abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Abstract.pdf",
+              "public_abstract_url": "",
               "gcloud_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Presentation.pdf",
-              "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/4th/Technical_Session__MS_and_Source_Design/4th_Smith_Recent_Developments_with_Abstract.pdf"
+              "gcloud_abstract_url": ""
             }
           ]
         }
