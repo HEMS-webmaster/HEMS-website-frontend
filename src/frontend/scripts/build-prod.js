@@ -1,5 +1,12 @@
 const fs = require('fs');
+const path = require('path');
 const { execSync } = require('child_process');
+
+const apiManagerPath = path.join('src', 'app', 'api', 'manager');
+const apiTempManagerPath = path.join('src', 'app', 'api', '_manager');
+const managerPath = path.join('src', 'app', 'manager');
+const tempManagerPath = path.join('src', 'app', '_manager');
+const nextPath = '.next';
 
 // Generate flat proceedings index for AI search engine visibility and crawler indexing
 try {
@@ -18,20 +25,24 @@ try {
 }
 
 try {
-  if (fs.existsSync('src/app/api/manager')) {
-    fs.renameSync('src/app/api/manager', 'src/app/api/_manager');
+  if (fs.existsSync(apiManagerPath)) {
+    fs.renameSync(apiManagerPath, apiTempManagerPath);
   }
-  if (fs.existsSync('src/app/manager')) {
-    fs.renameSync('src/app/manager', 'src/app/_manager');
+  if (fs.existsSync(managerPath)) {
+    fs.renameSync(managerPath, tempManagerPath);
   }
   console.log('Manager routes temporarily excluded from production build.');
 } catch (e) {
-  console.error('Failed to rename:', e.message);
+  console.error('\n❌ CRITICAL BUILD ERROR: Failed to temporarily exclude manager routes.');
+  console.error('Error Details:', e.message);
+  console.error('\n👉 This is usually caused by Windows file locks.');
+  console.error('👉 Please make sure to STOP your running development server (npm run dev) before building!\n');
+  process.exit(1);
 }
 
 try {
-  if (fs.existsSync('.next')) {
-    fs.rmSync('.next', { recursive: true, force: true });
+  if (fs.existsSync(nextPath)) {
+    fs.rmSync(nextPath, { recursive: true, force: true });
   }
   execSync('npx next build', { stdio: 'inherit' });
 } catch (e) {
@@ -39,14 +50,14 @@ try {
   process.exitCode = 1;
 } finally {
   try {
-    if (fs.existsSync('src/app/api/_manager')) {
-      fs.renameSync('src/app/api/_manager', 'src/app/api/manager');
+    if (fs.existsSync(apiTempManagerPath)) {
+      fs.renameSync(apiTempManagerPath, apiManagerPath);
     }
-    if (fs.existsSync('src/app/_manager')) {
-      fs.renameSync('src/app/_manager', 'src/app/manager');
+    if (fs.existsSync(tempManagerPath)) {
+      fs.renameSync(tempManagerPath, managerPath);
     }
     console.log('Manager routes restored.');
   } catch (e) {
-    console.error('Failed to restore:', e.message);
+    console.error('Failed to restore manager routes:', e.message);
   }
 }

@@ -2276,3 +2276,7 @@ We are updating the check-file API route to generate and return separate URLs fo
 
 ## SCoT Log - PreviewHover on Local Target Path
 We are importing PreviewHover inside DragDropZone.tsx and wrapping the local target path anchor tag within the PreviewHover component. This will maintain the helpful file/abstract content previews directly on hover over the target path link in the file details card, restoring the lost preview functionality while retaining the open-folder click capability.
+
+
+## SCoT Log - Production Build Resiliency & Path Normalization
+We are refactoring scripts/build-prod.js to use the path module and generate standard cross-platform backslash-normalized Windows paths using path.join. We are also updating the try-catch block for the manager directory rename to print a helpful explanation regarding Windows file locks (caused by running dev servers) and immediately abort the build with a clean exit code rather than proceeding to a dynamic-route export failure.
