@@ -934,7 +934,7 @@ Logic: @bo requested following links from Archive.html. This violates Rule 7 (HE
 
 ## [2026-05-11] - @qa
 - Task: Double check how institutes are populated in the workshop manager.
-- Actions: Inspected src/frontend/src/app/manager/components/PresentationsManager.tsx and PostersManager.tsx. Found that the UI uses a presentation-level institutes array to populate the dropdown for each author. The Python extraction script correctly added institute to each author, but omitted the institutes array at the Presentation/Poster level. Because uthor.institute is defined, the UI's useEffect auto-extraction bails out early and fails to auto-populate the dropdown array. Consequently, the <select> has no options matching the uthor.institute, defaulting to '— no institute —'.
+- Actions: Inspected src/frontend/src/app/manager/components/PresentationsManager.tsx and PostersManager.tsx. Found that the UI uses a presentation-level institutes array to populate the dropdown for each author. The Python extraction script correctly added institute to each author, but omitted the institutes array at the Presentation/Poster level. Because uthor.institute is defined, the UI's useEffect auto-extraction bails out early and fails to auto-populate the dropdown array. Consequently, the <select> has no options matching the uthor.institute, defaulting to 'Â— no institute Â—'.
 - Outcome: Verified root cause of UI data mismatch. Formulating QA report for @dev/@bo.
 
 ## [2026-05-11] - @dev
@@ -1446,7 +1446,7 @@ We must:
 
 #### 2. Detailed Data Ingestion Mapping
 - **Metadata**:
-  - Dates: "February 21-23, 1999" (normalized to "February 21â€“23" or "February 21-23, 1999")
+  - Dates: "February 21-23, 1999" (normalized to "February 21Ã¢Â€Â“23" or "February 21-23, 1999")
   - City: "St. Petersburg, Florida"
   - Program URL: "https://www.hems-workshop.org/1stWS/1hems_program.pdf"
   - Program File: "1th_Program.pdf"
@@ -1659,31 +1659,31 @@ We identified that the hover preview url replacement in src/frontend/src/compone
 We will tidy up the corporate sponsor layout in the archive page template (src/frontend/src/app/archive/[year]/page.tsx) to match the tighter visual style. We will reduce card padding to p-2, internal gap to gap-3, and grid gap to gap-2. We will set the logo backdrop padding to p-0.5 to leave exactly 2px of padding, and use line-clamp-2 break-words for the sponsor names to allow two-line wrapping.
 
 
-## 2026-05-23 14:07 — Corporate Sponsor Layout Tidy-Up (@dev)
+## 2026-05-23 14:07 Â— Corporate Sponsor Layout Tidy-Up (@dev)
 - **Objective:** Tidy up the corporate sponsor section on the archive template.
 - **Log Size vs Backdrop:** Reduced padding around logo image from p-2 to p-[2px] to maximize image surface area while guaranteeing a minimum 2px white padding. Logo container size adjusted to h-12 w-20 to keep the layout compact and uniform.
 - **Spacing Reduction:** Decreased card gap vertically and horizontally by changing container grid to grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2. Tightened the card padding to p-2 and inner gap to gap-3.
 - **Sponsor Name Wrapping:** Removed truncate limit. Enabled multi-line text flow using line-clamp-2 break-words with text-xs leading-tight to let the sponsor name wrap up to two lines cleanly without overflows.
 - **Verification:** Ran successful npm run build static compilation check on the Next.js frontend application with zero errors, then successfully restored the local development environment (npm run dev task-1569).
 
-## 2026-05-23 14:12 — Logo Backdrop Dimension Optimization (@dev)
+## 2026-05-23 14:12 Â— Logo Backdrop Dimension Optimization (@dev)
 - **Objective:** Increase the sponsor logo white backdrop size back to its original h-20 w-32 dimensions while retaining the tight 2px padding, maximizing active logo size within the grid.
 - **Log Size vs Backdrop:** Restored logo wrapper container size to h-20 w-32. Kept 2px padding (p-[2px]) and updated image width/height inside to 124x76 to allow logos to scale up to the maximum dimensions allowed by the original backdrop size.
 - **Verification Plan:** Compile with static HTML export build (npm run build) to ensure complete TypeScript correctness, then restart Next.js dev server.
 
-## 2026-05-23 14:14 — Fluid Grid & Minimum Card Width Optimization (@dev)
+## 2026-05-23 14:14 Â— Fluid Grid & Minimum Card Width Optimization (@dev)
 - **Objective:** Increase the minimum width of each sponsor container by approximately 25% to prevent name squishing and improve the layout balance.
 - **Log Size vs Backdrop:** Transitioned the hardcoded sponsor grid (grid-cols-2 md:grid-cols-3 lg:grid-cols-4) to a highly fluid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] system. This dynamically guarantees a minimum width of 200px for every card (a ~25% increase from the previous ~160px layout on narrow screens) while automatically calculating the optimal column count across all devices.
 - **Verification Plan:** Verify compile success with npm run build, and then restart the Next.js dev server.
 
-## 2026-05-23 15:10 — Sponsor Card Min-Width Enlargement & Clamping Removal (@dev)
+## 2026-05-23 15:10 Â— Sponsor Card Min-Width Enlargement & Clamping Removal (@dev)
 - **Objective:** Eliminate sponsor name truncation and ensure the minimum card width has ample space for the logo and the longest word, like Technologies.
 - **Log Size vs Backdrop:**
   1. Removed line-clamp-2 from the sponsor name heading to completely prevent any ellipsis truncation, letting the name flow onto multiple lines naturally.
   2. Increased the dynamic grid minimum card width from 200px to 280px using grid-cols-[repeat(auto-fill,minmax(280px,1fr))]. With the 128px logo, 12px gap, and 16px padding, this guarantees at least 124px of horizontal space for the text block, which is more than enough to fit long words like Technologies (~84px wide at 12px bold font) on a single line without breaking.
 - **Verification:** Verify static compilation with npm run build, and then restart the Next.js dev server.
 
-## 2026-05-23 16:22 — Mathematical Sponsor Card Min-Width Calibration (@dev)
+## 2026-05-23 16:22 Â— Mathematical Sponsor Card Min-Width Calibration (@dev)
 - **Objective:** Redo the mathematical calculation to set the pure horizontal space of the text block to exactly 90px, ensuring words like Technologies fit perfectly while making the cards as compact as possible.
 - **Math Calculation:**
   - Logo container: 128px (w-32)
@@ -1694,17 +1694,17 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
 - **Log Size vs Backdrop:** Updated the grid container's dynamic minmax values to minmax(246px, 1fr).
 - **Verification Plan:** Verify static compilation with npm run build, and then restart the Next.js dev server.
 
-## 2026-05-26 21:56 — Local Host Environment Refresh (@ops)
+## 2026-05-26 21:56 Â— Local Host Environment Refresh (@ops)
 - **Objective:** Verify and guarantee that the HEMS website is actively running on the local host as requested by @bo.
 - **Log Size vs Backdrop:** Refreshed and verified the background runner process. Restarted the local development server (npm run dev) to ensure all static assets, schema modifications, and layout styles are freshly mounted and served.
 - **Verification Plan:** Verify task status shows active dev server on http://localhost:3000.
 
-## 2026-05-26 22:00 — DevOps Authentication & Integration Audit (@ops)
+## 2026-05-26 22:00 Â— DevOps Authentication & Integration Audit (@ops)
 - **Objective:** Audit and document the git configuration, Firebase authentication, and Google Cloud credentials status on the local host, ensuring the CI/CD pipeline is ready for atomic operations.
 - **Log Size vs Backdrop:** Ran validation checks on git config, firebase projects:list, and gcloud auth list to confirm session logins.
 - **Verification Plan:** Verify stdout of authentication queries.
 
-## 2026-05-26 22:06 — Git Atomic Execution for User Session Sync (@ops)
+## 2026-05-26 22:06 Â— Git Atomic Execution for User Session Sync (@ops)
 - **Objective:** Complete the git staging, commit, pull, and push sequence on behalf of the user, bypassing their local terminal environment PATH constraints.
 - **Action Steps:**
   1. Staged the verified data changes: src/frontend/src/data/archives/2025.json and src/frontend/src/data/master_workshops.json.
@@ -1712,12 +1712,12 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
   3. Ran safe sync: git pull --rebase origin main and git push origin main.
 - **Verification Plan:** Verify stdout of remote git push.
 
-## 2026-05-26 22:10 — GCloud Reauth Diagnostics (@ops)
+## 2026-05-26 22:10 Â— GCloud Reauth Diagnostics (@ops)
 - **Objective:** Diagnose the GCloud / gsutil login failure on the Push to Live button and provide a resolution workflow.
 - **Diagnostics:** Ran test gsutil ls gs://hems-workshop-archives/ which failed with google_reauth.errors.ReauthUnattendedError. This indicates that Google Cloud SDK requires interactive re-authentication which fails in dynamic child processes.
 - **Resolution:** Instruct the user to run gcloud auth login webmaster@hems-workshop.org in their local interactive terminal.
 
-## 2026-05-27 08:26 — GCS Credentials Override Conflict Resolution (@ops)
+## 2026-05-27 08:26 Â— GCS Credentials Override Conflict Resolution (@ops)
 - **Objective:** Fix the persistent login issue on GCloud sync where gsutil complained about re-authorization despite the user being logged in.
 - **Diagnostics & Logic:**
   - Ran a verbose trace (gsutil -d ls) and identified that gsutil was loading a legacy .boto config file located in C:\Users\ryanb\AppData\Roaming\gcloud\legacy_credentials\webmaster@hems-workshop.org\.boto.
@@ -1729,7 +1729,7 @@ We will tidy up the corporate sponsor layout in the archive page template (src/f
   - This confirms that gsutil now successfully loads credentials directly from the active gcloud config, eliminating the login error completely.
 - **Verification Plan:** Verify Push to Live button works cleanly now.
 
-## 2026-05-27 08:45 — Unified Direct GCS, Git & Firebase Deploy Sync (@ops)
+## 2026-05-27 08:45 Â— Unified Direct GCS, Git & Firebase Deploy Sync (@ops)
 - **Objective:** Fix the Push to Live child process authentication block and perform a direct, unified sync across GCloud, Git, and Firebase Hosting.
 - **Diagnostics & Logic:**
   - Checked the Next.js dev server log tail and discovered that spawning gsutil rsync inside a child process under the IDE execution environment resulted in an Anonymous caller 401 block, because the child shell session did not import the user's active AppData credential folder or oauth2client paths.
@@ -2274,9 +2274,29 @@ We are validating the completed implementation of the Workshop Manager Asset Sta
 We are updating the check-file API route to generate and return separate URLs for local (localhost:3000), dev (Firebase web.app), and release (live domain) targets. We will modify DragDropZone.tsx to fetch, store, and display these three URLs with clear labels under the Public Website URLs header.
 
 
+We are editing src/frontend/src/app/api/manager/check-file/route.ts to run a fetch HEAD check on the GCloud URL to set gcloudExists and generate a console link to the bucket proceedings/sponsors subfolder.
+
+
+## SCoT Log - Verification and Walkthrough Finalization
+We are validating the completed implementation of the Workshop Manager Asset Status Overhaul. The Next.js production build succeeded with zero errors, confirming typescript safety and syntax correctness. We are updating the task checklist and walkthrough documents to reflect that the GCloud URL state querying, local directory explorer opening, drag-and-drop file deletion, and parent sheet preview cleanup features have been fully implemented and verified.
+
+
+## SCoT Log - Public Website URL Refinement
+We are updating the check-file API route to generate and return separate URLs for local (localhost:3000), dev (Firebase web.app), and release (live domain) targets. We will modify DragDropZone.tsx to fetch, store, and display these three URLs with clear labels under the Public Website URLs header.
+
+
 ## SCoT Log - PreviewHover on Local Target Path
 We are importing PreviewHover inside DragDropZone.tsx and wrapping the local target path anchor tag within the PreviewHover component. This will maintain the helpful file/abstract content previews directly on hover over the target path link in the file details card, restoring the lost preview functionality while retaining the open-folder click capability.
 
 
 ## SCoT Log - Production Build Resiliency & Path Normalization
 We are refactoring scripts/build-prod.js to use the path module and generate standard cross-platform backslash-normalized Windows paths using path.join. We are also updating the try-catch block for the manager directory rename to print a helpful explanation regarding Windows file locks (caused by running dev servers) and immediately abort the build with a clean exit code rather than proceeding to a dynamic-route export failure.
+
+
+## SCoT Log - Push to Live Windows Resolution
+We are diagnosing the Windows EPERM file-locking paradox: when the Push to Live API is called from the browser, it is served by the Next.js dev server, which holds file locks on src/app/manager. The build script build-prod.js tries to rename these folders, which triggers a Windows EPERM failure. To resolve this, we are creating a dedicated scripts/push-to-live.js script and adding a push-to-live npm script in package.json. This allows the user to stop the dev server, run a clean push-to-live from their terminal, and restart the dev server afterward, fully bypassing Windows file locks.
+
+
+## SCoT Log - Startup and Next.js Dev Server Launch
+Task: Startup and start the local development server.
+Logic: The user requested starting the local server as @ops. Under the Scrum Rules, since a new conversation has begun, we are performing the Cold Start initialization. We will read the project documentation (such as docs/implementation_plan.md and .agents/handover.md) to understand the tech stack and local settings. Then, we will start the Next.js development server.
