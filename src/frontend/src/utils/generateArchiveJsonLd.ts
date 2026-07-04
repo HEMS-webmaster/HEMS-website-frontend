@@ -199,9 +199,15 @@ export function generateArchiveJsonLd(data: any): JsonLdEvent {
             sessionEvent.workPerformed = item.talks
               .filter((talk: any) => talk.title && talk.type !== 'event')
               .map((talk: any) => {
-                const article: JsonLdArticle = {
+                const article: any = {
                   '@type': 'ScholarlyArticle',
                   name: talk.title,
+                  isAccessibleForFree: "False",
+                  hasPart: {
+                    '@type': 'WebPageElement',
+                    isAccessibleForFree: 'False',
+                    cssSelector: '.gated-pdf-content'
+                  }
                 };
                 const authors = extractAuthors(talk.authors);
                 if (authors.length > 0) {

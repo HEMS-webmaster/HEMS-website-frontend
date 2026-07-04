@@ -31,6 +31,7 @@
           "location": "Chair: Patricia Beauchamp, Jet Propulsion Laboratory",
           "talks": [
             {
+              "id": "2002-pres-beauchamp-novel-mass-spectrometric-approaches",
               "time": "8:45 a.m.",
               "title": "Novel Mass Spectrometric Approaches to the In situ Chemical Analysis of Galactic and Cometary Dust Particles",
               "institutes": [
@@ -63,6 +64,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_I__Space_Environments/3rd_Beauchamp_Novel_Mass_Spectrometric_Abstract.pdf"
             },
             {
+              "id": "2002-pres-mahaffy-mass-spectrometers-in-deep",
               "time": "9:45 a.m.",
               "title": "Mass Spectrometers in Deep Space Missions",
               "institutes": [
@@ -95,6 +97,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_I__Space_Environments/3rd_Mahaffy_Mass_Spectrometers_in_Abstract.pdf"
             },
             {
+              "id": "2002-pres-ottens-quadrupole-ion-trap-mass",
               "time": "10:15 a.m.",
               "title": "Quadrupole Ion Trap Mass Spectrometry for Space Shuttle Ground Support",
               "institutes": [
@@ -134,6 +137,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_I__Space_Environments/3rd_Ottens_Quadrupole_Ion_Trap_Abstract.pdf"
             },
             {
+              "id": "2002-pres-diaz-test-of-the-a",
               "time": "11:00 a.m.",
               "title": "Test of the a Miniature Double-Focusing Mass Spectrometer for the Variable Specific Magnetoplasma Rocket (VASIMR) at the Advanced Space Propulsion Laboratory (ASPL)",
               "institutes": [
@@ -194,6 +198,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_I__Space_Environments/3rd_Diaz_Test_of_the_Abstract.pdf"
             },
             {
+              "id": "2002-pres-hoffman-regolith-evolved-gas-analyzer",
               "time": "11:30 a.m.",
               "title": "Regolith Evolved Gas Analyzer (REGA): An Instrument to Characterize the Martian Soil Mineralogy and Atmospheric Composition",
               "institutes": [
@@ -224,6 +229,7 @@
           "location": "Chair: R. Timothy Short, University of South Florida",
           "talks": [
             {
+              "id": "2002-pres-delaney-the-neptune-project-an",
               "time": "1:30 p.m.",
               "title": "The NEPTUNE Project: An Interactive Earth-Ocean Observatory at the Scale of a Tectonic Plate",
               "institutes": [
@@ -246,6 +252,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications/3rd_Delaney_The_NEPTUNE_Project_Abstract.pdf"
             },
             {
+              "id": "2002-pres-hemond-underwater-mass-spectrometers-some",
               "time": "2:30 p.m.",
               "title": "Underwater Mass Spectrometers: Some Critical Engineering Issues",
               "institutes": [
@@ -273,6 +280,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications/3rd_Hemond_Underwater_Mass_Spectrometers_Abstract.pdf"
             },
             {
+              "id": "2002-pres-kibelka-underwater-mass-spectrometers-for",
               "time": "3:00 p.m.",
               "title": "Underwater Mass Spectrometers for Detection of VOCs and Dissolved Gases",
               "institutes": [
@@ -305,6 +313,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications/3rd_Kibelka_Underwater_Mass_Spectrometers_Abstract.pdf"
             },
             {
+              "id": "2002-pres-mcmurtry-mass-surfer-field-mass",
               "time": "3:45 p.m.",
               "title": "Mass SURFER Field Mass Spectrometer System for Deep Ocean and Planetary Lander Applications",
               "institutes": [
@@ -333,6 +342,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Mass_Spectrometers_for_Underwater_Applications/3rd_McMurtry_Mass_SURFER_Field_Abstract.pdf"
             },
             {
+              "id": "2002-pres-camilli-multisensor-data-integration-and",
               "time": "4:15 p.m.",
               "title": "Multisensor Data Integration and Adaptive Sampling Strategies for an Autonomous Underwater Mass Spectrometer",
               "institutes": [
@@ -367,6 +377,7 @@
           "title": "Poster Session",
           "talks": [
             {
+              "id": "2002-poster-jimenez-airborne-deployment-of-the",
               "time": "16:45",
               "title": "Airborne Deployment of the Aerosol Mass Spectrometer during the ACE-Asia Field Campaign",
               "institutes": [
@@ -421,6 +432,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Jimenez_Airborne_Deployment_of_Abstract.pdf"
             },
             {
+              "id": "2002-poster-short-microfabrication-of-cylindrical-ion",
               "time": "16:45",
               "title": "Microfabrication of Cylindrical Ion Trap Mass Spectrometer Arrays",
               "institutes": [
@@ -464,6 +476,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Short_Microfabrication_of_Cylindrical_Abstract.pdf"
             },
             {
+              "id": "2002-poster-mueller-adaptation-of-a-commercially",
               "time": "16:45",
               "title": "Adaptation of a commercially available RGA for use onboard the ISS",
               "institutes": [
@@ -502,6 +515,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Mueller_Adaptation_of_a_Abstract.pdf"
             },
             {
+              "id": "2002-poster-holland-miniaturized-gcms-instrumentation-mems-based",
               "time": "16:45",
               "title": "Miniaturized GC/MS Instrumentation: MEMS-based Gas Chromatography Coupled with Miniature Quadrupole Array and Paul Ion Trap Mass Spectrometers",
               "institutes": [
@@ -539,6 +553,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Holland_Miniaturized_GCMS_Instrumentation_Abstract.pdf"
             },
             {
+              "id": "2002-poster-brinckerhoff-dual-source-time-of-flight-mass",
               "time": "16:45",
               "title": "Dual Source Time-of-Flight Mass Spectrometer and Sample Handling System",
               "institutes": [
@@ -572,6 +587,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Brinckerhoff_Dual_Source_TimeofFlight_Abstract.pdf"
             },
             {
+              "id": "2002-poster-diaz-real-time-volcanic-gas",
               "time": "16:45",
               "title": "Real Time Volcanic Gas Monitoring Station using \"In-Situ\" Mass Spectrometry at Irazu Volcano",
               "institutes": [
@@ -627,6 +643,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Diaz_Real_Time_Volcanic_Abstract.pdf"
             },
             {
+              "id": "2002-poster-appelhans-ion-trap-secondary-ion",
               "time": "16:45",
               "title": "Ion Trap Secondary Ion Mass Spectrometry - Moving Toward Fieldable Systems",
               "institutes": [
@@ -654,6 +671,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Appelhans_Ion_Trap_Secondary_Abstract.pdf"
             },
             {
+              "id": "2002-poster-ecelberger-the-improved-teeny-tof-mass",
               "time": "16:45",
               "title": "The Improved Teeny-TOF Mass Spectrometer for Chemical and Biological Sensing",
               "institutes": [
@@ -686,6 +704,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Ecelberger_The_Improved_TeenyTOF_Abstract.pdf"
             },
             {
+              "id": "2002-poster-viktorova-multimembrane-inlet-system-for",
               "time": "16:45",
               "title": "Multimembrane Inlet System for Mass Spectrometry Analysis",
               "institutes": [
@@ -752,6 +771,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Viktorova_Multimembrane_Inlet_System_Abstract.pdf"
             },
             {
+              "id": "2002-poster-yu-a-high-performance-handheld-gas",
               "time": "16:45",
               "title": "A High-Performance Handheld Gas Chromatograph",
               "institutes": [
@@ -774,6 +794,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Yu_A_HighPerformance_Handheld_Abstract.pdf"
             },
             {
+              "id": "2002-poster-hart-detection-of-unknown-agents",
               "time": "16:45",
               "title": "Detection of 'Unknown Agents' in Harsh Environments using a Newly Developed Ruggedized Mass Spectrometer",
               "institutes": [
@@ -821,6 +842,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Posters/3rd_Hart_Detection_of_Unknown_Abstract.pdf"
             },
             {
+              "id": "2002-poster-gonin-a-rugged-and-compact",
               "time": "16:45",
               "title": "A Rugged and Compact Time-of-Flight Mass Spectrometer for Fast and Sensitive Leak Detection",
               "institutes": [
@@ -886,6 +908,7 @@
           "location": "Chair: Gottfried Kibelka, University of South Florida",
           "talks": [
             {
+              "id": "2002-pres-meuzelaar-mapping-and-monitoring-complex",
               "time": "9:30 a.m.",
               "title": "Mapping and Monitoring Complex Chemical Components in Ambient Air using Fast GC/MS and Multivariate Data Analysis",
               "institutes": [
@@ -913,6 +936,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_III__Earth_Environments/3rd_Meuzelaar_Mapping_and_Monitoring_Abstract.pdf"
             },
             {
+              "id": "2002-pres-syage-field-portable-fast-gctofms",
               "time": "10:30 a.m.",
               "title": "Field-Portable, Fast GC/TOFMS",
               "institutes": [
@@ -945,6 +969,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_III__Earth_Environments/3rd_Syage_FieldPortable_Fast_GCTOFMS_Abstract.pdf"
             },
             {
+              "id": "2002-pres-viktorova-portable-double-focus-mass-spectrograph",
               "time": "11:15 a.m.",
               "title": "Portable Double-Focus Mass Spectrograph with Multymembrane Inlet",
               "institutes": [
@@ -977,6 +1002,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_III__Earth_Environments/3rd_Viktorova_Portable_DoubleFocus_Mass_Abstract.pdf"
             },
             {
+              "id": "2002-pres-eckenrode-addressing-forensic-field-analytical",
               "time": "11:45 a.m.",
               "title": "Addressing Forensic Field Analytical Chemistry Issues",
               "institutes": [
@@ -1034,6 +1060,7 @@
           "location": "Chair: Mahadeva Sinha, Jet Propulsion Laboratory",
           "talks": [
             {
+              "id": "2002-pres-basile-detection-of-microorganisms-with",
               "time": "1:30 p.m.",
               "title": "Detection of Microorganisms with MS: Field-Portable Instrumentation and Innovative Methodology",
               "institutes": [
@@ -1083,6 +1110,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_IV__Bio_applications/3rd_Basile_Detection_of_Microorganisms_Abstract.pdf"
             },
             {
+              "id": "2002-pres-gardner-design-of-a-novel",
               "time": "2:00 p.m.",
               "title": "Design of a Novel Miniature MALDI-TOF Mass Spectrometer for High Throughput Medical Screening",
               "institutes": [
@@ -1115,6 +1143,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_IV__Bio_applications/3rd_Gardner_Design_of_a_Abstract.pdf"
             },
             {
+              "id": "2002-pres-bryden-fieldable-maldi-tof-bioaerosol-analysis",
               "time": "2:30 p.m.",
               "title": "Fieldable MALDI-TOF Bioaerosol Analysis System",
               "institutes": [
@@ -1145,6 +1174,7 @@
           "location": "Chair: Paul Wennberg, California Institute of Technology",
           "talks": [
             {
+              "id": "2002-pres-chutjian-miniature-mass-spectrometers-and",
               "time": "3:15 p.m.",
               "title": "Miniature Mass Spectrometers and Front-End Interfaces",
               "institutes": [
@@ -1183,6 +1213,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_V__Novel_Concepts___Miniaturization/3rd_Chutjian_Miniature_Mass_Spectrometers_Abstract.pdf"
             },
             {
+              "id": "2002-pres-arkin-evaluation-of-small-mass",
               "time": "4:15 p.m.",
               "title": "Evaluation of Small Mass Spectrometer Systems as Candidates for the Development of Miniature Mass Spectrometer Systems",
               "institutes": [
@@ -1238,6 +1269,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_V__Novel_Concepts___Miniaturization/3rd_Arkin_Evaluation_of_Small_Abstract.pdf"
             },
             {
+              "id": "2002-pres-moxom-miniature-cylindrical-ion-trap",
               "time": "4:45 p.m.",
               "title": "Miniature cylindrical ion trap mass spectrometry",
               "institutes": [
@@ -1275,6 +1307,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_V__Novel_Concepts___Miniaturization/3rd_Moxom_Miniature_cylindrical_ion_Abstract.pdf"
             },
             {
+              "id": "2002-pres-myung-a-liga-fabricated-two-dimensional",
               "time": "5:15 p.m.",
               "title": "A LIGA Fabricated Two-Dimensional Quadrupole Array for High Resolution Mass Spectroscopy",
               "institutes": [
@@ -1317,6 +1350,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_V__Novel_Concepts___Miniaturization/3rd_Myung_A_LIGA_Fabricated_Abstract.pdf"
             },
             {
+              "id": "2002-pres-scheidemann-concept-for-a-miniaturized",
               "time": "5:45 p.m.",
               "title": "Concept for a Miniaturized Confocal Plane Mass Spectrometer using Micromachined Detector Array",
               "institutes": [
@@ -1364,6 +1398,7 @@
           "location": "Chair: Dean Wiberg, Jet Propulsion Laboratory",
           "talks": [
             {
+              "id": "2002-pres-muntz-the-technical-issues-associated",
               "time": "8:45 a.m.",
               "title": "The Technical Issues Associated with Highly Miniaturized Vacuum Systems",
               "institutes": [
@@ -1386,6 +1421,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues/3rd_Muntz_The_Technical_Issues_Abstract.pdf"
             },
             {
+              "id": "2002-pres-eyre-meso-scale-scroll-pump-array",
               "time": "9:45 a.m.",
               "title": "Meso-Scale Scroll Pump Array Fabricated using LIGA Technology for Portable, High-resolution Mass Spectrometer",
               "institutes": [
@@ -1428,6 +1464,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues/3rd_Eyre_MesoScale_Scroll_Pump_Abstract.pdf"
             },
             {
+              "id": "2002-pres-moore-performance-analysis-for-meso-scale",
               "time": "10:30 a.m.",
               "title": "Performance Analysis for Meso-Scale Scroll Pumps",
               "institutes": [
@@ -1480,6 +1517,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues/3rd_Moore_Performance_Analysis_for_Abstract.pdf"
             },
             {
+              "id": "2002-pres-young-the-knudsen-compressor-as",
               "time": "11:00 a.m.",
               "title": "The Knudsen Compressor as an Energy Efficient Micro-Scale Vacuum Pump",
               "institutes": [
@@ -1518,6 +1556,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues/3rd_Young_The_Knudsen_Compressor_Abstract.pdf"
             },
             {
+              "id": "2002-pres-tsao-mems-based-low-flow-meters",
               "time": "11:30 a.m.",
               "title": "MEMS-based Low-Flow Meters",
               "institutes": [
@@ -1558,6 +1597,7 @@
           "location": "Chair: Merrilee Fellows, Jet Propulsion Laboratory",
           "talks": [
             {
+              "id": "2002-pres-kardok-the-issues-limiting-large-scale",
               "time": "1:30 p.m.",
               "title": "The Issues Limiting Large-scale Commercialization of Miniature Vacuum Systems",
               "institutes": [
@@ -1580,6 +1620,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Commercialization_Issues/3rd_Kardok_The_Issues_Limiting_Abstract.pdf"
             },
             {
+              "id": "2002-pres-kenton-development-of-turbomolecular-pumps",
               "time": "2:30 p.m.",
               "title": "Development of Turbomolecular Pumps for Demanding Environments",
               "institutes": [
@@ -1602,6 +1643,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Commercialization_Issues/3rd_Kenton_Development_of_Turbomolecular_Abstract.pdf"
             },
             {
+              "id": "2002-pres-rowan-miniature-turbo-molecular-pump",
               "time": "3:00 p.m.",
               "title": "Miniature Turbo-molecular Pump",
               "institutes": [
@@ -1629,6 +1671,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Commercialization_Issues/3rd_Rowan_Miniature_Turbomolecular_Pump_Abstract.pdf"
             },
             {
+              "id": "2002-pres-adams-ksc-miniature-rugged-mass",
               "time": "3:45 p.m.",
               "title": "KSC Miniature, Rugged Mass Spectrometer Applications and Development Progress",
               "institutes": [
@@ -1667,6 +1710,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Commercialization_Issues/3rd_Adams_KSC_Miniature_Rugged_Abstract.pdf"
             },
             {
+              "id": "2002-pres-feldman-miniature-peristaltic-vacuum-pump",
               "time": "4:15 p.m.",
               "title": "Miniature Peristaltic Vacuum Pump with Magnetic Actuation",
               "institutes": [
@@ -1694,6 +1738,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/3rd/Technical_Session_II__Commercialization_Issues/3rd_Feldman_Miniature_Peristaltic_Vacuum_Abstract.pdf"
             },
             {
+              "id": "2002-pres-sinha-development-of-a-miniature",
               "time": "4:45 p.m.",
               "title": "Development of a Miniature Lightweight Ion Pump",
               "institutes": [

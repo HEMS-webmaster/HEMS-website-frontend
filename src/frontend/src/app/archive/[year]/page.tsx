@@ -7,6 +7,8 @@ import { promises as fs } from "fs";
 import FrontendPreviewHover from "@/components/FrontendPreviewHover";
 import CollapsiblePosterList from "@/components/CollapsiblePosterList";
 import { generateArchiveJsonLd } from "@/utils/generateArchiveJsonLd";
+import DownloadGate from "@/components/DownloadGate";
+import CitationButton from "@/components/CitationButton";
 export async function generateStaticParams() {
   const dataDir = path.join(process.cwd(), 'src', 'data', 'archives');
   let files = [];
@@ -287,7 +289,8 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-    <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
+      <DownloadGate>
+        <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
       <Link href="/archive" className="flex items-center gap-2 text-primary font-bold hover:text-primary/80 transition-colors mb-8 w-fit">
         <ArrowLeft size={16} /> Back to Archives
       </Link>
@@ -665,7 +668,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                      : (talk.public_abstract_url || (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url));
 
                               return (
-                                <div key={tIdx} className="py-2 first:pt-0 last:pb-0 flex flex-col md:flex-row gap-4">
+                                <div key={tIdx} id={talk.id} className="py-2 first:pt-0 last:pb-0 flex flex-col md:flex-row gap-4 scroll-mt-28">
                                   {/* Time — right-justified in the shared left column */}
                                   <div className="md:w-48 flex-shrink-0 md:text-right">
                                     {talk.time && !isPosterSession && (
@@ -674,13 +677,24 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                   </div>
                                   {/* Content */}
                                   <div className="flex-1">
-                                    <div className="text-sm font-bold">
+                                    <div className="text-sm font-bold flex items-center flex-wrap">
                                       {presUrl ? (
                                         <FrontendPreviewHover href={presUrl} title={talk.title}>
                                           <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words leading-snug">{talk.title}</a>
                                         </FrontendPreviewHover>
                                       ) : (
                                         <span className="text-foreground/60 break-words leading-snug">{talk.title}</span>
+                                      )}
+                                      {talk.id && (
+                                        <CitationButton
+                                          title={talk.title}
+                                          authors={Array.isArray(talk.authors) ? talk.authors : (typeof talk.authors === 'string' ? talk.authors.split(',').map((name: string) => ({ name: name.trim() })) : [])}
+                                          year={parseInt(year)}
+                                          workshopName={data.title || `${data.ordinal} HEMS Workshop`}
+                                          location={data.address || data.city || ""}
+                                          id={talk.id}
+                                          type={isPosterSession ? "poster" : "pres"}
+                                        />
                                       )}
                                     </div>
                                     <p className="text-sm text-foreground/70 mt-1">{authorElements}</p>
@@ -709,6 +723,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
           </div>
         </div>
       </div>
+      </DownloadGate>
     </>
   );
 }

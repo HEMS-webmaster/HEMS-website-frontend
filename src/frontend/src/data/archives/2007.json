@@ -13,7 +13,7 @@
     {
       "label": "Program Download",
       "icon": "Download",
-      "legacy_url": "https://www.hems-workshop.org/6thWS/6thprogrampresentations1.html",
+      "legacy_url": "https://www.hems-workshop.org/6thWS/HEMS_2007_Program.pdf",
       "local_target_path": "/api/manager/serve?file=6th/Administrative/6th_Program.pdf",
       "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/6th/Administrative/6th_Program.pdf",
       "gcloud_url": "gs://hems-workshop-archives/proceedings/6th/Administrative/6th_Program.pdf"
@@ -118,6 +118,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2007-pres-unknown-novel-ion-traps-using",
               "time": "9:00 a.m.",
               "title": "Novel Ion Traps using Planar Resistive Electrodes: Implications for Miniaturized Mass Analyzers",
               "institutes": [
@@ -140,6 +141,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_I__Instrumentation___Novel_MS_Designs/6th_Austin_Novel_Ion_Traps_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-the-gated-electrostatic-mass",
               "time": "9:30 a.m.",
               "title": "The Gated Electrostatic Mass Spectrometer ",
               "institutes": [
@@ -162,6 +164,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_I__Instrumentation___Novel_MS_Designs/6th_Herrero_The_Gated_Electrostatic_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-mems-assembled-ion-optical",
               "time": "10:30 a.m.",
               "title": "MEMS Assembled Ion Optical Devices: Current Technology and a Look at Advantages and Disadvantages",
               "institutes": [
@@ -184,6 +187,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_I__Instrumentation___Novel_MS_Designs/6th_IV_MEMS_Assembled_Ion_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-a-single-chip-mass",
               "time": "11:00 a.m.",
               "title": "A Single Chip Mass Spectrometer in MEMS Technology",
               "institutes": [
@@ -206,6 +210,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_I__Instrumentation___Novel_MS_Designs/6th_Hauschild_A_Single_Chip_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-a-microfabricated-cylindrical-ion",
               "time": "11:30 a.m.",
               "title": "A Microfabricated Cylindrical Ion Trap Array for Batch Production of Small Chemical Sensors",
               "institutes": [
@@ -235,6 +240,7 @@
           "title": "Poster Session",
           "talks": [
             {
+              "id": "2007-poster-cheung-first-principles-optimization-of",
               "time": "13:30",
               "title": "First principles optimization of mass producible microscaled linear quadrupoles for operation in higher stability regions",
               "institutes": [
@@ -257,6 +263,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Cheung_First_principles_optimization_Abstract.pdf"
             },
             {
+              "id": "2007-poster-duckworth-electrochemically-modulated-separation-and-mass",
               "time": "13:30",
               "title": "Electrochemically-Modulated Separation and Mass Spectrometric Analysis of Actinides in Difficult Matrices",
               "institutes": [
@@ -279,6 +286,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Duckworth_ElectrochemicallyModulated_Separation_and_Abstract.pdf"
             },
             {
+              "id": "2007-poster-gardner-charting-our-course-for",
               "time": "13:30",
               "title": "Charting Our Course for the Future",
               "institutes": [
@@ -301,6 +309,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2007-poster-hodyss-laser-ablation-ion-funnel",
               "time": "13:30",
               "title": "Laser Ablation Ion Funnel (LAIF) for In-Situ Mass Spectrometry on Mars",
               "institutes": [
@@ -323,6 +332,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Hodyss_Laser_Ablation_Ion_Abstract.pdf"
             },
             {
+              "id": "2007-poster-kwasnik-a-novel-resistive-glass",
               "time": "13:30",
               "title": "A Novel Resistive Glass Atmospheric Pressure Ion Mobility Mass Spectrometer",
               "institutes": [
@@ -345,6 +355,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Kwasnik_A_Novel_Resistive_Abstract.pdf"
             },
             {
+              "id": "2007-poster-neidholdt-compact-ambient-pressure-pyroelectric",
               "time": "13:30",
               "title": "Compact Ambient Pressure Pyroelectric Ion Source for Harsh Environment Mass Spectrometry",
               "institutes": [
@@ -367,6 +378,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Neidholdt_Compact_Ambient_Pressure_Abstract.pdf"
             },
             {
+              "id": "2007-poster-niu-magnetic-sector-mass-spectrometers",
               "time": "13:30",
               "title": "Magnetic Sector Mass Spectrometers for Use in Harsh Environments",
               "institutes": [
@@ -389,6 +401,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Niu_Magnetic_Sector_Mass_Abstract.pdf"
             },
             {
+              "id": "2007-poster-russell-detection-of-explosives-using",
               "time": "13:30",
               "title": "Detection of Explosives using a Portable SPME/GC-Cylindrical Ion Trap Mass Spectrometer",
               "institutes": [
@@ -411,6 +424,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Russell_Detection_of_Explosives_Abstract.pdf"
             },
             {
+              "id": "2007-poster-spencer-designing-a-compact-exb",
               "time": "13:30",
               "title": "Designing a Compact ExB Spectrometer Using SolidEdge™ STL Files with Simion™ and 3-D Plastic Prototype Printer",
               "institutes": [
@@ -433,6 +447,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Spencer_Designing_a_Compact_Abstract.pdf"
             },
             {
+              "id": "2007-poster-taylor-a-design-and-simulation",
               "time": "13:30",
               "title": "A Design and Simulation Tool for Miniature Mass Spectrometers",
               "institutes": [
@@ -455,6 +470,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Posters/6th_Taylor_A_Design_and_Abstract.pdf"
             },
             {
+              "id": "2007-poster-toler-real-time-monitoring-of",
               "time": "13:30",
               "title": "Real Time Monitoring of Processes in Permeable Sediments by Underwater Mass Spectrometry",
               "institutes": [
@@ -485,6 +501,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2007-pres-unknown-development-of-miniature-mass",
               "time": "3:00 p.m.",
               "title": "Development of Miniature Mass Spectrometry for In-Situ Characterization of the Environment",
               "institutes": [
@@ -507,6 +524,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_II__Field_Applications___Land___Space/6th_Lauritsen_Development_of_Miniature_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-the-development-of-a",
               "time": "3:30 p.m.",
               "title": "The Development of a Vector Neutral Spectrometer for Space Environment Measurements",
               "institutes": [
@@ -529,6 +547,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_II__Field_Applications___Land___Space/6th_Syrstad_The_Development_of_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-mass-spectrometer-based-instrument-for",
               "time": "4:00 p.m.",
               "title": "Mass Spectrometer-based Instrument for Volcanic Gas Monitoring",
               "institutes": [
@@ -564,6 +583,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2007-pres-unknown-field-testing-of-the",
               "time": "9:00 a.m.",
               "title": "Field Testing of the Nereus Network",
               "institutes": [
@@ -586,6 +606,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_III__Field_Applications___Water/6th_Hemond_Field_Testing_of_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-short-term-oxidation-reduction-processes-within",
               "time": "9:30 a.m.",
               "title": "Short-term Oxidation-Reduction Processes within a Hypoxic Estuary, Using an In Situ Mass Spectrometer",
               "institutes": [
@@ -608,6 +629,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_III__Field_Applications___Water/6th_Tueros_Shortterm_OxidationReduction_Processes_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-underwater-mass-spectrometry-developments",
               "time": "10:45 a.m.",
               "title": "Underwater Mass Spectrometry: Developments and Calibration",
               "institutes": [
@@ -630,6 +652,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_III__Field_Applications___Water/6th_Bell_Underwater_Mass_Spectrometry_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-application-of-the-in-spectr",
               "time": "11:15 a.m.",
               "title": "Application of the In-Spectr 200 Membrane Introduction Mass Spectrometer for Measurements of Methane in Lake Constance (Germany) and the Western Baltic Sea",
               "institutes": [
@@ -652,6 +675,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_III__Field_Applications___Water/6th_Schluter_Application_of_the_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-mass-spectrometer-for-mars",
               "time": "11:45 a.m.",
               "title": "Mass Spectrometer for Mars Phoenix Lander",
               "institutes": [
@@ -682,6 +706,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2007-pres-unknown-thermal-desorption-inletting-for",
               "time": "2:30 p.m.",
               "title": "Thermal Desorption Inletting for Portable Mass Spectrometer",
               "institutes": [
@@ -704,6 +729,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_IV__Instrumentation___Interfaces/6th_Cairns_Thermal_Desorption_Inletting_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-implementation-of-dart-and",
               "time": "3:00 p.m.",
               "title": "Implementation of DART and DESI Ionization of a Fieldable Mass Spectrometer",
               "institutes": [
@@ -726,6 +752,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_IV__Instrumentation___Interfaces/6th_Wells_Implementation_of_DART_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-characterization-of-a-multi-port",
               "time": "3:30 p.m.",
               "title": "Characterization of a Multi-Port Inlet on a Rugged Mass Spectrometer",
               "institutes": [
@@ -748,6 +775,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_IV__Instrumentation___Interfaces/6th_Patterson_Characterization_of_a_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-mini-11-handheld-mass",
               "time": "4:00 p.m.",
               "title": "Mini 11 Handheld Mass Spectrometer with Glow Discharge Ion Source and Atmospheric Pressure Interface",
               "institutes": [
@@ -783,6 +811,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2007-pres-unknown-evaluation-of-commercial-mass",
               "time": "8:30 a.m.",
               "title": "Evaluation of Commercial Mass Spectrometers for NASA Applications",
               "institutes": [],
@@ -803,6 +832,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_V__Instrumentation___Miniaturization/6th_Diaz_Evaluation_of_Commercial_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-quadrupole-miniaturization-measured-performance",
               "time": "9:00 a.m.",
               "title": "Quadrupole Miniaturization: Measured Performance for Different Size Quadrupoles",
               "institutes": [
@@ -825,6 +855,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_V__Instrumentation___Miniaturization/6th_Pedder_Quadrupole_Miniaturization_Measured_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-miniature-high-vacuum-pumps",
               "time": "9:30 a.m.",
               "title": "Miniature High Vacuum Pumps for Analytical Instruments",
               "institutes": [
@@ -847,6 +878,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_V__Instrumentation___Miniaturization/6th_KlineSchoder_Miniature_High_Vacuum_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-hand-portable-gc-tms-instrument-for",
               "time": "10:30 a.m.",
               "title": "Hand-Portable GC-TMS Instrument for Measurement of Chemical Agents and Hazardous Compounds in Harsh Environments",
               "institutes": [
@@ -869,6 +901,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/6th/Technical_Session_V__Instrumentation___Miniaturization/6th_Later_HandPortable_GCTMS_Instrument_Abstract.pdf"
             },
             {
+              "id": "2007-pres-unknown-development-of-a-palm",
               "time": "11:00 a.m.",
               "title": "Development of a Palm Portable Mass Spectrometer",
               "institutes": [
@@ -1101,7 +1134,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "ASRC Aerospace Corporation",
+    "url": "http://www.akspace.com/",
+    "logo_file": "ASRC_Aerospace_Corporation.png",
+    "logo_file_url": "/images/sponsors/ASRC_Aerospace_Corporation.png?v=1778596033822"
+  },
   "venue_address_url": "https://maps.app.goo.gl/4KRYzkofahj4K1Ln9",
   "title": "6th HEMS Workshop",
   "tagline": "The 6th Workshop on Harsh-Environment Mass Spectrometry."

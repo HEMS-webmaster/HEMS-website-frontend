@@ -106,6 +106,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-the-ulisses-project-utilization",
               "time": "9:00 a.m.",
               "title": "The ULISSES Project: Utilization In-Situ Airborne MS based Instrumentation for the Study of Gaseous Emissions at Active Volcanoes",
               "institutes": [
@@ -175,6 +176,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_I/7th_Diaz_The_ULISSES_Project_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-discontinuous-atmospheric-pressure-interface",
               "time": "9:30 a.m.",
               "title": "Discontinuous Atmospheric Pressure Interface for Miniature Mass Spectrometers",
               "institutes": [
@@ -215,6 +217,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-hot-cell-mims-direct",
               "time": "10:30 a.m.",
               "title": "Hot Cell MIMS: Direct analysis of semi-VOCs liberated from practically any type of solid sample",
               "institutes": [
@@ -237,6 +240,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_II/7th_Lauritsen_Hot_Cell_MIMS_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-magnet-portable-mass-spectrometer",
               "time": "11:00 a.m.",
               "title": "Magnet portable mass spectrometer with membrane inlet system",
               "institutes": [
@@ -274,6 +278,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_II/7th_Vlasov_Magnet_portable_mass_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-a-compact-stand-alone-integrated",
               "time": "11:30 a.m.",
               "title": "A Compact, Stand-Alone, Integrated MS/Vacuum Package",
               "institutes": [
@@ -308,6 +313,7 @@
           "title": "Poster Session",
           "talks": [
             {
+              "id": "2009-poster-beegle-development-of-an-appis-ims",
               "time": "13:30",
               "title": "Development of an APPIS-IMS Instrument for space applications",
               "institutes": [
@@ -350,6 +356,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Beegle_Development_of_an_Abstract.pdf"
             },
             {
+              "id": "2009-poster-carpenter-real-time-monitoring-of",
               "time": "13:30",
               "title": "Real Time Monitoring of Pilot-Scale Biomass Gasification Using a Molecular Beam Mass Spectrometer",
               "institutes": [
@@ -377,6 +384,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Carpenter_Real_Time_Monitoring_Abstract.pdf"
             },
             {
+              "id": "2009-poster-fox-deployable-remote-miniature-cylindrical",
               "time": "13:30",
               "title": "Deployable Remote Miniature Cylindrical Ion Trap Spectrometer (ReMICIT)",
               "institutes": [
@@ -404,6 +412,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Fox_Deployable_Remote_Miniature_Abstract.pdf"
             },
             {
+              "id": "2009-poster-gentz-online-membrane-inlet-mass",
               "time": "13:30",
               "title": "Online membrane inlet mass spectrometry (Inspectr200-200) for quantification of the methane concentration field around Pockmarks",
               "institutes": [
@@ -431,6 +440,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Gentz_Online_membrane_inlet_Abstract.pdf"
             },
             {
+              "id": "2009-poster-getty-characterization-of-a-carbon",
               "time": "13:30",
               "title": "Characterization of a Carbon Nanotube Field Emission Electron Gun for the VAPOR Miniaturized Pyrolysis-Time-of-Flight Mass Spectrometer",
               "institutes": [
@@ -488,6 +498,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Getty_Characterization_of_a_Abstract.pdf"
             },
             {
+              "id": "2009-poster-hashimoto-high-throughput-detection-of-improvised",
               "time": "13:30",
               "title": "High-throughput detection of improvised explosive devices (IEDs) by walkthrough portal with wire linear ion-trap mass spectrometric technology",
               "institutes": [
@@ -540,6 +551,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Hashimoto_Highthroughput_detection_of_Abstract.pdf"
             },
             {
+              "id": "2009-poster-madrigal-review-of-in-situ-mass",
               "time": "13:30",
               "title": "Review of In-Situ Mass Spectrometers Applied to Volcanic Activity Monitoring",
               "institutes": [
@@ -577,6 +589,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Madrigal_Review_of_InSitu_Abstract.pdf"
             },
             {
+              "id": "2009-poster-manard-differential-mobility-spectrometry",
               "time": "13:30",
               "title": "Differential Mobility Spectrometry / Mass Spectrometry",
               "institutes": [
@@ -604,6 +617,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Manard_Differential_Mobility_Spectrometry_Abstract.pdf"
             },
             {
+              "id": "2009-poster-rathbone-anharmonic-resonant-trap-mass",
               "time": "13:30",
               "title": "Anharmonic Resonant Trap Mass Spectrometry (ART MS)",
               "institutes": [
@@ -636,6 +650,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Rathbone_Anharmonic_Resonant_Trap_Abstract.pdf"
             },
             {
+              "id": "2009-poster-reinhardt-new-structures-and-measurements",
               "time": "13:30",
               "title": "New Structures and Measurements of a Planer Integrated Micro Mass Spectrometer (PIMMS) with Integrated Micro-Channel",
               "institutes": [
@@ -678,6 +693,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Reinhardt_New_Structures_and_Abstract.pdf"
             },
             {
+              "id": "2009-poster-salarzaei-development-and-mathematical-modeling",
               "time": "13:30",
               "title": "Development and mathematical modeling of a Membrane Inlet Mass Spectrometer for environmental monitoring",
               "institutes": [
@@ -726,6 +742,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Salarzaei_Development_and_mathematical_Abstract.pdf"
             },
             {
+              "id": "2009-poster-sorensen-miniature-vacuum-system-for",
               "time": "13:30",
               "title": "Miniature Vacuum System for Portable Instruments",
               "institutes": [
@@ -753,6 +770,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Sorensen_Miniature_Vacuum_System_Abstract.pdf"
             },
             {
+              "id": "2009-poster-spencer-why-high-resolution-mass",
               "time": "13:30",
               "title": "Why High Resolution Mass Spectrometry is Sometimes a Desire - The Problem of Measuring Methane, Ammonia, and Water in a HDT Environment",
               "institutes": [
@@ -775,6 +793,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Spencer_Why_High_Resolution_Abstract.pdf"
             },
             {
+              "id": "2009-poster-toler-underwater-mass-spectrometry-developments",
               "time": "13:30",
               "title": "Underwater Mass Spectrometry: Developments and Deployments",
               "institutes": [
@@ -807,6 +826,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Posters/7th_Toler_Underwater_Mass_Spectrometry_Abstract.pdf"
             },
             {
+              "id": "2009-poster-vlasov-characterization-of-mobile-water",
               "time": "13:30",
               "title": "Characterization of Mobile water mass-spectrometer for direct analysis metals in water samples",
               "institutes": [
@@ -857,6 +877,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-switched-ferroelectric-plasma-ionizer",
               "time": "3:00 p.m.",
               "title": "Switched Ferroelectric Plasma Ionizer (SwiFerr): A Robust Ion Source for Mass Spectrometry in Harsh Environments",
               "institutes": [
@@ -884,6 +905,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_III/7th_Neidholdt_Switched_Ferroelectric_Plasma_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-improving-the-measurement-accuracy",
               "time": "3:30 p.m.",
               "title": "Improving the Measurement Accuracy of Water Partial Pressure Using the Major Constituent Analyzer",
               "institutes": [
@@ -926,6 +948,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_III/7th_Gardner_Improving_the_Measurement_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-e2m-the-enhanced-environmental-mass",
               "time": "4:00 p.m.",
               "title": "E2M-The Enhanced Environmental Mass Spectrometer: Case Studies using the Mobile MS",
               "institutes": [
@@ -971,6 +994,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-mars-phoenix-lander-thermal",
               "time": "8:30 a.m.",
               "title": "Mars Phoenix Lander Thermal and Evolved Gas Analyzer",
               "institutes": [
@@ -993,6 +1017,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_IV/7th_Hoffman_Mars_Phoenix_Lander_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-progress-in-two-plate-ion",
               "time": "9:00 a.m.",
               "title": "Progress in Two-plate Ion Trap Mass Analyzers",
               "institutes": [
@@ -1040,6 +1065,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_IV/7th_Austin_Progress_in_Twoplate_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-chip-scale-quadrupole-mass-filters",
               "time": "9:30 a.m.",
               "title": "Chip-Scale Quadrupole Mass Filters for a Micro-Gas Analyzer",
               "institutes": [
@@ -1080,6 +1106,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-guardiontm-7-hand-portable-gas-chromatograph",
               "time": "10:30 a.m.",
               "title": "GUARDIONTM-7 Hand-Portable Gas Chromatograph- Toroid Ion Trap Mass Spectrometer (GC-TMS): Recent Enhancements and New Applications",
               "institutes": [
@@ -1128,6 +1155,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_V/7th_Later_GUARDIONTM7_HandPortable_Gas_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-high-performance-militarized-mass-spectrometer",
               "time": "11:00 a.m.",
               "title": "High-Performance, Militarized Mass Spectrometer System",
               "institutes": [
@@ -1150,6 +1178,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_V/7th_Syage_HighPerformance_Militarized_Mass_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-autonomous-light-weight-integrated-direct",
               "time": "11:30 a.m.",
               "title": "Autonomous Light-weight Integrated Direct Sampling Mass Spectrometer for TIC and CWA Detection",
               "institutes": [
@@ -1205,6 +1234,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-modeling-the-orion-air",
               "time": "1:30 p.m.",
               "title": "Modeling the Orion Air Monitor",
               "institutes": [
@@ -1237,6 +1267,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_VI/7th_Burchfield_Modeling_the_Orion_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-mars-organic-molecule-analyzer",
               "time": "2:00 p.m.",
               "title": "Mars Organic Molecule Analyzer (MOMA): Instrument Concepts and Results",
               "institutes": [
@@ -1324,6 +1355,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-miniature-qmf-and-lit",
               "time": "3:00 p.m.",
               "title": "Miniature QMF and LIT using LBMT for HEMS Applications",
               "institutes": [
@@ -1386,6 +1418,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_VII/7th_Taylor_Miniature_QMF_and_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-fabrication-and-testing-of",
               "time": "3:30 p.m.",
               "title": "Fabrication and Testing of Micro-cylindrical Ion Trap Arrays for Miniaturized Mass Spectrometer Development",
               "institutes": [
@@ -1418,6 +1451,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_VII/7th_Short_Fabrication_and_Testing_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-achievable-resolution-and-efficiency",
               "time": "4:00 p.m.",
               "title": "Achievable Resolution and Efficiency of Tandem Mass Spectrometry for Sub-mm Ion Traps",
               "institutes": [
@@ -1459,6 +1493,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-status-of-the-rotating",
               "time": "8:30 a.m.",
               "title": "Status of the Rotating Electric Field Ion Mass Spectrograph (REFIMS) and Its Use in the Space Environment",
               "institutes": [
@@ -1481,6 +1516,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_VIII/7th_Clemmons_Status_of_the_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-a-transportable-double-focusing-mass",
               "time": "9:00 a.m.",
               "title": "A Transportable Double-Focusing Mass Spectrometer",
               "institutes": [
@@ -1523,6 +1559,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_VIII/7th_Kibelka_A_Transportable_DoubleFocusing_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-mobile-gcms-and-sampling",
               "time": "9:30 a.m.",
               "title": "Mobile GC/MS and Sampling Tools for Continuous Air Monitoring",
               "institutes": [
@@ -1573,6 +1610,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2009-pres-unknown-redesign-of-the-construction",
               "time": "10:30 a.m.",
               "title": "Redesign of the Construction and Increase in the Performance of the Peripheral Devices of a Micro Mass Spectrometer",
               "institutes": [
@@ -1615,6 +1653,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/7th/Technical_Session_IV/7th_Wong_Redesign_of_the_Abstract.pdf"
             },
             {
+              "id": "2009-pres-unknown-influence-of-fast-temperature",
               "time": "11:00 a.m.",
               "title": "Influence of Fast Temperature Program Rate and Fast Linear Velocity on GC-MS Analysis of Chemical Warfare Agent Degradation Products",
               "institutes": [
@@ -1836,7 +1875,12 @@
       "events": []
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "Hamilton Sundstrand",
+    "url": "www.hamiltonsundstrand.com",
+    "logo_file": "Hamilton_Sundstrand.png",
+    "logo_file_url": "/images/sponsors/Hamilton_Sundstrand.png?v=1778522783284"
+  },
   "venue_address_url": "https://maps.app.goo.gl/Y9mpcimiRCHCFisJ9",
   "title": "7th HEMS Workshop",
   "tagline": "The 7th Workshop on Harsh-Environment Mass Spectrometry."

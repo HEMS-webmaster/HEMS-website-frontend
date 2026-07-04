@@ -39,6 +39,7 @@
           "location": "UNKNOWN",
           "talks": [
             {
+              "id": "2001-pres-beauchamp-mass-spectrometers-for-in-situ",
               "time": "9:00 AM",
               "title": "Mass Spectrometers for In-Situ Planetary Exploration",
               "institutes": [
@@ -61,6 +62,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_I/2nd_Beauchamp_Mass_Spectrometers_for_Abstract.pdf"
             },
             {
+              "id": "2001-pres-casares-a-small-multiple-reflectron",
               "time": "9:30 AM",
               "title": "A small multiple reflectron time-of-flight mass spectrometer (MR-TOF-MS) for in-situ investigations",
               "institutes": [
@@ -109,6 +111,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_I/2nd_Casares_A_small_multiple_Abstract.pdf"
             },
             {
+              "id": "2001-pres-brinckerhoff-in-situ-laser-tof-ms",
               "time": "10:30 AM",
               "title": "In-situ Laser TOF MS on Planets and Small Bodies",
               "institutes": [
@@ -131,6 +134,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_I/2nd_Brinckerhoff_Insitu_Laser_TOF_Abstract.pdf"
             },
             {
+              "id": "2001-pres-griffin-a-fully-redundant-on-line",
               "time": "11:00 AM",
               "title": "A Fully Redundant On-Line Mass Spectrometric System for the Space Shuttle Used to Monitor Cyogenic Fuel Leaks",
               "institutes": [
@@ -182,6 +186,7 @@
           "location": "UNKNOWN",
           "talks": [
             {
+              "id": "2001-pres-patterson-a-miniaturized-cylindrical-lon",
               "time": "1:30 PM",
               "title": "A Miniaturized Cylindrical lon Trap Mass Spectrometer",
               "institutes": [
@@ -209,6 +214,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_II/2nd_Patterson_A_Miniaturized_Cylindrical_Abstract.pdf"
             },
             {
+              "id": "2001-pres-moxom-recent-developments-in-micro",
               "time": "2:00 PM",
               "title": "Recent Developments in Micro lon Trap Mass Spectrometry",
               "institutes": [
@@ -246,6 +252,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_II/2nd_Moxom_Recent_Developments_in_Abstract.pdf"
             },
             {
+              "id": "2001-pres-cornish-miniature-tof-mass-spectrometer",
               "time": "2:30 PM",
               "title": "Miniature TOF Mass Spectrometer using a Flexible Circuitboard Reflectron",
               "institutes": [
@@ -275,6 +282,7 @@
           "title": "Poster Session",
           "talks": [
             {
+              "id": "2001-poster-gonin-compact-and-rugged-multipurpose",
               "time": "3:30 PM",
               "title": "Compact and Rugged Multipurpose TOF",
               "institutes": [
@@ -307,6 +315,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Posters/2nd_Gonin_Compact_and_Rugged_Abstract.pdf"
             },
             {
+              "id": "2001-poster-rohrs-development-of-a-low",
               "time": "3:30 PM",
               "title": "Development of a Low Cost Miniature Mass Spectrometer",
               "institutes": [
@@ -344,6 +353,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Posters/2nd_Rohrs_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2001-poster-camilli-project-nereus-construction-of",
               "time": "3:30 PM",
               "title": "Project NEREUS: Construction of a practical autonomous underwater gas analyzer",
               "institutes": [
@@ -371,6 +381,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Posters/2nd_Camilli_Project_NEREUS_Construction_Abstract.pdf"
             },
             {
+              "id": "2001-poster-fries-remotely-operated-mass-spectrometers",
               "time": "3:30 PM",
               "title": "Remotely Operated Mass Spectrometers: Adaptive Search Platforms for Field Chemical Profiling",
               "institutes": [
@@ -431,6 +442,7 @@
           "location": "UNKNOWN",
           "talks": [
             {
+              "id": "2001-pres-matz-disaster-management-using-mobile",
               "time": "9:30 AM",
               "title": "Disaster Management Using Mobile Mass Spectrometers",
               "institutes": [
@@ -453,6 +465,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_III/2nd_Matz_Disaster_Management_Using_Abstract.pdf"
             },
             {
+              "id": "2001-pres-jr-direct-sampling-mass-spectrometry",
               "time": "10:00 AM",
               "title": "Direct Sampling Mass Spectrometry in Atmospheric Chemistry",
               "institutes": [
@@ -495,6 +508,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_III/2nd_Barket_Direct_Sampling_Mass_Abstract.pdf"
             },
             {
+              "id": "2001-pres-chamberlain-ms-for-trace-explosives",
               "time": "10:30 AM",
               "title": "MS for Trace Explosives Detection in Aviation Security",
               "institutes": [
@@ -549,6 +563,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_III/2nd_Chamberlain_MS_for_Trace_Abstract.pdf"
             },
             {
+              "id": "2001-pres-diaz-volcanic-monitoring-using-field-portable",
               "time": "11:00 AM",
               "title": "Volcanic Monitoring using Field-Portable Mass Spectrometers: Towards On-Site and Real Time Gas Analysis at Fumaroles",
               "institutes": [
@@ -579,6 +594,7 @@
           "location": "UNKNOWN",
           "talks": [
             {
+              "id": "2001-pres-hemond-project-nereus-concepts-and",
               "time": "2:00 PM",
               "title": "Project NEREUS: Concepts and principles for in-situ MS",
               "institutes": [
@@ -606,6 +622,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_IV/2nd_Hemond_Project_NEREUS_Concepts_Abstract.pdf"
             },
             {
+              "id": "2001-pres-mcmurtry-development-of-an-underwater",
               "time": "2:30 PM",
               "title": "Development of an Underwater Mass Spectrometer for Dissolved Gases, Solutes, and Large Organic Compounds",
               "institutes": [
@@ -634,6 +651,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_IV/2nd_McMurtry_Development_of_an_Abstract.pdf"
             },
             {
+              "id": "2001-pres-short-applications-of-in-water-mass",
               "time": "3:30 PM",
               "title": "Applications of in-water mass spectrometry for detection of volatile organic compounds and dissolved gases",
               "institutes": [
@@ -686,6 +704,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_IV/2nd_Short_Applications_of_inwater_Abstract.pdf"
             },
             {
+              "id": "2001-pres-stone-polymeric-membrane-chlorocarbon-permeabilities",
               "time": "4:00 PM",
               "title": "Polymeric Membrane Chlorocarbon Permeabilities Determined by Membrane Introduction Mass Spectrometry (MIMS)",
               "institutes": [
@@ -708,6 +727,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_IV/2nd_Stone_Polymeric_Membrane_Chlorocarbon_Abstract.pdf"
             },
             {
+              "id": "2001-pres-hook-solid-phase-microextraction-as",
               "time": "4:30 PM",
               "title": "Solid phase microextraction as a method for sampling with analysis by gas chromatography/mass spectrometry in the field",
               "institutes": [
@@ -759,6 +779,7 @@
           "location": "UNKNOWN",
           "talks": [
             {
+              "id": "2001-pres-bryden-tiny-time-of-flight-tof-mass",
               "time": "8:30 AM",
               "title": "Tiny Time-of-Flight (TOF) Mass Spectrometer for Biodetection",
               "institutes": [
@@ -781,6 +802,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_V/2nd_Bryden_Tiny_TimeofFlight_TOF_Abstract.pdf"
             },
             {
+              "id": "2001-pres-prieto-biological-applications-on-a",
               "time": "9:00 AM",
               "title": "Biological applications on a miniaturized delayed extraction TOF mass spectrometer",
               "institutes": [
@@ -813,6 +835,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_V/2nd_Prieto_Biological_applications_on_Abstract.pdf"
             },
             {
+              "id": "2001-pres-nuber-the-portable-horiba-kore-mass",
               "time": "10:00 AM",
               "title": "The Portable Horiba-Kore Mass Spectrometer MS-200",
               "institutes": [
@@ -845,6 +868,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/2nd/Technical_Session_V/2nd_Nuber_The_Portable_HoribaKore_Abstract.pdf"
             },
             {
+              "id": "2001-pres-wiberg-progress-toward-highly-miniaturized",
               "time": "10:30 AM",
               "title": "Progress Toward Highly Miniaturized Vacuum Pumps",
               "institutes": [
@@ -1063,7 +1087,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "Center for Ocean Technology, College of Marine Science, USF",
+    "url": "http://www.marine.usf.edu/COT/",
+    "logo_file": "Center_for_Ocean_Technology_College_of_Marine_Science_USF.png",
+    "logo_file_url": "/images/sponsors/Center_for_Ocean_Technology_College_of_Marine_Science_USF.png?v=1778696767962"
+  },
   "venue_address_url": "",
   "title": "2nd HEMS Workshop",
   "tagline": "The 2nd Workshop on Harsh-Environment Mass Spectrometry."

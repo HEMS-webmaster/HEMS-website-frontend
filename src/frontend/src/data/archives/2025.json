@@ -75,6 +75,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-verbeck-using-classes-of-molecules",
               "time": "10:00 a.m.",
               "title": "Using Classes of Molecules to Identify Air Health",
               "institutes": [
@@ -97,6 +98,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Verbeck_Using_Classes_of_Abstract.pdf"
             },
             {
+              "id": "2025-pres-fox-arammis-autonomous-robots-for",
               "time": "10:30 a.m.",
               "title": "ARAMMIS: Autonomous Robots for Area Mapping, Monitoring and In-situ gas Sensing, focused on Lunar exploration and Earth Science applications",
               "institutes": [
@@ -119,6 +121,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Fox_ARAMMIS_Autonomous_Robots_Abstract.pdf"
             },
             {
+              "id": "2025-pres-kimutai-a-cart-portable-tof-ms-coupled",
               "time": "11:00 a.m.",
               "title": "A cart-portable TOF-MS coupled with a thermal desorber for in-field analysis of CBRNE threat materials",
               "institutes": [
@@ -141,6 +144,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_I/15th_Kimutai_A_cartportable_TOFMS_Abstract.pdf"
             },
             {
+              "id": "2025-pres-raith-spaceflight-laser-desorption-orbitrap",
               "time": "11:30 a.m.",
               "title": "Spaceflight Laser Desorption Orbitrap Mass Spectrometry",
               "institutes": [
@@ -171,6 +175,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-kalamasnikovs-a-rugged-and-field",
               "time": "2:00 p.m.",
               "title": "A rugged and field deployable multi-laser resonance Single Particle Mass Spectrometer: Ship-based detection of trace metal-containing aerosols in the atmosphere of the Indian Ocean",
               "institutes": [
@@ -193,6 +198,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_II/15th_Kalamasnikovs_A_rugged_and_Abstract.pdf"
             },
             {
+              "id": "2025-pres-newsome-non-proximate-handheld-probe-with",
               "time": "2:30 p.m.",
               "title": "Non-proximate, Handheld Probe with Positional Feedback for Real-time Analysis of Three-dimensional Object Surfaces",
               "institutes": [
@@ -223,6 +229,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-caruso-2d-msms-using-a",
               "time": "3:30 p.m.",
               "title": "2D MS/MS using a small ion trap mass spectrometer",
               "institutes": [
@@ -245,6 +252,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_III/15th_Caruso_2D_MSMS_using_Abstract.pdf"
             },
             {
+              "id": "2025-pres-jackson-instrument-simulation-why-what",
               "time": "4:00 p.m.",
               "title": "Instrument Simulation --Why, What to Expect, What tools to use",
               "institutes": [
@@ -280,6 +288,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-zimmermann-novel-ship-based-and-submersible",
               "time": "8:30 a.m.",
               "title": "Novel ship-based and submersible Membrane Inlet-Photo-Ionization Mass Spectrometer (MI-PIMS) for on-line detection of fuel spills, environmental contaminants and TNT in sea water",
               "institutes": [
@@ -302,6 +311,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Zimmermann_Novel_shipbased_and_Abstract.pdf"
             },
             {
+              "id": "2025-pres-lauritsen-simultaneous-mims-and-uvvis",
               "time": "9:00 a.m.",
               "title": "Simultaneous MIMS and UV/VIS absorption for chemical reaction kinetic studies exemplified by disinfection byproduct formation from environmental contaminants",
               "institutes": [
@@ -324,6 +334,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IV/15th_Lauritsen_Simultaneous_MIMS_and_Abstract.pdf"
             },
             {
+              "id": "2025-pres-taghioskoui-spion-flexible-ion-guide",
               "time": "9:30 a.m.",
               "title": "SPion®: Flexible Ion Guide for Mass Spectrometry",
               "institutes": [
@@ -354,6 +365,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-snyder-design-and-performance-of",
               "time": "10:30 a.m.",
               "title": "Design and Performance of a Person-portable Two-dimensional Tandem Mass Spectrometer for Machine-Learning Enhanced Identification of Threats",
               "institutes": [
@@ -376,6 +388,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_V/15th_Snyder_Design_and_Performance_Abstract.pdf"
             },
             {
+              "id": "2025-pres-coppin-massanet-integration-of-the-submersible",
               "time": "11:00 a.m.",
               "title": "Integration of the Submersible Under-Ice Mass Spectrometer (SUIMS) with the Icefin ROV for Dissolved Gas Measurements at the Grounding Zone of a Marine-Terminating Glacier",
               "institutes": [
@@ -406,6 +419,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-kibelka-a-new-aerosol-threat",
               "time": "1:30 p.m.",
               "title": "A New Aerosol Threat Detector",
               "institutes": [
@@ -428,6 +442,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VI/15th_Kibelka_A_New_Aerosol_Abstract.pdf"
             },
             {
+              "id": "2025-pres-grimes-multimodal-ionization-strategies-for",
               "time": "2:00 p.m.",
               "title": "Multimodal Ionization Strategies for Broad-Spectrum Threat Detection with a Miniature Field Mass Spectrometer",
               "institutes": [
@@ -458,6 +473,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-loose-vertical-transport-of-biogenic",
               "time": "3:00 p.m.",
               "title": "Vertical transport of biogenic CO2, O2 and DO2/Ar in eddies and at fronts is revealed by submersible mass spectrometer",
               "institutes": [
@@ -480,6 +496,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Sessions_VII/15th_Loose_Vertical_transport_of_Abstract.pdf"
             },
             {
+              "id": "2025-pres-kaplan-development-of-the-dragonfly",
               "time": "3:30 p.m.",
               "title": "Development of the Dragonfly Mass Spectrometer (DraMS) for Titan",
               "institutes": [
@@ -515,6 +532,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-li-standoff-laser-ablation-mass",
               "time": "8:30 a.m.",
               "title": "Standoff Laser Ablation Mass Analyzer (LAMA) for Lunar Surface Analysis",
               "institutes": [
@@ -537,6 +555,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Li_Standoff_Laser_Ablation_Abstract.pdf"
             },
             {
+              "id": "2025-pres-amsden-under-water-coded-aperture",
               "time": "9:00 a.m.",
               "title": "Under Water Coded Aperture Miniature Mass Spectrometer for Measurements of Methane Content in the Ocean",
               "institutes": [
@@ -565,6 +584,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_VIII/15th_Serpa_Under_Water_Coded_Abstract.pdf"
             },
             {
+              "id": "2025-pres-brinkerhoff-extraterrestrial-molecular-indicators-of",
               "time": "9:30 a.m.",
               "title": "Extraterrestrial Molecular Indicators of Life Investigation (EMILI): Development of Flight-Like Prototype",
               "institutes": [
@@ -595,6 +615,7 @@
           "location": "Ocean Grand Ballroom - Cape Charles",
           "talks": [
             {
+              "id": "2025-pres-bell-underwater-mass-spectrometry-advancements",
               "time": "10:30 a.m.",
               "title": "Underwater Mass Spectrometry Advancements for Real-time Geochemical Analysis of Deep-sea Cold Seeps",
               "institutes": [
@@ -617,6 +638,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Bell_Underwater_Mass_Spectrometry_Abstract.pdf"
             },
             {
+              "id": "2025-pres-osgood-concurrent-cloud-distributed-simulation",
               "time": "11:00 a.m.",
               "title": "Concurrent Cloud Distributed Simulation with Space Charge using SIMION",
               "institutes": [
@@ -639,6 +661,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/15th/Technical_Session_IX/15th_Osgood_Concurrent_Cloud_Distributed_Abstract.pdf"
             },
             {
+              "id": "2025-pres-pedder-surface-induced-dissociation-sid",
               "time": "11:30 a.m.",
               "title": "Surface Induced Dissociation (SID) with Quadrupole Mass Filters: MS/MS without Collision Gas",
               "institutes": [

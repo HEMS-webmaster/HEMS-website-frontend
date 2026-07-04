@@ -13,7 +13,7 @@
     {
       "label": "Program Download",
       "icon": "Download",
-      "legacy_url": "https://www.hems-workshop.org/10thWS/10thProgram.html",
+      "legacy_url": "https://www.hems-workshop.org/10thWS/10th%20HEMS%20draft%20082115.pdf",
       "local_target_path": "/api/manager/serve?file=10th/Administrative/10th_Program.pdf",
       "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/10th/Administrative/10th_Program.pdf",
       "gcloud_url": "gs://hems-workshop-archives/proceedings/10th/Administrative/10th_Program.pdf"
@@ -112,6 +112,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2015-pres-unknown-opening-talk-needs-and",
               "time": "10:15 a.m.",
               "title": "Opening Talk: Needs and Challenges in the Field Detection and Identification of Military Chemical Threats",
               "institutes": [],
@@ -132,6 +133,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_I/10th_Ong_Opening_Talk_Needs_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-quadrupole-miniaturization-reconsidered",
               "time": "11:00 a.m.",
               "title": "Quadrupole Miniaturization – Reconsidered",
               "institutes": [],
@@ -152,6 +154,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_I/10th_Pedder_Quadrupole_Miniaturization_Reconsidered_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-student-award-winner-improving",
               "time": "11:30 a.m.",
               "title": "Student Award Winner: Improving the Selectivity of a High Pressure Mass Spectrometer",
               "institutes": [],
@@ -180,6 +183,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2015-pres-unknown-development-of-a-miniature",
               "time": "1:30 p.m.",
               "title": "Development of a Miniature Dual Source Linear Ion Trap Mass Spectrometer for the ExoMars Rover Mission",
               "institutes": [],
@@ -200,6 +204,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_II/10th_Brinckerhoff_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-a-compact-two-step-laser",
               "time": "2:00 p.m.",
               "title": "A Compact Two-step Laser Time-of-flight Mass Spectrometer for In Situ Analysis of Planetary Surfaces",
               "institutes": [],
@@ -220,6 +225,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_II/10th_Getty_A_Compact_Twostep_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-a-multiple-reflection-time-of-flight-mass",
               "time": "2:30 p.m.",
               "title": "A Multiple-reflection Time-of-flight Mass Spectrometer for the ROSETTA Space Craft",
               "institutes": [],
@@ -240,6 +246,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_II/10th_Wollnik_A_Multiplereflection_Timeofflight_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-cupids-arrow-an-innovative",
               "time": "3:00 p.m.",
               "title": "Cupid’s Arrow: An Innovative Nanosat Mass Spectrometer to Sample Venus’ Upper Atmosphere",
               "institutes": [],
@@ -260,6 +267,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_II/10th_Darrach_Cupids_Arrow_An_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-jpl-flyby-mass-spectrometer",
               "time": "3:30 p.m.",
               "title": "JPL Flyby Mass Spectrometer",
               "institutes": [],
@@ -293,6 +301,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2015-pres-unknown-fast-pressure-prediction-with",
               "time": "8:00 a.m.",
               "title": "Fast Pressure Prediction with a MEMS Pirani Sensor for Protection of MOMA-MS",
               "institutes": [],
@@ -313,6 +322,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_III/10th_Southard_Fast_Pressure_Prediction_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-miniaturized-planar-electrode-linear",
               "time": "8:30 a.m.",
               "title": "Miniaturized Planar Electrode Linear Ion Trap (LIT) Mass Analyzer",
               "institutes": [],
@@ -333,6 +343,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_III/10th_Li_Miniaturized_Planar_Electrode_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-simulation-study-for-tolerance",
               "time": "9:00 a.m.",
               "title": "Simulation Study for Tolerance of Six Degrees of Freedom in Two-plate Linear Ion Trap",
               "institutes": [],
@@ -353,6 +364,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_III/10th_Wu_Simulation_Study_for_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-low-power-carbon-nanotube",
               "time": "9:30 a.m.",
               "title": "Low Power Carbon Nanotube Field Emission Electron Source for Chemical Ionization Mass Spectrometry",
               "institutes": [],
@@ -381,6 +393,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2015-pres-unknown-in-situ-volcanic-plume-monitoring",
               "time": "10:30 a.m.",
               "title": "In-situ Volcanic Plume Monitoring at Solfatara Volcano and Vulcano Island, Italy with Small Portable Mass Spectrometer Systems designed for Field Deployment and Unmanned Aerial Vehicles (UAV)",
               "institutes": [],
@@ -401,6 +414,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_IV/10th_Wright_Insitu_Volcanic_Plume_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-a-hybrid-vehicle-mounted",
               "time": "11:00 a.m.",
               "title": "A Hybrid Vehicle Mounted Membrane Inlet Mass Spectrometer for Spatial Analysis of Atmospheric Chemical Concerns",
               "institutes": [],
@@ -421,6 +435,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_IV/10th_Verbeck_A_Hybrid_Vehicle_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-use-of-a-field-portable",
               "time": "11:30 a.m.",
               "title": "Use of a Field-portable GCMS in a Brewing Environment",
               "institutes": [],
@@ -449,6 +464,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2015-pres-unknown-development-of-a-field",
               "time": "1:30 p.m.",
               "title": "Development of a Field Deployable Mass Spectrometer for Hydrological Applications",
               "institutes": [],
@@ -469,6 +485,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_V/10th_Hoang_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-in-water-mass-spectrometry-for",
               "time": "2:00 p.m.",
               "title": "In-water Mass Spectrometry for Characterization of Light Hydrocarbon Seeps and Leaks",
               "institutes": [],
@@ -489,6 +506,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_V/10th_Short_Inwater_Mass_Spectrometry_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-improvements-in-under-water",
               "time": "2:30 p.m.",
               "title": "Improvements in Under Water Mass Spectrometry",
               "institutes": [],
@@ -517,6 +535,7 @@
           "location": "UNKNOWN",
           "talks": [
             {
+              "id": "2015-pres-unknown-broadband-fully-automated-identification",
               "time": "3:30 p.m.",
               "title": "Broadband, Fully Automated Identification of Drugs Using a Field Deployable DART-ITMS",
               "institutes": [],
@@ -550,6 +569,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2015-pres-unknown-the-spacecraft-atmosphere-monitor",
               "time": "8:00 a.m.",
               "title": "The Spacecraft Atmosphere Monitor (S.A.M.) for ISS and Orion",
               "institutes": [],
@@ -570,6 +590,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_VII/10th_Kidd_The_Spacecraft_Atmosphere_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-advanced-miniature-linear-ion",
               "time": "8:30 a.m.",
               "title": "Advanced Miniature Linear Ion Trap Mass Spectrometer for Space Applications",
               "institutes": [],
@@ -590,6 +611,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_VII/10th_Grubisic_Advanced_Miniature_Linear_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-towards-detection-of-life",
               "time": "9:00 a.m.",
               "title": "Towards Detection of Life in Space Exploration Missions by using a Miniature Laser Ablation Ionization Mass Spectrometer",
               "institutes": [],
@@ -610,6 +632,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_VII/10th_Riedo_Towards_Detection_of_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-development-of-tandem-mass",
               "time": "9:30 a.m.",
               "title": "Development of Tandem Mass Spectrometry (MS/MS) on a Miniaturized Laser Desorption/Ionization Time-of-flight Mass Spectrometry (LD-TOF-MS)",
               "institutes": [],
@@ -638,6 +661,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2015-pres-unknown-the-fast-path-of",
               "time": "10:30 a.m.",
               "title": "The Fast Path of the Molecules: from the Engine Cylinder to Mass Spec and What this has to do with Lube Oil Consumption",
               "institutes": [],
@@ -658,6 +682,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/10th/Technical_Session_VIII/10th_Krause_The_Fast_Path_Abstract.pdf"
             },
             {
+              "id": "2015-pres-unknown-portable-ms-uv-sensing-platform",
               "time": "11:00 a.m.",
               "title": "Portable MS-UV Sensing Platform for Water Quality in Aquaculture",
               "institutes": [],
@@ -684,7 +709,12 @@
   ],
   "venue_url": "http://www.pharmacy.umaryland.edu/",
   "venue_address_url": "https://maps.app.goo.gl/xq7AKxoDfLG4yf7W6",
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "OI Analytical",
+    "url": "https://www.ysi.com/oi-analytical",
+    "logo_file": "OI_Analytical.png",
+    "logo_file_url": "/images/sponsors/OI_Analytical.png?v=1778083998141"
+  },
   "student_awards": [
     {
       "time": "",

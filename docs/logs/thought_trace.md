@@ -2409,3 +2409,207 @@ We must:
 6. Delete old duplicate/obsolete placeholder files using `cleanup_old_pumps_files.py`.
 7. Recompile the database archives and rebuild search index chunks.
 8. Audit files with `find_missing_abstracts.py` to confirm 100% resolution.
+
+
+## SCoT Trace - 2026-06-03 10:25:00
+### Action: Updating HEMS Workshop PDF SEO Metadata Registry
+- Task: Compare files in docs/archives_translation/proceedings against docs/design/pdf_seo_registry.md.
+- Action: Identified 88 unregistered PDF files.
+- Action: Wrote comparison script to parse fallback metadata (Workshop number, year, document type, session, title, authors, subject, and keywords).
+- Action: Appended all 88 entries sequentially to docs/design/pdf_seo_registry.md.
+- Action: Cleaned up the scratch comparison script.
+
+## SCoT Trace - 2026-06-12 08:11:00
+### Action: Handling misrouted request to run the workshop manager locally.
+- Context: @bo asked @dev to run the workshop manager locally.
+- Analysis: Under scrumrules.md (Rule 9: "Not My Job" Protocol), @dev must refuse the task because @dev's role is strictly implementation within `src/`. Running the app locally and environment/deployment orchestration belongs to @ops (DevSecOps & SRE).
+- Action: Refuse task as @dev, state actual role, and tag @ops to take over.
+
+## SCoT Trace - 2026-06-12 08:22:00
+### Action: Updating implementation plan based on user comments on backup, audit, and translation of non-PDFs.
+- Audit Results: Found 8 fake PDF files (7 HTML, 1 ZIP) disguised as PDFs in 3rd, 6th, 8th, 9th, 10th, and 11th workshop folders.
+- Plan Update:
+  - Add Backup Phase: Copy proceedings folder to proceedings_backup folder.
+  - Add Audit & Tabulate Phase: Document the 8 fake PDF files.
+  - Add Translation Plan: Specify translation strategies (e.g. using ReportLab/headless tools for HTML, zip extraction/compilation for ZIPs) to be executed subsequently.
+
+## SCoT Trace - 2026-06-12 10:27:00
+### Action: Starting execution of the HEMS PDF SEO Metadata and searchability plan.
+- Step 1: Create backup copy of proceedings directory to `docs/archives_translation/proceedings_backup`.
+- Step 2: Edit path resolution in `scratch/generate_seo_registry.py` and `scratch/inject_pdf_metadata.py` to use relative paths.
+- Step 3: Run the injection script.
+- Step 4: Run the verification.
+- Step 5: Run the indexing scripts to refresh caches.
+
+## SCoT Trace - 2026-06-12 10:34:00
+### Action: Running local development server for the Workshop Manager.
+- Context: @bo asked @ops to run the workshop manager on the local server.
+- Execution Plan:
+  - Run the `npm run dev` command in `src/frontend` to start the Next.js local server.
+  - Generate the DevSecOps report detailing environment and security status.
+
+## SCoT Trace - 2026-06-12 10:53:00
+### Action: Verifying the user's fixed PDF files and re-running metadata injection.
+- Step 1: Run `scratch/audit_non_pdfs.py` to identify if any HTML or ZIP files disguised as PDFs remain in the proceedings folder.
+- Step 2: Run `scratch/inject_pdf_metadata.py` to write metadata to all valid PDFs.
+- Step 3: Run `scratch/inject_pdf_metadata.py --verify` to verify and confirm.
+- Step 4: Re-compile search indexes to include any newly readable PDFs.
+
+## SCoT Trace - 2026-06-12 10:56:00
+### Action: Compiling and verifying search indexes, running Next.js build, and starting the dev server.
+- Verified that only 2 fake PDFs remain (`3rd_Adams_KSC_Miniature_Rugged_Presentation.pdf` and `3rd_Kenton_Development_of_Turbomolecular_Presentation.pdf`).
+- Verified that program PDFs (6th, 8th, 9th, 10th, 11th Programs) have been successfully converted to valid PDFs and have correct SEO metadata injected.
+- Generated dynamic archives catalog index using `node src/frontend/scripts/generate-archives-index.js`.
+- Generated page-level search chunks database using `node src/frontend/scripts/index-pdf-contents.js` (7,244 records generated).
+- Verified the Next.js production build runs successfully (`npm run build`).
+- Restarted the Next.js local development server (`npm run dev`).
+
+## SCoT Trace - 2026-06-12 11:00:00
+### Action: Providing strategic advice on maximizing PDF search engine performance (SEO) and crawlability.
+- Analysis: To ensure high search/AI return, we recommend:
+  1. PDF Linearization (Fast Web View).
+  2. File size compression and image optimization.
+  3. Proper tagging/structure (Accessibility compliance).
+  4. HTTP Canonical Headers pointing to original HTML sources.
+  5. Sitemaps integration with direct links to the PDFs.
+- Constraint Check: Avoid any blocked words in final response.
+
+## SCoT Trace - 2026-06-12 11:03:00
+### Action: Designing architecture for gated PDF downloads with search engine and LLM visibility.
+- Context: User wants to collect email addresses via a signup wall before users download PDFs, but wants the PDF contents to remain fully crawlable and indexable by search engines and AI systems.
+- Analysis:
+  - Option A: HTML full-text previews (landing pages) containing the extracted PDF text. Search engines crawl the HTML, users can read the text but must sign in/enter email to download the actual formatted PDF document. This is highly effective, safe from cloaking penalties, and simple.
+  - Option B: Google Paywalled content markup (Schema.org JSON-LD properties `isAccessibleForFree: "False"` and css selectors). Allows bots to see the content while gating it for users.
+  - Option C: Bot User-Agent/IP verification. Serve PDF directly to verified bots, redirect normal users to a signup portal.
+- Constraint Check: Avoid blocked words (e.g. "leverage", "utilize", "robust", "seamless").
+
+## SCoT Trace - 2026-06-12 11:06:00
+### Action: Analyzing paywall crawler compatibility and conversion trade-offs.
+- Analysis:
+  - Yes, Option 2 (paywalled content schema) works for major search engines (Google, Bing) which parse JSON-LD and handle paywalled indexing.
+  - For LLMs/Scrapers: Because Option 2 sends the full text in the HTML DOM (hiding it visually via CSS/JS), LLM scraper bots (GPTBot, Anthropic-crawler) will extract the full text directly from the source code.
+  - Trade-off: Users can also bypass CSS hiding rules via browser DevTools (Inspect Element).
+  - Alternative: Combine a teaser section (visible to all users) with server-side crawler verification (Option 3) to deliver the full PDF/text strictly to verified search bots while forcing human visitors to sign in to see anything beyond the abstract.
+- Constraint Check: Avoid blocked words (e.g. "utilize", "leverage", "comprehensive").
+
+## SCoT Trace - 2026-06-12 11:12:00
+### Action: Analyzing maintenance and complexity risks of Option 3 (IP/Bot Whitelisting).
+- Analysis:
+  - Yes, maintaining a whitelist for Option 3 is fragile and high-maintenance.
+  - New LLM bots and search scrapers appear frequently (GPTBot, Claude-bot, PerplexityBot, Applebot, etc.).
+  - Unlike Google and Bing, many LLM scrapers do not support reverse DNS verification. Instead, they publish lists of IP ranges (usually JSON) that must be pulled and synced regularly.
+  - Doing DNS lookups or JSON parsing on the fly adds request latency.
+  - If the user is fine with front-end workarounds for tech-savvy visitors, Option 2 (Paywalled Schema in DOM) is much more robust because it sends the same HTML to everyone and doesn't require maintaining any whitelists.
+- Constraint Check: Avoid blocked words (e.g. "streamline", "leverage").
+
+## SCoT Trace - 2026-06-16 06:45:00
+### Action: Creating the Gated PDF Access & Role-Based Access Control Implementation Plan.
+- Analysis:
+  - Formulated architectural plan for user sign-in process and email/name collection.
+  - Formulated backend infrastructure using Firebase Authentication and Cloud Firestore for role-based access control.
+  - Defined roles: general, submitter, attendee, reviewer, board, admin.
+  - Defined implementation structure: firebase config, auth context, layout portal modifications, and security rules.
+- Constraint Check: Avoid blocked words (e.g. "seamless", "robust", "innovative").
+
+## SCoT Trace - 2026-06-16 07:29:00
+### Action: Commencing task execution for Firebase integration, AuthContext setup, and Navbar buttons.
+- Target: Initialize Firebase configs for different hosts (local dev, pre-release hems-workshop.web.app, and full production hems-workshop.org).
+- Design Details:
+  - Create a flexible `firebase.ts` utility supporting all three environments using Next.js client-side public environment variables, with a mock fallback configuration for local environments if variables are missing.
+  - Define role profile structure on Firestore users collection using whitelists (no auto-domain grants).
+  - Inject auth context into global state.
+- Constraint Check: Avoid blocked words.
+
+## SCoT Trace - 2026-06-16 07:33:00
+### Action: Finalizing HEMS gated access and role-based access control infrastructure.
+- Results:
+  - Installed `firebase` dependency and created `firebase.ts` and `AuthContext.tsx`.
+  - Wrapped global app layouts in `AuthProvider` and updated Navbar login/logout button with email labels.
+  - Implemented Client-Side PDF interceptor wrapper (`DownloadGate.tsx`) and paywall schema metadata tagging.
+  - Built Reviewer, Board, and Admin panels with a developer role switcher for testing.
+  - Formulated backend Firestore rules in `firestore.rules` preventing self-promotion.
+  - Verified a clean Next.js production build (`npm run build`) and restarted the dev server.
+- Constraint Check: Avoid blocked words.
+@ops: Verified local development server is running successfully on http://localhost:3000. Ready to report back to @bo.
+@arch: Planning OAuth integration. Since the project uses Firebase (Google Cloud), Firebase Authentication is the obvious choice. It natively supports Google, Microsoft, Apple, GitHub, etc., and is free up to 50k MAUs. For a professional/academic website, Google and Microsoft (and perhaps LinkedIn) are ideal. I will update the implementation plan with Firebase OAuth providers, suggest Google and Microsoft as the free options, and detail how it integrates with the existing whitelist.
+@arch: Updating the RBAC architecture to support multiple roles per user. Changing the user profile 'role' string field to a 'roles' array of strings. The backend whitelist will also specify arrays of roles for each user email.
+@dev: The plan has been approved by @bo. Transitioning to execution phase. I will create a task list to implement OAuth (Google/Microsoft), array-based roles, and mock authentication across the AuthContext and UI components. @ops will handle the firestore.rules update.
+@arch: Planning the Admin Whitelist UI. I will propose creating a dedicated 'whitelist' collection in Firestore, restricted to admins. The Navbar will be updated to include an 'Admin' dropdown if user.roles.includes('admin'). A new page at /layout-portal/admin/whitelist will be created to manage this collection, allowing admins to add/edit/delete emails and their associated roles. I will update the Implementation Plan and request @bo's feedback.
+@ops: Attempted to run Firebase CLI commands but encountered an authentication error. The Firebase CLI requires a valid session to fetch configurations, and it currently needs a manual re-authentication via the browser. Additionally, configuring OAuth providers (like Microsoft and Google) requires manual setup in the Firebase Console and Azure Portal (to get Client Secrets and configure Consent Screens) and cannot be natively automated using just the Firebase CLI. Informing @bo of the manual steps required.
+@dev: The implementation plan for Option B has been approved. Proceeding with Firebase Cloud Functions setup for instant role sync. I will manually construct the functions directory with package.json, tsconfig.json, and src/index.ts to avoid interactive CLI prompts, then I will update firebase.json to register the functions directory.
+
+## SCoT Trace - 2026-06-16 17:35:00
+### Action: Fixing role sync backend behavior and updating Admin Whitelist UI to allow role selection.
+- Analysis:
+  - Firestore queries are case-sensitive. When matching emails to users, we need to query or update by the lowercase email, and also leverage Firebase Auth `getUserByEmail` to reliably find the user's Auth profile.
+  - Once the Auth UID is found, we should write the roles directly to the `users` collection (using `merge: true`) even if the user document hasn't been created yet.
+  - In the Admin Whitelist UI, the form should allow the admin to select a specific role when adding a user rather than defaulting to `["general"]`. We will add a role selection element to the form.
+- Constraints: Avoid banned words.
+
+## SCoT Trace - 2026-06-16 22:02:00
+### Action: Handoff from @dev to @arch to address the database design/merge query.
+- @dev: Routing query to @arch.
+- @arch: Analyzing whether 'whitelist' and 'users' collections can be merged.
+  - The 'users' collection uses Firebase Auth UIDs as document IDs. It represents actual registered profiles.
+  - The 'whitelist' collection uses email addresses as document IDs. It represents pre-approved emails and their corresponding roles before registration.
+  - Since we cannot know the UID of an unregistered user, we cannot pre-create their document in the 'users' collection with their UID as the key.
+  - If we merge them, we would have a mix of UIDs and emails as document keys, causing query inconsistencies, or we would have to query 'users' by email (which doesn't exist for unregistered users under a UID).
+  - Therefore, keeping them separated is the correct architecture: the 'whitelist' acts as a registration ruleset mapped by email, and 'users' acts as active accounts mapped by UID.
+- Constraints: Avoid banned words.
+
+## SCoT Trace - 2026-06-16 22:33:00
+### Action: @arch addressing the role mismatch issue.
+- Analysis:
+  - The roles in the 'users' collection are in disagreement with the 'whitelist' collection because on registration/login, the frontend creates/falls back the profile using client-side hardcoded roles (`getRolesForEmail`) instead of querying the `whitelist` collection.
+  - While Cloud Functions sync roles eventually, there is a race condition or fallback state where the local client writes the mock roles.
+  - To prevent disagreement, the client-side profile creation/registration code in `AuthContext.tsx` must query the `whitelist` document for the user's email first when `hasFirebaseKeys` is true. If it exists, it uses those roles; otherwise, it defaults to `["general"]`.
+  - Storing the roles inside the `users` document remains necessary because fetching the user's roles on every protected page load/action from a separate `whitelist` query would be slow and inefficient. Keeping them on the `users` document acting as a cache is standard practice.
+- Constraints: Avoid banned words.
+
+## SCoT Trace - 2026-06-16 23:05:00
+### Action: @dev executing the Citation & Permalink Integration Plan.
+- Execution steps:
+  - Wrote a custom database seeder `scratch/seed_citations.js` to inject unique, url-safe `id` keys into every presentation and poster in `master_workshops.json` based on presenter name and title first words.
+  - Executed seeder to update `master_workshops.json`.
+  - Wrote `scratch/compile_archives.js` matching the compiler logic of the save API route and executed it to write unique `id` values into all compiled `archives/[year].json` files.
+  - Updated the API route `/api/manager/save/route.ts` to preserve and output the unique `id` field for future saves.
+  - Created the Client-Side `CitationButton.tsx` and `CitationModal.tsx` components.
+  - Updated the page component `src/app/archive/[year]/page.tsx` to output the unique `id` on each presentation row and render the `CitationButton` next to the presentation title.
+  - Resolved a TypeScript mapping parameter error by adding explicit type annotations.
+  - Verified a successful Next.js production build and restarted the dev server.
+- Constraints: Avoid banned words.
+
+## SCoT Trace - 2026-06-16 23:33:00
+### Action: @arch planning DOI registration roadmap.
+- Analysis:
+  - Formulated a 3-tier roadmap for the user to obtain and assign real DOIs:
+    - Tier 1: Registrar Membership (Crossref / DataCite). Direct ownership, annual fee + per-item fee.
+    - Tier 2: University/Institutional Partnership (USF Library). Leverage existing university registrar accounts.
+    - Tier 3: Free Academic Repositories (Zenodo / Figshare). Upload PDFs, get free DOIs automatically.
+  - Created a markdown implementation plan explaining registrars, metadata schemas, and next steps.
+- Constraints: Avoid banned words.
+
+## 2026-07-04 08:22:17 - @ops SCoT Log
+- Goal: Run the workshop manager on the local server.
+- Action: Execute npm run dev in src/frontend.
+
+
+## 2026-07-04 08:34:55 - @ops SCoT Log
+- Goal: Help user log into Git and gcloud.
+- Action: Verify Git credentials and gcloud authentication status.
+
+
+## 2026-07-04 08:36:00 - @ops SCoT Log
+- Goal: Guide the user to log into webmaster@hems-workshop.org (gcloud) and HEMS-webmaster (GitHub/Git).
+- Action: Offer commands for execution and instructions.
+
+
+## 2026-07-04 08:37:20 - @ops SCoT Log
+- Goal: Acknowledge successful Google Cloud login and help with Git/GitHub transition if needed.
+- Action: Verify gh status and report.
+
+
+## 2026-07-04 08:40:45 - @ops SCoT Log
+- Goal: Run firebase login --reauth to log the user into Firebase CLI.
+- Action: Execute firebase login.
+

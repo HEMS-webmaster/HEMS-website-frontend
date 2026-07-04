@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Activity } from "lucide-react";
 import workshopsData from "@/data/master_workshops.json";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
+  const { user, logout, loading } = useAuth();
   return (
     <nav className="sticky top-0 z-40 w-full bg-surface/90 backdrop-blur-md border-b border-primary/30 relative">
       {/* Topographic SVG Graphic - Constrained to prevent bleeding */}
@@ -56,6 +60,35 @@ export default function Navbar() {
               <Link href="/contact" className="bg-foreground text-background hover:bg-foreground/80 px-4 py-2 rounded-md font-bold transition-all shadow-md">
                 Contact
               </Link>
+              
+              {user && user.roles?.includes("admin") && (
+                <Link href="/admin" className="text-secondary hover:text-secondary/80 transition-colors font-bold bg-secondary/10 px-2 py-1 rounded-md border border-secondary/30">
+                  Admin
+                </Link>
+              )}
+              
+              {!loading && (
+                user ? (
+                  <div className="flex items-center gap-3 ml-2 border-l border-foreground/10 pl-4">
+                    <span className="text-xs text-foreground/60 hidden lg:inline max-w-[150px] truncate" title={user.email}>
+                      {user.email}
+                    </span>
+                    <button 
+                      onClick={logout} 
+                      className="bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25 px-3 py-1.5 rounded-md font-bold text-xs transition-all cursor-pointer"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                ) : (
+                  <Link 
+                    href="/auth" 
+                    className="bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25 px-3 py-1.5 rounded-md font-bold text-xs transition-all cursor-pointer ml-2"
+                  >
+                    Log In
+                  </Link>
+                )
+              )}
             </div>
           </div>
         </div>

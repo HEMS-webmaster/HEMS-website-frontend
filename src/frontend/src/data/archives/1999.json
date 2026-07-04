@@ -31,6 +31,7 @@
           "location": "",
           "talks": [
             {
+              "id": "1999-pres-short-mass-spectrometer-on-an",
               "time": "9:00 AM",
               "title": "Mass Spectrometer on an Autonomous Underwater Vehicle (AUV)",
               "institutes": [
@@ -53,6 +54,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-callahan-mass-spectrometers-aboard-us",
               "time": "9:20 AM",
               "title": "Mass Spectrometers aboard US Navy Submarines: Will Yesterday's Solutions Solve Tomorrow's Problems?",
               "institutes": [
@@ -75,6 +77,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-volpe-icp-mass-spectrometer-extended-at-sea",
               "time": "9:40 AM",
               "title": "ICP-Mass Spectrometer: Extended At-Sea Trials",
               "institutes": [
@@ -97,6 +100,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-weed-the-road-to-miniaturizing",
               "time": "10:20 AM",
               "title": "The Road to Miniaturizing Vacuum Pumps",
               "institutes": [
@@ -119,6 +123,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-koppenaal-mass-spectrometry-in-harsh",
               "time": "10:40 AM",
               "title": "Mass Spectrometry in Harsh Environments: The Use & Abuse of MS Techniques",
               "institutes": [
@@ -141,6 +146,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-cornish-miniature-time-of-flight-mass-analyzers",
               "time": "1:00 PM",
               "title": "Miniature Time-of-Flight Mass Analyzers for Remote Sensing of Biochemical Agents",
               "institutes": [
@@ -163,6 +169,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-smith-miniature-mass-spectrometer-based-sampling",
               "time": "1:20 PM",
               "title": "Miniature Mass Spectrometer-Based Sampling System for In Situ Measurement of Dissolved Gas, Solutes and Proteins present in Marine Waters",
               "institutes": [
@@ -185,6 +192,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-olson-a-transportable-lon-trap",
               "time": "1:40 PM",
               "title": "A Transportable lon Trap Secondary lon Mass Spectrometer for Munitions Assessment",
               "institutes": [
@@ -207,6 +215,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-badman-quadrupole-lon-traps-miniaturization",
               "time": "2:20 PM",
               "title": "Quadrupole lon Traps: Miniaturization and Mass Spectrometer Arrays",
               "institutes": [
@@ -229,6 +238,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-wilkerson-current-and-future-applications",
               "time": "2:40 PM",
               "title": "Current and Future Applications of Mass Spectrometric Analyses in Non-Traditional Environments",
               "institutes": [
@@ -264,6 +274,7 @@
           "location": "",
           "talks": [
             {
+              "id": "1999-pres-fries-underwater-ms-making-more",
               "time": "9:00 AM",
               "title": "Underwater MS: Making more Scents",
               "institutes": [
@@ -286,6 +297,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-unknown-a-mini-lon-cyclotron-resonance",
               "time": "9:20 AM",
               "title": "A Mini-lon Cyclotron Resonance Mass spectrometer with Portable Potential",
               "institutes": [
@@ -308,6 +320,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-brinckerhoff-laser-time-of-flight-mass-spectrometry",
               "time": "9:40 AM",
               "title": "Laser Time-of-Flight Mass Spectrometry for Planetary Exploration",
               "institutes": [
@@ -330,6 +343,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-patterson-fourier-transform-non-destructive-detection",
               "time": "10:20 AM",
               "title": "Fourier Transform Non-Destructive Detection in Quadrupole lon Traps",
               "institutes": [
@@ -352,6 +366,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-balsley-mass-spectrometric-profiling-of",
               "time": "10:40 AM",
               "title": "Mass Spectrometric Profiling of the Lower Atmosphere: Go Fly a Kite",
               "institutes": [
@@ -374,6 +389,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "1999-pres-gonin-ruggedized-time-of-flight-mass-spectrometer",
               "time": "11:00 AM",
               "title": "Ruggedized Time-of-Flight Mass Spectrometer for Trace Gas Analysis",
               "institutes": [

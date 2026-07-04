@@ -1,81 +1,108 @@
-# Workshop Manager Asset Status Indicators & Action Overhaul
+# HEMS Gated PDF Access & Role-Based Access Control Infrastructure Plan
 
-This plan outlines the enhancements to the HEMS Workshop Manager's asset tracking UI. We will modify `DragDropZone.tsx` and the underlying APIs to show status indicators, interactive folder-opening links, file deletion commands, and clean fallback states for 'Local Target Path', 'GCloud URL', and 'Public Website URL'. We will also remove redundant preview blocks across all manager screens.
+This plan details the implementation of a user registration and login system for the HEMS website. It enforces email/name collection before users can download archived presentations (using Option 2: Google-approved Paywall Structured Data for search engines and LLM indexing). It also establishes client-side and backend Role-Based Access Control (RBAC) using Firebase Authentication (including OAuth providers) and Cloud Firestore.
 
 ---
 
 ## User Review Required
 
 > [!IMPORTANT]
-> **Active Directory Opening Feature**:
-> Clicking the 'Local Target Path' link in local development will directly launch a Windows Explorer window showing the exact target folder on the host computer. This is implemented via a secure local-only API route.
+> **Firebase Project Activation**:
+> This infrastructure relies on **Firebase Authentication** (Email/Password and OAuth sign-in providers) and **Cloud Firestore**. You will need to enable these services in the [Firebase Console](https://console.firebase.google.com/) for the `hems-workshop` project.
+
+> [!WARNING]
+> **Role Assignment & Whitelist**:
+> Upon registration, users default to the `['general']` role array unless their email matches a backend whitelist. Board members, reviewers, and website admins must be upgraded in the Firestore database console, via an admin utility, or matched against the pre-defined whitelist. Users can hold multiple roles simultaneously (e.g. `['board', 'reviewer']`).
 
 ---
 
 ## Open Questions
 
-> [!NOTE]
-> No unresolved design conflicts. The visual statuses align directly with the standard theme colors of the workspace dashboard.
+> [!IMPORTANT]
+> **Design Decisions & Key Inquiries**:
+> 1. **OAuth Providers**: Firebase supports many free OAuth providers (Google, Microsoft, GitHub, Apple). I propose we enable **Google** and **Microsoft**, as they cover the vast majority of professional and academic users. Does this selection work for you?
+> 2. **OAuth Whitelist Integration**: When a user signs in via OAuth (e.g. Google), we get their email instantly. If their email is on the backend whitelist, we grant them their assigned roles. If it's not, they get `['general']` access. Do you agree with this flow?
+> 3. **Mock Authentication**: For local development without Firebase connectivity, should we default to a local state auth system using `localStorage`? *(We suggest implementing this fallback to keep local dev fully functional).*
+> 4. **Whitelist Synchronization**: When an admin updates the whitelist via the new Admin UI, do we want to implement a Firebase Cloud Function to automatically update the corresponding user's profile in the `/users` collection, or simply apply the whitelist roles client-side the next time they log in? *(Client-side on-login checks are simpler and keep us on the free Spark plan. Cloud Functions require a paid Blaze plan).*
 
 ---
 
 ## Proposed Changes
 
-### Core API Layer (Local Development Only)
+### Core Authentication & Database Setup
 
-#### [MODIFY] [check-file/route.ts](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/api/manager/check-file/route.ts)
-- Update the API to perform an asynchronous `HEAD` request to the public Google Cloud Storage bucket link (`gcloudUrl`) to check if the file is already uploaded.
-- Generate and return `gcloudExists: boolean` and `gcloudConsoleUri: string` (hyperlink to the specific console proceedings bucket subfolder).
+#### [NEW] [firebase.ts](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/utils/firebase.ts)
+- Initializes the Firebase App, Firebase Authentication, and Cloud Firestore.
+- Configures `GoogleAuthProvider` and `OAuthProvider` (for Microsoft).
+- Reads configuration from standard environment variables (e.g. `NEXT_PUBLIC_FIREBASE_API_KEY`).
+- Implements a local fallback mode if environment variables are missing, utilizing local state / `localStorage` to simulate authentication and role switching.
 
-#### [NEW] [open-folder/route.ts](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/api/manager/open-folder/route.ts)
-- Create a new GET API endpoint `/api/manager/open-folder` that:
-  - Takes a local `path` query parameter.
-  - Validates and extracts the parent directory path.
-  - Spawns a background shell execution command using `explorer.exe` (on Windows) to open the parent directory in Windows Explorer.
+#### [NEW] [AuthContext.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/context/AuthContext.tsx)
+- Provides global React context (`AuthContext`) and hook (`useAuth`).
+- Manages registration, login (Email/Password, Google, Microsoft), logout, and password resets.
+- Persists user profiles (name, email, registration date, and `roles` array) inside a Firestore `/users/{uid}` collection.
+- Exposes roles: `general`, `submitter`, `attendee`, `reviewer`, `board`, `admin`. Users can have multiple roles stored as an array of strings.
+
+#### [MODIFY] [layout.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/layout.tsx)
+- Wraps the root layout in the global `AuthProvider` to make session state accessible across the entire application.
 
 ---
 
-### React Frontend Components
+### Gated Archive Downloads (Option 2 Paywall Schema)
 
-#### [MODIFY] [DragDropZone.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/manager/components/DragDropZone.tsx)
-- Integrate background polling checks for GCloud file presence from `check-file/route.ts`.
-- Restructure the UI status layout for the three asset columns:
-  - **Local Target Path**:
-    - If file is missing: Greyed out text with no hyperlink.
-    - If file is present: Green checkmark `✅` indicator next to label. Path value is styled as a hyperlink. Clicking it calls `/api/manager/open-folder?path=...` to open Windows Explorer. A red `✕` delete button is added to allow direct local deletion via `/api/manager/delete`.
-  - **GCloud URL**:
-    - If local file and GCloud file are missing: Greyed out.
-    - If local file is present, but GCloud file is missing: Display an upload pending icon `📤 Upload Pending` (pushed on live deployment), no hyperlink.
-    - If GCloud file has been uploaded: Display an uploaded checkmark `✅`, and make the path a hyperlink pointing to GCloud bucket console view folder.
-    - If local file is deleted/missing, but GCloud file is present: Display a deletion pending icon `🗑️ Deletion Pending` (synced on next live deployment), hyperlink pointing to console view folder remains active.
-  - **Public Website URL**:
-    - If GCloud file is not uploaded: Greyed out text with no hyperlink.
-    - If GCloud file is uploaded: Styled as an active hyperlink to the public online location.
+#### [MODIFY] [page.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/archive/%5Byear%5D/page.tsx)
+- Intercepts presentation and abstract PDF download clicks.
+- If the user is logged in, downloads proceed normally.
+- If not logged in, opens a clean, modern auth portal modal prompting them to sign in (via Email, Google, or Microsoft).
+- Inject a JSON-LD paywall schema (`isAccessibleForFree: "False"`) to let Googlebot and LLMs index the full presentation slide text (compiled via `mock-pdf-chunks.json`), while hiding it from non-signed-in human users behind a blurred overlay.
 
-#### [MODIFY] [page.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/manager/page.tsx)
-- Remove the redundant administrative "Attached" preview block below the `DragDropZone` components.
+#### [NEW] [auth/page.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/auth/page.tsx)
+- A dedicated authentication page with clean, aesthetic tabs for "Sign In" and "Create Account".
+- Includes "Sign in with Google" and "Sign in with Microsoft" social login buttons.
+- Displays form errors clearly.
 
-#### [MODIFY] [PresentationsManager.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/manager/components/PresentationsManager.tsx)
-- Remove the redundant session presentation "Attached" preview block below the `DragDropZone` components.
+---
 
-#### [MODIFY] [PostersManager.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/manager/components/PostersManager.tsx)
-- Remove the redundant poster "Attached" preview block below the `DragDropZone` components.
+### Role-Based Access Control (RBAC) Panels
 
-#### [MODIFY] [StudentsManager.tsx](file:///c:/Antigravity/HEMS-website/src/frontend/src/app/manager/components/StudentsManager.tsx)
-- Remove the redundant student award "Attached" preview block below the `DragDropZone` components.
+#### [MODIFY] [layout.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/%28portal%29/layout.tsx)
+- Adjusts sidebar links dynamically based on the logged-in user's roles array (e.g. showing "Reviewer Portal" to any user with `reviewer` or `admin` in their `roles` array).
+
+#### [NEW] [board/page.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/%28portal%29/board/page.tsx)
+- Gated landing page for HEMS Board Members.
+- Restricts access to users containing the `board` or `admin` role.
+
+#### [NEW] [reviewer/page.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/%28portal%29/reviewer/page.tsx)
+- Gated landing page for Abstract Reviewers.
+- Restricts access to users containing the `reviewer` or `admin` role.
+
+---
+
+### Admin UI & Whitelist Management
+
+#### [MODIFY] [Navbar.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/layout/Navbar.tsx)
+- Conditionally render an "Admin" dropdown menu for users whose `roles` array includes `admin`.
+- Include a link to the new "Whitelist Management" panel.
+
+#### [NEW] [admin/whitelist/page.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/%28portal%29/admin/whitelist/page.tsx)
+- Create a secure UI for Website Admins to view and manage the system whitelist.
+- Connects to a new `whitelist` collection in Firestore.
+- Allows admins to add an email and assign an array of roles, edit existing entries, and delete entries.
+- Implements a mock-mode for local development.
+
+#### [MODIFY] [firestore.rules](file:///c:/AntigravityP1_2/HEMS-website/firestore.rules)
+- Add read/write security rules for the `/whitelist` collection, ensuring only authenticated users with the `admin` role can access or modify it.
 
 ---
 
 ## Verification Plan
 
 ### Automated Tests
-- Save workshop files and verify that backend API requests correctly return exact GCloud and local paths.
-- Run `npm run build` locally to verify that type checkings are 100% correct.
+- Verify compilation: `npm run build` to confirm static export excludes Auth dynamically while preserving fallback UI.
 
 ### Manual Verification
-- Test DragDropZone in the local UI:
-  - Verify that a missing local file correctly greys out all fields.
-  - Drag and drop a file, and verify the green checkmark next to "Local Target Path".
-  - Click the "Local Target Path" link and verify that Windows Explorer opens the parent directory.
-  - Click the "✕" delete button and verify the local file is removed, updating status to greyed out and marking GCloud with "Deletion Pending" (if previously uploaded).
-  - Verify that GCloud files not yet uploaded show `📤 Upload Pending` status, and update to `✅ Uploaded` with active links after executing "Push to Live".
+1. **OAuth Sign-in**: Click "Sign in with Google" on the auth page and verify a user document is created with the Google account's email and name, and a `roles` array.
+2. **Whitelist Admin UI**: Log in as an admin and navigate to `/layout-portal/admin/whitelist`. Add a new test email to the whitelist with a specific role.
+3. **Whitelist Application**: Sign in with the newly whitelisted email and verify the roles are automatically applied from the whitelist collection instead of defaulting to `general`.
+4. **Gated PDFs**: Open `/archive/2002/` as an unauthenticated visitor, verify that clicking "Download PDF" opens the sign-in modal.
+5. **Multiple Roles Check**: Verify that users with multiple roles in their array can see and access multiple portals (e.g. Reviewer and Board).

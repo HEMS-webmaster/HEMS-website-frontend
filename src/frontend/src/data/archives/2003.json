@@ -80,6 +80,7 @@
           "location": "Royal Palm Ballroom",
           "talks": [
             {
+              "id": "2003-pres-unknown-detection-of-gas-phase",
               "time": "9:00 a.m.",
               "title": "Detection of Gas Phase Chemical Warfare Agents using Field-Portable Gas Chromatography-Mass Spectrometry Systems: Instrument and Sampling Strategy Considerations",
               "institutes": [
@@ -135,6 +136,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-transportable-miniature-ftms-for",
               "time": "9:30 a.m.",
               "title": "Transportable Miniature FTMS for Analysis of Corrosives and Chemical Warfare Agents",
               "institutes": [
@@ -167,6 +169,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-performance-characterization-and-field",
               "time": "10:30 a.m.",
               "title": "Performance Characterization and Field Testing of a Portable Tandem Mass Spectrometer",
               "institutes": [
@@ -214,6 +217,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-a-small-rugged-autonomous",
               "time": "11:00 a.m.",
               "title": "A Small, Rugged, Autonomous Mass Spectrometer System for Environmental Analysis",
               "institutes": [
@@ -285,6 +289,7 @@
           "title": "\tPoster Session",
           "talks": [
             {
+              "id": "2003-poster-arkin-the-hazardous-gas-detection",
               "time": "15:30",
               "title": "The Hazardous Gas Detection Lab at NASA’s Kennedy Space Center",
               "institutes": [
@@ -343,6 +348,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-bell-underwater-mass-spectroscopy-for",
               "time": "15:30",
               "title": "Underwater Mass Spectroscopy for in situ Monitoring of Polar and Non-polar Molecules",
               "institutes": [
@@ -380,6 +386,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-insepov-a-novel-aerosol-mass",
               "time": "15:30",
               "title": "A Novel Aerosol Mass Spectrometer for Submicron Chemical and Organic Species",
               "institutes": [
@@ -424,6 +431,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-kenton-innovative-vacuum-pumps-to",
               "time": "15:30",
               "title": "Innovative Vacuum Pumps to Support Mass Spectrometry in Harsh Environments",
               "institutes": [
@@ -451,6 +459,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-makas-miniaturized-mass-selective-detector-with",
               "time": "15:30",
               "title": "Miniaturized Mass-Selective Detector with Atmospheric Pressure Chemical Ionization",
               "institutes": [
@@ -488,6 +497,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-rohrs-inexpensive-mass-spectrometer-for",
               "time": "15:30",
               "title": "Inexpensive Mass Spectrometer for Field Applications",
               "institutes": [
@@ -545,6 +555,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-turner-multivariate-analysis-of-north",
               "time": "15:30",
               "title": "Multivariate Analysis of North Sea Natural Gas",
               "institutes": [
@@ -601,6 +612,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-victorova-advance-of-the-portable",
               "time": "15:30",
               "title": "Advance of the Portable Magnetic Mass Spectrometer to Mass Spectrograph",
               "institutes": [
@@ -644,6 +656,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-voss-circular-cycloid-mass-spectrometer",
               "time": "15:30",
               "title": "Circular Cycloid Mass Spectrometer with Mass Selective Ionizers",
               "institutes": [
@@ -676,6 +689,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-poster-amerom-a-study-of-miniature",
               "time": "15:30",
               "title": "A Study of Miniature Cylindrical Ion Trap Mass Spectrometers as a Basis for Micro-fabricated Underwater Mass Spectrometer Sensors.",
               "institutes": [
@@ -721,6 +735,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2003-pres-unknown-miniature-mass-spectrometer-based",
               "time": "9:00 a.m.",
               "title": "Miniature Mass Spectrometer Based on the Cylindrical Ion Trap (CIT) and Design and Construction of a Rectilinear Ion Trap (RIT)",
               "institutes": [
@@ -778,6 +793,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-mass-spectrometry-of-uf6",
               "time": "9:30 a.m.",
               "title": "Mass Spectrometry of UF6 in a Micro Ion Trap",
               "institutes": [
@@ -810,6 +826,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-design-and-simulation-of",
               "time": "10:30 a.m.",
               "title": "Design and Simulation of a Micromachined Cylindrical Ion Trap (CIT) Array",
               "institutes": [
@@ -864,6 +881,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-development-of-field-portable",
               "time": "11:00 a.m.",
               "title": "Development of Field Portable Mass Spectrometers for the Detection of Explosives",
               "institutes": [
@@ -935,6 +953,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2003-pres-unknown-underwater-mass-spectrometry-applications",
               "time": "1:30 p.m.",
               "title": "Underwater Mass Spectrometry: Applications of NEREUS in the Study of Lake Geochemistry",
               "institutes": [
@@ -962,6 +981,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-mass-surfer-underwater-mass",
               "time": "2:00 p.m.",
               "title": "Mass SURFER Underwater Mass Spectrometer System Development",
               "institutes": [
@@ -990,6 +1010,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-real-time-monitoring-of-aquatic",
               "time": "2:30 p.m.",
               "title": "Real-time Monitoring of Aquatic Environments with an Underwater Mass Spectrometer.",
               "institutes": [
@@ -1060,6 +1081,7 @@
           "location": "Royal Palm Ballroom",
           "talks": [
             {
+              "id": "2003-pres-unknown-status-of-the-knudsen",
               "time": "8:30 a.m.",
               "title": "Status of the Knudsen Compressor for Use in Distributed and Autonomous Sampling Systems",
               "institutes": [
@@ -1108,6 +1130,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-new-technologies-for-a",
               "time": "9:00 a.m.",
               "title": "New Technologies for a Portable Mass Spectrometer Helium Leak Detector",
               "institutes": [
@@ -1130,6 +1153,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-comparing-a-mass-spectrometer",
               "time": "9:30 a.m.",
               "title": "Comparing a Mass Spectrometer, a Total Pressure Gauge and Quartz Crystal Microbalances as an Environmental Sensor in Space",
               "institutes": [
@@ -1200,6 +1224,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-application-of-miniature-mass",
               "time": "10:30 a.m.",
               "title": "Application of Miniature Mass Spectrometers for Real Time Hydrogen and Hydrogen Isotopic Measurements",
               "institutes": [
@@ -1227,6 +1252,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-liga-fabricated-quadrupole-mass",
               "time": "11:00 a.m.",
               "title": "LiGA Fabricated Quadrupole Mass Filter and Scroll Pump for Meso-scale Mass Spectrometer",
               "institutes": [
@@ -1267,6 +1293,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2003-pres-unknown-a-miniature-maldi-tof-mass",
               "time": "1:30 p.m.",
               "title": "A Miniature MALDI-TOF Mass Spectrometer using Electric Fields that are Non-Homogeneous in Space and Time",
               "institutes": [
@@ -1294,6 +1321,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-miniaturized-confocal-plane-mass",
               "time": "2:30 p.m.",
               "title": "Miniaturized Confocal Plane Mass Spectrometer (or “How to Start a Company”)",
               "institutes": [
@@ -1321,6 +1349,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-membrane-inlet-systems-for",
               "time": "3:30 p.m.",
               "title": "Membrane Inlet Systems for Portable Mass Spectrometers",
               "institutes": [
@@ -1349,6 +1378,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2003-pres-unknown-recent-developments-with-the",
               "time": "4:00 p.m.",
               "title": "Recent Developments with the Rotating Field Mass Spectrometer (RFMS) and Nanospray Ionizer",
               "institutes": [

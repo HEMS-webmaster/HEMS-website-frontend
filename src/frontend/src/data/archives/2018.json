@@ -80,6 +80,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2018-pres-unknown-anomalous-uses-of-mass",
               "time": "10:00 a.m.",
               "title": "Anomalous Uses of Mass Spectrometers at NASA",
               "institutes": [
@@ -110,6 +111,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2018-pres-unknown-development-of-portable-mass",
               "time": "11:00 a.m.",
               "title": "Development of Portable Mass Spectrometer for Explosives and Narcotics Detection",
               "institutes": [
@@ -132,6 +134,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/12th/Technical_Session_I/12th_Berkout_Development_of_Portable_Abstract.pdf"
             },
             {
+              "id": "2018-pres-unknown-cubesat-qit-ms-rad-hard",
               "time": "11:30 a.m.",
               "title": "CubeSat QIT-MS: Rad Hard Miniature Instrument for Solar System Exploration",
               "institutes": [
@@ -162,6 +165,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2018-pres-unknown-an-optimized-membrane-inlet",
               "time": "1:30 P.M.",
               "title": "An optimized membrane inlet system for underwater mass spectrometry",
               "institutes": [
@@ -204,6 +208,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Abstract.pdf"
             },
             {
+              "id": "2018-pres-unknown-isotopic-ratio-study-of",
               "time": "2:00 P.M.",
               "title": "Isotopic ratio study of uranyl ion with Differential mobility Spectrometry-mass spectrometry",
               "institutes": [
@@ -255,6 +260,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2018-pres-unknown-triode-type-mcp-based-ion-detector",
               "time": "3:00 p.m.",
               "title": "Triode-type MCP-based Ion Detector Enabling Miniature Mass Spectrometers to Operate at Higher Pressure up to 1Pa",
               "institutes": [
@@ -292,6 +298,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/12th/Technical_Session_III/12th_Hayashi_Triodetype_MCPbased_Ion_Abstract.pdf"
             },
             {
+              "id": "2018-pres-unknown-field-deployable-mass-spectrometers",
               "time": "3:30 p.m.",
               "title": "Field Deployable Mass Spectrometers at Tofwerk",
               "institutes": [
@@ -314,6 +321,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/12th/Technical_Session_III/12th_Gonin_Field_Deployable_Mass_Abstract.pdf"
             },
             {
+              "id": "2018-pres-unknown-optimization-of-a-portable",
               "time": "4:00 p.m.",
               "title": "Optimization of a portable QMS for environmental monitoring",
               "institutes": [
@@ -379,6 +387,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2018-pres-unknown-rapid-identification-of-drug",
               "time": "9:00 a.m.",
               "title": "Rapid Identification of Drug Seizures by ASAP-MS on a Low-Cost, Deployable, Single Quadrupole Instrument",
               "institutes": [],
@@ -399,6 +408,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2018-pres-unknown-mobile-mass-spectrometer-systems",
               "time": "9:30 a.m.",
               "title": "Mobile Mass Spectrometer Systems for Online Oil Emission and Oil Dilution Measurements in Combustion Engine Test Cells.",
               "institutes": [],
@@ -421,6 +431,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2018-pres-unknown-two-dimensional-mass-spectrometry-on",
               "time": "10:30 a.m.",
               "title": "Two-dimensional mass spectrometry on benchtop and portable ion trap mass spectrometers",
               "institutes": [],
@@ -435,6 +446,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2018-pres-unknown-development-of-micro-time-of-flight-mass",
               "time": "11:00 a.m.",
               "title": "Development of Micro-Time-Of-Flight Mass Spectrometer for in situ gas analysis",
               "institutes": [],
@@ -449,6 +461,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2018-pres-unknown-instrumentation-for-lunar-volatile",
               "time": "11:30 a.m.",
               "title": "Instrumentation for Lunar Volatile Analysis",
               "institutes": [],
@@ -471,6 +484,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2018-pres-unknown-development-of-a-robust",
               "time": "1:30 p.m.",
               "title": "Development of a robust Fourier-Transform ion trap for semiconductor manufacturing",
               "institutes": [],
@@ -485,6 +499,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2018-pres-unknown-reverse-gas-stack-modeling-coupled-to",
               "time": "2:00 p.m.",
               "title": "Reverse-gas stack modeling-coupled to fieldable mass spectrometry to locate chemical effluent streams for clandestine drug labs, explosives manufacturing, and chemical weapon deployment.",
               "institutes": [],
@@ -499,6 +514,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2018-pres-unknown-evaluation-of-portable-linear",
               "time": "2:30 p.m.",
               "title": "Evaluation of Portable Linear Ion Trap Mass Spectrometer Coupled to Paper Spray Ionization Source for the Detection of Chemical Warfare Agents",
               "institutes": [],
@@ -526,6 +542,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2018-pres-unknown-a-quadrupole-ion-trap",
               "time": "3:30 p.m.",
               "title": "A Quadrupole Ion Trap for the Detection of Biomarkers at Icy Worlds",
               "institutes": [],
@@ -540,6 +557,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2018-pres-unknown-optimization-of-a-drone",
               "time": "4:00 p.m.",
               "title": "Optimization of a drone based miniature mass spectrometer system (Drone-MS) for in situ gas plume measurements",
               "institutes": [],
@@ -631,7 +649,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "Inficon",
+    "url": "http://www.inficon.com/",
+    "logo_file": "Inficon.png",
+    "logo_file_url": "/images/sponsors/Inficon.png?v=1778100492331"
+  },
   "venue_address_url": "https://maps.app.goo.gl/6nUZT97axxE2cWfB8",
   "title": "12th HEMS Workshop",
   "tagline": "The 12th Workshop on Harsh-Environment Mass Spectrometry."

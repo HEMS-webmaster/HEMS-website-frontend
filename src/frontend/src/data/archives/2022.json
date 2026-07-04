@@ -88,6 +88,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-giving-humanity-a-platform",
               "time": "9:00 a.m.",
               "title": "Giving Humanity a Platform in Space to Improve Life on Earth",
               "institutes": [],
@@ -115,6 +116,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-breath-markers-of-disease",
               "time": "10:30 a.m.",
               "title": "Breath Markers of Disease Identifiers for Portable Mass Spectrometry",
               "institutes": [],
@@ -134,6 +136,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_I/14th_Verbeck_Breath_Markers_of_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-development-of-mass-spectrometer",
               "time": "11:00 a.m.",
               "title": "Development of mass spectrometer for organic molecule detection in the future space life search missions",
               "institutes": [],
@@ -169,6 +172,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_I/14th_Maletic_Development_of_mass_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-development-of-the-dragonfly",
               "time": "11:30 a.m.",
               "title": "Development of the Dragonfly Mass Spectrometer (DraMS)",
               "institutes": [],
@@ -236,6 +240,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-investigation-of-disinfection-byproduct",
               "time": "1:00 p.m.",
               "title": "Investigation of disinfection byproduct formation during advanced water treatment",
               "institutes": [],
@@ -267,6 +272,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_II/14th_Lauritsen_Investigation_of_disinfection_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-multi-dimensional-portable-mass-spectrometry",
               "time": "1:30 p.m.",
               "title": "Multi-dimensional Portable Mass Spectrometry for Biological Detection",
               "institutes": [],
@@ -334,6 +340,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-two-dimensional-tandem-mass-spectrometry",
               "time": "3:00 p.m.",
               "title": "Two-Dimensional Tandem Mass Spectrometry as a Method for Bacterial Profiling",
               "institutes": [],
@@ -369,6 +376,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_III/14th_Sams_TwoDimensional_Tandem_Mass_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-planar-design-differential-ion",
               "time": "3:30 p.m.",
               "title": "Planar Design Differential Ion Mobility Spectrometer (DMS)",
               "institutes": [],
@@ -408,6 +416,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_III/14th_Nazarov_Planar_Design_Differential_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-mt-explorer-30-a",
               "time": "4:00 p.m.",
               "title": "MT Explorer 30: A Portable Tandem Mass Spectrometer",
               "institutes": [],
@@ -464,6 +473,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-ms-field-applications-in",
               "time": "9:00 a.m.",
               "title": "MS field applications in CBSA operations",
               "institutes": [],
@@ -483,6 +493,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-structural-content-in-field",
               "time": "9:30 a.m.",
               "title": "Structural Content in Field Induced Fragmentation Spectra",
               "institutes": [],
@@ -526,6 +537,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-overview-and-testing-of",
               "time": "10:30 a.m.",
               "title": "Overview and Testing of the Mars Organic Molecule Analyzer (MOMA)",
               "institutes": [],
@@ -629,6 +641,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-plasma-ion-source-for",
               "time": "11:00 a.m.",
               "title": "Plasma Ion Source for Atmospheric Pressure Ionization Mass - Spectrometry",
               "institutes": [],
@@ -660,6 +673,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_V/14th_Alberti_Plasma_Ion_Source_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-a-ruggedized-portable-triple",
               "time": "11:30 a.m.",
               "title": "A Ruggedized, Portable Triple Quadrupole Mass Spectrometer",
               "institutes": [],
@@ -723,6 +737,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-chip-scale-mass-spectrometry-yet",
               "time": "3:30 p.m.",
               "title": "Chip-Scale Mass Spectrometry: Yet another contender for Harsh Environments?",
               "institutes": [],
@@ -742,6 +757,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_VI/14th_Chaudhary_ChipScale_Mass_Spectrometry_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-europan-molecular-indicators-of",
               "time": "4:00 p.m.",
               "title": "Europan Molecular Indicators of Life Investigation (EMILI)",
               "institutes": [],
@@ -842,6 +858,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-instrument-modeling-simulation-field",
               "time": "8:30 a.m.",
               "title": "Instrument Modeling: Simulation, Field Analysis, Synthesis, and Space-Charge",
               "institutes": [],
@@ -865,6 +882,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_VII/14th_Jackson_Instrument_Modeling_Simulation_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-lunar-cube-sat-mass",
               "time": "9:00 a.m.",
               "title": "Lunar Cube Sat Mass Spectrometer",
               "institutes": [],
@@ -888,6 +906,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_VII/14th_Madzunkov_Lunar_Cube_Sat_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-an-optimized-membrane-inlet",
               "time": "9:30 a.m.",
               "title": "An optimized membrane inlet system (MIS) for underwater sensors. - From idea to product",
               "institutes": [],
@@ -919,6 +938,7 @@
           "location": "Mercury Room",
           "talks": [
             {
+              "id": "2022-pres-unknown-portable-maldi-tof-mass-spectrometer",
               "time": "10:30 a.m.",
               "title": "Portable MALDI-TOF Mass Spectrometer for Bioaerosol Detection",
               "institutes": [],
@@ -954,6 +974,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/14th/Technical_Session_VIII/14th_Berkout_Portable_MALDITOF_Mass_Abstract.pdf"
             },
             {
+              "id": "2022-pres-unknown-rf-only-quadrupole-mass-spectrometry",
               "time": "11:00 a.m.",
               "title": "RF-Only Quadrupole Mass Spectrometry for High Sensitivity at High Mass Resolution",
               "institutes": [],
@@ -1176,7 +1197,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "Adaptas Solutions",
+    "url": "https://lifescience.imiplc.com/",
+    "logo_file": "Adaptas_Solutions.png",
+    "logo_file_url": "/images/sponsors/Adaptas_Solutions.png?v=1778097651855"
+  },
   "venue_address_url": "https://maps.app.goo.gl/3FnPjXT8wmFuc5S9A",
   "title": "14th HEMS Workshop",
   "tagline": "The 14th Workshop on Harsh-Environment Mass Spectrometry."

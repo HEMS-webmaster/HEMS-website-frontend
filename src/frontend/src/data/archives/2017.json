@@ -13,7 +13,7 @@
     {
       "label": "Program Download",
       "icon": "Download",
-      "legacy_url": "https://www.hems-workshop.org/11thWS/11thProgram.html",
+      "legacy_url": "",
       "local_target_path": "/api/manager/serve?file=11th/Administrative/11th_Program.pdf",
       "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/11th/Administrative/11th_Program.pdf",
       "gcloud_url": "gs://hems-workshop-archives/proceedings/11th/Administrative/11th_Program.pdf"
@@ -122,6 +122,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-how-to-build-a",
               "time": "8:40 a.m.",
               "title": "How to Build a Better Mousetrap Mass Spectrometer: IARPA's MAEGLIN Program as a Case Study",
               "institutes": [],
@@ -150,6 +151,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-the-moma-mass-spectrometer",
               "time": "9:30 a.m.",
               "title": "The MOMA Mass Spectrometer: Flight Model Integration, Testing and Operation Schemes",
               "institutes": [],
@@ -170,6 +172,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_I/11th_Danell_The_MOMA_Mass_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-flight-testing-a-drone-ms",
               "time": "10:30 a.m.",
               "title": "Flight testing a Drone-MS Prototype (drone based mass spectrometer system) at Solfatara Volcano for in situ Volcanic Gas Plume Measurements",
               "institutes": [],
@@ -190,6 +193,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_I/11th_Diaz_Flight_testing_a_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-recent-progress-made-on",
               "time": "11:00 a.m.",
               "title": "Recent Progress Made on Spacecraft Atmosphere Monitor's Engineering Model",
               "institutes": [],
@@ -210,6 +214,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_I/11th_Madzunkov_Recent_Progress_Made_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-monitoring-clandestine-activities-by",
               "time": "11:30 a.m.",
               "title": "Monitoring Clandestine Activities by the Mini 12",
               "institutes": [],
@@ -238,6 +243,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-development-of-portable-gcms",
               "time": "2:00 p.m.",
               "title": "Development of Portable GC/MS System with Benchtop Performance for Critical DoD Applications",
               "institutes": [],
@@ -258,6 +264,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_II/11th_Wells_Development_of_Portable_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-development-of-a-low-cost",
               "time": "2:30 p.m.",
               "title": "Development of a Low-cost, Low-power, Miniature Sector Mass Spectrometer with IonCCD Detection",
               "institutes": [],
@@ -278,6 +285,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_II/11th_Christian_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-southwest-research-institute-swri",
               "time": "3:15 p.m.",
               "title": "Southwest Research Institute (SwRI) Investigations of Harsh Environments: Implications for Planetary Science Probes and Astrobiology",
               "institutes": [],
@@ -311,6 +319,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-surprises-in-small-packages",
               "time": "8:00 a.m.",
               "title": "Surprises in Small Packages: What We Have Learned Making Miniaturized Linear Ion Traps",
               "institutes": [],
@@ -331,6 +340,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_III/11th_Austin_Surprises_in_Small_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-rapid-response-fieldable-mass",
               "time": "8:30 a.m.",
               "title": "Rapid Response Fieldable Mass Spectrometry with Reverse Gas Stack Modeling and Earth-based Separations",
               "institutes": [],
@@ -351,6 +361,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_III/11th_Verbeck_Rapid_Response_Fieldable_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-searching-for-volatiles-on",
               "time": "9:00 a.m.",
               "title": "Searching for Volatiles on the Moon - LUVMI Rover Mass Spectrometer",
               "institutes": [],
@@ -371,6 +382,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_III/11th_Sheriden_Searching_for_Volatiles_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-toward-low-cost-and-application-specific",
               "time": "9:30 a.m.",
               "title": "Toward Low-Cost and Application-Specific Mass Spectrometers",
               "institutes": [],
@@ -399,6 +411,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-in-field-determination-of-drugs",
               "time": "10:30 a.m.",
               "title": "In-field Determination of Drugs of Abuse and Drug Adulterants",
               "institutes": [],
@@ -419,6 +432,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_IV/11th_Schmidt_Infield_Determination_of_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-field-portable-helium-isotope-detector",
               "time": "11:00 a.m.",
               "title": "Field-Portable Helium Isotope Detector for Continuous Monitoring of Large Earthquakes and Volcanic Unrest",
               "institutes": [],
@@ -439,6 +453,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_IV/11th_McMurtry_FieldPortable_Helium_Isotope_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-optimizing-toroidal-ion-traps",
               "time": "11:30 a.m.",
               "title": "Optimizing Toroidal Ion Traps for Miniature, Field Portable GC/MS Systems",
               "institutes": [],
@@ -467,6 +482,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-a-ruggedized-field-deployable",
               "time": "1:30 p.m.",
               "title": "A Ruggedized, Field Deployable Mass Spectrometer System for Detection of Chemical Warfare Agent Simulants Distributed by Realistic Mock Weapons Systems",
               "institutes": [],
@@ -487,6 +503,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_V/11th_Kelley_A_Ruggedized_Field_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-feasibility-of-using-multi-reflection",
               "time": "2:00 p.m.",
               "title": "Feasibility of Using Multi-Reflection Time-of-flight (MR-TOF) Mass Spectrometer for Nuclear Safety and Security",
               "institutes": [],
@@ -507,6 +524,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_V/11th_Chaudhuri_Feasibility_of_Using_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-peering-into-the-past",
               "time": "2:30 p.m.",
               "title": "Peering into the Past: Onsite Archaeology with a Portable QMS",
               "institutes": [],
@@ -535,6 +553,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-development-of-a-hybrid",
               "time": "3:15 p.m.",
               "title": "Development of a Hybrid Miniature Ion Trap Mass Spectrometer and Ion Mobility Spectrometer for On-site Rapid Analysis of Peroxide-based Explosives and Illicit Drugs",
               "institutes": [],
@@ -555,6 +574,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_VI/11th_Li_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-recent-scientific-applications-of",
               "time": "3:45 p.m.",
               "title": "Recent Scientific Applications of Underwater Mass Spectrometry",
               "institutes": [],
@@ -588,6 +608,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-resolution-and-sensitivity-tuning",
               "time": "8:00 a.m.",
               "title": "Resolution and Sensitivity Tuning of an Electrostatic Ion Trap",
               "institutes": [],
@@ -608,6 +629,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_VII/11th_Brucker_Resolution_and_Sensitivity_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-prototype-coded-aperture-miniature",
               "time": "8:30 a.m.",
               "title": "Prototype Coded Aperture Miniature Mass Spectrometer Using a Cycloidal Sector Mass Analyzer, a Carbon Nanotube (CNT) Field Emission Electron Ionization Source, and an Array Detector",
               "institutes": [],
@@ -628,6 +650,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_VII/11th_Parker_Prototype_Coded_Aperture_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-high-speed-penetrator-deployed",
               "time": "9:00 a.m.",
               "title": "High Speed Penetrator Deployed Mass Spectrometers",
               "institutes": [],
@@ -648,6 +671,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_VII/11th_Sheriden_High_Speed_Penetrator_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-optimization-of-multiple-frequency",
               "time": "9:30 a.m.",
               "title": "Optimization of Multiple Frequency Waveforms for Ion Isolation and Ion Ejection from a Linear Ion Trap Mass Spectrometer for Planetary Exploration",
               "institutes": [],
@@ -676,6 +700,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2017-pres-unknown-silence-is-golden-detector",
               "time": "10:30 a.m.",
               "title": "Silence is Golden: Detector Radiation Shielding at Europa for Mass Spectrometer for Planetary Exploration (MASPEX)",
               "institutes": [],
@@ -696,6 +721,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/11th/Technical_Session_VIII/11th_Blas_Silence_is_Golden_Abstract.pdf"
             },
             {
+              "id": "2017-pres-unknown-modeling-of-qit-ms-performance",
               "time": "11:00 a.m.",
               "title": "Modeling of QIT-MS Performance During the Venus Atmospheric Descent",
               "institutes": [],
@@ -910,7 +936,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "UTC Aerospace Systems",
+    "url": "https://www.rtx.com/collinsaerospace",
+    "logo_file": "UTC_Aerospace_Systems.png",
+    "logo_file_url": "/images/sponsors/UTC_Aerospace_Systems.png?v=1778083564701"
+  },
   "venue_address_url": "",
   "title": "11th HEMS Workshop",
   "tagline": "The 11th Workshop on Harsh-Environment Mass Spectrometry."

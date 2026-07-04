@@ -94,6 +94,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2019-pres-unknown-on-site-applications-of-mims",
               "time": "08:40 a.m.",
               "title": "On-site Applications of MIMS and the Importance of Interface Design as Exemplified by Highly Unusual \"Fragments\" in MIMS Mass Spectra of Chloramines and Bromamines",
               "institutes": [],
@@ -114,6 +115,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Lauritsen_Onsite_Applications_of_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-use-of-computational-sensing",
               "time": "9:30 a.m.",
               "title": "Use of Computational Sensing Techniques to Improve the Performance of Mass Spectrometers in Harsh Environments",
               "institutes": [],
@@ -142,6 +144,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2019-pres-unknown-development-of-micro-time-of-flight-mass",
               "time": "10:30 a.m.",
               "title": "Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis",
               "institutes": [],
@@ -162,6 +165,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-the-dragonfly-mission-to",
               "time": "11:00 a.m.",
               "title": "The Dragonfly Mission to Titan and the Enabling Technologies of the DraMS Mass Spectrometer Onboard",
               "institutes": [],
@@ -182,6 +186,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Danell_The_Dragonfly_Mission_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-evaluation-of-aperture-materials",
               "time": "11:30 a.m.",
               "title": "Evaluation of Aperture Materials for Coded Apertures Used in a Portable Cycloidal Miniature Mass Spectrometer",
               "institutes": [],
@@ -208,6 +213,7 @@
           "title": "Technical Session III: Poster Presenter Lightning Round",
           "talks": [
             {
+              "id": "2019-poster-grimes-determination-of-the-presence",
               "time": "16:00",
               "title": "Determination of the Presence of Biological Compounds in Aerosol Particles with a Linear Ion Trap",
               "institutes": [],
@@ -228,6 +234,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Grimes_Determination_of_the_Abstract.pdf"
             },
             {
+              "id": "2019-poster-amerom-overview-of-the-moma",
               "time": "16:00",
               "title": "Overview of the MOMA Mass Spectrometer and Examination of Some Mineral Matrices as Learning Curve for MOMA Return Data",
               "institutes": [],
@@ -248,6 +255,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Amerom_Overview_of_the_Abstract.pdf"
             },
             {
+              "id": "2019-poster-vyas-a-comparison-of-thermionic",
               "time": "16:00",
               "title": "A Comparison of Thermionic Filament and Carbon Nanotube Field Emitter Array-based Ion Sources in Coded Aperture Miniature Mass Spectrometers",
               "institutes": [],
@@ -268,6 +276,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf"
             },
             {
+              "id": "2019-poster-wieman-in-situ-measurements-of-c",
               "time": "16:00",
               "title": "In-situ Measurements of Î´C and Î´O of Dissolved CO2 using an Underwater Mass Spectrometer",
               "institutes": [],
@@ -301,6 +310,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2019-pres-unknown-electric-field-fragmentation-of",
               "time": "8:30 a.m.",
               "title": "Electric Field Fragmentation of Mobility Selected Ions Using Tandem Ion Mobility Spectrometry at Ambient Pressure with Molecular Identification through Neural Network Analysis",
               "institutes": [],
@@ -321,6 +331,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Eiceman_Electric_Field_Fragmentation_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-chemical-ionization-of-xenon",
               "time": "9:00 a.m.",
               "title": "Chemical Ionization of Xenon and Detection Utilizing a High Precision Digital Ion Trap (DIT)",
               "institutes": [],
@@ -341,6 +352,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IV/13th_Vazquez_Chemical_Ionization_of_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-portable-mass-spectrometer-for",
               "time": "9:30 a.m.",
               "title": "Portable Mass Spectrometer for Explosives and Narcotics Detection",
               "institutes": [],
@@ -369,6 +381,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2019-pres-unknown-detection-and-analysis-of",
               "time": "10:30 a.m.",
               "title": "Detection and Analysis of Simulated Chemical Warfare Agents using Portable Mass Spectrometry",
               "institutes": [],
@@ -388,6 +401,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Virgen_Detection_and_Analysis_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-designing-a-coded-aperture",
               "time": "11:00 a.m.",
               "title": "Designing a Coded Aperture Cycloidal Mass Analyzer to Detect Perfluorocarbon Tracers",
               "institutes": [],
@@ -407,6 +421,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_V/13th_Horvath_Designing_a_Coded_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-simion-beyond-ion-simulation",
               "time": "11:30 a.m.",
               "title": "SIMION Beyond Ion Simulation: Field Analysis, Synthesis, and Harmonic Analysis for MS Design",
               "institutes": [],
@@ -435,6 +450,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2019-pres-unknown-spacecraft-atmosphere-monitor-sam",
               "time": "13:30",
               "title": "Spacecraft Atmosphere Monitor (S.A.M.) First Operational Data",
               "institutes": [],
@@ -455,6 +471,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Madzunkov_Spacecraft_Atmosphere_Monitor_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-the-future-of-linear",
               "time": "14:00",
               "title": "The Future of Linear Ion Trap Mass Spectrometer Systems for Planetary Exploration",
               "institutes": [],
@@ -475,6 +492,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VI/13th_Kaplan_The_Future_of_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-onsite-analysis-of-illicit",
               "time": "14:30",
               "title": "Onsite Analysis of Illicit Drugs by Portable Ion Trap Gas Chromatography-Mass Spectrometry (GCMS)",
               "institutes": [],
@@ -503,6 +521,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2019-pres-unknown-membrane-inlet-mass-spectrometry",
               "time": "15:30",
               "title": "Membrane Inlet Mass Spectrometry for Ocean Worlds",
               "institutes": [],
@@ -523,6 +542,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Short_Membrane_Inlet_Mass_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-evolution-of-a-compact",
               "time": "16:00",
               "title": "Evolution of a Compact TOF Mass Spectrometer from Space Exploration to the Internet of Things",
               "institutes": [],
@@ -543,6 +563,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VII/13th_Lasi_Evolution_of_a_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-development-of-a-low-cost",
               "time": "16:30",
               "title": "Development of a Low-Cost, Low-Power, Miniature Sector Mass Spectrometer with IonCCD Detection",
               "institutes": [],
@@ -576,6 +597,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2019-pres-unknown-smart-city-initiatives-and",
               "time": "09:00",
               "title": "Smart City Initiatives and Where HEMS Can Play a Role",
               "institutes": [],
@@ -596,6 +618,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_VIII/13th_Verbek_Smart_City_Initiatives_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-luvmi-rover-to-characterize",
               "time": "09:30",
               "title": "LUVMI Rover to Characterize Volatile Content in Lunar Polar Regions",
               "institutes": [],
@@ -624,6 +647,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2019-pres-unknown-low-pressure-icp-ms-for-planetary",
               "time": "10:30",
               "title": "Low-Pressure ICP-MS for Planetary Trace Elemental Analysis",
               "institutes": [],
@@ -644,6 +668,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/13th/Technical_Session_IX/13th_Taghioskoui_LowPressure_ICPMS_for_Abstract.pdf"
             },
             {
+              "id": "2019-pres-unknown-qit-mass-spectrometer-for-lunar",
               "time": "11:00",
               "title": "QIT-Mass Spectrometer for Lunar and Planetary Applications",
               "institutes": [],
@@ -837,7 +862,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "Collins Aerospace",
+    "url": "https://www.rtx.com/collinsaerospace",
+    "logo_file": "Collins_Aerospace.png",
+    "logo_file_url": "/images/sponsors/Collins_Aerospace.png?v=1778083613265"
+  },
   "venue_address_url": "",
   "title": "13th HEMS Workshop",
   "tagline": "The 13th Workshop on Harsh-Environment Mass Spectrometry."

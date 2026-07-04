@@ -13,7 +13,7 @@
     {
       "label": "Program Download",
       "icon": "Download",
-      "legacy_url": "https://www.hems-workshop.org/8thWS/8thprogramwpresentations.html",
+      "legacy_url": "https://www.hems-workshop.org/8thWS/HEMS%20Program%20Final%20GV%2010411.pdf",
       "local_target_path": "/api/manager/serve?file=8th/Administrative/8th_Program.pdf",
       "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Administrative/8th_Program.pdf",
       "gcloud_url": "gs://hems-workshop-archives/proceedings/8th/Administrative/8th_Program.pdf"
@@ -147,6 +147,7 @@
           "title": "\t Poster Session, light refreshments served",
           "talks": [
             {
+              "id": "2011-poster-arkin-a-software-package-for",
               "time": "",
               "title": "A Software Package for Mass Spectrometer System Operation, Trouble Shooting and Prototyping",
               "institutes": [
@@ -169,6 +170,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Arkin_A_Software_Package_Abstract.pdf"
             },
             {
+              "id": "2011-poster-wu-a-high-density-micro-ion",
               "time": "",
               "title": "A High Density Micro-Ion Trap Array Miniature Mass Spectrometer",
               "institutes": [
@@ -191,6 +193,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Wu_A_High_Density_Abstract.pdf"
             },
             {
+              "id": "2011-poster-tassetti-development-of-a-mems",
               "time": "",
               "title": "Development of a MEMS Mass Spectrometer Based on TOF Architecture for Gas Analysis",
               "institutes": [
@@ -213,6 +216,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Tassetti_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2011-poster-dziekonski-a-study-of-how",
               "time": "",
               "title": "A Study of How Alternative Buffer Gases can Affect Energetic Material Detection in an Ion Trap Mass Spectrometer",
               "institutes": [
@@ -235,6 +239,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Dziekonski_A_Study_of_Abstract.pdf"
             },
             {
+              "id": "2011-poster-spencer-pulsed-libs-ablation-system",
               "time": "",
               "title": "Pulsed LIBS Ablation System with Static High Resolution Quadrupole for 3He Determination",
               "institutes": [
@@ -257,6 +262,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Spencer_Pulsed_LIBS_Ablation_Abstract.pdf"
             },
             {
+              "id": "2011-poster-vidoudez-in-line-nafion-based-water",
               "time": "",
               "title": "In line Nafion-based water gas remover for In Situ Mass Spectrometry",
               "institutes": [
@@ -279,6 +285,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Vidoudez_In_line_Nafionbased_Abstract.pdf"
             },
             {
+              "id": "2011-poster-evens-nguyen-differential-mobility-ion-pre-filter",
               "time": "",
               "title": "Differential Mobility Ion Pre-filter for Field - Deployable Atmospheric Pressure Ionization Mass Spectrometers",
               "institutes": [
@@ -301,6 +308,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_EvensNguyen_Differential_Mobility_Ion_Abstract.pdf"
             },
             {
+              "id": "2011-poster-maher-performance-enhancement-for-miniature",
               "time": "",
               "title": "Performance Enhancement for Miniature QMS Through Application of a Magnetic Field",
               "institutes": [
@@ -323,6 +331,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Maher_Performance_Enhancement_for_Abstract.pdf"
             },
             {
+              "id": "2011-poster-duncan-the-development-of-condensed-phase",
               "time": "",
               "title": "The Development of Condensed-Phase Membrane Introduction Mass Spectrometry (CP-MIMS) for the Direct Online Analysis of Polar, Low Volatility Analytes from Complex Matrices",
               "institutes": [
@@ -345,6 +354,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Duncan_The_Development_of_Abstract.pdf"
             },
             {
+              "id": "2011-poster-austin-the-coaxial-ion-trap",
               "time": "",
               "title": "The Coaxial Ion Trap: Concentric Quadrupolar and Toroidal Trapping Regions",
               "institutes": [
@@ -367,6 +377,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Austin_The_Coaxial_Ion_Abstract.pdf"
             },
             {
+              "id": "2011-poster-kibelka-transportable-sector-field-ms-with",
               "time": "",
               "title": "Transportable sector-field MS with ion detector array",
               "institutes": [
@@ -389,6 +400,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Kibelka_Transportable_sectorfield_MS_Abstract.pdf"
             },
             {
+              "id": "2011-poster-amerom-mass-spectrometer-for-in-situ",
               "time": "",
               "title": "Mass Spectrometer for In-Situ Detection of Organics in Martian Soil",
               "institutes": [
@@ -411,6 +423,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Posters/8th_Amerom_Mass_Spectrometer_for_Abstract.pdf"
             },
             {
+              "id": "2011-poster-antonov-design-of-the-portable",
               "time": "",
               "title": "Design of the Portable Mass Spectrometric Sensor for Vascular and Endocrine Disease Diagnostics",
               "institutes": [
@@ -441,6 +454,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2011-pres-unknown-opening-talk-traditional-tools",
               "time": "9:00 a.m.",
               "title": "Opening Talk: Traditional Tools in Non-Traditional Environments: Forensic Science in the Field",
               "institutes": [
@@ -463,6 +477,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Lothridge_Opening_Talk_Traditional_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-underwater-cryotrap-membrane",
               "time": "9:30 a.m.",
               "title": "Underwater Cryotrap - Membrane Inlet System (CT-MIS) for Improved in situ Analysis of Gases by Mass Spectrometry",
               "institutes": [
@@ -485,6 +500,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Gentz_Underwater_Cryotrap_Membrane_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-underwater-membrane-introduction-mass",
               "time": "10:30 a.m.",
               "title": "Underwater Membrane Introduction Mass Spectrometers: Recent Developments and Deployments",
               "institutes": [
@@ -507,6 +523,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Short_Underwater_Membrane_Introduction_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-modular-quantitative-air-sampling",
               "time": "11:00 a.m.",
               "title": "Modular Quantitative Air Sampling for Field Analysis using Person-Portable GC-MS",
               "institutes": [
@@ -529,6 +546,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_I/8th_Smith_Modular_Quantitative_Air_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-a-suite-of-sampling",
               "time": "11:30 a.m.",
               "title": "A Suite of Sampling Aids for the In-Field SPME Collection of Analytes from Air, Particulates, and Surfaces",
               "institutes": [
@@ -559,6 +577,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2011-pres-unknown-the-sample-analysis-at",
               "time": "1:30 p.m.",
               "title": "The Sample Analysis at Mars (SAM): Developing Analytical Tools to Search for a Habitable Environment on Mars",
               "institutes": [
@@ -581,6 +600,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Harpold_The_Sample_Analysis_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-applications-of-field-mobile-purge",
               "time": "2:00 p.m.",
               "title": "Applications of Field-Mobile Purge and Trap GC/MS for Onsite Water Analysis",
               "institutes": [
@@ -603,6 +623,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Patterson_Applications_of_FieldMobile_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-oil-in-water-monitoring-in-the",
               "time": "2:30 p.m.",
               "title": "Oil-in-Water Monitoring in the North Sea using Membrane Inlet Mass Spectrometry",
               "institutes": [
@@ -625,6 +646,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_II/8th_Brkic_OilinWater_Monitoring_in_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-magnet-portable-mass-spectrometer",
               "time": "3:30 p.m.",
               "title": "Magnet Portable Mass Spectrometer for Direct Control of Gases in Sea Water",
               "institutes": [
@@ -660,6 +682,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2011-pres-unknown-mobile-high-resolution-multiple-reflection-time-of-flight",
               "time": "8:30 a.m.",
               "title": "Mobile High-Resolution Multiple-Reflection Time-of-Flight Mass Spectrometer for in-situ Analytics",
               "institutes": [
@@ -682,6 +705,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Lang_Mobile_HighResolution_MultipleReflection_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-new-person-portable-gas",
               "time": "9:00 a.m.",
               "title": "New Person Portable Gas Chromatograph for Harsh Environments – Design Criteria, and Verification Testing",
               "institutes": [
@@ -704,6 +728,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Sadowski_New_Person_Portable_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-development-of-a-miniature",
               "time": "9:30 a.m.",
               "title": "Development of a Miniature Rectilinear Ion Trap Array with Independently Controlled Channels",
               "institutes": [
@@ -726,6 +751,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Hendricks_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-redesign-of-the-vapor",
               "time": "10:30 a.m.",
               "title": "Redesign of the VAPoR Miniaturized Pyrolysis TOFMS for Improved Sensitivity",
               "institutes": [
@@ -748,6 +774,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Southard_Redesign_of_the_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-recent-advances-in-portable",
               "time": "11:00 a.m.",
               "title": "Recent Advances in Portable Mass Spectrometry Systems at Kennedy Space Center",
               "institutes": [
@@ -770,6 +797,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_III/8th_Arkin_Recent_Advances_in_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-cylindrical-toroidal-ion-trap",
               "time": "11:30 a.m.",
               "title": "Cylindrical Toroidal Ion Trap Mass Spectrometer",
               "institutes": [
@@ -800,6 +828,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2011-pres-unknown-design-and-use-of",
               "time": "1:30 p.m.",
               "title": "Design and Use of Portable and Compact Sampling Systems for Mass Spectrometers",
               "institutes": [
@@ -822,6 +851,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wright_Design_and_Use_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-design-of-pocket-mass",
               "time": "2:00 p.m.",
               "title": "Design of Pocket Mass Spectrometer in a Mobile Phone Size",
               "institutes": [
@@ -844,6 +874,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Yang_Design_of_Pocket_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-a-completely-handheld-ambient",
               "time": "3:00 p.m.",
               "title": "A Completely Handheld Ambient Ionization Source for Mass Spectrometry Based on a Low-Temperature Plasma (LTP)",
               "institutes": [
@@ -866,6 +897,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Wiley_A_Completely_Handheld_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-a-miniaturized-laser-ablation-mass",
               "time": "3:30 p.m.",
               "title": "A Miniaturized Laser-Ablation Mass Spectrometer Designed for in-situ Measurements on Planetary Space Missions",
               "institutes": [
@@ -888,6 +920,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_IV/8th_Riedo_A_Miniaturized_LaserAblation_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-autoresonant-ion-trap-mass",
               "time": "4:00 p.m.",
               "title": "Autoresonant Ion Trap Mass Spectrometry (ART MS)",
               "institutes": [
@@ -923,6 +956,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2011-pres-unknown-negative-ions-for-fieldable",
               "time": "8:30 a.m.",
               "title": "Negative Ions for Fieldable Mass Spectrometry",
               "institutes": [
@@ -945,6 +979,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Whitten_Negative_Ions_for_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-mobile-mass-spectrometer-in",
               "time": "9:00 a.m.",
               "title": "Mobile Mass Spectrometer in Daily Use – Experiences Made by Non-Scientific Operators",
               "institutes": [
@@ -967,6 +1002,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Lange_Mobile_Mass_Spectrometer_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-utilization-of-lightweight-ms",
               "time": "9:30 a.m.",
               "title": "Utilization of Lightweight MS based Instrumentation and Small UAV Platforms for In-Situ Volcanic Plume Analysis",
               "institutes": [
@@ -989,6 +1025,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Diaz_Utilization_of_Lightweight_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-a-transportable-fticrms-for",
               "time": "10:30 a.m.",
               "title": "A Transportable FTICR/MS for Direct and Real-Time Analysis of VOC Contaminants in Air and Water",
               "institutes": [
@@ -1011,6 +1048,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/8th/Technical_Session_V/8th_Louarn_A_Transportable_FTICRMS_Abstract.pdf"
             },
             {
+              "id": "2011-pres-unknown-low-power-atmospheric-gas",
               "time": "11:00 a.m.",
               "title": "Low Power Atmospheric Gas Sampling System Based on ART MS Sensor and NEG-Ion Pump System",
               "institutes": [
@@ -1240,7 +1278,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "Hamilton Sundstrand",
+    "url": "www.hamiltonsundstrand.com",
+    "logo_file": "Hamilton_Sundstrand.png",
+    "logo_file_url": "/images/sponsors/Hamilton_Sundstrand.png?v=1778522783284"
+  },
   "venue_address_url": "https://maps.app.goo.gl/FNQ7Ag5kfj1DpjEL6",
   "title": "8th HEMS Workshop",
   "tagline": "The 8th Workshop on Harsh-Environment Mass Spectrometry."

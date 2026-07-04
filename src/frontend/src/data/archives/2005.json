@@ -86,6 +86,7 @@
           "location": "SandDollar Rooftop Restaurant",
           "talks": [
             {
+              "id": "2005-pres-unknown-applications-of-membrane-inlet",
               "time": "9:00 a.m.",
               "title": "Applications of membrane inlet mass spectrometry for long term monitoring in the field",
               "institutes": [
@@ -114,6 +115,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Lauritsen_Applications_of_membrane_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-field-portable-gcms-characterization-and",
               "time": "9:30 a.m.",
               "title": "Field-Portable GC/MS Characterization and Testing",
               "institutes": [
@@ -156,6 +158,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Patterson_FieldPortable_GCMS_Characterization_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-a-field-portable-thermal-desorption",
               "time": "10:30 a.m.",
               "title": "A Field-Portable Thermal Desorption Time-of-Flight Mass Spectrometer",
               "institutes": [
@@ -198,6 +201,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Brookes_A_FieldPortable_Thermal_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-waterborne-cb-agent-detection",
               "time": "11:00 a.m.",
               "title": "Waterborne CB Agent Detection System",
               "institutes": [
@@ -232,6 +236,7 @@
           "location": "SandDollar Rooftop Restaurant",
           "talks": [
             {
+              "id": "2005-pres-unknown-an-ion-trap-mass",
               "time": "1:30 p.m.",
               "title": "An Ion Trap Mass Spectrometer System for Continuous Monitoring of Biological and Chemical Backgrounds",
               "institutes": [
@@ -269,6 +274,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Gardner_An_Ion_Trap_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-detection-of-explosives-at",
               "time": "2:00 p.m.",
               "title": "Detection of Explosives at a Formerly Used Defense Site with a Portable SPME/GC-Cylindrical Ion Trap Mass Spectrometer",
               "institutes": [
@@ -295,6 +301,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_MacMillan_Detection_of_Explosives_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-ct-1128-portable-gas-chromatograph",
               "time": "2:30 p.m.",
               "title": "CT-1128 Portable Gas Chromatograph – Mass Spectrometer",
               "institutes": [
@@ -323,6 +330,7 @@
           "title": "Poster Session",
           "talks": [
             {
+              "id": "2005-poster-bell-underwater-mass-spectrometrycalibration-issues",
               "time": "3:30 p.m.",
               "title": "Underwater mass spectrometry—Calibration issues for membrane introduction interfaces",
               "institutes": [
@@ -360,6 +368,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2005-poster-bhushan-liga-fabricated-high-aspect",
               "time": "3:30 p.m.",
               "title": "LIGA fabricated high aspect ratio nickel gas chromatograph (GC) columns as a step towards a portable and fast GC instrument",
               "institutes": [
@@ -394,6 +403,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Posters/5th_Bhushan_LIGA_fabricated_high_Abstract.pdf"
             },
             {
+              "id": "2005-poster-cairns-implications-of-miniaturising-linear",
               "time": "3:30 p.m.",
               "title": "Implications of Miniaturising Linear Ion Trap Arrays for Portable Detectors",
               "institutes": [
@@ -432,6 +442,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2005-poster-cochran-performance-characteristics-of-detectors",
               "time": "3:30 p.m.",
               "title": "Performance Characteristics of Detectors Operated in Harsh Environments",
               "institutes": [
@@ -469,6 +480,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Posters/5th_Cochran_Performance_Characteristics_of_Abstract.pdf"
             },
             {
+              "id": "2005-poster-diaz-gas-concentration-mapping-of",
               "time": "3:30 p.m.",
               "title": "Gas Concentration Mapping of Arenal Volcano using AVEMS",
               "institutes": [
@@ -533,6 +545,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2005-poster-gregson-in-situ-programmable-reconfigurable-fluidic",
               "time": "3:30 p.m.",
               "title": "In-situ programmable, reconfigurable fluidic processor for waterborne biomolecular sample prep: towards the develpment of an automated bio-mass spec.",
               "institutes": [
@@ -566,6 +579,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2005-poster-lauritsen-characterization-of-a-mini",
               "time": "3:30 p.m.",
               "title": "Characterization of a Mini Membrane Inlet Mass Spectrometer Operating at High Pressure (˜ 1•10-3 torr) Using Different Types of Microporous Membranes",
               "institutes": [
@@ -595,6 +609,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2005-poster-lebedev-mobile-water-mass-spectrometer",
               "time": "3:30 p.m.",
               "title": "Mobile water mass-spectrometer",
               "institutes": [
@@ -649,6 +664,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2005-poster-wapelhorst-a-high-performance-vapor-jet-micropump",
               "time": "3:30 p.m.",
               "title": "A High-Performance Vapor-Jet Micropump for Miniaturized Mass-Spectrometers",
               "institutes": [
@@ -678,6 +694,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Posters/5th_Wapelhorst_A_HighPerformance_VaporJet_Abstract.pdf"
             },
             {
+              "id": "2005-poster-yu-analysis-of-atmospheric-samples",
               "time": "3:30 p.m.",
               "title": "Analysis of Atmospheric Samples using a Comprehensive Two-Dimensional Gas Chromatograph Coupled to a Time-of-Flight Mass Spectrometer",
               "institutes": [
@@ -750,6 +767,7 @@
           "location": "SandDollar Rooftop Restaurant",
           "talks": [
             {
+              "id": "2005-pres-unknown-3d-gas-concentration-mapping",
               "time": "8:30 a.m.",
               "title": "3D Gas Concentration Mapping of Active Volcanoes using Mass Spectrometry",
               "institutes": [
@@ -814,6 +832,7 @@
               "gcloud_abstract_url": ""
             },
             {
+              "id": "2005-pres-unknown-the-cassinihuygens-gas-chromatograph",
               "time": "9:00 a.m.",
               "title": "The Cassini/Huygens Gas Chromatograph Mass Spectrometer",
               "institutes": [
@@ -835,6 +854,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Harpold_The_CassiniHuygens_Gas_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-laser-tof-ms-instrumentation-for",
               "time": "9:30 a.m.",
               "title": "Laser TOF-MS instrumentation for planetary missions",
               "institutes": [
@@ -886,6 +906,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Brinckerhoff_Laser_TOFMS_instrumentation_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-offgas-from-radiolysis",
               "time": "10:30 a.m.",
               "title": "Offgas from Radiolysis – Difficult analysis needing High Resolution Mass Spectrometry",
               "institutes": [
@@ -927,6 +948,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Spencer_Offgas_from_Radiolysis_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-comprehensive-two-dimensional-gas-chromatography",
               "time": "11:00 a.m.",
               "title": "Comprehensive Two-Dimensional Gas Chromatography Coupled with Time-of-Flight Mass Spectrometry for Broad Spectrum Organic Analysis",
               "institutes": [
@@ -994,6 +1016,7 @@
           "location": "SandDollar Rooftop Restaurant",
           "talks": [
             {
+              "id": "2005-pres-unknown-ion-trapping-in-microfabricated",
               "time": "1:30 p.m.",
               "title": "Ion trapping in microfabricated ion trap arrays",
               "institutes": [
@@ -1037,6 +1060,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Cruz_Ion_trapping_in_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-miniature-ion-traps-and",
               "time": "2:00 p.m.",
               "title": "Miniature ion traps and arrays for high pressure mass spectrometry",
               "institutes": [
@@ -1070,6 +1094,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Whitten_Miniature_ion_traps_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-mems-fabrication-techniques-for",
               "time": "2:30 p.m.",
               "title": "MEMS fabrication techniques for miniaturization of cylindircal ion trap arrays",
               "institutes": [
@@ -1107,6 +1132,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Amerom_MEMS_fabrication_techniques_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-a-fully-integrated-micro",
               "time": "3:30 p.m.",
               "title": "A Fully Integrated Micro Mass Spectrometer",
               "institutes": [
@@ -1136,6 +1162,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Wapelhorst_A_Fully_Integrated_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-portable-mass-spectrograph-with-linear",
               "time": "4:00 p.m.",
               "title": "Portable mass-spectrograph with linear segmented detector array",
               "institutes": [
@@ -1169,6 +1196,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Lebedev_Portable_massspectrograph_with_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-a-ccd-detector-array",
               "time": "4:30 p.m.",
               "title": "A CCD detector array for direct ion measurement",
               "institutes": [
@@ -1203,6 +1231,7 @@
           "location": "SandDollar Rooftop Restaurant",
           "talks": [
             {
+              "id": "2005-pres-unknown-development-of-the-doms",
               "time": "9:00 a.m.",
               "title": "Development of the DOMS Deep-Ocean Mass Spectrometer System",
               "institutes": [
@@ -1234,6 +1263,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_McMurtry_Development_of_the_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-determination-of-dissolved-gas",
               "time": "9:30 a.m.",
               "title": "Determination of dissolved gas concentrations in natural waters using an in-situ, membrane inlet mass spectrometer",
               "institutes": [
@@ -1275,6 +1305,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Wenner_Determination_of_dissolved_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-paradigm-shifts-in-mass",
               "time": "10:30 a.m.",
               "title": "Paradigm shifts in mass spectrometry",
               "institutes": [
@@ -1296,6 +1327,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/5th/Technical_Session/5th_Rippen_Paradigm_shifts_in_Abstract.pdf"
             },
             {
+              "id": "2005-pres-unknown-dods-sbir-sttr",
               "time": "11:00 a.m.",
               "title": "DoD’s SBIR & STTR Programs: An Overview",
               "institutes": [
@@ -1509,7 +1541,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "Center for Ocean Technology, College of Marine Science, USF",
+    "url": "http://www.marine.usf.edu/COT/",
+    "logo_file": "Center_for_Ocean_Technology_College_of_Marine_Science_USF.png",
+    "logo_file_url": "/images/sponsors/Center_for_Ocean_Technology_College_of_Marine_Science_USF.png?v=1778696767962"
+  },
   "venue_address_url": "https://maps.app.goo.gl/zDQy6PMyhnREjeoF8",
   "title": "5th HEMS Workshop",
   "tagline": "The 5th Workshop on Harsh-Environment Mass Spectrometry."

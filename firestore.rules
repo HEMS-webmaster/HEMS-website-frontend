@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to fetch user roles array from the users collection
+    function getUserRoles(userId) {
+      return get(/databases/$(database)/documents/users/$(userId)).data.roles;
+    }
+
+    // Helper function to check if the user is an admin
+    function isAdmin(userId) {
+      return 'admin' in getUserRoles(userId);
+    }
+
+    // User profiles rules
+    match /users/{userId} {
+      // Authenticated users can read their own profile, admins can read all profiles
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin(request.auth.uid));
+      
+      // Users can create their own profile, defaulting strictly to the ['general'] role
+      allow create: if request.auth != null && request.auth.uid == userId && request.resource.data.roles == ['general'];
+      
+      // Users can update their name/email but cannot self-promote their roles. Admins can update any user roles.
+      allow update: if request.auth != null && (
+        (request.auth.uid == userId && request.resource.data.roles == resource.data.roles) || 
+        isAdmin(request.auth.uid)
+      );
+      
+      // Only admins can delete profiles
+      allow delete: if request.auth != null && isAdmin(request.auth.uid);
+    }
+
+    // Reviewer-only documents (grading sheets, review comments)
+    match /reviews/{document} {
+      allow read, write: if request.auth != null && ('reviewer' in getUserRoles(request.auth.uid) || isAdmin(request.auth.uid));
+    }
+
+    // Board-only documents (meeting minutes, annual budgets)
+    match /board_documents/{document} {
+      allow read, write: if request.auth != null && ('board' in getUserRoles(request.auth.uid) || isAdmin(request.auth.uid));
+    }
+
+    // Whitelist management
+    match /whitelist/{document} {
+      allow read, write: if request.auth != null && isAdmin(request.auth.uid);
+    }
+  }
+}

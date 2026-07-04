@@ -13,7 +13,7 @@
     {
       "label": "Program Download",
       "icon": "Download",
-      "legacy_url": "https://www.hems-workshop.org/9thWS/9thProgram.html",
+      "legacy_url": "https://www.hems-workshop.org/9thWS/HEMS%20Program%20Draft%202013.pdf",
       "local_target_path": "/api/manager/serve?file=9th/Administrative/9th_Program.pdf",
       "public_website_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/9th/Administrative/9th_Program.pdf",
       "gcloud_url": "gs://hems-workshop-archives/proceedings/9th/Administrative/9th_Program.pdf"
@@ -136,6 +136,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2013-pres-unknown-opening-talk-exploring-subglacial",
               "time": "9:00 a.m.",
               "title": "Opening Talk: Exploring subglacial environments from the microbe’s perspective",
               "institutes": [
@@ -159,6 +160,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_I/9th_Mikucki_Opening_Talk_Exploring_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-designing-for-harsh-environments",
               "time": "9:30 a.m.",
               "title": "Designing for Harsh Environments",
               "institutes": [
@@ -182,6 +184,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_I/9th_Arkin_Designing_for_Harsh_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-mass-spectrometry-fundamentals-a",
               "time": "10:30 a.m.",
               "title": "Mass Spectrometry Fundamentals: A Hands‐on University Lab Course",
               "institutes": [
@@ -205,6 +208,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_I/9th_Berger_Mass_Spectrometry_Fundamentals_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-stochastic-regression-modeling-of",
               "time": "11:00 a.m.",
               "title": "Stochastic Regression Modeling of Noisy Spectra",
               "institutes": [
@@ -228,6 +232,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_I/9th_Kearsley_Stochastic_Regression_Modeling_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-a-coded-aperture-magnetic",
               "time": "11:30 a.m.",
               "title": "A Coded Aperture Magnetic Sector Mass Spectrometer",
               "institutes": [
@@ -259,6 +264,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2013-pres-unknown-looking-for-alternatives-to",
               "time": "1:30 p.m.",
               "title": "Looking for Alternatives to High Resolution Mass Spectrometry",
               "institutes": [
@@ -282,6 +288,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_II/9th_Spencer_Looking_for_Alternatives_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-a-field-deployable-ion",
               "time": "2:00 p.m.",
               "title": "A Field Deployable Ion Trap Mass Spectrometer with Atmospheric Pressure Interface",
               "institutes": [
@@ -305,6 +312,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_II/9th_Lee_A_Field_Deployable_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-development-of-a-loebeiber",
               "time": "2:30 p.m.",
               "title": "Development of a Loeb‐Eiber Mass Filter for Portable Mass Spectrometry",
               "institutes": [
@@ -328,6 +336,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_II/9th_Jackson_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-new-tmp-bearing-suspension",
               "time": "3:00 p.m.",
               "title": "New TMP Bearing Suspension System andAdvantages of the \"Floating Suspension\" to Portable MS Systems",
               "institutes": [
@@ -358,6 +367,7 @@
           "title": "Poster Session, light refreshments served",
           "talks": [
             {
+              "id": "2013-poster-giannoukos-portable-membrane-inlet-mass",
               "time": "16:00",
               "title": "Portable Membrane Inlet Mass Spectrometer for Illegal Human Migration Detection",
               "institutes": [
@@ -380,6 +390,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Giannoukos_Portable_Membrane_Inlet_Abstract.pdf"
             },
             {
+              "id": "2013-poster-li-miniaturized-planar-electrode-linear",
               "time": "16:00",
               "title": "Miniaturized Planar Electrode Linear Ion Trap (LIT) Mass Analyzer",
               "institutes": [
@@ -402,6 +413,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Li_Miniaturized_Planar_Electrode_Abstract.pdf"
             },
             {
+              "id": "2013-poster-sorensen-miniature-vacuum-pumps-for",
               "time": "16:00",
               "title": "Miniature Vacuum Pumps for Portable Mass Spectrometry",
               "institutes": [
@@ -424,6 +436,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Sorensen_Miniature_Vacuum_Pumps_Abstract.pdf"
             },
             {
+              "id": "2013-poster-neidholdt-vacuum-compatible-mass-spectrometer",
               "time": "16:00",
               "title": "Vacuum Compatible Mass Spectrometer Electronics for the RESOLVE Mission",
               "institutes": [
@@ -446,6 +459,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Neidholdt_Vacuum_Compatible_Mass_Abstract.pdf"
             },
             {
+              "id": "2013-poster-kidd-mass-spectroscopy-based-instrument",
               "time": "16:00",
               "title": "Mass Spectroscopy Based Instrument Development at the Jet Propulsion Laboratory",
               "institutes": [
@@ -468,6 +482,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Kidd_Mass_Spectroscopy_Based_Abstract.pdf"
             },
             {
+              "id": "2013-poster-hoshino-jaxas-technology-roadmap",
               "time": "16:00",
               "title": "JAXA's Technology Roadmap & Application of \"MassSpectrometry\"",
               "institutes": [
@@ -490,6 +505,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Hoshino_JAXAs_Technology_Roadmap_Abstract.pdf"
             },
             {
+              "id": "2013-poster-cardenasvalencia-membrance-interface-evaluations-for",
               "time": "16:00",
               "title": "Membrance Interface Evaluations for Underwater Mass Spectrometers",
               "institutes": [
@@ -512,6 +528,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_CardenasValencia_Membrance_Interface_Evaluations_Abstract.pdf"
             },
             {
+              "id": "2013-poster-roman-microion-trap-mass-spectrometer",
               "time": "16:00",
               "title": "Micro‐ion Trap Mass Spectrometer for (pre)‐biotic Organic Compound Analysis on Comets",
               "institutes": [
@@ -534,6 +551,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Roman_Microion_Trap_Mass_Abstract.pdf"
             },
             {
+              "id": "2013-poster-tassetti-gas-detection-using-a",
               "time": "16:00",
               "title": "Gas detection using a MEMS TOF Mass‐Spectrometer: First Results",
               "institutes": [
@@ -556,6 +574,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Tassetti_Gas_detection_using_Abstract.pdf"
             },
             {
+              "id": "2013-poster-brown-ambient-ionization-mass-spectrometry",
               "time": "16:00",
               "title": "Ambient Ionization Mass Spectrometry for Simultaneous Analysis of Organic and Inorganic Radiological Dispersion Device (RDD) Components",
               "institutes": [
@@ -578,6 +597,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Brown_Ambient_Ionization_Mass_Abstract.pdf"
             },
             {
+              "id": "2013-poster-schultze-development-of-a-compact",
               "time": "16:00",
               "title": "Development of a Compact, Isobaric Chamber for High Pressure Mass Spectrometry of Ambient Organics",
               "institutes": [
@@ -600,6 +620,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Schultze_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2013-poster-parker-microfabricated-ion-sources-for",
               "time": "16:00",
               "title": "Microfabricated Ion Sources for Portable Mass Spectrometers",
               "institutes": [
@@ -622,6 +643,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Parker_Microfabricated_Ion_Sources_Abstract.pdf"
             },
             {
+              "id": "2013-poster-amerom-development-of-a-dual",
               "time": "16:00",
               "title": "Development of a Dual Ion Source Hyperbolic Linear Ion Trap Mass Spectrometer for In Situ Detection of Organic Molecules on Mars",
               "institutes": [
@@ -644,6 +666,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Amerom_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2013-poster-amerom-design-of-a-prototype",
               "time": "16:00",
               "title": "Design of a Prototype Digital Ion Trap for High Resolution Ion Trap Analysis",
               "institutes": [
@@ -666,6 +689,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Posters/9th_Amerom_Design_of_a_Abstract.pdf"
             },
             {
+              "id": "2013-poster-russell-the-application-of-coded",
               "time": "16:00",
               "title": "The Application of Coded Aperature Spectroscopy to Magnetic Sector Mass Spectrometers",
               "institutes": [
@@ -701,6 +725,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2013-pres-unknown-a-mobility-filter-that",
               "time": "8:30 a.m.",
               "title": "A \"Mobility Filter\" that Widely Protects a Mass Spectrometer from Neutral Molecule Contaminations",
               "institutes": [
@@ -724,6 +749,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_III/9th_Wollnik_A_Mobility_Filter_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-high-pressure-nitrogen-and",
               "time": "9:00 a.m.",
               "title": "High Pressure Nitrogen and Air Mass Spectrometry with Microscale Ion Traps",
               "institutes": [
@@ -747,6 +773,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_III/9th_Blakeman_High_Pressure_Nitrogen_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-field-optimization-of-ion",
               "time": "9:30 a.m.",
               "title": "Field Optimization of Ion Trap Performance",
               "institutes": [
@@ -770,6 +797,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_III/9th_Brucker_Field_Optimization_of_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-trapping-and-analysis-of",
               "time": "10:30 a.m.",
               "title": "Trapping and Analysis of Externally Generated Ions in a Miniature Cylindrical Ion Trap",
               "institutes": [
@@ -793,6 +821,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_III/9th_Cavanaugh_Trapping_and_Analysis_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-in-situ-mass-spectrometry",
               "time": "11:00 a.m.",
               "title": "In Situ Mass Spectrometry in Marine Science: Distribution and Fate of Methane Released from Submarine Sources",
               "institutes": [
@@ -816,6 +845,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_III/9th_Gentz_In_Situ_Mass_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-development-of-outside-the",
               "time": "11:30 a.m.",
               "title": "Development of Outside the Lab Mass Spectrometers for Rapid Trace Detection",
               "institutes": [
@@ -847,6 +877,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2013-pres-unknown-portable-mass-spectrometry-for",
               "time": "1:30 p.m.",
               "title": "Portable Mass Spectrometry for Post‐Detonation Nuclear Forensics",
               "institutes": [
@@ -870,6 +901,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_IV/9th_EvansNguyen_Portable_Mass_Spectrometry_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-development-of-unmanned-aerial",
               "time": "2:00 p.m.",
               "title": "Development of Unmanned Aerial Vehicle Mass Spectrometer (UAV‐MS) Systems for Calibration and Validation of Satellite Remote Sensing Data using In‐Situ Volcanic Plume Analysis",
               "institutes": [
@@ -893,6 +925,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_IV/9th_Diaz_Development_of_Unmanned_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-development-of-a-membrane",
               "time": "3:00 p.m.",
               "title": "Development of a Membrane Inlet Mass Spectrometry‐Based Strategy for Environmental Monitoring",
               "institutes": [
@@ -916,6 +949,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_IV/9th_Hoffmann_Development_of_a_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-comparative-household-chemical-analysis",
               "time": "3:30 p.m.",
               "title": "Comparative Household Chemical Analysis Using Ambient Ionization Coupled to Miniature Mass Spectrometry",
               "institutes": [
@@ -939,6 +973,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_IV/9th_Pulliam_Comparative_Household_Chemical_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-paper-spray-ionization-under",
               "time": "4:00 p.m.",
               "title": "Paper Spray Ionization Under Harsh Environment and Gas Phase Ion Molecule Reaction Under Titan Simulate Environment",
               "institutes": [
@@ -962,6 +997,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Technical_Session_IV/9th_Li_Paper_Spray_Ionization_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-turbopump-preselection-of-analytes",
               "time": "4:30 p.m.",
               "title": "Turbopump Preselection of Analytes Based on Molecular Weight",
               "institutes": [
@@ -998,6 +1034,7 @@
           "location": "",
           "talks": [
             {
+              "id": "2013-pres-unknown-the-role-of-nonevaporable",
               "time": "8:30 a.m.",
               "title": "The Role of Non‐evaporable Getter Pump Technology in Portable Mass Spectrometry",
               "institutes": [
@@ -1021,6 +1058,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Wednesday_Technical_Session/9th_Garcia_The_Role_of_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-recent-results-from-curiositys",
               "time": "9:00 a.m.",
               "title": "Recent Results from Curiosity’s SAM Instrument at Gale Crater and Looking Ahead to MAVEN",
               "institutes": [
@@ -1044,6 +1082,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Wednesday_Technical_Session/9th_Getty_Recent_Results_from_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-in-situ-membrane-introduction",
               "time": "9:30 a.m.",
               "title": "In situ Membrane Introduction Mass Spectrometry for Subsea Characterization of Light Hydrocarbons",
               "institutes": [
@@ -1067,6 +1106,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Wednesday_Technical_Session/9th_Short_In_situ_Membrane_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-integration-and-ruggedization-of",
               "time": "10:30 a.m.",
               "title": "Integration and Ruggedization of a Commercially Available Gas Chromatograph and Mass Spectrometer (GCMS) for the Resource Prospector Mission (RPM)",
               "institutes": [
@@ -1090,6 +1130,7 @@
               "gcloud_abstract_url": "gs://hems-workshop-archives/proceedings/9th/Wednesday_Technical_Session/9th_Loftin_Integration_and_Ruggedization_Abstract.pdf"
             },
             {
+              "id": "2013-pres-unknown-a-miniature-lims-system",
               "time": "11:00 a.m.",
               "title": "A Miniature LIMS System for Accurate Isotope Composition Measurements in situ Planetary Surfaces",
               "institutes": [
@@ -1329,7 +1370,12 @@
       ]
     }
   ],
-  "host_corporation": null,
+  "host_corporation": {
+    "name": "University of North Texas",
+    "url": "http://www.unt.edu/",
+    "logo_file": "University_of_North_Texas.png",
+    "logo_file_url": "/images/sponsors/University_of_North_Texas.png?v=1778083552010"
+  },
   "venue_address_url": "https://maps.app.goo.gl/U2KZR19399wcNAcB8",
   "title": "9th HEMS Workshop",
   "tagline": "The 9th Workshop on Harsh-Environment Mass Spectrometry."
