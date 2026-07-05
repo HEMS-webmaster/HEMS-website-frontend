@@ -2722,3 +2722,13 @@ We must:
   - Appended source-material/, scratch_archive.zip, and firebase-key.json to root .gitignore.
   - Appended *.log, *.tsbuildinfo, and loose development files to src/frontend/.gitignore.
   - Executed git rm -r --cached to safely untrack source-material/, scratch_archive.zip, and firebase-key.json from the public Git repository.
+
+
+## 2026-07-05 10:06:34 - @ops SCoT Log
+- Goal: Move loose markdown files and raw_text folder into the gitignored source-material/ directory.
+- Action:
+  - Bypassed Immutable Reference Lock #1 with user's explicit permission.
+  - Created source-material/historical/archives_translation/ directory.
+  - Moved all loose .md and .js files in docs/archives_translation/ to source-material/historical/archives_translation/.
+  - Moved docs/archives_translation/raw_text/ folder to source-material/historical/archives_translation/raw_text/.
+  - Staged deletions for git push and ran full production build/deploy.
