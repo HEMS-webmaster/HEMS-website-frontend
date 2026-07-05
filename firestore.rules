@@ -18,8 +18,12 @@ service cloud.firestore {
       allow get: if request.auth != null && (request.auth.uid == userId || isAdmin(request.auth.uid));
       allow list: if request.auth != null && isAdmin(request.auth.uid);
       
-      // Users can create their own profile, defaulting strictly to the ['general'] role
-      allow create: if request.auth != null && request.auth.uid == userId && request.resource.data.roles == ['general'];
+      // Users can create their own profile, defaulting strictly to ['general'] or matching their whitelist roles
+      allow create: if request.auth != null && request.auth.uid == userId && (
+        request.resource.data.roles == ['general'] || 
+        (exists(/databases/$(database)/documents/whitelist/$(request.resource.data.email.lower())) &&
+         request.resource.data.roles == get(/databases/$(database)/documents/whitelist/$(request.resource.data.email.lower())).data.roles)
+      );
       
       // Users can update their name/email but cannot self-promote their roles. Admins can update any user roles.
       allow update: if request.auth != null && (

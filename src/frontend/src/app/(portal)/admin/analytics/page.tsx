@@ -38,6 +38,7 @@ export default function AdminAnalytics() {
   
   const [usersList, setUsersList] = useState<UserActivity[]>([]);
   const [downloadsList, setDownloadsList] = useState<FileDownloadStat[]>([]);
+  const [sinceDate, setSinceDate] = useState("");
   const [loadingData, setLoadingData] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState<"users" | "files">("users");
@@ -46,6 +47,16 @@ export default function AdminAnalytics() {
   const isAdmin = useMemo(() => {
     return user && user.roles && user.roles.includes("admin");
   }, [user]);
+
+  // Filter downloads by date
+  const filteredDownloads = useMemo(() => {
+    if (!sinceDate) return downloadsList;
+    const filterTime = new Date(sinceDate).getTime();
+    return downloadsList.filter(file => {
+      if (!file.lastDownloaded) return false;
+      return new Date(file.lastDownloaded).getTime() >= filterTime;
+    });
+  }, [downloadsList, sinceDate]);
 
   const loadAnalyticsData = async () => {
     setLoadingData(true);
@@ -171,16 +182,18 @@ export default function AdminAnalytics() {
   }, [usersList]);
 
   const totalDownloads = useMemo(() => {
-    return downloadsList.reduce((sum, f) => sum + (f.downloadCount || 0), 0);
-  }, [downloadsList]);
+    const list = sinceDate ? filteredDownloads : downloadsList;
+    return list.reduce((sum, f) => sum + (f.downloadCount || 0), 0);
+  }, [downloadsList, filteredDownloads, sinceDate]);
 
   const categoryBreakdown = useMemo(() => {
+    const list = sinceDate ? filteredDownloads : downloadsList;
     const counts: Record<string, number> = {};
-    downloadsList.forEach(f => {
+    list.forEach(f => {
       counts[f.category] = (counts[f.category] || 0) + f.downloadCount;
     });
     return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  }, [downloadsList]);
+  }, [downloadsList, filteredDownloads, sinceDate]);
 
   if (authLoading) {
     return (
@@ -272,28 +285,50 @@ export default function AdminAnalytics() {
         {/* Left Side: Main Tables */}
         <div className="lg:col-span-9 space-y-6">
           
-          {/* Navigation tabs */}
-          <div className="flex border-b border-foreground/10 gap-4">
-            <button
-              onClick={() => setActiveTab("users")}
-              className={`pb-3 text-sm font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-                activeTab === "users" 
-                  ? "border-primary text-primary" 
-                  : "border-transparent text-foreground/60 hover:text-foreground"
-              }`}
-            >
-              Attendee Login Activity
-            </button>
-            <button
-              onClick={() => setActiveTab("files")}
-              className={`pb-3 text-sm font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-                activeTab === "files" 
-                  ? "border-primary text-primary" 
-                  : "border-transparent text-foreground/60 hover:text-foreground"
-              }`}
-            >
-              Document Download Leaderboard
-            </button>
+          {/* Navigation tabs & Date Filter */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-foreground/10 pb-3 gap-4">
+            <div className="flex gap-4">
+              <button
+                onClick={() => setActiveTab("users")}
+                className={`pb-1 text-sm font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                  activeTab === "users" 
+                    ? "border-primary text-primary" 
+                    : "border-transparent text-foreground/60 hover:text-foreground"
+                }`}
+              >
+                Attendee Login Activity
+              </button>
+              <button
+                onClick={() => setActiveTab("files")}
+                className={`pb-1 text-sm font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                  activeTab === "files" 
+                    ? "border-primary text-primary" 
+                    : "border-transparent text-foreground/60 hover:text-foreground"
+                }`}
+              >
+                Document Download Leaderboard
+              </button>
+            </div>
+            
+            {activeTab === "files" && (
+              <div className="flex items-center gap-2 bg-background border border-foreground/10 px-3 py-1.5 rounded-lg text-xs">
+                <span className="font-bold text-foreground/60 uppercase tracking-wider">Downloads Since:</span>
+                <input
+                  type="date"
+                  value={sinceDate}
+                  onChange={(e) => setSinceDate(e.target.value)}
+                  className="bg-transparent border-0 text-foreground focus:outline-none focus:ring-0 font-mono font-bold cursor-pointer"
+                />
+                {sinceDate && (
+                  <button 
+                    onClick={() => setSinceDate("")} 
+                    className="text-foreground/40 hover:text-foreground font-bold px-1 cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {loadingData ? (
@@ -357,14 +392,14 @@ export default function AdminAnalytics() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-foreground/10 text-foreground/90 font-sans">
-                    {downloadsList.length === 0 ? (
+                    {filteredDownloads.length === 0 ? (
                       <tr>
                         <td colSpan={5} className="px-6 py-8 text-center text-foreground/50 italic">
                           No file downloads recorded yet.
                         </td>
                       </tr>
                     ) : (
-                      downloadsList.map((file, idx) => (
+                      filteredDownloads.map((file, idx) => (
                         <tr key={idx} className="hover:bg-foreground/5 transition-colors">
                           <td className="px-6 py-4 font-bold text-xs truncate max-w-xs md:max-w-sm" title={file.fileName}>
                             {file.fileName}

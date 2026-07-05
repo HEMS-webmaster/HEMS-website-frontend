@@ -53,7 +53,11 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
           const users = JSON.parse(storedUsers);
           const updatedUsers = users.map((u: any) => {
             if (u.uid === user.uid) {
-              return { ...u, downloadCount: (u.downloadCount || 0) + 1 };
+              return { 
+                ...u, 
+                downloadCount: (u.downloadCount || 0) + 1,
+                lastDownloaded: new Date().toISOString()
+              };
             }
             return u;
           });
@@ -63,7 +67,11 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
         const storedCurrentUser = localStorage.getItem("hems_mock_current_user");
         if (storedCurrentUser) {
           const u = JSON.parse(storedCurrentUser);
-          const updated = { ...u, downloadCount: (u.downloadCount || 0) + 1 };
+          const updated = { 
+            ...u, 
+            downloadCount: (u.downloadCount || 0) + 1,
+            lastDownloaded: new Date().toISOString()
+          };
           localStorage.setItem("hems_mock_current_user", JSON.stringify(updated));
         }
 
@@ -85,33 +93,29 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
         localStorage.setItem("hems_mock_downloads", JSON.stringify(downloads));
       } else {
         const { db } = await import("../utils/firebase");
-        const { doc, getDoc, setDoc, updateDoc, increment } = await import("firebase/firestore");
+        const { doc, setDoc, updateDoc, increment } = await import("firebase/firestore");
         
         const userDocRef = doc(db, "users", user.uid);
         await updateDoc(userDocRef, {
-          downloadCount: increment(1)
+          downloadCount: increment(1),
+          lastDownloaded: new Date().toISOString()
         }).catch(async () => {
-          await setDoc(userDocRef, { downloadCount: 1 }, { merge: true });
+          await setDoc(userDocRef, { 
+            downloadCount: 1, 
+            lastDownloaded: new Date().toISOString()
+          }, { merge: true });
         });
 
         const fileId = fileName.replace(/[^a-zA-Z0-9_\-]/g, "_");
         const fileDocRef = doc(db, "downloads", fileId);
         
-        const fileDoc = await getDoc(fileDocRef);
-        if (fileDoc.exists()) {
-          await updateDoc(fileDocRef, {
-            downloadCount: increment(1),
-            lastDownloaded: new Date().toISOString()
-          });
-        } else {
-          await setDoc(fileDocRef, {
-            fileName,
-            downloadCount: 1,
-            lastDownloaded: new Date().toISOString(),
-            category,
-            workshopName: wsName
-          });
-        }
+        await setDoc(fileDocRef, {
+          fileName,
+          downloadCount: increment(1),
+          lastDownloaded: new Date().toISOString(),
+          category,
+          workshopName: wsName
+        }, { merge: true });
       }
     } catch (err) {
       console.error("Failed to track download:", err);
