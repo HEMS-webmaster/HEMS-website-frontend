@@ -33,3 +33,7 @@
 [SCoT - @arch] Executing atomic-commit-push workflow. Generating summary: Generated the 2019 HEMS Workshop archive page mapped precisely to the 2022 template layout, resolved a syntax error, and updated the archive routing links. I will update handover.md and the product log.
 
 [SCoT - @arch] Received epic to migrate the remaining 12 historical workshop archives. Due to the massive scale of data and the high probability of legacy HTML variations (spanning 1999-2018), this task warrants a formal implementation plan. I will draft a multi-phase batch ingestion strategy to avoid memory exhaustion and ensure fidelity.
+
+[2026-07-05 10:12:02] @arch SCoT Log:
+Goal: Acknowledge the relocation of plans to `.agents/state/plans/`.
+Action: Verified the directory presence and updated internal reference targets so future implementation plans are built and stored under `.agents/state/plans/`.
