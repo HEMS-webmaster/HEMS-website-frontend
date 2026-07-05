@@ -33,17 +33,15 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.syncUserOnRegistration = exports.syncWhitelistToUser = void 0;
-const functions = __importStar(require("firebase-functions"));
+exports.syncUserOnRegistrationV2 = exports.syncWhitelistToUserV2 = void 0;
+const firestore_1 = require("firebase-functions/v2/firestore");
 const admin = __importStar(require("firebase-admin"));
 admin.initializeApp();
 const db = admin.firestore();
 // Trigger on any write (create, update, delete) to the 'whitelist/{email}' collection
-exports.syncWhitelistToUser = functions.firestore
-    .document("whitelist/{email}")
-    .onWrite(async (change, context) => {
-    const email = context.params.email.toLowerCase();
-    const afterData = change.after.exists ? change.after.data() : null;
+exports.syncWhitelistToUserV2 = (0, firestore_1.onDocumentWritten)("whitelist/{email}", async (event) => {
+    const email = event.params.email.toLowerCase();
+    const afterData = event.data?.after.exists ? event.data.after.data() : null;
     let rolesToAssign = ["general"];
     if (afterData && Array.isArray(afterData.roles)) {
         rolesToAssign = afterData.roles;
@@ -82,9 +80,10 @@ exports.syncWhitelistToUser = functions.firestore
     return null;
 });
 // Trigger on new user profile creation
-exports.syncUserOnRegistration = functions.firestore
-    .document("users/{uid}")
-    .onCreate(async (snap, context) => {
+exports.syncUserOnRegistrationV2 = (0, firestore_1.onDocumentCreated)("users/{uid}", async (event) => {
+    const snap = event.data;
+    if (!snap)
+        return null;
     const user = snap.data();
     if (!user || !user.email)
         return null;

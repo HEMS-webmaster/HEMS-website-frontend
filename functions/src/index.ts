@@ -1,4 +1,4 @@
-import * as functions from "firebase-functions";
+import { onDocumentWritten, onDocumentCreated } from "firebase-functions/v2/firestore";
 import * as admin from "firebase-admin";
 
 admin.initializeApp();
@@ -6,11 +6,11 @@ admin.initializeApp();
 const db = admin.firestore();
 
 // Trigger on any write (create, update, delete) to the 'whitelist/{email}' collection
-export const syncWhitelistToUser = functions.firestore
-  .document("whitelist/{email}")
-  .onWrite(async (change, context) => {
-    const email = context.params.email.toLowerCase();
-    const afterData = change.after.exists ? change.after.data() : null;
+export const syncWhitelistToUserV2 = onDocumentWritten(
+  "whitelist/{email}",
+  async (event) => {
+    const email = event.params.email.toLowerCase();
+    const afterData = event.data?.after.exists ? event.data.after.data() : null;
 
     let rolesToAssign = ["general"];
 
@@ -52,12 +52,16 @@ export const syncWhitelistToUser = functions.firestore
     }
 
     return null;
-  });
+  }
+);
 
 // Trigger on new user profile creation
-export const syncUserOnRegistration = functions.firestore
-  .document("users/{uid}")
-  .onCreate(async (snap, context) => {
+export const syncUserOnRegistrationV2 = onDocumentCreated(
+  "users/{uid}",
+  async (event) => {
+    const snap = event.data;
+    if (!snap) return null;
+
     const user = snap.data();
     if (!user || !user.email) return null;
 
@@ -73,4 +77,5 @@ export const syncUserOnRegistration = functions.firestore
     }
 
     return null;
-  });
+  }
+);
