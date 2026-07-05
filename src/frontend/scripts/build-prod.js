@@ -8,25 +8,38 @@ const managerPath = path.join('src', 'app', 'manager');
 const tempManagerPath = path.join('src', 'app', '_manager');
 const nextPath = '.next';
 
-// Helper to rename a file/folder with retry and backoff on Windows
-function renameWithRetry(src, dest, retries = 15, delay = 200) {
-  for (let i = 0; i < retries; i++) {
-    try {
-      if (fs.existsSync(src)) {
-        fs.renameSync(src, dest);
-      }
-      return;
-    } catch (err) {
-      if (i === retries - 1) {
-        throw err;
-      }
-      console.warn(`⚠️  Windows file lock encountered on ${src}. Retrying in ${delay}ms... (${i + 1}/${retries})`);
-      const start = Date.now();
-      while (Date.now() - start < delay) {
-        // Busy wait
+// Helper to recursively find and rename files to bypass Windows directory watch locks
+function toggleManagerFiles(dir, disable = true) {
+  const targetDir = path.join(__dirname, '..', dir);
+  if (!fs.existsSync(targetDir)) return;
+
+  function scan(currentPath) {
+    const list = fs.readdirSync(currentPath);
+    for (const item of list) {
+      const fullPath = path.join(currentPath, item);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        scan(fullPath);
+      } else {
+        const name = item.toLowerCase();
+        if (disable) {
+          // Disable page.tsx/page.ts/route.ts/route.tsx
+          if (name === 'page.tsx' || name === 'page.ts' || name === 'route.ts' || name === 'route.tsx') {
+            const newPath = fullPath + '.disabled';
+            fs.renameSync(fullPath, newPath);
+          }
+        } else {
+          // Restore page.tsx.disabled/page.ts.disabled/route.ts.disabled/route.tsx.disabled
+          if (name.endsWith('.disabled')) {
+            const originalPath = fullPath.substring(0, fullPath.length - 9);
+            fs.renameSync(fullPath, originalPath);
+          }
+        }
       }
     }
   }
+
+  scan(targetDir);
 }
 
 // Helper to automatically find and terminate a running Next.js dev server on Windows to clear file locks
@@ -79,15 +92,12 @@ try {
 }
 
 try {
-  renameWithRetry(apiManagerPath, apiTempManagerPath);
-  renameWithRetry(managerPath, tempManagerPath);
+  toggleManagerFiles(apiManagerPath, true);
+  toggleManagerFiles(managerPath, true);
   console.log('Manager routes temporarily excluded from production build.');
 } catch (e) {
   console.error('\n❌ CRITICAL BUILD ERROR: Failed to temporarily exclude manager routes.');
   console.error('Error Details:', e.message);
-  console.error('\n👉 This is usually caused by Windows file locks.');
-  console.error('👉 Please make sure to STOP your running development server (npm run dev) before building!');
-  console.error('👉 Also make sure no active terminals or file explorer windows are open inside `src/app/manager`!\n');
   process.exit(1);
 }
 
@@ -101,8 +111,8 @@ try {
   process.exitCode = 1;
 } finally {
   try {
-    renameWithRetry(apiTempManagerPath, apiManagerPath);
-    renameWithRetry(tempManagerPath, managerPath);
+    toggleManagerFiles(apiManagerPath, false);
+    toggleManagerFiles(managerPath, false);
     console.log('Manager routes restored.');
   } catch (e) {
     console.error('Failed to restore manager routes:', e.message);
