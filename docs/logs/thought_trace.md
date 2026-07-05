@@ -2683,3 +2683,11 @@ We must:
   - Identified that collection queries on `/users` triggered individual `get()` resource checks for every document in the result set, exceeding the Firestore limit of 10 access calls per request.
   - Resolved the issue by splitting `/users/{userId}`'s `read` rule into separate `get` and `list` rules.
   - Verified syntax of firestore.rules and updated local task walkthrough.
+
+
+## 2026-07-05 09:07:49 - @web SCoT Log
+- Goal: Ensure Firebase Authentication is used on live domains while allowing mock fallback on localhost.
+- Action:
+  - Added public Firebase configuration keys as fallback defaults inside firebase.ts.
+  - Implemented hostname detection to force real Firebase authentication when hosted on *.web.app, *.firebaseapp.com, or hems-workshop.org.
+  - Documented necessary OAuth settings and domain whitelisting guidelines for the custom domain.

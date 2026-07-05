@@ -2,16 +2,34 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
+// Public Firebase config keys (safe to include in bundle fallbacks)
+const DEFAULT_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCCb7nVRTLoikHZTz4y1JbNcT3ls9S_XGo",
+  authDomain: "hems-workshop.firebaseapp.com",
+  projectId: "hems-workshop",
+  storageBucket: "hems-workshop.firebasestorage.app",
+  messagingSenderId: "996590178042",
+  appId: "1:996590178042:web:bb06372e6672bcb6e5c343"
 };
 
-const hasFirebaseKeys = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || DEFAULT_FIREBASE_CONFIG.apiKey,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || DEFAULT_FIREBASE_CONFIG.authDomain,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || DEFAULT_FIREBASE_CONFIG.projectId,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || DEFAULT_FIREBASE_CONFIG.storageBucket,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || DEFAULT_FIREBASE_CONFIG.messagingSenderId,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || DEFAULT_FIREBASE_CONFIG.appId
+};
+
+// Check if running on a live deployed Firebase hosting domain
+const isLiveDomain = typeof window !== "undefined" && 
+  (window.location.hostname.endsWith(".web.app") || 
+   window.location.hostname.endsWith(".firebaseapp.com") || 
+   window.location.hostname === "hems-workshop.org" ||
+   window.location.hostname.endsWith("hems-workshop.org"));
+
+// Real Firebase is used if keys are provided in environment OR if running on a live deployed domain
+const hasFirebaseKeys = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY || isLiveDomain;
 
 let app;
 let auth: any = null;
