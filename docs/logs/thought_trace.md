@@ -2707,3 +2707,18 @@ We must:
   - Identified case mismatch for Inficon logo (tracked as lowercase inficon.png in git but referenced as uppercase Inficon.png in code).
   - Renamed the file case-sensitively in Git from inficon.png to Inficon.png using temp staging step.
   - Initiated full production rebuild and redeployment.
+
+
+## 2026-07-05 09:51:38 - @dev SCoT Log
+- Goal: Archive and clean up workspace development/migration files.
+- Action:
+  - Created scratch_archive.zip in the project root containing all scratch/ scripts and root-level migration helpers.
+  - Recursively deleted scratch/ folder and other loose root-level migration files to unclutter the workspace.
+
+
+## 2026-07-05 09:57:33 - @ops SCoT Log
+- Goal: Update gitignore files and untrack development/reference materials from the repository.
+- Action:
+  - Appended source-material/, scratch_archive.zip, and firebase-key.json to root .gitignore.
+  - Appended *.log, *.tsbuildinfo, and loose development files to src/frontend/.gitignore.
+  - Executed git rm -r --cached to safely untrack source-material/, scratch_archive.zip, and firebase-key.json from the public Git repository.

@@ -50,3 +50,10 @@ next-env.d.ts
 /src/app/api/manager/
 /src/app/_manager/
 /src/app/api/_manager/
+
+# Debug & Local logs
+*.log
+*.tsbuildinfo
+13thprogram.html
+create_2019_page.py
+fetch.py

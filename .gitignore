@@ -31,3 +31,8 @@ docs/archives_translation/*/
 
 # Temporary Files
 scratch/
+
+# Local Development & Credentials
+source-material/
+scratch_archive.zip
+firebase-key.json
