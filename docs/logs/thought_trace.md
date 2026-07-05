@@ -2691,3 +2691,10 @@ We must:
   - Added public Firebase configuration keys as fallback defaults inside firebase.ts.
   - Implemented hostname detection to force real Firebase authentication when hosted on *.web.app, *.firebaseapp.com, or hems-workshop.org.
   - Documented necessary OAuth settings and domain whitelisting guidelines for the custom domain.
+
+
+## 2026-07-05 09:11:32 - @dev SCoT Log
+- Goal: Enable account switching during Google and Microsoft OAuth logins instead of logging in automatically.
+- Action:
+  - Configured `setCustomParameters({ prompt: 'select_account' })` on GoogleAuthProvider and Microsoft OAuthProvider inside firebase.ts.
+  - Initiated build check and live redeployment.
