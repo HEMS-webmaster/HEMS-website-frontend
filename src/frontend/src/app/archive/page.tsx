@@ -777,13 +777,20 @@ export default function Archive() {
 
   return (
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-      <div className="mb-8">
-        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 text-foreground">
-          Workshop <span className="text-primary border-b-4 border-primary">Archives</span>
-        </h1>
-        <p className="text-xl text-foreground/70 max-w-3xl">
-          Search over 25 years of HEMS proceedings, posters, and full PDF content slides.
-        </p>
+      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 text-foreground">
+            Workshop <span className="text-primary border-b-4 border-primary">Archives</span>
+          </h1>
+          <p className="text-xl text-foreground/70 max-w-3xl">
+            Search over 25 years of HEMS proceedings, posters, and full PDF content slides.
+          </p>
+        </div>
+        <img 
+          src="/hemslogo.jpg" 
+          alt="HEMS Logo" 
+          className="w-24 h-24 object-contain rounded-lg border border-foreground/10 mix-blend-multiply bg-white p-1 self-start md:self-auto" 
+        />
       </div>
 
       {/* Main Search Panel */}

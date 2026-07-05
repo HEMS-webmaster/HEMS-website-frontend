@@ -3,13 +3,20 @@ import { Users, Target, History } from "lucide-react";
 export default function About() {
   return (
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-      <div className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 text-foreground">
-          About the <span className="text-primary border-b-4 border-primary">HEMS</span> Society
-        </h1>
-        <p className="text-xl text-foreground/70 max-w-3xl">
-          The Harsh-Environment Mass Spectrometry Society, Inc. is a Public Charity under section 501(c)(3) dedicated to advancing MS technology in extreme conditions.
-        </p>
+      <div className="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 text-foreground">
+            About the <span className="text-primary border-b-4 border-primary">HEMS</span> Society
+          </h1>
+          <p className="text-xl text-foreground/70 max-w-3xl">
+            The Harsh-Environment Mass Spectrometry Society, Inc. is a Public Charity under section 501(c)(3) dedicated to advancing MS technology in extreme conditions.
+          </p>
+        </div>
+        <img 
+          src="/hemslogo.jpg" 
+          alt="HEMS Logo" 
+          className="w-24 h-24 object-contain rounded-lg border border-foreground/10 mix-blend-multiply bg-white p-1 self-start md:self-auto" 
+        />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">

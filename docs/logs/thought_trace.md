@@ -2613,3 +2613,73 @@ We must:
 - Goal: Run firebase login --reauth to log the user into Firebase CLI.
 - Action: Execute firebase login.
 
+
+## 2026-07-05 06:13:40 - @web SCoT Log
+- Goal: Confirm the HEMS Website Modernization project charter and rules.
+- Action:
+  - Reviewed the updated project charter (.agents/config/project_charter.md), focusing on the newly added SME1 Domain Focus for @sme1 (alias @web).
+  - Verified constraints: high performance, instant search, responsive mobile-friendly schedule, WCAG 2.1 accessibility guidelines, and not scraping the legacy site.
+  - Verified Brand Tone guidelines and Scrum Team structures.
+  - Emitted confirmation message according to Scrum and Lock rules.
+
+
+## 2026-07-05 06:17:39 - @arch SCoT Log
+- Goal: Create the implementation plan for updating the homepage content and mission statement.
+- Action:
+  - Scraped legacy HEMS index page content.
+  - Reviewed the 15th HEMS workshop files and archives-index.json to extract scientific/technical context.
+  - Created implementation_plan.md and docs/plans/2026-07-05-homepage-content-update.md.
+
+
+## 2026-07-05 06:18:22 - @dev SCoT Log
+- Goal: Update the frontend homepage component (src/frontend/src/app/page.tsx).
+- Action:
+  - Modify src/frontend/src/app/page.tsx.
+  - Implement full page layout, hero title, official mission description, core program areas, and 15th HEMS workshop highlights.
+
+
+## 2026-07-05 06:19:21 - @qa SCoT Log
+- Goal: Verify the compilation and correctness of homepage updates.
+- Action:
+  - Monitored production build output (npm run build) to ensure complete compile and static generation success.
+  - Restarted Next.js local development server (npm run dev) on port 3000.
+  - Generated walkthrough.md and finalized execution task list.
+
+
+## 2026-07-05 06:23:04 - @dev SCoT Log
+- Goal: Add HEMS logo prominently to the homepage hero section.
+- Action:
+  - Modify src/frontend/src/app/page.tsx to insert /hemslogo.jpg with mix-blend-multiply class as per brand guidelines.
+
+
+## 2026-07-05 06:26:18 - @dev SCoT Log
+- Goal: Expand HEMS logo visibility to multiple pages and make the home page logo more prominent.
+- Action:
+  - Resized homepage logo to w-32 h-32 with shadow effects.
+  - Inserted the logo into headers on layout-portal/page.tsx, about/page.tsx, and archive/page.tsx.
+  - Ran build verification and confirmed success.
+
+
+## 2026-07-05 06:43:33 - @web SCoT Log
+- Goal: Analyze user request for a free-tier website login and download monitoring admin panel.
+- Action:
+  - Formulated response details showing Firebase and Firestore free-tier limits (Spark plan).
+  - Outlined data schema for user profiles and file download counts.
+  - Calculated estimated usage showing it fits easily under the 20,000 writes/day free tier.
+
+
+## 2026-07-05 06:44:59 - @arch SCoT Log
+- Goal: Draft the implementation plan for the free-tier website login and download analytics dashboard.
+- Action:
+  - Formulated the database event tracking mechanics for logins and downloads.
+  - Outlined the proposed new `/admin/analytics` frontend page and navigation links.
+  - Added new Firestore read/write security rules matching standard role permissions.
+  - Created implementation_plan.md and docs/plans/2026-07-05-analytics-monitoring-dashboard.md.
+
+
+## 2026-07-05 07:28:31 - @dev SCoT Log
+- Goal: Fix Firebase permissions error on the Website Traffic & Analytics page.
+- Action:
+  - Identified that collection queries on `/users` triggered individual `get()` resource checks for every document in the result set, exceeding the Firestore limit of 10 access calls per request.
+  - Resolved the issue by splitting `/users/{userId}`'s `read` rule into separate `get` and `list` rules.
+  - Verified syntax of firestore.rules and updated local task walkthrough.

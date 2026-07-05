@@ -1,6 +1,5 @@
 ---
 trigger: always_on
-priority: critical_override
 ---
 
 # SYSTEM FIREWALL & FILE LOCKS

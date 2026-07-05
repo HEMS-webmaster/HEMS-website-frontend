@@ -6,8 +6,12 @@ from PyPDF2 import PdfReader, PdfWriter
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-registry_path = r"c:\Antigravity\HEMS-website\docs\design\pdf_seo_registry.md"
-base_dir = r"c:\Antigravity\HEMS-website"
+# Dynamic relative path resolution
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(SCRIPT_DIR)
+
+registry_path = os.path.join(BASE_DIR, "docs", "design", "pdf_seo_registry.md")
+base_dir = BASE_DIR
 
 def parse_registry(md_path):
     if not os.path.exists(md_path):

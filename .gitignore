@@ -7,7 +7,8 @@ out/
 build/
 
 # Heavy Files & Archives
-docs/archives_translation/proceedings/
+docs/archives_translation/*/
+!docs/archives_translation/sponsors/
 
 # Environment Variables
 .env

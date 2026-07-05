@@ -28,6 +28,9 @@ export interface UserProfile {
   email: string;
   roles: string[];
   createdAt: string;
+  loginCount?: number;
+  downloadCount?: number;
+  lastLogin?: string;
 }
 
 interface AuthContextType {
@@ -153,7 +156,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         name: "Mock OAuth User",
         email: mockEmail,
         roles: getRolesForEmail(mockEmail),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        loginCount: 1,
+        lastLogin: new Date().toISOString()
       };
       
       const mockUsers = getMockUsers();
@@ -169,7 +174,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const userDoc = await getDoc(userDocRef);
     
     if (userDoc.exists()) {
-      setUser(userDoc.data() as UserProfile);
+      const data = userDoc.data();
+      const newLoginCount = (data.loginCount || 0) + 1;
+      const updated = {
+        ...data,
+        loginCount: newLoginCount,
+        lastLogin: new Date().toISOString()
+      };
+      await setDoc(userDocRef, updated);
+      setUser(updated as UserProfile);
     } else {
       // New user from OAuth
       const email = credential.user.email || "";
@@ -179,7 +192,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         name: credential.user.displayName || email.split("@")[0] || "User",
         email: email,
         roles: initialRoles,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        loginCount: 1,
+        lastLogin: new Date().toISOString()
       };
       await setDoc(userDocRef, profile);
       setUser(profile);
@@ -197,6 +212,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!existingUser) {
         throw new Error("User not found. Please register first.");
       }
+      existingUser.loginCount = (existingUser.loginCount || 0) + 1;
+      existingUser.lastLogin = new Date().toISOString();
+      saveMockUsers(mockUsers);
       saveMockCurrentUser(existingUser);
       setUser(existingUser);
       return;
@@ -207,7 +225,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const userDocRef = doc(db, "users", credential.user.uid);
     const userDoc = await getDoc(userDocRef);
     if (userDoc.exists()) {
-      setUser(userDoc.data() as UserProfile);
+      const data = userDoc.data();
+      const newLoginCount = (data.loginCount || 0) + 1;
+      const updated = {
+        ...data,
+        loginCount: newLoginCount,
+        lastLogin: new Date().toISOString()
+      };
+      await setDoc(userDocRef, updated);
+      setUser(updated as UserProfile);
     }
   };
 
@@ -225,7 +251,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         name,
         email,
         roles: getRolesForEmail(email),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        loginCount: 1,
+        lastLogin: new Date().toISOString()
       };
       
       mockUsers.push(newMockUser);
@@ -243,7 +271,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       name,
       email,
       roles: initialRoles,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      loginCount: 1,
+      lastLogin: new Date().toISOString()
     };
     
     await setDoc(doc(db, "users", credential.user.uid), profile);

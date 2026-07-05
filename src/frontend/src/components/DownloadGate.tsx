@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { X, Lock, KeyRound, Mail, User } from "lucide-react";
 
 export default function DownloadGate({ children }: { children: React.ReactNode }) {
-  const { user, loading, login, register, loginWithGoogle, loginWithMicrosoft } = useAuth();
+  const { user, loading, login, register, loginWithGoogle, loginWithMicrosoft, isMock } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [pendingUrl, setPendingUrl] = useState<string | null>(null);
   
@@ -17,6 +17,107 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
   const [successMsg, setSuccessMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const trackDownload = async (url: string) => {
+    if (!user) return;
+    
+    let fileName = "";
+    if (url.includes("?file=")) {
+      fileName = decodeURIComponent(url.split("?file=")[1].split("&")[0]);
+    } else {
+      fileName = decodeURIComponent(url.split("/").pop() || "");
+    }
+    if (!fileName) return;
+
+    let category = "Other";
+    let wsName = "Unknown";
+    
+    if (fileName.toLowerCase().includes("abstract")) {
+      category = "Abstract";
+    } else if (fileName.toLowerCase().includes("presentation")) {
+      category = "Presentation";
+    } else if (fileName.toLowerCase().includes("program")) {
+      category = "Program";
+    } else if (fileName.toLowerCase().includes("participant")) {
+      category = "Participant List";
+    }
+    
+    const parts = fileName.split("_");
+    if (parts[0] && parts[0].match(/^\d+(st|nd|rd|th)$/i)) {
+      wsName = parts[0];
+    }
+
+    try {
+      if (isMock) {
+        const storedUsers = localStorage.getItem("hems_mock_users");
+        if (storedUsers) {
+          const users = JSON.parse(storedUsers);
+          const updatedUsers = users.map((u: any) => {
+            if (u.uid === user.uid) {
+              return { ...u, downloadCount: (u.downloadCount || 0) + 1 };
+            }
+            return u;
+          });
+          localStorage.setItem("hems_mock_users", JSON.stringify(updatedUsers));
+        }
+        
+        const storedCurrentUser = localStorage.getItem("hems_mock_current_user");
+        if (storedCurrentUser) {
+          const u = JSON.parse(storedCurrentUser);
+          const updated = { ...u, downloadCount: (u.downloadCount || 0) + 1 };
+          localStorage.setItem("hems_mock_current_user", JSON.stringify(updated));
+        }
+
+        const storedDownloads = localStorage.getItem("hems_mock_downloads") || "[]";
+        const downloads = JSON.parse(storedDownloads);
+        const existingFile = downloads.find((d: any) => d.fileName === fileName);
+        if (existingFile) {
+          existingFile.downloadCount += 1;
+          existingFile.lastDownloaded = new Date().toISOString();
+        } else {
+          downloads.push({
+            fileName,
+            downloadCount: 1,
+            lastDownloaded: new Date().toISOString(),
+            category,
+            workshopName: wsName
+          });
+        }
+        localStorage.setItem("hems_mock_downloads", JSON.stringify(downloads));
+      } else {
+        const { db } = await import("../utils/firebase");
+        const { doc, getDoc, setDoc, updateDoc, increment } = await import("firebase/firestore");
+        
+        const userDocRef = doc(db, "users", user.uid);
+        await updateDoc(userDocRef, {
+          downloadCount: increment(1)
+        }).catch(async () => {
+          await setDoc(userDocRef, { downloadCount: 1 }, { merge: true });
+        });
+
+        const fileId = fileName.replace(/[^a-zA-Z0-9_\-]/g, "_");
+        const fileDocRef = doc(db, "downloads", fileId);
+        
+        const fileDoc = await getDoc(fileDocRef);
+        if (fileDoc.exists()) {
+          await updateDoc(fileDocRef, {
+            downloadCount: increment(1),
+            lastDownloaded: new Date().toISOString()
+          });
+        } else {
+          await setDoc(fileDocRef, {
+            fileName,
+            downloadCount: 1,
+            lastDownloaded: new Date().toISOString(),
+            category,
+            workshopName: wsName
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Failed to track download:", err);
+    }
+  };
+
   const handleIntercept = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
     const anchor = target.closest("a");
@@ -24,13 +125,14 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
     if (anchor) {
       const href = anchor.getAttribute("href");
       
-      // Intercept PDF downloads or server serve paths
       if (href && (href.toLowerCase().endsWith(".pdf") || href.includes("serve?file="))) {
         if (!user) {
           e.preventDefault();
           e.stopPropagation();
           setPendingUrl(href);
           setShowModal(true);
+        } else {
+          trackDownload(href);
         }
       }
     }
@@ -100,6 +202,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
                   onClick={() => {
                     setShowModal(false);
                     if (pendingUrl) {
+                      trackDownload(pendingUrl);
                       window.open(pendingUrl, "_blank");
                       setPendingUrl(null);
                     }

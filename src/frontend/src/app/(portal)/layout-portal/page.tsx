@@ -9,9 +9,16 @@ export const metadata = {
 export default function LayoutPortal() {
   return (
     <>
-      <header className="mb-12 border-b border-foreground/10 pb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">15th HEMS Workshop Portal</h1>
-        <p className="text-foreground/70">Welcome to the central hub for attendees, authors, and sponsors.</p>
+      <header className="mb-12 border-b border-foreground/10 pb-8 flex items-center justify-between gap-6">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground mb-2">15th HEMS Workshop Portal</h1>
+          <p className="text-foreground/70">Welcome to the central hub for attendees, authors, and sponsors.</p>
+        </div>
+        <img 
+          src="/hemslogo.jpg" 
+          alt="HEMS Logo" 
+          className="w-16 h-16 object-contain rounded-lg border border-foreground/10 mix-blend-multiply bg-white p-1 hidden sm:block" 
+        />
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

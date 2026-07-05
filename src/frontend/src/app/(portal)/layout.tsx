@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, Award, CreditCard, Hotel, Building2, ShieldCheck, ClipboardCheck } from "lucide-react";
+import { LayoutDashboard, FileText, Award, CreditCard, Hotel, Building2, ShieldCheck, ClipboardCheck, BarChart2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
@@ -22,6 +22,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   const adminLinks = [
     { name: "Board Panel", path: "/board", icon: Building2, requiredRole: "board" },
     { name: "Admin Panel", path: "/admin", icon: ShieldCheck, requiredRole: "admin" },
+    { name: "Website Analytics", path: "/admin/analytics", icon: BarChart2, requiredRole: "admin" },
   ];
 
   const hasRole = (role: string | null) => {
