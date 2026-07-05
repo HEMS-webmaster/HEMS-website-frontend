@@ -5,8 +5,23 @@ import { useAuth } from "@/context/AuthContext";
 import { X, Lock, KeyRound, Mail, User } from "lucide-react";
 
 export default function DownloadGate({ children }: { children: React.ReactNode }) {
-  const { user, loading, login, register, loginWithGoogle, loginWithMicrosoft, isMock } = useAuth();
+  const { 
+    user, 
+    loading, 
+    login, 
+    register, 
+    loginWithGoogle, 
+    loginWithMicrosoft, 
+    isMock,
+    emailVerified,
+    sendVerificationEmail,
+    reloadUser
+  } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [verifSent, setVerifSent] = useState(false);
+  const [verifError, setVerifError] = useState("");
   const [pendingUrl, setPendingUrl] = useState<string | null>(null);
   
   const [email, setEmail] = useState("");
@@ -46,6 +61,10 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
       wsName = parts[0];
     }
 
+    const todayStr = new Date().toLocaleDateString("en-CA");
+    const lastDate = user.lastDownloadDate || "";
+    const newDownloadsToday = lastDate === todayStr ? (user.downloadsToday || 0) + 1 : 1;
+
     try {
       if (isMock) {
         const storedUsers = localStorage.getItem("hems_mock_users");
@@ -56,7 +75,9 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
               return { 
                 ...u, 
                 downloadCount: (u.downloadCount || 0) + 1,
-                lastDownloaded: new Date().toISOString()
+                lastDownloaded: new Date().toISOString(),
+                downloadsToday: newDownloadsToday,
+                lastDownloadDate: todayStr
               };
             }
             return u;
@@ -70,7 +91,9 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
           const updated = { 
             ...u, 
             downloadCount: (u.downloadCount || 0) + 1,
-            lastDownloaded: new Date().toISOString()
+            lastDownloaded: new Date().toISOString(),
+            downloadsToday: newDownloadsToday,
+            lastDownloadDate: todayStr
           };
           localStorage.setItem("hems_mock_current_user", JSON.stringify(updated));
         }
@@ -98,11 +121,15 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
         const userDocRef = doc(db, "users", user.uid);
         await updateDoc(userDocRef, {
           downloadCount: increment(1),
-          lastDownloaded: new Date().toISOString()
+          lastDownloaded: new Date().toISOString(),
+          downloadsToday: newDownloadsToday,
+          lastDownloadDate: todayStr
         }).catch(async () => {
           await setDoc(userDocRef, { 
             downloadCount: 1, 
-            lastDownloaded: new Date().toISOString()
+            lastDownloaded: new Date().toISOString(),
+            downloadsToday: newDownloadsToday,
+            lastDownloadDate: todayStr
           }, { merge: true });
         });
 
@@ -119,6 +146,8 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
       }
     } catch (err) {
       console.error("Failed to track download:", err);
+    } finally {
+      await reloadUser();
     }
   };
 
@@ -136,6 +165,29 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
           setPendingUrl(href);
           setShowModal(true);
         } else {
+          // Check email verification first!
+          const isEmailVerified = isMock || emailVerified;
+          if (!isEmailVerified) {
+            e.preventDefault();
+            e.stopPropagation();
+            setPendingUrl(href);
+            setShowVerifyModal(true);
+            return;
+          }
+          
+          // Check daily limit!
+          const isExempt = user.roles && user.roles.some((r: string) => ["admin", "board", "reviewer"].includes(r));
+          const todayStr = new Date().toLocaleDateString("en-CA");
+          const lastDate = user.lastDownloadDate || "";
+          const currentDownloadsToday = lastDate === todayStr ? (user.downloadsToday || 0) : 0;
+          
+          if (!isExempt && currentDownloadsToday >= 30) {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowLimitModal(true);
+            return;
+          }
+          
           trackDownload(href);
         }
       }
@@ -152,7 +204,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
           return;
         }
         await register(name, email, password);
-        setSuccessMsg("Account created! Processing download...");
+        setSuccessMsg("Account created! Please check your email inbox to verify your account.");
       } else {
         if (!email || !password) {
           setErrorMsg("Email and password are required.");
@@ -203,18 +255,38 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
               <div className="bg-green-500/10 border border-green-500/20 p-5 rounded-xl mb-4 text-center flex flex-col gap-4">
                 <span className="text-green-500 text-sm font-bold animate-pulse">{successMsg}</span>
                 <button 
-                  onClick={() => {
+                  onClick={async () => {
                     setShowModal(false);
-                    if (pendingUrl) {
-                      trackDownload(pendingUrl);
-                      window.open(pendingUrl, "_blank");
-                      setPendingUrl(null);
-                    }
                     setIsSuccess(false);
                     setSuccessMsg("");
                     setEmail("");
                     setName("");
                     setPassword("");
+
+                    if (pendingUrl) {
+                      // Note: We need to reload to get verified status
+                      await reloadUser();
+                      
+                      // Check verification before letting them download!
+                      const isEmailVerified = isMock || emailVerified;
+                      if (!isEmailVerified) {
+                        setShowVerifyModal(true);
+                      } else {
+                        // Check daily limit too!
+                        const isExempt = user?.roles && user.roles.some((r: string) => ["admin", "board", "reviewer"].includes(r));
+                        const todayStr = new Date().toLocaleDateString("en-CA");
+                        const lastDate = user?.lastDownloadDate || "";
+                        const currentDownloadsToday = lastDate === todayStr ? (user?.downloadsToday || 0) : 0;
+                        
+                        if (!isExempt && currentDownloadsToday >= 30) {
+                          setShowLimitModal(true);
+                        } else {
+                          trackDownload(pendingUrl);
+                          window.open(pendingUrl, "_blank");
+                          setPendingUrl(null);
+                        }
+                      }
+                    }
                   }}
                   className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-all shadow-md cursor-pointer"
                 >
@@ -352,6 +424,137 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
             </div>
 
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Verification Required Modal */}
+      {showVerifyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md transition-all duration-300">
+          <div className="bg-surface border border-primary/30 p-6 md:p-8 rounded-2xl max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+            <button 
+              onClick={() => {
+                setShowVerifyModal(false);
+                setPendingUrl(null);
+                setVerifSent(false);
+                setVerifError("");
+              }}
+              className="absolute top-4 right-4 text-foreground/50 hover:text-foreground hover:bg-foreground/5 p-2 rounded-full transition-all cursor-pointer"
+            >
+              <X size={18} />
+            </button>
+            
+            <div className="text-center mb-6">
+              <Mail size={48} className="mx-auto mb-4 text-primary animate-bounce" />
+              <h3 className="text-2xl font-black text-foreground tracking-tight">Verify Your Email</h3>
+              <p className="text-foreground/75 text-sm mt-3 leading-relaxed">
+                Before downloading proceedings, you must verify your email address. We sent a verification email to:
+              </p>
+              <p className="text-foreground font-bold mt-2 text-sm select-all">
+                {user?.email}
+              </p>
+            </div>
+
+            {verifError && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-xs p-3 rounded-lg mb-4 text-center">
+                {verifError}
+              </div>
+            )}
+
+            {verifSent && (
+              <div className="bg-green-500/10 border border-green-500/20 text-green-500 text-xs p-3 rounded-lg mb-4 text-center">
+                Verification email resent successfully!
+              </div>
+            )}
+
+            <div className="flex flex-col gap-3">
+              <button 
+                onClick={async () => {
+                  try {
+                    await reloadUser();
+                    const isVerifiedNow = isMock || emailVerified;
+                    if (isVerifiedNow) {
+                      setShowVerifyModal(false);
+                      if (pendingUrl) {
+                        const isExempt = user?.roles && user.roles.some((r: string) => ["admin", "board", "reviewer"].includes(r));
+                        const todayStr = new Date().toLocaleDateString("en-CA");
+                        const lastDate = user?.lastDownloadDate || "";
+                        const currentDownloadsToday = lastDate === todayStr ? (user?.downloadsToday || 0) : 0;
+                        
+                        if (!isExempt && currentDownloadsToday >= 30) {
+                          setShowLimitModal(true);
+                        } else {
+                          trackDownload(pendingUrl);
+                          window.open(pendingUrl, "_blank");
+                          setPendingUrl(null);
+                        }
+                      }
+                    } else {
+                      setVerifError("Verification check failed. Please verify the email and try again.");
+                    }
+                  } catch (err: any) {
+                    setVerifError(err.message || "Failed to refresh verification status.");
+                  }
+                }}
+                className="w-full bg-foreground text-background hover:bg-foreground/90 py-3 rounded-lg font-bold text-sm transition-all shadow-lg cursor-pointer"
+              >
+                I have verified my email
+              </button>
+              
+              <button 
+                onClick={async () => {
+                  setVerifSent(false);
+                  setVerifError("");
+                  try {
+                    await sendVerificationEmail();
+                    setVerifSent(true);
+                  } catch (err: any) {
+                    setVerifError(err.message || "Failed to resend verification email.");
+                  }
+                }}
+                className="w-full py-2.5 border border-foreground/20 rounded-lg hover:bg-foreground/5 transition-all text-sm font-bold flex justify-center items-center gap-2 cursor-pointer text-foreground"
+              >
+                Resend Verification Email
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Limit Reached Modal */}
+      {showLimitModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md transition-all duration-300">
+          <div className="bg-surface border border-red-500/30 p-6 md:p-8 rounded-2xl max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+            <button 
+              onClick={() => {
+                setShowLimitModal(false);
+                setPendingUrl(null);
+              }}
+              className="absolute top-4 right-4 text-foreground/50 hover:text-foreground hover:bg-foreground/5 p-2 rounded-full transition-all cursor-pointer"
+            >
+              <X size={18} />
+            </button>
+            
+            <div className="text-center mb-6">
+              <Lock size={48} className="mx-auto mb-4 text-red-500 animate-pulse" />
+              <h3 className="text-2xl font-black text-foreground tracking-tight">Daily Limit Reached</h3>
+              <p className="text-foreground/75 text-sm mt-3 leading-relaxed">
+                To protect server resources, downloads for general users are capped at **30 files per day**.
+              </p>
+              <p className="text-foreground/75 text-sm mt-2 leading-relaxed">
+                You have reached your daily quota. Please try again tomorrow, or contact the HEMS team if you require administrative access.
+              </p>
+            </div>
+
+            <button 
+              onClick={() => {
+                setShowLimitModal(false);
+                setPendingUrl(null);
+              }}
+              className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-bold text-sm transition-all shadow-lg cursor-pointer"
+            >
+              Acknowledge
+            </button>
           </div>
         </div>
       )}

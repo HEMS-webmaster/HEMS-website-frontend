@@ -26,9 +26,24 @@ service cloud.firestore {
       );
       
       // Users can update their name/email but cannot self-promote their roles. Admins can update any user roles.
+      // Non-admins are subject to daily download limits (max 30/day) if modifying tracking fields.
       allow update: if request.auth != null && (
-        (request.auth.uid == userId && request.resource.data.roles == resource.data.roles) || 
-        isAdmin(request.auth.uid)
+        isAdmin(request.auth.uid) || 
+        (
+          request.auth.uid == userId && 
+          request.resource.data.roles == resource.data.roles &&
+          (
+            !('downloadsToday' in request.resource.data) ||
+            (
+              request.resource.data.downloadsToday <= 30 &&
+              (
+                !('lastDownloadDate' in resource.data) ||
+                request.resource.data.lastDownloadDate != resource.data.lastDownloadDate ||
+                request.resource.data.downloadsToday == resource.data.get('downloadsToday', 0) + 1
+              )
+            )
+          )
+        )
       );
       
       // Only admins can delete profiles

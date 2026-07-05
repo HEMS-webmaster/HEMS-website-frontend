@@ -13,7 +13,8 @@ import {
   createUserWithEmailAndPassword, 
   signInWithPopup,
   signOut as firebaseSignOut, 
-  onAuthStateChanged
+  onAuthStateChanged,
+  sendEmailVerification
 } from "firebase/auth";
 import { 
   doc, 
@@ -31,6 +32,9 @@ export interface UserProfile {
   loginCount?: number;
   downloadCount?: number;
   lastLogin?: string;
+  downloadsToday?: number;
+  lastDownloadDate?: string;
+  emailVerified?: boolean;
 }
 
 interface AuthContextType {
@@ -44,6 +48,9 @@ interface AuthContextType {
   updateUserRoles: (uid: string, newRoles: string[]) => Promise<void>;
   isMock: boolean;
   setMockRoles: (roles: string[]) => void;
+  emailVerified: boolean;
+  sendVerificationEmail: () => Promise<void>;
+  reloadUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -51,6 +58,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fbEmailVerified, setFbEmailVerified] = useState(false);
 
   // Helper for mock users storage in localStorage
   const getMockUsers = (): UserProfile[] => {
@@ -107,6 +115,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Mock mode initialization
       const currentUser = getMockCurrentUser();
       setUser(currentUser);
+      setFbEmailVerified(true);
       setLoading(false);
       return;
     }
@@ -115,6 +124,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       try {
         if (firebaseUser) {
+          setFbEmailVerified(firebaseUser.emailVerified);
           const userDocRef = doc(db, "users", firebaseUser.uid);
           const userDoc = await getDoc(userDocRef);
           
@@ -129,13 +139,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               name: firebaseUser.displayName || email.split("@")[0] || "User",
               email: email,
               roles: initialRoles,
-              createdAt: new Date().toISOString()
+              createdAt: new Date().toISOString(),
+              emailVerified: firebaseUser.emailVerified
             };
             await setDoc(userDocRef, fallbackProfile);
             setUser(fallbackProfile);
           }
         } else {
           setUser(null);
+          setFbEmailVerified(false);
         }
       } catch (err) {
         console.error("Error fetching user profile from Firestore:", err);
@@ -179,7 +191,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const updated = {
         ...data,
         loginCount: newLoginCount,
-        lastLogin: new Date().toISOString()
+        lastLogin: new Date().toISOString(),
+        emailVerified: credential.user.emailVerified
       };
       await setDoc(userDocRef, updated);
       setUser(updated as UserProfile);
@@ -194,7 +207,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         roles: initialRoles,
         createdAt: new Date().toISOString(),
         loginCount: 1,
-        lastLogin: new Date().toISOString()
+        lastLogin: new Date().toISOString(),
+        emailVerified: credential.user.emailVerified
       };
       await setDoc(userDocRef, profile);
       setUser(profile);
@@ -230,7 +244,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const updated = {
         ...data,
         loginCount: newLoginCount,
-        lastLogin: new Date().toISOString()
+        lastLogin: new Date().toISOString(),
+        emailVerified: credential.user.emailVerified
       };
       await setDoc(userDocRef, updated);
       setUser(updated as UserProfile);
@@ -253,18 +268,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         roles: getRolesForEmail(email),
         createdAt: new Date().toISOString(),
         loginCount: 1,
-        lastLogin: new Date().toISOString()
+        lastLogin: new Date().toISOString(),
+        emailVerified: true
       };
       
       mockUsers.push(newMockUser);
       saveMockUsers(mockUsers);
       saveMockCurrentUser(newMockUser);
       setUser(newMockUser);
+      setFbEmailVerified(true);
       return;
     }
 
     // Real Firebase Registration
     const credential = await createUserWithEmailAndPassword(auth, email, password);
+    try {
+      await sendEmailVerification(credential.user);
+    } catch (verifErr) {
+      console.error("Failed to send initial email verification:", verifErr);
+    }
     const initialRoles = await fetchInitialRoles(email);
     const profile: UserProfile = {
       uid: credential.user.uid,
@@ -273,21 +295,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       roles: initialRoles,
       createdAt: new Date().toISOString(),
       loginCount: 1,
-      lastLogin: new Date().toISOString()
+      lastLogin: new Date().toISOString(),
+      emailVerified: credential.user.emailVerified
     };
     
     await setDoc(doc(db, "users", credential.user.uid), profile);
     setUser(profile);
+    setFbEmailVerified(credential.user.emailVerified);
   };
 
   const logout = async () => {
     if (!hasFirebaseKeys) {
       saveMockCurrentUser(null);
       setUser(null);
+      setFbEmailVerified(false);
       return;
     }
     await firebaseSignOut(auth);
     setUser(null);
+    setFbEmailVerified(false);
   };
 
   const updateUserRoles = async (uid: string, newRoles: string[]) => {
@@ -320,6 +346,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const sendVerificationEmail = async () => {
+    if (!hasFirebaseKeys) return;
+    if (auth.currentUser) {
+      await sendEmailVerification(auth.currentUser);
+    }
+  };
+
+  const reloadUser = async () => {
+    if (!hasFirebaseKeys) return;
+    if (auth.currentUser) {
+      await auth.currentUser.reload();
+      setFbEmailVerified(auth.currentUser.emailVerified);
+      
+      if (auth.currentUser.emailVerified) {
+        const userDocRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(userDocRef, { emailVerified: true }).catch(() => {
+          setDoc(userDocRef, { emailVerified: true }, { merge: true });
+        });
+        
+        if (user) {
+          setUser({ ...user, emailVerified: true });
+        }
+      }
+    }
+  };
+
   return (
     <AuthContext.Provider value={{ 
       user, 
@@ -331,7 +383,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       logout, 
       updateUserRoles, 
       isMock: !hasFirebaseKeys,
-      setMockRoles
+      setMockRoles,
+      emailVerified: fbEmailVerified,
+      sendVerificationEmail,
+      reloadUser
     }}>
       {children}
     </AuthContext.Provider>
