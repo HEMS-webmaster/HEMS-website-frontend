@@ -2698,3 +2698,12 @@ We must:
 - Action:
   - Configured `setCustomParameters({ prompt: 'select_account' })` on GoogleAuthProvider and Microsoft OAuthProvider inside firebase.ts.
   - Initiated build check and live redeployment.
+
+
+## 2026-07-05 09:36:44 - @ops SCoT Log
+- Goal: Stop local dev server and deploy case-sensitive Inficon logo rename.
+- Action:
+  - Terminated local dev server process running on port 3000.
+  - Identified case mismatch for Inficon logo (tracked as lowercase inficon.png in git but referenced as uppercase Inficon.png in code).
+  - Renamed the file case-sensitively in Git from inficon.png to Inficon.png using temp staging step.
+  - Initiated full production rebuild and redeployment.
