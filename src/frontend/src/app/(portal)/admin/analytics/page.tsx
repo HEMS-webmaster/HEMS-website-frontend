@@ -58,6 +58,59 @@ export default function AdminAnalytics() {
     });
   }, [downloadsList, sinceDate]);
 
+  // Filter users/attendees by date (last login)
+  const filteredUsers = useMemo(() => {
+    if (!sinceDate) return usersList;
+    const filterTime = new Date(sinceDate).getTime();
+    return usersList.filter(usr => {
+      if (!usr.lastLogin) return false;
+      return new Date(usr.lastLogin).getTime() >= filterTime;
+    });
+  }, [usersList, sinceDate]);
+
+  const downloadCsv = () => {
+    let headers: string[] = [];
+    let rows: string[][] = [];
+    let fileName = "";
+
+    if (activeTab === "users") {
+      headers = ["Name", "Email", "Logins", "Downloads", "Last Login"];
+      rows = filteredUsers.map(usr => [
+        usr.name,
+        usr.email,
+        (usr.loginCount || 0).toString(),
+        (usr.downloadCount || 0).toString(),
+        usr.lastLogin ? new Date(usr.lastLogin).toLocaleString() : "Never"
+      ]);
+      fileName = `attendee_login_activity_${sinceDate ? "since_" + sinceDate : "all"}.csv`;
+    } else {
+      headers = ["File Name", "Workshop", "Category", "Downloads", "Last Downloaded"];
+      rows = filteredDownloads.map(file => [
+        file.fileName,
+        file.workshopName,
+        file.category,
+        file.downloadCount.toString(),
+        file.lastDownloaded ? new Date(file.lastDownloaded).toLocaleString() : "Never"
+      ]);
+      fileName = `document_downloads_${sinceDate ? "since_" + sinceDate : "all"}.csv`;
+    }
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.map(val => `"${val.replace(/"/g, '""')}"`).join(","))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", fileName);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const loadAnalyticsData = async () => {
     setLoadingData(true);
     setError("");
@@ -178,8 +231,9 @@ export default function AdminAnalytics() {
 
   // Aggregate statistics
   const totalLogins = useMemo(() => {
-    return usersList.reduce((sum, u) => sum + (u.loginCount || 0), 0);
-  }, [usersList]);
+    const list = sinceDate ? filteredUsers : usersList;
+    return list.reduce((sum, u) => sum + (u.loginCount || 0), 0);
+  }, [usersList, filteredUsers, sinceDate]);
 
   const totalDownloads = useMemo(() => {
     const list = sinceDate ? filteredDownloads : downloadsList;
@@ -285,7 +339,7 @@ export default function AdminAnalytics() {
         {/* Left Side: Main Tables */}
         <div className="lg:col-span-9 space-y-6">
           
-          {/* Navigation tabs & Date Filter */}
+          {/* Navigation tabs & Date Filter / CSV Export */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-foreground/10 pb-3 gap-4">
             <div className="flex gap-4">
               <button
@@ -310,9 +364,12 @@ export default function AdminAnalytics() {
               </button>
             </div>
             
-            {activeTab === "files" && (
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Date Filter */}
               <div className="flex items-center gap-2 bg-background border border-foreground/10 px-3 py-1.5 rounded-lg text-xs">
-                <span className="font-bold text-foreground/60 uppercase tracking-wider">Downloads Since:</span>
+                <span className="font-bold text-foreground/60 uppercase tracking-wider">
+                  {activeTab === "users" ? "Logins Since:" : "Downloads Since:"}
+                </span>
                 <input
                   type="date"
                   value={sinceDate}
@@ -328,7 +385,17 @@ export default function AdminAnalytics() {
                   </button>
                 )}
               </div>
-            )}
+
+              {/* Export CSV Button */}
+              <button
+                onClick={downloadCsv}
+                disabled={activeTab === "users" ? filteredUsers.length === 0 : filteredDownloads.length === 0}
+                className="flex items-center justify-center gap-1.5 bg-surface hover:bg-foreground/5 text-foreground border border-foreground/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all disabled:opacity-50 cursor-pointer"
+                title="Export current table to CSV"
+              >
+                <Download size={14} /> Export CSV
+              </button>
+            </div>
           </div>
 
           {loadingData ? (
@@ -352,14 +419,14 @@ export default function AdminAnalytics() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-foreground/10 text-foreground/90">
-                    {usersList.length === 0 ? (
+                    {filteredUsers.length === 0 ? (
                       <tr>
                         <td colSpan={5} className="px-6 py-8 text-center text-foreground/50 italic">
                           No attendee sessions recorded yet.
                         </td>
                       </tr>
                     ) : (
-                      usersList.map((usr) => (
+                      filteredUsers.map((usr) => (
                         <tr key={usr.uid} className="hover:bg-foreground/5 transition-colors">
                           <td className="px-6 py-4 font-bold">{usr.name}</td>
                           <td className="px-6 py-4 font-mono text-xs">{usr.email}</td>
