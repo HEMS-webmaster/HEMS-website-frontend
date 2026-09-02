@@ -48,4 +48,24 @@
   - Data Files: `src/frontend/src/data/master_workshops.json`, `corporate_registry.json`, and `archives/*.json` are untouched.
   - Local Assets: `docs/archives_translation/proceedings/` and `sponsors/` remain in place, preserving local PDF streaming and file previews.
   - Build & Deploy Scripts: `src/frontend/scripts/build-prod.js`, `push-to-live.js`, and `index-pdf-contents.js` are retained.
-- **Conclusion**: The implementation plan leaves all `/manager` subsystems, APIs, and data sources completely intact.
+
+## [2026-09-02] Ops Execution: Restart Workshop Manager Dev Server
+- **Agent**: @ops
+- **Context**: @bo requested restarting the Workshop Manager dev server.
+- **Action**: Launching `npm run dev` in `src/frontend` with Turbopack, listening on `http://localhost:3000/manager`.
+
+## [2026-09-02] Ops Execution: Step 1 Cleanup - Transient Logs & Test Binaries
+- **Agent**: @ops
+- **Context**: @bo authorized Step 1 of the workspace cleanup plan (`docs/plans/2026-09-02-workspace-cleanup.md`).
+- **Action**:
+  - Remove root test binary: `15th_Bell_Underwater_Mass_Spectrometry_Presentation_test.pdf`.
+  - Remove root scratch archive: `scratch_archive.zip`.
+  - Remove frontend build & debug logs: `src/frontend/dev.log`, `src/frontend/build.log`, `src/frontend/build2.log`, `src/frontend/firebase-debug.log`, `src/frontend/lint.txt`.
+  - Remove leftover corrupt clone: `src/frontend/src/app/manager/page.tsx.corrupt`.
+
+## [2026-09-02] Ops Execution: Git Atomic Sync for Step 1 Cleanup
+- **Agent**: @ops & @arch
+- **Context**: @bo requested pushing the Step 1 cleanup changes to Git.
+- **Workflow**: Antigravity `/atomic-commit-push`.
+- **Payload**: Deleting transient build logs, debug dumps, and root test PDF; updating SCoT and handover logs.
+- **Classification**: `chore: execute step 1 cleanup purging transient logs and test binaries`
