@@ -1,12 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { Activity } from "lucide-react";
+import { Activity, Shield, User } from "lucide-react";
 import workshopsData from "@/data/master_workshops.json";
 import { useAuth } from "@/context/AuthContext";
 
+const ROLE_DEFINITIONS: Record<string, { label: string; desc: string; badgeClass: string }> = {
+  admin: {
+    label: "Administrator",
+    desc: "Full system control & configuration",
+    badgeClass: "text-emerald-400 bg-emerald-950/70 border-emerald-800/60"
+  },
+  board: {
+    label: "Executive Board",
+    desc: "Governance, executive minutes & voting",
+    badgeClass: "text-purple-400 bg-purple-950/70 border-purple-800/60"
+  },
+  reviewer: {
+    label: "Abstract Reviewer",
+    desc: "Blind scoring & submission rubric reviews",
+    badgeClass: "text-amber-400 bg-amber-950/70 border-amber-800/60"
+  },
+  submitter: {
+    label: "Author / Submitter",
+    desc: "Paper & abstract submission privileges",
+    badgeClass: "text-sky-400 bg-sky-950/70 border-sky-800/60"
+  },
+  attendee: {
+    label: "Registered Attendee",
+    desc: "Registered conference participant",
+    badgeClass: "text-teal-400 bg-teal-950/70 border-teal-800/60"
+  },
+  general: {
+    label: "General Member",
+    desc: "Public proceeding access & downloads",
+    badgeClass: "text-slate-300 bg-slate-800/80 border-slate-700/60"
+  }
+};
+
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
+  const userRoles = user?.roles && user.roles.length > 0 ? user.roles : ["general"];
+
   return (
     <nav className="sticky top-0 z-40 w-full bg-surface/90 backdrop-blur-md border-b border-primary/30 relative">
       {/* Topographic SVG Graphic - Constrained to prevent bleeding */}
@@ -61,18 +96,73 @@ export default function Navbar() {
                 Contact
               </Link>
               
-              {user && user.roles?.includes("admin") && (
-                <Link href="/admin" className="text-secondary hover:text-secondary/80 transition-colors font-bold bg-secondary/10 px-2 py-1 rounded-md border border-secondary/30">
-                  Admin
-                </Link>
-              )}
-              
               {!loading && (
                 user ? (
                   <div className="flex items-center gap-3 ml-2 border-l border-foreground/10 pl-4">
-                    <span className="text-xs text-foreground/60 hidden lg:inline max-w-[150px] truncate" title={user.email}>
-                      {user.email}
-                    </span>
+                    {/* Username with Administrative Levels Hover Popover */}
+                    <div className="relative group flex items-center">
+                      <div 
+                        className="flex items-center gap-1.5 cursor-pointer py-1 text-xs text-foreground/80 hover:text-foreground transition-colors"
+                        title={`User: ${user.email}\nAdministrative Levels:\n${userRoles.map(r => `• ${ROLE_DEFINITIONS[r]?.label || r}`).join('\n')}`}
+                      >
+                        <User className="w-3.5 h-3.5 text-primary/70" />
+                        <span className="hidden lg:inline max-w-[150px] truncate font-medium border-b border-dotted border-foreground/30 hover:border-primary transition-colors">
+                          {user.name || user.email}
+                        </span>
+                      </div>
+
+                      {/* Rich Hover Card / Popover */}
+                      <div className="absolute right-0 top-full mt-2 w-72 p-3.5 bg-surface/95 backdrop-blur-xl border border-foreground/15 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 pointer-events-auto">
+                        <div className="flex items-center justify-between border-b border-foreground/10 pb-2 mb-2.5">
+                          <div className="min-w-0 pr-2">
+                            <p className="text-[10px] font-mono uppercase tracking-wider text-foreground/50">Signed In As</p>
+                            <p className="text-xs font-bold text-foreground truncate" title={user.email}>
+                              {user.email}
+                            </p>
+                          </div>
+                          <div className="h-7 w-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 text-primary">
+                            <Shield className="w-3.5 h-3.5" />
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="text-[10px] font-mono uppercase tracking-wider text-primary font-semibold mb-2 flex items-center gap-1">
+                            Administrative Levels ({userRoles.length})
+                          </p>
+                          <div className="space-y-1.5">
+                            {userRoles.map((role) => {
+                              const meta = ROLE_DEFINITIONS[role] || {
+                                label: role,
+                                desc: "Custom administrative role",
+                                badgeClass: "text-slate-300 bg-slate-800 border-slate-700"
+                              };
+                              return (
+                                <div key={role} className="flex items-start gap-2 p-1.5 rounded-lg bg-foreground/[0.03] border border-foreground/5">
+                                  <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono border flex-shrink-0 ${meta.badgeClass}`}>
+                                    {meta.label}
+                                  </span>
+                                  <span className="text-[10px] text-foreground/60 leading-snug">
+                                    {meta.desc}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {user.roles?.includes("admin") && (
+                          <div className="mt-3 pt-2.5 border-t border-foreground/10 flex items-center justify-between">
+                            <Link 
+                              href="/admin" 
+                              className="text-[11px] font-bold text-secondary hover:underline flex items-center gap-1"
+                            >
+                              Open Admin Portal ↗
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
                     <button 
                       onClick={logout} 
                       className="bg-primary/15 text-primary border border-primary/30 hover:bg-primary/25 px-3 py-1.5 rounded-md font-bold text-xs transition-all cursor-pointer"

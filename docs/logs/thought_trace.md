@@ -568,3 +568,33 @@
   6. Backend & Cloud: Add automated 1,398-link asset integrity audit (`audit:assets`).
   7. Data Schemas: Document runtime Zod schemas (`archive.schema.ts`) and pre-flight validation in build script.
   8. Developer Playbook: Update workspace root orchestration (`npm run dev`, `npm run manager`, `npm run build`, `npm run audit:assets`, `npm run push-to-live`).
+
+## [2026-09-02] Ops: Authoring Client User Guide for Decap CMS in docs/decap_cms_guide.html
+- **Agent**: @ops
+- **Context**: @bo requested a dedicated HTML user manual in `docs/` explaining Decap CMS and providing clear, non-technical instructions for future client-users.
+- **Content Outline for User Manual**:
+  1. Executive Summary: What Decap CMS is, how it works, and why it is safe (Git-backed, zero database).
+  2. Getting Started: How to log in at `http://[your-domain]/admin/index.html`.
+  3. The Workspace Tour:
+     - "Contents" tab: Browsing collections.
+     - "Workflow" tab: Reviewing drafts, in-review, and ready-to-publish stages.
+     - "Media" tab: Uploading images.
+  4. The 8 Editable Collections:
+     - About the Society, Call for Papers, Accommodations, Registration, Formatting Guidelines, Sponsorship, Contact Us, Announcements.
+     - Detailed field-by-field guidance for each.
+  5. How to Edit & Publish: Step-by-step walkthrough (edit fields -> save draft -> review preview -> publish).
+  6. Safety Boundaries (FAQ): Why proceedings archives and technical catalogs are protected and cannot be broken.
+  7. Troubleshooting & Best Practices (e.g. image sizing, formatting tips).
+- **Design Language**: Clean, modern dark-navy aesthetic consistent with HEMS brand guidelines, responsive Tailwind CSS CDN, glass panels, callout boxes, and readable typography.
+
+## [2026-09-02] Dev: Remove Admin Badge & Implement Administrative Levels Hover Tooltip in Navbar
+- **Agent**: @dev
+- **Context**: @bo requested to remove the green "Admin" badge next to Contact/logout, and instead add hover text over the username displaying a list of the user's administrative levels.
+- **Implementation Details**:
+  1. Remove the standalone green `<Link href="/admin">Admin</Link>` badge from `src/frontend/src/components/layout/Navbar.tsx`.
+  2. Map user roles (`user.roles` array, e.g. `admin`, `board`, `reviewer`, `submitter`, `attendee`, `general`) to human-readable titles, descriptions, and styled color badges.
+  3. Wrap the username in an interactive `group relative` container with:
+     - HTML `title` fallback attribute containing the formatted list of administrative levels.
+     - Styled CSS hover tooltip card (`opacity-0 group-hover:opacity-100 group-hover:visible transition-all`) that lists each assigned administrative level with a shield icon, role title, and brief permission summary.
+     - Direct administrative portal shortcut within the tooltip when `admin` or `board` roles are present.
+  4. Build & visual verification via browser subagent.
