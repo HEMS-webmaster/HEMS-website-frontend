@@ -1,0 +1,108 @@
+# Decap CMS Configuration - Scoped Content Management
+backend:
+  name: test-repo # Change to 'github' once OAuth gateway is live
+  branch: main
+
+# Editorial workflow creates PRs on staging branch before publishing
+publish_mode: editorial_workflow
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "pages"
+    label: "Website Marketing Pages"
+    description: "Manage public marketing and conference policy pages"
+    files:
+      - label: "About the Society"
+        name: "about"
+        file: "content/pages/about.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "string" }
+          - { label: "Upcoming Edition", name: "upcoming_edition", widget: "string" }
+          - { label: "Upcoming Dates", name: "upcoming_dates", widget: "string" }
+          - { label: "Upcoming Location", name: "upcoming_location", widget: "string" }
+          - { label: "Contact Email", name: "contact_email", widget: "string" }
+          - { label: "Body Content", name: "body", widget: "markdown" }
+
+      - label: "Call for Papers"
+        name: "call_for_papers"
+        file: "content/pages/call-for-papers.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Workshop Edition", name: "edition", widget: "string" }
+          - { label: "Submission Deadline", name: "submission_deadline", widget: "datetime", format: "YYYY-MM-DD" }
+          - { label: "Accepting Submissions?", name: "accepting_submissions", widget: "boolean" }
+          - { label: "Submission Portal URL", name: "submission_url", widget: "string" }
+          - { label: "Guidelines & Topics Text", name: "body", widget: "markdown" }
+
+      - label: "Workshop Accommodations"
+        name: "accommodations"
+        file: "content/pages/accommodations.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Hotel Name", name: "hotel_name", widget: "string" }
+          - { label: "Hotel Address", name: "address", widget: "string" }
+          - { label: "Reservation Cutoff Date", name: "cutoff_date", widget: "datetime", format: "YYYY-MM-DD" }
+          - { label: "Group Discount Code", name: "group_code", widget: "string" }
+          - { label: "Room Rate", name: "room_rate", widget: "string" }
+          - { label: "Booking Link", name: "booking_url", widget: "string" }
+          - { label: "Hotel Amenities & Transit Details", name: "body", widget: "markdown" }
+
+      - label: "Workshop Registration"
+        name: "registration"
+        file: "content/pages/registration.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Early Bird Deadline", name: "early_bird_deadline", widget: "datetime", format: "YYYY-MM-DD" }
+          - { label: "Regular Attendee Fee", name: "regular_fee", widget: "string" }
+          - { label: "Student Attendee Fee", name: "student_fee", widget: "string" }
+          - { label: "Corporate Exhibitor Fee", name: "exhibitor_fee", widget: "string" }
+          - { label: "Registration Portal URL", name: "portal_url", widget: "string" }
+          - { label: "Registration Open?", name: "registration_open", widget: "boolean" }
+          - { label: "Pricing & Cancellation Policy Text", name: "body", widget: "markdown" }
+
+      - label: "Abstract Formatting Guidelines"
+        name: "formatting_guidelines"
+        file: "content/pages/formatting-guidelines.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Template Download Link", name: "template_download_url", widget: "string" }
+          - { label: "Max Pages", name: "max_pages", widget: "number", default: 1 }
+          - { label: "Guidelines Text", name: "body", widget: "markdown" }
+
+      - label: "Corporate Sponsorship Opportunities"
+        name: "corporate_sponsorship"
+        file: "content/pages/corporate-sponsorship.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Prospectus Download Link", name: "prospectus_url", widget: "string" }
+          - { label: "Contact Email", name: "contact_email", widget: "string" }
+          - { label: "Platinum Tier Fee", name: "platinum_tier", widget: "string" }
+          - { label: "Gold Tier Fee", name: "gold_tier", widget: "string" }
+          - { label: "Silver Tier Fee", name: "silver_tier", widget: "string" }
+          - { label: "Sponsorship Benefits Details", name: "body", widget: "markdown" }
+
+      - label: "Contact Us"
+        name: "contact"
+        file: "content/pages/contact.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "General Inquiry Email", name: "general_email", widget: "string" }
+          - { label: "Technical Program Email", name: "technical_email", widget: "string" }
+          - { label: "Treasurer / Sponsorship Email", name: "treasurer_email", widget: "string" }
+          - { label: "Mailing Address", name: "mailing_address", widget: "text" }
+          - { label: "Contact Notes", name: "body", widget: "markdown" }
+
+  - name: "announcements"
+    label: "Announcements & News"
+    description: "Publish workshop announcements and schedule alerts"
+    folder: "content/announcements"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Headline", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Urgent Banner Alert?", name: "is_alert", widget: "boolean", default: false }
+      - { label: "Announcement Details", name: "body", widget: "markdown" }

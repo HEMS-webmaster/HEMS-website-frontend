@@ -1,0 +1,14 @@
+{
+  "name": "hems-workshop-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Harsh-Environment Mass Spectrometry (HEMS) Society Monorepo",
+  "scripts": {
+    "dev": "npm --prefix src/frontend run dev",
+    "manager": "npm --prefix tools/manager run dev",
+    "build": "npm --prefix src/frontend run build",
+    "build:manager": "npm --prefix tools/manager run build",
+    "push-to-live": "node src/frontend/scripts/push-to-live.js",
+    "audit:assets": "node scripts/audit-proceedings-assets.js"
+  }
+}

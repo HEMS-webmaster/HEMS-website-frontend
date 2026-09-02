@@ -357,92 +357,102 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
             </div>
           </div>
           
-          <div className="hidden md:flex flex-shrink-0 items-center justify-center bg-white p-4 rounded-xl border border-foreground/10 shadow-lg mt-4 md:mt-12 w-[240px] lg:w-[270px]">
+          <div className="hidden md:flex flex-shrink-0 items-center justify-center bg-white p-2 rounded-xl border border-foreground/10 shadow-sm w-[130px] lg:w-[140px] self-start">
             <Image 
               src="/hemslogo.jpg" 
               alt="HEMS Logo" 
-              width={255} 
-              height={127} 
+              width={140} 
+              height={70} 
+              priority
               className="object-contain w-full h-auto rounded" 
             />
           </div>
         </div>
 
-        {data.host_corporation && data.host_corporation.name && (
-          <div className="mb-12 border-t border-foreground/10 pt-8">
-            <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4 flex items-center gap-2">
-              <Building size={16} /> Official Host
+        {data.resources && data.resources.length > 0 && (
+          <div className="mb-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-foreground/50 mb-3 font-mono">
+              Workshop Resources
             </p>
-            <a 
-              href={data.host_corporation.url || '#'} 
-              target={data.host_corporation.url ? "_blank" : undefined}
-              rel={data.host_corporation.url ? "noopener noreferrer" : undefined}
-              className="inline-flex items-center gap-6 bg-surface border border-foreground/10 p-6 rounded-lg hover:border-primary hover:bg-primary/5 transition-all group"
-            >
-              {data.host_corporation.logo_file && (
-                <div className="bg-white rounded p-4 h-40 w-64 flex items-center justify-center flex-shrink-0 shadow-inner">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={data.host_corporation.logo_file_url || `/images/sponsors/${data.host_corporation.logo_file}`}
-                    alt={data.host_corporation.name} 
-                    width={200} 
-                    height={100}
-                    className="object-contain max-h-full max-w-full" 
-                  />
-                </div>
-              )}
-              <div>
-                <h4 className="font-bold text-foreground text-xl group-hover:text-primary transition-colors">{data.host_corporation.name}</h4>
-                <span className="text-sm text-primary/80 font-bold tracking-wide uppercase">Workshop Host</span>
-              </div>
-            </a>
+            <div className="flex flex-wrap gap-3">
+              {data.resources.map((res: any, idx: number) => {
+                const href = isLocal 
+                  ? (res.local_target_path || (res.legacy_url || res.url))
+                  : (res.public_website_url || (res.legacy_url || res.url));
+                if (!href) return null;
+                const isAnchor = href.startsWith('#');
+                const anchorElement = (
+                  <a 
+                    key={idx}
+                    href={href} 
+                    target={isAnchor ? undefined : "_blank"} 
+                    rel={isAnchor ? undefined : "noopener noreferrer"}
+                    className={`flex items-center gap-2 bg-background/70 border border-foreground/10 px-4 py-2 rounded-md transition-colors text-sm font-bold ${
+                      idx === 0 ? 'hover:border-secondary hover:text-secondary' : 'hover:border-primary hover:text-primary'
+                    }`}
+                  >
+                    {res.icon === 'Download' && <Download size={16} />}
+                    {res.icon === 'Users' && <Users size={16} />}
+                    {res.icon === 'Building' && <Building size={16} />}
+                    {res.icon === 'FileText' && <FileText size={16} />}
+                    {!['Download', 'Users', 'Building', 'FileText'].includes(res.icon) && <Download size={16} />}
+                    {res.label}
+                  </a>
+                );
+                return isAnchor ? anchorElement : (
+                  <FrontendPreviewHover key={idx} href={href} title={res.label}>
+                    {anchorElement}
+                  </FrontendPreviewHover>
+                );
+              })}
+            </div>
           </div>
         )}
 
-          {data.resources && data.resources.length > 0 && (
-            <div>
-              <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4">Workshop Resources</p>
-              <div className="flex flex-wrap gap-4">
-                {data.resources.map((res: any, idx: number) => {
-                  const href = isLocal 
-                    ? (res.local_target_path || (res.legacy_url || res.url))
-                    : (res.public_website_url || (res.legacy_url || res.url));
-                  if (!href) return null;
-                  const isAnchor = href.startsWith('#');
-                  const anchorElement = (
-                    <a 
-                      key={idx}
-                      href={href} 
-                      target={isAnchor ? undefined : "_blank"} 
-                      rel={isAnchor ? undefined : "noopener noreferrer"}
-                      className={`flex items-center gap-2 bg-surface border border-foreground/10 px-4 py-2 rounded-md transition-colors text-sm font-bold ${
-                        idx === 0 ? 'hover:border-secondary hover:text-secondary' : 'hover:border-primary hover:text-primary'
-                      }`}
-                    >
-                      {res.icon === 'Download' && <Download size={16} />}
-                      {res.icon === 'Users' && <Users size={16} />}
-                      {res.icon === 'Building' && <Building size={16} />}
-                      {res.icon === 'FileText' && <FileText size={16} />}
-                      {!['Download', 'Users', 'Building', 'FileText'].includes(res.icon) && <Download size={16} />}
-                      {res.label}
-                    </a>
-                  );
-                  return isAnchor ? anchorElement : (
-                    <FrontendPreviewHover key={idx} href={href} title={res.label}>
-                      {anchorElement}
-                    </FrontendPreviewHover>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {data.sponsors && data.sponsors.length > 0 && (
-            <div className="mt-12 border-t border-foreground/10 pt-8">
-              <p className="text-sm font-bold uppercase tracking-widest text-foreground/50 mb-4 flex items-center gap-2">
-                <Building size={16} /> Corporate Sponsors
+        {(data.host_corporation?.name || (data.sponsors && data.sponsors.length > 0)) && (
+          <div className="border-t border-foreground/10 pt-6">
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-foreground/50 flex items-center gap-2 font-mono">
+                <Building size={14} className="text-secondary" /> Workshop Host & Corporate Sponsors
               </p>
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(246px,1fr))] gap-2">
+              {data.sponsors?.length > 0 && (
+                <span className="text-[11px] font-mono text-foreground/50">
+                  {data.sponsors.length} Corporate {data.sponsors.length === 1 ? 'Partner' : 'Partners'}
+                </span>
+              )}
+            </div>
+
+            {/* Official Host Badge */}
+            {data.host_corporation && data.host_corporation.name && (
+              <div className="flex justify-center mb-6 w-full">
+                <a 
+                  href={data.host_corporation.url || '#'} 
+                  target={data.host_corporation.url ? "_blank" : undefined}
+                  rel={data.host_corporation.url ? "noopener noreferrer" : undefined}
+                  className="inline-flex items-center gap-4 bg-background/80 border-2 border-primary/30 p-3 sm:p-3.5 rounded-xl hover:border-primary hover:bg-primary/5 transition-all group shadow-sm max-w-lg"
+                >
+                  {data.host_corporation.logo_file && (
+                    <div className="bg-white rounded-lg p-2 h-24 w-[245px] flex items-center justify-center flex-shrink-0 shadow-xs overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img 
+                        src={data.host_corporation.logo_file_url || `/images/sponsors/${data.host_corporation.logo_file}`}
+                        alt={data.host_corporation.name} 
+                        style={{ maxHeight: '75px', maxWidth: '225px', width: 'auto', height: 'auto', objectFit: 'contain' }}
+                        className="transition-transform duration-200 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                  <div className="min-w-0 pr-2">
+                    <div className="text-[11px] font-bold text-primary uppercase tracking-widest font-mono">Official Workshop Host</div>
+                    <h4 className="font-bold text-foreground text-base sm:text-lg leading-snug group-hover:text-primary transition-colors">{data.host_corporation.name}</h4>
+                  </div>
+                </a>
+              </div>
+            )}
+
+            {/* Corporate Sponsors Responsive Grid */}
+            {data.sponsors && data.sponsors.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {[...data.sponsors].sort((a, b) => (parseInt(a.year) || 9999) - (parseInt(b.year) || 9999)).map((sponsor: any, idx: number) => {
                   const sponsorYear = parseInt(sponsor.year);
                   return (
@@ -451,23 +461,25 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       href={sponsor.url || '#'}
                       target={sponsor.url ? "_blank" : undefined}
                       rel={sponsor.url ? "noopener noreferrer" : undefined}
-                      className="bg-surface border border-foreground/10 p-2 rounded-lg flex items-center gap-3 hover:border-primary hover:bg-primary/5 transition-all group"
+                      title={`${sponsor.name}${sponsorYear ? ` (Partner since ${sponsorYear})` : ''}`}
+                      className="bg-surface border border-foreground/15 p-2 rounded-lg flex items-center gap-2.5 hover:border-primary/60 hover:bg-primary/5 transition-all group shadow-xs overflow-hidden"
                     >
-                      <div className="bg-white rounded p-[2px] h-20 w-32 flex items-center justify-center flex-shrink-0 shadow-inner">
+                      <div className="bg-white rounded-md p-1.5 h-16 w-[160px] sm:w-[165px] flex items-center justify-center flex-shrink-0 shadow-xs overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img 
                           src={sponsor.image} 
                           alt={sponsor.name} 
-                          width={124} 
-                          height={76}
-                          className="object-contain max-h-full max-w-full transition-all duration-300" 
+                          style={{ maxHeight: '50px', maxWidth: '150px', width: 'auto', height: 'auto', objectFit: 'contain' }}
+                          className="transition-transform duration-200 group-hover:scale-105" 
                         />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-bold text-foreground text-xs leading-tight break-words group-hover:text-primary transition-colors">{sponsor.name}</h4>
+                      <div className="flex-1 min-w-0 pr-1">
+                        <h4 className="font-bold text-primary text-xs sm:text-[13px] leading-tight group-hover:underline transition-colors line-clamp-2" title={sponsor.name}>
+                          {sponsor.name}
+                        </h4>
                         {sponsorYear ? (
-                          <div className="text-[10px] font-bold text-secondary/80 mt-0.5 uppercase tracking-wider">
-                            {`Since ${sponsorYear}`}
+                          <div className="text-[9.5px] font-bold text-secondary uppercase tracking-wider font-mono mt-1 whitespace-nowrap">
+                            SINCE {sponsorYear}
                           </div>
                         ) : null}
                       </div>
@@ -475,8 +487,11 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                   );
                 })}
               </div>
-            </div>
-          )}
+            )}
+          </div>
+        )}
+
+
           {data.student_awards && data.student_awards.length > 0 && (
             <div className="mt-12 mb-12">
               <div className="bg-background border border-foreground/10 rounded-lg">

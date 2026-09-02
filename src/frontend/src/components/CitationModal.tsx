@@ -86,7 +86,6 @@ export default function CitationModal({
   };
 
   const permalink = `${origin}/archive/${year}#${id}`;
-  const doi = `10.5555/hems.${year}.${type}.${id}`;
 
   const apaCitation = `${formatAuthorsAPA(authors)} (${year}). ${title}. Presented at the ${workshopName}, ${location}. URL: ${permalink}`;
 
@@ -96,8 +95,7 @@ export default function CitationModal({
   booktitle = {Proceedings of the ${workshopName}},
   year      = {${year}},
   address   = {${location}},
-  url       = {${permalink}},
-  doi       = {${doi}}
+  url       = {${permalink}}
 }`;
 
   const handleCopy = (text: string, fieldName: string) => {
@@ -194,45 +192,22 @@ export default function CitationModal({
             </pre>
           </div>
 
-          {/* Identifiers */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
-            {/* Permalink */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-foreground/60 flex items-center gap-1.5">
-                  <Link size={14} className="text-primary" /> Permalink
-                </span>
-                <button 
-                  onClick={() => handleCopy(permalink, "permalink")}
-                  className="text-xs text-primary font-medium hover:underline cursor-pointer"
-                >
-                  {copiedField === "permalink" ? "Copied!" : "Copy"}
-                </button>
-              </div>
-              <div className="p-2.5 bg-background border border-foreground/10 rounded-lg text-xs font-mono truncate text-foreground/75">
-                {permalink}
-              </div>
+          {/* Identifier / Permalink */}
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-foreground/60 flex items-center gap-1.5">
+                <Link size={14} className="text-primary" /> Permanent Link (Permalink)
+              </span>
+              <button 
+                onClick={() => handleCopy(permalink, "permalink")}
+                className="text-xs text-primary font-medium hover:underline cursor-pointer"
+              >
+                {copiedField === "permalink" ? "Copied!" : "Copy Link"}
+              </button>
             </div>
-
-            {/* DOI */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-foreground/60 flex items-center gap-1.5">
-                  <Bookmark size={14} className="text-primary" /> Digital Object Identifier (DOI)
-                </span>
-                <button 
-                  onClick={() => handleCopy(doi, "doi")}
-                  className="text-xs text-primary font-medium hover:underline cursor-pointer"
-                >
-                  {copiedField === "doi" ? "Copied!" : "Copy"}
-                </button>
-              </div>
-              <div className="p-2.5 bg-background border border-foreground/10 rounded-lg text-xs font-mono truncate text-foreground/75">
-                {doi}
-              </div>
+            <div className="p-2.5 bg-background border border-foreground/10 rounded-lg text-xs font-mono truncate text-foreground/75 select-all">
+              {permalink}
             </div>
-
           </div>
 
         </div>

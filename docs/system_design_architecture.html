@@ -101,14 +101,14 @@
         </div>
         <div>
           <h1 class="text-base font-bold text-white tracking-wide">HEMS Platform Specification</h1>
-          <p class="text-[11px] text-slate-400 font-mono">Architecture, Design System & Developer Handover (v2.0)</p>
+          <p class="text-[11px] text-slate-400 font-mono">Architecture, Design System & Developer Handover (v3.0 — Decoupled Workbench & Scoped CMS)</p>
         </div>
       </div>
       <div class="flex items-center space-x-2">
         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span> Verified Active
         </span>
-        <span class="text-xs text-slate-400 font-mono hidden md:inline-block">Next.js 16 • React 19 • Firebase</span>
+        <span class="text-xs text-slate-400 font-mono hidden md:inline-block">Next.js 16 • Decap CMS • Zod • GCS</span>
       </div>
     </div>
   </header>
@@ -124,11 +124,12 @@
         <a href="#design-system" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">3. Visual Design System</a>
         <a href="#layout-architecture" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">4. Layout & Page Routes</a>
         <a href="#archive-system" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">5. Proceedings & Archive</a>
-        <a href="#manager-workbench" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">6. Workshop Manager</a>
-        <a href="#backend-cloud" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">7. Backend & Cloud Storage</a>
-        <a href="#security-rbac" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">8. Security & RBAC</a>
-        <a href="#data-registries" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">9. Data Schemas & Registries</a>
-        <a href="#developer-playbook" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">10. Developer Playbook</a>
+        <a href="#manager-workbench" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">6. Decoupled Workshop Manager</a>
+        <a href="#decap-cms" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">7. Scoped Decap CMS</a>
+        <a href="#backend-cloud" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">8. Backend, GCS & Integrity</a>
+        <a href="#security-rbac" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">9. Security & Perimeter Locks</a>
+        <a href="#data-registries" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">10. Data Schemas & Zod</a>
+        <a href="#developer-playbook" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">11. Developer Playbook</a>
       </div>
     </aside>
 
@@ -219,7 +220,31 @@
                 <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Storage & CDN</td>
                 <td class="py-3 px-4">Google Cloud Storage (GCS)</td>
                 <td class="py-3 px-4 text-slate-400">Standard / Multi-region</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Public multi-gigabyte proceeding PDFs, abstracts, slides</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Public multi-gigabyte proceeding PDFs, abstracts, slides (1,398 links)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Content Management</td>
+                <td class="py-3 px-4">Decap CMS (Git-based SPA)</td>
+                <td class="py-3 px-4 text-slate-400">3.0.0+</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Scoped client copywriting for 8 marketing pages via GitHub commits</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Runtime Validation</td>
+                <td class="py-3 px-4">Zod</td>
+                <td class="py-3 px-4 text-slate-400">3.24+</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Pre-flight schema validation of 15 workshop archive catalogs at save and build</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Markdown Parser</td>
+                <td class="py-3 px-4">gray-matter</td>
+                <td class="py-3 px-4 text-slate-400">4.0+</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">YAML frontmatter parsing for decoupled marketing pages</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Operations Workbench</td>
+                <td class="py-3 px-4">Standalone Next.js App (Port 4000)</td>
+                <td class="py-3 px-4 text-slate-400">tools/manager</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Decoupled local curator console with direct Node.js filesystem access</td>
               </tr>
               <tr class="hover:bg-slate-800/30">
                 <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Icons</td>
@@ -375,29 +400,36 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
           <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-sky-400 font-bold font-sans text-sm">Public Core Routes</span>
+            <span class="text-sky-400 font-bold font-sans text-sm">Public Core & Decap-Managed Routes</span>
             <ul class="space-y-1.5 text-slate-300">
               <li><strong class="text-white">/</strong> — Landing page, featured highlights, countdown</li>
               <li><strong class="text-white">/archive</strong> — Multi-year catalog & deep search portal</li>
               <li><strong class="text-white">/archive/[year]</strong> — Dynamic workshop proceedings viewer</li>
-              <li><strong class="text-white">/about</strong> — History, mission, and workshop committee</li>
-              <li><strong class="text-white">/accommodations</strong> — Venue and lodging details</li>
-              <li><strong class="text-white">/call-for-papers</strong> — Abstract deadlines & submission criteria</li>
-              <li><strong class="text-white">/corporate-sponsorship</strong> — Tiers & historical sponsor gallery</li>
-              <li><strong class="text-white">/registration</strong> — Conference registration & badge pickup</li>
-              <li><strong class="text-white">/student-awards</strong> — Student presentation grant guidelines</li>
+              <li><strong class="text-emerald-400">/admin</strong> — Decap CMS editorial console (scoped client copywriting)</li>
+              <li><strong class="text-white">/about</strong> — History & mission (backed by <code class="text-sky-300">content/pages/about.md</code>)</li>
+              <li><strong class="text-white">/accommodations</strong> — Lodging & transit (backed by <code class="text-sky-300">content/pages/accommodations.md</code>)</li>
+              <li><strong class="text-white">/call-for-papers</strong> — Deadlines & scope (backed by <code class="text-sky-300">content/pages/call-for-papers.md</code>)</li>
+              <li><strong class="text-white">/corporate-sponsorship</strong> — Tiers & packages (backed by <code class="text-sky-300">content/pages/corporate-sponsorship.md</code>)</li>
+              <li><strong class="text-white">/registration</strong> — Fee schedule (backed by <code class="text-sky-300">content/pages/registration.md</code>)</li>
+              <li><strong class="text-white">/formatting-guidelines</strong> — Abstract rules (backed by <code class="text-sky-300">content/pages/formatting-guidelines.md</code>)</li>
+              <li><strong class="text-white">/contact</strong> — Inquiries & addresses (backed by <code class="text-sky-300">content/pages/contact.md</code>)</li>
+              <li><strong class="text-white">/student-awards</strong> — Historical scholarship recipient honor roll</li>
             </ul>
           </div>
 
           <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-purple-400 font-bold font-sans text-sm">Role-Gated Portals & Workbench</span>
+            <span class="text-purple-400 font-bold font-sans text-sm">Role-Gated Portals & Decoupled Workbench</span>
             <ul class="space-y-1.5 text-slate-300">
               <li><strong class="text-white">/auth</strong> — Firebase Authentication (Email/Password & Google)</li>
               <li><strong class="text-white">/(portal)/admin</strong> — User RBAC roles, whitelist manager</li>
               <li><strong class="text-white">/(portal)/board</strong> — Executive committee meeting archives</li>
               <li><strong class="text-white">/(portal)/reviewer</strong> — Double-blind abstract scoring system</li>
-              <li><strong class="text-white">/manager</strong> — Local Workshop Manager workbench (dev-only)</li>
-              <li><strong class="text-white">/api/manager/*</strong> — Local API handlers (serve, check, upload)</li>
+              <li class="pt-2 border-t border-slate-800/80 text-amber-300 font-sans">
+                <strong>Decoupled Local Workbench (Port 4000):</strong>
+                <p class="text-slate-400 text-[11px] font-mono mt-0.5">
+                  The Workshop Manager is completely decoupled from the public frontend. Navigating to <code class="text-red-400">localhost:3000/manager</code> returns an intentional <strong>HTTP 404</strong>. The manager runs exclusively at <code class="text-emerald-400">http://localhost:4000/</code> via <code class="text-sky-300">tools/manager</code>.
+                </p>
+              </li>
             </ul>
           </div>
         </div>
@@ -457,47 +489,98 @@
       <!-- SECTION 6: WORKSHOP MANAGER WORKBENCH -->
       <section id="manager-workbench" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>06 / Local Developer Tooling</span>
+          <span>06 / Local Operations Workbench</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Workshop Manager Workbench (<code class="text-sky-300">/manager</code>)</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Decoupled Workshop Manager (<code class="text-sky-300">port 4000</code>)</h2>
 
         <p class="text-slate-300 text-sm leading-relaxed">
-          The Workshop Manager is a specialized local administrative GUI located at <code class="text-sky-300">http://localhost:3000/manager</code>. It empowers the human organizer or AI agent to curate proceedings without manual JSON editing.
+          The Workshop Manager is a dedicated, local-only administrative application decoupled into <code class="text-sky-300">tools/manager/</code> running on <code class="text-emerald-400">http://localhost:4000/</code>. It is completely segregated from the public Next.js website (port 3000), allowing operators and AI agents to curate proceedings without manual JSON manipulation.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div class="glass-card rounded-xl p-4 space-y-2">
-            <span class="font-bold text-sky-400 font-mono text-sm">Key Capabilities</span>
+            <span class="font-bold text-sky-400 font-mono text-sm">Curation & Operational Capabilities</span>
             <ul class="space-y-1.5 text-slate-300 list-disc list-inside">
-              <li><strong>Drag & Drop Ingestion:</strong> Drag any presentation or abstract PDF directly into session drop zones.</li>
-              <li><strong>Live Status Health Check:</strong> Real-time polling indicates whether the file exists locally and on GCloud.</li>
-              <li><strong>Instant Previews:</strong> Generates first-page PNG previews and extracted abstract text summaries.</li>
-              <li><strong>301 Redirect Control:</strong> Checkbox enables "Legacy URL for 301 Redirect only" for un-downloaded items.</li>
-              <li><strong>Corporate Registry Sync:</strong> Real-time corporate sponsor dropdown with instant logo preview and affiliation.</li>
+              <li><strong>Drag & Drop Ingestion:</strong> Drop PDF slide decks or abstracts directly into session drop zones.</li>
+              <li><strong>Live Health Telemetry:</strong> Real-time checks verify if files exist in local disk storage and Google Cloud Storage.</li>
+              <li><strong>Instant Previews:</strong> Generates first-page thumbnail previews and abstract text summaries.</li>
+              <li><strong>Corporate Registry Sync:</strong> Auto-populates 52 sponsors, historical logos, and company URLs.</li>
+              <li><strong>Active Push-to-Live GUI:</strong> Browser button triggers GCS asset rsync, Git commit, and production build without terminal switching.</li>
             </ul>
           </div>
 
           <div class="glass-card rounded-xl p-4 space-y-2">
-            <span class="font-bold text-emerald-400 font-mono text-sm">Production Build Isolation</span>
+            <span class="font-bold text-emerald-400 font-mono text-sm">Decoupled Architecture & Lock Prevention</span>
             <p class="text-slate-300 leading-relaxed font-sans">
-              Because the Workshop Manager utilizes Node.js server routes (<code class="text-sky-300">fs</code>, child processes, local file writing), it is strictly isolated from production:
+              Decoupling the manager into a standalone Next.js instance permanently eliminated Windows directory lock crashes and retired legacy <code class="text-slate-400">.disabled</code> file-renaming hacks:
             </p>
-            <div class="p-2.5 bg-slate-950 rounded border border-slate-800 font-mono text-[11px] text-slate-400">
-              node scripts/build-prod.js<br>
-              ↳ Temporarily isolates /manager & /api/manager<br>
-              ↳ Executes Next.js static compilation<br>
-              ↳ Restores manager routes for local dev
+            <div class="p-2.5 bg-slate-950 rounded border border-slate-800 font-mono text-[11px] text-slate-400 space-y-1">
+              <div><strong class="text-sky-300">Path Resolution:</strong> <code class="text-slate-300">assetPaths.ts</code> anchors all reads/writes directly to master catalogs in <code class="text-slate-300">src/frontend/src/data/</code>.</div>
+              <div><strong class="text-emerald-300">Port Isolation:</strong> Port 3000 (Public SSG) ⟷ Port 4000 (Operations Workbench).</div>
+              <div><strong class="text-amber-300">Public Security:</strong> <code class="text-red-400">localhost:3000/manager</code> returns a confirmed <strong>404</strong>.</div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 7: BACKEND & CLOUD INFRASTRUCTURE -->
+      <!-- SECTION 7: SCOPED DECAP CMS -->
+      <section id="decap-cms" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-emerald-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>07 / Content Management System</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Scoped Decap CMS (<code class="text-emerald-400">/admin</code>)</h2>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+          To enable non-technical customer stakeholders to adjust conference marketing copy directly from their desk without touching code or dangerous master catalogs, <strong>Decap CMS</strong> is deployed as a zero-database Single Page Application at <code class="text-emerald-300">/admin/index.html</code>.
+        </p>
+
+        <!-- Access Boundary Matrix -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-emerald-800/40 space-y-3">
+            <span class="text-emerald-400 font-bold font-sans text-sm flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Client-Accessible Marketing Pages (8 Collections)
+            </span>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <strong class="text-white">About the Society:</strong> <code class="text-sky-300">content/pages/about.md</code></li>
+              <li>• <strong class="text-white">Call for Papers:</strong> <code class="text-sky-300">content/pages/call-for-papers.md</code></li>
+              <li>• <strong class="text-white">Accommodations:</strong> <code class="text-sky-300">content/pages/accommodations.md</code></li>
+              <li>• <strong class="text-white">Registration:</strong> <code class="text-sky-300">content/pages/registration.md</code></li>
+              <li>• <strong class="text-white">Formatting Rules:</strong> <code class="text-sky-300">content/pages/formatting-guidelines.md</code></li>
+              <li>• <strong class="text-white">Sponsorship:</strong> <code class="text-sky-300">content/pages/corporate-sponsorship.md</code></li>
+              <li>• <strong class="text-white">Contact Us:</strong> <code class="text-sky-300">content/pages/contact.md</code></li>
+              <li>• <strong class="text-white">Announcements:</strong> <code class="text-sky-300">content/announcements/*.md</code></li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-red-900/40 space-y-3">
+            <span class="text-red-400 font-bold font-sans text-sm flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-red-400"></span> Strictly Off-Limits & Hard-Locked Areas
+            </span>
+            <ul class="space-y-1 text-slate-300">
+              <li>🛑 <strong class="text-white">15 Workshop Catalogs:</strong> <code class="text-slate-400">src/data/archives/*.json</code> (Managed only via Port 4000)</li>
+              <li>🛑 <strong class="text-white">Executive Board Roster:</strong> <code class="text-slate-400">src/app/(portal)/board</code></li>
+              <li>🛑 <strong class="text-white">Student Awards:</strong> <code class="text-slate-400">src/app/(portal)/student-awards</code></li>
+              <li>🛑 <strong class="text-white">Workshop Manager Tool:</strong> <code class="text-slate-400">tools/manager/</code> (Physical folder separation)</li>
+              <li>🛑 <strong class="text-white">Master Cloud Storage:</strong> <code class="text-slate-400">local_data/ & gs://hems-workshop-archives</code></li>
+              <li>🛑 <strong class="text-white">System Configs:</strong> <code class="text-slate-400">firebase.json, .env, firestore.rules</code></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-800 space-y-2 text-xs font-sans">
+          <span class="font-bold text-sky-400 font-mono text-sm">Git Synchronization & Merge Isolation</span>
+          <p class="text-slate-300 leading-relaxed">
+            When a customer saves edits via Decap CMS, it commits Markdown changes directly to Git. Because Decap only touches <code class="text-sky-300">content/*.md</code> while the developer workstation tools touch <code class="text-sky-300">data/archives/*.json</code>, the domains are <strong>completely orthogonal</strong>. Standard <code class="text-sky-300 font-mono">git pull</code> prior to local sessions keeps desktop catalogs aligned with zero merge conflicts.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 8: BACKEND & CLOUD INFRASTRUCTURE -->
       <section id="backend-cloud" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>07 / Cloud Architecture</span>
+          <span>08 / Cloud Architecture & Integrity</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Backend & Cloud Infrastructure</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Backend, Cloud Storage & Asset Integrity</h2>
 
         <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-4">
           <h4 class="text-sm font-bold text-white">Firebase Functions v2 & Event Triggers</h4>
@@ -524,21 +607,21 @@
               <li>• <code class="text-sky-300">/sponsors/{logo_file}.png</code></li>
             </ul>
           </div>
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-emerald-400 font-bold font-sans text-sm">Search Engine Indexing</span>
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-emerald-800/40 space-y-2">
+            <span class="text-emerald-400 font-bold font-sans text-sm">Automated Asset Link Auditor</span>
             <p class="text-slate-400 font-sans">
-              Deep full-text slide indexing is executed via <code class="text-white">src/frontend/scripts/index-pdf-contents.js</code>, compiling <strong>7,244 searchable text chunks</strong> into <code class="text-sky-300">public/mock-pdf-chunks.json</code> and pushing to Algolia.
+              Integrated via <code class="text-white">scripts/audit-proceedings-assets.js</code> (<code class="text-sky-300">npm run audit:assets</code>). Audits <strong>1,398 catalog proceeding links</strong> against disk storage and issues live HTTP HEAD probes against GCS, verifying 100% asset health.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 8: SECURITY & RBAC -->
+      <!-- SECTION 9: SECURITY & RBAC -->
       <section id="security-rbac" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>08 / Access Control</span>
+          <span>09 / Access Control & Perimeter</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Security & Role-Based Access Control (RBAC)</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Security & Perimeter Locks</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
           <div class="p-3 bg-red-950/40 border border-red-800/60 rounded-xl">
@@ -567,14 +650,25 @@
         </div>
       </section>
 
-      <!-- SECTION 9: DATA SCHEMAS & REGISTRIES -->
+      <!-- SECTION 10: DATA SCHEMAS & REGISTRIES -->
       <section id="data-registries" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>09 / Schemas & Registries</span>
+          <span>10 / Schemas & Runtime Validation</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Canonical Data Registries</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Canonical Data Registries & Zod Schemas</h2>
 
         <div class="space-y-4 text-xs font-mono">
+          <!-- Zod Runtime Schema Card -->
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-sky-800/50 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sky-400 font-bold text-sm">archive.schema.ts (Zod Runtime Validation)</span>
+              <span class="text-slate-500">src/frontend/src/schemas/archive.schema.ts</span>
+            </div>
+            <p class="text-slate-300 font-sans">
+              Defines strict TypeScript/Zod schemas for <code class="text-sky-300">WorkshopArchive</code>, <code class="text-sky-300">Presentation</code>, <code class="text-sky-300">Poster</code>, and <code class="text-sky-300">MasterWorkshops</code>. Executed via <code class="text-sky-300">scripts/validate-archives.js</code> as an automatic pre-flight step in <code class="text-sky-300">build-prod.js</code>, guaranteeing 0 schema errors across all 15 workshop catalogs before SSG compilation.
+            </p>
+          </div>
+
           <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
             <div class="flex justify-between items-center">
               <span class="text-sky-400 font-bold text-sm">master_workshops.json</span>
@@ -598,52 +692,46 @@
             </div>
             <p class="text-slate-300 font-sans">Exact mapping table for 301 legacy redirects ensuring legacy scientific paper citations route cleanly to modern paths.</p>
           </div>
-
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
-            <div class="flex justify-between items-center">
-              <span class="text-purple-400 font-bold text-sm">pdf_seo_registry.md</span>
-              <span class="text-slate-500">docs/registries/pdf_seo_registry.md</span>
-            </div>
-            <p class="text-slate-300 font-sans">Deep academic metadata registry containing title, abstract text, presenter, and keywords for search engine discovery.</p>
-          </div>
         </div>
       </section>
 
-      <!-- SECTION 10: DEVELOPER PLAYBOOK -->
+      <!-- SECTION 11: DEVELOPER PLAYBOOK -->
       <section id="developer-playbook" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>10 / Developer Handbook</span>
+          <span>11 / Developer Handbook</span>
         </div>
         <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Developer & AI Agent Quickstart</h2>
 
         <div class="space-y-4">
           <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-sky-400 font-mono uppercase">1. Run Local Development Server</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>cd src/frontend
-npm run dev
-# Main Web App:         http://localhost:3000
-# Workshop Manager:     http://localhost:3000/manager</code></pre>
+            <span class="text-xs font-bold text-sky-400 font-mono uppercase">1. Run Public Website (Port 3000)</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run dev
+# Main Web Application: http://localhost:3000
+# Decap CMS Admin:      http://localhost:3000/admin/index.html</code></pre>
           </div>
 
           <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-emerald-400 font-mono uppercase">2. Execute Production Static Build</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>cd src/frontend
-npm run build
-# Compiles search indices and prerenders 36+ SSG static routes to src/frontend/out/</code></pre>
+            <span class="text-xs font-bold text-purple-400 font-mono uppercase">2. Run Standalone Workshop Manager (Port 4000)</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run manager
+# Dedicated Workbench:  http://localhost:4000/</code></pre>
           </div>
 
           <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-amber-400 font-mono uppercase">3. Sync Local Assets to Google Cloud Storage</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>cd src/frontend
-npm run push-to-live
-# Pushes any newly dropped local proceedings from local_data/proceedings to GCS</code></pre>
+            <span class="text-xs font-bold text-emerald-400 font-mono uppercase">3. Execute Production Static Build & Validation</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run build
+# Runs Zod validation across 15 catalogs -> compiles indices -> exports 36 SSG pages</code></pre>
           </div>
 
           <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-purple-400 font-mono uppercase">4. Deploy Cloud Functions</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>cd functions
-npm run build
-firebase deploy --only functions</code></pre>
+            <span class="text-xs font-bold text-teal-400 font-mono uppercase">4. Audit Cloud Storage Asset Links</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run audit:assets
+# Verifies all 1,398 catalog proceeding links against local disk and probes GCS HTTP 200</code></pre>
+          </div>
+
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-xs font-bold text-amber-400 font-mono uppercase">5. Push to Live (GCS + Git + Firebase Deploy)</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run push-to-live
+# (Or click the green 'Push to Live' button directly inside http://localhost:4000/)</code></pre>
           </div>
         </div>
 
@@ -664,7 +752,7 @@ firebase deploy --only functions</code></pre>
 
       <!-- FOOTER -->
       <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-800/80 font-mono">
-        Harbor & Environmental Mass Spectrometry Workshop (HEMS) • Established 1999 • System Documentation v2.0
+        Harbor & Environmental Mass Spectrometry Workshop (HEMS) • Established 1999 • System Documentation v3.0 (Decoupled Workbench & Scoped CMS)
       </footer>
 
     </main>

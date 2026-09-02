@@ -359,3 +359,212 @@
   - `src/frontend/.env.example` exists but only contains Firebase keys; it lacks the optional Algolia credentials (`NEXT_PUBLIC_ALGOLIA_APP_ID`, `ALGOLIA_ADMIN_KEY`) used during search index compilation.
   - Adding a root `.env.example` and updating `src/frontend/.env.example` provides clarity for new developers/AIs onboarding.
 - **Recommendation**: Maintain `src/frontend/.env.local` (local secrets), update `src/frontend/.env.example` with full documentation, and create a root `.env.example` pointer.
+
+## [2026-09-02] Dev: Scaling HEMS Logo and Optimizing Corporate Sponsor Logos
+- **Agent**: @dev
+- **Context**: @bo requested scaling down the oversized HEMS logo and optimizing the size and location of corporate logos on the online archived workshops (`src/frontend/src/app/archive/[year]/page.tsx`).
+- **Visual Audit Findings**:
+  1. HEMS Logo on desktop hero was `w-[240px] lg:w-[270px]` inside a large `p-4` white box with `mt-4 md:mt-12`, dominating the header.
+  2. Official Host was a standalone block with a massive `h-40 w-64` box (256px wide x 160px tall).
+  3. Corporate Sponsors used `grid-cols-[repeat(auto-fill,minmax(246px,1fr))]` with large horizontal cards (`h-20 w-32`), rendering as 8 stacked full-width rows (~800px tall) that pushed technical proceedings far below the fold.
+- **Implementation Strategy**:
+  1. **HEMS Logo**: Scale down to `w-[140px] lg:w-[150px]`, `p-2.5`, `rounded-xl`, clean `shadow-md`, and align to `self-start` without excessive top margin.
+  2. **Location Optimization**: Unify Official Host & Corporate Sponsors into a streamlined section placed cleanly beneath Workshop Resources.
+  3. **Size Optimization**: Convert corporate sponsors into a responsive grid (`grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5`) with compact `h-24` cards, uniform `h-12` white logo boxes, crisp company titles with hover zoom, and "Since YYYY" badges.
+  4. **Official Host Badge**: Restyle as a sleek, distinguished partner card (`h-12 w-28` logo) alongside the partner count.
+
+## [2026-09-02] Dev: Restoring Horizontal Logo-Focused Sponsor Cards in Responsive Grid
+- **Agent**: @dev
+- **Context**: @bo provided an attached reference image showing the desired card design (horizontal card with white logo box on left, blue company name on right, and green "SINCE [YEAR]" tracking tag). Requested returning to this former gridded layout with logo-focused styling.
+- **Card Design Specs**:
+  - Container: `bg-surface/80 border border-foreground/15 rounded-lg p-2.5 flex items-center gap-3 hover:border-primary/60 hover:bg-primary/5 transition-all group shadow-xs`
+  - Logo Box (Left): `bg-white rounded p-1.5 h-16 w-28 flex items-center justify-center flex-shrink-0 shadow-inner border border-slate-100 overflow-hidden`
+  - Image: `style={{ maxHeight: '48px', maxWidth: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }}` with subtle hover scale.
+  - Text Column (Right):
+    - Company Name: `text-primary font-bold text-sm leading-snug group-hover:underline truncate`
+    - Tenure Tag: `text-secondary font-bold text-[10px] uppercase tracking-wider font-mono mt-0.5`
+  - Grid: `grid gap-3` with `style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}` to ensure a multi-column responsive layout on desktop and tablet.
+
+## [2026-09-02] Dev: Widening Sponsor Logo Placards and Removing Black Boundary
+- **Agent**: @dev
+- **Context**: @bo requested widening the logo container to accommodate widescreen logos (e.g. BaySpec, FLIR, Pfeiffer Vacuum) and removing the harsh black boundary around each logo.
+- **Root Cause of Black Boundary**:
+  - The white logo container had `shadow-inner border border-slate-100`. In Tailwind v4, `border` without a defined palette entry defaulted to `var(--foreground)` (#334155), drawing a dark charcoal/black border around the white card, reinforced by `shadow-inner`.
+- **Changes**:
+  1. Remove `border`, `border-slate-100`, and `shadow-inner` from the white logo placard. Use `bg-white rounded-md p-1.5 shadow-xs overflow-hidden`.
+  2. Increase width of white logo box from `w-28` (112px) to `w-36` (144px) to give widescreen logos ample horizontal breathing room.
+  3. Increase image max constraints to `maxHeight: 48px, maxWidth: 132px` with `objectFit: contain`.
+  4. Adjust responsive grid `minmax` to `repeat(auto-fill, minmax(280px, 1fr))` to accommodate the wider logo frame while preserving a crisp 3-column desktop layout.
+
+## [2026-09-02] Dev: Enforcing 3-Column Across Grid and Logo-Dominant Placard Sizing
+- **Agent**: @dev
+- **Context**: @bo requested keeping the corporate card wide enough to fit three companies across, but making the logo wider so it takes more space than the corporate name text.
+- **Analysis & Calculation**:
+  - Container: Max-w-5xl (~860px inner space).
+  - Explicit grid definition: `grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3` guarantees exactly 3 equal columns across on desktop (`md:` breakpoint and above).
+  - Card proportion: In each ~280-290px card, expand the white logo placard from `w-36` (144px) to `w-[165px]` or `flex-[3]` (~60-65% of total card width).
+  - Logo constraints: Increase `maxWidth` to `155px` (maxHeight: `50px`).
+  - Result: Logo is visually dominant, taking significantly more width than the corporate name text, while the grid strictly displays 3 columns across.
+
+## [2026-09-02] Dev: Enlarging Official Host Card (1.5x) and Center Justifying
+- **Agent**: @dev
+- **Context**: @bo requested making the Official Workshop Host card 50% bigger than the other cards and center justifying it.
+- **Specifications (50% Increase)**:
+  - Standard card: Logo frame `h-16 w-[165px]`, max image `50px x 150px`, outer card ~280px.
+  - Official Host (1.5x):
+    - Logo placard: `h-24 w-[245px]` (64px * 1.5 = 96px, 165px * 1.5 ≈ 247px).
+    - Image constraints: `maxHeight: 75px, maxWidth: 225px` (1.5x scale).
+    - Typography: "OFFICIAL WORKSHOP HOST" tag at `text-xs tracking-widest`, company title at `text-base sm:text-lg font-bold`.
+    - Total card width: ~420px–440px with `p-3 sm:p-3.5`, `rounded-xl`, `border-2 border-primary/30`, `shadow-sm`.
+    - Layout: Centered horizontally via `flex justify-center w-full mb-6`.
+
+## [2026-09-02] Dev: Removing DOI Numbers & References
+- **Agent**: @dev
+- **Context**: @bo directed to remove any mention of DOI numbers as they will not be implemented.
+- **Scope Audit**:
+  - Grepped codebase across `src/frontend/` and `docs/`.
+  - Identified `src/frontend/src/components/CitationModal.tsx` as the single location referencing DOI (`doi` variable, `doi = {...}` in BibTeX generator, and the "Digital Object Identifier (DOI)" copy/display card).
+- **Modifications**:
+  1. Remove `const doi` mock generation from `CitationModal.tsx`.
+  2. Remove `doi = {...}` from the BibTeX citation export template.
+  3. Remove the DOI copy/display section from the modal UI, giving the permanent link (permalink) clean full-width display under Identifiers.
+
+## [2026-09-02] Ops: Architectural & Security Analysis of Decap CMS for Customer Content Editing
+- **Agent**: @ops
+- **Context**: @bo requested an architectural and operational assessment on giving customers Git access via Decap CMS to edit website copy directly.
+- **Analysis**:
+  - **Strengths**: Zero hosting database overhead, full Git audit trail/versioning, automatic trigger of GitHub Actions CI/CD to Firebase Hosting.
+  - **Risks & Friction Points**:
+    1. *OAuth Dependency*: Decap CMS is a client-side SPA that requires an external OAuth backend (e.g. Netlify Identity, or a custom GitHub OAuth proxy on Cloud Functions/Firebase) to exchange GitHub tokens securely.
+    2. *Schema Compatibility*: Decap handles flat Markdown collections well, but struggles with deep nested JSON schemas like our 15-year conference archives (`2022.json` sessions/presentations/authors/sponsors).
+    3. *Repository Bloat*: Decap media uploads commit directly into Git. Conference PDFs/slides (20MB+) must strictly remain in GCS (`gs://hems-workshop-archives`), not Git.
+    4. *Build Failure Risk*: Malformed schema edits can break Next.js static builds during deployment unless guarded by an editorial PR workflow.
+  - **Recommended Architecture**: If implemented, limit Decap CMS strictly to flat marketing pages (`/about`, `/registration`, `/call-for-papers`), use an Editorial Workflow (`publish_mode: editorial_workflow`) with a staging branch to prevent direct commits to `main`, and deploy a small Firebase/Cloud Function OAuth gateway.
+
+## [2026-09-02] Ops: Local Sandbox Testing Protocol for Decap CMS
+- **Agent**: @ops
+- **Context**: @bo asked if Decap CMS can be tested locally before implementing any production infrastructure or GitHub integrations.
+- **Feasibility**: 100% yes. Decap CMS provides two zero-risk local test modes:
+  1. `backend: { name: 'test-repo' }`: In-memory browser sandbox. Loads via CDN in an isolated static HTML page (`/decap-test/`). Requires 0 GitHub accounts, 0 tokens, 0 backend proxies. Allows immediate testing of UI, rich text editing, markdown generation, and layout.
+  2. `local_backend: true` (with `npx decap-server`): Connects to local file system without Git or GitHub.
+- **Recommendation**: Propose creating a temporary, standalone demo page at `src/frontend/public/decap-test/` so @bo can open `http://localhost:3000/decap-test/` in the browser, explore the interface, and decide if it meets the customer's needs without touching any production code.
+
+## [2026-09-02] Ops/Dev: Provisioning Standalone Decap CMS Sandbox
+- **Agent**: @ops & @dev
+- **Action**: Creating a self-contained test environment in `src/frontend/public/decap-test/` with:
+  1. `index.html`: Decap CMS SPA loader via unpkg CDN.
+  2. `config.yml`: Mock configuration using `backend: { name: "test-repo" }` with sample collections for About, Call for Papers, Accommodations, and Announcements.
+- **Safety**: Fully isolated static assets. 0 modifications to production routes, components, build scripts, or Git credentials.
+
+## [2026-09-02] Ops: Manager Mechanics & Decap CMS Architectural Isolation
+- **Agent**: @ops
+- **Context**: @bo requested an explanation of how the workshop manager currently works and architectural recommendations to keep it entirely local and inaccessible to Decap CMS/customer.
+- **Current Manager Anatomy**:
+  - Code resides in `src/frontend/src/app/manager/` and `src/frontend/src/app/api/manager/`.
+  - Operates via Node.js `fs` access directly against `local_data/proceedings/`, `local_data/sponsors/`, and `src/frontend/src/data/archives/*.json`.
+  - In production (`scripts/build-prod.js`), manager files are temporarily renamed to `.disabled` so they are **never built or deployed** to Firebase Hosting.
+- **Decap CMS Exposure Analysis**:
+  - Decap CMS only sees collections defined in `config.yml`. If `manager/`, `api/manager/`, and `local_data/` are omitted from `config.yml`, Decap cannot browse or edit them.
+  - However, customer Git repo access could expose files if they view the repository directly on GitHub.
+- **Architectural Recommendations**:
+  1. *Option A (Zero-Code / Config Isolation)*: Decap `config.yml` strictly points to a `/content/` directory for flat markdown pages. Staging branch with PRs (`editorial_workflow`). Manager remains local-only.
+  2. *Option B (Decoupled Local Tool)*: Move the manager completely out of the Next.js app into a standalone local CLI/Vite app (e.g. `tools/manager/`) running on a dedicated local port (e.g. 4000). Completely purges manager code and `.disabled` build hacks from the frontend repo.
+  3. *Option C (Repository Split)*: Separate public website repo from the operational data/manager repo.
+
+## [2026-09-02] Arch: Blueprint for Decoupling Workshop Manager to Standalone Local Tool (Option 1)
+- **Agent**: @arch
+- **Context**: @bo requested an architectural implementation plan for Option 1 (decoupling the Workshop Manager from the public Next.js frontend into a dedicated local tool running on port 4000).
+- **Architectural Design**:
+  1. **New Home**: `tools/manager/` at the repository root.
+  2. **Framework**: Independent lightweight Next.js runtime running on `port 4000`. Reusing Next.js preserves 100% of existing React components, DnD handlers, PDF parsers, and API route code without expensive refactoring.
+  3. **Data Path Normalization**: Update path resolvers in `tools/manager/src/app/api/manager/*` to target `../../src/frontend/src/data/archives`, `../../local_data/proceedings`, and `../../docs/registries`.
+  4. **Frontend Sanitization**:
+     - Remove `src/frontend/src/app/manager/` and `src/frontend/src/app/api/manager/`.
+     - Remove `toggleManagerFiles` (.disabled hack) from `src/frontend/scripts/build-prod.js`.
+     - Enable standard `next build` in `src/frontend/package.json`.
+  5. **Orchestration**: Root `package.json` script: `"manager": "npm --prefix tools/manager run dev"`.
+  6. **Decap CMS Barrier**: Once decoupled, Decap CMS operating inside `src/frontend` cannot access manager code, APIs, or local proceedings.
+
+## [2026-09-02] Ops: Scope Audit of Manager Domain vs Non-Archive Pages & Git Sync Workflow
+- **Agent**: @ops
+- **Context**: @bo asked if the Workshop Manager impacts any non-archive pages and confirmed the Git pull synchronization protocol when Decap CMS is enabled.
+- **Data Footprint Audit**:
+  - Files touched by the Manager:
+    1. `src/frontend/src/data/archives/*.json` -> Read exclusively by `src/frontend/src/app/archive/[year]/page.tsx`.
+    2. `src/frontend/src/data/master_workshops.json` -> Read by `src/frontend/src/app/archive/page.tsx` (index/filter) and `src/frontend/src/components/layout/Navbar.tsx` (the "Archives" year dropdown list).
+    3. `src/frontend/src/data/corporate_registry.json` -> Internal registry file for auto-populating sponsor tenures/logos in the manager. Not read by public pages.
+    4. `src/frontend/public/images/sponsors/*.png` -> Sponsor logo assets rendered on `/archive/[year]` sponsor cards.
+    5. `local_data/proceedings/` & `local_data/sponsors/` -> Raw disk storage synchronized with Google Cloud Storage.
+  - Non-Archive Pages:
+    - `/about`, `/call-for-papers`, `/registration`, `/accommodations`, `/formatting-guidelines`, `/student-awards`, `/board`, `/corporate-sponsorship`, `/contact`.
+    - **Conclusion**: The Manager has **zero impact** on non-archive marketing/editorial pages (except populating the year links in the Navbar dropdown).
+- **Git Sync Workflow**:
+  - Pull-before-edit protocol is accurate. If a customer commits text changes via Decap CMS, running `git pull` locally prevents divergence.
+  - Furthermore, because Decap CMS manages flat Markdown (`content/*.md`) while the Manager manages JSON catalogs (`data/archives/*.json`), their file domains are orthogonal, eliminating file merge collisions.
+
+## [2026-09-02] Ops: System Architecture Evaluation & Next-Level Roadmap
+- **Agent**: @ops & @arch
+- **Context**: @bo requested an operational and architectural evaluation of the current system design and strategic recommendations for improvement.
+- **Current Architecture Evaluation**:
+  - *Core Strengths*:
+    1. Hybrid Storage Strategy: Decoupling 1.68GB of heavy binary PDFs to GCS keeps the Git repository tiny, builds blazing fast, and hosting costs at near zero.
+    2. Zero-Database Jamstack: Next.js SSG + Firebase Hosting CDN delivers sub-second TTFB, immune to database outages, SQL injection, or runtime server crashes.
+    3. Standalone Operations Console: Decoupling Workshop Manager to `tools/manager/` (port 4000) permanently fixed build-time file-renaming and Windows lock issues.
+    4. Dual Search Engine: Algolia for fast semantic indexing with full offline local fallback.
+- **Targeted Improvements (Roadmap)**:
+  1. *Decap CMS OAuth Gateway*: Deploy a lightweight Firebase Function (`functions/api/oauth`) to exchange GitHub tokens securely without third-party services like Netlify.
+  2. *Staging Branch & Preview Channels*: Leverage Firebase Hosting Preview Channels (`channel:deploy`) so customer edits in Decap can be previewed on a live staging URL before merging to `main`.
+  3. *Type Safety with Zod*: Implement runtime Zod schemas on `WorkshopArchive` and `MasterWorkshops` to prevent schema drift during local catalog edits.
+  4. *Push-to-Live GUI Stream*: Re-activate the Manager GUI "Push to Live" button to stream GCS rsync and Git push logs directly in the browser now that dev server port locks are eliminated.
+  5. *Automated Broken-Link Auditor*: Create an offline pre-flight validator that checks all 436 paper links against GCS HTTP headers before deployment.
+
+## [2026-09-02] Arch: Step-Wise Blueprint for System Architecture Improvements & Decap CMS Page Scoping
+- **Agent**: @arch
+- **Context**: @bo requested a comprehensive, step-wise implementation plan for the proposed architectural improvements, explicitly identifying which pages Decap CMS will have access to and which pages remain strictly off-limits.
+- **Decap CMS Page Domain Scoping**:
+  - *EXPOSED to Decap CMS (Marketing & Content)*:
+    1. `/about` -> `content/pages/about.md` (Mission, overview, leadership narrative).
+    2. `/call-for-papers` -> `content/pages/call-for-papers.md` (Topics, deadline, instructions).
+    3. `/accommodations` -> `content/pages/accommodations.md` (Hotel, cut-off dates, group code).
+    4. `/registration` -> `content/pages/registration.md` (Fee schedule, policies, links).
+    5. `/formatting-guidelines` -> `content/pages/formatting-guidelines.md` (Abstract & slide templates).
+    6. `/corporate-sponsorship` -> `content/pages/corporate-sponsorship.md` (Tier benefits, prospectus).
+    7. `/contact` -> `content/pages/contact.md` (Inquiries, addresses, chair info).
+    8. `/announcements` -> `content/announcements/*.md` (Dynamic news posts & banner alerts).
+  - *OFF-LIMITS to Decap CMS (Hard-Locked from CMS)*:
+    1. `/archive` and `/archive/[year]` (15 years of proceedings catalogs in `data/archives/*.json`).
+    2. `/board` (Executive board directory).
+    3. `/student-awards` (Historical student winner rolls).
+    4. `tools/manager/` (Internal console on port 4000).
+    5. Root infrastructure configs (`.env`, `firebase.json`, `firestore.rules`).
+- **Step-Wise Execution Roadmap**:
+  - Phase 1: Push-to-Live GUI Stream in Manager (Immediate Quick Win).
+  - Phase 2: Runtime Schema Validation with Zod (Catalog Hardening).
+  - Phase 3: Decap CMS Scoped Marketing Structure & Migration (`content/` directory).
+  - Phase 4: Serverless GitHub OAuth Gateway for Decap CMS.
+  - Phase 5: Editorial Staging Workflow & Firebase Preview Channels.
+  - Phase 6: Automated GCS Link Integrity Auditor (`audit:assets`).
+
+## [2026-09-02] Arch & Ops: Domain Lock Encounter on docs/design/system_design_architecture.html
+- **Agents**: @ops & @arch
+- **Context**: @bo requested @ops and @arch to update `docs/design/system_design_architecture.html` with extensive details on the new architecture.
+- **Rule Check**:
+  - `locksrules.md` Rule 3 (Domain Isolation Locks) mandates:
+    * `@brand` is the ONLY agent permitted to write to aesthetic styling guides located in `docs/design/`.
+    * `@ops` and `@arch` have no write permissions inside `docs/design/`.
+  - `locksrules.md` Rule 6 (Escape Hatch / Workflow Override) mandates:
+    * If a task requires modifying a file crossing these locks, agents MUST STOP immediately and prompt @bo with the explicit verbatim lock bypass confirmation.
+- **Action**: Halt modification and request explicit user confirmation per Lock Rule 6 before modifying `docs/design/system_design_architecture.html`.
+
+## [2026-09-02] Arch & Ops: Execution of Architecture Documentation Update in docs/design/system_design_architecture.html
+- **Agents**: @ops & @arch
+- **Authorization**: @bo granted explicit permission to bypass Lock Rule #3 to update `docs/design/system_design_architecture.html`.
+- **Target Updates**:
+  1. Header & Badges: Bump to v3.0 (Decoupled Workbench & Scoped Decap CMS).
+  2. Tech Stack: Add Decap CMS, Zod, Gray-Matter; document dual-port architecture (3000 vs 4000).
+  3. Layout & Page Routes: Document `/admin` Decap CMS route, `content/pages/` schema, and scrubbed `/manager` 404 behavior on public site.
+  4. Workshop Manager (Section 6): Comprehensive rewrite detailing `tools/manager/` standalone architecture, eliminating `.disabled` hacks, and re-enabling Push-to-Live GUI.
+  5. Decap CMS & Content Isolation (New Sub-Section): Detailed matrix of 8 client-editable marketing pages vs locked proceedings.
+  6. Backend & Cloud: Add automated 1,398-link asset integrity audit (`audit:assets`).
+  7. Data Schemas: Document runtime Zod schemas (`archive.schema.ts`) and pre-flight validation in build script.
+  8. Developer Playbook: Update workspace root orchestration (`npm run dev`, `npm run manager`, `npm run build`, `npm run audit:assets`, `npm run push-to-live`).
