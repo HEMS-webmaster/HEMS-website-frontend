@@ -10,6 +10,15 @@ build/
 docs/archives_translation/*/
 !docs/archives_translation/sponsors/
 
+# Logs & Diagnostic Dumps
+*.log
+*.log.*
+lint.txt
+*.corrupt
+
+# Archived Scrapers & Migration Tools
+archive/
+
 # Environment Variables
 .env
 .env.local

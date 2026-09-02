@@ -68,4 +68,34 @@
 - **Context**: @bo requested pushing the Step 1 cleanup changes to Git.
 - **Workflow**: Antigravity `/atomic-commit-push`.
 - **Payload**: Deleting transient build logs, debug dumps, and root test PDF; updating SCoT and handover logs.
-- **Classification**: `chore: execute step 1 cleanup purging transient logs and test binaries`
+
+## [2026-09-02] Ops Execution: Step 2 Cleanup - Consolidate Legacy Migration Tools
+- **Agent**: @ops
+- **Context**: @bo authorized Step 2 of the workspace cleanup plan (`docs/plans/2026-09-02-workspace-cleanup.md`).
+- **Action**:
+  - Create directory: `archive/legacy_tools/`.
+  - Move scrapers and raw extraction files: `create_2019_page.py`, `fetch.py`, `13thprogram.html` into `archive/legacy_tools/`.
+  - Move completed one-off migration scripts: `src/frontend/scripts/import_legacy_data.js`, `src/frontend/scripts/migrate_2022.js` into `archive/legacy_tools/`.
+  - Retain core build/indexing scripts in `src/frontend/scripts/`: `build-prod.js`, `generate-archives-index.js`, `index-pdf-contents.js`, `push-to-live.js`.
+
+## [2026-09-02] Ops Execution: Step 3 - Git Hygiene & Documentation
+- **Agent**: @ops
+- **Context**: @bo authorized Step 3 of the workspace cleanup plan (`docs/plans/2026-09-02-workspace-cleanup.md`).
+- **Action**:
+  - Update `.gitignore` to block future log dumps (`*.log`, `*.log.*`), lint outputs (`lint.txt`), corrupt backups (`*.corrupt`), and local scraper tools (`archive/`).
+  - Author comprehensive `README.md` documenting architecture, local dev workflows, Workshop Manager usage, and deployment pipeline.
+
+## [2026-09-02] Ops Execution: Step 4 - Full Pipeline Build & Typecheck Verification
+- **Agent**: @ops
+- **Context**: @bo authorized Step 4 of the workspace cleanup plan (`docs/plans/2026-09-02-workspace-cleanup.md`).
+- **Action**:
+  - Execute frontend static production build (`npm run build` in `src/frontend`).
+  - Execute Cloud Functions TypeScript compilation (`npm run build` in `functions`).
+  - Verify static export and 0 TypeScript errors across all routes and portals.
+
+## [2026-09-02] Ops Execution: Final Git Atomic Sync for Steps 2-4
+- **Agent**: @ops & @arch
+- **Context**: @bo authorized the final git commit and push to finalize workspace cleanup.
+- **Workflow**: Antigravity `/atomic-commit-push`.
+- **Payload**: Hardened `.gitignore`, comprehensive `README.md`, updated SCoT thought trace, and removal of old script paths in favor of `archive/legacy_tools/`.
+- **Classification**: `chore: finalize workspace cleanup and publish project documentation`
