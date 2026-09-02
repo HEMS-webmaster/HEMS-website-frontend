@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEMS Platform — Complete Design, Layout & Architecture Specification</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            serif: ['Cinzel', 'serif']
+          },
+          colors: {
+            hems: {
+              navy: '#0b1329',
+              dark: '#0f172a',
+              card: '#1e293b',
+              border: '#334155',
+              blue: '#0284c7',
+              sky: '#38bdf8',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              purple: '#8b5cf6'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0b1329;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+    .glass-panel {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+      transition: all 0.2s ease-in-out;
+    }
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.15);
+    }
+    pre code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+    }
+    .color-swatch {
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="selection:bg-sky-500/30 selection:text-sky-200">
+
+  <!-- TOP HEADER / HERO -->
+  <header class="border-b border-slate-800 bg-slate-950/80 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="h-9 w-9 rounded-lg bg-gradient-to-tr from-sky-600 to-blue-500 flex items-center justify-center font-bold text-white shadow-lg shadow-sky-500/20">
+          H
+        </div>
+        <div>
+          <h1 class="text-base font-bold text-white tracking-wide">HEMS Platform Specification</h1>
+          <p class="text-[11px] text-slate-400 font-mono">Architecture, Design System & Developer Handover (v2.0)</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span> Verified Active
+        </span>
+        <span class="text-xs text-slate-400 font-mono hidden md:inline-block">Next.js 16 • React 19 • Firebase</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+
+    <!-- STICKY SIDEBAR NAVIGATION -->
+    <aside class="lg:w-64 flex-shrink-0">
+      <div class="sticky top-20 glass-panel rounded-xl p-4 text-sm space-y-1">
+        <p class="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 py-1 mb-2">Table of Contents</p>
+        <a href="#overview" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">1. Executive Overview</a>
+        <a href="#tech-stack" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">2. Technology Stack</a>
+        <a href="#design-system" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">3. Visual Design System</a>
+        <a href="#layout-architecture" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">4. Layout & Page Routes</a>
+        <a href="#archive-system" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">5. Proceedings & Archive</a>
+        <a href="#manager-workbench" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">6. Workshop Manager</a>
+        <a href="#backend-cloud" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">7. Backend & Cloud Storage</a>
+        <a href="#security-rbac" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">8. Security & RBAC</a>
+        <a href="#data-registries" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">9. Data Schemas & Registries</a>
+        <a href="#developer-playbook" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">10. Developer Playbook</a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 space-y-12 min-w-0">
+
+      <!-- SECTION 1: EXECUTIVE OVERVIEW -->
+      <section id="overview" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>01 / System Overview</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Executive System Overview</h2>
+        <p class="text-slate-300 leading-relaxed text-base">
+          The <strong>Harbor & Environmental Mass Spectrometry (HEMS) Workshop</strong> web platform is a hybrid static-dynamic research platform. It acts as both the public institutional portal for the biennial international conference and the authoritative research repository archiving over <strong>25 years of mass spectrometry proceedings (1999–2025)</strong> comprising <strong>1,590 files (1.68 GB)</strong>.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div class="glass-card rounded-xl p-4">
+            <div class="text-sky-400 font-bold text-2xl">15 Workshops</div>
+            <div class="text-xs text-slate-400 mt-1">Spanning 1999 to 2025 with complete plenary, talk, poster, and attendee catalogs.</div>
+          </div>
+          <div class="glass-card rounded-xl p-4">
+            <div class="text-emerald-400 font-bold text-2xl">1,590 Proceedings</div>
+            <div class="text-xs text-slate-400 mt-1">High-resolution slide presentations, abstracts, programs, and audio/video records.</div>
+          </div>
+          <div class="glass-card rounded-xl p-4">
+            <div class="text-purple-400 font-bold text-2xl">Dual-Mode Architecture</div>
+            <div class="text-xs text-slate-400 mt-1">Decoupled local developer workbench + high-speed static CDN deployment on Firebase.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: TECHNOLOGY STACK -->
+      <section id="tech-stack" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>02 / Core Engineering</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Technology Stack & Versions</h2>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-300 border border-slate-800 rounded-lg overflow-hidden">
+            <thead class="bg-slate-900/80 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-4">Layer</th>
+                <th class="py-3 px-4">Technology</th>
+                <th class="py-3 px-4">Version</th>
+                <th class="py-3 px-4">Responsibility</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-mono text-xs">
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Frontend Core</td>
+                <td class="py-3 px-4">Next.js (App Router, Turbopack)</td>
+                <td class="py-3 px-4 text-slate-400">16.2.4</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">SSG Static Export, App Router, Client interactivity</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">UI Framework</td>
+                <td class="py-3 px-4">React</td>
+                <td class="py-3 px-4 text-slate-400">19.0.0</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Component lifecycle, client state hooks, server components</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Styling Engine</td>
+                <td class="py-3 px-4">Tailwind CSS</td>
+                <td class="py-3 px-4 text-slate-400">4.0.0</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Utility classes, dark glassmorphism, responsive tokens</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Language</td>
+                <td class="py-3 px-4">TypeScript</td>
+                <td class="py-3 px-4 text-slate-400">5.0.0+</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Strict type safety across proceedings, schemas, and portals</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Serverless Backend</td>
+                <td class="py-3 px-4">Firebase Cloud Functions (2nd Gen)</td>
+                <td class="py-3 px-4 text-slate-400">Node.js 22</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">User profile triggers, whitelist synchronization, RBAC claims</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Cloud Database</td>
+                <td class="py-3 px-4">Cloud Firestore</td>
+                <td class="py-3 px-4 text-slate-400">Native Mode</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">User registries, download logs, reviews, whitelist table</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Storage & CDN</td>
+                <td class="py-3 px-4">Google Cloud Storage (GCS)</td>
+                <td class="py-3 px-4 text-slate-400">Standard / Multi-region</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Public multi-gigabyte proceeding PDFs, abstracts, slides</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Icons</td>
+                <td class="py-3 px-4">Lucide React</td>
+                <td class="py-3 px-4 text-slate-400">Latest</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Standardized SVG UI icons (FileText, Download, Users, Lock)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SECTION 3: VISUAL DESIGN SYSTEM -->
+      <section id="design-system" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>03 / Brand & Aesthetics</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Visual Identity & Design System</h2>
+
+        <!-- Canonical Brand Guidelines Reference Callout -->
+        <div class="p-4 bg-sky-950/50 border-l-4 border-sky-400 rounded-r-xl space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold font-mono uppercase text-sky-300 flex items-center gap-1.5">
+              <span class="inline-block w-2 h-2 rounded-full bg-sky-400"></span> Single Source of Truth for Styling & Branding
+            </span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-sky-900/80 text-sky-300 border border-sky-700/60 font-semibold">Custodian: @brand</span>
+          </div>
+          <p class="text-xs text-slate-200 leading-relaxed font-sans">
+            All visual identity, typography rules, color specifications, and branding standards for the HEMS platform are officially defined and governed by:
+            <br>
+            <a href="file:///c:/AntigravityP1_2/HEMS-website/.agents/config/design/brand-guidelines.md" class="font-mono text-sky-300 hover:text-sky-100 underline font-semibold mt-1 inline-block text-xs">
+              .agents/config/design/brand-guidelines.md
+            </a>
+          </p>
+          <div class="text-[11px] text-slate-400 font-sans grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-sky-900/60">
+            <div>• <strong>Core Concept:</strong> "Global Symposium" cosmopolitan aesthetic</div>
+            <div>• <strong>Primary Typography:</strong> <code class="text-slate-300 font-mono">Noto Sans</code> + <code class="text-slate-300 font-mono">IBM Plex Mono</code></div>
+            <div>• <strong>Logo Blending:</strong> <code class="text-slate-300 font-mono">mix-blend-multiply</code> on white surfaces</div>
+            <div>• <strong>Interaction Models:</strong> Narrative Public vs Attendee Data</div>
+          </div>
+        </div>
+        
+        <p class="text-slate-300 text-sm leading-relaxed">
+          The aesthetic is engineered to reflect academic rigor, oceanic/environmental exploration, and vacuum instrumentation. The theme relies on deep oceanic navies, layered glassmorphism, precise typography, and vibrant status accents.
+        </p>
+
+        <!-- Color Palette -->
+        <div class="space-y-3">
+          <h3 class="text-base font-bold text-white">Color System Tokens</h3>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div>
+              <div class="color-swatch bg-[#0b1329] text-slate-300">#0b1329</div>
+              <p class="text-xs text-slate-400 mt-1 font-semibold">Deep Abyss (Background)</p>
+            </div>
+            <div>
+              <div class="color-swatch bg-[#0f172a] text-slate-300">#0f172a</div>
+              <p class="text-xs text-slate-400 mt-1 font-semibold">Slate 900 (Surface)</p>
+            </div>
+            <div>
+              <div class="color-swatch bg-[#1e293b] text-slate-300">#1e293b</div>
+              <p class="text-xs text-slate-400 mt-1 font-semibold">Slate 800 (Card Panel)</p>
+            </div>
+            <div>
+              <div class="color-swatch bg-[#0284c7] text-white">#0284c7</div>
+              <p class="text-xs text-slate-400 mt-1 font-semibold">Ocean Sky (Primary CTA)</p>
+            </div>
+            <div>
+              <div class="color-swatch bg-[#10b981] text-white">#10b981</div>
+              <p class="text-xs text-slate-400 mt-1 font-semibold">Emerald (Success/Dates)</p>
+            </div>
+            <div>
+              <div class="color-swatch bg-[#f59e0b] text-white">#f59e0b</div>
+              <p class="text-xs text-slate-400 mt-1 font-semibold">Amber (Awards/Alerts)</p>
+            </div>
+            <div>
+              <div class="color-swatch bg-[#ef4444] text-white">#ef4444</div>
+              <p class="text-xs text-slate-400 mt-1 font-semibold">Crimson (Danger/Missing)</p>
+            </div>
+            <div>
+              <div class="color-swatch bg-[#8b5cf6] text-white">#8b5cf6</div>
+              <p class="text-xs text-slate-400 mt-1 font-semibold">Violet (Special Session)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typography -->
+        <div class="space-y-3 pt-4 border-t border-slate-800">
+          <h3 class="text-base font-bold text-white">Typography Hierarchy</h3>
+          <div class="space-y-3">
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800 flex items-baseline justify-between">
+              <div>
+                <span class="text-xs text-slate-500 font-mono">Academic Header (Cinzel)</span>
+                <p class="font-serif text-xl font-bold text-white">Harbor & Environmental Mass Spectrometry</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400">font-serif</span>
+            </div>
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800 flex items-baseline justify-between">
+              <div>
+                <span class="text-xs text-slate-500 font-mono">Body & Content (Inter)</span>
+                <p class="font-sans text-sm text-slate-200">The 15th Workshop brought together researchers in portable MS.</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400">font-sans</span>
+            </div>
+            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800 flex items-baseline justify-between">
+              <div>
+                <span class="text-xs text-slate-500 font-mono">Technical Data (JetBrains Mono)</span>
+                <p class="font-mono text-xs text-emerald-400">15th_Bell_Underwater_MS_Presentation.pdf (4.82 MB)</p>
+              </div>
+              <span class="text-xs font-mono text-slate-400">font-mono</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glassmorphic Anatomy -->
+        <div class="space-y-3 pt-4 border-t border-slate-800">
+          <h3 class="text-base font-bold text-white">Component Anatomy</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="glass-card rounded-xl p-4 space-y-2">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider font-mono">Presentation Item Card</span>
+              <div class="text-sm font-semibold text-white">Investigation of disinfection byproduct formation during advanced water treatment</div>
+              <div class="text-xs text-slate-400">Frants R. Lauritsen (Presenter), Christine Mckenzie</div>
+              <div class="flex items-center gap-2 pt-2">
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-sky-950 border border-sky-800 text-sky-300">Presentation PDF</span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-800 border border-slate-700 text-slate-300">Abstract PDF</span>
+              </div>
+            </div>
+            <div class="glass-card rounded-xl p-4 space-y-2">
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider font-mono">Corporate Sponsor Card</span>
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center p-1 border border-slate-700">
+                  <span class="text-xs font-mono text-slate-400">LOGO</span>
+                </div>
+                <div>
+                  <div class="text-sm font-semibold text-white">Adaptas Solutions</div>
+                  <div class="text-xs text-amber-400 font-mono">Sponsor Since 2011</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: LAYOUT & ROUTING -->
+      <section id="layout-architecture" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>04 / Layout & Routes</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Layout & Page Route Hierarchy</h2>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+          The application uses the Next.js 16 App Router structure located in <code class="text-sky-300">src/frontend/src/app/</code>. Routes are grouped logically into public marketing pages, dynamic proceedings viewers, authenticated portals, and the developer manager workbench.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-sky-400 font-bold font-sans text-sm">Public Core Routes</span>
+            <ul class="space-y-1.5 text-slate-300">
+              <li><strong class="text-white">/</strong> — Landing page, featured highlights, countdown</li>
+              <li><strong class="text-white">/archive</strong> — Multi-year catalog & deep search portal</li>
+              <li><strong class="text-white">/archive/[year]</strong> — Dynamic workshop proceedings viewer</li>
+              <li><strong class="text-white">/about</strong> — History, mission, and workshop committee</li>
+              <li><strong class="text-white">/accommodations</strong> — Venue and lodging details</li>
+              <li><strong class="text-white">/call-for-papers</strong> — Abstract deadlines & submission criteria</li>
+              <li><strong class="text-white">/corporate-sponsorship</strong> — Tiers & historical sponsor gallery</li>
+              <li><strong class="text-white">/registration</strong> — Conference registration & badge pickup</li>
+              <li><strong class="text-white">/student-awards</strong> — Student presentation grant guidelines</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-purple-400 font-bold font-sans text-sm">Role-Gated Portals & Workbench</span>
+            <ul class="space-y-1.5 text-slate-300">
+              <li><strong class="text-white">/auth</strong> — Firebase Authentication (Email/Password & Google)</li>
+              <li><strong class="text-white">/(portal)/admin</strong> — User RBAC roles, whitelist manager</li>
+              <li><strong class="text-white">/(portal)/board</strong> — Executive committee meeting archives</li>
+              <li><strong class="text-white">/(portal)/reviewer</strong> — Double-blind abstract scoring system</li>
+              <li><strong class="text-white">/manager</strong> — Local Workshop Manager workbench (dev-only)</li>
+              <li><strong class="text-white">/api/manager/*</strong> — Local API handlers (serve, check, upload)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: PROCEEDINGS & ARCHIVE -->
+      <section id="archive-system" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>05 / Research Archives</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Proceedings Engine & Dual-Path Architecture</h2>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+          The archive engine (<code class="text-sky-300">src/frontend/src/app/archive/[year]/page.tsx</code>) generates complete proceedings interfaces for all 15 workshops using pre-rendered Static Site Generation (<code class="text-sky-300">generateStaticParams</code>).
+        </p>
+
+        <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-3">
+          <h4 class="text-sm font-bold text-white">Dual-Mode Asset Resolution Pipeline</h4>
+          <div class="text-xs text-slate-300 leading-relaxed font-sans">
+            To enable zero-cloud local offline pair programming without sacrificing production CDN speed, the system resolves assets dynamically:
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
+            <div class="p-3 bg-slate-950 rounded border border-slate-800">
+              <span class="text-amber-400 font-bold">Local Development Mode</span>
+              <p class="text-slate-400 mt-1 font-sans">Streams directly from <code class="text-sky-300">local_data/proceedings/</code> via <code class="text-sky-300">/api/manager/serve?file=...</code>. Provides instantaneous PDF viewing and local preview rendering without hitting GCS.</p>
+            </div>
+            <div class="p-3 bg-slate-950 rounded border border-slate-800">
+              <span class="text-emerald-400 font-bold">Production CDN Mode</span>
+              <p class="text-slate-400 mt-1 font-sans">Links resolve directly to Google Cloud Storage multi-region bucket: <code class="text-sky-300">https://storage.googleapis.com/hems-workshop-archives/proceedings/...</code>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proceedings Catalog Matrix -->
+        <div class="space-y-2">
+          <h4 class="text-sm font-bold text-white">Catalog Volume Matrix (1,590 Files Across 15 Workshops)</h4>
+          <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 text-center text-xs font-mono">
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">1st (1999)</div><div class="text-slate-400">2 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">2nd (2001)</div><div class="text-slate-400">52 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">3rd (2002)</div><div class="text-slate-400">159 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">4th (2003)</div><div class="text-slate-400">44 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">5th (2005)</div><div class="text-slate-400">130 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">6th (2007)</div><div class="text-slate-400">130 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">7th (2009)</div><div class="text-slate-400">228 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">8th (2011)</div><div class="text-slate-400">166 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">9th (2013)</div><div class="text-slate-400">132 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">10th (2015)</div><div class="text-slate-400">106 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">11th (2017)</div><div class="text-slate-400">104 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">12th (2018)</div><div class="text-slate-400">40 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">13th (2019)</div><div class="text-slate-400">124 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">14th (2022)</div><div class="text-slate-400">79 files</div></div>
+            <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">15th (2025)</div><div class="text-slate-400">94 files</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: WORKSHOP MANAGER WORKBENCH -->
+      <section id="manager-workbench" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>06 / Local Developer Tooling</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Workshop Manager Workbench (<code class="text-sky-300">/manager</code>)</h2>
+
+        <p class="text-slate-300 text-sm leading-relaxed">
+          The Workshop Manager is a specialized local administrative GUI located at <code class="text-sky-300">http://localhost:3000/manager</code>. It empowers the human organizer or AI agent to curate proceedings without manual JSON editing.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="glass-card rounded-xl p-4 space-y-2">
+            <span class="font-bold text-sky-400 font-mono text-sm">Key Capabilities</span>
+            <ul class="space-y-1.5 text-slate-300 list-disc list-inside">
+              <li><strong>Drag & Drop Ingestion:</strong> Drag any presentation or abstract PDF directly into session drop zones.</li>
+              <li><strong>Live Status Health Check:</strong> Real-time polling indicates whether the file exists locally and on GCloud.</li>
+              <li><strong>Instant Previews:</strong> Generates first-page PNG previews and extracted abstract text summaries.</li>
+              <li><strong>301 Redirect Control:</strong> Checkbox enables "Legacy URL for 301 Redirect only" for un-downloaded items.</li>
+              <li><strong>Corporate Registry Sync:</strong> Real-time corporate sponsor dropdown with instant logo preview and affiliation.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-xl p-4 space-y-2">
+            <span class="font-bold text-emerald-400 font-mono text-sm">Production Build Isolation</span>
+            <p class="text-slate-300 leading-relaxed font-sans">
+              Because the Workshop Manager utilizes Node.js server routes (<code class="text-sky-300">fs</code>, child processes, local file writing), it is strictly isolated from production:
+            </p>
+            <div class="p-2.5 bg-slate-950 rounded border border-slate-800 font-mono text-[11px] text-slate-400">
+              node scripts/build-prod.js<br>
+              ↳ Temporarily isolates /manager & /api/manager<br>
+              ↳ Executes Next.js static compilation<br>
+              ↳ Restores manager routes for local dev
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7: BACKEND & CLOUD INFRASTRUCTURE -->
+      <section id="backend-cloud" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>07 / Cloud Architecture</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Backend & Cloud Infrastructure</h2>
+
+        <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-4">
+          <h4 class="text-sm font-bold text-white">Firebase Functions v2 & Event Triggers</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Located in <code class="text-sky-300">functions/src/index.ts</code> running on Node.js 22. It deploys second-generation Firestore event triggers:
+          </p>
+          <div class="p-3 bg-slate-950 rounded border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
+            // Triggered on new Firebase Auth user creation<br>
+            export const onUserCreate = functions.auth.user().onCreate(async (user) =&gt; {<br>
+            &nbsp;&nbsp;// 1. Check whitelist collection in Firestore<br>
+            &nbsp;&nbsp;// 2. Assign custom claims: { role: 'admin' | 'board' | 'reviewer' }<br>
+            &nbsp;&nbsp;// 3. Create initial profile document in users/{uid}<br>
+            });
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-sky-400 font-bold font-sans text-sm">Cloud Storage Bucket</span>
+            <p class="text-slate-400 font-sans">Bucket Name: <code class="text-white">hems-workshop-archives</code></p>
+            <p class="text-slate-400 font-sans">Path Structure:</p>
+            <ul class="text-slate-300 space-y-1">
+              <li>• <code class="text-sky-300">/proceedings/{ordinal}/{session}/{file}.pdf</code></li>
+              <li>• <code class="text-sky-300">/sponsors/{logo_file}.png</code></li>
+            </ul>
+          </div>
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-emerald-400 font-bold font-sans text-sm">Search Engine Indexing</span>
+            <p class="text-slate-400 font-sans">
+              Deep full-text slide indexing is executed via <code class="text-white">src/frontend/scripts/index-pdf-contents.js</code>, compiling <strong>7,244 searchable text chunks</strong> into <code class="text-sky-300">public/mock-pdf-chunks.json</code> and pushing to Algolia.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 8: SECURITY & RBAC -->
+      <section id="security-rbac" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>08 / Access Control</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Security & Role-Based Access Control (RBAC)</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
+          <div class="p-3 bg-red-950/40 border border-red-800/60 rounded-xl">
+            <div class="text-red-400 font-bold">Admin</div>
+            <div class="text-slate-400 mt-1">Full system control, role granting, workshop edit</div>
+          </div>
+          <div class="p-3 bg-purple-950/40 border border-purple-800/60 rounded-xl">
+            <div class="text-purple-400 font-bold">Board</div>
+            <div class="text-slate-400 mt-1">Executive minutes, financial logs, committee governance</div>
+          </div>
+          <div class="p-3 bg-amber-950/40 border border-amber-800/60 rounded-xl">
+            <div class="text-amber-400 font-bold">Reviewer</div>
+            <div class="text-slate-400 mt-1">Blind abstract rubric scoring, submission evaluation</div>
+          </div>
+          <div class="p-3 bg-slate-800/40 border border-slate-700/60 rounded-xl">
+            <div class="text-slate-300 font-bold">General</div>
+            <div class="text-slate-400 mt-1">Public proceedings streaming, registered attendee access</div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2 text-xs">
+          <h4 class="font-bold text-white">Daily IP & User Download Quotas</h4>
+          <p class="text-slate-300 leading-relaxed font-sans">
+            To prevent scraping bots from mass-downloading HEMS intellectual property, Firestore security rules enforced in <code class="text-sky-300">firestore.rules</code> limit anonymous access and rate-limit logged downloads to a daily ceiling, logging telemetry in <code class="text-sky-300">downloads_log/{id}</code>.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 9: DATA SCHEMAS & REGISTRIES -->
+      <section id="data-registries" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>09 / Schemas & Registries</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Canonical Data Registries</h2>
+
+        <div class="space-y-4 text-xs font-mono">
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-sky-400 font-bold text-sm">master_workshops.json</span>
+              <span class="text-slate-500">src/frontend/src/data/master_workshops.json</span>
+            </div>
+            <p class="text-slate-300 font-sans">Authoritative master array defining all 15 workshops. Feeds the Workshop Manager and generates individual archive year files.</p>
+          </div>
+
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-emerald-400 font-bold text-sm">corporate_registry.json</span>
+              <span class="text-slate-500">src/frontend/src/data/corporate_registry.json</span>
+            </div>
+            <p class="text-slate-300 font-sans">Database of all 52 participating corporations, historical sponsor dates, active URLs, and normalized logo filenames.</p>
+          </div>
+
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-amber-400 font-bold text-sm">permalink_registry.json</span>
+              <span class="text-slate-500">docs/registries/permalink_registry.json</span>
+            </div>
+            <p class="text-slate-300 font-sans">Exact mapping table for 301 legacy redirects ensuring legacy scientific paper citations route cleanly to modern paths.</p>
+          </div>
+
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-purple-400 font-bold text-sm">pdf_seo_registry.md</span>
+              <span class="text-slate-500">docs/registries/pdf_seo_registry.md</span>
+            </div>
+            <p class="text-slate-300 font-sans">Deep academic metadata registry containing title, abstract text, presenter, and keywords for search engine discovery.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 10: DEVELOPER PLAYBOOK -->
+      <section id="developer-playbook" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>10 / Developer Handbook</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Developer & AI Agent Quickstart</h2>
+
+        <div class="space-y-4">
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-xs font-bold text-sky-400 font-mono uppercase">1. Run Local Development Server</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>cd src/frontend
+npm run dev
+# Main Web App:         http://localhost:3000
+# Workshop Manager:     http://localhost:3000/manager</code></pre>
+          </div>
+
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-xs font-bold text-emerald-400 font-mono uppercase">2. Execute Production Static Build</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>cd src/frontend
+npm run build
+# Compiles search indices and prerenders 36+ SSG static routes to src/frontend/out/</code></pre>
+          </div>
+
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-xs font-bold text-amber-400 font-mono uppercase">3. Sync Local Assets to Google Cloud Storage</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>cd src/frontend
+npm run push-to-live
+# Pushes any newly dropped local proceedings from local_data/proceedings to GCS</code></pre>
+          </div>
+
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-xs font-bold text-purple-400 font-mono uppercase">4. Deploy Cloud Functions</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>cd functions
+npm run build
+firebase deploy --only functions</code></pre>
+          </div>
+        </div>
+
+        <!-- Team Roles & Governance -->
+        <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-2">
+          <h4 class="font-bold text-white text-sm">Agile Release Train (ART) Operating Governance</h4>
+          <p class="font-sans leading-relaxed">
+            When developing with pairing agents:
+            <strong>@dev</strong> implements inside <code class="text-sky-300">src/</code>;
+            <strong>@qa</strong> tests inside <code class="text-sky-300">tests/</code>;
+            <strong>@ops</strong> manages infrastructure, Git, and <code class="text-sky-300">.gitignore</code>;
+            <strong>@arch</strong> authors architecture plans in <code class="text-sky-300">docs/plans/</code>;
+            <strong>@brand</strong> oversees aesthetics in <code class="text-sky-300">docs/design/</code> governed by <a href="file:///c:/AntigravityP1_2/HEMS-website/.agents/config/design/brand-guidelines.md" class="text-sky-300 underline font-mono">.agents/config/design/brand-guidelines.md</a>;
+            and <strong>@bo</strong> serves as the supreme authority.
+          </p>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-800/80 font-mono">
+        Harbor & Environmental Mass Spectrometry Workshop (HEMS) • Established 1999 • System Documentation v2.0
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>

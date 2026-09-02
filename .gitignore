@@ -6,9 +6,9 @@ node_modules/
 out/
 build/
 
-# Heavy Files & Archives
-docs/archives_translation/*/
-!docs/archives_translation/sponsors/
+# Heavy Files & Archives (local_data proceedings untracked, sponsors tracked)
+local_data/*/
+!local_data/sponsors/
 
 # Logs & Diagnostic Dumps
 *.log

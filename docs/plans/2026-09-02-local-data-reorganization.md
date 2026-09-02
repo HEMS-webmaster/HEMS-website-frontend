@@ -87,29 +87,18 @@ Each workshop follows a 4-point protocol:
 
 ---
 
-### Phase 3: Sponsors Asset Consolidation & Manager Synchronization
-*Detailed Architectural Plan:* [docs/plans/2026-09-02-sponsor-logos-reorganization.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-09-02-sponsor-logos-reorganization.md)
-
-1. **Inventory & Harmonization:**
-   - Migrate 67 historical raw assets from `docs/archives_translation/sponsors/` into `local_data/sponsors/`.
-   - Harmonize with the 79 active web assets in `src/frontend/public/images/sponsors/` to form a unified 91-asset master archive in `local_data/sponsors/`.
-2. **Manager API Sync:**
-   - Verify `getSponsorsDir()` in [`assetPaths.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/utils/assetPaths.ts) switches seamlessly to `local_data/sponsors/`.
-   - Ensure manager routes (`check-file`, `upload`, `delete`, `save`, `registry`) maintain dual synchronization between `local_data/sponsors/` (master archive) and `public/images/sponsors/` (Firebase hosting static bundle).
-3. **Registry Alignment:**
-   - Cross-audit all entries in [`corporate_registry.json`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/data/corporate_registry.json) and workshop sponsor references to confirm 100% logo resolution.
-4. **Pruning:**
-   - Remove legacy `docs/archives_translation/sponsors/`.
-5. **Gate 3 Checkpoint:** [PASSED] 91 unique sponsor assets unified into `local_data/sponsors/`. 0 missing logo files across 52 corporate registry entries and 131 workshop sponsor references. Manager health checks passing HTTP 200.
+### Phase 3: Sponsors Asset Consolidation
+1. Move `docs/archives_translation/sponsors/` -> `local_data/sponsors/`.
+2. **Gate 3 Checkpoint:** Verify sponsor logos display in Workshop Manager and corporate registry.
 
 ---
 
-### Phase 4: Final Cleanup & Git Hardening [COMPLETED]
-1. [x] Remove now-empty legacy directories: `docs/archives_translation/proceedings/`, `proceedings_backup/`, `raw_html/`, and parent `docs/archives_translation/`.
-2. [x] Update [`.gitignore`](file:///c:/AntigravityP1_2/HEMS-website/.gitignore) to replace `docs/archives_translation/*/` with `local_data/`.
-3. [x] Update [`README.md`](file:///c:/AntigravityP1_2/HEMS-website/README.md) with the finalized `local_data/` and `docs/registries/` architecture.
-4. [x] Run full production build verification (`npm run build` in `src/frontend` and `functions`).
-5. **Gate 4 Checkpoint:** [PASSED] `npm run build` passed with 0 errors across frontend and functions. Clean git hygiene with all local data and sponsor assets properly ignored or tracked.
+### Phase 4: Final Cleanup & Git Hardening
+1. Remove now-empty legacy directories: `docs/archives_translation/proceedings/`, `proceedings_backup/`, `raw_html/`, and parent `docs/archives_translation/`.
+2. Update [`.gitignore`](file:///c:/AntigravityP1_2/HEMS-website/.gitignore) to replace `docs/archives_translation/*/` with `local_data/`.
+3. Update [`README.md`](file:///c:/AntigravityP1_2/HEMS-website/README.md) with the finalized `local_data/` architecture.
+4. Run full production build verification (`npm run build` in `src/frontend` and `functions`).
+5. **Gate 4 Checkpoint:** Confirm 0 build errors and clean Git status.
 
 ---
 

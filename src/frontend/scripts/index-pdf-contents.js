@@ -49,13 +49,19 @@ function findFileRecursively(dir, filename) {
   return null;
 }
 
+function getProceedingsWsDir(ordinal) {
+  const localDir = path.join(__dirname, '..', '..', '..', 'local_data', 'proceedings', `${ordinal}th`);
+  if (fs.existsSync(localDir)) return localDir;
+  return path.join(__dirname, '..', '..', '..', 'docs', 'archives_translation', 'proceedings', `${ordinal}th`);
+}
+
 // Resolves local PDF file path from catalog relative or absolute URL, with fallback legacy HEMS path mapping
 function getLocalFilePath(urlStr, year, type, ordinal, filename) {
   if (!urlStr && !filename) return null;
 
   // 1. Try finding in proceedings translation folder if filename and ordinal are provided
   if (ordinal && filename) {
-    const proceedingsDir = path.join(__dirname, '..', '..', '..', 'docs', 'archives_translation', 'proceedings', `${ordinal}th`);
+    const proceedingsDir = getProceedingsWsDir(ordinal);
     const foundPath = findFileRecursively(proceedingsDir, filename);
     if (foundPath) return foundPath;
   }
@@ -63,28 +69,29 @@ function getLocalFilePath(urlStr, year, type, ordinal, filename) {
   // 2. Try URL-based assets archives folder
   try {
     let pathname = urlStr;
-    if (urlStr && (urlStr.startsWith('http://') || urlStr.startsWith('https://'))) {
-      const url = new URL(urlStr);
-      pathname = url.pathname;
+    if (pathname.startsWith('http')) {
+      const parsed = new URL(pathname);
+      pathname = parsed.pathname;
     }
-    if (pathname && pathname.includes('/assets/archives/')) {
-      const relativePart = pathname.substring(pathname.indexOf('/assets/archives/'));
-      return path.join(__dirname, '..', 'public', relativePart);
+    // Remove leading slash
+    pathname = pathname.replace(/^\//, '');
+
+    // Map hems-workshop-archives/proceedings/15th/...
+    if (pathname.startsWith('hems-workshop-archives/')) {
+      pathname = pathname.replace(/^hems-workshop-archives\//, '');
     }
 
-    // Try legacy URL mapping if year and document type are provided
-    if (year && type && urlStr) {
-      const decodedPathname = decodeURIComponent(pathname);
-      const baseName = path.basename(decodedPathname).toLowerCase();
-      if (baseName && baseName.endsWith('.pdf')) {
-        const localPath = path.join(__dirname, '..', 'public', 'assets', 'archives', String(year), type, baseName);
-        if (fs.existsSync(localPath)) {
-          return localPath;
-        }
-      }
+    const localDataPath = path.join(__dirname, '..', '..', '..', 'local_data', 'proceedings', pathname);
+    if (fs.existsSync(localDataPath) && fs.statSync(localDataPath).isFile()) {
+      return localDataPath;
+    }
+
+    const localAssetPath = path.join(__dirname, '..', '..', '..', 'docs', 'archives_translation', pathname);
+    if (fs.existsSync(localAssetPath) && fs.statSync(localAssetPath).isFile()) {
+      return localAssetPath;
     }
   } catch (e) {
-    // ignore parsing errors
+    // Ignore URL parse errors
   }
 
   // 3. Fallback: try finding base URL name in proceedings even without filename
@@ -93,7 +100,7 @@ function getLocalFilePath(urlStr, year, type, ordinal, filename) {
       const decodedPathname = decodeURIComponent(urlStr);
       const baseName = path.basename(decodedPathname);
       if (baseName && baseName.toLowerCase().endsWith('.pdf')) {
-        const proceedingsDir = path.join(__dirname, '..', '..', '..', 'docs', 'archives_translation', 'proceedings', `${ordinal}th`);
+        const proceedingsDir = getProceedingsWsDir(ordinal);
         const foundPath = findFileRecursively(proceedingsDir, baseName);
         if (foundPath) return foundPath;
       }

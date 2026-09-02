@@ -13,7 +13,7 @@ graph TD
     A[Next.js 16 App Router / React 19] -->|Static Export / SSG| B[Firebase Hosting / CDN]
     A -->|Auth & RBAC| C[Firebase Auth & Firestore]
     A -->|Local Streaming API| D[Local Workshop Manager]
-    D -->|Dev PDF Stream| E[docs/archives_translation]
+    D -->|Dev PDF Stream| E[local_data/proceedings]
     D -->|GCS Push Sync| F[Google Cloud Storage]
     C -->|2nd Gen Triggers| G[Cloud Functions Node.js 22]
     G -->|Sync Roles| C
@@ -36,10 +36,12 @@ HEMS-website/
 ├── .github/workflows/       # GitHub Actions CI/CD (Firebase Hosting via WIF)
 ├── archive/legacy_tools/    # Retired scrapers and one-off migration utilities
 ├── docs/
-│   ├── archives_translation/ # Local workshop proceedings, PDFs, and sponsors (3.6 GB)
-│   ├── design/              # SEO registries and design mockups
+│   ├── registries/          # Canonical SEO & 301 permalink registries
 │   ├── plans/               # Permanent architectural sprint plans
 │   └── logs/                # Silent Chain-of-Thought (SCoT) audit logs
+├── local_data/              # Local proceedings & canonical sponsor assets
+│   ├── proceedings/         # Workshop 1–15 proceedings (1,590 files, 1.68 GB)
+│   └── sponsors/            # Master sponsor logo repository (91 assets)
 ├── firestore.rules          # Firestore security rules and RBAC policies
 ├── functions/               # Firebase Cloud Functions (Node.js 22, TypeScript)
 │   └── src/index.ts         # Whitelist role synchronization triggers
@@ -80,7 +82,7 @@ HEMS-website/
    * **Public Website:** [http://localhost:3000](http://localhost:3000)
    * **Workshop Manager:** [http://localhost:3000/manager](http://localhost:3000/manager)
 
-During local development, the Workshop Manager and archive viewer automatically stream local presentation PDFs and abstracts directly from `docs/archives_translation/proceedings/`.
+During local development, the Workshop Manager and archive viewer automatically stream local presentation PDFs and abstracts directly from `local_data/proceedings/`.
 
 ---
 
