@@ -82,6 +82,16 @@ collections:
           - { label: "Max Pages", name: "max_pages", widget: "number", default: 1 }
           - { label: "Guidelines Text", name: "body", widget: "markdown" }
 
+      - label: "Student Travel Awards"
+        name: "student_awards"
+        file: "content/pages/student-awards.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Proposed Award Amount", name: "award_amount", widget: "string" }
+          - { label: "Application Deadline", name: "application_deadline", widget: "string" }
+          - { label: "Committee Contact Email", name: "contact_email", widget: "string" }
+          - { label: "Guidelines & Criteria", name: "body", widget: "markdown" }
+
       - label: "Corporate Sponsorship Opportunities"
         name: "corporate_sponsorship"
         file: "content/pages/corporate-sponsorship.md"

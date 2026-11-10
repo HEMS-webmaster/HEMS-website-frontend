@@ -2,24 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, Award, CreditCard, Hotel, Building2, ShieldCheck, ClipboardCheck, BarChart2 } from "lucide-react";
+import { LayoutDashboard, FileText, CreditCard, Hotel, Building2, ShieldCheck, ClipboardCheck, BarChart2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+
+interface PortalLinkItem {
+  name: string;
+  path: string;
+  icon: typeof LayoutDashboard;
+  requiredRole: string | null;
+}
 
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user, isMock, setMockRoles } = useAuth();
 
-  const portalLinks = [
+  const portalLinks: PortalLinkItem[] = [
     { name: "Overview", path: "/layout-portal", icon: LayoutDashboard, requiredRole: null },
     { name: "Call for Papers", path: "/call-for-papers", icon: FileText, requiredRole: null },
-    { name: "Student Awards", path: "/student-awards", icon: Award, requiredRole: null },
     { name: "Registration", path: "/registration", icon: CreditCard, requiredRole: null },
     { name: "Accommodations", path: "/accommodations", icon: Hotel, requiredRole: null },
     { name: "Corporate Sponsorship", path: "/corporate-sponsorship", icon: Building2, requiredRole: null },
     { name: "Reviewer Panel", path: "/reviewer", icon: ClipboardCheck, requiredRole: "reviewer" },
   ];
 
-  const adminLinks = [
+  const adminLinks: PortalLinkItem[] = [
     { name: "Board Panel", path: "/board", icon: Building2, requiredRole: "board" },
     { name: "Admin Panel", path: "/admin", icon: ShieldCheck, requiredRole: "admin" },
     { name: "Website Analytics", path: "/admin/analytics", icon: BarChart2, requiredRole: "admin" },
@@ -33,7 +39,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     return user.roles?.includes(role);
   };
 
-  const renderNavSection = (title: string, links: any[]) => (
+  const renderNavSection = (title: string, links: PortalLinkItem[]) => (
     <div className="mb-8">
       <h3 className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-4 px-3">{title}</h3>
       <nav className="space-y-1">

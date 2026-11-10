@@ -714,3 +714,29 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Frame all copy to stand year after year: highlight HEMS as an all-volunteer 501(c)(3) organization bridging academic, industrial, and government circles with no formal membership fee; detail how workshop sponsorships independently fund the biennial symposium and Student Travel Awards; present the four core sponsor benefits (exhibition table for hardware/literature, corporate poster display including remote posting for non-attending sponsors, workshop banner/program recognition, and website logo + link); and outline the three evergreen participation structures ($1,350 full package with 1 attendee registration, $850 + $500 split invoicing for corporate purchasing limits, and $850 non-attending sponsor) via `http://shop.hems-workshop.org` and Coordinator Tim Short (`rtshort00@gmail.com`).
   3. Dynamically bind the Past & Continuing Corporate Sponsors showcase to `src/frontend/src/data/corporate_registry.json` (52 organizations since 2001) so future sponsors added via Workshop Manager appear automatically year over year. Apply non-mutating runtime normalization in `page.tsx` for bare domains (`www.hamiltonsundstrand.com`, `pascaltechnologies.com`, `SpyglassWater.com`) and the single Linux case-sensitive filename discrepancy (`SAES_Getters.png` -> `Saes_Getters.png` on disk).
   4. Wire prominent discovery through `src/frontend/src/app/contact/page.tsx` (dedicated Corporate Sponsorship callout card, inline Direct Channel link, contextual inquiry banner when "Sponsorship & Billing Inquiries" is selected, and `?topic=sponsorship` pre-selection) while leaving `Navbar.tsx` completely untouched.
+
+
+---
+
+## [2026-11-10] SCoT Trace — Standalone Student Travel Awards Page & Navbar Integration (@arch, @dev, @brand, @qa, @ops)
+- **Objective**: Move the `Student Travel Awards` page out of the Workshop Portal (`(portal)/`), expose it directly via a link in `Navbar.tsx`, and ensure 100% content alignment with legacy `https://www.hems-workshop.org/15thWS/15thstudenttravel.html`.
+- **Firewall & Lock Verification**:
+  - Zero reads performed on `docs/logs/thought_trace.md` (append-only).
+  - Zero edits on `src/frontend/src/app/archive/**`, archive JSONs, `/source-material`, or `.agents/`.
+- **Legacy Content Audit (`15thstudenttravel.html`)**:
+  - Heading: *HEMS Workshop Student Travel Award* (`Student Travel Awards`)
+  - Deadline Notice: *Student Travel Award Application Deadline EXTENDED to Friday, August 8, 2025*
+  - Purpose: *"The workshop award is intended to encourage interest in the topics applicable to Harsh Environment Mass Spectrometry (HEMS) and reward the scientific merit and quality of student research in the area of HEMS."*
+  - Award Amount: *"For the 2025 HEMS Workshop the proposed award is $1,500.00."*
+  - Eligibility: *"Any full-time graduate student pursuing an M.S., M.A., or Ph.D. degree within a discipline applicable to the HEMS conference. Students must be in good standing with their university."*
+  - Guidelines (4 required items):
+    1. Student letter describing academic standing and interests, expected graduation date and degree, advisor's name, and, if available, a URL for a working Web page.
+    2. Detailed letter from the student's faculty advisor indicating why the student is deserving of receiving a travel award and any special circumstances.
+    3. Title of the presentation to be presented by the student at the meeting, along with the abstract, and authors. (Remove the unverified "scheduled session" phrase from the legacy portal draft.)
+    4. Vita including the student's research interests, projects, and papers published.
+  - Criteria (4 items): Meets eligibility requirements; Completes Guideline list; Quality and intellectual merit of the abstract and research; Potential for future publications from research focus.
+  - Submission: *Submit Applications by e-mail to HEMS Student Awards Committee — `hemsworkshop@hems-workshop.org`*.
+- **Routing & Navigation Changes**:
+  - Promote `src/frontend/src/app/(portal)/student-awards/page.tsx` -> `src/frontend/src/app/student-awards/page.tsx` and delete `(portal)/student-awards/`.
+  - Remove `Student Awards` from `portalLinks` in `src/frontend/src/app/(portal)/layout.tsx`.
+  - Add `Student Travel Awards` (`/student-awards`) to `src/frontend/src/components/layout/Navbar.tsx` (with clean responsive horizontal spacing) and `Footer.tsx`, register `/student-awards` in `sitemap.ts`, and add `content/pages/student-awards.md` + `public/admin/config.yml` entry for CMS parity.

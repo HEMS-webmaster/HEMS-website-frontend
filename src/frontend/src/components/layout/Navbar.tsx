@@ -1,9 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Activity, Shield, User } from "lucide-react";
+import { Shield, User } from "lucide-react";
 import workshopsData from "@/data/master_workshops.json";
 import { useAuth } from "@/context/AuthContext";
+
+interface WorkshopNavEntry {
+  year: number | string;
+  number: number;
+}
 
 const ROLE_DEFINITIONS: Record<string, { label: string; desc: string; badgeClass: string }> = {
   admin: {
@@ -61,11 +66,12 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-6 text-sm font-medium">
+            <div className="ml-6 lg:ml-8 flex items-center space-x-2 lg:space-x-5 text-sm font-medium whitespace-nowrap">
               <Link href="/" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Home</Link>
               <Link href="/layout-portal" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Portal</Link>
               <Link href="/about" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">About Us</Link>
               <Link href="/history" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">History</Link>
+              <Link href="/student-awards" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Student Travel Awards</Link>
               <div className="relative group">
                 <Link href="/archive" className="text-foreground/90 hover:text-primary transition-colors flex items-center gap-1 font-medium bg-transparent px-2 py-1 rounded-md">
                   Archives
@@ -74,7 +80,7 @@ export default function Navbar() {
                 <div className="absolute top-full left-0 mt-2 w-56 bg-background border border-foreground/10 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                   <div className="py-2 max-h-[70vh] overflow-y-auto">
                     <Link href="/archive" className="block px-4 py-2 text-sm font-bold text-primary border-b border-foreground/10 hover:bg-primary/10">Archives Home</Link>
-                    {[...workshopsData].sort((a, b) => Number(b.year) - Number(a.year)).map((ws: any, idx: number) => {
+                    {[...(workshopsData as WorkshopNavEntry[])].sort((a, b) => Number(b.year) - Number(a.year)).map((ws, idx) => {
                       const getOrdinal = (n: number) => {
                         if (n === 1) return "1st";
                         if (n === 2) return "2nd";
