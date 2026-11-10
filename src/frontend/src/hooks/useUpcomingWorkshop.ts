@@ -82,3 +82,4 @@ export function useUpcomingWorkshop(): UseUpcomingWorkshopResult {
 
   return { workshop, isLiveSynced };
 }
+

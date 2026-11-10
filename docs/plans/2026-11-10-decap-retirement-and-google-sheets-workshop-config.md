@@ -54,3 +54,4 @@
 - Verify `0` diff lines on `src/frontend/src/app/archive/**`.
 - Run `npx next typegen` + `npx tsc --noEmit` (`0` errors, zero `any`).
 - Verify `HTTP 200 OK` across all 8 routes + `/admin/` on `http://localhost:3000`.
+

@@ -61,3 +61,4 @@ Firebase CLI will output a cryptographically random HTTPS preview URL:
 `https://hems-workshop--preview-2027-<random-hash>.web.app`
 
 You can open that URL on any device or share it privately with HEMS Board members to review changes before merging/pushing to `main`.
+

@@ -102,3 +102,4 @@ for (const jsonKey of Object.keys(configJson)) {
 
 assert.equal(checklistRows.length, 9, "Expected header + 8 website surfaces in 2_Website_Ingestion_Checklist.csv");
 console.log("✅ QA Passed: 100% parity verified between upcoming_workshop.json, 1_Workshop_Config.csv (40 keys), and 2_Website_Ingestion_Checklist.csv (8 surfaces).");
+

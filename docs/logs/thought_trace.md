@@ -816,3 +816,12 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Probed all 8 dynamic workshop surfaces (`/`, `/student-awards/`, `/contact/`, `/layout-portal/`, `/call-for-papers/`, `/registration/`, `/accommodations/`, `/corporate-sponsorship/`), `/admin/`, and `http://localhost:4000/`: all returned HTTP `200 OK`.
   - Confirmed zero remaining references to `decap-cms`, `/admin/config.yml` (`404` as expected), `HEMS Store` / `shop.hems-workshop.org`, or expired 2025 `hems2025.exordo.com` / `marriott.com/event-reservations` links.
 - **@rte Deployment Gate:** `[PASS]` tags verified across `@qa`, `@brand`, and `@arch`. Handing off to `@ops` for local Git commit on `main` (without pushing to `origin/main` so live production remains untouched until `@bo` reviews).
+
+## [2026-11-10T12:54:30-07:00] Cloud-House & Project Cleanup (@ops — authorized by @bo)
+- **Context:** `@bo` explicitly approved project & Data Agent Kit cleanup (`@ops yes, clean up the project`).
+- **Root Cause Identified:** The Antigravity IDE extension `googlecloudtools.datacloud-1.2.0-universal` unpacked 21 GCP BigQuery/Spark/dbt/Dataflow skill folders + `.datacloud_skills_manifest` into `c:\AntigravityP1_2\HEMS-website\.agents\skills\` and injected duplicate `notebooks` + `data-agent-kit` MCP server entries into `C:\Users\ryanb\.gemini\config\mcp_config.json`, duplicating the global `data-agent-kit-plugin` bundle on a `$0` Firebase Spark static site.
+- **Actions Executed (`@ops`):**
+  1. Remove the 21 stray Data Cloud skill folders and `.datacloud_skills_manifest` from `.agents/skills/` while leaving `.agents/rules/` (`locksrules.md`, `scrumrules.md`), `.agents/personas/`, `.agents/workflows/`, `.agents/config/`, `.agents/logs/`, `.agents/state/`, `creative_product_log.md`, and `handover.md` 100% untouched.
+  2. Clear the duplicate `notebooks` and `data-agent-kit` MCP server entries in `C:\Users\ryanb\.gemini\config\mcp_config.json` so `data-agent-kit-plugin` is controlled cleanly from one toggle.
+  3. Delete the leftover `0`-byte `firebase-key.json` at repo root.
+  4. Consolidate `.env.example` into the single canonical `src/frontend/.env.example` (removing the duplicate root `.env.example`), documenting `NEXT_PUBLIC_FIREBASE_*`, `NEXT_PUBLIC_WORKSHOP_SHEET_CSV_URL`, and optional offline-fallback Algolia indexing keys; append commented `NEXT_PUBLIC_WORKSHOP_SHEET_CSV_URL` slot to `src/frontend/.env.local` without modifying existing Firebase keys.
