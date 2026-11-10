@@ -833,3 +833,13 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. `@dev`: Populate `"sheet_csv_url"` in `src/frontend/src/data/upcoming_workshop.json` and execute `npm --prefix src/frontend run sync:workshop` against the live Google Sheet CDN endpoint.
   3. `@arch`: Document the `My Drive` (vs. `Shared Drive`) and `Webmaster Access` OU setup note in `docs/workshop-sheets/README.md` and `docs/session_history.md`.
   4. `@qa` & `@ops`: Run `node tests/unit/upcomingWorkshopCsv.test.mjs`, restart `npm run dev` on `http://localhost:3000`, verify `200 OK`, and commit locally on `main`.
+
+## [2026-11-10T14:36:00-07:00] Comprehensive v4.0 Upgrade of `docs/system_design_architecture.html` (@arch with @dev & @ops specs)
+- **Routing Note (Rule #3 / Rule #8):** `@bo` addressed `@dev @ops` to update `docs/system_design_architecture.html`. Because `@dev` is restricted to `src/` and `@ops` to `.env` / infrastructure configs, `@dev` and `@ops` compiled all recent frontend/cloud specifications and routed the `docs/` architecture blueprint write through `@arch`.
+- **Key Architectural Updates Documented in v4.0:**
+  1. Corrected society title throughout from `"Harbor & Environmental"` to **`Harsh-Environment Mass Spectrometry (HEMS) Society & Biennial Workshop`** (501(c)(3), est. 1999).
+  2. Replaced Section 07 (legacy Decap CMS) with the **`$0` Nonprofit Google Sheets CSV + Static JSON Hybrid Control Plane** (`HEMS Upcoming Workshop Control Center` in `webmaster@hems-workshop.org` `My Drive`, `gid=540431442`, `upcoming_workshop.json`, RFC-4180 `upcomingWorkshop.ts`, `useUpcomingWorkshop.ts`, `sync-workshop-sheet.js`, `upcomingWorkshopCsv.test.mjs`, and the full 8-surface ingestion matrix). Documented why Decap CMS was retired.
+  3. Updated Section 04 (Layout & Page Routes) with standalone `/history/`, standalone top-nav `/student-awards/`, standalone Contact-linked `/corporate-sponsorship/` (excluded from `Navbar`, dead `HEMS Store` links purged), updated `(portal)` routes, and resolved `/admin/` route ownership.
+  4. Updated Section 05 & 06 with the `508.2 MB -> 24.5 MB` static export reduction, `next.config.ts` dev rewrite (`/api/manager/:path* -> localhost:4000`), and strict separation between Port 4000 Archive Workbench and Google Sheets Upcoming Workshop Config.
+  5. Expanded Section 08 & 09 with Cloud-House Governance (`webmaster@hems-workshop.org`, `Webmaster Access` OU, `My Drive` vs. `Shared Drive` publishing constraint, `gcloud` `hems` profile isolation, canonical `src/frontend/.env.example` + `.env.local`, `$0` Firebase Hosting Preview Channels, keyless GitHub Actions WIF, and Archive Immutability Lock).
+  6. Updated Section 10 & 11 with new registries, unit tests, and CLI runbooks.
