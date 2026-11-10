@@ -25,7 +25,7 @@ graph TD
 * **Standalone Workshop Manager (`tools/manager/`):** Physically isolated local Next.js workbench running on port `4000` for inspecting proceedings, generating slide/abstract previews, managing corporate sponsor logos, and syncing to Google Cloud Storage.
 * **Backend & Serverless (`functions/`):** Firebase Cloud Functions v2 (Node.js 22 runtime, 2nd Gen Firestore event triggers).
 * **Database & Security:** Google Cloud Firestore with strict Role-Based Access Control (`admin`, `board`, `reviewer`, `submitter`, `attendee`, `general`), whitelist inheritance, and daily download quotas.
-* **Deep Content Search & Editorial Scoping:** Pre-compiled page-level searchable PDF chunk index (`local_data/cache/` -> `public/mock-pdf-chunks.json`), Algolia search integration, and strictly scoped Decap CMS configuration (`src/frontend/content/`).
+* **Deep Content Search & Biennial Workshop Config:** Pre-compiled page-level searchable PDF chunk index (`local_data/cache/` -> `public/mock-pdf-chunks.json`), Algolia search integration, and `$0` Google Workspace for Nonprofits Sheet + `upcoming_workshop.json` configuration (`docs/workshop-sheets/`).
 
 ---
 
@@ -53,17 +53,20 @@ HEMS-website/
 │   └── manager/             # Standalone local Workshop Manager (Port 4000)
 └── src/
     └── frontend/            # Public Next.js web application (Port 3000)
-        ├── content/         # Scoped Markdown content collections (Decap CMS)
         ├── public/          # Lightweight static web assets & search indices
-        ├── scripts/         # Pre-build Zod validation, indexing & GCS push scripts
+        ├── scripts/         # Pre-build Zod validation, indexing, Sheet sync & GCS push scripts
         └── src/
             ├── app/         # App Router pages & portals
             │   ├── (portal)/# Attendee & role-gated areas (Admin, Board, Reviewer)
-            │   ├── about/   # Official Mission, Objectives & 1999–present History
-            │   ├── archive/ # Dynamic 1999–2025 proceedings search & viewer
+            │   ├── about/   # Official Mission & Core Strategic Objectives
+            │   ├── history/ # 1999–present Workshop & Society History
+            │   ├── student-awards/        # Student Travel Awards guidelines & criteria
+            │   ├── corporate-sponsorship/ # Evergreen Corporate Sponsorship & partner registry
+            │   ├── archive/ # Dynamic 1999–2025 proceedings search & viewer (LOCKED)
             │   └── contact/ # Society & sponsorship inquiry hub
-            ├── components/  # Modular UI components
-            └── data/        # Master JSON datasets and workshop archives
+            ├── components/  # Modular UI & workshop-cycle components
+            ├── hooks/       # Custom React hooks (live Google Sheet / JSON hydration)
+            └── data/        # Master JSON datasets, upcoming_workshop.json & archives
 ```
 
 ---

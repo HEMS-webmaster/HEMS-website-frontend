@@ -755,3 +755,64 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 - **Firewall & Lock Check**:
   - Zero reads on `docs/logs/thought_trace.md`.
   - Zero edits on `src/frontend/src/app/archive/**` or archive JSONs.
+
+
+---
+
+## [2026-11-10] SCoT Trace — Brainstorm: Archive-Only Local Manager, Multi-User CMS (Google Sheets vs Decap CMS), and Free Private Staging (@dev -> @prod, @arch, @ops)
+- **Protocol Check (`scrumrules.md` Rules #8 & #9)**:
+  - `@bo` typed `@dec` (clear typo for `@dev`) with speculative/brainstorming questions (*"I'm thinking of keeping... Perhaps a simpler interface via google forms or sheets... Perhaps I should just lean on the Decap CMS? ... suggest a way to privately host the website"*).
+  - Per Rule #8 (Misroute) and Rule #9 (Speculation), `@dev` briefly acknowledges its `src/` implementation scope and routes the analysis to `@prod`, `@arch`, and `@ops`. Zero code files modified.
+- **Technical Findings Grounding the Analysis**:
+  1. Keep `localhost:4000` Workshop Manager strictly for historical Proceedings Archive curation (PDF ingestion, GCS sync, sponsor registry)—clean separation of concerns.
+  2. Decap CMS is already scaffolded in `src/frontend/public/admin/index.html` + `config.yml` (`backend: test-repo`) and viewable immediately in sandbox mode at `http://localhost:3000/admin/index.html` (with user guide at `docs/decap_cms_guide.html`). However, two caveats exist before using it in production:
+     - Static export route collision: `src/app/(portal)/admin/page.tsx` overwrites `out/admin/index.html` during `npm run build` (easy fix: move Decap CMS to `/cms/`).
+     - React `.tsx` pages currently render hardcoded JSX rather than importing `content/pages/*.md`, and production multi-user editing in Decap CMS requires GitHub accounts for every committee editor plus an OAuth proxy.
+  3. Google Sheets (inside HEMS's free Google Workspace for Nonprofits) vs. Decap CMS:
+     - A structured Google Sheet (`Upcoming_Workshop` config tab + Ingestion Checklist tab) gives zero-training multi-user access using existing Google Nonprofits accounts at `$0/mo`, with zero GitHub account friction for rotating volunteer Workshop Chairs.
+  4. Private Hosting (`$0` Free Tier):
+     - **Firebase Hosting Preview Channels** (`firebase hosting:channel:deploy preview --expires 30d` on existing `hems-workshop` Spark project): instant unlisted capability URL (`https://hems-workshop--preview-<random>.web.app`), `$0`, zero new accounts.
+     - **Cloudflare Pages + Cloudflare Access (Zero Trust Free Tier)**: adds a true email-PIN or Google Workspace login wall in front of the entire staging site (`$0` up to 50 users).
+     - **IDE Private Port Forwarding** (`localhost:3000`): instant zero-deploy private preview while local server is running.
+
+
+---
+
+## [2026-11-10] SCoT Trace — Product Evaluation: Why Decap CMS Was Blank & Whether to Retire Decap in Favor of Google Sheets/Forms (@prod, @arch)
+- **Protocol Check (`scrumrules.md` Rules #7 & #9)**:
+  - `@bo` addressed `@prod` in a strategic product brainstorm (*"debating in my head if the Decap CMS is worth keeping"*). Interpret typos cleanly (*leaning toward*, *debating*). Perform zero code modifications during brainstorm; log SCoT first.
+- **Root Cause of Blank Decap Fields**:
+  - `src/frontend/public/admin/config.yml` currently sets `backend: { name: test-repo }`, which initializes an empty in-memory browser store rather than reading `src/frontend/content/pages/*.md` from disk (`local_backend: true` + `npx decap-server`) or GitHub (`backend: { name: github }`). Furthermore, `.tsx` pages do not yet consume `content/pages/*.md`, and Decap's preview pane only renders unstyled fields unless custom preview templates are maintained.
+- **Product Value Assessment (`@prod`)**:
+  - Website content splits cleanly into three buckets:
+    1. Evergreen Society pages (`About`, `History`, `Corporate Sponsorship`, `Contact`, `Formatting Guidelines`) — rarely change across years.
+    2. Historical Proceedings Archives — handled by Local Workshop Manager (`localhost:4000`).
+    3. Biennial Upcoming Workshop parameters (edition, Sept 2027 dates, hotel/rates, CFP/registration/student-award deadlines & URLs, announcements) — structured key-value data edited by rotating volunteer scientists.
+  - Requiring GitHub accounts + OAuth infrastructure for Decap CMS creates unnecessary onboarding friction for volunteer committee members while offering poor ROI for structured dates/rates.
+  - **Recommendation**: Retire Decap CMS cleanly (Git history preserves it if ever needed), keep `localhost:4000` strictly for Archives, and use a shared **Google Sheet** (in HEMS's `$0` Google Workspace for Nonprofits) paired with a local/build-time `upcoming_workshop.json` snapshot + **Google Forms** for intake.
+
+
+---
+
+## [2026-11-10] SCoT Trace — Auto-Advance Execution: Retire Decap CMS & Implement Google Sheets + Static JSON Upcoming Workshop System (@arch, @dev, @qa, @brand, @ops)
+- **Directive from `@bo`**: Develop architectural plan and auto-advance through all recommended steps:
+  1. Retire Decap CMS (`src/frontend/public/admin/`, `src/frontend/content/`, `docs/decap_cms_guide.html`, and unused `gray-matter` dependency if appropriate).
+  2. Keep Local Workshop Manager (`localhost:4000`) strictly for historical Proceedings Archives & Sponsor Registry.
+  3. Build the `$0` Google Nonprofits / Firebase Spark "Upcoming Workshop" configuration architecture seeded for the **16th HEMS Workshop (September 2027)** (`src/frontend/src/data/upcoming_workshop.json` + custom hook `src/frontend/src/hooks/useUpcomingWorkshop.ts` + RFC-4180 CSV parser `src/frontend/src/utils/upcomingWorkshop.ts` + CLI sync script `src/frontend/scripts/sync-workshop-sheet.js`).
+  4. Wire all 8 public/portal workshop-cycle surfaces (`Home`, `Student Travel Awards`, `Contact`, `Portal Overview`, `Call for Papers`, `Registration`, `Accommodations`, `Corporate Sponsorship`) so static builds render SEO-complete 16th Workshop (Sept 2027) defaults on frame 0 and hydrate live updates when a published Google Sheet CSV URL is configured.
+  5. Deliver ready-to-import Google Sheet CSV templates (`1_Workshop_Config.csv` and `2_Website_Ingestion_Checklist.csv`) plus a concise committee & private-staging setup guide in `docs/workshop-sheets/`.
+- **Firewall & Rule Compliance**:
+  - Zero reads on `docs/logs/thought_trace.md`.
+  - Zero modifications to `src/frontend/src/app/archive/**` or archive JSONs.
+  - Zero `any` types (`scrumrules.md` Rule #5.2); custom hook in `src/frontend/src/hooks/` (Rule #5.3); `try/catch` around all async calls with meaningful error logging (Rule #5.4).
+
+## [2026-11-10T11:56:30-07:00] Step 5 Verification & Deployment Gate (@qa, @brand, @rte, @ops)
+- **@qa Verification:**
+  - Executed `node tests/unit/upcomingWorkshopCsv.test.mjs`: PASS (`0` exit code) — 100% key parity across `upcoming_workshop.json` (40 keys), `docs/workshop-sheets/1_Workshop_Config.csv` (40 keys), and `docs/workshop-sheets/2_Website_Ingestion_Checklist.csv` (8 surfaces), plus RFC-4180 quoted comma/newline CSV parsing and fallback resilience.
+  - Executed `npm --prefix src/frontend run sync:workshop`: PASS (`0` exit code) — graceful no-op when `sheet_csv_url` is empty.
+  - Executed `npx next typegen` and `npx tsc --noEmit` in `src/frontend`: PASS (`0` exit code, zero `any` types).
+  - Verified archive immutability lock: `git diff b6a0075 -- src/frontend/src/app/archive src/frontend/src/data/archives src/frontend/src/data/master_workshops.json` produced `0` diff lines.
+- **@brand & HTTP Probe Verification:**
+  - Probed all 8 dynamic workshop surfaces (`/`, `/student-awards/`, `/contact/`, `/layout-portal/`, `/call-for-papers/`, `/registration/`, `/accommodations/`, `/corporate-sponsorship/`), `/admin/`, and `http://localhost:4000/`: all returned HTTP `200 OK`.
+  - Confirmed zero remaining references to `decap-cms`, `/admin/config.yml` (`404` as expected), `HEMS Store` / `shop.hems-workshop.org`, or expired 2025 `hems2025.exordo.com` / `marriott.com/event-reservations` links.
+- **@rte Deployment Gate:** `[PASS]` tags verified across `@qa`, `@brand`, and `@arch`. Handing off to `@ops` for local Git commit on `main` (without pushing to `origin/main` so live production remains untouched until `@bo` reviews).

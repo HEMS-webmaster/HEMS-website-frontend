@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, Globe, Database, Cpu, FileText, Anchor, Compass, Info } from "lucide-react";
+import { ArrowRight, Globe, Database, Cpu, FileText, Anchor, Compass } from "lucide-react";
+import UpcomingHeroBadge from "@/components/workshop/UpcomingHeroBadge";
 
 export default function Home() {
   return (
@@ -20,10 +21,7 @@ export default function Home() {
                   alt="HEMS Logo" 
                   className="w-32 h-32 object-contain rounded-xl border border-foreground/15 mix-blend-multiply bg-white p-2 shadow-md hover:scale-105 transition-transform" 
                 />
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono self-start sm:self-auto">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                  Latest Proceedings: 15th HEMS Workshop • Virginia Beach
-                </div>
+                <UpcomingHeroBadge />
               </div>
               
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight mb-6 uppercase leading-tight">

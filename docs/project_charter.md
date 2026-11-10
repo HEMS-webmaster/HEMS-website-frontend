@@ -21,7 +21,7 @@ The HEMS Web Platform serves as both the public symposium portal and the canonic
 | **Auth & Database** | Firebase Authentication + Cloud Firestore | Role-Based Access Control (`admin`, `board`, `reviewer`, `submitter`, `attendee`, `general`), whitelist sync, and daily download quotas. |
 | **Serverless Backend** (`functions/`) | Firebase Cloud Functions v2 (Node.js 22, TypeScript) | 2nd-Gen Firestore triggers synchronizing user whitelist roles. |
 | **Proceedings Storage** | Google Cloud Storage (`gs://hems-workshop-archives/`) + `local_data/` | 15 workshops (1999–2025), 1,590 proceeding PDFs/previews (1.68 GB), and 91 master corporate sponsor logos. |
-| **Search & CMS** | Page-Level PDF Chunk Index / Algolia + Decap CMS (`/admin`) | Deep slide/abstract full-text search and strictly scoped Markdown editorial configuration (`src/frontend/content/`). |
+| **Search & Cycle Config** | Page-Level PDF Chunk Index / Algolia + Google Sheets / `upcoming_workshop.json` | Deep slide/abstract full-text search and `$0` Google Workspace for Nonprofits multi-user configuration for upcoming biennial workshops. |
 
 ---
 

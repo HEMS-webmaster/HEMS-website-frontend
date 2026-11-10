@@ -13,6 +13,7 @@ import {
   ArrowRight,
   Award,
 } from "lucide-react";
+import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 
 interface InquiryFormState {
   firstName: string;
@@ -23,6 +24,10 @@ interface InquiryFormState {
 }
 
 export default function Contact() {
+  const { workshop } = useUpcomingWorkshop();
+  const coordinatorEmail = workshop.sponsor_coordinator_email;
+  const coordinatorName = workshop.sponsor_coordinator_name;
+
   const [form, setForm] = useState<InquiryFormState>({
     firstName: "",
     lastName: "",
@@ -45,7 +50,7 @@ export default function Contact() {
     const fullName = `${form.firstName} ${form.lastName}`.trim();
     const recipient =
       form.subject === "Sponsorship & Billing Inquiries"
-        ? "rtshort00@gmail.com"
+        ? coordinatorEmail
         : "info@hems-workshop.org";
 
     const bodyLines = [
@@ -73,7 +78,7 @@ export default function Contact() {
           Contact <span className="text-primary border-b-4 border-primary">HEMS</span>
         </h1>
         <p className="text-xl text-foreground/70 max-w-2xl">
-          Get in touch with the HEMS Society organizing committee regarding biennial workshops, proceedings,{" "}
+          Get in touch with the HEMS Society organizing committee regarding the {workshop.workshop_ordinal} Workshop ({workshop.target_window}), proceedings,{" "}
           <Link href="/corporate-sponsorship" className="text-primary font-semibold hover:underline">
             corporate sponsorships
           </Link>
@@ -99,13 +104,13 @@ export default function Contact() {
                   <a
                     href={
                       form.subject === "Sponsorship & Billing Inquiries"
-                        ? "mailto:rtshort00@gmail.com"
+                        ? `mailto:${coordinatorEmail}`
                         : "mailto:info@hems-workshop.org"
                     }
                     className="underline font-mono font-semibold text-primary"
                   >
                     {form.subject === "Sponsorship & Billing Inquiries"
-                      ? "rtshort00@gmail.com"
+                      ? coordinatorEmail
                       : "info@hems-workshop.org"}
                   </a>{" "}
                   directly.
@@ -237,10 +242,15 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-bold text-foreground">Corporate Sponsorship &amp; Billing</h3>
-                  <p className="text-xs text-foreground/70 mb-1">Coordinator: Tim Short (custom invoices &amp; split billing)</p>
+                  <p className="text-xs text-foreground/70 mb-1">
+                    Coordinator: {coordinatorName} (custom invoices &amp; split billing)
+                  </p>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                    <a href="mailto:rtshort00@gmail.com" className="text-primary font-mono text-sm hover:underline">
-                      rtshort00@gmail.com
+                    <a
+                      href={`mailto:${coordinatorEmail}`}
+                      className="text-primary font-mono text-sm hover:underline"
+                    >
+                      {coordinatorEmail}
                     </a>
                     <Link
                       href="/corporate-sponsorship"
@@ -257,16 +267,47 @@ export default function Contact() {
                   <MapPin size={22} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-foreground">Most Recent Symposium Venue (15th Workshop)</h3>
-                  <p className="text-xs text-foreground/70 mb-1">Sheraton Virginia Beach Oceanfront Hotel • Sept 15–18, 2025</p>
-                  <a
-                    href="https://maps.app.goo.gl/iryzq94Cg5gTFS2J7"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-primary font-mono text-xs hover:underline"
-                  >
-                    3501 Atlantic Ave, Virginia Beach, VA 23451 <ExternalLink size={12} />
-                  </a>
+                  {workshop.venue_confirmed ? (
+                    <>
+                      <h3 className="font-bold text-foreground">
+                        Upcoming Symposium Venue ({workshop.workshop_ordinal} Workshop)
+                      </h3>
+                      <p className="text-xs text-foreground/70 mb-1">
+                        {workshop.hotel_name} • {workshop.exact_dates}
+                      </p>
+                      {workshop.hotel_maps_url ? (
+                        <a
+                          href={workshop.hotel_maps_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-primary font-mono text-xs hover:underline"
+                        >
+                          {workshop.hotel_address} <ExternalLink size={12} />
+                        </a>
+                      ) : (
+                        <span className="font-mono text-xs text-foreground/75">
+                          {workshop.hotel_address}
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="font-bold text-foreground">
+                        Upcoming {workshop.workshop_ordinal} Workshop ({workshop.target_window})
+                      </h3>
+                      <p className="text-xs text-foreground/70 mb-1.5">
+                        {workshop.venue_city_state} — Host beachfront hotel announcement forthcoming
+                      </p>
+                      <a
+                        href="https://maps.app.goo.gl/iryzq94Cg5gTFS2J7"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-foreground/55 font-mono text-[11px] hover:text-primary hover:underline"
+                      >
+                        Previous 15th Venue (2025): Sheraton Virginia Beach Oceanfront <ExternalLink size={11} />
+                      </a>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

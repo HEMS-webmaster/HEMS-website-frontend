@@ -135,6 +135,16 @@ Each workshop follows a 4-point protocol:
 
 ---
 
+### Phase 7: Decap CMS Retirement & Google Sheets Upcoming Workshop Config (Sept 2027) [COMPLETED]
+*Detailed Architectural Plan:* [docs/plans/2026-11-10-decap-retirement-and-google-sheets-workshop-config.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-10-decap-retirement-and-google-sheets-workshop-config.md)
+
+1. [x] **Decap CMS Retirement:** Removed `src/frontend/public/admin/`, `src/frontend/content/`, and `docs/decap_cms_guide.html`, resolving the `/admin` static build collision while keeping `tools/manager/` (`localhost:4000`) dedicated exclusively to historical Proceedings Archives.
+2. [x] **Canonical `upcoming_workshop.json` & Google Sheet Connector:** Created [`upcoming_workshop.json`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/data/upcoming_workshop.json) (seeded for the **16th HEMS Workshop • September 2027**), [`upcomingWorkshop.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/utils/upcomingWorkshop.ts), [`useUpcomingWorkshop.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/hooks/useUpcomingWorkshop.ts), and [`sync-workshop-sheet.js`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/scripts/sync-workshop-sheet.js).
+3. [x] **8-Surface Website Ingestion Wiring:** Wired `/`, `/student-awards`, `/contact`, `/layout-portal`, `/call-for-papers`, `/registration`, `/accommodations`, and `/corporate-sponsorship` to `useUpcomingWorkshop()` with clean `TBA` / `"Opening Soon"` lifecycle states (`0` edits to `src/app/archive/**`).
+4. [x] **Google Sheet Templates & Private Staging Guide:** Published ready-to-import [`1_Workshop_Config.csv`](file:///c:/AntigravityP1_2/HEMS-website/docs/workshop-sheets/1_Workshop_Config.csv), [`2_Website_Ingestion_Checklist.csv`](file:///c:/AntigravityP1_2/HEMS-website/docs/workshop-sheets/2_Website_Ingestion_Checklist.csv), and [`docs/workshop-sheets/README.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/workshop-sheets/README.md).
+
+---
+
 ## Verification Plan
 
 ### Automated Tests
