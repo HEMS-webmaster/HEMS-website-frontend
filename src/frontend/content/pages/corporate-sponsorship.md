@@ -19,5 +19,5 @@ Your registration as a corporate sponsor directly offsets the operational costs 
 
 ### Participation & Flexible Invoicing Options
 * **Standard Full Package ($1,350 USD):** Includes full corporate sponsorship benefits plus one (1) full attendee registration.
-* **Split-Payment Option ($850 + $500 USD):** Separates the $850 corporate sponsorship fee from the $500 attendee registration fee via `shop.hems-workshop.org` to accommodate internal corporate spending limits.
+* **Split-Payment Option ($850 + $500 USD):** Separates the $850 corporate sponsorship fee from the $500 attendee registration fee via direct coordinator invoicing (`rtshort00@gmail.com`) to accommodate internal corporate spending limits.
 * **Sponsor Only / Non-Attending ($850 USD):** Remote workshop support with arranged corporate poster display alongside full banner, program, and website recognition.

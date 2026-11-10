@@ -1,4 +1,5 @@
-import { CreditCard, Calendar, ShieldAlert, DollarSign, CheckCircle2, Building2, GraduationCap, UserCheck, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { CreditCard, Calendar, ShieldAlert, CheckCircle2, Building2, GraduationCap, UserCheck, ExternalLink } from "lucide-react";
 
 export const metadata = {
   title: "Workshop Registration - HEMS Workshop",
@@ -7,7 +8,6 @@ export const metadata = {
 
 export default function Registration() {
   const exOrdoRegUrl = "https://hems-workshop2025.exordo.com/registration/new";
-  const hemsShopUrl = "http://shop.hems-workshop.org";
 
   return (
     <>
@@ -126,14 +126,12 @@ export default function Registration() {
               </li>
             </ul>
           </div>
-          <a 
-            href={hemsShopUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link 
+            href="/corporate-sponsorship"
             className="w-full text-center bg-background border border-foreground/20 text-foreground py-2.5 rounded font-bold uppercase hover:bg-foreground/5 transition-colors mt-6 text-xs"
           >
-            Register Sponsor
-          </a>
+            Sponsorship Details
+          </Link>
         </div>
       </div>
 
@@ -189,7 +187,15 @@ export default function Registration() {
               Need to split standard corporate sponsor fees into separate sponsorship ($850) and registration ($500) items to meet organizational guidelines? 
             </p>
             <p className="text-xs text-foreground/70 leading-relaxed">
-              Visit our online store portal at `shop.hems-workshop.org` or contact Tim Short at `rtshort00@gmail.com` to organize customized billing invoice details.
+              Review full details on our{" "}
+              <Link href="/corporate-sponsorship" className="text-primary font-semibold hover:underline">
+                Corporate Sponsorship
+              </Link>{" "}
+              page or contact Tim Short at{" "}
+              <a href="mailto:rtshort00@gmail.com" className="text-primary font-mono hover:underline">
+                rtshort00@gmail.com
+              </a>{" "}
+              to organize customized billing invoice details.
             </p>
           </div>
 

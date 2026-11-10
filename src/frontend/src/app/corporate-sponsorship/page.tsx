@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   ArrowLeft,
   ArrowRight,
-  CreditCard,
 } from "lucide-react";
 import corporateRegistry from "@/data/corporate_registry.json";
 
@@ -83,7 +82,6 @@ function normalizeExternalUrl(rawUrl: string): string | null {
 }
 
 export default function CorporateSponsorshipPage() {
-  const hemsShopUrl = "http://shop.hems-workshop.org";
   const prospectusPdfUrl =
     "https://www.hems-workshop.org/15thWS/Corporate%20Sponsorship%20Information.pdf";
 
@@ -151,12 +149,10 @@ export default function CorporateSponsorshipPage() {
 
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
               <a
-                href={hemsShopUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:rtshort00@gmail.com?subject=HEMS%20Workshop%20Corporate%20Sponsorship%20Inquiry"
                 className="inline-flex items-center justify-center gap-2 bg-primary text-background font-bold px-6 py-3.5 rounded-lg hover:bg-primary/90 transition-all shadow-sm uppercase tracking-wide text-xs"
               >
-                <CreditCard size={15} /> Register via HEMS Store <ExternalLink size={13} />
+                <Mail size={15} /> Contact Sponsorship Coordinator
               </a>
               <a
                 href={prospectusPdfUrl}
@@ -295,16 +291,14 @@ export default function CorporateSponsorshipPage() {
             </div>
 
             <p className="text-xs text-foreground/60 font-mono mt-4">
-              * Standard biennial workshop reference rates shown above. Active workshop cycle registrations and split-payment selections are processed through{" "}
+              * Standard biennial workshop reference rates shown above. Active workshop cycle sponsorship registrations and split-payment invoices are coordinated directly with our Sponsorship Coordinator (
               <a
-                href={hemsShopUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:rtshort00@gmail.com"
                 className="text-primary hover:underline"
               >
-                shop.hems-workshop.org
-              </a>{" "}
-              or by direct coordinator invoice.
+                rtshort00@gmail.com
+              </a>
+              ).
             </p>
           </section>
         </div>
@@ -363,16 +357,14 @@ export default function CorporateSponsorshipPage() {
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 size={16} className="text-secondary shrink-0 mt-0.5" />
                 <span>
-                  <strong>1. Select Package:</strong> Register online via the{" "}
+                  <strong>1. Select Package &amp; Coordinate Billing:</strong> Contact Tim Short (
                   <a
-                    href={hemsShopUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary font-semibold hover:underline"
+                    href="mailto:rtshort00@gmail.com"
+                    className="text-primary font-semibold hover:underline font-mono"
                   >
-                    HEMS Workshop Store
-                  </a>{" "}
-                  or request a split/custom invoice from Tim Short.
+                    rtshort00@gmail.com
+                  </a>
+                  ) to arrange standard sponsorship registration or split invoicing.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">

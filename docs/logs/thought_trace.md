@@ -740,3 +740,18 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Promote `src/frontend/src/app/(portal)/student-awards/page.tsx` -> `src/frontend/src/app/student-awards/page.tsx` and delete `(portal)/student-awards/`.
   - Remove `Student Awards` from `portalLinks` in `src/frontend/src/app/(portal)/layout.tsx`.
   - Add `Student Travel Awards` (`/student-awards`) to `src/frontend/src/components/layout/Navbar.tsx` (with clean responsive horizontal spacing) and `Footer.tsx`, register `/student-awards` in `sitemap.ts`, and add `content/pages/student-awards.md` + `public/admin/config.yml` entry for CMS parity.
+
+
+---
+
+## [2026-11-10] SCoT Trace — Remove Non-Existent HEMS Store References & Propose Local Sept 2027 Workshop Form (@dev, @arch, @prod, @qa, @ops)
+- **User Request Analysis**:
+  1. Concrete execution task for `@dev`: Remove all mentions of the non-existent `HEMS Store` / `Workshop Store` / `http://shop.hems-workshop.org`.
+  2. Architectural brainstorm/suggestion (`scrumrules.md` Rules #8 & #9): Suggest a local form workflow to enter upcoming 16th HEMS Workshop (Sept 2027) details, paired with a checklist/map of website pages that ingest those updates, staying strictly within Google Nonprofits / Firebase free tier (`$0/mo`). Per Rule #9, treat Part 2 strictly as an architectural proposal with pros/cons and exact ingestion mapping—do not write form code until `@bo` approves.
+- **Audit of Store / Shop References (`src/frontend/`)**:
+  - `src/frontend/src/app/corporate-sponsorship/page.tsx`: lines 86 (`hemsShopUrl`), 154–159 (`Register via HEMS Store`), 300–305 (`shop.hems-workshop.org`), 368–373 (`HEMS Workshop Store`). Replace with direct coordinator inquiry (`rtshort00@gmail.com` / `/contact?topic=sponsorship`).
+  - `src/frontend/src/app/(portal)/registration/page.tsx`: lines 10 (`hemsShopUrl`), 130 (`Register Sponsor`), 192 (`online store portal at shop.hems-workshop.org`). Point `Register Sponsor` CTA to `/corporate-sponsorship` and direct split-billing inquiries to Tim Short (`rtshort00@gmail.com`).
+  - `src/frontend/content/pages/corporate-sponsorship.md` & `src/frontend/content/pages/registration.md`: strip `shop.hems-workshop.org` references.
+- **Firewall & Lock Check**:
+  - Zero reads on `docs/logs/thought_trace.md`.
+  - Zero edits on `src/frontend/src/app/archive/**` or archive JSONs.
