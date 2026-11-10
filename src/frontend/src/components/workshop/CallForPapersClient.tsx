@@ -29,15 +29,50 @@ export default function CallForPapersClient() {
   return (
     <>
       {/* Page Header */}
-      <header className="mb-12 border-b border-foreground/10 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-4">
-          <FileText size={16} /> Technical Submissions • {workshop.workshop_ordinal} Workshop
+      <header className="mb-10 border-b border-slate-200 pb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
+          <FileText size={14} className="text-primary" /> Technical Submissions • {workshop.workshop_ordinal} Workshop
         </div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">Call for Papers</h1>
-        <p className="text-foreground/70">
+        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
+          Call for Papers
+        </h1>
+        <p className="text-slate-600 text-sm sm:text-base">
           Abstract submission guidelines and core research areas for oral presentations and poster sessions at the {workshop.workshop_ordinal} HEMS Workshop ({workshop.target_window}).
         </p>
       </header>
+
+      {/* Representative Presentation Graphics Strip */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
+        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-4">
+          <img
+            src="/images/gallery/serpa-cycloidal-ion-trajectories.jpg"
+            alt="Cycloidal mass analyzer spiral ion trajectory simulation from 15th HEMS Workshop proceedings"
+            className="w-28 h-24 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
+            loading="lazy"
+          />
+          <figcaption className="text-xs text-slate-600 leading-relaxed">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
+              Analyzer Physics • 15th WS Proceedings
+            </span>
+            Ion-optics modeling, novel analyzer geometries, and onboard spectral algorithms.
+          </figcaption>
+        </figure>
+
+        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-4">
+          <img
+            src="/images/gallery/amerom-moma-mars-ms-cad.jpg"
+            alt="Mars Organic Molecule Analyzer 3D CAD assembly from 14th HEMS Workshop proceedings"
+            className="w-28 h-24 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
+            loading="lazy"
+          />
+          <figcaption className="text-xs text-slate-600 leading-relaxed">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
+              Flight &amp; Field Hardware • 14th WS Proceedings
+            </span>
+            Integrated low-SWaP vacuum, inlet, and analyzer engineering for extreme environments.
+          </figcaption>
+        </figure>
+      </div>
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

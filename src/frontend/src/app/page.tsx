@@ -71,6 +71,10 @@ const CHARTER_PILLARS = [
     description:
       "Deploying mass spectrometers directly into extreme natural regimes—from deep-ocean hydrothermal vents and polar waters to volcanic plumes, stratospheric aircraft, and lunar or Martian landers.",
     tags: ["Deep-Sea MIMS", "Planetary Payloads", "Volcanic & Atmospheric"],
+    image: "/images/gallery/fox-volcanic-fumarole-ms.jpg",
+    imageAlt: "Investigator operating a backpack-portable mass spectrometer inside an active volcanic sulfur fumarole",
+    imageFit: "cover" as const,
+    credit: "15th HEMS WS • Volcanic Fumarole MS",
   },
   {
     index: "02",
@@ -78,6 +82,10 @@ const CHARTER_PILLARS = [
     description:
       "Engineering compact ion sources, rectilinear and toroidal ion traps, portable time-of-flight and sector analyzers, harsh-environment membrane inlets, and low-SWaP vacuum systems.",
     tags: ["Low-SWaP Vacuum", "Portable Analyzers", "Harsh Inlets"],
+    image: "/images/gallery/raith-spaceflight-orbitrap-cad.jpg",
+    imageAlt: "Cross-section engineering schematic of a spaceflight pulsed-UV laser desorption Orbitrap mass spectrometer",
+    imageFit: "contain" as const,
+    credit: "15th HEMS WS • Spaceflight LD-Orbitrap",
   },
   {
     index: "03",
@@ -85,6 +93,37 @@ const CHARTER_PILLARS = [
     description:
       "Advancing uncrewed underwater and aerial sensing, real-time onboard spectral deconvolution, environmental forensics, industrial process monitoring, and chemical defense readiness.",
     tags: ["AUV / UAV Sensing", "Onboard Deconvolution", "Environmental & Defense"],
+    image: "/images/gallery/coppin-icefin-underice-rov.jpg",
+    imageAlt: "Icefin autonomous under-ice vehicle carrying an underwater mass spectrometer beneath polar sea ice",
+    imageFit: "cover" as const,
+    credit: "15th HEMS WS • Icefin Under-Ice ROV",
+  },
+];
+
+const SYMPOSIUM_CULTURE = [
+  {
+    tag: "Coastal Tradition",
+    title: "Oceanfront Symposium Venues",
+    caption:
+      "True to our motto—just because our instruments operate in harsh environments doesn't mean we have to meet in one—workshops convene at relaxed coastal locations such as Virginia Beach, Myrtle Beach, Cocoa Beach, and Santa Barbara.",
+    image: "/images/gallery/virginia-beach-boardwalk-2025.jpg",
+    alt: "Oceanfront boardwalk, beach sand, and coastal dunes at the 2025 Virginia Beach HEMS Workshop",
+  },
+  {
+    tag: "Academic Depth",
+    title: "Single-Track Technical Candor",
+    caption:
+      "With zero parallel sessions, academic pioneers, national-lab scientists, space-agency engineers, and graduate students sit in one room—sharing both breakthroughs and real field setbacks.",
+    image: "/images/gallery/single-track-session-2019.jpg",
+    alt: "Attendees gathered together in a single-track oral technical presentation at the HEMS Workshop",
+  },
+  {
+    tag: "Casual Fellowship",
+    title: "Hawaiian Shirts & Open Collaboration",
+    caption:
+      "Since 2001, shorts and Hawaiian shirts have been the unofficial workshop attire—fostering unhurried conversations across academia, government, and instrumentation partners.",
+    image: "/images/gallery/oceanfront-reception-2025.jpg",
+    alt: "HEMS Workshop participants in Hawaiian shirts conversing inside an oceanfront reception room overlooking the beach",
   },
 ];
 
@@ -351,27 +390,46 @@ export default function Home() {
             {CHARTER_PILLARS.map((pillar) => (
               <article
                 key={pillar.index}
-                className="bg-white border border-slate-200/90 rounded-xl p-7 hover:border-primary/40 transition-colors shadow-2xs flex flex-col justify-between"
+                className="bg-white border border-slate-200/90 rounded-xl overflow-hidden hover:border-primary/40 transition-colors shadow-2xs flex flex-col justify-between"
               >
                 <div>
-                  <span className="font-mono text-xs font-semibold text-secondary tracking-widest block mb-4">
-                    {pillar.index} / DOMAIN
-                  </span>
-                  <h3 className="font-serif text-xl font-semibold text-slate-900 leading-snug mb-3">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{pillar.description}</p>
+                  <div className="relative h-44 bg-white border-b border-slate-100 overflow-hidden">
+                    <img
+                      src={pillar.image}
+                      alt={pillar.imageAlt}
+                      className={`w-full h-full ${
+                        pillar.imageFit === "contain"
+                          ? "object-contain p-3 bg-white"
+                          : "object-cover"
+                      }`}
+                      loading="lazy"
+                    />
+                    <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-slate-900/75 backdrop-blur-xs text-[9.5px] font-mono text-white">
+                      {pillar.credit}
+                    </span>
+                  </div>
+                  <div className="p-6 pb-0">
+                    <span className="font-mono text-xs font-semibold text-secondary tracking-widest block mb-2.5">
+                      {pillar.index} / DOMAIN
+                    </span>
+                    <h3 className="font-serif text-xl font-semibold text-slate-900 leading-snug mb-2.5">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">{pillar.description}</p>
+                  </div>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5 mt-6 pt-4 border-t border-slate-100">
-                  {pillar.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="font-mono text-[10px] px-2.5 py-1 rounded-md bg-slate-50 text-slate-600 border border-slate-200/70"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="px-6 pb-6">
+                  <div className="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-slate-100">
+                    {pillar.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="font-mono text-[10px] px-2.5 py-1 rounded-md bg-slate-50 text-slate-600 border border-slate-200/70"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </article>
             ))}
@@ -379,15 +437,72 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 4: OPEN-ACCESS REPOSITORY & SOCIETY PARTICIPATION */}
-      <section className="py-18 sm:py-22 bg-white">
+      {/* SECTION 4: SYMPOSIUM CULTURE — CASUAL, COASTAL & ACADEMIC */}
+      <section className="py-18 sm:py-22 bg-white border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div className="max-w-2xl">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-secondary block mb-2">
+                02 — The Symposium Spirit
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+                Rigorous Field Science, Relaxed Coastal Camaraderie
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-3">
+                Since 1999, HEMS has paired deep technical discourse with beachfront venues and informal attire—creating an open atmosphere where investigators freely exchange hard-won engineering lessons.
+              </p>
+            </div>
+            <Link
+              href="/history"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline shrink-0"
+            >
+              <span>Explore Our Beachfront Tradition</span>
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {SYMPOSIUM_CULTURE.map((item) => (
+              <figure
+                key={item.title}
+                className="bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-3.5 shadow-2xs flex flex-col justify-between"
+              >
+                <div>
+                  <div className="overflow-hidden rounded-xl border border-slate-200/70 bg-slate-100">
+                    <img
+                      src={item.image}
+                      alt={item.alt}
+                      className="w-full h-52 object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <figcaption className="pt-4 px-1.5 pb-1">
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary block mb-1">
+                      {item.tag}
+                    </span>
+                    <h3 className="font-serif text-lg font-semibold text-slate-900 mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-[13.5px] text-slate-600 leading-relaxed">
+                      {item.caption}
+                    </p>
+                  </figcaption>
+                </div>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5: OPEN-ACCESS REPOSITORY & SOCIETY PARTICIPATION */}
+      <section className="py-18 sm:py-22 bg-[#FAFBFD]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
             {/* Left 7 Columns: 15th Workshop Proceedings Spotlight */}
             <div className="lg:col-span-7 space-y-6">
               <div>
                 <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
-                  02 — Open-Access Digital Archive (1999–2025)
+                  03 — Open-Access Digital Archive (1999–2025)
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
                   Recent Highlights from the 15th Workshop

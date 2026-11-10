@@ -40,19 +40,47 @@ export default function PortalOverviewClient() {
 
   return (
     <>
-      <header className="mb-12 border-b border-foreground/10 pb-8 flex items-center justify-between gap-6">
+      <header className="mb-10 border-b border-slate-200 pb-8 flex items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">HEMS Workshop Portal</h1>
-          <p className="text-foreground/70">
-            Central hub for {workshop.workshop_ordinal} Workshop ({workshop.target_window}) planning, authors, attendees, and sponsors.
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-primary block mb-1.5">
+            Biennial Symposium Hub • {workshop.target_window}
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
+            {workshop.workshop_ordinal} HEMS Workshop Overview
+          </h1>
+          <p className="text-slate-600 text-sm sm:text-base">
+            Central hub for {workshop.workshop_ordinal} Workshop ({workshop.target_window}) planning, authors, attendees, and corporate sponsors.
           </p>
         </div>
         <img
           src="/hemslogo.jpg"
           alt="HEMS Logo"
-          className="w-16 h-16 object-contain rounded-lg border border-foreground/10 mix-blend-multiply bg-white p-1 hidden sm:block"
+          className="w-16 h-16 object-contain rounded-lg border border-slate-200 mix-blend-multiply bg-white p-1 hidden sm:block"
         />
       </header>
+
+      {/* Coastal Symposium Visual Banner */}
+      <figure className="mb-8 bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-2xs grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+        <div className="md:col-span-5 overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
+          <img
+            src="/images/gallery/oceanfront-reception-2025.jpg"
+            alt="Attendees conversing in Hawaiian shirts inside the oceanfront ballroom at the 15th HEMS Workshop"
+            className="w-full h-44 object-cover"
+            loading="eager"
+          />
+        </div>
+        <figcaption className="md:col-span-7 px-2 py-1 space-y-2">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary block">
+            Casual • Beachfront • Single-Track
+          </span>
+          <h2 className="font-serif text-xl font-semibold text-slate-900">
+            An Informal Coastal Forum for Field Mass Spectrometrists
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Every two years, HEMS gathers instrument designers, field chemists, students, and industry partners at a relaxed coastal venue—combining single-track oral sessions and hardware demonstrations with unhurried beachfront networking.
+          </p>
+        </figcaption>
+      </figure>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Center Column: Latest Updates & Data */}

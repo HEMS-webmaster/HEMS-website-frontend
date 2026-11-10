@@ -100,67 +100,83 @@ export default function CorporateSponsorshipClient() {
       </div>
 
       {/* Page Header */}
-      <header className="mb-14 pb-8 border-b border-foreground/10">
+      <header className="mb-14 pb-8 border-b border-slate-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
-              <ShieldCheck size={14} />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
+              <ShieldCheck size={14} className="text-primary" />
               All-Volunteer 501(c)(3) Scientific Forum • Biennial Workshop
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-foreground mb-4">
-              Corporate <span className="text-primary border-b-4 border-primary">Sponsorship</span>
+            <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">
+              Corporate <span className="text-primary italic font-normal">Sponsorship</span>
             </h1>
-            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-sans">
+            <p className="text-base md:text-lg text-slate-600 leading-relaxed font-sans">
               The HEMS Workshop is an all-volunteer organization that provides an open forum to bridge the gap between academic, industrial, and government circles. With no formal membership or membership fee, each biennial workshop is independently funded through donations, registration fees, and corporate sponsors.
             </p>
           </div>
-          <div className="flex flex-col items-center p-4 bg-surface/60 border border-foreground/10 rounded-2xl shadow-sm self-start md:self-center">
+          <div className="flex flex-col items-center p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center">
             <img
               src="/hemslogo.jpg"
               alt="HEMS Society Official Logo"
-              className="w-28 h-28 object-contain rounded-xl border border-foreground/10 mix-blend-multiply bg-white p-2"
+              className="w-24 h-24 object-contain rounded-xl mix-blend-multiply bg-white p-1.5"
             />
-            <span className="text-[11px] font-mono text-foreground/60 mt-2">Industry Partnership</span>
+            <span className="text-[11px] font-mono text-slate-500 mt-1.5">Industry Partnership</span>
           </div>
         </div>
       </header>
 
       {/* Mission Impact & Student Travel Support Banner */}
       <section className="mb-16">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-surface to-background border-2 border-primary/30 p-8 md:p-10 shadow-lg">
-          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-            <div className="max-w-3xl">
-              <div className="flex items-center gap-2.5 text-secondary font-mono text-xs font-bold uppercase tracking-widest mb-3">
-                <GraduationCap size={18} /> Sustaining the Harsh-Environment MS Community
+        <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/95 p-8 md:p-10 shadow-xs">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-7 space-y-3">
+              <div className="flex items-center gap-2 text-secondary font-mono text-xs font-semibold uppercase tracking-widest">
+                <GraduationCap size={17} /> Sustaining the Harsh-Environment MS Community
               </div>
-              <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-foreground mb-3">
+              <h2 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">
                 Offsetting Symposium Costs &amp; Funding Student Travel Awards
               </h2>
-              <p className="text-base md:text-lg text-foreground/85 leading-relaxed font-sans">
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-sans">
                 Your registration as a corporate sponsor directly offsets the operational costs of hosting the workshop and is instrumental in helping the HEMS Society provide competitive{" "}
                 <Link href="/student-awards" className="text-primary font-semibold hover:underline">
                   Student Travel Awards
                 </Link>{" "}
                 to emerging graduate researchers.
               </p>
+              <div className="flex flex-wrap gap-3 pt-2">
+                <a
+                  href={`mailto:${coordinatorEmail}?subject=HEMS%20Workshop%20Corporate%20Sponsorship%20Inquiry`}
+                  className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-5 py-3 rounded-lg hover:bg-sky-800 transition-colors shadow-xs text-sm"
+                >
+                  <Mail size={15} /> Contact Sponsorship Coordinator
+                </a>
+                <a
+                  href={prospectusPdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-800 font-semibold px-5 py-3 rounded-lg hover:border-primary hover:text-primary transition-colors shadow-2xs text-sm"
+                >
+                  <Download size={15} /> Download Sponsorship Info (PDF)
+                </a>
+              </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
-              <a
-                href={`mailto:${coordinatorEmail}?subject=HEMS%20Workshop%20Corporate%20Sponsorship%20Inquiry`}
-                className="inline-flex items-center justify-center gap-2 bg-primary text-background font-bold px-6 py-3.5 rounded-lg hover:bg-primary/90 transition-all shadow-sm uppercase tracking-wide text-xs"
-              >
-                <Mail size={15} /> Contact Sponsorship Coordinator
-              </a>
-              <a
-                href={prospectusPdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-background border border-foreground/20 text-foreground font-bold px-6 py-3.5 rounded-lg hover:border-primary hover:text-primary transition-all shadow-sm uppercase tracking-wide text-xs"
-              >
-                <Download size={15} /> Download Sponsorship Info (PDF)
-              </a>
-            </div>
+            <figure className="lg:col-span-5 bg-[#FAFBFD] border border-slate-200/90 rounded-xl p-3">
+              <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
+                <img
+                  src="/images/gallery/hardware-demo-hawaiian-shirts-2025.jpg"
+                  alt="Workshop participants in Hawaiian shirts examining a live portable mass spectrometer exhibition unit"
+                  className="w-full h-48 object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
+                  On-Site Tabletop Engagement • 2025 Workshop
+                </span>
+                Sponsors demo portable analyzers, vacuum hardware, and components directly alongside single-track sessions.
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>

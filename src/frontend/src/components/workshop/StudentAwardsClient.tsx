@@ -62,55 +62,55 @@ export default function StudentAwardsClient() {
   return (
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
       {/* Page Header */}
-      <header className="mb-14 pb-8 border-b border-foreground/10">
+      <header className="mb-14 pb-8 border-b border-slate-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
-              <GraduationCap size={15} />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
+              <GraduationCap size={15} className="text-primary" />
               Graduate Student Research Support • {workshop.workshop_ordinal} HEMS Workshop ({workshop.target_window})
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-foreground mb-4">
-              Student Travel <span className="text-primary border-b-4 border-primary">Awards</span>
+            <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">
+              Student Travel <span className="text-primary italic font-normal">Awards</span>
             </h1>
-            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-sans">
+            <p className="text-base md:text-lg text-slate-600 leading-relaxed font-sans">
               Encouraging interest in Harsh-Environment Mass Spectrometry and rewarding the scientific merit and quality of graduate student research.
             </p>
           </div>
-          <div className="flex flex-col items-center p-4 bg-surface/60 border border-foreground/10 rounded-2xl shadow-sm self-start md:self-center">
+          <div className="flex flex-col items-center p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center">
             <img
               src="/hemslogo.jpg"
               alt="HEMS Society Official Logo"
-              className="w-28 h-28 object-contain rounded-xl border border-foreground/10 mix-blend-multiply bg-white p-2"
+              className="w-24 h-24 object-contain rounded-xl mix-blend-multiply bg-white p-1.5"
             />
-            <span className="text-[11px] font-mono text-foreground/60 mt-2">Student Awards</span>
+            <span className="text-[11px] font-mono text-slate-500 mt-1.5">Emerging Investigators</span>
           </div>
         </div>
       </header>
 
       {/* Purpose & Award Amount Hero Card */}
       <section className="mb-16">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-surface to-background border-2 border-primary/30 p-8 md:p-10 shadow-lg">
+        <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/95 p-8 md:p-10 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             <div className="lg:col-span-2">
-              <div className="flex items-center gap-2.5 text-primary font-mono text-xs font-bold uppercase tracking-widest mb-3">
-                <Award size={18} /> Purpose of the HEMS Workshop Student Travel Award
+              <div className="flex items-center gap-2.5 text-primary font-mono text-xs font-semibold uppercase tracking-widest mb-3">
+                <Award size={17} /> Purpose of the HEMS Workshop Student Travel Award
               </div>
-              <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-foreground mb-4">
+              <h2 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 mb-4">
                 Rewarding Scientific Merit in Harsh-Environment MS
               </h2>
-              <p className="text-base md:text-lg text-foreground/85 leading-relaxed font-sans">
+              <p className="text-base md:text-lg text-slate-600 leading-relaxed font-sans">
                 The workshop award is intended to encourage interest in the topics applicable to Harsh-Environment Mass Spectrometry (HEMS) and reward the scientific merit and quality of student research in the area of HEMS.
               </p>
             </div>
 
-            <div className="bg-background border border-primary/25 rounded-xl p-6 shadow-sm text-center lg:text-left">
-              <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-foreground/55 block mb-1">
+            <div className="bg-[#FAFBFD] border border-slate-200 rounded-xl p-6 text-center lg:text-left">
+              <span className="text-[11px] font-mono font-semibold uppercase tracking-widest text-slate-500 block mb-1">
                 Proposed Award Amount
               </span>
-              <div className="text-4xl font-mono font-black text-primary mb-2">
+              <div className="text-4xl font-serif font-semibold text-primary mb-2">
                 {workshop.student_award_amount}
               </div>
-              <p className="text-xs text-foreground/75 leading-relaxed">
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Proposed travel award per biennial workshop cycle ({workshop.workshop_ordinal} Workshop target: <strong>{workshop.target_window}</strong>).
               </p>
             </div>
@@ -271,21 +271,31 @@ export default function StudentAwardsClient() {
             </div>
           </div>
 
-          {/* Archive Reference Card */}
-          <div className="bg-surface/60 border border-foreground/10 rounded-2xl p-6 shadow-sm">
-            <div className="flex items-center gap-2 text-primary font-mono text-xs font-bold uppercase tracking-wider mb-2">
-              <BookOpen size={15} /> Prior Student Research
+          {/* Archive Reference & Mentorship Photo Card */}
+          <figure className="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
+            <div className="overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
+              <img
+                src="/images/gallery/roundtable-fellowship-2025.jpg"
+                alt="Graduate students and senior investigators sharing a discussion table at the 2025 HEMS Workshop"
+                className="w-full h-44 object-cover"
+                loading="lazy"
+              />
             </div>
-            <p className="text-xs text-foreground/75 leading-relaxed mb-4">
-              Explore oral presentations, posters, and abstracts from past Student Travel Award recipients across 15 HEMS Workshops in our open proceedings archive.
-            </p>
-            <Link
-              href="/archive"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline uppercase tracking-wide"
-            >
-              Browse Proceedings Archive <ArrowRight size={13} />
-            </Link>
-          </div>
+            <figcaption className="px-1.5 pb-1">
+              <div className="flex items-center gap-2 text-primary font-mono text-[11px] font-semibold uppercase tracking-wider mb-1.5">
+                <BookOpen size={14} /> Direct Mentorship &amp; Fellowship
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed mb-3">
+                Student awardees present in the single-track plenary session and share round tables directly with principal investigators, national-lab mentors, and instrument builders.
+              </p>
+              <Link
+                href="/archive"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
+              >
+                Browse Prior Student Research <ArrowRight size={13} />
+              </Link>
+            </figcaption>
+          </figure>
         </aside>
       </div>
     </div>

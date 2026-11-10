@@ -306,23 +306,47 @@ export default function SocietyHistoryPage() {
       {/* CHAPTER 04: SUMMARY & THE HEMS PHILOSOPHY + DUAL NAVIGATION */}
       <section className="py-14 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          {/* Editorial Pull-Quote & Summary Box */}
+          {/* Editorial Pull-Quote & Coastal Philosophy Spread */}
           <div className="bg-[#FAFBFD] border border-slate-200/95 rounded-2xl p-7 sm:p-10 lg:p-12">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary flex items-center gap-1.5 mb-3">
-              <Compass size={14} /> 04 — Summary &amp; The HEMS Philosophy
-            </span>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary flex items-center gap-1.5">
+                  <Compass size={14} /> 04 — Summary &amp; The HEMS Philosophy
+                </span>
 
-            <blockquote className="font-serif text-2xl sm:text-3xl italic text-slate-900 leading-snug border-l-2 border-primary pl-5 py-1 my-5 max-w-4xl">
-              &ldquo;Just because we send our mass spectrometers into harsh environments doesn’t mean we have to meet in one!&rdquo;
-            </blockquote>
+                <blockquote className="font-serif text-2xl sm:text-3xl italic text-slate-900 leading-snug border-l-2 border-primary pl-5 py-1">
+                  &ldquo;Just because we send our mass spectrometers into harsh environments doesn’t mean we have to meet in one!&rdquo;
+                </blockquote>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 pt-2 text-slate-700 text-[15px] sm:text-base leading-relaxed">
-              <p>
-                From the beginning, there has been an emphasis on holding HEMS Workshops in locations that provide a relaxing, pleasant and casual environment, with a majority of workshops being held at beachfront hotels. Ample free time for informal discussions and networking has always been provided.
-              </p>
-              <p>
-                It was hoped the gathering of researchers and engineers that design, build, and use field deployable mass spectrometers and their enabling components would facilitate collaborations and expedite progress. Corporate vendor and US Government agency participation has always been solicited and included. And it was also hoped that, due to the wide variety of applications of HEMS technology, the participants would likely be seeking funding from many different sources, thus reducing competition among each other and making it more likely for detailed information to be freely shared.
-              </p>
+                <div className="space-y-4 pt-1 text-slate-700 text-[15px] sm:text-base leading-relaxed">
+                  <p>
+                    From the beginning, there has been an emphasis on holding HEMS Workshops in locations that provide a relaxing, pleasant and casual environment, with a majority of workshops being held at beachfront hotels. Ample free time for informal discussions and networking has always been provided.
+                  </p>
+                  <p>
+                    It was hoped the gathering of researchers and engineers that design, build, and use field deployable mass spectrometers and their enabling components would facilitate collaborations and expedite progress. Corporate vendor and US Government agency participation has always been solicited and included. And it was also hoped that, due to the wide variety of applications of HEMS technology, the participants would likely be seeking funding from many different sources, thus reducing competition among each other and making it more likely for detailed information to be freely shared.
+                  </p>
+                </div>
+              </div>
+
+              <figure className="lg:col-span-5 bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs">
+                <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
+                  <img
+                    src="/images/history/myrtle-beach-pier-surf.jpg"
+                    alt="Sunlit Atlantic Ocean surf, sandy shoreline, and pier viewed from the beachfront HEMS Workshop host hotel in Myrtle Beach"
+                    className="w-full h-auto aspect-[4/3] object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <figcaption className="pt-3 px-1 space-y-1">
+                  <div className="flex items-center justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                    <span>Fig. 03 • Coastal Venue Tradition</span>
+                    <span className="text-slate-400">Myrtle Beach • 2019</span>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Atlantic shoreline directly outside the 13th HEMS Workshop host hotel—embodying the relaxed coastal setting where informal hallway conversations spark multi-institution collaborations.
+                  </p>
+                </figcaption>
+              </figure>
             </div>
           </div>
 

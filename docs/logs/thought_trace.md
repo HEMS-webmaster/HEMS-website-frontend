@@ -885,3 +885,33 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 - **Editorial Layout & Wall-of-Text Breakup (`@dev`):**
   - Web-optimize both selected JPEGs (`<= 1280px` width, progressive/high-clarity JPEG ~150–220 KB each) into `src/frontend/public/images/history/` while leaving `docs/source-documents/pics/` completely untouched.
   - Refactor `src/frontend/src/app/history/page.tsx` to Brand v3.0.0 (*Scholarly Precision & Editorial Symposium*): Title-Case `Source Serif 4` headings, comfortable 65ch prose measure, 12-column asymmetric split blocks pairing narrative prose with museum-style captioned `<figure>` plates, a split sub-grid + callout between the 1999 inaugural workshop and the 2002 JPL vacuum-pump milestone, a clean 2-column chronological timeline ledger, and the iconic HEMS beachfront pull-quote. Preserve 100% of canonical historical prose.
+
+
+## [2026-11-10T15:52:00-07:00] @prod / @sme / @brand — Surveying Recent Downloadable Presentations (15th & 14th Workshops) for Choice Graphical Assets
+- **Objective:** Review recent downloadable presentations (`local_data/proceedings/15th` and `14th` in strict read-only mode) and curate 5–10 choice graphical examples into `docs\source-documents\pics\PresentionExtracted`.
+- **Folder Structure Verification:** Inspected `docs\source-documents\pics\PresentionExtracted` and found two user-created subdirectories: `Raw` and `Modified`.
+  - Unmodified byte-exact embedded graphics extracted from PDFs belong in `docs\source-documents\pics\PresentionExtracted\Raw\`.
+  - Any graphic cropped, composited, background-cleaned, or rasterized/trimmed from a vector slide belongs in `docs\source-documents\pics\PresentionExtracted\Modified\`.
+- **Method:** Using a temporary scratch script in the conversation artifact `scratch/` directory (`PyMuPDF` + `Pillow`) to catalog embedded high-res graphics and vector-rich slide diagrams across 2025 (15th) and 2022 (14th) presentations, render contact sheets for visual inspection, and select 8–9 top-tier scientific graphics spanning spaceflight, deep-ocean/polar robotics, miniature vacuum/CAD hardware, ion-optics simulations, and field deployments.
+
+
+## [2026-11-10T16:10:30-07:00] @prod / @brand / @arch / @dev — Site-Wide Unmodified Photo Curation & Brand v3.0.0 ("Casual, Beach, Academic") Rollout
+- **Directive from `@bo`:** Do NOT modify any images (`Copy-Item` exact unmodified files only); only use surviving approved files in `docs\source-documents\pics` (`Group photo2025.JPG`, `FromGottfried\2019`, `FromGottfried\2025`, `FromTimShort`, and `PresentionExtracted\Raw`); weave them across the website for an authentic **casual, beach, academic** HEMS feel.
+- **Byte-Exact Asset Policy:** All 14 selected `.jpg` files are copied verbatim via `Copy-Item` (preserving exact SHA-256 hashes, dimensions, and EXIF orientation) into `src/frontend/public/images/history/` and `src/frontend/public/images/gallery/`, including replacing the 2 earlier resized `/history` files with exact unmodified copies of `FromTimShort\ms in nosecone.jpg` and `FromTimShort\CIMG0561.JPG`. Skipped `.jpx`, `.mp4`, and multi-megabyte `.MP.jpg` Motion Photos in favor of crisp standard `.jpg` files.
+- **Page-by-Page Curation & Brand v3.0.0 Alignment (`0` changes to `/archive/**`):**
+  1. **Home (`/`, `page.tsx`):** Added unmodified presentation graphics (`01` Volcanic Fumarole Backpack MS, `07` Spaceflight Orbitrap CAD, `03` Icefin Under-Ice ROV) to the 3 Technical Charter domain cards, plus a new **"The HEMS Symposium Spirit — Casual, Beachfront & Single-Track"** 3-photo editorial feature (`virginia-beach-boardwalk-2025.jpg`, `single-track-session-2019.jpg`, `oceanfront-reception-2025.jpg`).
+  2. **About (`/about`, `about/page.tsx`):** Upgraded to Brand v3.0.0 typography; paired the Official Mission Statement with `group-photo-2025.jpg` (2025 Virginia Beach Society group portrait) and paired the 5 Core Objectives in a symmetric `3x2` grid with `hardware-demo-hawaiian-shirts-2025.jpg`.
+  3. **History (`/history`, `history/page.tsx`):** Swapped in byte-exact unmodified `FromTimShort` originals and added `myrtle-beach-pier-surf.jpg` alongside the *"Just because we send our mass spectrometers into harsh environments doesn’t mean we have to meet in one!"* philosophy section.
+  4. **Workshop Portal (`/layout-portal`, `/accommodations`, `/call-for-papers`, `/registration`, `(portal)/layout.tsx`):** Aligned headers and sidebar to Brand v3.0.0; showcased `oceanfront-reception-2025.jpg` on Portal Overview, `myrtle-beach-pier-surf.jpg` + `virginia-beach-boardwalk-2025.jpg` on Accommodations, and `serpa-cycloidal-ion-trajectories.jpg` + `amerom-moma-mars-ms-cad.jpg` on Call for Papers.
+  5. **Student Travel Awards, Corporate Sponsorship & Contact (`StudentAwardsClient.tsx`, `CorporateSponsorshipClient.tsx`, `contact/page.tsx`):** Upgraded headers to Title-Case `Source Serif 4`; featured `roundtable-fellowship-2025.jpg` on Student Travel Awards & Contact, and `hardware-demo-hawaiian-shirts-2025.jpg` on Corporate Sponsorship.
+
+
+---
+### [2026-11-10] `@ops` & `@qa` — Production Static Build, Local Commit & Private Preview Deployment (Unmodified Sitewide Imagery)
+- **Context**: Resuming final build, local commit, and `preview-2027` deployment after staging 14 byte-exact unmodified photos/presentation graphics from `docs/source-documents/pics/` and updating 10 frontend `.tsx` files (`0` TypeScript errors, `40/40` CSV unit tests passed).
+- **Plan**:
+  1. Stop running local dev server (`task-742`) so `scripts/build-prod.js` runs cleanly.
+  2. Verify `git status` and SHA-256 parity of all 14 staged assets against `docs/source-documents/pics/` (leaving `docs/source-documents/pics/` untracked so ~180 MB of raw albums/videos do not enter git).
+  3. Execute `npm --prefix src/frontend run build` to compile static export (`src/frontend/out`).
+  4. Commit locally on `main` (no `git push` to `origin/main`).
+  5. Deploy to Firebase Hosting preview channel `preview-2027` (`https://hems-workshop--preview-2027-v4fnxb3i.web.app/`), restart local dev server (`http://localhost:3000/`), verify HTTP `200 OK` responses, and report to `@bo`.

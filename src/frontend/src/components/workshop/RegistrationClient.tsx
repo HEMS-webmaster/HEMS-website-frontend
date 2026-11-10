@@ -21,12 +21,14 @@ export default function RegistrationClient() {
   return (
     <>
       {/* Page Header */}
-      <header className="mb-12 border-b border-foreground/10 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-4">
-          <CreditCard size={16} /> Workshop Access • {workshop.workshop_ordinal} Workshop
+      <header className="mb-10 border-b border-slate-200 pb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
+          <CreditCard size={14} className="text-primary" /> Workshop Access • {workshop.workshop_ordinal} Workshop
         </div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">Workshop Registration</h1>
-        <p className="text-foreground/70">
+        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
+          Workshop Registration
+        </h1>
+        <p className="text-slate-600 text-sm sm:text-base">
           Attendee pricing tiers, milestone dates, and sponsorship options for the {workshop.workshop_ordinal} Harsh-Environment Mass Spectrometry Workshop ({workshop.target_window}).
         </p>
       </header>

@@ -70,14 +70,14 @@ export default function Contact() {
 
   return (
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-      <div className="mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono mb-4">
-          <Mail size={14} /> Official Society Communications
+      <div className="mb-12 pb-8 border-b border-slate-200">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
+          <Mail size={14} className="text-primary" /> Official Society Communications
         </div>
-        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 text-foreground">
-          Contact <span className="text-primary border-b-4 border-primary">HEMS</span>
+        <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-slate-900">
+          Contact the <span className="text-primary italic font-normal">HEMS</span> Society
         </h1>
-        <p className="text-xl text-foreground/70 max-w-2xl">
+        <p className="text-base md:text-lg text-slate-600 max-w-2xl leading-relaxed">
           Get in touch with the HEMS Society organizing committee regarding the {workshop.workshop_ordinal} Workshop ({workshop.target_window}), proceedings,{" "}
           <Link href="/corporate-sponsorship" className="text-primary font-semibold hover:underline">
             corporate sponsorships

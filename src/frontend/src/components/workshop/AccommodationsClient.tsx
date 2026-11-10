@@ -18,17 +18,56 @@ export default function AccommodationsClient() {
   return (
     <>
       {/* Page Header */}
-      <header className="mb-12 border-b border-foreground/10 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-4">
-          <Hotel size={16} /> Workshop Lodging • {workshop.workshop_ordinal} Workshop
+      <header className="mb-10 border-b border-slate-200 pb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
+          <Hotel size={14} className="text-primary" /> Workshop Lodging • {workshop.workshop_ordinal} Workshop
         </div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">Venue &amp; Accommodations</h1>
-        <p className="text-foreground/70">
+        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
+          Venue &amp; Coastal Accommodations
+        </h1>
+        <p className="text-slate-600 text-sm sm:text-base">
           {workshop.venue_confirmed
             ? `Plan your stay for the ${workshop.workshop_ordinal} HEMS Workshop at ${workshop.hotel_name} (${workshop.venue_city_state}).`
             : `Venue and beachfront room-block information for the upcoming ${workshop.workshop_ordinal} HEMS Workshop (${workshop.target_window}).`}
         </p>
       </header>
+
+      {/* Past Beachfront Venue Gallery Strip */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
+        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs">
+          <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
+            <img
+              src="/images/gallery/virginia-beach-boardwalk-2025.jpg"
+              alt="Oceanfront boardwalk and Atlantic shoreline at the 2025 Virginia Beach HEMS Workshop"
+              className="w-full h-44 object-cover"
+              loading="lazy"
+            />
+          </div>
+          <figcaption className="pt-2.5 px-1 text-xs text-slate-600">
+            <strong className="font-mono text-[10px] uppercase tracking-wider text-primary block">
+              15th Workshop Host Setting • Virginia Beach, VA (2025)
+            </strong>
+            Steps from the Atlantic boardwalk, dunes, and surf between technical sessions.
+          </figcaption>
+        </figure>
+
+        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs">
+          <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
+            <img
+              src="/images/history/myrtle-beach-pier-surf.jpg"
+              alt="Atlantic surf and pier outside the 2019 Myrtle Beach HEMS Workshop hotel"
+              className="w-full h-44 object-cover"
+              loading="lazy"
+            />
+          </div>
+          <figcaption className="pt-2.5 px-1 text-xs text-slate-600">
+            <strong className="font-mono text-[10px] uppercase tracking-wider text-secondary block">
+              13th Workshop Host Setting • Myrtle Beach, SC (2019)
+            </strong>
+            Oceanfront conference venues designed for relaxed scientific exchange.
+          </figcaption>
+        </figure>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Details and Maps */}
