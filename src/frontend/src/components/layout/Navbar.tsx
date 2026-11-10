@@ -61,10 +61,11 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8 text-sm font-medium">
+            <div className="ml-10 flex items-baseline space-x-6 text-sm font-medium">
               <Link href="/" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Home</Link>
               <Link href="/layout-portal" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">Portal</Link>
               <Link href="/about" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">About Us</Link>
+              <Link href="/history" className="text-foreground/90 hover:text-primary transition-colors font-medium bg-transparent px-2 py-1 rounded-md">History</Link>
               <div className="relative group">
                 <Link href="/archive" className="text-foreground/90 hover:text-primary transition-colors flex items-center gap-1 font-medium bg-transparent px-2 py-1 rounded-md">
                   Archives

@@ -54,9 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ year: str
 
 export default async function WorkshopArchive({ params }: { params: Promise<{ year: string }> }) {
   const { year } = await params;
-  const isLocal =
-    process.env.NODE_ENV === 'development' &&
-    process.env.NEXT_PUBLIC_USE_LOCAL_MANAGER === 'true';
+  const isLocal = process.env.NODE_ENV === 'development';
   
   const dataPath = path.join(process.cwd(), 'src', 'data', 'archives', `${year}.json`);
   let data;
@@ -379,8 +377,8 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
             <div className="flex flex-wrap gap-3">
               {data.resources.map((res: any, idx: number) => {
                 const href = isLocal 
-                  ? (res.local_target_path || res.public_website_url || res.legacy_url || res.url)
-                  : (res.public_website_url || (process.env.NODE_ENV === 'development' ? res.local_target_path : undefined) || res.legacy_url || res.url);
+                  ? (res.local_target_path || (res.legacy_url || res.url))
+                  : (res.public_website_url || (res.legacy_url || res.url));
                 if (!href) return null;
                 const isAnchor = href.startsWith('#');
                 const anchorElement = (
@@ -505,11 +503,11 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
                       {data.student_awards.map((award: any, idx: number) => {
                         const presUrl = isLocal 
-                          ? (award.local_target_path || award.public_website_url || award.legacy_url || award.presentationUrl || award.url)
-                          : (award.public_website_url || (process.env.NODE_ENV === 'development' ? award.local_target_path : undefined) || award.legacy_url || award.presentationUrl || award.url);
+                          ? (award.local_target_path || (award.legacy_url || award.presentationUrl || award.url))
+                          : (award.public_website_url || (award.legacy_url || award.presentationUrl || award.url));
                         const absUrl = isLocal 
-                          ? (award.local_abstract_target_path || award.public_abstract_url || award.legacy_abstract_url || award.abstractUrl || award.abstract_url)
-                          : (award.public_abstract_url || (process.env.NODE_ENV === 'development' ? award.local_abstract_target_path : undefined) || award.legacy_abstract_url || award.abstractUrl || award.abstract_url);
+                          ? (award.local_abstract_target_path || (award.legacy_abstract_url || award.abstractUrl || award.abstract_url))
+                          : (award.public_abstract_url || (award.legacy_abstract_url || award.abstractUrl || award.abstract_url));
                         
                         return (
                           <div key={idx} className="flex flex-col">
@@ -678,11 +676,11 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                    }
 
                                    const presUrl = isLocal
-                                     ? (talk.local_target_path || talk.public_website_url || talk.legacy_url || talk.presentationUrl || talk.url)
-                                     : (talk.public_website_url || (process.env.NODE_ENV === 'development' ? talk.local_target_path : undefined) || talk.legacy_url || talk.presentationUrl || talk.url);
+                                     ? (talk.local_target_path || (talk.legacy_url || talk.presentationUrl || talk.url))
+                                     : (talk.public_website_url || (talk.legacy_url || talk.presentationUrl || talk.url));
                                    const absUrl = isLocal
-                                     ? (talk.local_abstract_target_path || talk.public_abstract_url || talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url)
-                                     : (talk.public_abstract_url || (process.env.NODE_ENV === 'development' ? talk.local_abstract_target_path : undefined) || talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url);
+                                     ? (talk.local_abstract_target_path || (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url))
+                                     : (talk.public_abstract_url || (talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url));
 
                               return (
                                 <div key={tIdx} id={talk.id} className="py-2 first:pt-0 last:pb-0 flex flex-col md:flex-row gap-4 scroll-mt-28">

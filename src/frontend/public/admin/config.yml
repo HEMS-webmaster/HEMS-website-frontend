@@ -26,6 +26,16 @@ collections:
           - { label: "Contact Email", name: "contact_email", widget: "string" }
           - { label: "Body Content", name: "body", widget: "markdown" }
 
+      - label: "Workshop & Society History"
+        name: "history"
+        file: "content/pages/history.md"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "string" }
+          - { label: "Inaugural Workshop", name: "inaugural_workshop", widget: "string" }
+          - { label: "Incorporation Year", name: "incorporation_year", widget: "string" }
+          - { label: "History Narrative", name: "body", widget: "markdown" }
+
       - label: "Call for Papers"
         name: "call_for_papers"
         file: "content/pages/call-for-papers.md"

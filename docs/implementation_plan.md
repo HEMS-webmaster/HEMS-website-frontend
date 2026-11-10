@@ -123,12 +123,13 @@ Each workshop follows a 4-point protocol:
 
 ---
 
-### Phase 6: Workspace Cleanup, CMS Content Sync & Local Archive Dev Routing [COMPLETED]
-*Detailed Architectural Plan:* [docs/plans/2026-11-10-cleanup-and-archive-dev-fix.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-10-cleanup-and-archive-dev-fix.md)
+### Phase 6: Workspace Cleanup, CMS Content Sync & Dedicated History Route [COMPLETED]
+*Detailed Architectural Plans:* [docs/plans/2026-11-10-cleanup-and-archive-dev-fix.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-10-cleanup-and-archive-dev-fix.md) & [docs/plans/2026-11-10-dedicated-history-page.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-10-dedicated-history-page.md)
 
-1. [x] **484 MB Static Bundle Reduction:** Relocated `public/assets/archives/cache` -> `local_data/cache/` and archived legacy `public/assets/archives/{2017,2018}` -> `archive/legacy_public_assets/` (shrinking `src/frontend/out/` from 508.2 MB to ~24.3 MB with zero data loss).
-2. [x] **Local Archive PDF & Preview Routing:** Restored 100% working PDF and hover-preview resolution on `http://localhost:3000/archive/[year]` with dev-only `/api/manager/*` proxy support for `localhost:4000`.
-3. [x] **Canonical CMS & UI Placeholder Polish:** Synced all 7 `src/frontend/content/pages/*.md` files with canonical society/venue/rate data, upgraded `/contact`, `/formatting-guidelines`, and `/layout-portal`, removed dead layout wrappers, and published [`docs/project_charter.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/project_charter.md).
+1. [x] **484 MB Static Bundle Reduction:** Relocated `public/assets/archives/cache` -> `local_data/cache/` and archived legacy `public/assets/archives/{2017,2018}` -> `archive/legacy_public_assets/` (shrinking `src/frontend/out/` from 508.2 MB to ~24.5 MB with zero data loss).
+2. [x] **Strict Archive Page Lock & Local Proxy:** Preserved 100% zero diff on `src/frontend/src/app/archive/**` while proxying `/api/manager/*` to `localhost:4000` in `next.config.ts`.
+3. [x] **Dedicated `/history` Page & `/about` Split:** Created [`src/frontend/src/app/history/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/history/page.tsx) holding the complete **Workshop & Society History** (`historyV1.md`) and focused [`src/frontend/src/app/about/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/about/page.tsx) on Official Mission & Core Strategic Objectives (`mission-statementV1.md`).
+4. [x] **Canonical CMS & UI Placeholder Polish:** Synced `src/frontend/content/pages/*.md` (including `history.md`), upgraded `/contact`, `/formatting-guidelines`, and `/layout-portal`, removed dead layout wrappers, and published [`docs/project_charter.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/project_charter.md).
 
 ---
 

@@ -27,7 +27,8 @@ The HEMS Web Platform serves as both the public symposium portal and the canonic
 
 ## 3. Architectural Guardrails & Non-Negotiables
 
-1. **Zero Data Loss on Historical Archives:** `src/frontend/src/data/master_workshops.json`, `src/frontend/src/data/archives/*.json`, `docs/registries/`, and `local_data/proceedings/` are authoritative historical records. Schema integrity is enforced pre-build via Zod (`validate-archives.js`).
+1. **Zero Data Loss & Strict Archive Page Lock:** `src/frontend/src/app/archive/**`, `src/frontend/src/data/master_workshops.json`, `src/frontend/src/data/archives/*.json`, `docs/registries/`, and `local_data/proceedings/` are strictly protected. **No agent may modify any archive page (`src/frontend/src/app/archive/**`) or proceeding dataset without explicit @bo permission.** Schema integrity is enforced pre-build via Zod (`validate-archives.js`).
 2. **Physical Isolation of Operational Tooling:** The Workshop Manager resides exclusively in `tools/manager/` (port 4000) so internal file-system APIs never enter the static public bundle (`src/frontend/out/`).
 3. **Static Export Purity:** `src/frontend/public/` must contain only lightweight web assets and search indices—never multi-hundred-megabyte raw proceeding archives or build caches (`local_data/cache/`).
 4. **Global Symposium Visual Identity:** Adheres strictly to `.agents/config/design/brand-guidelines.md` (Summit White `#FFFFFF`, Slate Black `#334155`, Protocol Gray `#E2E8F0`, Global Cerulean `#0284C7`, Diplomatic Emerald `#059669`, `Noto Sans` & `IBM Plex Mono`, and `mix-blend-multiply` logo treatment).
+

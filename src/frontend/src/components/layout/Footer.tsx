@@ -14,6 +14,7 @@ export default function Footer() {
           
           <div className="flex gap-6 text-sm">
             <Link href="/about" className="text-foreground/70 hover:text-primary transition-colors">About</Link>
+            <Link href="/history" className="text-foreground/70 hover:text-primary transition-colors">History</Link>
             <Link href="/archive" className="text-foreground/70 hover:text-primary transition-colors">Archive</Link>
             <Link href="/contact" className="text-foreground/70 hover:text-primary transition-colors">Contact</Link>
           </div>

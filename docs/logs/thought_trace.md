@@ -681,3 +681,22 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Zero-data-loss relocation: moving `src/frontend/public/assets/archives/cache` -> `local_data/cache` and `src/frontend/public/assets/archives/{2017,2018}` -> `archive/legacy_public_assets/`, shrinking static export `src/frontend/out/` by ~484 MB.
   - Cleaning up `firebase-debug.log`, moving tracked `tests/manager_*.png` screenshots out of git, updating `tests/integration/manager_ingestion.spec.ts` to port 4000, updating `.gitignore` and `src/frontend/.gitignore`, and syncing `README.md`.
   - Running `npm run audit:assets` and `npm run build` (`src/frontend` + `functions`), committing clean git state, and restarting local dev server on `http://localhost:3000`.
+
+
+## [2026-11-10T10:00:40-07:00] @ops — Local Environment Launch (Public Website + Workshop Manager + Browser Open)
+- Verified `http://localhost:3000` (`npm run dev`, task-180) returning `HTTP 200 OK` (57,716 bytes).
+- Starting standalone Workshop Manager (`npm run manager`) on `http://localhost:4000` (`IsDaemon: true`) and opening `http://localhost:3000` in the default system browser for `@bo`.
+
+
+## [2026-11-10T10:06:00-07:00] @arch, @dev, @ops, @qa, @brand — Strict Archive Page Revert & Dedicated /history Page
+- **@bo Directives**:
+  1. Do NOT modify archive pages (`src/frontend/src/app/archive/**`) without explicit permission.
+  2. Create a dedicated new page (`/history`) to hold the 'Workshop & Society History' content.
+- **@arch Actions**:
+  - Reverting `src/frontend/src/app/archive/[year]/page.tsx` to `b6a0075` so `src/frontend/src/app/archive/**` has 0 diff (local dev PDF streaming still works untouched via `next.config.ts` rewrite to `localhost:4000`).
+  - Codifying the Strict Archive Page Lock in `docs/project_charter.md`.
+  - Publishing permanent plan `docs/plans/2026-11-10-dedicated-history-page.md` and updating `docs/implementation_plan.md` & `docs/session_history.md`.
+- **@dev Actions**:
+  - Creating `src/frontend/src/app/history/page.tsx` with the complete narrative from `docs/source-documents/historyV1.md` (Early Years 1999–2005, HEMS Society 2005–Present, Key Historical Milestones timeline, and Summary / Beachfront Philosophy).
+  - Updating `src/frontend/src/app/about/page.tsx` to focus exclusively on Mission & Core Strategic Objectives (`mission-statementV1.md`) with a prominent link card to `/history`.
+  - Linking `/history` across `Navbar.tsx`, `Footer.tsx`, `page.tsx`, `sitemap.ts`, `content/pages/history.md`, and `public/admin/config.yml`.

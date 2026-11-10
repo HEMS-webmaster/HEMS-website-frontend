@@ -66,3 +66,9 @@ During this session, the team executed a four-phase modernization and architectu
    - Published [`docs/project_charter.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/project_charter.md) and updated [`README.md`](file:///c:/AntigravityP1_2/HEMS-website/README.md) for the standalone `tools/manager` architecture (`localhost:4000`).
    - Upgraded `/contact` (interactive static-compatible `mailto:` inquiry builder & governance card), `/formatting-guidelines` (live 15th Workshop program & archive abstract links), and `/layout-portal` (real 2025 papers & 16th Biennial status).
    - Removed dead `ConditionalNavbar`/`ConditionalFooter` pass-through wrappers, untracked stray Playwright PNGs in `tests/`, and updated integration specs to port 4000.
+
+
+## 2. Addendum: Dedicated `/history` Route & Archive Page Lock Enforcement (`e119368`)
+
+- **Strict Archive Page Lock:** Reverted [`src/frontend/src/app/archive/[year]/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/archive/%5Byear%5D/page.tsx) to baseline `b6a0075` (0 diff across `src/frontend/src/app/archive/**`) and codified an explicit rule in [`docs/project_charter.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/project_charter.md) prohibiting edits to archive pages without explicit **@bo** permission.
+- **Dedicated History Page (`/history`):** Extracted **Workshop & Society History** into [`src/frontend/src/app/history/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/history/page.tsx) (incorporating the complete narrative from `historyV1.md`), focused [`src/frontend/src/app/about/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/about/page.tsx) on Official Mission & Core Strategic Objectives, and wired `/history` into `Navbar.tsx`, `Footer.tsx`, `page.tsx`, `sitemap.ts`, `content/pages/history.md`, and `public/admin/config.yml`.

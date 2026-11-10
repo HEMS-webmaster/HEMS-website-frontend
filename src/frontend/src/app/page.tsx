@@ -44,7 +44,10 @@ export default function Home() {
                   <ArrowRight size={18} />
                 </Link>
                 <Link href="/about" className="flex items-center gap-2 bg-surface text-foreground border border-foreground/20 px-6 py-3 rounded-md font-medium hover:border-primary/50 transition-colors">
-                  Mission &amp; Society History
+                  About &amp; Mission
+                </Link>
+                <Link href="/history" className="flex items-center gap-2 bg-background text-foreground border border-foreground/20 px-6 py-3 rounded-md font-medium hover:border-primary/50 transition-colors">
+                  Society History
                 </Link>
               </div>
             </div>
