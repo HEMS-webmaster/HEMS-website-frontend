@@ -825,3 +825,11 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Clear the duplicate `notebooks` and `data-agent-kit` MCP server entries in `C:\Users\ryanb\.gemini\config\mcp_config.json` so `data-agent-kit-plugin` is controlled cleanly from one toggle.
   3. Delete the leftover `0`-byte `firebase-key.json` at repo root.
   4. Consolidate `.env.example` into the single canonical `src/frontend/.env.example` (removing the duplicate root `.env.example`), documenting `NEXT_PUBLIC_FIREBASE_*`, `NEXT_PUBLIC_WORKSHOP_SHEET_CSV_URL`, and optional offline-fallback Algolia indexing keys; append commented `NEXT_PUBLIC_WORKSHOP_SHEET_CSV_URL` slot to `src/frontend/.env.local` without modifying existing Firebase keys.
+
+## [2026-11-10T14:28:00-07:00] Live Google Sheet CSV Endpoint Verification & Wiring (@ops, @dev, @arch, @qa)
+- **Live Endpoint Verified:** `https://docs.google.com/spreadsheets/d/e/2PACX-1vSC_UL5aibfE3gVGds5Yzzu2eMVaFYNcqXGgtrCaWJwbrNfcHNblX08CeyWhbYVfjmiPiUbUC7erPwl/pub?gid=540431442&single=true&output=csv` returned HTTP `200 OK` (`text/csv; charset=utf-8`, `6,566` bytes) with `Access-Control-Allow-Origin: *` after moving the Sheet from a Shared Drive into `webmaster@hems-workshop.org`'s `My Drive` under the `Webmaster Access` Organizational Unit.
+- **Execution Steps:**
+  1. `@ops`: Populate `NEXT_PUBLIC_WORKSHOP_SHEET_CSV_URL` in `src/frontend/.env.local`.
+  2. `@dev`: Populate `"sheet_csv_url"` in `src/frontend/src/data/upcoming_workshop.json` and execute `npm --prefix src/frontend run sync:workshop` against the live Google Sheet CDN endpoint.
+  3. `@arch`: Document the `My Drive` (vs. `Shared Drive`) and `Webmaster Access` OU setup note in `docs/workshop-sheets/README.md` and `docs/session_history.md`.
+  4. `@qa` & `@ops`: Run `node tests/unit/upcomingWorkshopCsv.test.mjs`, restart `npm run dev` on `http://localhost:3000`, verify `200 OK`, and commit locally on `main`.

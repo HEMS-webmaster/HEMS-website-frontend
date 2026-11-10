@@ -1,5 +1,5 @@
 {
-  "sheet_csv_url": "",
+  "sheet_csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSC_UL5aibfE3gVGds5Yzzu2eMVaFYNcqXGgtrCaWJwbrNfcHNblX08CeyWhbYVfjmiPiUbUC7erPwl/pub?gid=540431442&single=true&output=csv",
   "workshop_number": 16,
   "workshop_ordinal": "16th",
   "workshop_year": "2027",
@@ -41,4 +41,3 @@
   "sponsor_coordinator_name": "Tim Short",
   "sponsor_coordinator_email": "rtshort00@gmail.com"
 }
-

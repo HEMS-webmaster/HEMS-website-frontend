@@ -10,7 +10,7 @@ This folder contains the ready-to-import templates for managing **Upcoming Bienn
 
 ## 1. Five-Minute Google Sheet Setup (One-Time)
 
-1. In your **Google Workspace for Nonprofits** Drive, create a new Google Sheet named:
+1. Signed in as **`webmaster@hems-workshop.org`** (`Webmaster Access` Organizational Unit), create the Google Sheet in **`My Drive`** *(important: store in `My Drive`, not a Shared Drive, because Google Shared Drives force domain-restricted web publishing)* and name it:
    **`HEMS Upcoming Workshop Control Center`**
 2. **Import Tab 1 (`1_Workshop_Config`):**
    - Rename `Sheet1` to `1_Workshop_Config`.

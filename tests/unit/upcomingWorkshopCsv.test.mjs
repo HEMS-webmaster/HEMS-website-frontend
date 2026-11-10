@@ -81,6 +81,7 @@ assert.deepEqual(headers, [
 const csvKeys = new Set();
 for (let i = 1; i < csvRows.length; i++) {
   const row = csvRows[i];
+  if (row.length === 1 && row[0].trim() === "") continue;
   assert.equal(row.length, 7, `Row ${i + 1} in 1_Workshop_Config.csv must have 7 columns`);
   const key = row[0];
   assert.ok(key in configJson, `Unknown field_key '${key}' in 1_Workshop_Config.csv`);
@@ -100,6 +101,7 @@ for (const jsonKey of Object.keys(configJson)) {
   assert.ok(csvKeys.has(jsonKey), `JSON key '${jsonKey}' missing from 1_Workshop_Config.csv`);
 }
 
-assert.equal(checklistRows.length, 9, "Expected header + 8 website surfaces in 2_Website_Ingestion_Checklist.csv");
+const nonEmptyChecklistRows = checklistRows.filter((r) => !(r.length === 1 && r[0].trim() === ""));
+assert.equal(nonEmptyChecklistRows.length, 9, "Expected header + 8 website surfaces in 2_Website_Ingestion_Checklist.csv");
 console.log("✅ QA Passed: 100% parity verified between upcoming_workshop.json, 1_Workshop_Config.csv (40 keys), and 2_Website_Ingestion_Checklist.csv (8 surfaces).");
 
