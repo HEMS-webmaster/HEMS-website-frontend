@@ -19,7 +19,8 @@ tests/test-results/
 tests/*.png
 
 # Archived Scrapers & Migration Tools
-archive/
+/archive/
+!docs/design/archive/
 
 # Environment Variables
 .env
