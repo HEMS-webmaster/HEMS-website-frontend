@@ -1,7 +1,18 @@
 "use client";
 
-import { useState, FormEvent } from "react";
-import { Mail, MapPin, ShieldCheck, ExternalLink, Send, CheckCircle2, Building2 } from "lucide-react";
+import { useState, useEffect, FormEvent } from "react";
+import Link from "next/link";
+import {
+  Mail,
+  MapPin,
+  ShieldCheck,
+  ExternalLink,
+  Send,
+  CheckCircle2,
+  Building2,
+  ArrowRight,
+  Award,
+} from "lucide-react";
 
 interface InquiryFormState {
   firstName: string;
@@ -20,6 +31,14 @@ export default function Contact() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("topic") === "sponsorship") {
+      setForm((prev) => ({ ...prev, subject: "Sponsorship & Billing Inquiries" }));
+    }
+  }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,13 +73,17 @@ export default function Contact() {
           Contact <span className="text-primary border-b-4 border-primary">HEMS</span>
         </h1>
         <p className="text-xl text-foreground/70 max-w-2xl">
-          Get in touch with the HEMS Society organizing committee regarding biennial workshops, proceedings, corporate sponsorships, or general inquiries.
+          Get in touch with the HEMS Society organizing committee regarding biennial workshops, proceedings,{" "}
+          <Link href="/corporate-sponsorship" className="text-primary font-semibold hover:underline">
+            corporate sponsorships
+          </Link>
+          , or general inquiries.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Contact Form */}
-        <div className="bg-surface/50 border border-foreground/10 rounded-2xl p-8 shadow-sm">
+        <div className="bg-surface/50 border border-foreground/10 rounded-2xl p-8 shadow-sm h-fit">
           <h2 className="text-2xl font-bold uppercase mb-2 text-foreground">Compose an Inquiry</h2>
           <p className="text-xs text-foreground/65 mb-6">
             Submitting opens your default email client pre-addressed to the appropriate HEMS Society coordinator.
@@ -73,8 +96,17 @@ export default function Contact() {
                 <p className="font-bold">Email draft prepared in your mail client.</p>
                 <p className="text-foreground/75 mt-1">
                   If your mail client did not open automatically, please email{" "}
-                  <a href="mailto:info@hems-workshop.org" className="underline font-mono font-semibold text-primary">
-                    info@hems-workshop.org
+                  <a
+                    href={
+                      form.subject === "Sponsorship & Billing Inquiries"
+                        ? "mailto:rtshort00@gmail.com"
+                        : "mailto:info@hems-workshop.org"
+                    }
+                    className="underline font-mono font-semibold text-primary"
+                  >
+                    {form.subject === "Sponsorship & Billing Inquiries"
+                      ? "rtshort00@gmail.com"
+                      : "info@hems-workshop.org"}
                   </a>{" "}
                   directly.
                 </p>
@@ -141,6 +173,20 @@ export default function Contact() {
                 <option value="Sponsorship & Billing Inquiries">Sponsorship &amp; Billing Inquiries</option>
                 <option value="Proceedings Archive & Citations">Proceedings Archive &amp; Citations</option>
               </select>
+
+              {form.subject === "Sponsorship & Billing Inquiries" && (
+                <div className="mt-2 p-3 rounded-lg bg-primary/5 border border-primary/20 text-xs text-foreground/80 flex items-center justify-between gap-3">
+                  <span>
+                    Review sponsor benefits, exhibition space, and split-billing options on our dedicated page.
+                  </span>
+                  <Link
+                    href="/corporate-sponsorship"
+                    className="inline-flex items-center gap-1 font-bold text-primary hover:underline whitespace-nowrap shrink-0"
+                  >
+                    Corporate Sponsorship <ArrowRight size={13} />
+                  </Link>
+                </div>
+              )}
             </div>
 
             <div className="space-y-1.5">
@@ -166,7 +212,7 @@ export default function Contact() {
           </form>
         </div>
 
-        {/* Direct Channels & Governance Info */}
+        {/* Direct Channels, Corporate Sponsorship & Governance Info */}
         <div className="space-y-8">
           <div className="bg-surface/50 border border-foreground/10 rounded-2xl p-8 shadow-sm">
             <h2 className="text-2xl font-bold uppercase mb-6 text-foreground">Direct Channels</h2>
@@ -192,9 +238,17 @@ export default function Contact() {
                 <div>
                   <h3 className="font-bold text-foreground">Corporate Sponsorship &amp; Billing</h3>
                   <p className="text-xs text-foreground/70 mb-1">Coordinator: Tim Short (custom invoices &amp; split billing)</p>
-                  <a href="mailto:rtshort00@gmail.com" className="text-primary font-mono text-sm hover:underline">
-                    rtshort00@gmail.com
-                  </a>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                    <a href="mailto:rtshort00@gmail.com" className="text-primary font-mono text-sm hover:underline">
+                      rtshort00@gmail.com
+                    </a>
+                    <Link
+                      href="/corporate-sponsorship"
+                      className="inline-flex items-center gap-1 text-xs font-bold text-secondary hover:underline"
+                    >
+                      Sponsorship Details &amp; Packages <ArrowRight size={12} />
+                    </Link>
+                  </div>
                 </div>
               </div>
 
@@ -216,6 +270,25 @@ export default function Contact() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Dedicated Corporate Sponsorship Portal Card */}
+          <div className="bg-surface border-2 border-secondary/30 rounded-2xl p-8 shadow-sm">
+            <div className="flex items-center gap-2 text-secondary font-mono text-xs font-bold uppercase tracking-wider mb-3">
+              <Award size={17} /> Industry &amp; Institutional Partnerships
+            </div>
+            <h3 className="text-xl font-black uppercase tracking-tight text-foreground mb-2">
+              Corporate Sponsorship
+            </h3>
+            <p className="text-sm text-foreground/80 leading-relaxed mb-5">
+              Each biennial HEMS Workshop is independently funded through registrations, donations, and corporate sponsors—helping offset symposium costs and fund competitive Student Travel Awards while providing hardware exhibition space, corporate poster display, and website recognition.
+            </p>
+            <Link
+              href="/corporate-sponsorship"
+              className="inline-flex items-center gap-2 bg-secondary text-background font-bold px-5 py-3 rounded-lg hover:bg-secondary/90 transition-all shadow-sm text-xs uppercase tracking-wide"
+            >
+              View Corporate Sponsorship Page <ArrowRight size={14} />
+            </Link>
           </div>
 
           {/* Society Governance Card */}

@@ -700,3 +700,17 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Creating `src/frontend/src/app/history/page.tsx` with the complete narrative from `docs/source-documents/historyV1.md` (Early Years 1999–2005, HEMS Society 2005–Present, Key Historical Milestones timeline, and Summary / Beachfront Philosophy).
   - Updating `src/frontend/src/app/about/page.tsx` to focus exclusively on Mission & Core Strategic Objectives (`mission-statementV1.md`) with a prominent link card to `/history`.
   - Linking `/history` across `Navbar.tsx`, `Footer.tsx`, `page.tsx`, `sitemap.ts`, `content/pages/history.md`, and `public/admin/config.yml`.
+
+
+---
+
+## [2026-11-10] SCoT Trace — Evergreen Corporate Sponsorship Page & Contact-Page Routing (@arch, @dev, @brand, @qa, @ops)
+- **Objective**: Create a general, year-after-year public Corporate Sponsorship page (`/corporate-sponsorship`) modeled on the canonical facts of legacy `https://www.hems-workshop.org/15thWS/15thCorp_Sponsors.html`, accessible prominently through the Contact page (`/contact`) and excluded from the top Navigation Bar (`Navbar.tsx`).
+- **Firewall & Lock Verification**:
+  - Zero reads performed on `docs/logs/thought_trace.md` (append-only).
+  - Zero edits permitted on `src/frontend/src/app/archive/**`, `src/frontend/src/data/archives/**`, `src/frontend/src/data/master_workshops.json`, `/source-material`, or `.agents/`.
+- **Architectural & Routing Decisions**:
+  1. Promote `/corporate-sponsorship` out of the Attendee Portal sidebar route group (`src/frontend/src/app/(portal)/corporate-sponsorship/page.tsx`) to a standalone top-level public route (`src/frontend/src/app/corporate-sponsorship/page.tsx`). Retaining the `/corporate-sponsorship` slug preserves backward compatibility with existing portal cards and Decap CMS references while giving the page full-width Global Symposium public styling matching `/about`, `/history`, and `/contact`.
+  2. Frame all copy to stand year after year: highlight HEMS as an all-volunteer 501(c)(3) organization bridging academic, industrial, and government circles with no formal membership fee; detail how workshop sponsorships independently fund the biennial symposium and Student Travel Awards; present the four core sponsor benefits (exhibition table for hardware/literature, corporate poster display including remote posting for non-attending sponsors, workshop banner/program recognition, and website logo + link); and outline the three evergreen participation structures ($1,350 full package with 1 attendee registration, $850 + $500 split invoicing for corporate purchasing limits, and $850 non-attending sponsor) via `http://shop.hems-workshop.org` and Coordinator Tim Short (`rtshort00@gmail.com`).
+  3. Dynamically bind the Past & Continuing Corporate Sponsors showcase to `src/frontend/src/data/corporate_registry.json` (52 organizations since 2001) so future sponsors added via Workshop Manager appear automatically year over year. Apply non-mutating runtime normalization in `page.tsx` for bare domains (`www.hamiltonsundstrand.com`, `pascaltechnologies.com`, `SpyglassWater.com`) and the single Linux case-sensitive filename discrepancy (`SAES_Getters.png` -> `Saes_Getters.png` on disk).
+  4. Wire prominent discovery through `src/frontend/src/app/contact/page.tsx` (dedicated Corporate Sponsorship callout card, inline Direct Channel link, contextual inquiry banner when "Sponsorship & Billing Inquiries" is selected, and `?topic=sponsorship` pre-selection) while leaving `Navbar.tsx` completely untouched.
