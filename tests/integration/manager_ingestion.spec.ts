@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 test('Workshop Manager data ingestion and auto-extraction', async ({ page }) => {
-  // Navigate to the Workshop Manager locally
-  await page.goto('http://localhost:3000/manager');
+  // Navigate to the standalone Workshop Manager locally on port 4000
+  await page.goto('http://localhost:4000');
   
   // Wait for the UI to load
   await page.waitForSelector('text=Workshop Manager');
@@ -17,8 +17,8 @@ test('Workshop Manager data ingestion and auto-extraction', async ({ page }) => 
   // Wait a moment for rendering and auto-extraction to run
   await page.waitForTimeout(2000);
 
-  // Take a screenshot
-  await page.screenshot({ path: 'manager_expanded_verification.png', fullPage: true });
+  // Take a screenshot inside test-results/
+  await page.screenshot({ path: 'test-results/manager_expanded_verification.png', fullPage: true });
 
   const textContent = await page.content();
   const hasInstitute = textContent.includes('Institute') || textContent.includes('institute');

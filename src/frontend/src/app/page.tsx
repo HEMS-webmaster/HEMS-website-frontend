@@ -34,7 +34,7 @@ export default function Home() {
               
               <div className="bg-surface/30 border border-foreground/10 p-6 rounded-xl backdrop-blur-sm mb-8">
                 <p className="text-lg text-foreground/90 leading-relaxed font-sans italic">
-                  &ldquo;In situ mass spectrometry (MS) in a wide variety of harsh environments—from outer space to Earth&apos;s oceans to battlefield scenarios—is rapidly becoming a reality. There are many common features to MS deployment in these vastly different conditions, including high reliability, small size, and low power requirements. The Harsh-Environment MS Workshop encourages interaction among those interested in deployment of mass spectrometers in various harsh environments.&rdquo;
+                  &ldquo;Our mission is to provide a platform for scientists, engineers, and users to come together, exchange knowledge, and address common challenges related to deploying mass spectrometry technology outside a controlled laboratory environment.&rdquo;
                 </p>
               </div>
               
@@ -44,7 +44,7 @@ export default function Home() {
                   <ArrowRight size={18} />
                 </Link>
                 <Link href="/about" className="flex items-center gap-2 bg-surface text-foreground border border-foreground/20 px-6 py-3 rounded-md font-medium hover:border-primary/50 transition-colors">
-                  HEMS Society Overview
+                  Mission &amp; Society History
                 </Link>
               </div>
             </div>

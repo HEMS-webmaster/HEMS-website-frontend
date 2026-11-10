@@ -6,9 +6,20 @@ const isBuild = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
   // Static export for Firebase Classic Hosting (Spark tier, free).
-  // Only active on `next build`. `next dev` runs as a normal Next.js server
-  // so the Workshop Manager and its API routes function without restrictions.
-  ...(isBuild ? { output: "export" } : {}),
+  // Only active on `next build`. In `next dev`, proxy `/api/manager/*` to the
+  // standalone Workshop Manager on port 4000 when local file streaming is used.
+  ...(isBuild
+    ? { output: "export" }
+    : {
+        async rewrites() {
+          return [
+            {
+              source: "/api/manager/:path*",
+              destination: "http://localhost:4000/api/manager/:path*",
+            },
+          ];
+        },
+      }),
   trailingSlash: true,
   images: {
     // Image Optimisation is server-only. Disabled for the static export;

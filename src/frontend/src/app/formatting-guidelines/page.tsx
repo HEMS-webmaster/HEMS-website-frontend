@@ -1,4 +1,5 @@
-import { Download, FileText, Layout, Info, ExternalLink, Type, CheckCircle2, List } from "lucide-react";
+import Link from "next/link";
+import { Download, FileText, Layout, Info, ExternalLink, Type, List, ArrowRight } from "lucide-react";
 
 export const metadata = {
   title: "Formatting Guidelines - HEMS Workshop",
@@ -104,38 +105,46 @@ export default function FormattingGuidelines() {
 
         {/* Sidebar Panel: Templates & Actions */}
         <div className="space-y-6">
-          {/* Templates Download Box */}
+          {/* Reference Examples Box */}
           <div className="bg-background border border-foreground/10 p-6 rounded-xl shadow-sm space-y-4">
             <h3 className="font-bold uppercase tracking-wider text-xs border-b border-foreground/10 pb-2 flex items-center gap-2">
-              <Download size={14} className="text-primary" /> Download Templates
+              <Download size={14} className="text-primary" /> Reference Proceedings
             </h3>
             <p className="text-xs text-foreground/70 leading-relaxed">
-              Use our pre-formatted templates to ensure compliance with HEMS abstract program structures.
+              Review the official 15th HEMS Workshop program and published single-page extended abstracts to model layout, figure sizing, and citation style.
             </p>
             
-            {/* Word Download */}
-            <button className="w-full flex items-center justify-between border border-foreground/10 p-3 rounded-lg hover:border-primary/50 transition-colors text-left text-xs bg-surface/10">
+            {/* 15th Program PDF */}
+            <a
+              href="https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Administrative/15th_Program.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full flex items-center justify-between border border-foreground/10 p-3 rounded-lg hover:border-primary/50 transition-colors text-left text-xs bg-surface/10"
+            >
               <div className="flex gap-2 items-center">
                 <FileText className="text-primary" size={16} />
                 <div>
-                  <strong className="block text-foreground">Word Template</strong>
-                  <span className="text-[10px] text-foreground/50">HEMS_2025_Abstract.docx</span>
+                  <strong className="block text-foreground">15th Workshop Program</strong>
+                  <span className="text-[10px] text-foreground/50">15th_Program.pdf (Official Layout)</span>
                 </div>
               </div>
-              <Download className="text-foreground/50" size={14} />
-            </button>
+              <ExternalLink className="text-foreground/50" size={14} />
+            </a>
 
-            {/* LaTeX Download */}
-            <button className="w-full flex items-center justify-between border border-foreground/10 p-3 rounded-lg hover:border-primary/50 transition-colors text-left text-xs bg-surface/10">
+            {/* Sample Abstracts in Archive */}
+            <Link
+              href="/archive/2025"
+              className="w-full flex items-center justify-between border border-foreground/10 p-3 rounded-lg hover:border-primary/50 transition-colors text-left text-xs bg-surface/10"
+            >
               <div className="flex gap-2 items-center">
-                <FileText className="text-primary" size={16} />
+                <FileText className="text-secondary" size={16} />
                 <div>
-                  <strong className="block text-foreground">LaTeX Template</strong>
-                  <span className="text-[10px] text-foreground/50">HEMS_2025_Abstract.zip</span>
+                  <strong className="block text-foreground">Published Abstract Examples</strong>
+                  <span className="text-[10px] text-foreground/50">Browse 2025 Technical Sessions</span>
                 </div>
               </div>
-              <Download className="text-foreground/50" size={14} />
-            </button>
+              <ArrowRight className="text-foreground/50" size={14} />
+            </Link>
           </div>
 
           {/* Submission Reminder */}

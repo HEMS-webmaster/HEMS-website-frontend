@@ -1,14 +1,14 @@
 ---
 title: "Contact the HEMS Society"
 general_email: "info@hems-workshop.org"
-technical_email: "technical@hems-workshop.org"
-treasurer_email: "treasurer@hems-workshop.org"
-mailing_address: "Harsh-Environment Mass Spectrometry Society, Inc.\nP.O. Box 1234\nSt. Petersburg, FL 33701"
+technical_email: "hemsworkshop@hems-workshop.org"
+treasurer_email: "rtshort00@gmail.com"
+mailing_address: "Harsh-Environment Mass Spectrometry Society, Inc. (Florida 501(c)(3) Public Charity)"
 ---
 
-Have questions about upcoming workshops, abstract submission deadlines, corporate sponsorships, or student travel grants? Reach out to our organizing committee using the contact details below.
+Have questions about biennial HEMS workshops, proceedings citations, corporate sponsorships, or student travel grants? Reach out to our organizing committee using the channels below.
 
-### Inquiries
-* **General & Workshop Questions:** info@hems-workshop.org
-* **Technical Program & Papers:** technical@hems-workshop.org
-* **Sponsorships & Invoices:** treasurer@hems-workshop.org
+### Direct Channels
+* **General & Program Inquiries:** info@hems-workshop.org
+* **Student Travel Award Submissions:** hemsworkshop@hems-workshop.org
+* **Corporate Sponsorships & Custom Billing (Tim Short):** rtshort00@gmail.com

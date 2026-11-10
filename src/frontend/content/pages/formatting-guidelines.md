@@ -1,16 +1,16 @@
 ---
-title: "Abstract Formatting Guidelines"
-template_download_url: "/archive/proceedings/15th/Administrative/15th_Abstract_Template.docx"
+title: "Formatting Guidelines"
+template_download_url: "https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Administrative/15th_Program.pdf"
 max_pages: 1
-font_family: "Times New Roman"
-font_size: "12pt"
+font_family: "Times New Roman or Arial"
+font_size: "11pt or 12pt"
 ---
 
-All contributing authors must prepare their extended abstract using the official HEMS formatting template to ensure consistent presentation in the published proceedings catalog.
+All abstract submissions must fit on a single page and be exported to PDF format (`HEMS2025_Abstract_LastName_FirstName.pdf`).
 
-### Technical Requirements
-* **Page Limit:** Strictly 1 page maximum (including figures and references).
-* **Margins:** 1.0 inch (2.54 cm) on all sides.
-* **Header & Title:** Title in 14pt bold, centered. Authors in 12pt regular with numerical superscripts denoting affiliations.
-* **Figures:** Clear, high-resolution figures (minimum 300 DPI) with descriptive captions below.
-* **File Format:** Upload as a PDF document. Do not password-protect or restrict printing.
+### Technical Specifications
+* **Page Limit:** Strictly 1 page maximum (including optional figures and references).
+* **Margins:** 1.0 inch (2.54 cm) on all sides (top, bottom, left, right).
+* **Typography:** Times New Roman or Arial, 11pt or 12pt body text with single line spacing; 14pt bold centered title block.
+* **Author & Institution Block:** Centered below title with numerical superscripts indicating institutional affiliations and contact email.
+* **File Format:** Single PDF document uploaded via Ex Ordo.

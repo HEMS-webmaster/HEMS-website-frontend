@@ -11,7 +11,7 @@ test('dump console errors', async ({ page }) => {
     errors.push(err.message);
   });
   
-  await page.goto('http://localhost:3000/manager');
+  await page.goto('http://localhost:4000');
   await page.waitForTimeout(3000);
   
   console.log('--- CONSOLE ERRORS ---');

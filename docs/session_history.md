@@ -37,3 +37,32 @@ During this session, the team executed a four-phase modernization and architectu
    - Updated [`.gitignore`](file:///c:/AntigravityP1_2/HEMS-website/.gitignore) to cleanly track `local_data/sponsors/` while ignoring local proceedings archives.
    - Updated [`README.md`](file:///c:/AntigravityP1_2/HEMS-website/README.md) with modern architecture diagrams and directory structure.
    - Verified 100% successful production build across `src/frontend` and `functions`.
+
+
+---
+
+# Session History: Mission & History Completion, 484 MB Static Bundle Cleanup & Local Archive Dev Fix
+
+**Date:** 2026-11-10  
+**Epic:** Phase 5 Frontend Modernization Completion, Workspace Hygiene & Local Archive Routing  
+**Agents Engaged:** @arch, @dev, @ops, @qa, @brand, @bo  
+
+---
+
+## 1. Executive Summary
+
+1. **Phase 5 Frontend Modernization Completed:**
+   - Integrated canonical [`mission-statementV1.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/source-documents/mission-statementV1.md) and [`historyV1.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/source-documents/historyV1.md) across [`src/frontend/src/app/about/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/about/page.tsx) and [`src/frontend/src/app/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/page.tsx).
+   - Synchronized all 7 Decap CMS Markdown files in `src/frontend/content/pages/` with verified Society governance, Sheraton Virginia Beach ($124/night), $250/$500/$1,350 registration/sponsorship rates, and Tim Short billing contact details.
+
+2. **484 MB Static Bundle Bloat Eliminated (Zero Data Loss):**
+   - Relocated 615 extracted PDF page-text caches from `src/frontend/public/assets/archives/cache/` to `local_data/cache/` and updated [`index-pdf-contents.js`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/scripts/index-pdf-contents.js).
+   - Archived legacy duplicate 2017/2018 PDFs from `src/frontend/public/assets/archives/` to git-ignored `archive/legacy_public_assets/`, shrinking static build output (`src/frontend/out/`) from **508.20 MB to ~24.3 MB**.
+
+3. **Local Archive PDF & Preview Routing Restored:**
+   - Updated [`src/frontend/src/app/archive/[year]/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/archive/%5Byear%5D/page.tsx) and [`src/frontend/next.config.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/next.config.ts) so `http://localhost:3000/archive/[year]` resolves published GCS PDFs and hover previews out-of-the-box while proxying `/api/manager/*` to `http://localhost:4000` in local dev.
+
+4. **UI Polish & Repository Documentation:**
+   - Published [`docs/project_charter.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/project_charter.md) and updated [`README.md`](file:///c:/AntigravityP1_2/HEMS-website/README.md) for the standalone `tools/manager` architecture (`localhost:4000`).
+   - Upgraded `/contact` (interactive static-compatible `mailto:` inquiry builder & governance card), `/formatting-guidelines` (live 15th Workshop program & archive abstract links), and `/layout-portal` (real 2025 papers & 16th Biennial status).
+   - Removed dead `ConditionalNavbar`/`ConditionalFooter` pass-through wrappers, untracked stray Playwright PNGs in `tests/`, and updated integration specs to port 4000.

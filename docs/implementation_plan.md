@@ -113,6 +113,25 @@ Each workshop follows a 4-point protocol:
 
 ---
 
+### Phase 5: Frontend Webpages Modernization (Mission & History Integration) [COMPLETED]
+*Detailed Architectural Plan:* [docs/plans/2026-10-27-frontend-webpages-revamp.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-10-27-frontend-webpages-revamp.md)
+
+1. [x] **Source Ingestion:** Ingest and reformat canonical `mission-statementV1.md` and `historyV1.md` in `docs/source-documents/`.
+2. [x] **About Page Overhaul:** Implement full mission statement, 5 core objectives grid, and interactive 1999–present chronological history in [`src/frontend/src/app/about/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/about/page.tsx).
+3. [x] **Home Page Harmony:** Update hero and mission synopsis in [`src/frontend/src/app/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/page.tsx).
+4. [x] **Archive Protection Gate:** Enforce zero modifications across proceeding datasets (`master_workshops.json`, `archives/*.json`, `local_data/proceedings/**`).
+
+---
+
+### Phase 6: Workspace Cleanup, CMS Content Sync & Local Archive Dev Routing [COMPLETED]
+*Detailed Architectural Plan:* [docs/plans/2026-11-10-cleanup-and-archive-dev-fix.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-10-cleanup-and-archive-dev-fix.md)
+
+1. [x] **484 MB Static Bundle Reduction:** Relocated `public/assets/archives/cache` -> `local_data/cache/` and archived legacy `public/assets/archives/{2017,2018}` -> `archive/legacy_public_assets/` (shrinking `src/frontend/out/` from 508.2 MB to ~24.3 MB with zero data loss).
+2. [x] **Local Archive PDF & Preview Routing:** Restored 100% working PDF and hover-preview resolution on `http://localhost:3000/archive/[year]` with dev-only `/api/manager/*` proxy support for `localhost:4000`.
+3. [x] **Canonical CMS & UI Placeholder Polish:** Synced all 7 `src/frontend/content/pages/*.md` files with canonical society/venue/rate data, upgraded `/contact`, `/formatting-guidelines`, and `/layout-portal`, removed dead layout wrappers, and published [`docs/project_charter.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/project_charter.md).
+
+---
+
 ## Verification Plan
 
 ### Automated Tests

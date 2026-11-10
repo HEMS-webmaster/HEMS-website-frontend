@@ -1,19 +1,19 @@
 ---
 title: "Workshop Registration"
 early_bird_deadline: "2025-07-15"
-regular_fee: "$650"
-student_fee: "$300"
-exhibitor_fee: "$1,500"
-portal_url: "https://hems-workshop2025.exordo.com"
-registration_open: true
+regular_fee: "$500"
+student_fee: "$250"
+exhibitor_fee: "$1,350"
+portal_url: "https://hems-workshop2025.exordo.com/registration/new"
+registration_open: false
 ---
 
-Registration includes admission to all oral and poster technical sessions, daily catered breakfast and lunch, the evening welcome reception, and the official conference banquet dinner.
+Registration includes full technical session access, workshop materials, daily lunches/social sessions, and the official banquet dinner.
 
-### Pricing Schedule
-* **Regular Attendee (Academic / Industry / Government):** $650 early bird ($750 after July 15)
-* **Student Attendee:** $300 (full-time undergraduate or graduate student verification required)
-* **Corporate Exhibitor:** $1,500 (includes 1 full attendee registration and a dedicated exhibition booth table)
+### Registration Tiers
+* **Student Pass ($250 USD):** Full-time undergraduate and graduate students presenting papers or posters (eligible for Student Travel Awards).
+* **Professional Pass ($500 USD):** Standard registration for academic faculty, industrial researchers, engineers, and government officials.
+* **Corporate Sponsor Pass ($1,350 USD):** Full corporate sponsorship benefits, exhibition display table, banner recognition, plus one (1) attendee registration (`http://shop.hems-workshop.org`).
 
-### Cancellation Policy
-Cancellations received prior to August 1, 2025 are eligible for a full refund minus a $50 administrative processing fee. After August 1, registration fees are non-refundable, but attendee substitutions are welcomed.
+### Cancellation & Refund Policy
+Cancellations submitted in writing on or before August 15, 2025 were eligible for a full refund minus a $50 processing fee; passes may be transferred to another colleague from your organization upon request.

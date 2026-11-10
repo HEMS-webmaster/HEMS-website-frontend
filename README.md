@@ -1,8 +1,8 @@
 # HEMS Workshop Web Platform
 
-Official web platform and historical research archive for the **Harbor & Environmental Mass Spectrometry (HEMS) Workshop** ([hems-workshop.org](http://www.hems-workshop.org)).
+Official web platform and historical research archive for the **Harsh-Environment Mass Spectrometry (HEMS) Society, Inc.** ([hems-workshop.org](https://www.hems-workshop.org)), a 501(c)(3) nonprofit public charity.
 
-This platform serves as the central hub for workshop announcements, registration, call for papers, accommodations, and an interactive digital archive spanning over two decades of mass spectrometry proceedings (1999–2025).
+This platform serves as the central hub for society governance, biennial workshop announcements, registration, call for papers, accommodations, and an interactive digital archive spanning over two decades of mass spectrometry proceedings (1999–2025).
 
 ---
 
@@ -10,21 +10,22 @@ This platform serves as the central hub for workshop announcements, registration
 
 ```mermaid
 graph TD
-    A[Next.js 16 App Router / React 19] -->|Static Export / SSG| B[Firebase Hosting / CDN]
-    A -->|Auth & RBAC| C[Firebase Auth & Firestore]
-    A -->|Local Streaming API| D[Local Workshop Manager]
-    D -->|Dev PDF Stream| E[local_data/proceedings]
-    D -->|GCS Push Sync| F[Google Cloud Storage]
-    C -->|2nd Gen Triggers| G[Cloud Functions Node.js 22]
-    G -->|Sync Roles| C
-    A -->|Search & Indexing| H[Algolia / Client JSON Index]
+    A["Public Frontend: src/frontend (Port 3000)"] -->|Static Export / SSG| B["Firebase Hosting / CDN"]
+    A -->|Auth & RBAC| C["Firebase Auth & Firestore"]
+    A -->|Proceedings & Previews| F["Google Cloud Storage"]
+    D["Workshop Manager: tools/manager (Port 4000)"] -->|Local PDF Stream & OCR| E["local_data/proceedings"]
+    D -->|Catalog Sync & Zod Validation| G["src/frontend/src/data/archives/*.json"]
+    D -->|GCS Push Sync| F
+    C -->|2nd Gen Triggers| H["Cloud Functions Node.js 22"]
+    H -->|Sync Roles| C
+    A -->|Deep Content Search| I["Algolia / Page-Level Chunk Index"]
 ```
 
-* **Frontend Framework:** Next.js 16 (App Router, Turbopack) with React 19, TypeScript 5, and Tailwind CSS v4.
-* **Backend & Serverless:** Firebase Cloud Functions v2 (Node.js 22 runtime, 2nd Gen Firestore event triggers).
-* **Database & Security:** Google Cloud Firestore with strict Role-Based Access Control (`admin`, `board`, `reviewer`, `general`), whitelist inheritance, and daily download quotas.
-* **Storage & Proceedings:** Dual-mode asset routing supporting local development streaming (`/api/manager/serve`) and production Google Cloud Storage (`storage.googleapis.com`).
-* **Deep Content Search:** Pre-compiled page-level searchable PDF chunk index and Algolia search integration.
+* **Public Frontend (`src/frontend/`):** Next.js 16 (App Router) with React 19, TypeScript 5, and Tailwind CSS v4. Compiles cleanly to a lightweight static bundle (`output: "export"`).
+* **Standalone Workshop Manager (`tools/manager/`):** Physically isolated local Next.js workbench running on port `4000` for inspecting proceedings, generating slide/abstract previews, managing corporate sponsor logos, and syncing to Google Cloud Storage.
+* **Backend & Serverless (`functions/`):** Firebase Cloud Functions v2 (Node.js 22 runtime, 2nd Gen Firestore event triggers).
+* **Database & Security:** Google Cloud Firestore with strict Role-Based Access Control (`admin`, `board`, `reviewer`, `submitter`, `attendee`, `general`), whitelist inheritance, and daily download quotas.
+* **Deep Content Search & Editorial Scoping:** Pre-compiled page-level searchable PDF chunk index (`local_data/cache/` -> `public/mock-pdf-chunks.json`), Algolia search integration, and strictly scoped Decap CMS configuration (`src/frontend/content/`).
 
 ---
 
@@ -34,27 +35,33 @@ graph TD
 HEMS-website/
 ├── .agents/                 # Antigravity Agile Release Train (ART) rules & personas
 ├── .github/workflows/       # GitHub Actions CI/CD (Firebase Hosting via WIF)
-├── archive/legacy_tools/    # Retired scrapers and one-off migration utilities
+├── archive/                 # Git-ignored retired scrapers & legacy backup assets
 ├── docs/
+│   ├── project_charter.md   # Canonical system charter & architectural guardrails
+│   ├── source-documents/    # Canonical Mission Statement & Society History sources
 │   ├── registries/          # Canonical SEO & 301 permalink registries
 │   ├── plans/               # Permanent architectural sprint plans
 │   └── logs/                # Silent Chain-of-Thought (SCoT) audit logs
-├── local_data/              # Local proceedings & canonical sponsor assets
+├── local_data/              # Local proceedings, caches & canonical sponsor assets
 │   ├── proceedings/         # Workshop 1–15 proceedings (1,590 files, 1.68 GB)
-│   └── sponsors/            # Master sponsor logo repository (91 assets)
+│   ├── sponsors/            # Master sponsor logo repository (91 assets)
+│   └── cache/               # Extracted PDF page-text cache (615 JSON files)
+├── scripts/                 # Workspace-level link & asset integrity auditors
 ├── firestore.rules          # Firestore security rules and RBAC policies
 ├── functions/               # Firebase Cloud Functions (Node.js 22, TypeScript)
-│   └── src/index.ts         # Whitelist role synchronization triggers
+├── tools/
+│   └── manager/             # Standalone local Workshop Manager (Port 4000)
 └── src/
-    └── frontend/            # Next.js web application
-        ├── public/          # Static assets & pre-compiled search indices
-        ├── scripts/         # Production build and GCS push scripts
+    └── frontend/            # Public Next.js web application (Port 3000)
+        ├── content/         # Scoped Markdown content collections (Decap CMS)
+        ├── public/          # Lightweight static web assets & search indices
+        ├── scripts/         # Pre-build Zod validation, indexing & GCS push scripts
         └── src/
             ├── app/         # App Router pages & portals
-            │   ├── (portal)/# Role-gated areas (Admin, Board, Reviewer)
-            │   ├── archive/ # Dynamic 1999-2025 proceedings viewer
-            │   ├── manager/ # Local Workshop Manager workbench
-            │   └── api/     # Local dev APIs (PDF streaming, save, sync)
+            │   ├── (portal)/# Attendee & role-gated areas (Admin, Board, Reviewer)
+            │   ├── about/   # Official Mission, Objectives & 1999–present History
+            │   ├── archive/ # Dynamic 1999–2025 proceedings search & viewer
+            │   └── contact/ # Society & sponsorship inquiry hub
             ├── components/  # Modular UI components
             └── data/        # Master JSON datasets and workshop archives
 ```
@@ -69,37 +76,36 @@ HEMS-website/
 
 ### Local Development
 
-1. **Install Dependencies:**
-   ```bash
-   cd src/frontend
-   npm install
-   ```
+From the repository root:
 
-2. **Start the Development Server:**
+1. **Start the Public Website (`http://localhost:3000`):**
    ```bash
    npm run dev
    ```
-   * **Public Website:** [http://localhost:3000](http://localhost:3000)
-   * **Workshop Manager:** [http://localhost:3000/manager](http://localhost:3000/manager)
 
-During local development, the Workshop Manager and archive viewer automatically stream local presentation PDFs and abstracts directly from `local_data/proceedings/`.
+2. **Start the Standalone Workshop Manager (`http://localhost:4000`):**
+   ```bash
+   npm run manager
+   ```
+
+3. **Audit Proceedings & GCS Link Integrity:**
+   ```bash
+   npm run audit:assets
+   ```
 
 ---
 
 ## 🛠️ Build & Deployment
 
 ### Production Build
-To validate TypeScript types, pre-compile search indices, and generate the static export:
+To validate archive schemas with Zod, compile search indices, and generate the static export (`src/frontend/out/`):
 ```bash
-cd src/frontend
 npm run build
 ```
-Output is compiled to `src/frontend/out/`.
 
 ### Cloud Storage Asset Sync
 To synchronize newly processed local proceedings and presentation PDFs with Google Cloud Storage:
 ```bash
-cd src/frontend
 npm run push-to-live
 ```
 

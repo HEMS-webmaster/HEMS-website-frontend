@@ -21,7 +21,7 @@ const APP_ID = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || '';
 const ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY || '';
 const INDEX_NAME = 'hems_proceedings_search';
 
-const cacheDir = path.join(__dirname, '..', 'public', 'assets', 'archives', 'cache');
+const cacheDir = path.join(__dirname, '..', '..', '..', 'local_data', 'cache');
 
 // Ensure the PDF text extraction cache directory exists
 if (!fs.existsSync(cacheDir)) {
