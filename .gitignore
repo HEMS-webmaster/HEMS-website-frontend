@@ -47,4 +47,5 @@ scratch/
 source-material/
 scratch_archive.zip
 firebase-key.json
+.firebase/
 .agents/

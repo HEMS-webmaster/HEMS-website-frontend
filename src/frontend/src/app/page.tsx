@@ -1,214 +1,526 @@
 import Link from "next/link";
-import { ArrowRight, Globe, Database, Cpu, FileText, Anchor, Compass } from "lucide-react";
+import {
+  ArrowRight,
+  Compass,
+  Anchor,
+  Cpu,
+  GraduationCap,
+  BookOpen,
+  Building2,
+  ShieldCheck,
+} from "lucide-react";
 import UpcomingHeroBadge from "@/components/workshop/UpcomingHeroBadge";
+import UpcomingWorkshopSpotlight from "@/components/workshop/UpcomingWorkshopSpotlight";
+
+interface SpectrumPeak {
+  mz: number;
+  abundance: number; // 0..100
+  label?: string;
+  accent?: "primary" | "secondary" | "neutral";
+}
+
+// Authentic EI mass spectrum profile representative of hydrothermal / volcanic / planetary volatiles (m/z 1–100)
+const IN_SITU_SPECTRUM_PEAKS: SpectrumPeak[] = [
+  { mz: 4, abundance: 10 },
+  { mz: 15, abundance: 31 },
+  { mz: 16, abundance: 38, label: "16 CH₄⁺", accent: "neutral" },
+  { mz: 17, abundance: 15 },
+  { mz: 18, abundance: 64, label: "18 H₂O⁺", accent: "primary" },
+  { mz: 28, abundance: 100, label: "28 N₂⁺", accent: "primary" },
+  { mz: 29, abundance: 8 },
+  { mz: 32, abundance: 46, label: "32 O₂⁺", accent: "neutral" },
+  { mz: 34, abundance: 18 },
+  { mz: 40, abundance: 29, label: "40 Ar⁺", accent: "neutral" },
+  { mz: 44, abundance: 78, label: "44 CO₂⁺", accent: "secondary" },
+  { mz: 45, abundance: 9 },
+  { mz: 48, abundance: 25 }, // SO+ fragment of SO2
+  { mz: 64, abundance: 52, label: "64 SO₂⁺", accent: "secondary" },
+  { mz: 66, abundance: 5 },
+  { mz: 78, abundance: 22, label: "78 C₆H₆⁺", accent: "neutral" },
+  { mz: 84, abundance: 9 },
+  { mz: 91, abundance: 13 },
+];
+
+const IMPACT_METRICS = [
+  {
+    value: "1999",
+    label: "Founded in Baltimore",
+    detail: "Incorporated as an IRS 501(c)(3) scientific public charity in 2003",
+  },
+  {
+    value: "15",
+    label: "Completed Workshops",
+    detail: "Over two decades of informal, high-candor coastal & global symposia",
+  },
+  {
+    value: "1,590",
+    label: "Open-Access Files",
+    detail: "Archived oral slide decks, abstracts, programs & poster records",
+  },
+  {
+    value: "52",
+    label: "Industry & Lab Partners",
+    detail: "Instrumentation innovators, national laboratories & space agencies",
+  },
+];
+
+const CHARTER_PILLARS = [
+  {
+    index: "01",
+    title: "Planetary, Oceanic & Volcanic Frontiers",
+    description:
+      "Deploying mass spectrometers directly into extreme natural regimes—from deep-ocean hydrothermal vents and polar waters to volcanic plumes, stratospheric aircraft, and lunar or Martian landers.",
+    tags: ["Deep-Sea MIMS", "Planetary Payloads", "Volcanic & Atmospheric"],
+  },
+  {
+    index: "02",
+    title: "Miniature & Ruggedized Hardware",
+    description:
+      "Engineering compact ion sources, rectilinear and toroidal ion traps, portable time-of-flight and sector analyzers, harsh-environment membrane inlets, and low-SWaP vacuum systems.",
+    tags: ["Low-SWaP Vacuum", "Portable Analyzers", "Harsh Inlets"],
+  },
+  {
+    index: "03",
+    title: "Autonomous Field Sensing & Rapid Response",
+    description:
+      "Advancing uncrewed underwater and aerial sensing, real-time onboard spectral deconvolution, environmental forensics, industrial process monitoring, and chemical defense readiness.",
+    tags: ["AUV / UAV Sensing", "Onboard Deconvolution", "Environmental & Defense"],
+  },
+];
 
 export default function Home() {
   return (
     <div className="flex flex-col flex-grow">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden flex-grow flex items-center py-20 lg:py-28">
-        <div className="absolute inset-0 bg-gradient-to-b from-surface/50 to-background pointer-events-none" />
-        
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-20 pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-8 max-w-3xl">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-8">
-                <img 
-                  src="/hemslogo.jpg" 
-                  alt="HEMS Logo" 
-                  className="w-32 h-32 object-contain rounded-xl border border-foreground/15 mix-blend-multiply bg-white p-2 shadow-md hover:scale-105 transition-transform" 
-                />
+      {/* SECTION 1: EDITORIAL SPLIT HERO */}
+      <section className="relative border-b border-slate-200/85 bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] py-14 sm:py-20 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+            {/* Left Editorial Narrative (7 Columns) */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="space-y-3">
+                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Harsh-Environment Mass Spectrometry Society
+                </p>
                 <UpcomingHeroBadge />
               </div>
-              
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground tracking-tight mb-6 uppercase leading-tight">
-                Workshop on <br />
-                <span className="text-primary border-b-4 border-primary pb-1">Harsh-Environment</span> <br />
-                Mass Spectrometry
+
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.35rem] font-semibold text-slate-900 tracking-tight leading-[1.1]">
+                Mass Spectrometry{" "}
+                <span className="text-primary italic font-normal">Beyond</span> the Controlled Laboratory.
               </h1>
-              
-              <div className="bg-surface/30 border border-foreground/10 p-6 rounded-xl backdrop-blur-sm mb-8">
-                <p className="text-lg text-foreground/90 leading-relaxed font-sans italic">
-                  &ldquo;Our mission is to provide a platform for scientists, engineers, and users to come together, exchange knowledge, and address common challenges related to deploying mass spectrometry technology outside a controlled laboratory environment.&rdquo;
-                </p>
-              </div>
-              
-              <div className="flex flex-wrap gap-4">
-                <Link href="/archive" className="flex items-center gap-2 bg-primary text-background px-6 py-3 rounded-md font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
-                  Explore Proceedings Archive
-                  <ArrowRight size={18} />
+
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
+                Since 1999, the biennial HEMS Workshop has convened academic, government, and industrial investigators to solve the engineering and analytical challenges of operating mass spectrometers in the field.
+              </p>
+
+              <blockquote className="border-l-2 border-primary/50 pl-4 py-0.5 text-sm sm:text-[15px] font-serif italic text-slate-700 max-w-2xl">
+                &ldquo;Providing an open, collaborative forum where instrument builders and field scientists share breakthroughs, setbacks, and real-world deployment lessons.&rdquo;
+              </blockquote>
+
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Link
+                  href="/archive"
+                  className="inline-flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-lg text-sm font-semibold hover:bg-sky-800 transition-colors shadow-xs"
+                >
+                  <span>Explore Proceedings Archive</span>
+                  <ArrowRight size={16} />
                 </Link>
-                <Link href="/about" className="flex items-center gap-2 bg-surface text-foreground border border-foreground/20 px-6 py-3 rounded-md font-medium hover:border-primary/50 transition-colors">
-                  About &amp; Mission
+                <Link
+                  href="/layout-portal"
+                  className="inline-flex items-center gap-2 bg-white text-slate-800 border border-slate-200 px-5 py-3 rounded-lg text-sm font-semibold hover:border-primary/50 hover:text-primary transition-colors shadow-2xs"
+                >
+                  <span>2027 Workshop Overview</span>
                 </Link>
-                <Link href="/history" className="flex items-center gap-2 bg-background text-foreground border border-foreground/20 px-6 py-3 rounded-md font-medium hover:border-primary/50 transition-colors">
-                  Society History
+                <Link
+                  href="/history"
+                  className="inline-flex items-center gap-1.5 px-3 py-3 text-sm font-medium text-slate-600 hover:text-primary transition-colors"
+                >
+                  <span>Society History (1999–2025)</span>
                 </Link>
               </div>
             </div>
-            
-            <div className="hidden lg:col-span-4 lg:flex justify-end">
-              <div className="relative w-full aspect-square max-w-sm">
-                <div className="absolute inset-0 border-2 border-primary/20 rounded-full animate-[spin_60s_linear_infinite]" />
-                <div className="absolute inset-4 border border-secondary/30 rounded-full animate-[spin_40s_linear_infinite_reverse]" />
-                <div className="absolute inset-8 border-2 border-dashed border-primary/40 rounded-full animate-[spin_20s_linear_infinite]" />
-                
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="bg-surface/80 backdrop-blur-md p-6 border border-primary/30 rounded-2xl shadow-2xl w-64">
-                    <div className="font-mono text-[10px] text-primary mb-3 flex justify-between">
-                      <span>MS.SYS: DEPLOYED</span>
-                      <span>ENV: HARSH</span>
-                    </div>
-                    <div className="space-y-2.5 font-mono text-[11px]">
-                      <div className="flex justify-between text-foreground/60 border-b border-foreground/5 pb-1">
-                        <span>Mass Range:</span>
-                        <span className="text-foreground font-bold">1-200 amu</span>
-                      </div>
-                      <div className="flex justify-between text-foreground/60 border-b border-foreground/5 pb-1">
-                        <span>Pressure:</span>
-                        <span className="text-foreground font-bold">1e-5 Torr</span>
-                      </div>
-                      <div className="flex justify-between text-foreground/60 border-b border-foreground/5 pb-1">
-                        <span>Power Draw:</span>
-                        <span className="text-foreground font-bold">&lt; 35 W</span>
-                      </div>
-                      <div className="flex justify-between text-foreground/60">
-                        <span>Telemetry:</span>
-                        <span className="text-secondary font-bold">LINK ACTIVE</span>
-                      </div>
-                    </div>
+
+            {/* Right Analytical Specimen & 2027 Dossier Card (5 Columns) */}
+            <div className="lg:col-span-5">
+              <div className="bg-white border border-slate-200/95 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+                {/* Analytical Header */}
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div>
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 block">
+                      In-Situ Volatile Profile • EI 70 eV
+                    </span>
+                    <span className="text-xs font-semibold text-slate-800">
+                      Field-Deployed Spectral Signature (<em>m/z</em> 1–100)
+                    </span>
                   </div>
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-teal-50 text-secondary border border-teal-200/70 font-medium">
+                    10⁻⁶ Torr
+                  </span>
                 </div>
+
+                {/* Calibrated SVG Mass Spectrum */}
+                <div className="bg-[#FAFBFD] border border-slate-100 rounded-xl p-3">
+                  <svg
+                    viewBox="0 0 420 176"
+                    className="w-full h-auto overflow-visible"
+                    role="img"
+                    aria-label="Calibrated harsh-environment electron ionization mass spectrum from m/z 1 to 100 showing CH4, H2O, N2, O2, Ar, CO2, SO2, and VOC peaks"
+                  >
+                    {/* Horizontal Relative Abundance Gridlines (25%, 50%, 75%, 100%) */}
+                    {[33, 66, 99, 132].map((y, idx) => (
+                      <line
+                        key={idx}
+                        x1="34"
+                        y1={y}
+                        x2="406"
+                        y2={y}
+                        stroke="#E2E8F0"
+                        strokeWidth="0.75"
+                        strokeDasharray={idx === 3 ? undefined : "2 3"}
+                      />
+                    ))}
+
+                    {/* Y-Axis Label */}
+                    <text
+                      x="10"
+                      y="85"
+                      transform="rotate(-90 10 85)"
+                      className="fill-slate-400"
+                      fontSize="8.5"
+                      fontFamily="var(--font-ibm-mono), monospace"
+                      textAnchor="middle"
+                    >
+                      Rel. Intensity (%)
+                    </text>
+                    <text
+                      x="28"
+                      y="36"
+                      className="fill-slate-400"
+                      fontSize="8"
+                      fontFamily="var(--font-ibm-mono), monospace"
+                      textAnchor="end"
+                    >
+                      100
+                    </text>
+                    <text
+                      x="28"
+                      y="86"
+                      className="fill-slate-400"
+                      fontSize="8"
+                      fontFamily="var(--font-ibm-mono), monospace"
+                      textAnchor="end"
+                    >
+                      50
+                    </text>
+                    <text
+                      x="28"
+                      y="135"
+                      className="fill-slate-400"
+                      fontSize="8"
+                      fontFamily="var(--font-ibm-mono), monospace"
+                      textAnchor="end"
+                    >
+                      0
+                    </text>
+
+                    {/* Baseline X-Axis (y = 132, m/z 0..100 mapped across x = 34..406) */}
+                    <line x1="34" y1="132" x2="406" y2="132" stroke="#94A3B8" strokeWidth="1" />
+
+                    {/* X-Axis Ticks & m/z Labels */}
+                    {[0, 20, 40, 60, 80, 100].map((mzTick) => {
+                      const x = 34 + (mzTick / 100) * 372;
+                      return (
+                        <g key={mzTick}>
+                          <line x1={x} y1="132" x2={x} y2="136" stroke="#94A3B8" strokeWidth="1" />
+                          <text
+                            x={x}
+                            y="147"
+                            className="fill-slate-500"
+                            fontSize="8.5"
+                            fontFamily="var(--font-ibm-mono), monospace"
+                            textAnchor="middle"
+                          >
+                            {mzTick}
+                          </text>
+                        </g>
+                      );
+                    })}
+                    <text
+                      x="220"
+                      y="164"
+                      className="fill-slate-500"
+                      fontSize="9"
+                      fontStyle="italic"
+                      fontFamily="var(--font-source-serif), serif"
+                      textAnchor="middle"
+                    >
+                      Mass-to-Charge Ratio (m/z)
+                    </text>
+
+                    {/* Ion Peaks */}
+                    {IN_SITU_SPECTRUM_PEAKS.map((peak) => {
+                      const x = 34 + (peak.mz / 100) * 372;
+                      const peakHeight = (peak.abundance / 100) * 99;
+                      const yTop = 132 - peakHeight;
+                      const strokeColor =
+                        peak.accent === "primary"
+                          ? "#0369A1"
+                          : peak.accent === "secondary"
+                          ? "#0F766E"
+                          : "#64748B";
+                      const labelColor =
+                        peak.accent === "primary"
+                          ? "#0369A1"
+                          : peak.accent === "secondary"
+                          ? "#0F766E"
+                          : "#475569";
+
+                      return (
+                        <g key={peak.mz}>
+                          <line
+                            x1={x}
+                            y1={132}
+                            x2={x}
+                            y2={yTop}
+                            stroke={strokeColor}
+                            strokeWidth={peak.abundance >= 45 ? "2.1" : "1.5"}
+                            strokeLinecap="round"
+                          />
+                          {peak.label && (
+                            <text
+                              x={x}
+                              y={Math.max(15, yTop - 5)}
+                              fill={labelColor}
+                              fontSize="8"
+                              fontWeight="600"
+                              fontFamily="var(--font-ibm-mono), monospace"
+                              textAnchor="middle"
+                            >
+                              {peak.label}
+                            </text>
+                          )}
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+
+                {/* Live-Hydrated 16th Workshop Dossier */}
+                <UpcomingWorkshopSpotlight />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Focus Areas */}
-      <section className="py-20 bg-surface/30 border-t border-foreground/5">
+      {/* SECTION 2: INSTITUTIONAL IMPACT LEDGER */}
+      <section className="bg-white border-b border-slate-200/85">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center md:text-left">
-            <h2 className="text-3xl font-bold uppercase tracking-tight">Technical Program Focus</h2>
-            <p className="text-foreground/60 mt-2 font-mono text-sm">Key areas of research and engineering featured in HEMS sessions</p>
-            <div className="w-20 h-1 bg-primary mt-4 mx-auto md:mx-0" />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-background border border-foreground/10 p-8 hover:border-primary/50 transition-colors group rounded-xl">
-              <Globe className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-bold mb-3 uppercase tracking-wide">Extreme Environments</h3>
-              <p className="text-foreground/70 text-sm leading-relaxed font-sans">
-                Interfacing instruments directly with punishing environments, including planetary atmospheres, deep oceanic boundaries, volcanic plumes, and tactical battlefield scenarios.
-              </p>
-            </div>
-            
-            <div className="bg-background border border-foreground/10 p-8 hover:border-primary/50 transition-colors group rounded-xl">
-              <Cpu className="w-12 h-12 text-secondary mb-6 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-bold mb-3 uppercase tracking-wide">Hardware Miniaturization</h3>
-              <p className="text-foreground/70 text-sm leading-relaxed font-sans">
-                R&amp;D focused on making mass spectrometer components (ion sources, mass analyzers, vacuum pumps, and detectors) rugged, portable, and energy-efficient.
-              </p>
-            </div>
-            
-            <div className="bg-background border border-foreground/10 p-8 hover:border-primary/50 transition-colors group rounded-xl">
-              <Database className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-bold mb-3 uppercase tracking-wide">Autonomous Telemetry</h3>
-              <p className="text-foreground/70 text-sm leading-relaxed font-sans">
-                Autonomous sampling protocols, intelligent target selection, real-time data processing, and compressed spectral communication networks for remote operation.
-              </p>
-            </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/80">
+            {IMPACT_METRICS.map((item) => (
+              <div key={item.label} className="py-7 px-4 sm:px-6 first:pl-0 last:pr-0">
+                <div className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+                  {item.value}
+                </div>
+                <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-primary mt-1.5">
+                  {item.label}
+                </div>
+                <p className="text-xs text-slate-500 leading-relaxed mt-1">{item.detail}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Workshop Highlights */}
-      <section className="py-20 border-t border-foreground/5 bg-background">
+      {/* SECTION 3: TECHNICAL CHARTER PILLARS */}
+      <section className="py-18 sm:py-22 bg-[#FAFBFD] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
-            {/* Left side: Highlights */}
-            <div className="lg:col-span-8 space-y-8">
+          <div className="max-w-2xl mb-12">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
+              01 — Technical Charter
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+              Core Domains of Harsh-Environment Inquiry
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-3">
+              HEMS sessions follow a single-track format so hardware designers, analytical chemists, and field operators engage across every discipline together.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {CHARTER_PILLARS.map((pillar) => (
+              <article
+                key={pillar.index}
+                className="bg-white border border-slate-200/90 rounded-xl p-7 hover:border-primary/40 transition-colors shadow-2xs flex flex-col justify-between"
+              >
+                <div>
+                  <span className="font-mono text-xs font-semibold text-secondary tracking-widest block mb-4">
+                    {pillar.index} / DOMAIN
+                  </span>
+                  <h3 className="font-serif text-xl font-semibold text-slate-900 leading-snug mb-3">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{pillar.description}</p>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 mt-6 pt-4 border-t border-slate-100">
+                  {pillar.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="font-mono text-[10px] px-2.5 py-1 rounded-md bg-slate-50 text-slate-600 border border-slate-200/70"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: OPEN-ACCESS REPOSITORY & SOCIETY PARTICIPATION */}
+      <section className="py-18 sm:py-22 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+            {/* Left 7 Columns: 15th Workshop Proceedings Spotlight */}
+            <div className="lg:col-span-7 space-y-6">
               <div>
-                <h2 className="text-3xl font-bold uppercase tracking-tight">Latest Workshop Proceedings</h2>
-                <p className="text-foreground/60 mt-2 font-mono text-sm">Key scientific sessions and topics from the 15th HEMS Workshop</p>
-                <div className="w-20 h-1 bg-primary mt-4" />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="bg-surface/20 border border-foreground/10 p-6 rounded-lg hover:border-foreground/20 transition-all">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="p-2 bg-primary/10 text-primary rounded-md">
-                      <Compass size={20} />
-                    </span>
-                    <h4 className="font-bold uppercase tracking-wide">Planetary Exploration</h4>
-                  </div>
-                  <p className="text-sm text-foreground/70 leading-relaxed mb-4">
-                    Research on next-generation mass spectrometers for planetary bodies, featuring systems like ARAMMIS for Lunar gas sensing and spaceflight laser desorption mass spectrometry.
-                  </p>
-                  <span className="text-xs font-mono text-foreground/50">Sessions: Technical I, II, VIII</span>
-                </div>
-
-                <div className="bg-surface/20 border border-foreground/10 p-6 rounded-lg hover:border-foreground/20 transition-all">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="p-2 bg-secondary/10 text-secondary rounded-md">
-                      <Anchor size={20} />
-                    </span>
-                    <h4 className="font-bold uppercase tracking-wide">Underwater & Marine MS</h4>
-                  </div>
-                  <p className="text-sm text-foreground/70 leading-relaxed mb-4">
-                    Advances in oceanic chemistry monitoring using Membrane Introduction Mass Spectrometry (MIMS) and deep-sea autonomous profiling platforms.
-                  </p>
-                  <span className="text-xs font-mono text-foreground/50">Sessions: Technical IV, V, VI</span>
-                </div>
-
-                <div className="bg-surface/20 border border-foreground/10 p-6 rounded-lg hover:border-foreground/20 transition-all col-span-1 sm:col-span-2">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="p-2 bg-primary/10 text-primary rounded-md">
-                      <Cpu size={20} />
-                    </span>
-                    <h4 className="font-bold uppercase tracking-wide">Field-Deployable Instruments</h4>
-                  </div>
-                  <p className="text-sm text-foreground/70 leading-relaxed mb-4">
-                    Presentations on portable Time-of-Flight (TOF) instruments, nonproximate handheld chemical probes, and 2D MS/MS hardware designed for military, battlefield, and rapid response deployment.
-                  </p>
-                  <span className="text-xs font-mono text-foreground/50">Sessions: Technical III, VII, IX</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right side: Quick Info and Society */}
-            <div className="lg:col-span-4 space-y-8">
-              <div className="bg-surface/40 border border-foreground/10 p-6 rounded-xl">
-                <h3 className="font-bold uppercase tracking-wider text-sm mb-4 border-b border-foreground/10 pb-2">HEMS Society, Inc.</h3>
-                <p className="text-xs text-foreground/80 leading-relaxed mb-4">
-                  The Harsh-Environment Mass Spectrometry Society, Inc. is an official 501(c)(3) Public Charity organized exclusively for scientific, educational, and charitable purposes.
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
+                  02 — Open-Access Digital Archive (1999–2025)
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+                  Recent Highlights from the 15th Workshop
+                </h2>
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-2">
+                  Every HEMS symposium preserves an open archival record of oral presentations, abstracts, and technical programs for the global research community.
                 </p>
-                <div className="bg-background/50 border border-foreground/5 p-3.5 rounded font-mono text-[10px] text-foreground/70 space-y-1">
-                  <div>• 501(c)(3) IRS Certified</div>
-                  <div>• Focus: Academic & Industry R&amp;D</div>
-                  <div>• Scope: Portable & Rugged MS</div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="p-5 rounded-xl bg-[#FAFBFD] border border-slate-200/90 hover:border-primary/40 transition-colors">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-2.5">
+                      <Compass size={18} className="text-primary shrink-0" />
+                      <h3 className="font-semibold text-base text-slate-900">
+                        Planetary &amp; Spaceflight Mass Spectrometry
+                      </h3>
+                    </div>
+                    <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                      Sessions I, II, VIII
+                    </span>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed mt-2">
+                    Next-generation analyzers for lunar volatiles, Europa/ocean-world plumes, and laser desorption spaceflight instrumentation.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-xl bg-[#FAFBFD] border border-slate-200/90 hover:border-primary/40 transition-colors">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-2.5">
+                      <Anchor size={18} className="text-secondary shrink-0" />
+                      <h3 className="font-semibold text-base text-slate-900">
+                        Underwater &amp; Marine Biogeochemistry
+                      </h3>
+                    </div>
+                    <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                      Sessions IV, V, VI
+                    </span>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed mt-2">
+                    In-situ Membrane Introduction Mass Spectrometry (MIMS), autonomous underwater vehicle (AUV) chemical mapping, and deep-sea boundary profiling.
+                  </p>
+                </div>
+
+                <div className="p-5 rounded-xl bg-[#FAFBFD] border border-slate-200/90 hover:border-primary/40 transition-colors">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-2.5">
+                      <Cpu size={18} className="text-primary shrink-0" />
+                      <h3 className="font-semibold text-base text-slate-900">
+                        Field-Portable &amp; Tactical Instrumentation
+                      </h3>
+                    </div>
+                    <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                      Sessions III, VII, IX
+                    </span>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed mt-2">
+                    Person-portable TOF and tandem MS/MS systems, ambient ionization probes, and rapid-response chemical detection in austere environments.
+                  </p>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 p-6 rounded-xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <FileText size={80} />
-                </div>
-                <h3 className="font-bold uppercase tracking-wide mb-2 text-primary">Technical Proceedings</h3>
-                <p className="text-xs text-foreground/80 leading-relaxed mb-4">
-                  Access 25+ years of archived programs, abstracts, presentations, and participant details from all HEMS workshops since 1999.
-                </p>
-                <Link href="/archive" className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
-                  Browse the Archives
-                  <ArrowRight size={14} />
+              <div className="flex flex-wrap items-center gap-5 pt-1">
+                <Link
+                  href="/archive/2025"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                >
+                  <span>View 15th Workshop Proceedings (2025)</span>
+                  <ArrowRight size={15} />
+                </Link>
+                <Link
+                  href="/archive"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-primary transition-colors"
+                >
+                  <BookOpen size={15} />
+                  <span>Browse All 15 Workshops (1999–2025)</span>
                 </Link>
               </div>
             </div>
 
+            {/* Right 5 Columns: Institutional Pathways (Student Grants + Sponsorship + Governance) */}
+            <aside className="lg:col-span-5 space-y-5">
+              {/* Student Travel Awards Card */}
+              <div className="p-6 rounded-2xl bg-[#FAFBFD] border border-slate-200/95 space-y-3">
+                <div className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary">
+                  <GraduationCap size={16} /> Emerging Investigators
+                </div>
+                <h3 className="font-serif text-xl font-semibold text-slate-900">
+                  Competitive Student Travel Awards
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  To cultivate the next generation of harsh-environment mass spectrometrists, the HEMS Society awards competitive travel grants to full-time M.S., M.A., and Ph.D. graduate student presenters at each biennial workshop.
+                </p>
+                <Link
+                  href="/student-awards"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline pt-1"
+                >
+                  <span>Eligibility, Selection Criteria &amp; Application Guidelines</span>
+                  <ArrowRight size={13} />
+                </Link>
+              </div>
+
+              {/* Industry Partnership & Non-Profit Charter Card */}
+              <div className="p-6 rounded-2xl bg-slate-900 text-slate-100 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-sky-300">
+                    <ShieldCheck size={14} /> All-Volunteer 501(c)(3) Society
+                  </span>
+                </div>
+                <h3 className="font-serif text-xl font-semibold text-white">
+                  Sustained by Community &amp; Industry Partners
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  HEMS charges no annual membership dues. Each biennial workshop and student travel award cycle is independently sustained by attendee registrations and corporate sponsors across the instrumentation community.
+                </p>
+                <div className="flex flex-wrap items-center gap-4 pt-1 text-xs">
+                  <Link
+                    href="/corporate-sponsorship"
+                    className="inline-flex items-center gap-1.5 font-semibold text-sky-300 hover:text-white transition-colors"
+                  >
+                    <Building2 size={14} />
+                    <span>Corporate Sponsorship</span>
+                    <ArrowRight size={13} />
+                  </Link>
+                  <Link
+                    href="/about"
+                    className="font-medium text-slate-300 hover:text-white transition-colors"
+                  >
+                    Board &amp; Bylaws →
+                  </Link>
+                </div>
+              </div>
+            </aside>
           </div>
         </div>
       </section>

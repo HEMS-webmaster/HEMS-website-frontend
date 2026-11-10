@@ -145,6 +145,15 @@ Each workshop follows a 4-point protocol:
 
 ---
 
+### Phase 8: Brand Guidelines v3.0.0 & Editorial Academic Homepage [COMPLETED]
+*Detailed Architectural Plan:* [docs/plans/2026-11-10-refined-academic-homepage-and-brand-v3.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-10-refined-academic-homepage-and-brand-v3.md)
+
+1. [x] **Brand Archive & v3.0.0 Upgrade (`@brand`):** Archived `v2.0.0` to [`docs/design/archive/brand-guidelines-v2.0.0.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/design/archive/brand-guidelines-v2.0.0.md) (and `.agents/config/design/archive/brand-guidelines-v2.0.0.md`) and authored **v3.0.0 — *"Scholarly Precision & Editorial Symposium"*** in [`docs/design/brand-guidelines.md`](file:///c:/AntigravityP1_2/HEMS-website/docs/design/brand-guidelines.md) and `.agents/config/design/brand-guidelines.md`.
+2. [x] **Typography & Token Modernization (`@dev`):** Loaded `Source Serif 4`, `Noto Sans`, and `IBM Plex Mono` via `next/font/google` in [`layout.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/layout.tsx), eliminated render-blocking 6-font `@import` in [`globals.css`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/globals.css), and shifted global surfaces from muddy `#E2E8F0` to crisp Alabaster Paper `#FAFBFD` + Specimen White `#FFFFFF` with Oceanic Sapphire `#0369A1` and Instrumentation Teal `#0F766E`.
+3. [x] **Refined Site Shell & Editorial Homepage (`@dev`):** Upgraded [`Navbar.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/layout/Navbar.tsx) (removed sine-wave background clutter, added emblem + serif wordmark lockup, active-route indicators, `"2027 Workshop"` label, and mobile drawer), [`Footer.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/layout/Footer.tsx), [`UpcomingHeroBadge.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/workshop/UpcomingHeroBadge.tsx), [`UpcomingWorkshopSpotlight.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/workshop/UpcomingWorkshopSpotlight.tsx), and [`page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/page.tsx) (Editorial Split Hero with calibrated SVG EI 70 eV mass spectrum $m/z\ 1\text{–}100$, Institutional Impact Ledger, numbered Technical Charter pillars, 15th Workshop highlights, and Student Travel Awards / 501(c)(3) Sponsorship pathways).
+
+---
+
 ## Verification Plan
 
 ### Automated Tests

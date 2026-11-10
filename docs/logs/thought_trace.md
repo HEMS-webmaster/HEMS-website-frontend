@@ -843,3 +843,35 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   4. Updated Section 05 & 06 with the `508.2 MB -> 24.5 MB` static export reduction, `next.config.ts` dev rewrite (`/api/manager/:path* -> localhost:4000`), and strict separation between Port 4000 Archive Workbench and Google Sheets Upcoming Workshop Config.
   5. Expanded Section 08 & 09 with Cloud-House Governance (`webmaster@hems-workshop.org`, `Webmaster Access` OU, `My Drive` vs. `Shared Drive` publishing constraint, `gcloud` `hems` profile isolation, canonical `src/frontend/.env.example` + `.env.local`, `$0` Firebase Hosting Preview Channels, keyless GitHub Actions WIF, and Archive Immutability Lock).
   6. Updated Section 10 & 11 with new registries, unit tests, and CLI runbooks.
+
+## [2026-11-10T14:40:30-07:00] Private Firebase Hosting Preview Channel Deployment (@ops — authorized by @bo)
+- **Objective:** Build the lean static export (`src/frontend/out/`) with live Google Sheet sync and deploy an unlisted 30-day Firebase Hosting Preview Channel (`preview-2027`) on project `hems-workshop` without modifying live production (`hems-workshop.org`).
+- **Steps:**
+  1. Stop `task-595` (`npm run dev` on port 3000) cleanly to release `.next` locks during static build.
+  2. Run `npm --prefix src/frontend run sync:workshop` -> `npm run build` -> verify `src/frontend/out` bundle size (~24.5 MB).
+  3. Deploy via `firebase hosting:channel:deploy preview-2027 --project hems-workshop --expires 30d` under `webmaster@hems-workshop.org`.
+  4. Probe the returned HTTPS preview channel URL (`200 OK`) and restart `npm run dev` locally.
+
+## [2026-11-10T15:04:00-07:00] Brand Guidelines v3.0.0 Upgrade & Refined Editorial Homepage Build (@brand, @arch, @dev, @qa, @ops)
+- **@bo Directive:** `@brand update the guide as you recommend, store an archive of the previous guide. @dev suggest and build an upated homepage to preview.`
+- **@brand Execution:**
+  1. Archive exact v2.0.0 `brand-guidelines.md` into `.agents/config/design/archive/brand-guidelines-v2.0.0.md` and `docs/design/archive/brand-guidelines-v2.0.0.md`.
+  2. Author **v3.0.0 ("Scholarly Precision & Editorial Symposium")** in `.agents/config/design/brand-guidelines.md` and mirror in `docs/design/brand-guidelines.md`:
+     - Replace all-caps `font-black` shouting headings with Title-Case `Source Serif 4` editorial display headings (`--font-serif`), `Noto Sans` UI/body (`--font-sans`), and `IBM Plex Mono` technical kickers/metrics (`--font-mono`) loaded via `next/font/google` (retiring the 6-family render-blocking `@import` in `globals.css`).
+     - Refine palette to Alabaster Paper (`#FAFBFD`), Specimen White (`#FFFFFF`), Porcelain Mist (`#F1F5F9`), Oxford Ink (`#0F172A`), Editorial Slate (`#334155`), Oceanic Sapphire (`#0369A1`), and Instrumentation Teal (`#0F766E`).
+     - Retire sci-fi spinning HUD widgets in favor of calibrated analytical $m/z$ mass spectrum graphics and institutional ledgers.
+     - Define clean Navbar rules (no decorative wave clutter, `"2027 Workshop"` label clarity, responsive mobile menu drawer, active route underline, and moving unauthenticated Committee Sign In to Footer).
+- **@arch & @dev Execution:**
+  1. Save permanent plan at `docs/plans/2026-11-10-refined-academic-homepage-and-brand-v3.md`.
+  2. Update `globals.css` and `layout.tsx` with `next/font/google` (`Source_Serif_4`, `Noto_Sans`, `IBM_Plex_Mono`) and refined v3.0.0 color tokens (backward-compatible with all existing pages).
+  3. Upgrade `Navbar.tsx` (emblem lockup, active state, mobile drawer, clean translucent white chrome) and `Footer.tsx` (multi-column institutional footer with subtle Committee Sign In link).
+  4. Build `UpcomingWorkshopSpotlight.tsx` + refined `UpcomingHeroBadge.tsx` + editorial `src/app/page.tsx` featuring a calibrated SVG harsh-environment $m/z$ mass spectrum specimen card, 4-column institutional ledger, numbered Technical Charter cards, and 15th Workshop open-access repository spotlight.
+  5. Verify with `npx tsc --noEmit` (`@qa`), commit locally, and update the private `preview-2027` Firebase Preview Channel (`@ops`).
+
+
+## [2026-11-10T15:10:00-07:00] @qa / @sme / @arch / @ops — Post-Build Verification, Factual Audit & Preview Deployment
+- **@sme / @qa Factual Audit Catch:** In `src/frontend/src/app/page.tsx` (Student Travel Awards card), adjusted eligibility wording from "graduate and undergraduate student presenters" to "full-time M.S., M.A., and Ph.D. graduate student presenters" and link label to "Eligibility, Selection Criteria & Application Guidelines" to match canonical HEMS Student Travel Award rules verbatim (`15thstudenttravel.html` / `StudentAwardsClient.tsx`).
+- **@qa Verification:** `npx next typegen` and `npx tsc --noEmit` returned 0 errors; `node tests/unit/upcomingWorkshopCsv.test.mjs` passed 40/40 keys; `git diff b6a0075` across `src/frontend/src/app/archive/**` and archive JSONs confirmed 0 lines changed.
+- **@ops Git Hygiene:** Added `.firebase/` to `.gitignore` and untracked `.firebase/hosting.*.cache` via `git rm --cached` so Firebase Hosting local upload hashes remain on disk without polluting git commits. Left `@bo`'s newly staged `docs/source-documents/pics/` untouched and untracked until `@bo` directs how to curate those photos.
+- **@arch Documentation Sync:** Appended Phase 8 (Brand Guidelines v3.0.0 & Editorial Homepage Redesign) to `docs/implementation_plan.md` and Addendum 7 to `docs/session_history.md`.
+- **@ops Preview Deployment:** Stopping dev daemon cleanly, running `npm run build` + `firebase hosting:channel:deploy preview-2027 --project hems-workshop --expires 30d`, and restarting `npm run dev` on `localhost:3000`.

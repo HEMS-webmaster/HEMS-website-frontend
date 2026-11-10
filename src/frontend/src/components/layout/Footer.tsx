@@ -2,28 +2,105 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-surface border-t border-primary/10 py-12 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-center md:text-left">
-            <h3 className="font-mono font-bold text-xl text-foreground mb-2">HEMS Workshop</h3>
-            <p className="text-foreground/70 text-sm max-w-md">
-              Advancing in situ mass spectrometry in the most extreme environments known to science—from deep space to the abyssal ocean.
+    <footer className="bg-white border-t border-slate-200/90 mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+          {/* Column 1: Society Identity */}
+          <div className="md:col-span-5 space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-white border border-slate-200 p-1 flex items-center justify-center">
+                <img
+                  src="/hemslogo.jpg"
+                  alt="HEMS Society Emblem"
+                  className="w-full h-full object-contain mix-blend-multiply"
+                />
+              </div>
+              <div>
+                <h3 className="font-serif font-semibold text-lg text-slate-900 leading-tight">
+                  Harsh-Environment Mass Spectrometry Society
+                </h3>
+                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-slate-500">
+                  501(c)(3) Scientific Organization • Est. 1999
+                </p>
+              </div>
+            </div>
+            <p className="text-slate-600 text-sm leading-relaxed max-w-md pt-1">
+              An all-volunteer international forum uniting academic, government, and industrial scientists deploying mass spectrometry from the deep ocean to planetary surfaces.
             </p>
           </div>
-          
-          <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <Link href="/about" className="text-foreground/70 hover:text-primary transition-colors">About</Link>
-            <Link href="/history" className="text-foreground/70 hover:text-primary transition-colors">History</Link>
-            <Link href="/student-awards" className="text-foreground/70 hover:text-primary transition-colors">Student Travel Awards</Link>
-            <Link href="/archive" className="text-foreground/70 hover:text-primary transition-colors">Archive</Link>
-            <Link href="/contact" className="text-foreground/70 hover:text-primary transition-colors">Contact</Link>
+
+          {/* Column 2: Society & Archives */}
+          <div className="md:col-span-4 space-y-2.5">
+            <h4 className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+              Society &amp; Repository
+            </h4>
+            <ul className="space-y-2 text-sm text-slate-600">
+              <li>
+                <Link href="/about" className="hover:text-primary transition-colors">
+                  Mission &amp; Governance
+                </Link>
+              </li>
+              <li>
+                <Link href="/history" className="hover:text-primary transition-colors">
+                  Workshop &amp; Society History (1999–2025)
+                </Link>
+              </li>
+              <li>
+                <Link href="/archive" className="hover:text-primary transition-colors">
+                  Open-Access Proceedings Archive
+                </Link>
+              </li>
+              <li>
+                <Link href="/student-awards" className="hover:text-primary transition-colors">
+                  Student Travel Awards
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Biennial Workshop & Inquiries */}
+          <div className="md:col-span-3 space-y-2.5">
+            <h4 className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+              Symposium &amp; Contact
+            </h4>
+            <ul className="space-y-2 text-sm text-slate-600">
+              <li>
+                <Link href="/layout-portal" className="hover:text-primary transition-colors">
+                  16th Workshop Hub (Sept 2027)
+                </Link>
+              </li>
+              <li>
+                <Link href="/call-for-papers" className="hover:text-primary transition-colors">
+                  Call for Papers
+                </Link>
+              </li>
+              <li>
+                <Link href="/corporate-sponsorship" className="hover:text-primary transition-colors">
+                  Corporate Sponsorship
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-primary transition-colors">
+                  Contact the Committee
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
-        
-        <div className="mt-12 pt-8 border-t border-foreground/10 flex flex-col md:flex-row justify-between items-center text-xs text-foreground/50">
-          <p>&copy; {new Date().getFullYear()} Harsh-Environment Mass Spectrometry Society, Inc.</p>
-          <p className="mt-2 md:mt-0">A Public Charity under section 501(c)(3).</p>
+
+        <div className="mt-12 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-500">
+          <p>
+            &copy; {new Date().getFullYear()} Harsh-Environment Mass Spectrometry Society, Inc. Recognized IRS 501(c)(3) Public Charity.
+          </p>
+          <div className="flex items-center gap-4 font-mono text-[11px]">
+            <Link href="/archive/2025" className="hover:text-primary transition-colors">
+              2025 Proceedings
+            </Link>
+            <span className="text-slate-300">•</span>
+            <Link href="/auth" className="hover:text-primary transition-colors">
+              Committee Sign In
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
