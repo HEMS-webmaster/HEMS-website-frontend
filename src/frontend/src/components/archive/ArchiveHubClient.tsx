@@ -899,7 +899,7 @@ export default function ArchiveHubClient() {
           <div className="border-t border-foreground/10 pt-6 mt-2 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
             {/* Category / Environment Filter */}
             <div>
-              <h4 className="text-xs font-bold font-mono uppercase tracking-widest text-foreground/50 mb-3">Topic / Environment</h4>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55 mb-3">Topic / Environment</h4>
               <div className="flex flex-wrap gap-2">
                 {["All", "Spaceflight", "Marine", "Instrumentation", "Miniaturization"].map((cat) => (
                   <button
@@ -922,7 +922,7 @@ export default function ArchiveHubClient() {
 
             {/* Era Filter */}
             <div>
-              <h4 className="text-xs font-bold font-mono uppercase tracking-widest text-foreground/50 mb-3">Workshop Era</h4>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55 mb-3">Workshop Era</h4>
               <div className="flex flex-wrap gap-2">
                 {["All", "2020s", "2010s", "2000s", "1990s"].map((era) => (
                   <button
@@ -965,7 +965,7 @@ export default function ArchiveHubClient() {
         {/* Search Mode & Suggested Keywords Row */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6 border-t border-foreground/5 pt-4">
           <div className="flex gap-2 flex-wrap text-sm">
-            <span className="text-foreground/50 font-mono py-1">SUGGESTED:</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.08em] text-foreground/50 py-1">Suggested:</span>
             {suggestedKeywords.map((kw) => (
               <button
                 key={kw}
@@ -978,7 +978,7 @@ export default function ArchiveHubClient() {
           </div>
 
           {isSearchActive && (
-            <div className="flex items-center gap-2 text-xs font-mono bg-foreground/5 px-3 py-1 rounded-md border border-foreground/10 self-start sm:self-auto">
+            <div className="flex items-center gap-2 text-xs font-medium bg-foreground/5 px-3 py-1 rounded-md border border-foreground/10 self-start sm:self-auto">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-foreground/60 flex items-center gap-1.5">
                 {searchMode === "algolia" && "Deep Index (Algolia)"}
@@ -995,7 +995,7 @@ export default function ArchiveHubClient() {
       {!isSearchActive ? (
         /* Static Browse Grid - Shown only when search is idle */
         <div className="space-y-4">
-          <h3 className="font-mono text-sm text-foreground/50 border-b border-foreground/10 pb-2 mb-6 uppercase tracking-widest">Browse Past Workshops</h3>
+          <h3 className="text-xs font-semibold text-foreground/55 border-b border-foreground/10 pb-2 mb-6 uppercase tracking-[0.1em]">Browse Past Workshops</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {pastWorkshops.map((workshop) => (
@@ -1005,7 +1005,7 @@ export default function ArchiveHubClient() {
                 className="flex flex-col p-6 border border-foreground/10 bg-surface hover:border-primary/50 transition-colors group rounded-lg shadow-sm hover:shadow-md"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 bg-primary/10 text-primary flex items-center justify-center rounded-lg font-bold font-mono">
+                  <div className="px-2.5 h-9 bg-primary/10 text-primary flex items-center justify-center rounded-lg font-bold text-sm tabular-nums">
                     {workshop.year}
                   </div>
                   <FileText className="text-foreground/20 group-hover:text-primary/50 transition-colors" />
@@ -1022,7 +1022,7 @@ export default function ArchiveHubClient() {
         /* Interactive Search Results List */
         <div className="space-y-6 animate-fadeIn">
           <div className="flex justify-between items-center border-b border-foreground/10 pb-4 mb-4">
-            <h3 className="font-mono text-sm text-foreground/50 tracking-widest uppercase flex items-center gap-2">
+            <h3 className="text-xs font-semibold text-foreground/55 tracking-[0.1em] uppercase flex items-center gap-2 tabular-nums">
               Search Results 
               {isSearchingDeep && <span className="w-2.5 h-2.5 border-2 border-primary border-t-transparent rounded-full animate-spin" />}
               <span className="text-foreground/40 font-normal">
@@ -1061,7 +1061,7 @@ export default function ArchiveHubClient() {
                   className="bg-surface border border-foreground/10 rounded-lg p-6 hover:border-primary/40 hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
                 >
                   <div className="flex-grow space-y-2 max-w-4xl">
-                    <div className="flex flex-wrap gap-2 items-center text-xs font-mono">
+                    <div className="flex flex-wrap gap-2 items-center text-xs tabular-nums">
                       <span className="bg-primary/10 text-primary font-bold px-2 py-0.5 rounded">
                         {paper.workshopYear}
                       </span>
@@ -1072,7 +1072,7 @@ export default function ArchiveHubClient() {
                         {paper.sessionTitle}
                       </span>
                       {paper.relevanceScore && (
-                        <span className="text-secondary font-bold font-mono text-[9px] bg-secondary/10 px-1.5 py-0.5 rounded animate-pulse">
+                        <span className="text-secondary font-bold text-[10px] bg-secondary/10 px-1.5 py-0.5 rounded">
                           Relevance Score: {paper.relevanceScore}
                         </span>
                       )}
@@ -1124,7 +1124,7 @@ export default function ArchiveHubClient() {
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="flex-grow space-y-2 max-w-4xl">
-                      <div className="flex flex-wrap gap-2 items-center text-xs font-mono">
+                      <div className="flex flex-wrap gap-2 items-center text-xs tabular-nums">
                         <span className="bg-primary/10 text-primary font-bold px-2 py-0.5 rounded">
                           {hit.paper.workshopYear}
                         </span>
@@ -1135,7 +1135,7 @@ export default function ArchiveHubClient() {
                           {hit.paper.sessionTitle}
                         </span>
                         {hit.maxScore > 0 && (
-                          <span className="text-secondary font-bold font-mono text-[9px] bg-secondary/10 px-1.5 py-0.5 rounded animate-pulse">
+                          <span className="text-secondary font-bold text-[10px] bg-secondary/10 px-1.5 py-0.5 rounded">
                             Relevance: {hit.maxScore}
                           </span>
                         )}
@@ -1181,7 +1181,7 @@ export default function ArchiveHubClient() {
                   {/* PDF Full-Text Page Matches Highlights Sub-Grid */}
                   {hit.matches && hit.matches.length > 0 && (
                     <div className="border-t border-foreground/5 pt-4 mt-2 space-y-3 bg-background/30 rounded-lg p-4 border border-foreground/5">
-                      <div className="text-[10px] font-bold font-mono tracking-widest text-foreground/40 uppercase mb-2 flex items-center gap-1.5">
+                      <div className="text-[10px] font-semibold tracking-[0.08em] text-foreground/45 uppercase mb-2 flex items-center gap-1.5">
                         <FileText size={12} className="text-primary/70" /> Matches In Document Contents
                       </div>
                       <div className="space-y-3">
@@ -1193,7 +1193,7 @@ export default function ArchiveHubClient() {
                           return (
                             <div key={mIdx} className="text-xs bg-surface/40 p-3 rounded border border-foreground/15 flex flex-col sm:flex-row sm:items-start justify-between gap-3 hover:border-primary/20 transition-all">
                               <div className="space-y-1">
-                                <div className="font-mono font-bold text-[10px] text-secondary flex items-center gap-2">
+                                <div className="font-semibold text-[11px] text-secondary flex items-center gap-2 tabular-nums">
                                   <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
                                   {isAbstract ? "Extended Abstract" : `Slide Page ${match.pageNumber}`}
                                   <span className="text-foreground/40 text-[9px] font-normal">Score: {match.score}</span>
@@ -1231,7 +1231,7 @@ export default function ArchiveHubClient() {
                   >
                     Load More Results
                   </button>
-                  <p className="text-xs text-foreground/50 mt-2 font-mono">
+                  <p className="text-xs text-foreground/50 mt-2 tabular-nums">
                     Showing {displayLimit} of {searchMode === "metadata" ? metadataSearchResults.length : fullTextSearchResults.length} entries
                   </p>
                 </div>

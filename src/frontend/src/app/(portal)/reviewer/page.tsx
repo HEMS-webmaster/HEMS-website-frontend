@@ -51,7 +51,7 @@ export default function ReviewerPage() {
             Grade, comment on, and manage abstract submissions for the upcoming HEMS workshop.
           </p>
         </div>
-        <div className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl text-xs font-mono font-bold text-primary self-start md:self-center break-all">
+        <div className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl text-xs font-bold text-primary self-start md:self-center break-all">
           Reviewer: {user.email}
         </div>
       </div>
@@ -61,21 +61,21 @@ export default function ReviewerPage() {
         <div className="bg-background border border-foreground/10 p-5 sm:p-6 rounded-2xl flex items-center gap-4">
           <div className="bg-primary/10 text-primary p-3 rounded-xl shrink-0"><FileText size={24} /></div>
           <div>
-            <div className="text-2xl font-black text-foreground">3</div>
+            <div className="text-2xl tabular-nums font-black text-foreground">3</div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-foreground/50">Assigned Abstracts</div>
           </div>
         </div>
         <div className="bg-background border border-foreground/10 p-5 sm:p-6 rounded-2xl flex items-center gap-4">
           <div className="bg-green-500/10 text-green-500 p-3 rounded-xl shrink-0"><CheckCircle2 size={24} /></div>
           <div>
-            <div className="text-2xl font-black text-foreground">1</div>
+            <div className="text-2xl tabular-nums font-black text-foreground">1</div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-foreground/50">Completed Reviews</div>
           </div>
         </div>
         <div className="bg-background border border-foreground/10 p-5 sm:p-6 rounded-2xl flex items-center gap-4">
           <div className="bg-yellow-500/10 text-yellow-500 p-3 rounded-xl shrink-0"><Clock size={24} /></div>
           <div>
-            <div className="text-2xl font-black text-foreground">2</div>
+            <div className="text-2xl tabular-nums font-black text-foreground">2</div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-foreground/50">Pending Review</div>
           </div>
         </div>
@@ -91,8 +91,8 @@ export default function ReviewerPage() {
             <div key={sub.id} className="p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-surface/30 transition-all duration-200">
               <div className="space-y-1 flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">{sub.id}</span>
-                  <span className="text-xs font-bold text-foreground/50">Deadline: {sub.deadline}</span>
+                  <span className="tabular-nums text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">{sub.id}</span>
+                  <span className="tabular-nums text-xs font-bold text-foreground/50">Deadline: {sub.deadline}</span>
                 </div>
                 <h4 className="font-bold text-base text-foreground leading-snug">{sub.title}</h4>
                 <p className="text-xs text-foreground/60">Submitted by: {sub.author}</p>
@@ -102,7 +102,7 @@ export default function ReviewerPage() {
                 {sub.status === "Reviewed" ? (
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-green-500 bg-green-500/10 border border-green-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">Reviewed</span>
-                    <span className="text-sm font-mono font-bold text-foreground bg-foreground/5 px-2.5 py-1 rounded-full">{sub.score}</span>
+                    <span className="tabular-nums text-sm font-bold text-foreground bg-foreground/5 px-2.5 py-1 rounded-full">{sub.score}</span>
                   </div>
                 ) : (
                   <span className="text-xs font-bold text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-1 rounded-full uppercase tracking-wider">Pending</span>

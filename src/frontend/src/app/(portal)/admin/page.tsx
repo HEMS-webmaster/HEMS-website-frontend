@@ -227,7 +227,7 @@ export default function AdminPage() {
           <h3 className="font-bold text-sm text-foreground flex items-center gap-2">
             <Users size={16} /> Whitelist
           </h3>
-          <span className="text-[10px] bg-foreground/5 text-foreground/60 px-2 py-0.5 rounded uppercase font-bold font-mono">
+          <span className="text-[10px] bg-foreground/5 text-foreground/60 px-2 py-0.5 rounded uppercase font-semibold tracking-wide tabular-nums">
             {whitelist.length} entries
           </span>
         </div>
@@ -254,7 +254,7 @@ export default function AdminPage() {
               <tbody className="divide-y divide-foreground/5 font-medium">
                 {whitelist.map((entry) => (
                   <tr key={entry.email} className="hover:bg-foreground/5 transition-colors">
-                    <td className="p-4 pl-6 text-foreground/90 font-mono text-sm">{entry.email}</td>
+                    <td className="p-4 pl-6 text-foreground/90 text-sm">{entry.email}</td>
                     <td className="p-4">
                       <div className="flex flex-wrap gap-2">
                         {availableRoles.map(role => {

@@ -22,7 +22,7 @@ export default function Footer() {
                 <h3 className="font-serif font-semibold text-base sm:text-lg text-slate-900 leading-tight">
                   Harsh-Environment Mass Spectrometry Society
                 </h3>
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-slate-500 mt-0.5">
+                <p className="text-[11px] font-medium text-slate-500 mt-0.5 tabular-nums">
                   501(c)(3) Scientific Organization • Est. 1999
                 </p>
               </div>
@@ -34,7 +34,7 @@ export default function Footer() {
 
           {/* Column 2: Society & Archives */}
           <div className="lg:col-span-4 space-y-2.5">
-            <h4 className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500">
               Society &amp; Repository
             </h4>
             <ul className="space-y-1.5 text-sm text-slate-600">
@@ -63,7 +63,7 @@ export default function Footer() {
 
           {/* Column 3: Biennial Workshop & Inquiries */}
           <div className="lg:col-span-3 space-y-2.5">
-            <h4 className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+            <h4 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500">
               Symposium &amp; Contact
             </h4>
             <ul className="space-y-1.5 text-sm text-slate-600">
@@ -95,7 +95,7 @@ export default function Footer() {
           <p>
             &copy; {new Date().getFullYear()} Harsh-Environment Mass Spectrometry Society, Inc. Recognized IRS 501(c)(3) Public Charity.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 font-mono text-[11px]">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium">
             <Link href="/archive/2025" className="py-1 hover:text-primary transition-colors">
               2025 Proceedings
             </Link>

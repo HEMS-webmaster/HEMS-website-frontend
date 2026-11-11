@@ -19,7 +19,7 @@ export default function AccommodationsClient() {
     <>
       {/* Page Header */}
       <header className="mb-10 border-b border-slate-200 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
           <Hotel size={14} className="text-primary shrink-0" /> Workshop Lodging • {workshop.workshop_ordinal} Workshop
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
@@ -39,15 +39,15 @@ export default function AccommodationsClient() {
             <img
               src="/images/gallery/virginia-beach-boardwalk-2025.jpg"
               alt="Oceanfront boardwalk and Atlantic shoreline at the 2025 Virginia Beach HEMS Workshop"
-              width={2688}
-              height={1512}
+              width={1600}
+              height={900}
               decoding="async"
               className="w-full h-44 object-cover"
               loading="lazy"
             />
           </div>
           <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
-            <strong className="font-mono text-[10px] uppercase tracking-wider text-primary block mb-0.5">
+            <strong className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
               15th HEMS Workshop • Virginia Beach, VA (Sept 18, 2025)
             </strong>
             Looking south from 35th Street directly outside the Sheraton Virginia Beach Oceanfront Hotel following the closing Thursday morning session.
@@ -59,15 +59,15 @@ export default function AccommodationsClient() {
             <img
               src="/images/history/myrtle-beach-pier-surf.jpg"
               alt="Atlantic surf and pier outside the 2019 Myrtle Beach HEMS Workshop hotel"
-              width={4032}
-              height={3024}
+              width={1600}
+              height={1200}
               decoding="async"
               className="w-full h-44 object-cover"
               loading="lazy"
             />
           </div>
           <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
-            <strong className="font-mono text-[10px] uppercase tracking-wider text-secondary block mb-0.5">
+            <strong className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
               13th HEMS Workshop • Myrtle Beach, SC (Sept 16, 2019)
             </strong>
             View north toward Apache Pier from Kingston Plantation ahead of the Monday evening Welcome Reception.
@@ -91,7 +91,7 @@ export default function AccommodationsClient() {
             <div className="bg-surface/10 border border-foreground/10 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <MapPin className="text-primary w-8 h-8 shrink-0" />
               <div>
-                <span className="text-[10px] uppercase font-mono text-foreground/50 block">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-foreground/50 block">
                   {workshop.venue_confirmed ? "Confirmed Venue" : "Upcoming Venue Status"}
                 </span>
                 <span className="font-bold text-foreground text-sm block">{workshop.hotel_name}</span>
@@ -101,7 +101,7 @@ export default function AccommodationsClient() {
                     href={workshop.hotel_maps_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-primary font-mono text-xs hover:underline mt-1.5"
+                    className="inline-flex items-center gap-1 text-primary font-semibold text-xs hover:underline mt-1.5"
                   >
                     Open in Google Maps <ExternalLink size={12} />
                   </a>
@@ -121,10 +121,10 @@ export default function AccommodationsClient() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="border border-foreground/10 p-4 rounded-lg bg-surface/5">
-                <span className="text-[10px] uppercase font-mono text-foreground/50 block mb-1">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-foreground/50 block mb-1">
                   HEMS Group Rate
                 </span>
-                <span className="text-2xl font-mono font-bold text-primary">
+                <span className="text-2xl tabular-nums font-bold text-primary">
                   {workshop.hotel_group_rate}
                 </span>
                 {workshop.hotel_group_rate !== "TBA" && (
@@ -138,7 +138,7 @@ export default function AccommodationsClient() {
               </div>
 
               <div className="border border-foreground/10 p-4 rounded-lg bg-surface/5">
-                <span className="text-[10px] uppercase font-mono text-foreground/50 block mb-1">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-foreground/50 block mb-1">
                   Availability Window
                 </span>
                 <span className="font-bold text-foreground text-sm block mt-1">
@@ -180,13 +180,13 @@ export default function AccommodationsClient() {
             </h3>
             <div className="space-y-4 text-xs">
               <div>
-                <span className="text-[10px] uppercase font-mono text-foreground/50 block">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-foreground/50 block">
                   Workshop Schedule
                 </span>
                 <span className="font-bold text-foreground">{workshop.exact_dates}</span>
               </div>
               <div className="border-t border-foreground/10 pt-3">
-                <span className="text-[10px] uppercase font-mono text-foreground/50 block">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-foreground/50 block">
                   Discount Window
                 </span>
                 <span className="font-bold text-foreground">{workshop.hotel_discount_window}</span>
@@ -199,7 +199,7 @@ export default function AccommodationsClient() {
             <h3 className="font-bold flex items-center gap-2 text-xs uppercase tracking-wider mb-4 text-secondary border-b border-foreground/10 pb-2">
               <Clock size={16} /> Room Block Cutoff
             </h3>
-            <div className="text-xl font-mono font-bold text-foreground mb-1">
+            <div className="text-xl tabular-nums font-bold text-foreground mb-1">
               {workshop.hotel_booking_cutoff}
             </div>
             <p className="text-[11px] text-foreground/70 leading-relaxed">
@@ -230,7 +230,7 @@ export default function AccommodationsClient() {
                 Book Hotel Room <ExternalLink size={14} />
               </a>
             ) : (
-              <div className="w-full bg-background/15 border border-background/30 text-background font-mono font-bold py-2.5 rounded flex items-center justify-center gap-2 text-xs uppercase">
+              <div className="w-full bg-background/15 border border-background/30 text-background font-bold py-2.5 rounded flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
                 <Clock size={14} /> Room Block TBA
               </div>
             )}

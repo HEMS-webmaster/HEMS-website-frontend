@@ -30,7 +30,7 @@ export default function CallForPapersClient() {
     <>
       {/* Page Header */}
       <header className="mb-10 border-b border-slate-200 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
           <FileText size={14} className="text-primary shrink-0" /> Technical Submissions • {workshop.workshop_ordinal} Workshop
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
@@ -54,7 +54,7 @@ export default function CallForPapersClient() {
             loading="lazy"
           />
           <figcaption className="text-xs text-slate-600 leading-relaxed">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
+            <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
               15th HEMS Workshop • Sept 18, 2025
             </span>
             Coded-aperture underwater cycloidal analyzer study — R. B. Serpa &amp; J. J. Amsden et al. (Duke Univ. &amp; Univ. of Arizona), Virginia Beach, VA.
@@ -65,14 +65,14 @@ export default function CallForPapersClient() {
           <img
             src="/images/gallery/kibelka-aerosol-ms-cad-2025.jpg"
             alt="Exploded 3D CAD assembly of a compact aerosol-inlet portable mass spectrometer from 15th HEMS Workshop proceedings"
-            width={1103}
-            height={738}
+            width={1200}
+            height={803}
             decoding="async"
             className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
             loading="lazy"
           />
           <figcaption className="text-xs text-slate-600 leading-relaxed">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
+            <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
               15th HEMS Workshop • Sept 17, 2025
             </span>
             Portable aerosol threat detector subsystem — G. Kibelka et al. (Detect-ION, Tampa, FL), presented in Virginia Beach, VA.
@@ -83,14 +83,14 @@ export default function CallForPapersClient() {
           <img
             src="/images/gallery/verbeck-urban-ms-heatmap-2019.jpg"
             alt="Real-time urban mobile mass spectrometry chemical plume map from 13th HEMS Workshop proceedings"
-            width={1143}
-            height={673}
+            width={1200}
+            height={707}
             decoding="async"
             className="w-24 h-20 object-cover rounded-lg border border-slate-100 shrink-0"
             loading="lazy"
           />
           <figcaption className="text-xs text-slate-600 leading-relaxed">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
+            <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
               13th HEMS Workshop • Sept 19, 2019
             </span>
             Mobile membrane-inlet MS survey across downtown Dallas, TX — G. F. Verbeck (Univ. of North Texas), presented in Myrtle Beach, SC.
@@ -132,7 +132,7 @@ export default function CallForPapersClient() {
             <div className="space-y-4">
               {ABSTRACT_REQUIREMENTS.map((item, idx) => (
                 <div key={idx} className="flex gap-3 items-start text-foreground/80">
-                  <span className="font-mono text-primary font-bold shrink-0 mt-0.5">{`[0${idx + 1}]`}</span>
+                  <span className="tabular-nums text-xs text-primary font-bold shrink-0 mt-0.5">{`0${idx + 1}.`}</span>
                   <p className="text-xs">{item}</p>
                 </div>
               ))}
@@ -179,14 +179,14 @@ export default function CallForPapersClient() {
             </h3>
             <div className="space-y-4">
               <div>
-                <span className="text-[10px] uppercase font-mono text-foreground/50 block">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-foreground/50 block">
                   Abstracts Due
                 </span>
                 <span className="font-bold text-foreground text-sm block">
                   {workshop.cfp_abstract_deadline}
                 </span>
                 <span
-                  className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded mt-1 font-mono uppercase ${
+                  className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded mt-1 tabular-nums uppercase tracking-wider ${
                     workshop.cfp_open
                       ? "bg-secondary/15 text-secondary"
                       : "bg-primary/10 text-primary"
@@ -196,7 +196,7 @@ export default function CallForPapersClient() {
                 </span>
               </div>
               <div className="border-t border-foreground/10 pt-4">
-                <span className="text-[10px] uppercase font-mono text-foreground/50 block">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-foreground/50 block">
                   Author Notifications
                 </span>
                 <span className="font-bold text-foreground text-sm block">
@@ -204,7 +204,7 @@ export default function CallForPapersClient() {
                 </span>
               </div>
               <div className="border-t border-foreground/10 pt-4">
-                <span className="text-[10px] uppercase font-mono text-foreground/50 block">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-foreground/50 block">
                   Workshop Schedule
                 </span>
                 <span className="font-bold text-foreground text-sm block">
@@ -262,7 +262,7 @@ export default function CallForPapersClient() {
                 Join {workshop.workshop_year} Update List <ExternalLink size={14} />
               </a>
             ) : (
-              <div className="w-full bg-background/15 border border-background/30 text-background font-mono font-bold py-2.5 rounded flex items-center justify-center gap-2 text-xs uppercase">
+              <div className="w-full bg-background/15 border border-background/30 text-background tabular-nums font-bold py-2.5 rounded flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
                 <Clock size={14} /> Opening in {workshop.workshop_year}
               </div>
             )}

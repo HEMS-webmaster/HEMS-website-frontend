@@ -93,7 +93,7 @@ export default function CorporateSponsorshipClient() {
       <div className="mb-6">
         <Link
           href="/contact"
-          className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-foreground/60 hover:text-primary transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-foreground/60 hover:text-primary transition-colors"
         >
           <ArrowLeft size={14} /> Back to Contact &amp; Inquiries
         </Link>
@@ -103,7 +103,7 @@ export default function CorporateSponsorshipClient() {
       <header className="mb-10 sm:mb-14 pb-8 border-b border-slate-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug mb-4 shadow-2xs">
               <ShieldCheck size={14} className="text-primary shrink-0" />
               <span>All-Volunteer 501(c)(3) Scientific Forum • Biennial Workshop</span>
             </div>
@@ -123,7 +123,7 @@ export default function CorporateSponsorshipClient() {
               decoding="async"
               className="w-24 h-24 object-contain rounded-xl mix-blend-multiply bg-white p-1.5"
             />
-            <span className="text-[11px] font-mono text-slate-500 mt-1.5">Industry Partnership</span>
+            <span className="text-[11px] font-medium text-slate-500 mt-1.5">Industry Partnership</span>
           </div>
         </div>
       </header>
@@ -133,7 +133,7 @@ export default function CorporateSponsorshipClient() {
         <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/95 p-5 sm:p-8 md:p-10 shadow-xs">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
             <div className="lg:col-span-7 space-y-3">
-              <div className="flex items-start sm:items-center gap-2 text-secondary font-mono text-xs font-semibold uppercase tracking-widest">
+              <div className="flex items-start sm:items-center gap-2 text-secondary text-xs font-semibold uppercase tracking-widest">
                 <GraduationCap size={17} className="shrink-0 mt-0.5 sm:mt-0" /> Sustaining the Harsh-Environment MS Community
               </div>
               <h2 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">
@@ -169,15 +169,15 @@ export default function CorporateSponsorshipClient() {
                 <img
                   src="/images/gallery/sponsor-exhibit-smiles-2015.jpg"
                   alt="Smiling workshop participants conversing in front of an on-site corporate sponsor hardware and literature tabletop booth"
-                  width={4928}
-                  height={3264}
+                  width={1600}
+                  height={1060}
                   decoding="async"
                   className="w-full aspect-[3/2] object-cover"
                   loading="lazy"
                 />
               </div>
               <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
+                <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
                   10th HEMS Workshop • Baltimore, MD • Sept 14, 2015
                 </span>
                 Monday afternoon Poster &amp; Sponsor Exhibition alongside the Extrel CMS, Edwards Vacuum, and BaySpec booths at the University of Maryland School of Pharmacy.
@@ -250,7 +250,7 @@ export default function CorporateSponsorshipClient() {
               <div className="bg-background border border-foreground/15 rounded-xl p-6 shadow-sm hover:border-primary/40 transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                   <div>
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-primary block">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-primary block">
                       Standard Full Package
                     </span>
                     <h3 className="text-lg font-bold text-foreground">
@@ -258,10 +258,10 @@ export default function CorporateSponsorshipClient() {
                     </h3>
                   </div>
                   <div className="flex items-baseline gap-1.5 shrink-0">
-                    <span className="text-2xl font-mono font-black text-foreground">
+                    <span className="text-2xl tabular-nums font-black text-foreground">
                       {workshop.reg_sponsor_fee}
                     </span>
-                    <span className="text-xs font-mono text-foreground/55">USD</span>
+                    <span className="text-xs font-semibold text-foreground/55">USD</span>
                   </div>
                 </div>
                 <p className="text-sm text-foreground/75 leading-relaxed">
@@ -273,7 +273,7 @@ export default function CorporateSponsorshipClient() {
               <div className="bg-background border border-primary/25 rounded-xl p-6 shadow-sm hover:border-primary/50 transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                   <div>
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-secondary block">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-secondary block">
                       Corporate Spending-Limit Accommodation
                     </span>
                     <h3 className="text-lg font-bold text-foreground">
@@ -281,8 +281,8 @@ export default function CorporateSponsorshipClient() {
                     </h3>
                   </div>
                   <div className="flex items-baseline gap-1.5 shrink-0">
-                    <span className="text-2xl font-mono font-black text-foreground">$850 + $500</span>
-                    <span className="text-xs font-mono text-foreground/55">USD</span>
+                    <span className="text-2xl tabular-nums font-black text-foreground">$850 + $500</span>
+                    <span className="text-xs font-semibold text-foreground/55">USD</span>
                   </div>
                 </div>
                 <p className="text-sm text-foreground/75 leading-relaxed">
@@ -294,7 +294,7 @@ export default function CorporateSponsorshipClient() {
               <div className="bg-background border border-foreground/15 rounded-xl p-6 shadow-sm hover:border-primary/40 transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                   <div>
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-foreground/60 block">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-foreground/60 block">
                       Remote Support Option
                     </span>
                     <h3 className="text-lg font-bold text-foreground">
@@ -302,8 +302,8 @@ export default function CorporateSponsorshipClient() {
                     </h3>
                   </div>
                   <div className="flex items-baseline gap-1.5 shrink-0">
-                    <span className="text-2xl font-mono font-black text-foreground">$850</span>
-                    <span className="text-xs font-mono text-foreground/55">USD</span>
+                    <span className="text-2xl tabular-nums font-black text-foreground">$850</span>
+                    <span className="text-xs font-semibold text-foreground/55">USD</span>
                   </div>
                 </div>
                 <p className="text-sm text-foreground/75 leading-relaxed">
@@ -312,11 +312,11 @@ export default function CorporateSponsorshipClient() {
               </div>
             </div>
 
-            <p className="text-xs text-foreground/60 font-mono mt-4">
+            <p className="text-xs text-foreground/60 mt-4">
               * Standard biennial workshop reference rates shown above. Active workshop cycle sponsorship registrations and split-payment invoices are coordinated directly with our Sponsorship Coordinator (
               <a
                 href={`mailto:${coordinatorEmail}`}
-                className="text-primary hover:underline break-all"
+                className="text-primary font-medium hover:underline break-all"
               >
                 {coordinatorEmail}
               </a>
@@ -330,7 +330,7 @@ export default function CorporateSponsorshipClient() {
           {/* Coordinator Card */}
           <div className="bg-primary text-background rounded-2xl p-6 sm:p-7 shadow-md flex flex-col justify-between">
             <div>
-              <span className="text-[11px] font-mono uppercase tracking-widest opacity-85 block mb-2">
+              <span className="text-[11px] font-semibold uppercase tracking-widest opacity-85 block mb-2">
                 Sponsorship Coordinator
               </span>
               <h3 className="text-2xl font-black uppercase tracking-tight mb-3">
@@ -341,13 +341,13 @@ export default function CorporateSponsorshipClient() {
               </p>
 
               <div className="border-l-2 border-background/40 pl-4 py-1 mb-6 space-y-1">
-                <span className="text-[10px] uppercase opacity-80 font-mono block">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider opacity-80 block">
                   HEMS Sponsorship Coordinator
                 </span>
                 <span className="font-bold text-base block">{coordinatorName}</span>
                 <a
                   href={`mailto:${coordinatorEmail}`}
-                  className="font-mono text-xs underline opacity-95 hover:opacity-100 break-all block"
+                  className="text-xs font-medium underline opacity-95 hover:opacity-100 break-all block"
                 >
                   {coordinatorEmail}
                 </a>
@@ -382,7 +382,7 @@ export default function CorporateSponsorshipClient() {
                   <strong>1. Select Package &amp; Coordinate Billing:</strong> Contact {coordinatorName} (
                   <a
                     href={`mailto:${coordinatorEmail}`}
-                    className="text-primary font-semibold hover:underline font-mono break-all"
+                    className="text-primary font-semibold hover:underline break-all"
                   >
                     {coordinatorEmail}
                   </a>
@@ -410,7 +410,7 @@ export default function CorporateSponsorshipClient() {
       <section className="pt-12 border-t border-foreground/10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
-            <div className="inline-flex items-center gap-2 text-primary font-mono text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-2 text-primary tabular-nums text-xs font-bold uppercase tracking-wider mb-2">
               <Building2 size={15} /> Recognized Partners Since 2001
             </div>
             <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-foreground">
@@ -420,7 +420,7 @@ export default function CorporateSponsorshipClient() {
               The HEMS Society gratefully acknowledges the instrumentation manufacturers, aerospace and defense organizations, national laboratories, and research institutions whose sponsorship has sustained the workshop across generations.
             </p>
           </div>
-          <span className="text-xs font-mono text-foreground/55 shrink-0">
+          <span className="tabular-nums text-xs font-medium text-foreground/55 shrink-0">
             {SORTED_SPONSORS.length} Recognized Organizations
           </span>
         </div>
@@ -446,7 +446,7 @@ export default function CorporateSponsorshipClient() {
                   <p className="text-xs font-bold text-foreground leading-snug group-hover:text-primary transition-colors">
                     {sponsor.company}
                   </p>
-                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-foreground/5 text-[10px] font-mono text-foreground/50">
+                  <div className="flex items-center justify-between mt-2 pt-2 border-t border-foreground/5 tabular-nums text-[10.5px] font-medium text-foreground/50">
                     <span>Since {sponsor.year_began}</span>
                     {href && (
                       <ExternalLink

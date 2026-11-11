@@ -253,7 +253,7 @@ export default function AdminAnalytics() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-3">
         <RefreshCw className="animate-spin text-primary" size={32} />
-        <p className="text-foreground/60 font-mono text-sm">Verifying administration session...</p>
+        <p className="text-foreground/60 text-sm">Verifying administration session...</p>
       </div>
     );
   }
@@ -282,7 +282,7 @@ export default function AdminAnalytics() {
           <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-foreground flex items-center gap-2">
             <BarChart2 className="text-primary shrink-0" size={28} /> Website Traffic &amp; Analytics
           </h1>
-          <p className="text-foreground/60 text-sm mt-1 font-mono">
+          <p className="text-foreground/60 text-sm mt-1 font-medium">
             {isMock ? "⚡ Offline Mock Sandbox Mode" : "🔒 Connected to Google Cloud Project"}
           </p>
         </div>
@@ -309,7 +309,7 @@ export default function AdminAnalytics() {
           </div>
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-foreground/50">Registered Users</span>
-            <h3 className="text-2xl font-black text-foreground mt-1">{usersList.length}</h3>
+            <h3 className="text-2xl tabular-nums font-black text-foreground mt-1">{usersList.length}</h3>
           </div>
         </div>
 
@@ -319,7 +319,7 @@ export default function AdminAnalytics() {
           </div>
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-foreground/50">Total Logins</span>
-            <h3 className="text-2xl font-black text-foreground mt-1">{totalLogins}</h3>
+            <h3 className="text-2xl tabular-nums font-black text-foreground mt-1">{totalLogins}</h3>
           </div>
         </div>
 
@@ -329,7 +329,7 @@ export default function AdminAnalytics() {
           </div>
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-foreground/50">Total Downloads</span>
-            <h3 className="text-2xl font-black text-foreground mt-1">{totalDownloads}</h3>
+            <h3 className="text-2xl tabular-nums font-black text-foreground mt-1">{totalDownloads}</h3>
           </div>
         </div>
       </div>
@@ -374,7 +374,7 @@ export default function AdminAnalytics() {
                   type="date"
                   value={sinceDate}
                   onChange={(e) => setSinceDate(e.target.value)}
-                  className="bg-transparent border-0 text-base sm:text-xs text-foreground focus:outline-none focus:ring-0 font-mono font-bold cursor-pointer"
+                  className="bg-transparent border-0 text-base sm:text-xs text-foreground focus:outline-none focus:ring-0 tabular-nums font-bold cursor-pointer"
                 />
                 {sinceDate && (
                   <button 
@@ -401,7 +401,7 @@ export default function AdminAnalytics() {
           {loadingData ? (
             <div className="bg-surface border border-foreground/10 rounded-xl p-12 text-center">
               <RefreshCw className="animate-spin text-primary mx-auto mb-4" size={24} />
-              <p className="text-sm font-mono text-foreground/60">Fetching telemetry tables from database...</p>
+              <p className="text-sm text-foreground/60">Fetching telemetry tables from database...</p>
             </div>
           ) : activeTab === "users" ? (
             
@@ -429,10 +429,10 @@ export default function AdminAnalytics() {
                       filteredUsers.map((usr) => (
                         <tr key={usr.uid} className="hover:bg-foreground/5 transition-colors">
                           <td className="px-6 py-4 font-bold">{usr.name}</td>
-                          <td className="px-6 py-4 font-mono text-xs">{usr.email}</td>
-                          <td className="px-6 py-4 text-center font-semibold text-secondary">{usr.loginCount || 0}</td>
-                          <td className="px-6 py-4 text-center font-semibold text-primary">{usr.downloadCount || 0}</td>
-                          <td className="px-6 py-4 text-xs font-mono">
+                          <td className="px-6 py-4 text-xs text-foreground/80">{usr.email}</td>
+                          <td className="px-6 py-4 text-center tabular-nums font-semibold text-secondary">{usr.loginCount || 0}</td>
+                          <td className="px-6 py-4 text-center tabular-nums font-semibold text-primary">{usr.downloadCount || 0}</td>
+                          <td className="px-6 py-4 text-xs tabular-nums">
                             {usr.lastLogin ? new Date(usr.lastLogin).toLocaleString() : "Never"}
                           </td>
                         </tr>
@@ -472,7 +472,7 @@ export default function AdminAnalytics() {
                             {file.fileName}
                           </td>
                           <td className="px-6 py-4">
-                            <span className="inline-flex items-center gap-1 text-xs font-mono bg-foreground/5 px-2 py-0.5 rounded border border-foreground/10">
+                            <span className="inline-flex items-center gap-1 tabular-nums text-xs font-semibold bg-foreground/5 px-2 py-0.5 rounded border border-foreground/10">
                               <Calendar size={12} className="text-secondary" /> {file.workshopName}
                             </span>
                           </td>
@@ -485,8 +485,8 @@ export default function AdminAnalytics() {
                               {file.category}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-center font-bold text-primary">{file.downloadCount}</td>
-                          <td className="px-6 py-4 text-xs font-mono">
+                          <td className="px-6 py-4 text-center tabular-nums font-bold text-primary">{file.downloadCount}</td>
+                          <td className="px-6 py-4 text-xs tabular-nums">
                             {file.lastDownloaded ? new Date(file.lastDownloaded).toLocaleString() : "Never"}
                           </td>
                         </tr>

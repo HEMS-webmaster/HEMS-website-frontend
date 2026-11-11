@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Noto_Sans, Source_Serif_4, IBM_Plex_Mono } from "next/font/google";
+import { Noto_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -23,13 +23,6 @@ const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
   style: ["normal", "italic"],
-  display: "swap",
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -88,7 +81,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${notoSans.variable} ${sourceSerif.variable} ${ibmPlexMono.variable}`}
+      className={`${notoSans.variable} ${sourceSerif.variable}`}
     >
       <body className="antialiased min-h-screen flex flex-col theme-global">
         <script

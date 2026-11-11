@@ -66,13 +66,13 @@ export default function FormattingGuidelines() {
 
       {/* Page Header */}
       <header className="text-center max-w-3xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6">
-          <Layout size={16} /> Author Resources
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium mb-5 shadow-2xs">
+          <Layout size={15} className="text-primary" /> Author Resources
         </div>
-        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight mb-4 text-foreground">
-          Formatting <span className="text-primary border-b-4 border-primary">Guidelines</span>
+        <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-slate-900">
+          Formatting <span className="text-primary italic font-normal">Guidelines</span>
         </h1>
-        <p className="text-xl text-foreground/70 leading-relaxed">
+        <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
           Prepare your technical submission. Review abstract document specifications, margins, and published layout examples.
         </p>
       </header>
@@ -126,7 +126,7 @@ export default function FormattingGuidelines() {
                   <h3 className="font-bold text-sm uppercase text-foreground">Naming Protocol</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
                     Save abstract files according to the format:{" "}
-                    <code className="font-mono text-[11px] bg-surface px-1 py-0.5 rounded break-all">
+                    <code className="font-sans font-semibold text-[11.5px] bg-surface px-1.5 py-0.5 rounded break-all text-slate-800">
                       HEMS_Abstract_LastName_FirstName.pdf
                     </code>
                     .
@@ -138,7 +138,7 @@ export default function FormattingGuidelines() {
 
           {/* Abstract Layout Structure */}
           <section className="space-y-6">
-            <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground flex items-center gap-2">
+            <h2 className="font-serif text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900 flex items-center gap-2">
               <List className="text-primary" /> Abstract Structure
             </h2>
             <p className="text-foreground/80">
@@ -147,7 +147,7 @@ export default function FormattingGuidelines() {
             <div className="space-y-4">
               {STRUCTURE_SECTIONS.map((item, idx) => (
                 <div key={item.label} className="flex gap-3 items-start text-foreground/80">
-                  <span className="bg-primary/10 text-primary font-mono text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0">
+                  <span className="bg-primary/10 text-primary text-xs font-bold tabular-nums w-6 h-6 rounded-full flex items-center justify-center shrink-0">
                     {idx + 1}
                   </span>
                   <p className="text-sm mt-0.5">

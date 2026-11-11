@@ -48,14 +48,14 @@ export default function SocietyHistoryPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/about"
-            className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-[0.12em] text-slate-500 hover:text-primary transition-colors mb-6"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500 hover:text-primary transition-colors mb-6"
           >
             <ArrowLeft size={14} /> About the HEMS Society
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug shadow-2xs">
                 <Calendar size={13} className="text-primary shrink-0" />
                 <span>Inaugural Workshop Feb 1999 • 501(c)(3) Incorporated 2008</span>
               </div>
@@ -84,7 +84,7 @@ export default function SocietyHistoryPage() {
                   <div className="font-serif font-semibold text-slate-900 text-base">
                     25+ Years of Field MS
                   </div>
-                  <div className="font-mono text-[11px] text-slate-500 mt-0.5">
+                  <div className="tabular-nums text-[11px] font-medium text-slate-500 mt-0.5">
                     15 Symposia • 1999–2025
                   </div>
                 </div>
@@ -101,7 +101,7 @@ export default function SocietyHistoryPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
             <div className="lg:col-span-7 space-y-5">
               <div>
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
+                <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
                   01 — Genesis &amp; Formative Symposia (1999–2005)
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
@@ -140,7 +140,7 @@ export default function SocietyHistoryPage() {
                 />
               </div>
               <figcaption className="pt-3.5 px-1 space-y-1">
-                <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                <div className="flex flex-wrap items-center justify-between gap-1 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-primary">
                   <span>Fig. 01 • USF Center for Ocean Technology</span>
                   <span className="text-slate-400">St. Petersburg, FL • c. 1999–2001</span>
                 </div>
@@ -154,7 +154,7 @@ export default function SocietyHistoryPage() {
           {/* Sub-Spread: 2-Column Paced Continuation (2001–2005) */}
           <div className="pt-8 border-t border-slate-200/80 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             <div className="bg-white border border-slate-200/90 rounded-xl p-6 sm:p-7 shadow-2xs space-y-3">
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary block">
+              <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-secondary block">
                 2001 • Rapid Growth &amp; Unofficial Attire
               </span>
               <h3 className="font-serif text-lg font-semibold text-slate-900">
@@ -166,7 +166,7 @@ export default function SocietyHistoryPage() {
             </div>
 
             <div className="bg-white border border-slate-200/90 rounded-xl p-6 sm:p-7 shadow-2xs space-y-3">
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary block">
+              <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-primary block">
                 2002–2005 • NASA JPL &amp; Biennial Rhythm
               </span>
               <h3 className="font-serif text-lg font-semibold text-slate-900">
@@ -190,15 +190,15 @@ export default function SocietyHistoryPage() {
                 <img
                   src="/images/history/st-pete-beach-don-cesar-2013.jpg"
                   alt="Smiling HEMS Society investigators, organizers, and students gathered under palm trees on the beachfront terrace of The Don CeSar at St. Pete Beach, Florida"
-                  width={4928}
-                  height={3264}
+                  width={1600}
+                  height={1044}
                   decoding="async"
                   className="w-full h-auto aspect-[3/2] object-cover"
                   loading="lazy"
                 />
               </div>
               <figcaption className="pt-3.5 px-1 space-y-1">
-                <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary">
+                <div className="flex flex-wrap items-center justify-between gap-1 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-secondary">
                   <span>Fig. 02 • 9th HEMS Workshop</span>
                   <span className="text-slate-400">St. Pete Beach, FL • Sept 17, 2013</span>
                 </div>
@@ -211,7 +211,7 @@ export default function SocietyHistoryPage() {
             {/* Society Narrative (Right on Desktop) */}
             <div className="lg:col-span-7 order-1 lg:order-2 space-y-5">
               <div>
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-secondary flex items-center gap-1.5 mb-2">
+                <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-secondary flex items-center gap-1.5 mb-2">
                   <ShieldCheck size={14} /> 02 — Independent Governance (2005–Present)
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
@@ -242,7 +242,7 @@ export default function SocietyHistoryPage() {
           <div className="bg-white border border-slate-200/95 rounded-2xl p-7 sm:p-10 lg:p-12 shadow-2xs">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               <div className="lg:col-span-7 space-y-4">
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary flex items-center gap-1.5">
+                <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary flex items-center gap-1.5">
                   <Compass size={14} /> 03 — Summary &amp; The HEMS Philosophy
                 </span>
 
@@ -265,15 +265,15 @@ export default function SocietyHistoryPage() {
                   <img
                     src="/images/history/myrtle-beach-pier-surf.jpg"
                     alt="Sunlit Atlantic Ocean surf, sandy shoreline, and pier viewed from the beachfront HEMS Workshop host hotel in Myrtle Beach"
-                    width={4032}
-                    height={3024}
+                    width={1600}
+                    height={1200}
                     decoding="async"
                     className="w-full h-auto aspect-[4/3] object-cover"
                     loading="lazy"
                   />
                 </div>
                 <figcaption className="pt-3 px-1 space-y-1">
-                  <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                  <div className="flex flex-wrap items-center justify-between gap-1 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-primary">
                     <span>Fig. 03 • 13th HEMS Workshop</span>
                     <span className="text-slate-400">Myrtle Beach, SC • Sept 16, 2019</span>
                   </div>

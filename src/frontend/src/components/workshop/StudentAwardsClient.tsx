@@ -65,7 +65,7 @@ export default function StudentAwardsClient() {
       <header className="mb-14 pb-8 border-b border-slate-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug mb-4 shadow-2xs">
               <GraduationCap size={15} className="text-primary shrink-0" />
               <span>
                 Graduate Student Research Support • {workshop.workshop_ordinal} HEMS Workshop ({workshop.target_window})
@@ -87,7 +87,7 @@ export default function StudentAwardsClient() {
               decoding="async"
               className="w-24 h-24 object-contain rounded-xl mix-blend-multiply bg-white p-1.5"
             />
-            <span className="text-[11px] font-mono text-slate-500 mt-1.5">Emerging Investigators</span>
+            <span className="text-[11px] font-medium text-slate-500 mt-1.5">Emerging Investigators</span>
           </div>
         </div>
       </header>
@@ -97,7 +97,7 @@ export default function StudentAwardsClient() {
         <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/95 p-5 sm:p-8 md:p-10 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-center">
             <div className="lg:col-span-2">
-              <div className="flex items-start sm:items-center gap-2.5 text-primary font-mono text-xs font-semibold uppercase tracking-widest mb-3">
+              <div className="flex items-start sm:items-center gap-2.5 text-primary text-xs font-semibold uppercase tracking-widest mb-3">
                 <Award size={17} className="shrink-0 mt-0.5 sm:mt-0" /> Purpose of the HEMS Workshop Student Travel Award
               </div>
               <h2 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 mb-4">
@@ -109,10 +109,10 @@ export default function StudentAwardsClient() {
             </div>
 
             <div className="bg-[#FAFBFD] border border-slate-200 rounded-xl p-6 text-center lg:text-left">
-              <span className="text-[11px] font-mono font-semibold uppercase tracking-widest text-slate-500 block mb-1">
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-slate-500 block mb-1">
                 Proposed Award Amount
               </span>
-              <div className="text-4xl font-serif font-semibold text-primary mb-2">
+              <div className="text-4xl font-serif tabular-nums font-semibold text-primary mb-2">
                 {workshop.student_award_amount}
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
@@ -164,7 +164,7 @@ export default function StudentAwardsClient() {
                   className="bg-background border border-foreground/15 rounded-xl p-6 hover:border-primary/40 transition-all shadow-sm flex flex-col"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-primary/10 text-primary">
+                    <span className="tabular-nums text-[11px] font-bold tracking-wider px-2.5 py-1 rounded bg-primary/10 text-primary">
                       ITEM {item.number}
                     </span>
                   </div>
@@ -202,23 +202,23 @@ export default function StudentAwardsClient() {
           {/* Application Deadline Card */}
           <div className="bg-background border-2 border-secondary/35 rounded-2xl p-7 shadow-sm">
             <div className="flex items-center justify-between gap-2 border-b border-foreground/10 pb-3 mb-4">
-              <span className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-secondary">
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-secondary">
                 <Calendar size={16} /> Application Deadline
               </span>
               {workshop.student_award_extended && (
-                <span className="bg-secondary/15 text-secondary text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded">
+                <span className="bg-secondary/15 text-secondary text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">
                   Extended
                 </span>
               )}
             </div>
-            <p className="text-xs font-mono uppercase text-foreground/55 mb-1">
+            <p className="tabular-nums text-xs font-semibold uppercase tracking-wide text-foreground/55 mb-1">
               {workshop.workshop_ordinal} Workshop ({workshop.target_window}):
             </p>
-            <div className="text-xl font-mono font-black text-foreground">
+            <div className="text-xl tabular-nums font-black text-foreground">
               {workshop.student_award_deadline}
             </div>
             {workshop.cycle_stage === "save_the_date" && (
-              <p className="text-[11px] text-foreground/55 font-mono mt-3 pt-3 border-t border-foreground/10">
+              <p className="tabular-nums text-[11px] text-foreground/55 mt-3 pt-3 border-t border-foreground/10">
                 Previous 15th Workshop deadline: Friday, August 8, 2025
               </p>
             )}
@@ -227,7 +227,7 @@ export default function StudentAwardsClient() {
           {/* Submit Applications Card */}
           <div className="bg-primary text-background rounded-2xl p-7 shadow-md flex flex-col justify-between">
             <div>
-              <span className="text-[11px] font-mono uppercase tracking-widest opacity-85 block mb-2">
+              <span className="text-[11px] font-semibold uppercase tracking-widest opacity-85 block mb-2">
                 Submit Applications
               </span>
               <h3 className="text-2xl font-black uppercase tracking-tight mb-3">
@@ -238,12 +238,12 @@ export default function StudentAwardsClient() {
               </p>
 
               <div className="border-l-2 border-background/40 pl-4 py-1 mb-6 space-y-1">
-                <span className="text-[10px] uppercase opacity-80 font-mono block">
+                <span className="text-[10.5px] font-semibold uppercase tracking-wider opacity-80 block">
                   Committee E-mail
                 </span>
                 <a
                   href={`mailto:${workshop.student_award_email}`}
-                  className="font-mono text-xs font-bold underline break-all block"
+                  className="text-xs font-bold underline break-all block"
                 >
                   {workshop.student_award_email}
                 </a>
@@ -282,15 +282,15 @@ export default function StudentAwardsClient() {
               <img
                 src="/images/gallery/banquet-awards-applause-2019.jpg"
                 alt="Smiling HEMS Workshop attendees applauding and snapping photos during the evening awards banquet in Myrtle Beach"
-                width={4032}
-                height={3024}
+                width={1600}
+                height={1200}
                 decoding="async"
                 className="w-full aspect-[4/3] object-cover"
                 loading="lazy"
               />
             </div>
             <figcaption className="px-1.5 pb-1">
-              <div className="flex items-center gap-2 text-primary font-mono text-[11px] font-semibold uppercase tracking-wider mb-1.5">
+              <div className="flex items-center gap-2 text-primary tabular-nums text-[10.5px] font-semibold uppercase tracking-wider mb-1.5">
                 <BookOpen size={14} /> 13th HEMS Workshop • Sept 18, 2019
               </div>
               <p className="text-xs text-slate-600 leading-relaxed mb-3">

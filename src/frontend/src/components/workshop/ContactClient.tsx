@@ -71,7 +71,7 @@ export default function ContactClient() {
   return (
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
       <div className="mb-10 sm:mb-12 pb-8 border-b border-slate-200">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
           <Mail size={14} className="text-primary shrink-0" /> Official Society Communications
         </div>
         <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-slate-900">
@@ -107,7 +107,7 @@ export default function ContactClient() {
                         ? `mailto:${coordinatorEmail}`
                         : "mailto:info@hems-workshop.org"
                     }
-                    className="underline font-mono font-semibold text-primary break-all"
+                    className="underline font-semibold text-primary break-all"
                   >
                     {form.subject === "Sponsorship & Billing Inquiries"
                       ? coordinatorEmail
@@ -122,7 +122,7 @@ export default function ContactClient() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-1.5">
-                <label htmlFor="firstName" className="text-xs font-bold text-foreground/80 uppercase font-mono">
+                <label htmlFor="firstName" className="text-[11px] font-semibold text-foreground/80 uppercase tracking-[0.08em]">
                   First Name
                 </label>
                 <input
@@ -135,7 +135,7 @@ export default function ContactClient() {
                 />
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="lastName" className="text-xs font-bold text-foreground/80 uppercase font-mono">
+                <label htmlFor="lastName" className="text-[11px] font-semibold text-foreground/80 uppercase tracking-[0.08em]">
                   Last Name
                 </label>
                 <input
@@ -150,7 +150,7 @@ export default function ContactClient() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="email" className="text-xs font-bold text-foreground/80 uppercase font-mono">
+              <label htmlFor="email" className="text-[11px] font-semibold text-foreground/80 uppercase tracking-[0.08em]">
                 Email Address
               </label>
               <input
@@ -164,7 +164,7 @@ export default function ContactClient() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="subject" className="text-xs font-bold text-foreground/80 uppercase font-mono">
+              <label htmlFor="subject" className="text-[11px] font-semibold text-foreground/80 uppercase tracking-[0.08em]">
                 Topic
               </label>
               <select
@@ -195,7 +195,7 @@ export default function ContactClient() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="message" className="text-xs font-bold text-foreground/80 uppercase font-mono">
+              <label htmlFor="message" className="text-[11px] font-semibold text-foreground/80 uppercase tracking-[0.08em]">
                 Message
               </label>
               <textarea
@@ -230,7 +230,7 @@ export default function ContactClient() {
                 <div className="min-w-0">
                   <h3 className="font-bold text-foreground">General &amp; Program Inquiries</h3>
                   <p className="text-xs text-foreground/70 mb-1">Organizing committee &amp; technical program desk</p>
-                  <a href="mailto:info@hems-workshop.org" className="text-primary font-mono text-sm hover:underline break-all">
+                  <a href="mailto:info@hems-workshop.org" className="text-primary font-medium text-sm hover:underline break-all">
                     info@hems-workshop.org
                   </a>
                 </div>
@@ -248,7 +248,7 @@ export default function ContactClient() {
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                     <a
                       href={`mailto:${coordinatorEmail}`}
-                      className="text-primary font-mono text-sm hover:underline break-all"
+                      className="text-primary font-medium text-sm hover:underline break-all"
                     >
                       {coordinatorEmail}
                     </a>
@@ -280,12 +280,12 @@ export default function ContactClient() {
                           href={workshop.hotel_maps_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-primary font-mono text-xs hover:underline"
+                          className="inline-flex items-center gap-1 text-primary font-medium text-xs hover:underline"
                         >
                           {workshop.hotel_address} <ExternalLink size={12} className="shrink-0" />
                         </a>
                       ) : (
-                        <span className="font-mono text-xs text-foreground/75">
+                        <span className="text-xs text-foreground/75">
                           {workshop.hotel_address}
                         </span>
                       )}
@@ -302,7 +302,7 @@ export default function ContactClient() {
                         href="https://maps.app.goo.gl/iryzq94Cg5gTFS2J7"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-foreground/55 font-mono text-[11px] hover:text-primary hover:underline"
+                        className="inline-flex items-center gap-1 text-foreground/55 text-[11px] hover:text-primary hover:underline"
                       >
                         <span>Previous 15th Venue (2025): Sheraton Virginia Beach Oceanfront</span>
                         <ExternalLink size={11} className="shrink-0" />
@@ -316,10 +316,10 @@ export default function ContactClient() {
 
           {/* Dedicated Corporate Sponsorship Portal Card */}
           <div className="bg-surface border-2 border-secondary/30 rounded-2xl p-5 sm:p-8 shadow-sm">
-            <div className="flex items-center gap-2 text-secondary font-mono text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="flex items-center gap-2 text-secondary text-[11px] font-semibold uppercase tracking-[0.1em] mb-3">
               <Award size={17} className="shrink-0" /> Industry &amp; Institutional Partnerships
             </div>
-            <h3 className="text-xl font-black uppercase tracking-tight text-foreground mb-2">
+            <h3 className="font-serif text-2xl font-semibold tracking-tight text-slate-900 mb-2">
               Corporate Sponsorship
             </h3>
             <p className="text-sm text-foreground/80 leading-relaxed mb-5">
@@ -335,16 +335,16 @@ export default function ContactClient() {
 
           {/* Society Governance Card */}
           <div className="bg-gradient-to-br from-primary/10 via-surface/40 to-secondary/10 border border-primary/20 rounded-2xl p-5 sm:p-8 shadow-sm">
-            <div className="flex items-center gap-2.5 text-primary font-mono text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="flex items-center gap-2.5 text-primary text-[11px] font-semibold uppercase tracking-[0.1em] mb-3">
               <ShieldCheck size={18} className="shrink-0" /> Nonprofit Incorporation
             </div>
-            <h3 className="text-xl font-bold uppercase tracking-tight text-foreground mb-3">
+            <h3 className="font-serif text-2xl font-semibold tracking-tight text-slate-900 mb-3">
               HEMS Society, Inc.
             </h3>
             <p className="text-sm text-foreground/80 leading-relaxed mb-4">
               Incorporated in the State of Florida since 2008 as a tax-exempt <strong>501(c)(3) Public Charity</strong>, the Harsh-Environment Mass Spectrometry Society is governed by a rotating volunteer committee of academic, government, and industry scientists.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-foreground/10 font-mono text-xs text-foreground/70">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-foreground/10 text-xs text-foreground/70">
               <div>
                 <span className="block text-[10px] uppercase text-foreground/50">Workshop Cadence</span>
                 <strong className="text-foreground">Biennial (Every 2 Years)</strong>

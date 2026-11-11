@@ -43,6 +43,7 @@ tests/*.png
 
 # Temporary Files
 scratch/
+src/frontend/photo_review/
 
 # Local Development & Credentials
 source-material/

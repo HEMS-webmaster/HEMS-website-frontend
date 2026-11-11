@@ -10,10 +10,10 @@ export default function UpcomingWorkshopSpotlight() {
   return (
     <div className="pt-4 border-t border-slate-100 space-y-3">
       <div className="flex items-center justify-between gap-2">
-        <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+        <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-primary">
           Upcoming Symposium Dossier
         </span>
-        <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-slate-100 text-slate-700 border border-slate-200">
+        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200">
           {workshop.cycle_stage === "open" ? "Submissions Open" : "Save the Date"}
         </span>
       </div>
@@ -28,7 +28,7 @@ export default function UpcomingWorkshopSpotlight() {
         <div className="flex items-start gap-2 p-2.5 rounded-lg bg-slate-50/90 border border-slate-100">
           <Calendar size={14} className="text-primary shrink-0 mt-0.5" />
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+            <dt className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
               Schedule
             </dt>
             <dd className="font-medium text-slate-800 mt-0.5">{workshop.target_window}</dd>
@@ -38,7 +38,7 @@ export default function UpcomingWorkshopSpotlight() {
         <div className="flex items-start gap-2 p-2.5 rounded-lg bg-slate-50/90 border border-slate-100">
           <MapPin size={14} className="text-secondary shrink-0 mt-0.5" />
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-wider text-slate-400">
+            <dt className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
               Location
             </dt>
             <dd className="font-medium text-slate-800 mt-0.5">{workshop.venue_city_state}</dd>
@@ -54,7 +54,7 @@ export default function UpcomingWorkshopSpotlight() {
           <GraduationCap size={14} className="text-secondary shrink-0" />
           <span>
             Student Travel Grants:{" "}
-            <strong className="font-mono text-slate-900">{workshop.student_award_amount}</strong>
+            <strong className="font-semibold text-slate-900 tabular-nums">{workshop.student_award_amount}</strong>
           </span>
         </Link>
 

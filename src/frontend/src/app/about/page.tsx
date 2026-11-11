@@ -89,7 +89,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug shadow-2xs">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug shadow-2xs">
                 <ShieldCheck size={13} className="text-primary shrink-0" />
                 <span>501(c)(3) Scientific Public Charity • Est. 1999</span>
               </div>
@@ -118,7 +118,7 @@ export default function About() {
                   <div className="font-serif font-semibold text-slate-900 text-base">
                     All-Volunteer Forum
                   </div>
-                  <div className="font-mono text-[11px] text-slate-500 mt-0.5">
+                  <div className="text-[11px] font-medium text-slate-500 mt-0.5">
                     Zero Annual Membership Dues
                   </div>
                 </div>
@@ -133,7 +133,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+              <div className="inline-flex items-center gap-2 tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
                 <Target size={15} /> 01 — Official Charter &amp; Purpose
               </div>
 
@@ -156,15 +156,15 @@ export default function About() {
                 <img
                   src="/images/gallery/group-photo-2025.jpg"
                   alt="Participants of the 15th Biennial Harsh-Environment Mass Spectrometry Workshop gathered in Virginia Beach, September 2025"
-                  width={5568}
-                  height={3712}
+                  width={1029}
+                  height={1600}
                   decoding="async"
                   className="w-full h-auto block"
                   loading="eager"
                 />
               </div>
               <figcaption className="pt-3.5 px-1 space-y-1">
-                <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                <div className="flex flex-wrap items-center justify-between gap-1 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-primary">
                   <span>15th HEMS Workshop</span>
                   <span className="text-slate-400">Virginia Beach, VA • Sept 17, 2025</span>
                 </div>
@@ -181,7 +181,7 @@ export default function About() {
       <section className="py-14 sm:py-20 bg-[#FAFBFD] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mb-12">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-secondary block mb-2">
+            <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-secondary block mb-2">
               02 — Strategic Pillars
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
@@ -212,7 +212,7 @@ export default function About() {
                       >
                         <Icon size={20} />
                       </span>
-                      <span className="font-mono text-xs text-slate-400 font-semibold">
+                      <span className="tabular-nums text-xs text-slate-400 font-semibold">
                         0{idx + 1}
                       </span>
                     </div>
@@ -231,15 +231,15 @@ export default function About() {
                 <img
                   src="/images/gallery/don-cesar-hawaiian-smiles-2013.jpg"
                   alt="Smiling HEMS Workshop colleagues in Hawaiian and casual attire on the beachfront terrace at St. Pete Beach"
-                  width={4928}
-                  height={3264}
+                  width={1600}
+                  height={1060}
                   decoding="async"
                   className="w-full aspect-[3/2] object-cover"
                   loading="lazy"
                 />
               </div>
               <figcaption className="pt-4 px-1">
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary block mb-1">
+                <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-secondary block mb-1">
                   9th HEMS Workshop • Sept 17, 2013
                 </span>
                 <h3 className="font-serif text-lg font-semibold text-slate-900 mb-1">
@@ -259,7 +259,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-7 sm:p-8 flex flex-col justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 text-primary font-mono text-[11px] font-semibold uppercase tracking-[0.14em] mb-2">
+              <div className="inline-flex items-center gap-2 text-primary tabular-nums text-[11px] font-semibold uppercase tracking-[0.14em] mb-2">
                 <History size={15} /> Heritage Since 1999
               </div>
               <h3 className="font-serif text-2xl font-semibold text-slate-900 mb-2">
@@ -280,7 +280,7 @@ export default function About() {
 
           <div className="bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-7 sm:p-8 flex flex-col justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 text-secondary font-mono text-[11px] font-semibold uppercase tracking-[0.14em] mb-2">
+              <div className="inline-flex items-center gap-2 text-secondary tabular-nums text-[11px] font-semibold uppercase tracking-[0.14em] mb-2">
                 <BookOpen size={15} /> 15 Symposia Cataloged
               </div>
               <h3 className="font-serif text-2xl font-semibold text-slate-900 mb-2">

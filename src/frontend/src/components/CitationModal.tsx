@@ -162,7 +162,7 @@ export default function CitationModal({
                 )}
               </button>
             </div>
-            <div className="p-3 bg-background border border-foreground/10 rounded-lg text-xs leading-relaxed text-foreground/90 font-mono break-words select-all select-text">
+            <div className="p-3 bg-background border border-foreground/10 rounded-lg text-xs leading-relaxed text-foreground/90 font-sans break-words select-all select-text">
               {apaCitation}
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function CitationModal({
                 )}
               </button>
             </div>
-            <pre className="p-3 bg-background border border-foreground/10 rounded-lg text-xs leading-relaxed text-foreground/90 overflow-x-auto font-mono whitespace-pre-wrap break-words select-all select-text">
+            <pre className="p-3 bg-background border border-foreground/10 rounded-lg text-xs leading-relaxed text-foreground/90 overflow-x-auto font-sans whitespace-pre-wrap break-words select-all select-text">
               {bibtexCitation}
             </pre>
           </div>
@@ -206,7 +206,7 @@ export default function CitationModal({
                 {copiedField === "permalink" ? "Copied!" : "Copy Link"}
               </button>
             </div>
-            <div className="p-2.5 bg-background border border-foreground/10 rounded-lg text-xs font-mono truncate text-foreground/75 select-all">
+            <div className="p-2.5 bg-background border border-foreground/10 rounded-lg text-xs font-sans truncate text-foreground/75 select-all">
               {permalink}
             </div>
           </div>

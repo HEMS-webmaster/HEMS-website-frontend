@@ -2,7 +2,7 @@
 
 :root,
 .theme-global {
-  /* v3.0.0 — Scholarly Precision & Editorial Symposium ("Alabaster Paper & Oceanic Sapphire") */
+  /* v3.1.0 — Scholarly Precision & Editorial Symposium ("Alabaster Paper & Oceanic Sapphire" — Dual-Font Refinement) */
   --background: #FAFBFD;
   --card: #FFFFFF;
   --surface: #F1F5F9;
@@ -25,7 +25,8 @@
   --color-secondary: var(--secondary);
   --font-sans: var(--font-noto-sans), system-ui, -apple-system, sans-serif;
   --font-serif: var(--font-source-serif), Georgia, Cambria, "Times New Roman", serif;
-  --font-mono: var(--font-ibm-mono), ui-monospace, SFMono-Regular, monospace;
+  /* v3.1.0 retires IBM Plex Mono; map --font-mono to Noto Sans so locked /archive/[year] routes render in clean sans */
+  --font-mono: var(--font-noto-sans), system-ui, -apple-system, sans-serif;
 }
 
 html,

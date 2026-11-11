@@ -168,7 +168,7 @@ export default function Navbar() {
               <span className="font-serif font-semibold text-base sm:text-lg leading-none text-slate-900 tracking-tight group-hover:text-primary transition-colors truncate">
                 HEMS Society
               </span>
-              <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-slate-500 mt-0.5 truncate">
+              <span className="text-[11px] font-medium text-slate-500 mt-0.5 truncate tabular-nums">
                 Est. 1999 • 501(c)(3)
               </span>
             </div>
@@ -247,7 +247,7 @@ export default function Navbar() {
                     <Link
                       href="/archive"
                       onClick={() => setArchivesOpen(false)}
-                      className="block px-4 py-2.5 text-xs font-mono font-semibold uppercase tracking-wider text-primary border-b border-slate-100 hover:bg-slate-50"
+                      className="block px-4 py-2.5 text-xs font-semibold tracking-wide text-primary border-b border-slate-100 hover:bg-slate-50 tabular-nums"
                     >
                       All Proceedings (1999–2025) →
                     </Link>
@@ -259,7 +259,7 @@ export default function Navbar() {
                         className="flex items-center justify-between px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors"
                       >
                         <span className="font-medium">{getOrdinal(ws.number)} Workshop</span>
-                        <span className="font-mono text-[11px] text-slate-400">{ws.year}</span>
+                        <span className="text-[11px] font-medium text-slate-400 tabular-nums">{ws.year}</span>
                       </Link>
                     ))}
                   </div>
@@ -314,7 +314,7 @@ export default function Navbar() {
                     <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-xl">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-2.5">
                         <div className="min-w-0 pr-2">
-                          <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                             Signed In As
                           </p>
                           <p className="text-xs font-semibold text-slate-900 truncate" title={user.email}>
@@ -339,7 +339,7 @@ export default function Navbar() {
                               className="flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-slate-100"
                             >
                               <span
-                                className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold font-mono border shrink-0 ${meta.badgeClass}`}
+                                className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold border shrink-0 ${meta.badgeClass}`}
                               >
                                 {meta.label}
                               </span>
@@ -503,7 +503,7 @@ export default function Navbar() {
                 <Link
                   href="/archive"
                   onClick={() => setMobileOpen(false)}
-                  className="block px-2.5 py-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-primary hover:underline"
+                  className="block px-2.5 py-1.5 text-xs font-semibold tracking-wide text-primary hover:underline tabular-nums"
                 >
                   Search Full Archive (1999–2025) →
                 </Link>
@@ -522,7 +522,7 @@ export default function Navbar() {
                             : "bg-slate-50/80 border-slate-200 text-slate-700 hover:border-primary/50 hover:text-primary"
                         }`}
                       >
-                        <span className="block font-mono text-xs font-semibold leading-tight">
+                        <span className="block text-xs font-semibold leading-tight tabular-nums">
                           {ws.year}
                         </span>
                         <span
@@ -555,7 +555,7 @@ export default function Navbar() {
             <div className="mt-3 pt-3 border-t border-slate-200 space-y-2.5">
               <div className="flex items-center justify-between gap-3 px-2">
                 <div className="min-w-0">
-                  <span className="block text-[10px] font-mono uppercase tracking-wider text-slate-400">
+                  <span className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                     Signed In
                   </span>
                   <span className="block text-xs font-semibold text-slate-900 truncate">

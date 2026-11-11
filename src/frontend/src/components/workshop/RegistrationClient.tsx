@@ -22,7 +22,7 @@ export default function RegistrationClient() {
     <>
       {/* Page Header */}
       <header className="mb-10 border-b border-slate-200 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
           <CreditCard size={14} className="text-primary shrink-0" /> Workshop Access • {workshop.workshop_ordinal} Workshop
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
@@ -40,13 +40,13 @@ export default function RegistrationClient() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <GraduationCap className="text-primary" size={20} />
-              <span className="text-[10px] uppercase font-mono text-foreground/50">Academic Rate</span>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/50">Academic Rate</span>
             </div>
-            <h2 className="text-xl font-bold uppercase tracking-tight text-foreground mb-2">
+            <h2 className="text-xl font-bold tracking-tight text-foreground mb-2">
               Student Pass
             </h2>
             <div className="flex items-baseline gap-1 mb-3">
-              <span className="text-3xl font-mono font-bold text-foreground">
+              <span className="text-3xl font-bold text-foreground tabular-nums">
                 {workshop.reg_student_fee}
               </span>
               <span className="text-[10px] text-foreground/50">USD</span>
@@ -76,7 +76,7 @@ export default function RegistrationClient() {
               Register Student
             </a>
           ) : (
-            <div className="w-full text-center bg-surface border border-foreground/10 text-foreground/60 py-2.5 rounded font-mono font-bold uppercase mt-6 text-[11px]">
+            <div className="w-full text-center bg-surface border border-foreground/10 text-foreground/60 py-2.5 rounded font-semibold uppercase tracking-wide mt-6 text-[11px] tabular-nums">
               Registration Opens {workshop.workshop_year}
             </div>
           )}
@@ -90,15 +90,15 @@ export default function RegistrationClient() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <UserCheck className="text-primary" size={20} />
-              <span className="text-[10px] uppercase font-mono text-primary font-bold">
+              <span className="text-[10px] uppercase tracking-[0.08em] text-primary font-bold">
                 Standard Rate
               </span>
             </div>
-            <h2 className="text-xl font-bold uppercase tracking-tight text-foreground mb-2">
+            <h2 className="text-xl font-bold tracking-tight text-foreground mb-2">
               Professional Pass
             </h2>
             <div className="flex items-baseline gap-1 mb-3">
-              <span className="text-3xl font-mono font-bold text-primary">
+              <span className="text-3xl font-bold text-primary tabular-nums">
                 {workshop.reg_professional_fee}
               </span>
               <span className="text-[10px] text-foreground/50">USD</span>
@@ -128,7 +128,7 @@ export default function RegistrationClient() {
               Register Professional
             </a>
           ) : (
-            <div className="w-full text-center bg-primary/10 border border-primary/25 text-primary py-2.5 rounded font-mono font-bold uppercase mt-6 text-[11px]">
+            <div className="w-full text-center bg-primary/10 border border-primary/25 text-primary py-2.5 rounded font-semibold uppercase tracking-wide mt-6 text-[11px] tabular-nums">
               Registration Opens {workshop.workshop_year}
             </div>
           )}
@@ -139,15 +139,15 @@ export default function RegistrationClient() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Building2 className="text-primary" size={20} />
-              <span className="text-[10px] uppercase font-mono text-foreground/50">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/50">
                 Industrial Partner
               </span>
             </div>
-            <h2 className="text-xl font-bold uppercase tracking-tight text-foreground mb-2">
+            <h2 className="text-xl font-bold tracking-tight text-foreground mb-2">
               Sponsor Pass
             </h2>
             <div className="flex items-baseline gap-1 mb-3">
-              <span className="text-3xl font-mono font-bold text-foreground">
+              <span className="text-3xl font-bold text-foreground tabular-nums">
                 {workshop.reg_sponsor_fee}
               </span>
               <span className="text-[10px] text-foreground/50">USD</span>
@@ -187,7 +187,7 @@ export default function RegistrationClient() {
             <div className="relative border-l-2 border-foreground/10 pl-6 space-y-6">
               <div className="relative">
                 <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-primary border-4 border-background" />
-                <span className="text-[10px] font-mono text-foreground/50 block">
+                <span className="text-[11px] font-medium text-foreground/55 block tabular-nums">
                   {workshop.reg_early_bird_opens}
                 </span>
                 <span className="font-bold text-sm text-foreground">Early-Bird Window Opens</span>
@@ -197,7 +197,7 @@ export default function RegistrationClient() {
               </div>
               <div className="relative">
                 <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-secondary border-4 border-background" />
-                <span className="text-[10px] font-mono text-foreground/50 block">
+                <span className="text-[11px] font-medium text-foreground/55 block tabular-nums">
                   {workshop.reg_early_bird_closes}
                 </span>
                 <span className="font-bold text-sm text-foreground">Early-Bird Window Closes</span>
@@ -207,7 +207,7 @@ export default function RegistrationClient() {
               </div>
               <div className="relative">
                 <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-foreground/45 border-4 border-background" />
-                <span className="text-[10px] font-mono text-foreground/50 block">
+                <span className="text-[11px] font-medium text-foreground/55 block tabular-nums">
                   {workshop.reg_final_cutoff}
                 </span>
                 <span className="font-bold text-sm text-foreground">Registration Final Cutoff</span>
@@ -251,7 +251,7 @@ export default function RegistrationClient() {
               page or contact {workshop.sponsor_coordinator_name} at{" "}
               <a
                 href={`mailto:${workshop.sponsor_coordinator_email}`}
-                className="text-primary font-mono hover:underline break-all"
+                className="text-primary font-medium hover:underline break-all"
               >
                 {workshop.sponsor_coordinator_email}
               </a>
@@ -288,7 +288,7 @@ export default function RegistrationClient() {
                 Join {workshop.workshop_year} Mailing List <ExternalLink size={12} />
               </a>
             ) : (
-              <div className="w-full bg-background/15 border border-background/30 text-background font-mono font-bold py-2.5 rounded flex items-center justify-center gap-2 text-xs uppercase">
+              <div className="w-full bg-background/15 border border-background/30 text-background font-semibold py-2.5 rounded flex items-center justify-center gap-2 text-xs uppercase tracking-wide tabular-nums">
                 <Clock size={14} /> Opening in {workshop.workshop_year}
               </div>
             )}

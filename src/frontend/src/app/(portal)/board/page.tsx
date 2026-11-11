@@ -50,7 +50,7 @@ export default function BoardPage() {
             Access secure board documents, review workshop budgets, and read meeting minutes.
           </p>
         </div>
-        <div className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl text-xs font-mono font-bold text-primary self-start md:self-center break-all">
+        <div className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl text-xs font-bold text-primary self-start md:self-center break-all">
           Board Member: {user.email}
         </div>
       </div>
@@ -70,10 +70,10 @@ export default function BoardPage() {
                 </div>
                 <div className="min-w-0">
                   <h4 className="font-bold text-sm text-foreground leading-snug">{doc.title}</h4>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-foreground/50 mt-1 font-medium">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 tabular-nums text-xs text-foreground/50 mt-1 font-medium">
                     <span className="flex items-center gap-1"><Calendar size={12} /> {doc.date}</span>
                     <span>Size: {doc.size}</span>
-                    <span className="bg-foreground/5 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider font-mono">{doc.type}</span>
+                    <span className="bg-foreground/5 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">{doc.type}</span>
                   </div>
                 </div>
               </div>

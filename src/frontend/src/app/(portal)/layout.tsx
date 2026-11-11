@@ -144,7 +144,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
         {isMock && user && (
           <div className="px-4 sm:px-6 py-2 bg-primary/5 border-t border-slate-200/70 flex items-center justify-between gap-3">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500">
               Dev Role Switcher
             </span>
             <select

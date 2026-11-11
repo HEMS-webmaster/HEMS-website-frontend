@@ -42,7 +42,7 @@ export default function PortalOverviewClient() {
     <>
       <header className="mb-10 border-b border-slate-200 pb-8 flex items-center justify-between gap-6">
         <div>
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-primary block mb-1.5">
+          <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.14em] text-primary block mb-1.5">
             Biennial Symposium Hub • {workshop.target_window}
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
@@ -68,15 +68,15 @@ export default function PortalOverviewClient() {
           <img
             src="/images/gallery/golden-hour-harbor-reception-2015.jpg"
             alt="HEMS Workshop attendees conversing outdoors at sunset on a waterfront marina reception deck"
-            width={4928}
-            height={3264}
+            width={1600}
+            height={1060}
             decoding="async"
             className="w-full aspect-[3/2] object-cover"
             loading="eager"
           />
         </div>
         <figcaption className="md:col-span-7 px-2 py-1 space-y-2">
-          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary block">
+          <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-secondary block">
             10th HEMS Workshop • Sept 15, 2015
           </span>
           <h2 className="font-serif text-xl font-semibold text-slate-900">
@@ -100,7 +100,7 @@ export default function PortalOverviewClient() {
 
             <div className="space-y-5">
               <div className="border-l-2 border-primary pl-4 py-1">
-                <span className="text-xs font-mono text-primary font-bold block mb-1">
+                <span className="tabular-nums text-xs text-primary font-bold block mb-1">
                   Upcoming Biennial Cycle • {workshop.target_window}
                 </span>
                 <p className="font-bold text-foreground block">{workshop.announcement_headline}</p>
@@ -120,7 +120,7 @@ export default function PortalOverviewClient() {
               </div>
 
               <div className="border-l-2 border-foreground/20 pl-4 py-1">
-                <span className="text-xs font-mono text-foreground/50 block mb-1">
+                <span className="tabular-nums text-xs font-semibold text-foreground/50 block mb-1">
                   15th Workshop • Sept 2025
                 </span>
                 <Link
@@ -215,7 +215,7 @@ export default function PortalOverviewClient() {
                 <tbody className="divide-y divide-foreground/10">
                   {RECENT_15TH_PAPERS.map((paper, idx) => (
                     <tr key={idx} className="hover:bg-surface/50 transition-colors">
-                      <td className="px-4 py-3 font-mono text-xs text-foreground/60 whitespace-nowrap">
+                      <td className="px-4 py-3 text-xs font-semibold text-foreground/60 whitespace-nowrap">
                         {paper.session}
                       </td>
                       <td className="px-4 py-3 font-medium text-foreground">{paper.title}</td>
@@ -246,23 +246,23 @@ export default function PortalOverviewClient() {
             </h3>
             <ul className="space-y-4 text-xs">
               <li className="flex justify-between items-start gap-3">
-                <span className="text-foreground/60 font-mono uppercase">Target Dates</span>
+                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Target Dates</span>
                 <span className="font-bold text-foreground text-right">{workshop.exact_dates}</span>
               </li>
               <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
-                <span className="text-foreground/60 font-mono uppercase">Location</span>
+                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Location</span>
                 <span className="font-bold text-foreground text-right">{workshop.venue_city_state}</span>
               </li>
               <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
-                <span className="text-foreground/60 font-mono uppercase">Abstracts Due</span>
+                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Abstracts Due</span>
                 <span className="font-bold text-foreground text-right">
                   {workshop.cfp_abstract_deadline}
                 </span>
               </li>
               <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
-                <span className="text-foreground/60 font-mono uppercase">Registration</span>
+                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Registration</span>
                 <span
-                  className={`font-bold font-mono uppercase ${
+                  className={`font-bold tabular-nums uppercase tracking-wide ${
                     workshop.registration_open ? "text-secondary" : "text-foreground/70"
                   }`}
                 >
@@ -273,7 +273,7 @@ export default function PortalOverviewClient() {
           </div>
 
           <div className="bg-primary text-background rounded-lg p-6 shadow-md">
-            <h3 className="font-bold uppercase tracking-wider text-xs mb-3 opacity-90 font-mono">
+            <h3 className="font-bold uppercase tracking-wider text-xs mb-3 opacity-90 tabular-nums">
               15th Workshop Archive
             </h3>
             <div className="text-2xl font-black mb-2">PROCEEDINGS LIVE</div>

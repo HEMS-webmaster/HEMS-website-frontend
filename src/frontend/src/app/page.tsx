@@ -91,8 +91,8 @@ const CHARTER_PILLARS = [
       "Deploying mass spectrometers directly into extreme natural regimes—from deep-ocean hydrothermal vents and polar waters to volcanic plumes, stratospheric aircraft, and lunar or Martian landers.",
     tags: ["Deep-Sea MIMS", "Planetary Payloads", "Volcanic & Atmospheric"],
     image: "/images/gallery/fox-volcanic-fumarole-ms.jpg",
-    imageWidth: 875,
-    imageHeight: 600,
+    imageWidth: 1400,
+    imageHeight: 960,
     imageAlt: "Investigator operating a backpack-portable mass spectrometer inside an active volcanic sulfur fumarole",
     imageFit: "cover" as const,
     credit: "2012 Field Trial • Fox (INFICON), 15th WS",
@@ -104,8 +104,8 @@ const CHARTER_PILLARS = [
       "Engineering compact ion sources, rectilinear and toroidal ion traps, portable time-of-flight and sector analyzers, harsh-environment membrane inlets, and low-SWaP vacuum systems.",
     tags: ["Low-SWaP Vacuum", "Portable Analyzers", "Harsh Inlets"],
     image: "/images/gallery/raith-spaceflight-orbitrap-cad.jpg",
-    imageWidth: 1217,
-    imageHeight: 603,
+    imageWidth: 1400,
+    imageHeight: 694,
     imageAlt: "Cross-section engineering schematic of a spaceflight pulsed-UV laser desorption Orbitrap mass spectrometer",
     imageFit: "contain" as const,
     credit: "UMD / NASA GSFC • Raith et al., 15th WS",
@@ -117,8 +117,8 @@ const CHARTER_PILLARS = [
       "Advancing uncrewed underwater and aerial sensing, real-time onboard spectral deconvolution, environmental forensics, industrial process monitoring, and chemical defense readiness.",
     tags: ["AUV / UAV Sensing", "Onboard Deconvolution", "Environmental & Defense"],
     image: "/images/gallery/coppin-icefin-underice-rov.jpg",
-    imageWidth: 1702,
-    imageHeight: 956,
+    imageWidth: 1600,
+    imageHeight: 899,
     imageAlt: "Icefin autonomous under-ice vehicle carrying an underwater mass spectrometer beneath polar sea ice",
     imageFit: "cover" as const,
     credit: "Cornell / Harvard SUIMS • 15th WS (2025)",
@@ -132,8 +132,8 @@ const SYMPOSIUM_CULTURE = [
     caption:
       "Tuesday evening Workshop Dinner on the Courtyard Terrace during the Society's second consecutive St. Pete Beach symposium, hosted by the University of North Texas.",
     image: "/images/gallery/don-cesar-terrace-smiles-2013.jpg",
-    width: 4928,
-    height: 3264,
+    width: 1600,
+    height: 1049,
     alt: "Smiling HEMS Workshop attendees applauding together on the sunlit pink beachfront terrace beneath palm trees at St. Pete Beach",
     position: "object-top",
   },
@@ -143,8 +143,8 @@ const SYMPOSIUM_CULTURE = [
     caption:
       "Tuesday morning Technical Session IV during the 10th anniversary HEMS Workshop, chaired by Gottfried Kibelka and hosted by OI Analytical.",
     image: "/images/gallery/single-track-auditorium-smiles-2015.jpg",
-    width: 4928,
-    height: 3264,
+    width: 1600,
+    height: 1066,
     alt: "Full single-track lecture auditorium of HEMS Workshop scientists and engineers smiling toward the camera",
     position: "object-center",
   },
@@ -154,8 +154,8 @@ const SYMPOSIUM_CULTURE = [
     caption:
       "Late-afternoon poster and sponsor discussions in coastal Ventura County during the 11th HEMS Workshop, hosted by UTC Aerospace Systems.",
     image: "/images/gallery/poster-session-smiles-oxnard-2017.jpg",
-    width: 4928,
-    height: 3264,
+    width: 1600,
+    height: 1060,
     alt: "Two HEMS investigators, one in a bright red Hawaiian shirt, smiling warmly in conversation beside technical posters",
     position: "object-top",
   },
@@ -177,7 +177,7 @@ export default function Home() {
             {/* Left Editorial Narrative (7 Columns) */}
             <div className="lg:col-span-7 space-y-6">
               <div className="space-y-3">
-                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                   Harsh-Environment Mass Spectrometry Society
                 </p>
                 <UpcomingHeroBadge />
@@ -225,14 +225,14 @@ export default function Home() {
                 {/* Analytical Header */}
                 <div className="flex items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
                   <div className="min-w-0">
-                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 block">
+                    <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-slate-400 block">
                       In-Situ Volatile Profile • EI 70 eV
                     </span>
                     <span className="text-xs font-semibold text-slate-800">
                       Field-Deployed Spectral Signature (<em>m/z</em> 1–100)
                     </span>
                   </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-teal-50 text-secondary border border-teal-200/70 font-medium shrink-0 whitespace-nowrap">
+                  <span className="tabular-nums text-[10.5px] px-2 py-0.5 rounded bg-teal-50 text-secondary border border-teal-200/70 font-semibold shrink-0 whitespace-nowrap">
                     10⁻⁶ Torr
                   </span>
                 </div>
@@ -266,7 +266,7 @@ export default function Home() {
                       transform="rotate(-90 10 85)"
                       className="fill-slate-400"
                       fontSize="8.5"
-                      fontFamily="var(--font-ibm-mono), monospace"
+                      fontFamily="var(--font-noto-sans), system-ui, sans-serif"
                       textAnchor="middle"
                     >
                       Rel. Intensity (%)
@@ -276,7 +276,7 @@ export default function Home() {
                       y="36"
                       className="fill-slate-400"
                       fontSize="8"
-                      fontFamily="var(--font-ibm-mono), monospace"
+                      fontFamily="var(--font-noto-sans), system-ui, sans-serif"
                       textAnchor="end"
                     >
                       100
@@ -286,7 +286,7 @@ export default function Home() {
                       y="86"
                       className="fill-slate-400"
                       fontSize="8"
-                      fontFamily="var(--font-ibm-mono), monospace"
+                      fontFamily="var(--font-noto-sans), system-ui, sans-serif"
                       textAnchor="end"
                     >
                       50
@@ -296,7 +296,7 @@ export default function Home() {
                       y="135"
                       className="fill-slate-400"
                       fontSize="8"
-                      fontFamily="var(--font-ibm-mono), monospace"
+                      fontFamily="var(--font-noto-sans), system-ui, sans-serif"
                       textAnchor="end"
                     >
                       0
@@ -316,7 +316,7 @@ export default function Home() {
                             y="147"
                             className="fill-slate-500"
                             fontSize="8.5"
-                            fontFamily="var(--font-ibm-mono), monospace"
+                            fontFamily="var(--font-noto-sans), system-ui, sans-serif"
                             textAnchor="middle"
                           >
                             {mzTick}
@@ -372,7 +372,7 @@ export default function Home() {
                               fill={labelColor}
                               fontSize="8"
                               fontWeight="600"
-                              fontFamily="var(--font-ibm-mono), monospace"
+                              fontFamily="var(--font-noto-sans), system-ui, sans-serif"
                               textAnchor="middle"
                             >
                               {peak.label}
@@ -403,10 +403,10 @@ export default function Home() {
                   idx >= 2 ? "border-t lg:border-t-0" : ""
                 } ${idx % 2 === 1 ? "border-l" : ""} ${idx >= 1 ? "lg:border-l" : ""}`}
               >
-                <div className="font-serif text-2xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+                <div className="font-serif tabular-nums text-2xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
                   {item.value}
                 </div>
-                <div className="font-mono text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-[0.1em] sm:tracking-[0.12em] text-primary mt-1.5">
+                <div className="text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-[0.1em] sm:tracking-[0.12em] text-primary mt-1.5">
                   {item.label}
                 </div>
                 <p className="text-xs text-slate-500 leading-relaxed mt-1">{item.detail}</p>
@@ -420,7 +420,7 @@ export default function Home() {
       <section className="py-18 sm:py-22 bg-[#FAFBFD] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mb-12">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
+            <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
               01 — Technical Charter
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
@@ -452,12 +452,12 @@ export default function Home() {
                       }`}
                       loading="lazy"
                     />
-                    <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-slate-900/75 backdrop-blur-xs text-[9.5px] font-mono text-white">
+                    <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-slate-900/75 backdrop-blur-xs text-[10px] font-medium tracking-wide text-white">
                       {pillar.credit}
                     </span>
                   </div>
                   <div className="p-6 pb-0">
-                    <span className="font-mono text-xs font-semibold text-secondary tracking-widest block mb-2.5">
+                    <span className="tabular-nums text-xs font-semibold text-secondary tracking-widest block mb-2.5">
                       {pillar.index} / DOMAIN
                     </span>
                     <h3 className="font-serif text-xl font-semibold text-slate-900 leading-snug mb-2.5">
@@ -472,7 +472,7 @@ export default function Home() {
                     {pillar.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="font-mono text-[10px] px-2.5 py-1 rounded-md bg-slate-50 text-slate-600 border border-slate-200/70"
+                        className="text-[10.5px] font-medium px-2.5 py-1 rounded-md bg-slate-50 text-slate-600 border border-slate-200/70"
                       >
                         {tag}
                       </span>
@@ -490,7 +490,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="max-w-2xl">
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-secondary block mb-2">
+              <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-secondary block mb-2">
                 02 — The Symposium Spirit
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
@@ -528,7 +528,7 @@ export default function Home() {
                     />
                   </div>
                   <figcaption className="pt-4 px-1.5 pb-1">
-                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary block mb-1">
+                    <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-primary block mb-1">
                       {item.tag}
                     </span>
                     <h3 className="font-serif text-lg font-semibold text-slate-900 mb-2">
@@ -552,7 +552,7 @@ export default function Home() {
             {/* Left 7 Columns: Workshop Proceedings Spotlight */}
             <div className="lg:col-span-7 space-y-6">
               <div>
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
+                <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
                   03 — Open-Access Digital Archive (1999–2025)
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
@@ -568,8 +568,8 @@ export default function Home() {
                   <img
                     src="/images/gallery/danell-dragonfly-titan-ms-2019.jpg"
                     alt="NASA Dragonfly rotorcraft lander concept carrying the DraMS mass spectrometer on Saturn's moon Titan"
-                    width={941}
-                    height={803}
+                    width={1400}
+                    height={1195}
                     decoding="async"
                     className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
                     loading="lazy"
@@ -582,14 +582,14 @@ export default function Home() {
                           Planetary &amp; Spaceflight Mass Spectrometry
                         </h3>
                       </div>
-                      <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                      <span className="tabular-nums text-[10.5px] font-medium text-slate-400 shrink-0">
                         13th–15th WS
                       </span>
                     </div>
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       Next-generation analyzers for Titan rotorcraft missions, lunar volatiles, Europa/ocean-world plumes, and laser desorption spaceflight instrumentation.
                     </p>
-                    <p className="font-mono text-[10.5px] text-slate-500 mt-2">
+                    <p className="text-[11px] text-slate-500 mt-2">
                       Image: NASA Dragonfly / DraMS — R. M. Danell et al., 13th HEMS Workshop (Myrtle Beach, SC, Sept 17, 2019)
                     </p>
                   </div>
@@ -599,8 +599,8 @@ export default function Home() {
                   <img
                     src="/images/gallery/bell-subsea-lander-ms-2025.jpg"
                     alt="Shipboard crane deploying a benthic subsea lander carrying an underwater mass spectrometer"
-                    width={940}
-                    height={727}
+                    width={1400}
+                    height={1083}
                     decoding="async"
                     className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
                     loading="lazy"
@@ -613,14 +613,14 @@ export default function Home() {
                           Underwater &amp; Marine Biogeochemistry
                         </h3>
                       </div>
-                      <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                      <span className="tabular-nums text-[10.5px] font-medium text-slate-400 shrink-0">
                         14th–15th WS
                       </span>
                     </div>
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       In-situ Membrane Introduction Mass Spectrometry (MIMS), benthic subsea landers, autonomous underwater vehicle (AUV) mapping, and deep-sea profiling.
                     </p>
-                    <p className="font-mono text-[10.5px] text-slate-500 mt-2">
+                    <p className="text-[11px] text-slate-500 mt-2">
                       Image: Cold-seep subsea MS lander — R. Bell (Beaver Creek Analytical) &amp; AWI-Bremerhaven, 15th HEMS Workshop (Sept 18, 2025)
                     </p>
                   </div>
@@ -630,8 +630,8 @@ export default function Home() {
                   <img
                     src="/images/gallery/verbeck-uav-drone-ms-2025.jpg"
                     alt="Researchers outdoors preparing a heavy-lift UAV drone outfitted with a portable mass spectrometer"
-                    width={793}
-                    height={537}
+                    width={1400}
+                    height={948}
                     decoding="async"
                     className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
                     loading="lazy"
@@ -644,14 +644,14 @@ export default function Home() {
                           Field-Portable &amp; Autonomous Instrumentation
                         </h3>
                       </div>
-                      <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                      <span className="tabular-nums text-[10.5px] font-medium text-slate-400 shrink-0">
                         13th–15th WS
                       </span>
                     </div>
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       UAV-borne and mobile-vehicle MS platforms, person-portable TOF and tandem MS/MS systems, and rapid-response chemical plume detection.
                     </p>
-                    <p className="font-mono text-[10.5px] text-slate-500 mt-2">
+                    <p className="text-[11px] text-slate-500 mt-2">
                       Image: Augusta University (Augusta, GA) UAV-MS testbed — G. F. Verbeck, 15th HEMS Workshop (Sept 16, 2025)
                     </p>
                   </div>
@@ -680,7 +680,7 @@ export default function Home() {
             <aside className="lg:col-span-5 space-y-5">
               {/* Student Travel Awards Card */}
               <div className="p-6 rounded-2xl bg-[#FAFBFD] border border-slate-200/95 space-y-3">
-                <div className="flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary">
+                <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary">
                   <GraduationCap size={16} /> Emerging Investigators
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-slate-900">
@@ -701,7 +701,7 @@ export default function Home() {
               {/* Industry Partnership & Non-Profit Charter Card */}
               <div className="p-6 rounded-2xl bg-slate-900 text-slate-100 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-sky-300">
+                  <span className="inline-flex items-center gap-1.5 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sky-300">
                     <ShieldCheck size={14} /> All-Volunteer 501(c)(3) Society
                   </span>
                 </div>
