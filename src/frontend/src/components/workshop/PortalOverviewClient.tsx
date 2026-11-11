@@ -67,11 +67,11 @@ export default function PortalOverviewClient() {
         <div className="md:col-span-5 overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
           <img
             src="/images/gallery/golden-hour-harbor-reception-2015.jpg"
-            alt="HEMS Workshop attendees conversing outdoors at sunset on a waterfront marina reception deck"
+            alt="HEMS Workshop attendees conversing outdoors at sunset overlooking Baltimore's Inner Harbor"
             width={1600}
-            height={1060}
+            height={892}
             decoding="async"
-            className="w-full aspect-[3/2] object-cover"
+            className="w-full h-auto block"
             loading="eager"
           />
         </div>

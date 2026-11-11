@@ -280,21 +280,21 @@ export default function StudentAwardsClient() {
           <figure className="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
             <div className="overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
               <img
-                src="/images/gallery/banquet-awards-applause-2019.jpg"
-                alt="Smiling HEMS Workshop attendees applauding and snapping photos during the evening awards banquet in Myrtle Beach"
+                src="/images/gallery/student-award-certificate-2015.jpg"
+                alt="2015 HEMS Workshop Student Travel Award recipient holding his official Award Certificate alongside the Student Awards Committee Chair"
                 width={1600}
-                height={1200}
+                height={1082}
                 decoding="async"
-                className="w-full aspect-[4/3] object-cover"
+                className="w-full h-auto block"
                 loading="lazy"
               />
             </div>
             <figcaption className="px-1.5 pb-1">
               <div className="flex items-center gap-2 text-primary tabular-nums text-[10.5px] font-semibold uppercase tracking-wider mb-1.5">
-                <BookOpen size={14} /> 13th HEMS Workshop • Sept 18, 2019
+                <BookOpen size={14} /> 10th HEMS Workshop • Sept 15, 2015
               </div>
               <p className="text-xs text-slate-600 leading-relaxed mb-3">
-                Wednesday evening Workshop Dinner at Lands End in Myrtle Beach, South Carolina, during recognition of the 2019 Student Travel Award recipients.
+                2015 Student Travel Award recipient Andrew Hampton (University of North Carolina at Chapel Hill) with Student Awards Committee Chair Torben Gentz (Alfred Wegener Institute) at the Rusty Scupper on Baltimore&apos;s Inner Harbor.
               </p>
               <Link
                 href="/archive"

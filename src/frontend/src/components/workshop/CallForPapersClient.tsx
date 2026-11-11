@@ -267,6 +267,27 @@ export default function CallForPapersClient() {
               </div>
             )}
           </div>
+
+          {/* Interactive Poster Session Photo Card */}
+          <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs space-y-2.5">
+            <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
+              <img
+                src="/images/gallery/poster-session-smiles-oxnard-2017.jpg"
+                alt="Two HEMS Workshop investigators smiling in conversation beside technical posters during an evening poster session"
+                width={1600}
+                height={1060}
+                decoding="async"
+                className="w-full h-auto block"
+                loading="lazy"
+              />
+            </div>
+            <figcaption className="px-1 pb-0.5 text-xs text-slate-600 leading-relaxed">
+              <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
+                11th HEMS Workshop • Sept 20, 2017
+              </span>
+              Wednesday evening Poster Session at the Embassy Suites Mandalay Beach Resort in Oxnard, California, hosted by UTC Aerospace Systems.
+            </figcaption>
+          </figure>
         </div>
       </div>
     </>

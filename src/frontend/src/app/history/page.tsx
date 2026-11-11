@@ -191,9 +191,9 @@ export default function SocietyHistoryPage() {
                   src="/images/history/st-pete-beach-don-cesar-2013.jpg"
                   alt="Smiling HEMS Society investigators, organizers, and students gathered under palm trees on the beachfront terrace of The Don CeSar at St. Pete Beach, Florida"
                   width={1600}
-                  height={1044}
+                  height={1086}
                   decoding="async"
-                  className="w-full h-auto aspect-[3/2] object-cover"
+                  className="w-full h-auto block"
                   loading="lazy"
                 />
               </div>

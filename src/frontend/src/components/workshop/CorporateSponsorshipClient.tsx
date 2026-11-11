@@ -167,20 +167,20 @@ export default function CorporateSponsorshipClient() {
             <figure className="lg:col-span-5 bg-[#FAFBFD] border border-slate-200/90 rounded-xl p-3">
               <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
                 <img
-                  src="/images/gallery/sponsor-exhibit-smiles-2015.jpg"
-                  alt="Smiling workshop participants conversing in front of an on-site corporate sponsor hardware and literature tabletop booth"
+                  src="/images/gallery/sponsor-exhibit-roundtable-2017.jpg"
+                  alt="Smiling workshop participants conversing at a roundtable directly in front of corporate sponsor instrumentation displays"
                   width={1600}
-                  height={1060}
+                  height={991}
                   decoding="async"
-                  className="w-full aspect-[3/2] object-cover"
+                  className="w-full h-auto block"
                   loading="lazy"
                 />
               </div>
               <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
                 <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
-                  10th HEMS Workshop • Baltimore, MD • Sept 14, 2015
+                  11th HEMS Workshop • Oxnard, CA • Sept 20, 2017
                 </span>
-                Monday afternoon Poster &amp; Sponsor Exhibition alongside the Extrel CMS, Edwards Vacuum, and BaySpec booths at the University of Maryland School of Pharmacy.
+                Wednesday evening Sponsor &amp; Poster Exhibition alongside the IPI InProcess Instruments and PerkinElmer booths at the Embassy Suites Mandalay Beach Resort, hosted by UTC Aerospace Systems.
               </figcaption>
             </figure>
           </div>

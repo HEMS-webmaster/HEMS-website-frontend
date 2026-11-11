@@ -127,17 +127,6 @@ const CHARTER_PILLARS = [
 
 const SYMPOSIUM_CULTURE = [
   {
-    tag: "9th HEMS Workshop • Sept 17, 2013",
-    title: "The Don CeSar • St. Pete Beach, FL",
-    caption:
-      "Tuesday evening Workshop Dinner on the Courtyard Terrace during the Society's second consecutive St. Pete Beach symposium, hosted by the University of North Texas.",
-    image: "/images/gallery/don-cesar-terrace-smiles-2013.jpg",
-    width: 1600,
-    height: 1049,
-    alt: "Smiling HEMS Workshop attendees applauding together on the sunlit pink beachfront terrace beneath palm trees at St. Pete Beach",
-    position: "object-top",
-  },
-  {
     tag: "10th HEMS Workshop • Sept 15, 2015",
     title: "UMD School of Pharmacy • Baltimore, MD",
     caption:
@@ -149,15 +138,26 @@ const SYMPOSIUM_CULTURE = [
     position: "object-center",
   },
   {
-    tag: "11th HEMS Workshop • Sept 20, 2017",
+    tag: "11th HEMS Workshop • Sept 19, 2017",
     title: "Mandalay Beach Resort • Oxnard, CA",
     caption:
-      "Late-afternoon poster and sponsor discussions in coastal Ventura County during the 11th HEMS Workshop, hosted by UTC Aerospace Systems.",
-    image: "/images/gallery/poster-session-smiles-oxnard-2017.jpg",
+      "Tuesday afternoon break outside the technical session ballroom at the Embassy Suites Mandalay Beach Resort during the 11th HEMS Workshop, hosted by UTC Aerospace Systems.",
+    image: "/images/gallery/mandalay-beach-corridor-smiles-2017.jpg",
     width: 1600,
-    height: 1060,
-    alt: "Two HEMS investigators, one in a bright red Hawaiian shirt, smiling warmly in conversation beside technical posters",
+    height: 1106,
+    alt: "Two HEMS Workshop investigators smiling in casual conversation between afternoon technical sessions in Oxnard, California",
     position: "object-top",
+  },
+  {
+    tag: "15th HEMS Workshop • Sept 17, 2025",
+    title: "Sheraton Oceanfront • Virginia Beach, VA",
+    caption:
+      "Wednesday evening gathering at the Sheraton Virginia Beach Oceanfront Hotel (3501 Atlantic Ave) ahead of the 15th HEMS Workshop Dinner.",
+    image: "/images/gallery/virginia-beach-staircase-smiles-2025.jpg",
+    width: 1600,
+    height: 973,
+    alt: "HEMS Workshop attendees conversing warmly along the atrium staircase at the Sheraton Virginia Beach Oceanfront Hotel",
+    position: "object-center",
   },
 ];
 
@@ -523,7 +523,7 @@ export default function Home() {
                       width={item.width}
                       height={item.height}
                       decoding="async"
-                      className="w-full aspect-[3/2] object-cover"
+                      className={`w-full aspect-[16/10] object-cover ${item.position}`}
                       loading="lazy"
                     />
                   </div>
