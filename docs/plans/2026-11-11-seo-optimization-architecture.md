@@ -47,3 +47,4 @@
    - `5/5` private/auth routes (`/auth/`, `/admin/`, `/admin/analytics/`, `/board/`, `/reviewer/`) emit `noindex, nofollow`.
    - `out/sitemap.xml` contains all `27` trailing-slash public URLs with `<lastmod>` and `0` private/404 URLs.
    - `git diff src/frontend/src/app/archive` is `100%` empty.
+

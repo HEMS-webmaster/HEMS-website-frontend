@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
 import { Calendar, MapPin, Users, FileText, Download, Building, ArrowLeft, Award } from "lucide-react";
 import { notFound } from "next/navigation";
 import path from "path";
@@ -9,12 +10,29 @@ import CollapsiblePosterList from "@/components/CollapsiblePosterList";
 import { generateArchiveJsonLd } from "@/utils/generateArchiveJsonLd";
 import DownloadGate from "@/components/DownloadGate";
 import CitationButton from "@/components/CitationButton";
+import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/utils/seo";
+
+function summarizeArchiveLocation(venue?: string, address?: string): string {
+  const cleanVenue = venue ? venue.replace(/,\s*$/, "").trim() : "";
+  const cleanAddress = address ? address.replace(/,\s*$/, "").trim() : "";
+  if (cleanAddress) {
+    const parts = cleanAddress.split(",").map((p) => p.trim()).filter(Boolean);
+    if (parts.length >= 2) {
+      const tail = parts.slice(1).join(", ").replace(/\s+\d{5}(?:-\d{4})?$/, "").replace(/,\s*$/, "").trim();
+      const compactTail = tail.replace(/^\d{4,6}\s+/, "");
+      if (compactTail) return compactTail;
+    }
+    return cleanAddress;
+  }
+  return cleanVenue;
+}
+
 export async function generateStaticParams() {
   const dataDir = path.join(process.cwd(), 'src', 'data', 'archives');
   let files = [];
   try {
     files = await fs.readdir(dataDir);
-  } catch(e) {
+  } catch {
     return [];
   }
   const years = files
@@ -23,32 +41,41 @@ export async function generateStaticParams() {
     
   return years.map(year => ({ year }));
 }
-export async function generateMetadata({ params }: { params: Promise<{ year: string }> }) {
+
+export async function generateMetadata({ params }: { params: Promise<{ year: string }> }): Promise<Metadata> {
   const { year } = await params;
   const dataPath = path.join(process.cwd(), 'src', 'data', 'archives', `${year}.json`);
   try {
     const fileContents = await fs.readFile(dataPath, 'utf8');
     const data = JSON.parse(fileContents);
-    const locationStr = [data.venue, data.address].filter(Boolean).join(', ');
-    const description = `Proceedings of the ${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry${data.dates ? `, ${data.dates}` : ''}${locationStr ? ` — ${locationStr}` : ''}. Technical presentations, abstracts, and poster sessions on portable, space-flight, and field-deployable mass spectrometry.`;
-    const canonicalUrl = `https://www.hems-workshop.org/archive/${year}`;
-    return {
-      title: `${data.ordinal} HEMS Workshop (${data.year}) | Harsh-Environment Mass Spectrometry`,
+    const yrStr = String(data.year || year);
+    const rawDates = data.dates ? String(data.dates).trim() : '';
+    const dateLabel = rawDates
+      ? rawDates.includes(yrStr)
+        ? rawDates
+        : `${rawDates}, ${yrStr}`
+      : yrStr;
+    const placeLabel = summarizeArchiveLocation(data.venue, data.address);
+    const description = `Proceedings of the ${data.ordinal} HEMS Workshop (${dateLabel}${placeLabel ? `, ${placeLabel}` : ''}): talks, extended abstracts, and posters on harsh-environment mass spectrometry.`;
+
+    return buildPageMetadata({
+      title: `${data.ordinal} HEMS Workshop (${yrStr}) | Harsh-Environment Mass Spectrometry`,
       description,
-      keywords: ['HEMS', 'harsh-environment mass spectrometry', 'portable mass spectrometer', 'scientific proceedings', `${data.year} workshop`, data.address].filter(Boolean),
-      openGraph: {
-        title: `${data.ordinal} HEMS Workshop — ${data.dates || data.year}`,
-        description,
-        type: 'website' as const,
-        url: canonicalUrl,
-        siteName: 'HEMS Workshop',
-      },
-      alternates: {
-        canonical: canonicalUrl,
-      },
-    };
-  } catch (e) {
-    return { title: 'HEMS Workshop Archive' };
+      path: `/archive/${yrStr}/`,
+      keywords: [
+        `${data.ordinal} HEMS Workshop`,
+        `HEMS ${yrStr} proceedings`,
+        'scientific proceedings',
+        placeLabel,
+      ].filter(Boolean),
+    });
+  } catch {
+    return buildPageMetadata({
+      title: 'HEMS Workshop Archive | Harsh-Environment Mass Spectrometry',
+      description:
+        'Historical proceedings, technical presentations, extended abstracts, and poster sessions from the Workshop on Harsh-Environment Mass Spectrometry.',
+      path: `/archive/${year}/`,
+    });
   }
 }
 
@@ -278,6 +305,11 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
 
   // --- SEO: JSON-LD Structured Data ---
   const jsonLd = generateArchiveJsonLd(data);
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Proceedings Archive", path: "/archive/" },
+    { name: `${data.ordinal} HEMS Workshop (${data.year || year})`, path: `/archive/${data.year || year}/` },
+  ]);
 
   // --- SEO: Summary stats for sr-only text ---
   const totalSessions = unifiedSchedule.reduce((acc: number, day: any) => acc + (day.items?.filter((i: any) => i.type === 'session').length || 0), 0);
@@ -289,9 +321,13 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <DownloadGate>
         <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
-      <Link href="/archive" className="flex items-center gap-2 text-primary font-bold hover:text-primary/80 transition-colors mb-8 w-fit">
+      <Link href="/archive/" className="flex items-center gap-2 text-primary font-bold hover:text-primary/80 transition-colors mb-8 w-fit">
         <ArrowLeft size={16} /> Back to Archives
       </Link>
 
@@ -437,6 +473,10 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                       <img 
                         src={data.host_corporation.logo_file_url || `/images/sponsors/${data.host_corporation.logo_file}`}
                         alt={data.host_corporation.name} 
+                        width={225}
+                        height={75}
+                        loading="lazy"
+                        decoding="async"
                         style={{ maxHeight: '75px', maxWidth: '225px', width: 'auto', height: 'auto', objectFit: 'contain' }}
                         className="transition-transform duration-200 group-hover:scale-105"
                       />
@@ -469,6 +509,10 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                         <img 
                           src={sponsor.image} 
                           alt={sponsor.name} 
+                          width={150}
+                          height={50}
+                          loading="lazy"
+                          decoding="async"
                           style={{ maxHeight: '50px', maxWidth: '150px', width: 'auto', height: 'auto', objectFit: 'contain' }}
                           className="transition-transform duration-200 group-hover:scale-105" 
                         />

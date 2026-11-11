@@ -336,3 +336,4 @@ export function buildUpcomingWorkshopEventJsonLd(workshop: UpcomingWorkshopConfi
     ...(offers.length > 0 ? { offers } : {}),
   };
 }
+
