@@ -1027,3 +1027,21 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Presentation graphics (`Fox`, `Raith`, `Coppin-Massanet`, `Danell`, `Bell`, `Verbeck` 2019 & 2025, `Serpa`, `Kibelka`): Matched to exact talk records and slides in `13th` & `15th` Workshop proceedings; ask `@bo` for vessel/expedition details on `bell-subsea-lander-ms-2025.jpg` and volcano/polar site specifics on `fox` & `coppin`.
 - **Accessibility Note (`@web` / WCAG 2.1):** Screen-reader `alt` attributes remain descriptive for visually impaired users, while visible `<figcaption>` text is strictly dedicated to unseen historical, geographical, temporal, and scientific provenance.
 - **Archive Lock Check:** `0` modifications to `src/frontend/src/app/archive/**`, `src/frontend/src/data/**`, or `tools/manager/**`.
+
+## [2026-11-11] @ops — Firebase Preview Channel Status Check & Pre-Staging Build (`src/frontend/out/`)
+- **User Request (@bo):** Provide the link to the online Firebase preview and confirm whether it is updated.
+- **Findings:**
+  - Exact preview channel URL: `https://hems-workshop--preview-2027-v4fnxb3i.web.app/` (channel `preview-2027` on project `hems-workshop`).
+  - Checked `firebase hosting:channel:list --project hems-workshop` and `gcloud auth application-default`: `webmaster@hems-workshop.org`'s interactive Google Workspace OAuth session has expired (`Please run firebase login --reauth`).
+  - Therefore, the online preview channel is **not yet updated** with today's SEO (`7956483` / `3279544`), Mobile & Tablet Compatibility (`0ffc240`), and Milestone/Caption (`891c38c`) commits—it currently reflects yesterday's `e98df44` deploy, whereas `http://localhost:3000` has all latest updates.
+- **Action:** Pre-building `src/frontend/out/` via `npm --prefix src/frontend run build` (and restarting `next dev`) while verifying `https://hems-workshop--preview-2027-v4fnxb3i.web.app/` reachability so that once `@bo` completes `firebase login --reauth`, `@ops` (or `@bo` directly) can deploy immediately with `firebase hosting:channel:deploy preview-2027 --expires 30d --project hems-workshop`.
+
+## [2026-11-11] @brand & @ops — Brand Guide v3.1.0 (Retiring IBM Plex Mono) & Online Image Load Latency Diagnosis
+- **User Request (@bo):**
+  1. `@brand`: Remove the attached monospace font (`IBM Plex Mono` / `font-mono`, shown in screenshot `15th HEMS WS • Volcanic Fumarole MS`) from our style guide because the "computer-readout" feel is tacky.
+  2. `@ops`: Explain why images in the online Firebase version load very slowly and whether that will automatically improve before publication.
+- **Domain Isolation Check (`locksrules.md` Rule #3):** `@brand` is strictly restricted to `docs/design/` (and synchronized `.agents/config/design/brand-guidelines.md` which `@bo` has open) and CANNOT modify `src/`. `@brand` archives `v3.0.0` to `brand-guidelines-v3.0.0.md`, publishes `v3.1.0` (Dual-Font Editorial Hierarchy: `Source Serif 4` + `Noto Sans` with `tabular-nums`, retiring `IBM Plex Mono` / `font-mono` as an explicit Anti-Pattern), and awaits `@bo`'s green light to route sitewide `src/` rollout to `@dev`.
+- **@ops Image Performance Diagnosis:**
+  - Measured `src/frontend/public/images/{gallery,history}`: 11 camera JPEGs are raw `16–21 MP` (`4928×3264` to `5568×3712`) files ranging from `1.23 MB` up to `10.36 MB` (`72.2 MB` total; `23.4 MB` on the Homepage alone), whereas presentation graphics (`70–160 KB`) load immediately.
+  - Because `next.config.ts` uses Static Export (`output: "export"`, `images: { unoptimized: true }`) and `preview-2027` shares the exact same Firebase Hosting CDN as live production (`hems-workshop.org`), publishing alone will **not** speed up first-visit downloads.
+  - Recommended fix for `@dev` (upon `@bo` approval): Keep raw archival originals untouched in `docs/source-documents/pics/` and generate `1600px` max-width web delivery copies (`~120–220 KB`, zero cropping/color changes) in `src/frontend/public/images/`, cutting payload by `~97%`.
