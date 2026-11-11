@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  History,
   ArrowRight,
   ArrowLeft,
   Calendar,
@@ -26,72 +25,6 @@ export const metadata: Metadata = buildPageMetadata({
     "Harsh-Environment Mass Spectrometry Society history",
   ],
 });
-
-interface TimelineEvent {
-  era: string;
-  tag: string;
-  title: string;
-  description: string;
-}
-
-const TIMELINE_EVENTS: TimelineEvent[] = [
-  {
-    era: "Late 1990s",
-    tag: "Genesis",
-    title: "USF Center for Ocean Technology (COT) Origins",
-    description:
-      "Researchers at the USF COT developing underwater mass spectrometers for marine science recognized that diverse field MS groups shared fundamental engineering hurdles yet rarely communicated, sparking the vision for a recurring cross-disciplinary forum.",
-  },
-  {
-    era: "Feb 1999",
-    tag: "1st Workshop",
-    title: "Inaugural Gathering at USF St. Petersburg",
-    description:
-      "USF COT hosted the first workshop on its St. Petersburg, FL campus, inviting roughly 20 researchers from across the U.S. for 1½ days of informal talks and discussions.",
-  },
-  {
-    era: "Feb 2001",
-    tag: "2nd Workshop",
-    title: "Downtown St. Petersburg & Vacuum Bottlenecks",
-    description:
-      "Attracting 65 participants—including international attendees—this meeting embraced shorts and Hawaiian shirts as unofficial workshop attire and isolated portable miniature vacuum pumps as a primary development bottleneck.",
-  },
-  {
-    era: "Mar 2002",
-    tag: "3rd Workshop",
-    title: "Pasadena Joint Workshop with NASA JPL",
-    description:
-      "Addressing the vacuum challenge directly, the 3rd HEMS Workshop combined with NASA’s 2nd Miniature Vacuum Pumps Workshop, hosted by the Jet Propulsion Laboratory (JPL) / NASA in Pasadena, CA.",
-  },
-  {
-    era: "Oct 2003",
-    tag: "4th Workshop",
-    title: "St. Petersburg Beach & Biennial Cadence",
-    description:
-      "Hosted by USF COT at St. Petersburg Beach, FL, consolidating the beachfront atmosphere, strengthening manufacturer collaborations, and establishing a two-year interval between workshops.",
-  },
-  {
-    era: "Sept 2005",
-    tag: "5th Workshop",
-    title: "Lido Beach & Organizing Committee Proposal",
-    description:
-      "Held at Lido Beach in Sarasota, FL, establishing the biennial mid-September schedule and proposing an independent HEMS Workshop Organizing Committee.",
-  },
-  {
-    era: "2008",
-    tag: "Incorporation",
-    title: "HEMS Society 501(c)(3) Incorporation",
-    description:
-      "The organizing committee formally incorporated in the State of Florida as the HEMS Society, a tax-exempt 501(c)(3) nonprofit corporation with rotating chair leadership.",
-  },
-  {
-    era: "2007 – Present",
-    tag: "Coastal & Global Tour",
-    title: "National & International Symposia",
-    description:
-      "Convening in Cocoa Beach (2007), Santa Barbara (2009), St. Pete Beach, Baltimore, Oxnard, Cologne (Germany), Myrtle Beach, Cocoa Beach, and Virginia Beach (2025).",
-  },
-];
 
 export default function SocietyHistoryPage() {
   const jsonLd = buildWebPageJsonLd({
@@ -207,12 +140,12 @@ export default function SocietyHistoryPage() {
                 />
               </div>
               <figcaption className="pt-3.5 px-1 space-y-1">
-                <div className="flex items-center justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
-                  <span>Fig. 01 • Subsea Instrumentation</span>
-                  <span className="text-slate-400">USF COT Archive</span>
+                <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                  <span>Fig. 01 • USF Center for Ocean Technology</span>
+                  <span className="text-slate-400">St. Petersburg, FL • c. 1999–2001</span>
                 </div>
                 <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed">
-                  Underwater mass spectrometer and compact high-vacuum assembly integrated inside an autonomous underwater vehicle (AUV) nosecone hull—exemplifying the pioneering subsea engineering challenges that inspired the inaugural 1999 HEMS Workshop.
+                  Laboratory payload integration at the University of South Florida Center for Ocean Technology in St. Petersburg, Florida, during the early subsea mass spectrometry program that sparked the inaugural February 1999 HEMS Workshop.
                 </p>
               </figcaption>
             </figure>
@@ -265,12 +198,12 @@ export default function SocietyHistoryPage() {
                 />
               </div>
               <figcaption className="pt-3.5 px-1 space-y-1">
-                <div className="flex items-center justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary">
-                  <span>Fig. 02 • Society Fellowship</span>
-                  <span className="text-slate-400">St. Pete Beach • 2013</span>
+                <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary">
+                  <span>Fig. 02 • 9th HEMS Workshop</span>
+                  <span className="text-slate-400">St. Pete Beach, FL • Sept 17, 2013</span>
                 </div>
                 <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed">
-                  HEMS Society participants smiling together beneath the palm trees at The Don CeSar on St. Pete Beach (9th HEMS Workshop, September 2013)—capturing the warm, collegial coastal community built after the Society&apos;s incorporation.
+                  Tuesday evening Workshop Dinner on the Courtyard Terrace of The Don CeSar in St. Pete Beach, Florida, hosted by the University of North Texas during the 9th HEMS Workshop.
                 </p>
               </figcaption>
             </figure>
@@ -302,51 +235,15 @@ export default function SocietyHistoryPage() {
         </div>
       </section>
 
-      {/* CHAPTER 03: CHRONOLOGICAL MILESTONE LEDGER */}
-      <section className="py-14 sm:py-20 bg-[#FAFBFD] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-10">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary flex items-center gap-1.5 mb-2">
-              <History size={14} /> 03 — Institutional Timeline
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight">
-              Key Historical Milestones
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
-            {TIMELINE_EVENTS.map((item) => (
-              <div
-                key={item.era}
-                className="bg-white border border-slate-200/90 rounded-xl p-6 hover:border-primary/40 transition-colors shadow-2xs"
-              >
-                <div className="flex items-center justify-between gap-2 mb-2.5">
-                  <span className="font-mono text-xs font-semibold text-primary">
-                    {item.era}
-                  </span>
-                  <span className="px-2.5 py-0.5 rounded-md bg-slate-50 border border-slate-200/80 text-[10px] font-mono font-medium uppercase tracking-wider text-slate-600">
-                    {item.tag}
-                  </span>
-                </div>
-                <h3 className="font-serif text-lg font-semibold text-slate-900 mb-1.5">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CHAPTER 04: SUMMARY & THE HEMS PHILOSOPHY + DUAL NAVIGATION */}
-      <section className="py-14 sm:py-20 bg-white">
+      {/* CHAPTER 03: SUMMARY & THE HEMS PHILOSOPHY + DUAL NAVIGATION */}
+      <section className="py-14 sm:py-20 bg-[#FAFBFD]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           {/* Editorial Pull-Quote & Coastal Philosophy Spread */}
-          <div className="bg-[#FAFBFD] border border-slate-200/95 rounded-2xl p-7 sm:p-10 lg:p-12">
+          <div className="bg-white border border-slate-200/95 rounded-2xl p-7 sm:p-10 lg:p-12 shadow-2xs">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               <div className="lg:col-span-7 space-y-4">
                 <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary flex items-center gap-1.5">
-                  <Compass size={14} /> 04 — Summary &amp; The HEMS Philosophy
+                  <Compass size={14} /> 03 — Summary &amp; The HEMS Philosophy
                 </span>
 
                 <blockquote className="font-serif text-2xl sm:text-3xl italic text-slate-900 leading-snug border-l-2 border-primary pl-5 py-1">
@@ -363,7 +260,7 @@ export default function SocietyHistoryPage() {
                 </div>
               </div>
 
-              <figure className="lg:col-span-5 bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs">
+              <figure className="lg:col-span-5 bg-[#FAFBFD] border border-slate-200/90 rounded-xl p-3.5 shadow-2xs">
                 <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
                   <img
                     src="/images/history/myrtle-beach-pier-surf.jpg"
@@ -376,12 +273,12 @@ export default function SocietyHistoryPage() {
                   />
                 </div>
                 <figcaption className="pt-3 px-1 space-y-1">
-                  <div className="flex items-center justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
-                    <span>Fig. 03 • Coastal Venue Tradition</span>
-                    <span className="text-slate-400">Myrtle Beach • 2019</span>
+                  <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                    <span>Fig. 03 • 13th HEMS Workshop</span>
+                    <span className="text-slate-400">Myrtle Beach, SC • Sept 16, 2019</span>
                   </div>
                   <p className="text-xs text-slate-600 leading-relaxed">
-                    Atlantic shoreline directly outside the 13th HEMS Workshop host hotel—embodying the relaxed coastal setting where informal hallway conversations spark multi-institution collaborations.
+                    Looking north toward Apache Pier from Kingston Plantation in Myrtle Beach, South Carolina, on opening afternoon of the 13th HEMS Workshop—convened two weeks after Hurricane Dorian passed the Carolina coast.
                   </p>
                 </figcaption>
               </figure>
@@ -390,7 +287,7 @@ export default function SocietyHistoryPage() {
 
           {/* Dual Navigation Footer Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-7 flex flex-col justify-between gap-5">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-7 flex flex-col justify-between gap-5 shadow-2xs">
               <div>
                 <h3 className="font-serif text-xl font-semibold text-slate-900 mb-2">
                   Mission &amp; Core Objectives
@@ -401,14 +298,14 @@ export default function SocietyHistoryPage() {
               </div>
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 bg-white text-slate-800 border border-slate-200 font-semibold px-4 py-2.5 rounded-lg hover:border-primary/50 hover:text-primary transition-colors w-fit text-sm shadow-2xs"
+                className="inline-flex items-center gap-2 bg-[#FAFBFD] text-slate-800 border border-slate-200 font-semibold px-4 py-2.5 rounded-lg hover:border-primary/50 hover:text-primary transition-colors w-fit text-sm shadow-2xs"
               >
                 <span>About the Society</span>
                 <ArrowRight size={15} />
               </Link>
             </div>
 
-            <div className="bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-7 flex flex-col justify-between gap-5">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-7 flex flex-col justify-between gap-5 shadow-2xs">
               <div>
                 <h3 className="font-serif text-xl font-semibold text-slate-900 mb-2">
                   Explore 25+ Years of Proceedings

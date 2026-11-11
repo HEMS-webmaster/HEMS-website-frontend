@@ -165,11 +165,11 @@ export default function About() {
               </div>
               <figcaption className="pt-3.5 px-1 space-y-1">
                 <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
-                  <span>15th Biennial Symposium</span>
-                  <span className="text-slate-400">Virginia Beach • Sept 2025</span>
+                  <span>15th HEMS Workshop</span>
+                  <span className="text-slate-400">Virginia Beach, VA • Sept 17, 2025</span>
                 </div>
                 <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed">
-                  Investigators, engineers, corporate partners, and graduate students gathered at the 2025 HEMS Workshop—continuing over 25 years of informal, high-trust scientific fellowship.
+                  Taken prior to the Wednesday evening Workshop Dinner in the atrium of the Sheraton Virginia Beach Oceanfront Hotel during the 15th HEMS Workshop (September 15–18, 2025).
                 </p>
               </figcaption>
             </figure>
@@ -240,13 +240,13 @@ export default function About() {
               </div>
               <figcaption className="pt-4 px-1">
                 <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary block mb-1">
-                  Coastal Camaraderie
+                  9th HEMS Workshop • Sept 17, 2013
                 </span>
                 <h3 className="font-serif text-lg font-semibold text-slate-900 mb-1">
-                  Informal Beachfront Fellowship
+                  The Don CeSar • St. Pete Beach, FL
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Unhurried conversations, Hawaiian shirts, and lasting cross-institution friendships forged between technical sessions.
+                  Award presentation during the Tuesday evening Workshop Dinner on the Courtyard Terrace of The Don CeSar, hosted by the University of North Texas.
                 </p>
               </figcaption>
             </figure>

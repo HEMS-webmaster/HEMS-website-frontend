@@ -291,10 +291,10 @@ export default function StudentAwardsClient() {
             </div>
             <figcaption className="px-1.5 pb-1">
               <div className="flex items-center gap-2 text-primary font-mono text-[11px] font-semibold uppercase tracking-wider mb-1.5">
-                <BookOpen size={14} /> Celebrating Emerging Investigators
+                <BookOpen size={14} /> 13th HEMS Workshop • Sept 18, 2019
               </div>
               <p className="text-xs text-slate-600 leading-relaxed mb-3">
-                Student awardees present in the single-track plenary session, are recognized before the full symposium community, and engage directly with principal investigators and instrument builders.
+                Wednesday evening Workshop Dinner at Lands End in Myrtle Beach, South Carolina, during recognition of the 2019 Student Travel Award recipients.
               </p>
               <Link
                 href="/archive"

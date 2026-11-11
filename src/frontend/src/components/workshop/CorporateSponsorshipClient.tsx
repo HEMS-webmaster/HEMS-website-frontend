@@ -178,9 +178,9 @@ export default function CorporateSponsorshipClient() {
               </div>
               <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
                 <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
-                  On-Site Tabletop Engagement • HEMS Workshop
+                  10th HEMS Workshop • Baltimore, MD • Sept 14, 2015
                 </span>
-                Sponsors showcase portable analyzers, vacuum hardware, and technical literature directly alongside single-track sessions.
+                Monday afternoon Poster &amp; Sponsor Exhibition alongside the Extrel CMS, Edwards Vacuum, and BaySpec booths at the University of Maryland School of Pharmacy.
               </figcaption>
             </figure>
           </div>

@@ -55,9 +55,9 @@ export default function CallForPapersClient() {
           />
           <figcaption className="text-xs text-slate-600 leading-relaxed">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
-              Analyzer Physics • 15th WS
+              15th HEMS Workshop • Sept 18, 2025
             </span>
-            Ion-optics modeling and novel compact analyzer geometries.
+            Coded-aperture underwater cycloidal analyzer study — R. B. Serpa &amp; J. J. Amsden et al. (Duke Univ. &amp; Univ. of Arizona), Virginia Beach, VA.
           </figcaption>
         </figure>
 
@@ -73,9 +73,9 @@ export default function CallForPapersClient() {
           />
           <figcaption className="text-xs text-slate-600 leading-relaxed">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
-              Miniaturization • 15th WS
+              15th HEMS Workshop • Sept 17, 2025
             </span>
-            Low-SWaP vacuum, harsh inlets, and ruggedized CAD assemblies.
+            Portable aerosol threat detector subsystem — G. Kibelka et al. (Detect-ION, Tampa, FL), presented in Virginia Beach, VA.
           </figcaption>
         </figure>
 
@@ -91,9 +91,9 @@ export default function CallForPapersClient() {
           />
           <figcaption className="text-xs text-slate-600 leading-relaxed">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
-              Field Mapping • 13th WS
+              13th HEMS Workshop • Sept 19, 2019
             </span>
-            Mobile plume telemetry, spectral deconvolution, and autonomous sensing.
+            Mobile membrane-inlet MS survey across downtown Dallas, TX — G. F. Verbeck (Univ. of North Texas), presented in Myrtle Beach, SC.
           </figcaption>
         </figure>
       </div>

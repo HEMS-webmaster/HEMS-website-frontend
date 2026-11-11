@@ -46,11 +46,11 @@ export default function AccommodationsClient() {
               loading="lazy"
             />
           </div>
-          <figcaption className="pt-2.5 px-1 text-xs text-slate-600">
-            <strong className="font-mono text-[10px] uppercase tracking-wider text-primary block">
-              15th Workshop Host Setting • Virginia Beach, VA (2025)
+          <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
+            <strong className="font-mono text-[10px] uppercase tracking-wider text-primary block mb-0.5">
+              15th HEMS Workshop • Virginia Beach, VA (Sept 18, 2025)
             </strong>
-            Steps from the Atlantic boardwalk, dunes, and surf between technical sessions.
+            Looking south from 35th Street directly outside the Sheraton Virginia Beach Oceanfront Hotel following the closing Thursday morning session.
           </figcaption>
         </figure>
 
@@ -66,11 +66,11 @@ export default function AccommodationsClient() {
               loading="lazy"
             />
           </div>
-          <figcaption className="pt-2.5 px-1 text-xs text-slate-600">
-            <strong className="font-mono text-[10px] uppercase tracking-wider text-secondary block">
-              13th Workshop Host Setting • Myrtle Beach, SC (2019)
+          <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
+            <strong className="font-mono text-[10px] uppercase tracking-wider text-secondary block mb-0.5">
+              13th HEMS Workshop • Myrtle Beach, SC (Sept 16, 2019)
             </strong>
-            Oceanfront conference venues designed for relaxed scientific exchange.
+            View north toward Apache Pier from Kingston Plantation ahead of the Monday evening Welcome Reception.
           </figcaption>
         </figure>
       </div>

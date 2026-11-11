@@ -95,7 +95,7 @@ const CHARTER_PILLARS = [
     imageHeight: 600,
     imageAlt: "Investigator operating a backpack-portable mass spectrometer inside an active volcanic sulfur fumarole",
     imageFit: "cover" as const,
-    credit: "15th HEMS WS • Volcanic Fumarole MS",
+    credit: "2012 Field Trial • Fox (INFICON), 15th WS",
   },
   {
     index: "02",
@@ -108,7 +108,7 @@ const CHARTER_PILLARS = [
     imageHeight: 603,
     imageAlt: "Cross-section engineering schematic of a spaceflight pulsed-UV laser desorption Orbitrap mass spectrometer",
     imageFit: "contain" as const,
-    credit: "15th HEMS WS • Spaceflight LD-Orbitrap",
+    credit: "UMD / NASA GSFC • Raith et al., 15th WS",
   },
   {
     index: "03",
@@ -121,16 +121,16 @@ const CHARTER_PILLARS = [
     imageHeight: 956,
     imageAlt: "Icefin autonomous under-ice vehicle carrying an underwater mass spectrometer beneath polar sea ice",
     imageFit: "cover" as const,
-    credit: "15th HEMS WS • Icefin Under-Ice ROV",
+    credit: "Cornell / Harvard SUIMS • 15th WS (2025)",
   },
 ];
 
 const SYMPOSIUM_CULTURE = [
   {
-    tag: "Coastal Tradition • St. Pete Beach",
-    title: "Beachfront Symposium Venues",
+    tag: "9th HEMS Workshop • Sept 17, 2013",
+    title: "The Don CeSar • St. Pete Beach, FL",
     caption:
-      "True to our motto—just because our instruments operate in harsh environments doesn't mean we have to meet in one—workshops convene at welcoming coastal venues such as St. Pete Beach, Virginia Beach, Myrtle Beach, Cocoa Beach, and Oxnard.",
+      "Tuesday evening Workshop Dinner on the Courtyard Terrace during the Society's second consecutive St. Pete Beach symposium, hosted by the University of North Texas.",
     image: "/images/gallery/don-cesar-terrace-smiles-2013.jpg",
     width: 4928,
     height: 3264,
@@ -138,10 +138,10 @@ const SYMPOSIUM_CULTURE = [
     position: "object-top",
   },
   {
-    tag: "Academic Depth • Single-Track",
-    title: "One Shared Auditorium, Zero Parallel Tracks",
+    tag: "10th HEMS Workshop • Sept 15, 2015",
+    title: "UMD School of Pharmacy • Baltimore, MD",
     caption:
-      "Every oral session convenes in a single shared room—where academic pioneers, national-lab scientists, space-agency engineers, and graduate students engage together with warmth and candor.",
+      "Tuesday morning Technical Session IV during the 10th anniversary HEMS Workshop, chaired by Gottfried Kibelka and hosted by OI Analytical.",
     image: "/images/gallery/single-track-auditorium-smiles-2015.jpg",
     width: 4928,
     height: 3264,
@@ -149,10 +149,10 @@ const SYMPOSIUM_CULTURE = [
     position: "object-center",
   },
   {
-    tag: "Casual Fellowship • Oxnard, CA",
-    title: "Hawaiian Shirts & Poster Exchange",
+    tag: "11th HEMS Workshop • Sept 20, 2017",
+    title: "Mandalay Beach Resort • Oxnard, CA",
     caption:
-      "Since 2001, shorts and Hawaiian shirts have been the unofficial workshop attire—sparking relaxed, high-trust technical conversations right beside poster boards and hardware demos.",
+      "Late-afternoon poster and sponsor discussions in coastal Ventura County during the 11th HEMS Workshop, hosted by UTC Aerospace Systems.",
     image: "/images/gallery/poster-session-smiles-oxnard-2017.jpg",
     width: 4928,
     height: 3264,
@@ -589,6 +589,9 @@ export default function Home() {
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       Next-generation analyzers for Titan rotorcraft missions, lunar volatiles, Europa/ocean-world plumes, and laser desorption spaceflight instrumentation.
                     </p>
+                    <p className="font-mono text-[10.5px] text-slate-500 mt-2">
+                      Image: NASA Dragonfly / DraMS — R. M. Danell et al., 13th HEMS Workshop (Myrtle Beach, SC, Sept 17, 2019)
+                    </p>
                   </div>
                 </div>
 
@@ -617,6 +620,9 @@ export default function Home() {
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       In-situ Membrane Introduction Mass Spectrometry (MIMS), benthic subsea landers, autonomous underwater vehicle (AUV) mapping, and deep-sea profiling.
                     </p>
+                    <p className="font-mono text-[10.5px] text-slate-500 mt-2">
+                      Image: Cold-seep subsea MS lander — R. Bell (Beaver Creek Analytical) &amp; AWI-Bremerhaven, 15th HEMS Workshop (Sept 18, 2025)
+                    </p>
                   </div>
                 </div>
 
@@ -644,6 +650,9 @@ export default function Home() {
                     </div>
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       UAV-borne and mobile-vehicle MS platforms, person-portable TOF and tandem MS/MS systems, and rapid-response chemical plume detection.
+                    </p>
+                    <p className="font-mono text-[10.5px] text-slate-500 mt-2">
+                      Image: Augusta University (Augusta, GA) UAV-MS testbed — G. F. Verbeck, 15th HEMS Workshop (Sept 16, 2025)
                     </p>
                   </div>
                 </div>

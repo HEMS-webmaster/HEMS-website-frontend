@@ -77,13 +77,13 @@ export default function PortalOverviewClient() {
         </div>
         <figcaption className="md:col-span-7 px-2 py-1 space-y-2">
           <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary block">
-            Casual • Waterfront • Single-Track
+            10th HEMS Workshop • Sept 15, 2015
           </span>
           <h2 className="font-serif text-xl font-semibold text-slate-900">
-            An Informal Coastal Forum for Field Mass Spectrometrists
+            Baltimore&apos;s Inner Harbor, Maryland
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Every two years, HEMS gathers instrument designers, field chemists, students, and industry partners in a relaxed coastal setting—combining single-track oral sessions and hardware demonstrations with unhurried waterfront networking.
+            Tuesday evening gathering overlooking Baltimore&apos;s Inner Harbor ahead of the 10th HEMS Workshop Dinner at the Rusty Scupper—continuing the Society&apos;s biennial tradition of pairing single-track technical sessions with relaxed waterfront fellowship.
           </p>
         </figcaption>
       </figure>
