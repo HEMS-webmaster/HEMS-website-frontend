@@ -63,21 +63,21 @@ export default function PortalOverviewClient() {
       <figure className="mb-8 bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-2xs grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
         <div className="md:col-span-5 overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
           <img
-            src="/images/gallery/oceanfront-reception-2025.jpg"
-            alt="Attendees conversing in Hawaiian shirts inside the oceanfront ballroom at the 15th HEMS Workshop"
-            className="w-full h-44 object-cover"
+            src="/images/gallery/harborfront-reception-smiles-2015.jpg"
+            alt="Smiling HEMS Workshop investigators conversing outdoors on a waterfront reception deck"
+            className="w-full h-44 object-cover object-top"
             loading="eager"
           />
         </div>
         <figcaption className="md:col-span-7 px-2 py-1 space-y-2">
           <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary block">
-            Casual • Beachfront • Single-Track
+            Casual • Waterfront • Single-Track
           </span>
           <h2 className="font-serif text-xl font-semibold text-slate-900">
             An Informal Coastal Forum for Field Mass Spectrometrists
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Every two years, HEMS gathers instrument designers, field chemists, students, and industry partners at a relaxed coastal venue—combining single-track oral sessions and hardware demonstrations with unhurried beachfront networking.
+            Every two years, HEMS gathers instrument designers, field chemists, students, and industry partners in a relaxed coastal setting—combining single-track oral sessions and hardware demonstrations with unhurried waterfront networking.
           </p>
         </figcaption>
       </figure>

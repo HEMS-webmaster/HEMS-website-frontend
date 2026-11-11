@@ -102,28 +102,31 @@ const CHARTER_PILLARS = [
 
 const SYMPOSIUM_CULTURE = [
   {
-    tag: "Coastal Tradition",
-    title: "Oceanfront Symposium Venues",
+    tag: "Coastal Tradition • St. Pete Beach",
+    title: "Beachfront Symposium Venues",
     caption:
-      "True to our motto—just because our instruments operate in harsh environments doesn't mean we have to meet in one—workshops convene at relaxed coastal locations such as Virginia Beach, Myrtle Beach, Cocoa Beach, and Santa Barbara.",
-    image: "/images/gallery/virginia-beach-boardwalk-2025.jpg",
-    alt: "Oceanfront boardwalk, beach sand, and coastal dunes at the 2025 Virginia Beach HEMS Workshop",
+      "True to our motto—just because our instruments operate in harsh environments doesn't mean we have to meet in one—workshops convene at welcoming coastal venues such as St. Pete Beach, Virginia Beach, Myrtle Beach, Cocoa Beach, and Oxnard.",
+    image: "/images/gallery/don-cesar-terrace-smiles-2013.jpg",
+    alt: "Smiling HEMS Workshop attendees applauding together on the sunlit pink beachfront terrace beneath palm trees at St. Pete Beach",
+    position: "object-top",
   },
   {
-    tag: "Academic Depth",
-    title: "Single-Track Technical Candor",
+    tag: "Academic Depth • Single-Track",
+    title: "One Shared Auditorium, Zero Parallel Tracks",
     caption:
-      "With zero parallel sessions, academic pioneers, national-lab scientists, space-agency engineers, and graduate students sit in one room—sharing both breakthroughs and real field setbacks.",
-    image: "/images/gallery/single-track-session-2019.jpg",
-    alt: "Attendees gathered together in a single-track oral technical presentation at the HEMS Workshop",
+      "Every oral session convenes in a single shared room—where academic pioneers, national-lab scientists, space-agency engineers, and graduate students engage together with warmth and candor.",
+    image: "/images/gallery/single-track-auditorium-smiles-2015.jpg",
+    alt: "Full single-track lecture auditorium of HEMS Workshop scientists and engineers smiling toward the camera",
+    position: "object-center",
   },
   {
-    tag: "Casual Fellowship",
-    title: "Hawaiian Shirts & Open Collaboration",
+    tag: "Casual Fellowship • Oxnard, CA",
+    title: "Hawaiian Shirts & Poster Exchange",
     caption:
-      "Since 2001, shorts and Hawaiian shirts have been the unofficial workshop attire—fostering unhurried conversations across academia, government, and instrumentation partners.",
-    image: "/images/gallery/oceanfront-reception-2025.jpg",
-    alt: "HEMS Workshop participants in Hawaiian shirts conversing inside an oceanfront reception room overlooking the beach",
+      "Since 2001, shorts and Hawaiian shirts have been the unofficial workshop attire—sparking relaxed, high-trust technical conversations right beside poster boards and hardware demos.",
+    image: "/images/gallery/poster-session-smiles-oxnard-2017.jpg",
+    alt: "Two HEMS investigators, one in a bright red Hawaiian shirt, smiling warmly in conversation beside technical posters",
+    position: "object-top",
   },
 ];
 
@@ -472,7 +475,7 @@ export default function Home() {
                     <img
                       src={item.image}
                       alt={item.alt}
-                      className="w-full h-52 object-cover"
+                      className={`w-full h-52 object-cover ${item.position}`}
                       loading="lazy"
                     />
                   </div>
@@ -498,14 +501,14 @@ export default function Home() {
       <section className="py-18 sm:py-22 bg-[#FAFBFD]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-            {/* Left 7 Columns: 15th Workshop Proceedings Spotlight */}
+            {/* Left 7 Columns: Workshop Proceedings Spotlight */}
             <div className="lg:col-span-7 space-y-6">
               <div>
                 <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
                   03 — Open-Access Digital Archive (1999–2025)
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
-                  Recent Highlights from the 15th Workshop
+                  Recent Highlights from the Proceedings
                 </h2>
                 <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-2">
                   Every HEMS symposium preserves an open archival record of oral presentations, abstracts, and technical programs for the global research community.
@@ -513,55 +516,79 @@ export default function Home() {
               </div>
 
               <div className="space-y-4">
-                <div className="p-5 rounded-xl bg-[#FAFBFD] border border-slate-200/90 hover:border-primary/40 transition-colors">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-2.5">
-                      <Compass size={18} className="text-primary shrink-0" />
-                      <h3 className="font-semibold text-base text-slate-900">
-                        Planetary &amp; Spaceflight Mass Spectrometry
-                      </h3>
+                <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200/90 hover:border-primary/40 transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-2xs">
+                  <img
+                    src="/images/gallery/danell-dragonfly-titan-ms-2019.jpg"
+                    alt="NASA Dragonfly rotorcraft lander concept carrying the DraMS mass spectrometer on Saturn's moon Titan"
+                    className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
+                    loading="lazy"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <Compass size={17} className="text-primary shrink-0" />
+                        <h3 className="font-semibold text-base text-slate-900">
+                          Planetary &amp; Spaceflight Mass Spectrometry
+                        </h3>
+                      </div>
+                      <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                        13th–15th WS
+                      </span>
                     </div>
-                    <span className="font-mono text-[10px] text-slate-400 shrink-0">
-                      Sessions I, II, VIII
-                    </span>
+                    <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
+                      Next-generation analyzers for Titan rotorcraft missions, lunar volatiles, Europa/ocean-world plumes, and laser desorption spaceflight instrumentation.
+                    </p>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed mt-2">
-                    Next-generation analyzers for lunar volatiles, Europa/ocean-world plumes, and laser desorption spaceflight instrumentation.
-                  </p>
                 </div>
 
-                <div className="p-5 rounded-xl bg-[#FAFBFD] border border-slate-200/90 hover:border-primary/40 transition-colors">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-2.5">
-                      <Anchor size={18} className="text-secondary shrink-0" />
-                      <h3 className="font-semibold text-base text-slate-900">
-                        Underwater &amp; Marine Biogeochemistry
-                      </h3>
+                <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200/90 hover:border-primary/40 transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-2xs">
+                  <img
+                    src="/images/gallery/bell-subsea-lander-ms-2025.jpg"
+                    alt="Shipboard crane deploying a benthic subsea lander carrying an underwater mass spectrometer"
+                    className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
+                    loading="lazy"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <Anchor size={17} className="text-secondary shrink-0" />
+                        <h3 className="font-semibold text-base text-slate-900">
+                          Underwater &amp; Marine Biogeochemistry
+                        </h3>
+                      </div>
+                      <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                        14th–15th WS
+                      </span>
                     </div>
-                    <span className="font-mono text-[10px] text-slate-400 shrink-0">
-                      Sessions IV, V, VI
-                    </span>
+                    <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
+                      In-situ Membrane Introduction Mass Spectrometry (MIMS), benthic subsea landers, autonomous underwater vehicle (AUV) mapping, and deep-sea profiling.
+                    </p>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed mt-2">
-                    In-situ Membrane Introduction Mass Spectrometry (MIMS), autonomous underwater vehicle (AUV) chemical mapping, and deep-sea boundary profiling.
-                  </p>
                 </div>
 
-                <div className="p-5 rounded-xl bg-[#FAFBFD] border border-slate-200/90 hover:border-primary/40 transition-colors">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-2.5">
-                      <Cpu size={18} className="text-primary shrink-0" />
-                      <h3 className="font-semibold text-base text-slate-900">
-                        Field-Portable &amp; Tactical Instrumentation
-                      </h3>
+                <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200/90 hover:border-primary/40 transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-2xs">
+                  <img
+                    src="/images/gallery/verbeck-uav-drone-ms-2025.jpg"
+                    alt="Researchers outdoors preparing a heavy-lift UAV drone outfitted with a portable mass spectrometer"
+                    className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
+                    loading="lazy"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-2">
+                        <Cpu size={17} className="text-primary shrink-0" />
+                        <h3 className="font-semibold text-base text-slate-900">
+                          Field-Portable &amp; Autonomous Instrumentation
+                        </h3>
+                      </div>
+                      <span className="font-mono text-[10px] text-slate-400 shrink-0">
+                        13th–15th WS
+                      </span>
                     </div>
-                    <span className="font-mono text-[10px] text-slate-400 shrink-0">
-                      Sessions III, VII, IX
-                    </span>
+                    <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
+                      UAV-borne and mobile-vehicle MS platforms, person-portable TOF and tandem MS/MS systems, and rapid-response chemical plume detection.
+                    </p>
                   </div>
-                  <p className="text-sm text-slate-600 leading-relaxed mt-2">
-                    Person-portable TOF and tandem MS/MS systems, ambient ionization probes, and rapid-response chemical detection in austere environments.
-                  </p>
                 </div>
               </div>
 

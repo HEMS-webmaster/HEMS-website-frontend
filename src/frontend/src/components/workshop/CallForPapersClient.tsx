@@ -42,34 +42,49 @@ export default function CallForPapersClient() {
       </header>
 
       {/* Representative Presentation Graphics Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
-        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-3.5">
           <img
             src="/images/gallery/serpa-cycloidal-ion-trajectories.jpg"
             alt="Cycloidal mass analyzer spiral ion trajectory simulation from 15th HEMS Workshop proceedings"
-            className="w-28 h-24 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
+            className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
             loading="lazy"
           />
           <figcaption className="text-xs text-slate-600 leading-relaxed">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
-              Analyzer Physics • 15th WS Proceedings
+              Analyzer Physics • 15th WS
             </span>
-            Ion-optics modeling, novel analyzer geometries, and onboard spectral algorithms.
+            Ion-optics modeling and novel compact analyzer geometries.
           </figcaption>
         </figure>
 
-        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-4">
+        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-3.5">
           <img
-            src="/images/gallery/amerom-moma-mars-ms-cad.jpg"
-            alt="Mars Organic Molecule Analyzer 3D CAD assembly from 14th HEMS Workshop proceedings"
-            className="w-28 h-24 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
+            src="/images/gallery/kibelka-aerosol-ms-cad-2025.jpg"
+            alt="Exploded 3D CAD assembly of a compact aerosol-inlet portable mass spectrometer from 15th HEMS Workshop proceedings"
+            className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
             loading="lazy"
           />
           <figcaption className="text-xs text-slate-600 leading-relaxed">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
-              Flight &amp; Field Hardware • 14th WS Proceedings
+              Miniaturization • 15th WS
             </span>
-            Integrated low-SWaP vacuum, inlet, and analyzer engineering for extreme environments.
+            Low-SWaP vacuum, harsh inlets, and ruggedized CAD assemblies.
+          </figcaption>
+        </figure>
+
+        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-3.5">
+          <img
+            src="/images/gallery/verbeck-urban-ms-heatmap-2019.jpg"
+            alt="Real-time urban mobile mass spectrometry chemical plume map from 13th HEMS Workshop proceedings"
+            className="w-24 h-20 object-cover rounded-lg border border-slate-100 shrink-0"
+            loading="lazy"
+          />
+          <figcaption className="text-xs text-slate-600 leading-relaxed">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
+              Field Mapping • 13th WS
+            </span>
+            Mobile plume telemetry, spectral deconvolution, and autonomous sensing.
           </figcaption>
         </figure>
       </div>

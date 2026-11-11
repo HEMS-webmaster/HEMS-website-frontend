@@ -275,9 +275,9 @@ export default function StudentAwardsClient() {
           <figure className="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
             <div className="overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
               <img
-                src="/images/gallery/roundtable-fellowship-2025.jpg"
-                alt="Graduate students and senior investigators sharing a discussion table at the 2025 HEMS Workshop"
-                className="w-full h-44 object-cover"
+                src="/images/gallery/roundtable-smiles-2025.jpg"
+                alt="Smiling graduate students and senior investigators sharing a discussion table at the 2025 HEMS Workshop in Virginia Beach"
+                className="w-full h-44 object-cover object-top"
                 loading="lazy"
               />
             </div>

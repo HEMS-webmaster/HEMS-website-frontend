@@ -215,7 +215,7 @@ export default function SocietyHistoryPage() {
         </div>
       </section>
 
-      {/* CHAPTER 02: FORMATION OF THE HEMS SOCIETY + FIGURE 02 (OFFSHORE DEPLOYMENT) */}
+      {/* CHAPTER 02: FORMATION OF THE HEMS SOCIETY + FIGURE 02 (ST. PETE BEACH COMMUNITY) */}
       <section className="py-14 sm:py-20 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
@@ -223,19 +223,19 @@ export default function SocietyHistoryPage() {
             <figure className="lg:col-span-5 order-2 lg:order-1 bg-[#FAFBFD] border border-slate-200/95 rounded-2xl p-3.5 sm:p-4 shadow-xs">
               <div className="overflow-hidden rounded-xl border border-slate-200/60 bg-slate-100">
                 <img
-                  src="/images/history/offshore-ms-deployment.jpg"
-                  alt="Research vessel crew deploying a caged pressure-housed underwater mass spectrometer into open ocean waters"
-                  className="w-full h-auto aspect-[4/3] object-cover"
+                  src="/images/history/st-pete-beach-don-cesar-2013.jpg"
+                  alt="Smiling HEMS Society investigators, organizers, and students gathered under palm trees on the beachfront terrace of The Don CeSar at St. Pete Beach, Florida"
+                  className="w-full h-auto aspect-[4/3] object-cover object-top"
                   loading="lazy"
                 />
               </div>
               <figcaption className="pt-3.5 px-1 space-y-1">
                 <div className="flex items-center justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary">
-                  <span>Fig. 02 • At-Sea Operations</span>
-                  <span className="text-slate-400">Field Campaign</span>
+                  <span>Fig. 02 • Society Fellowship</span>
+                  <span className="text-slate-400">St. Pete Beach • 2013</span>
                 </div>
                 <p className="text-xs sm:text-[13px] text-slate-600 leading-relaxed">
-                  Shipboard deployment of a caged, pressure-housed underwater mass spectrometer at sea—reflecting the transition from benchtop prototypes to collaborative field campaigns across oceans, volcanic plumes, and planetary analogs.
+                  HEMS Society participants smiling together beneath the palm trees at The Don CeSar on St. Pete Beach (9th HEMS Workshop, September 2013)—capturing the warm, collegial coastal community built after the Society&apos;s incorporation.
                 </p>
               </figcaption>
             </figure>

@@ -915,3 +915,15 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   3. Execute `npm --prefix src/frontend run build` to compile static export (`src/frontend/out`).
   4. Commit locally on `main` (no `git push` to `origin/main`).
   5. Deploy to Firebase Hosting preview channel `preview-2027` (`https://hems-workshop--preview-2027-v4fnxb3i.web.app/`), restart local dev server (`http://localhost:3000/`), verify HTTP `200 OK` responses, and report to `@bo`.
+
+
+---
+### [2026-11-10] `@prod`, `@arch`, `@brand`, `@dev`, `@qa` & `@ops` — Smiling Community Curation, History Page Photo Swap & Round-2 Archived Presentation Extraction
+- **Request (`@bo`)**:
+  1. Choose warmer, more smiling community photos from the newly added albums (`docs/source-documents/pics/Older Pics` — `HEMS2013_*`, `10thHEMS_*`, `GPK_*` — plus `FromGottfried/2025`).
+  2. Change one of the History page (`/history`) pictures (`Fig. 02`: swap `offshore-ms-deployment.jpg` [backs turned on ship deck] to `HEMS2013_55.JPG` [smiling HEMS Society group under palm trees on the beachfront terrace of The Don CeSar in St. Pete Beach, FL, 9th Workshop 2013]).
+  3. Extract another 5 to 10 unmodified raw pictures (`11`–`20`, 10 total) from recent archived presentations (`15th` [2025], `14th` [2022], `13th` [2019]) into `docs/source-documents/pics/PresentionExtracted/Raw/` and weave top selections into `/` and `/call-for-papers`.
+- **Constraints**:
+  - Zero byte modification on all extracted PDF graphics and all copied photographs (verified via SHA-256).
+  - `/source-material` and `src/frontend/src/app/archive/**` remain 100% untouched.
+  - Keep `docs/source-documents/pics/` untracked in git; commit locally on `main` (do not `git push`) and redeploy `preview-2027`.

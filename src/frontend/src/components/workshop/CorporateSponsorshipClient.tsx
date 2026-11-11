@@ -164,17 +164,17 @@ export default function CorporateSponsorshipClient() {
             <figure className="lg:col-span-5 bg-[#FAFBFD] border border-slate-200/90 rounded-xl p-3">
               <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
                 <img
-                  src="/images/gallery/hardware-demo-hawaiian-shirts-2025.jpg"
-                  alt="Workshop participants in Hawaiian shirts examining a live portable mass spectrometer exhibition unit"
-                  className="w-full h-48 object-cover"
+                  src="/images/gallery/sponsor-exhibit-smiles-2015.jpg"
+                  alt="Smiling workshop participants conversing in front of an on-site corporate sponsor hardware and literature tabletop booth"
+                  className="w-full h-48 object-cover object-top"
                   loading="lazy"
                 />
               </div>
               <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
                 <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
-                  On-Site Tabletop Engagement • 2025 Workshop
+                  On-Site Tabletop Engagement • HEMS Workshop
                 </span>
-                Sponsors demo portable analyzers, vacuum hardware, and components directly alongside single-track sessions.
+                Sponsors showcase portable analyzers, vacuum hardware, and technical literature directly alongside single-track sessions.
               </figcaption>
             </figure>
           </div>

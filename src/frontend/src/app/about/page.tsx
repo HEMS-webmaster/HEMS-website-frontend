@@ -194,25 +194,25 @@ export default function About() {
               );
             })}
 
-            {/* 6th Card: Hands-On Hardware & Casual Exchange Photo */}
+            {/* 6th Card: Casual Coastal Camaraderie Photo */}
             <figure className="bg-white border border-slate-200/90 rounded-xl p-4 flex flex-col justify-between shadow-2xs">
               <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
                 <img
-                  src="/images/gallery/hardware-demo-hawaiian-shirts-2025.jpg"
-                  alt="Researchers in Hawaiian shirts gathered around a live portable mass spectrometer tabletop exhibit"
-                  className="w-full h-48 object-cover"
+                  src="/images/gallery/don-cesar-hawaiian-smiles-2013.jpg"
+                  alt="Smiling HEMS Workshop colleagues in Hawaiian and casual attire on the beachfront terrace at St. Pete Beach"
+                  className="w-full h-48 object-cover object-top"
                   loading="lazy"
                 />
               </div>
               <figcaption className="pt-4 px-1">
                 <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-secondary block mb-1">
-                  Hands-On Collaboration
+                  Coastal Camaraderie
                 </span>
                 <h3 className="font-serif text-lg font-semibold text-slate-900 mb-1">
-                  Bench-to-Beach Hardware Exchange
+                  Informal Beachfront Fellowship
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Live tabletop instrument inspections and candid hallway troubleshooting in signature casual coastal attire.
+                  Unhurried conversations, Hawaiian shirts, and lasting cross-institution friendships forged between technical sessions.
                 </p>
               </figcaption>
             </figure>
