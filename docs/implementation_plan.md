@@ -166,6 +166,16 @@ Each workshop follows a 4-point protocol:
 
 ---
 
+### Phase 10: Website-Wide Cell Phone & Tablet Compatibility [COMPLETED]
+*Detailed Architectural Plan:* [docs/plans/2026-11-11-mobile-and-tablet-compatibility.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-11-mobile-and-tablet-compatibility.md)
+
+1. [x] **Viewport Metadata & Global Overflow Guards (`@dev`):** Export explicit Next.js `Viewport` (`device-width`, `initialScale: 1`, `viewportFit: "cover"`, `themeColor: "#FAFBFD"`) in [`layout.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/layout.tsx) and add `overflow-x: clip` + `.no-scrollbar` touch rail helpers in [`globals.css`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/globals.css).
+2. [x] **Tablet-Safe & Touch-First Site Shell (`@dev`):** Promote desktop horizontal nav in [`Navbar.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/layout/Navbar.tsx) from `md:flex` to `lg:flex` (`1024px+`) to eliminate portrait-tablet (`768px–1023px`) horizontal overflow; add tap/click toggles with outside-click & `Escape` dismissal for `Archives` and signed-in `User` popovers on landscape touch tablets; upgrade the `< 1024px` drawer with `44px` tap targets, collapsible `2027 Workshop` & `Proceedings Archives` sub-menus, and authenticated `Admin` / `Sign Out` controls; expand tap spacing in [`Footer.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/layout/Footer.tsx).
+3. [x] **Mobile & Portrait-Tablet Workshop Portal Sub-Navigation (`@dev`):** Promote the fixed left sidebar in [`(portal)/layout.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/%28portal%29/layout.tsx) to `lg:flex lg:w-64`, inject a sticky touch-scrollable horizontal pill sub-navigation bar (`lg:hidden`) across all authorized portal and officer routes, normalize trailing slashes for active states, and add `min-w-0` + responsive padding to prevent flex/table blowouts.
+4. [x] **Homepage, Subpage, Modal & iOS Safari `16px` Form Ergonomics (`@dev`):** Fix 2×2 / 4-col Impact Ledger border/padding alignment and narrow-phone CTAs in [`page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/page.tsx), [`UpcomingHeroBadge.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/workshop/UpcomingHeroBadge.tsx), and [`UpcomingWorkshopSpotlight.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/workshop/UpcomingWorkshopSpotlight.tsx); gate [`FrontendPreviewHover.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/FrontendPreviewHover.tsx) (`hidden md:block`, `w-[min(400px,calc(100vw-2rem))]`); add `max-h-[90dvh] overflow-y-auto` to [`DownloadGate.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/DownloadGate.tsx) & [`CitationModal.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/CitationModal.tsx); upgrade form controls to `text-base sm:text-sm` (`16px` mobile) to prevent iOS Safari focus zoom; and apply responsive card padding, unbroken string wrapping (`break-all`), and wrapping action rows across all subpages and officer panels (`0` edits to `src/frontend/src/app/archive/**`).
+
+---
+
 ## Verification Plan
 
 ### Automated Tests

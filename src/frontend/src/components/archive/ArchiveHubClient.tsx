@@ -831,7 +831,7 @@ export default function ArchiveHubClient() {
       </div>
 
       {/* Main Search Panel */}
-      <div className="bg-surface border border-foreground/10 p-6 rounded-lg shadow-lg mb-12">
+      <div className="bg-surface border border-foreground/10 p-4 sm:p-6 rounded-lg shadow-lg mb-12">
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-grow relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/50" size={20} />
@@ -1085,7 +1085,7 @@ export default function ArchiveHubClient() {
                     </div>
                   </div>
 
-                  <div className="flex md:flex-col gap-2 flex-shrink-0 justify-end items-stretch min-w-[140px]">
+                  <div className="flex flex-wrap md:flex-col gap-2 flex-shrink-0 justify-start md:justify-end items-stretch md:min-w-[140px]">
                     {paper.presentationUrl && (
                       <a 
                         href={paper.presentationUrl}
@@ -1148,7 +1148,7 @@ export default function ArchiveHubClient() {
                       </div>
                     </div>
 
-                    <div className="flex md:flex-col sm:flex-row gap-2 flex-shrink-0 justify-end items-stretch min-w-[140px]">
+                    <div className="flex flex-wrap md:flex-col gap-2 flex-shrink-0 justify-start md:justify-end items-stretch md:min-w-[140px]">
                       {hit.paper.presentationUrl && (
                         <a 
                           href={hit.paper.presentationUrl}

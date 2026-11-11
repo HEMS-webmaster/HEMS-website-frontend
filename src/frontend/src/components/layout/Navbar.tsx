@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Shield, User, Menu, X, ChevronDown } from "lucide-react";
@@ -64,35 +64,97 @@ const PRIMARY_LINKS = [
   { href: "/student-awards", label: "Student Travel Awards" },
 ];
 
+const WORKSHOP_PORTAL_SUBLINKS = [
+  { href: "/layout-portal", label: "Workshop Overview" },
+  { href: "/call-for-papers", label: "Call for Papers" },
+  { href: "/registration", label: "Registration" },
+  { href: "/accommodations", label: "Venue & Accommodations" },
+  { href: "/corporate-sponsorship", label: "Corporate Sponsorship" },
+  { href: "/formatting-guidelines", label: "Formatting Guidelines" },
+];
+
+function supportsHoverPointer(): boolean {
+  return typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
 export default function Navbar() {
   const pathname = usePathname() || "/";
   const { user, logout, loading } = useAuth();
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [mobileWorkshopOpen, setMobileWorkshopOpen] = useState<boolean>(false);
+  const [mobileArchivesOpen, setMobileArchivesOpen] = useState<boolean>(false);
+  const [archivesOpen, setArchivesOpen] = useState<boolean>(false);
+  const [profileOpen, setProfileOpen] = useState<boolean>(false);
+
+  const archivesRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+
   const userRoles = user?.roles && user.roles.length > 0 ? user.roles : ["general"];
 
+  const normalizePath = (p: string) => p.replace(/\/+$/, "") || "/";
+  const cleanPathname = normalizePath(pathname);
+
+  const isWorkshopRoute =
+    cleanPathname.startsWith("/layout-portal") ||
+    cleanPathname.startsWith("/call-for-papers") ||
+    cleanPathname.startsWith("/registration") ||
+    cleanPathname.startsWith("/accommodations") ||
+    cleanPathname.startsWith("/formatting-guidelines");
+
   const isActive = (href: string): boolean => {
-    if (href === "/") return pathname === "/";
-    if (href === "/layout-portal") {
-      return (
-        pathname.startsWith("/layout-portal") ||
-        pathname.startsWith("/call-for-papers") ||
-        pathname.startsWith("/registration") ||
-        pathname.startsWith("/accommodations") ||
-        pathname.startsWith("/formatting-guidelines")
-      );
-    }
-    return pathname.startsWith(href);
+    if (href === "/") return cleanPathname === "/";
+    if (href === "/layout-portal") return isWorkshopRoute;
+    return cleanPathname.startsWith(href);
   };
 
-  const isArchiveActive = pathname.startsWith("/archive");
+  const isArchiveActive = cleanPathname.startsWith("/archive");
+
+  // Close menus automatically on route change
+  useEffect(() => {
+    setMobileOpen(false);
+    setArchivesOpen(false);
+    setProfileOpen(false);
+    setMobileWorkshopOpen(isWorkshopRoute);
+    setMobileArchivesOpen(isArchiveActive);
+  }, [cleanPathname, isWorkshopRoute, isArchiveActive]);
+
+  // Dismiss desktop/tablet popovers on outside click or Escape
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent | TouchEvent) => {
+      const target = event.target as Node;
+      if (archivesRef.current && !archivesRef.current.contains(target)) {
+        setArchivesOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(target)) {
+        setProfileOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setArchivesOpen(false);
+        setProfileOpen(false);
+        setMobileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown, { passive: true });
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/92 backdrop-blur-md border-b border-slate-200/85">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 gap-2">
           {/* Brand Lockup */}
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <div className="w-9 h-9 rounded-lg bg-white border border-slate-200 p-1 flex items-center justify-center shadow-2xs">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 min-w-0">
+            <div className="w-9 h-9 rounded-lg bg-white border border-slate-200 p-1 flex items-center justify-center shadow-2xs shrink-0">
               <img
                 src="/hemslogo.jpg"
                 alt="HEMS Society Emblem"
@@ -102,25 +164,25 @@ export default function Navbar() {
                 className="w-full h-full object-contain mix-blend-multiply"
               />
             </div>
-            <div className="flex flex-col">
-              <span className="font-serif font-semibold text-lg leading-none text-slate-900 tracking-tight group-hover:text-primary transition-colors">
+            <div className="flex flex-col min-w-0">
+              <span className="font-serif font-semibold text-base sm:text-lg leading-none text-slate-900 tracking-tight group-hover:text-primary transition-colors truncate">
                 HEMS Society
               </span>
-              <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-slate-500 mt-0.5">
+              <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-slate-500 mt-0.5 truncate">
                 Est. 1999 • 501(c)(3)
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 text-sm">
+          {/* Desktop & Landscape-Tablet Navigation (1024px+) */}
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5 text-sm">
             {PRIMARY_LINKS.map((item) => {
               const active = isActive(item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative px-2.5 lg:px-3 py-2 rounded-md transition-colors whitespace-nowrap ${
+                  className={`relative px-2 xl:px-3 py-2 rounded-md transition-colors whitespace-nowrap ${
                     active
                       ? "text-primary font-semibold"
                       : "text-slate-700 hover:text-slate-900 hover:bg-slate-100/70 font-medium"
@@ -128,55 +190,87 @@ export default function Navbar() {
                 >
                   {item.label}
                   {active && (
-                    <span className="absolute inset-x-2.5 -bottom-[13px] h-[2px] bg-primary rounded-full" />
+                    <span className="absolute inset-x-2 -bottom-[13px] h-[2px] bg-primary rounded-full" />
                   )}
                 </Link>
               );
             })}
 
-            {/* Archives Dropdown */}
-            <div className="relative group">
-              <Link
-                href="/archive"
-                className={`relative px-2.5 lg:px-3 py-2 rounded-md transition-colors flex items-center gap-1 whitespace-nowrap ${
+            {/* Archives Dropdown (Hover + Touch/Click Accessible) */}
+            <div
+              ref={archivesRef}
+              className="relative flex items-center"
+              onMouseEnter={() => {
+                if (supportsHoverPointer()) setArchivesOpen(true);
+              }}
+              onMouseLeave={() => {
+                if (supportsHoverPointer()) setArchivesOpen(false);
+              }}
+            >
+              <div
+                className={`relative flex items-center rounded-md transition-colors ${
                   isArchiveActive
                     ? "text-primary font-semibold"
                     : "text-slate-700 hover:text-slate-900 hover:bg-slate-100/70 font-medium"
                 }`}
               >
-                <span>Archives</span>
-                <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-200" />
+                <Link href="/archive" className="pl-2 xl:pl-3 pr-1 py-2 whitespace-nowrap">
+                  Archives
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setArchivesOpen((prev) => !prev)}
+                  aria-label="Toggle workshop archive years menu"
+                  aria-expanded={archivesOpen}
+                  className="pr-2 xl:pr-2.5 pl-0.5 py-2 cursor-pointer flex items-center justify-center rounded-r-md"
+                >
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 opacity-70 transition-transform duration-200 ${
+                      archivesOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
                 {isArchiveActive && (
-                  <span className="absolute inset-x-2.5 -bottom-[13px] h-[2px] bg-primary rounded-full" />
+                  <span className="absolute inset-x-2 -bottom-[13px] h-[2px] bg-primary rounded-full" />
                 )}
-              </Link>
+              </div>
 
-              <div className="absolute top-full right-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50 overflow-hidden">
-                <div className="py-1.5 max-h-[70vh] overflow-y-auto">
-                  <Link
-                    href="/archive"
-                    className="block px-4 py-2.5 text-xs font-mono font-semibold uppercase tracking-wider text-primary border-b border-slate-100 hover:bg-slate-50"
-                  >
-                    All Proceedings (1999–2025) →
-                  </Link>
-                  {SORTED_WORKSHOPS.map((ws) => (
+              <div
+                className={`absolute top-full right-0 pt-2 w-60 z-50 transition-all duration-150 ${
+                  archivesOpen
+                    ? "opacity-100 visible pointer-events-auto"
+                    : "opacity-0 invisible pointer-events-none"
+                }`}
+              >
+                <div className="bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden">
+                  <div className="py-1.5 max-h-[70vh] overflow-y-auto">
                     <Link
-                      key={ws.number}
-                      href={`/archive/${ws.year}`}
-                      className="flex items-center justify-between px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors"
+                      href="/archive"
+                      onClick={() => setArchivesOpen(false)}
+                      className="block px-4 py-2.5 text-xs font-mono font-semibold uppercase tracking-wider text-primary border-b border-slate-100 hover:bg-slate-50"
                     >
-                      <span className="font-medium">{getOrdinal(ws.number)} Workshop</span>
-                      <span className="font-mono text-[11px] text-slate-400">{ws.year}</span>
+                      All Proceedings (1999–2025) →
                     </Link>
-                  ))}
+                    {SORTED_WORKSHOPS.map((ws) => (
+                      <Link
+                        key={ws.number}
+                        href={`/archive/${ws.year}`}
+                        onClick={() => setArchivesOpen(false)}
+                        className="flex items-center justify-between px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 hover:text-primary transition-colors"
+                      >
+                        <span className="font-medium">{getOrdinal(ws.number)} Workshop</span>
+                        <span className="font-mono text-[11px] text-slate-400">{ws.year}</span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
 
             <Link
               href="/contact"
-              className={`ml-2 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all ${
-                pathname.startsWith("/contact") || pathname.startsWith("/corporate-sponsorship")
+              className={`ml-1.5 xl:ml-2 px-3.5 xl:px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all whitespace-nowrap ${
+                cleanPathname.startsWith("/contact") || cleanPathname.startsWith("/corporate-sponsorship")
                   ? "bg-primary text-white shadow-xs"
                   : "bg-slate-900 text-white hover:bg-primary shadow-xs"
               }`}
@@ -186,69 +280,94 @@ export default function Navbar() {
 
             {/* Authenticated Officer Badge (shown only when signed in; public login lives cleanly in Footer) */}
             {!loading && user && (
-              <div className="flex items-center gap-2.5 ml-2 border-l border-slate-200 pl-3">
-                <div className="relative group flex items-center">
-                  <div className="flex items-center gap-1.5 cursor-pointer py-1 text-xs text-slate-700 hover:text-slate-900 transition-colors">
-                    <User className="w-3.5 h-3.5 text-primary" />
-                    <span className="hidden xl:inline max-w-[130px] truncate font-medium border-b border-dotted border-slate-300">
+              <div className="flex items-center gap-2 ml-1.5 xl:ml-2 border-l border-slate-200 pl-2.5 xl:pl-3">
+                <div
+                  ref={profileRef}
+                  className="relative flex items-center"
+                  onMouseEnter={() => {
+                    if (supportsHoverPointer()) setProfileOpen(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (supportsHoverPointer()) setProfileOpen(false);
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setProfileOpen((prev) => !prev)}
+                    aria-expanded={profileOpen}
+                    aria-label="Account roles and officer controls"
+                    className="flex items-center gap-1.5 cursor-pointer py-1.5 px-1.5 rounded-md text-xs text-slate-700 hover:text-slate-900 hover:bg-slate-100/70 transition-colors"
+                  >
+                    <User className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <span className="hidden xl:inline max-w-[120px] truncate font-medium border-b border-dotted border-slate-300">
                       {user.name || user.email}
                     </span>
-                  </div>
+                  </button>
 
-                  <div className="absolute right-0 top-full mt-2 w-72 p-4 bg-white border border-slate-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-2.5">
-                      <div className="min-w-0 pr-2">
-                        <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
-                          Signed In As
-                        </p>
-                        <p className="text-xs font-semibold text-slate-900 truncate" title={user.email}>
-                          {user.email}
-                        </p>
+                  <div
+                    className={`absolute right-0 top-full pt-2 w-72 z-50 transition-all duration-150 ${
+                      profileOpen
+                        ? "opacity-100 visible pointer-events-auto"
+                        : "opacity-0 invisible pointer-events-none"
+                    }`}
+                  >
+                    <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-xl">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-2.5">
+                        <div className="min-w-0 pr-2">
+                          <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
+                            Signed In As
+                          </p>
+                          <p className="text-xs font-semibold text-slate-900 truncate" title={user.email}>
+                            {user.email}
+                          </p>
+                        </div>
+                        <div className="h-7 w-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 text-primary">
+                          <Shield className="w-3.5 h-3.5" />
+                        </div>
                       </div>
-                      <div className="h-7 w-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 text-primary">
-                        <Shield className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
 
-                    <div className="space-y-1.5">
-                      {userRoles.map((role) => {
-                        const meta = ROLE_DEFINITIONS[role] || {
-                          label: role,
-                          desc: "Administrative role",
-                          badgeClass: "text-slate-700 bg-slate-100 border-slate-200",
-                        };
-                        return (
-                          <div
-                            key={role}
-                            className="flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-slate-100"
-                          >
-                            <span
-                              className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold font-mono border shrink-0 ${meta.badgeClass}`}
+                      <div className="space-y-1.5">
+                        {userRoles.map((role) => {
+                          const meta = ROLE_DEFINITIONS[role] || {
+                            label: role,
+                            desc: "Administrative role",
+                            badgeClass: "text-slate-700 bg-slate-100 border-slate-200",
+                          };
+                          return (
+                            <div
+                              key={role}
+                              className="flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-slate-100"
                             >
-                              {meta.label}
-                            </span>
-                            <span className="text-[11px] text-slate-600 leading-snug">{meta.desc}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {user.roles?.includes("admin") && (
-                      <div className="mt-3 pt-2.5 border-t border-slate-100">
-                        <Link
-                          href="/admin"
-                          className="text-xs font-semibold text-primary hover:underline"
-                        >
-                          Open Admin Portal →
-                        </Link>
+                              <span
+                                className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold font-mono border shrink-0 ${meta.badgeClass}`}
+                              >
+                                {meta.label}
+                              </span>
+                              <span className="text-[11px] text-slate-600 leading-snug">{meta.desc}</span>
+                            </div>
+                          );
+                        })}
                       </div>
-                    )}
+
+                      {user.roles?.includes("admin") && (
+                        <div className="mt-3 pt-2.5 border-t border-slate-100">
+                          <Link
+                            href="/admin"
+                            onClick={() => setProfileOpen(false)}
+                            className="text-xs font-semibold text-primary hover:underline"
+                          >
+                            Open Admin Portal →
+                          </Link>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 <button
+                  type="button"
                   onClick={logout}
-                  className="text-xs font-medium text-slate-600 hover:text-slate-900 px-2.5 py-1 rounded-md border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
+                  className="text-xs font-medium text-slate-600 hover:text-slate-900 px-2.5 py-1.5 rounded-md border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer whitespace-nowrap"
                 >
                   Sign Out
                 </button>
@@ -256,11 +375,11 @@ export default function Navbar() {
             )}
           </nav>
 
-          {/* Mobile Drawer Button */}
+          {/* Mobile & Portrait-Tablet Drawer Button (< 1024px) */}
           <button
             type="button"
             onClick={() => setMobileOpen((prev) => !prev)}
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-slate-700 hover:bg-slate-100 border border-slate-200/80 transition-colors"
+            className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg text-slate-700 hover:bg-slate-100 border border-slate-200/80 transition-colors shrink-0 cursor-pointer"
             aria-label="Toggle navigation menu"
             aria-expanded={mobileOpen}
           >
@@ -269,17 +388,75 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile & Portrait-Tablet Navigation Drawer (< 1024px) */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-5 space-y-1 shadow-lg">
+        <div className="lg:hidden border-t border-slate-200 bg-white px-4 sm:px-6 pt-3 pb-6 space-y-1.5 shadow-xl max-h-[calc(100dvh-4rem)] overflow-y-auto">
           {PRIMARY_LINKS.map((item) => {
             const active = isActive(item.href);
+
+            if (item.href === "/layout-portal") {
+              return (
+                <div key={item.href} className="space-y-1">
+                  <div
+                    className={`flex items-center justify-between rounded-lg text-sm ${
+                      active
+                        ? "bg-primary/8 text-primary font-semibold"
+                        : "text-slate-700 hover:bg-slate-50 font-medium"
+                    }`}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex-grow px-3 py-2.5 min-h-[44px] flex items-center"
+                    >
+                      {item.label}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setMobileWorkshopOpen((prev) => !prev)}
+                      aria-label="Toggle 2027 Workshop sub-pages"
+                      aria-expanded={mobileWorkshopOpen}
+                      className="px-3 min-h-[44px] flex items-center justify-center text-slate-500 hover:text-primary cursor-pointer"
+                    >
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          mobileWorkshopOpen ? "rotate-180 text-primary" : ""
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {mobileWorkshopOpen && (
+                    <div className="ml-3 pl-3 border-l-2 border-slate-200 space-y-1 py-1">
+                      {WORKSHOP_PORTAL_SUBLINKS.map((sub) => {
+                        const subActive = cleanPathname === sub.href;
+                        return (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            onClick={() => setMobileOpen(false)}
+                            className={`block px-3 py-2 rounded-lg text-xs min-h-[40px] flex items-center ${
+                              subActive
+                                ? "bg-primary/10 text-primary font-semibold"
+                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium"
+                            }`}
+                          >
+                            {sub.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className={`block px-3 py-2.5 rounded-lg text-sm ${
+                className={`px-3 py-2.5 rounded-lg text-sm min-h-[44px] flex items-center ${
                   active
                     ? "bg-primary/8 text-primary font-semibold"
                     : "text-slate-700 hover:bg-slate-50 font-medium"
@@ -289,26 +466,158 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <Link
-            href="/archive"
-            onClick={() => setMobileOpen(false)}
-            className={`block px-3 py-2.5 rounded-lg text-sm ${
-              isArchiveActive
-                ? "bg-primary/8 text-primary font-semibold"
-                : "text-slate-700 hover:bg-slate-50 font-medium"
-            }`}
-          >
-            Proceedings Archives (1999–2025)
-          </Link>
+
+          {/* Expandable Proceedings Archives Section */}
+          <div className="space-y-1">
+            <div
+              className={`flex items-center justify-between rounded-lg text-sm ${
+                isArchiveActive
+                  ? "bg-primary/8 text-primary font-semibold"
+                  : "text-slate-700 hover:bg-slate-50 font-medium"
+              }`}
+            >
+              <Link
+                href="/archive"
+                onClick={() => setMobileOpen(false)}
+                className="flex-grow px-3 py-2.5 min-h-[44px] flex items-center"
+              >
+                Proceedings Archives (1999–2025)
+              </Link>
+              <button
+                type="button"
+                onClick={() => setMobileArchivesOpen((prev) => !prev)}
+                aria-label="Toggle workshop archive years"
+                aria-expanded={mobileArchivesOpen}
+                className="px-3 min-h-[44px] flex items-center justify-center text-slate-500 hover:text-primary cursor-pointer"
+              >
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-200 ${
+                    mobileArchivesOpen ? "rotate-180 text-primary" : ""
+                  }`}
+                />
+              </button>
+            </div>
+
+            {mobileArchivesOpen && (
+              <div className="ml-3 pl-3 border-l-2 border-slate-200 py-2 space-y-2">
+                <Link
+                  href="/archive"
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-2.5 py-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-primary hover:underline"
+                >
+                  Search Full Archive (1999–2025) →
+                </Link>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5 pr-1">
+                  {SORTED_WORKSHOPS.map((ws) => {
+                    const yearHref = `/archive/${ws.year}`;
+                    const yearActive = cleanPathname === yearHref;
+                    return (
+                      <Link
+                        key={ws.number}
+                        href={yearHref}
+                        onClick={() => setMobileOpen(false)}
+                        className={`px-2 py-2 rounded-md border text-center transition-colors ${
+                          yearActive
+                            ? "bg-primary text-white border-primary font-semibold"
+                            : "bg-slate-50/80 border-slate-200 text-slate-700 hover:border-primary/50 hover:text-primary"
+                        }`}
+                      >
+                        <span className="block font-mono text-xs font-semibold leading-tight">
+                          {ws.year}
+                        </span>
+                        <span
+                          className={`block text-[10px] leading-tight mt-0.5 ${
+                            yearActive ? "text-white/85" : "text-slate-400"
+                          }`}
+                        >
+                          {getOrdinal(ws.number)}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="pt-2">
             <Link
               href="/contact"
               onClick={() => setMobileOpen(false)}
-              className="block w-full text-center bg-slate-900 text-white hover:bg-primary px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+              className="w-full min-h-[44px] flex items-center justify-center bg-slate-900 text-white hover:bg-primary px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors"
             >
               Contact &amp; Inquiries
             </Link>
           </div>
+
+          {/* Authenticated Officer Controls inside Mobile/Tablet Drawer */}
+          {!loading && user && (
+            <div className="mt-3 pt-3 border-t border-slate-200 space-y-2.5">
+              <div className="flex items-center justify-between gap-3 px-2">
+                <div className="min-w-0">
+                  <span className="block text-[10px] font-mono uppercase tracking-wider text-slate-400">
+                    Signed In
+                  </span>
+                  <span className="block text-xs font-semibold text-slate-900 truncate">
+                    {user.email}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    logout();
+                  }}
+                  className="px-3 py-2 min-h-[38px] rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 shrink-0 cursor-pointer"
+                >
+                  Sign Out
+                </button>
+              </div>
+
+              {(user.roles?.includes("admin") ||
+                user.roles?.includes("board") ||
+                user.roles?.includes("reviewer")) && (
+                <div className="flex flex-wrap gap-2 px-2">
+                  {user.roles?.includes("admin") && (
+                    <>
+                      <Link
+                        href="/admin"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
+                      >
+                        Admin Panel
+                      </Link>
+                      <Link
+                        href="/admin/analytics"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
+                      >
+                        Analytics
+                      </Link>
+                    </>
+                  )}
+                  {(user.roles?.includes("board") || user.roles?.includes("admin")) && (
+                    <Link
+                      href="/board"
+                      onClick={() => setMobileOpen(false)}
+                      className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                    >
+                      Board Panel
+                    </Link>
+                  )}
+                  {(user.roles?.includes("reviewer") || user.roles?.includes("admin")) && (
+                    <Link
+                      href="/reviewer"
+                      onClick={() => setMobileOpen(false)}
+                      className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                    >
+                      Reviewer Panel
+                    </Link>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </header>

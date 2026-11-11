@@ -196,23 +196,23 @@ export default function Home() {
                 &ldquo;Providing an open, collaborative forum where instrument builders and field scientists share breakthroughs, setbacks, and real-world deployment lessons.&rdquo;
               </blockquote>
 
-              <div className="flex flex-wrap items-center gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 pt-2">
                 <Link
                   href="/archive"
-                  className="inline-flex items-center gap-2 bg-primary text-white px-5 py-3 rounded-lg text-sm font-semibold hover:bg-sky-800 transition-colors shadow-xs"
+                  className="inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3 min-h-[44px] rounded-lg text-sm font-semibold hover:bg-sky-800 transition-colors shadow-xs"
                 >
                   <span>Explore Proceedings Archive</span>
                   <ArrowRight size={16} />
                 </Link>
                 <Link
                   href="/layout-portal"
-                  className="inline-flex items-center gap-2 bg-white text-slate-800 border border-slate-200 px-5 py-3 rounded-lg text-sm font-semibold hover:border-primary/50 hover:text-primary transition-colors shadow-2xs"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-slate-800 border border-slate-200 px-5 py-3 min-h-[44px] rounded-lg text-sm font-semibold hover:border-primary/50 hover:text-primary transition-colors shadow-2xs"
                 >
                   <span>2027 Workshop Overview</span>
                 </Link>
                 <Link
                   href="/history"
-                  className="inline-flex items-center gap-1.5 px-3 py-3 text-sm font-medium text-slate-600 hover:text-primary transition-colors"
+                  className="inline-flex items-center justify-center sm:justify-start gap-1.5 px-3 py-2.5 min-h-[44px] text-sm font-medium text-slate-600 hover:text-primary transition-colors"
                 >
                   <span>Society History (1999–2025)</span>
                 </Link>
@@ -221,10 +221,10 @@ export default function Home() {
 
             {/* Right Analytical Specimen & 2027 Dossier Card (5 Columns) */}
             <div className="lg:col-span-5">
-              <div className="bg-white border border-slate-200/95 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
                 {/* Analytical Header */}
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <div>
+                <div className="flex items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                  <div className="min-w-0">
                     <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400 block">
                       In-Situ Volatile Profile • EI 70 eV
                     </span>
@@ -232,7 +232,7 @@ export default function Home() {
                       Field-Deployed Spectral Signature (<em>m/z</em> 1–100)
                     </span>
                   </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-teal-50 text-secondary border border-teal-200/70 font-medium">
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-teal-50 text-secondary border border-teal-200/70 font-medium shrink-0 whitespace-nowrap">
                     10⁻⁶ Torr
                   </span>
                 </div>
@@ -395,13 +395,18 @@ export default function Home() {
       {/* SECTION 2: INSTITUTIONAL IMPACT LEDGER */}
       <section className="bg-white border-b border-slate-200/85">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/80">
-            {IMPACT_METRICS.map((item) => (
-              <div key={item.label} className="py-7 px-4 sm:px-6 first:pl-0 last:pr-0">
-                <div className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
+            {IMPACT_METRICS.map((item, idx) => (
+              <div
+                key={item.label}
+                className={`py-6 sm:py-7 px-3 sm:px-6 lg:first:pl-0 lg:last:pr-0 border-slate-200/80 ${
+                  idx >= 2 ? "border-t lg:border-t-0" : ""
+                } ${idx % 2 === 1 ? "border-l" : ""} ${idx >= 1 ? "lg:border-l" : ""}`}
+              >
+                <div className="font-serif text-2xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
                   {item.value}
                 </div>
-                <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-primary mt-1.5">
+                <div className="font-mono text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-[0.1em] sm:tracking-[0.12em] text-primary mt-1.5">
                   {item.label}
                 </div>
                 <p className="text-xs text-slate-500 leading-relaxed mt-1">{item.detail}</p>

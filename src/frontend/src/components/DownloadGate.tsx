@@ -227,7 +227,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
       {/* Auth Gate Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md transition-all duration-300">
-          <div className="bg-surface border border-primary/30 p-6 md:p-8 rounded-2xl max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-surface border border-primary/30 p-5 sm:p-8 rounded-2xl max-w-md w-full max-h-[90dvh] overflow-y-auto shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
             <button 
               onClick={() => {
                 setShowModal(false);
@@ -307,7 +307,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
                       value={name} 
                       onChange={e => setName(e.target.value)}
                       placeholder="Jane Doe"
-                      className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30"
+                      className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-base sm:text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30"
                       required
                     />
                   </div>
@@ -323,7 +323,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
                     value={email} 
                     onChange={e => setEmail(e.target.value)}
                     placeholder="email@example.com"
-                    className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30"
+                    className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-base sm:text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30"
                     required
                   />
                 </div>
@@ -338,7 +338,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
                     value={password} 
                     onChange={e => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30"
+                    className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-base sm:text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30"
                     required
                   />
                 </div>
@@ -431,7 +431,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
       {/* Verification Required Modal */}
       {showVerifyModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md transition-all duration-300">
-          <div className="bg-surface border border-primary/30 p-6 md:p-8 rounded-2xl max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-surface border border-primary/30 p-5 sm:p-8 rounded-2xl max-w-md w-full max-h-[90dvh] overflow-y-auto shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
             <button 
               onClick={() => {
                 setShowVerifyModal(false);
@@ -524,7 +524,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
       {/* Limit Reached Modal */}
       {showLimitModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-md transition-all duration-300">
-          <div className="bg-surface border border-red-500/30 p-6 md:p-8 rounded-2xl max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+          <div className="bg-surface border border-red-500/30 p-5 sm:p-8 rounded-2xl max-w-md w-full max-h-[90dvh] overflow-y-auto shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
             <button 
               onClick={() => {
                 setShowLimitModal(false);

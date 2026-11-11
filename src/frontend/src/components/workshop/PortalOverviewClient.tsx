@@ -90,8 +90,8 @@ export default function PortalOverviewClient() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Center Column: Latest Updates & Data */}
-        <div className="lg:col-span-2 space-y-8">
-          <section className="bg-background border border-foreground/10 rounded-lg p-6 shadow-sm">
+        <div className="lg:col-span-2 space-y-8 min-w-0">
+          <section className="bg-background border border-foreground/10 rounded-lg p-5 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-bold flex items-center gap-2">
                 <Bell className="text-secondary" size={20} /> Official Announcements
@@ -190,10 +190,10 @@ export default function PortalOverviewClient() {
             </div>
           </section>
 
-          <section className="bg-background border border-foreground/10 rounded-lg p-6 shadow-sm">
+          <section className="bg-background border border-foreground/10 rounded-lg p-5 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
               <h2 className="text-lg font-bold flex items-center gap-2">
-                <FileText className="text-primary" size={20} /> Featured 15th Workshop Proceedings (2025)
+                <FileText className="text-primary shrink-0" size={20} /> Featured 15th Workshop Proceedings (2025)
               </h2>
               <Link
                 href="/archive/2025"
@@ -202,8 +202,8 @@ export default function PortalOverviewClient() {
                 Full 2025 Program <ArrowRight size={12} />
               </Link>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
+            <div className="overflow-x-auto -mx-1 px-1">
+              <table className="w-full min-w-[500px] text-sm text-left">
                 <thead className="text-xs text-foreground/50 uppercase bg-surface border-b border-foreground/10">
                   <tr>
                     <th className="px-4 py-3">Session</th>

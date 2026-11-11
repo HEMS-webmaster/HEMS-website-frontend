@@ -46,12 +46,12 @@ export default function UpcomingWorkshopSpotlight() {
         </div>
       </dl>
 
-      <div className="flex items-center justify-between pt-1 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
         <Link
           href="/student-awards"
           className="inline-flex items-center gap-1.5 text-slate-600 hover:text-primary transition-colors"
         >
-          <GraduationCap size={14} className="text-secondary" />
+          <GraduationCap size={14} className="text-secondary shrink-0" />
           <span>
             Student Travel Grants:{" "}
             <strong className="font-mono text-slate-900">{workshop.student_award_amount}</strong>

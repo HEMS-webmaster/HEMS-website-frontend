@@ -58,7 +58,11 @@ export default function FrontendPreviewHover({ href, title, children }: Frontend
   return (
     <span 
       className="relative inline-block"
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        if (typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+          setIsHovered(true);
+        }
+      }}
       onMouseLeave={() => {
         setIsHovered(false);
         // We can choose to keep previewData cached or clear it to save memory. 
@@ -69,7 +73,7 @@ export default function FrontendPreviewHover({ href, title, children }: Frontend
 
       {isHovered && !error && (
         <div 
-          className="absolute z-[100] left-0 bottom-full mb-2 w-[400px] bg-surface border border-foreground/20 rounded-lg shadow-2xl overflow-hidden p-4 animate-in fade-in zoom-in duration-200 origin-bottom-left"
+          className="hidden md:block absolute z-[100] left-0 bottom-full mb-2 w-[min(400px,calc(100vw-2rem))] bg-surface border border-foreground/20 rounded-lg shadow-2xl overflow-hidden p-4 animate-in fade-in zoom-in duration-200 origin-bottom-left"
           // Prevent the hover card from stealing pointer events so they can click the link underneath easily if they want
           style={{ pointerEvents: 'none' }}
         >

@@ -80,9 +80,9 @@ export default function FormattingGuidelines() {
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
         {/* Left 2 Columns: Formatting Details */}
-        <div className="lg:col-span-2 space-y-12">
+        <div className="lg:col-span-2 space-y-12 min-w-0">
           {/* Document Specifications */}
-          <section className="bg-surface/30 border border-foreground/10 rounded-2xl p-8 backdrop-blur-md">
+          <section className="bg-surface/30 border border-foreground/10 rounded-2xl p-5 sm:p-8 backdrop-blur-md">
             <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground mb-6">
               Technical Specifications
             </h2>
@@ -90,9 +90,9 @@ export default function FormattingGuidelines() {
               All abstract submissions must fit on a single page and be exported to PDF format. Use the formatting metrics below to ensure that papers fit cleanly in the workshop program catalog:
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="border border-foreground/10 p-5 rounded-lg bg-background flex gap-3 items-start">
+              <div className="border border-foreground/10 p-4 sm:p-5 rounded-lg bg-background flex gap-3 items-start">
                 <Type className="text-primary shrink-0 mt-0.5" size={20} />
-                <div>
+                <div className="min-w-0">
                   <h3 className="font-bold text-sm uppercase text-foreground">Typography &amp; Font</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
                     Standard <strong>Times New Roman</strong> or <strong>Arial</strong> font, 11pt or 12pt text size, with single line spacing. Keep text clean and consistent.
@@ -100,9 +100,9 @@ export default function FormattingGuidelines() {
                 </div>
               </div>
 
-              <div className="border border-foreground/10 p-5 rounded-lg bg-background flex gap-3 items-start">
+              <div className="border border-foreground/10 p-4 sm:p-5 rounded-lg bg-background flex gap-3 items-start">
                 <Layout className="text-primary shrink-0 mt-0.5" size={20} />
-                <div>
+                <div className="min-w-0">
                   <h3 className="font-bold text-sm uppercase text-foreground">Page Margins</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
                     Set <strong>1-inch (2.54 cm)</strong> margins on all sides (top, bottom, left, right). Do not overlap margins or bleed graphics.
@@ -110,9 +110,9 @@ export default function FormattingGuidelines() {
                 </div>
               </div>
 
-              <div className="border border-foreground/10 p-5 rounded-lg bg-background flex gap-3 items-start">
+              <div className="border border-foreground/10 p-4 sm:p-5 rounded-lg bg-background flex gap-3 items-start">
                 <FileText className="text-primary shrink-0 mt-0.5" size={20} />
-                <div>
+                <div className="min-w-0">
                   <h3 className="font-bold text-sm uppercase text-foreground">File Format</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
                     Export your finalized document as a single <strong>PDF</strong> file. Do not submit raw Word (.doc/.docx) or LaTeX source files.
@@ -120,13 +120,13 @@ export default function FormattingGuidelines() {
                 </div>
               </div>
 
-              <div className="border border-foreground/10 p-5 rounded-lg bg-background flex gap-3 items-start">
+              <div className="border border-foreground/10 p-4 sm:p-5 rounded-lg bg-background flex gap-3 items-start">
                 <Info className="text-primary shrink-0 mt-0.5" size={20} />
-                <div>
+                <div className="min-w-0">
                   <h3 className="font-bold text-sm uppercase text-foreground">Naming Protocol</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
                     Save abstract files according to the format:{" "}
-                    <code className="font-mono text-[11px] bg-surface px-1 py-0.5 rounded">
+                    <code className="font-mono text-[11px] bg-surface px-1 py-0.5 rounded break-all">
                       HEMS_Abstract_LastName_FirstName.pdf
                     </code>
                     .

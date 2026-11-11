@@ -40,37 +40,37 @@ export default function BoardPage() {
   ];
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto w-full">
+    <div className="space-y-8 max-w-5xl mx-auto w-full min-w-0">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-foreground/10 pb-6">
         <div>
-          <h2 className="text-3xl font-black text-foreground flex items-center gap-3">
-            <Building2 className="text-primary" /> Board Member Panel
+          <h2 className="text-2xl sm:text-3xl font-black text-foreground flex items-center gap-3">
+            <Building2 className="text-primary shrink-0" /> Board Member Panel
           </h2>
           <p className="text-xs text-foreground/60 mt-1">
             Access secure board documents, review workshop budgets, and read meeting minutes.
           </p>
         </div>
-        <div className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl text-xs font-mono font-bold text-primary self-start md:self-center">
+        <div className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl text-xs font-mono font-bold text-primary self-start md:self-center break-all">
           Board Member: {user.email}
         </div>
       </div>
 
-      <div className="bg-background border border-foreground/10 rounded-2xl p-6 md:p-8 space-y-6">
+      <div className="bg-background border border-foreground/10 rounded-2xl p-5 sm:p-6 md:p-8 space-y-6">
         <div className="flex items-center gap-3 border-b border-foreground/10 pb-4">
-          <Lock className="text-primary" size={20} />
+          <Lock className="text-primary shrink-0" size={20} />
           <h3 className="font-bold text-lg text-foreground">Secure Board Repository</h3>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
           {boardDocs.map((doc, idx) => (
-            <div key={idx} className="bg-surface border border-foreground/5 p-4 rounded-xl flex items-center justify-between hover:border-primary/45 transition-all">
-              <div className="flex items-center gap-4">
+            <div key={idx} className="bg-surface border border-foreground/5 p-4 rounded-xl flex items-center justify-between gap-3 hover:border-primary/45 transition-all">
+              <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
                 <div className="bg-primary/10 text-primary p-3 rounded-lg flex-shrink-0">
                   <FileText size={20} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <h4 className="font-bold text-sm text-foreground leading-snug">{doc.title}</h4>
-                  <div className="flex items-center gap-3 text-xs text-foreground/50 mt-1 font-medium">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-foreground/50 mt-1 font-medium">
                     <span className="flex items-center gap-1"><Calendar size={12} /> {doc.date}</span>
                     <span>Size: {doc.size}</span>
                     <span className="bg-foreground/5 px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider font-mono">{doc.type}</span>
@@ -78,7 +78,7 @@ export default function BoardPage() {
                 </div>
               </div>
 
-              <button className="bg-foreground text-background hover:bg-foreground/80 p-2.5 rounded-lg transition-all shadow cursor-pointer">
+              <button className="bg-foreground text-background hover:bg-foreground/80 p-2.5 rounded-lg transition-all shadow cursor-pointer shrink-0">
                 <Download size={16} />
               </button>
             </div>

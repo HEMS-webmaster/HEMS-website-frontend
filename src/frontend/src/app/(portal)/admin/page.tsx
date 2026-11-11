@@ -156,11 +156,11 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto w-full">
+    <div className="space-y-8 max-w-5xl mx-auto w-full min-w-0">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-foreground/10 pb-6">
         <div>
-          <h2 className="text-3xl font-black text-foreground flex items-center gap-3">
-            <ShieldCheck className="text-primary" /> Whitelist Manager
+          <h2 className="text-2xl sm:text-3xl font-black text-foreground flex items-center gap-3">
+            <ShieldCheck className="text-primary shrink-0" /> Whitelist Manager
           </h2>
           <p className="text-xs text-foreground/60 mt-1">
             Manage user roles. Changes here instantly sync to user profiles via Cloud Functions.
@@ -175,14 +175,14 @@ export default function AdminPage() {
       )}
 
       {/* Add New Email */}
-      <form onSubmit={handleAddEmail} className="space-y-4 bg-surface p-6 border border-foreground/10 rounded-2xl shadow-sm">
+      <form onSubmit={handleAddEmail} className="space-y-4 bg-surface p-4 sm:p-6 border border-foreground/10 rounded-2xl shadow-sm">
         <div className="flex flex-col sm:flex-row gap-3">
           <input 
             type="email" 
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
             placeholder="Enter email address..."
-            className="flex-1 bg-background border border-foreground/15 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:border-primary transition-all"
+            className="flex-1 bg-background border border-foreground/15 px-4 py-2.5 rounded-lg text-base sm:text-sm focus:outline-none focus:border-primary transition-all"
             required
           />
           <button type="submit" className="bg-primary text-primary-foreground px-5 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer shadow-md shadow-primary/10">

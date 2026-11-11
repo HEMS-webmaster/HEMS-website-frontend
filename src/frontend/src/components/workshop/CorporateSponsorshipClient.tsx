@@ -88,7 +88,7 @@ export default function CorporateSponsorshipClient() {
   const prospectusPdfUrl = workshop.sponsor_prospectus_url;
 
   return (
-    <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div className="flex flex-col flex-grow py-10 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full min-w-0">
       {/* Breadcrumb Back to Contact */}
       <div className="mb-6">
         <Link
@@ -100,12 +100,12 @@ export default function CorporateSponsorshipClient() {
       </div>
 
       {/* Page Header */}
-      <header className="mb-14 pb-8 border-b border-slate-200">
+      <header className="mb-10 sm:mb-14 pb-8 border-b border-slate-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
-              <ShieldCheck size={14} className="text-primary" />
-              All-Volunteer 501(c)(3) Scientific Forum • Biennial Workshop
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+              <ShieldCheck size={14} className="text-primary shrink-0" />
+              <span>All-Volunteer 501(c)(3) Scientific Forum • Biennial Workshop</span>
             </div>
             <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">
               Corporate <span className="text-primary italic font-normal">Sponsorship</span>
@@ -129,12 +129,12 @@ export default function CorporateSponsorshipClient() {
       </header>
 
       {/* Mission Impact & Student Travel Support Banner */}
-      <section className="mb-16">
-        <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/95 p-8 md:p-10 shadow-xs">
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <section className="mb-12 sm:mb-16">
+        <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/95 p-5 sm:p-8 md:p-10 shadow-xs">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
             <div className="lg:col-span-7 space-y-3">
-              <div className="flex items-center gap-2 text-secondary font-mono text-xs font-semibold uppercase tracking-widest">
-                <GraduationCap size={17} /> Sustaining the Harsh-Environment MS Community
+              <div className="flex items-start sm:items-center gap-2 text-secondary font-mono text-xs font-semibold uppercase tracking-widest">
+                <GraduationCap size={17} className="shrink-0 mt-0.5 sm:mt-0" /> Sustaining the Harsh-Environment MS Community
               </div>
               <h2 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-slate-900">
                 Offsetting Symposium Costs &amp; Funding Student Travel Awards
@@ -146,20 +146,20 @@ export default function CorporateSponsorshipClient() {
                 </Link>{" "}
                 to emerging graduate researchers.
               </p>
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 pt-2">
                 <a
                   href={`mailto:${coordinatorEmail}?subject=HEMS%20Workshop%20Corporate%20Sponsorship%20Inquiry`}
-                  className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-5 py-3 rounded-lg hover:bg-sky-800 transition-colors shadow-xs text-sm"
+                  className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-5 py-3 min-h-[44px] rounded-lg hover:bg-sky-800 transition-colors shadow-xs text-sm text-center"
                 >
-                  <Mail size={15} /> Contact Sponsorship Coordinator
+                  <Mail size={15} className="shrink-0" /> Contact Sponsorship Coordinator
                 </a>
                 <a
                   href={prospectusPdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-800 font-semibold px-5 py-3 rounded-lg hover:border-primary hover:text-primary transition-colors shadow-2xs text-sm"
+                  className="inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-800 font-semibold px-5 py-3 min-h-[44px] rounded-lg hover:border-primary hover:text-primary transition-colors shadow-2xs text-sm text-center"
                 >
-                  <Download size={15} /> Download Sponsorship Info (PDF)
+                  <Download size={15} className="shrink-0" /> Download Sponsorship Info (PDF)
                 </a>
               </div>
             </div>
@@ -316,7 +316,7 @@ export default function CorporateSponsorshipClient() {
               * Standard biennial workshop reference rates shown above. Active workshop cycle sponsorship registrations and split-payment invoices are coordinated directly with our Sponsorship Coordinator (
               <a
                 href={`mailto:${coordinatorEmail}`}
-                className="text-primary hover:underline"
+                className="text-primary hover:underline break-all"
               >
                 {coordinatorEmail}
               </a>
@@ -328,7 +328,7 @@ export default function CorporateSponsorshipClient() {
         {/* Right Sidebar: Coordinator & Registration Steps */}
         <aside className="space-y-6">
           {/* Coordinator Card */}
-          <div className="bg-primary text-background rounded-2xl p-7 shadow-md flex flex-col justify-between">
+          <div className="bg-primary text-background rounded-2xl p-6 sm:p-7 shadow-md flex flex-col justify-between">
             <div>
               <span className="text-[11px] font-mono uppercase tracking-widest opacity-85 block mb-2">
                 Sponsorship Coordinator
@@ -347,7 +347,7 @@ export default function CorporateSponsorshipClient() {
                 <span className="font-bold text-base block">{coordinatorName}</span>
                 <a
                   href={`mailto:${coordinatorEmail}`}
-                  className="font-mono text-xs underline opacity-95 hover:opacity-100 block"
+                  className="font-mono text-xs underline opacity-95 hover:opacity-100 break-all block"
                 >
                   {coordinatorEmail}
                 </a>
@@ -357,21 +357,21 @@ export default function CorporateSponsorshipClient() {
             <div className="space-y-3">
               <a
                 href={`mailto:${coordinatorEmail}?subject=HEMS%20Workshop%20Corporate%20Sponsorship%20Inquiry`}
-                className="w-full bg-background text-primary font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-background/90 transition-colors shadow-sm text-xs uppercase tracking-wide"
+                className="w-full bg-background text-primary font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-background/90 transition-colors shadow-sm text-xs uppercase tracking-wide text-center"
               >
-                <Mail size={15} /> Email {coordinatorName}
+                <Mail size={15} className="shrink-0" /> Email {coordinatorName}
               </a>
               <Link
                 href="/contact?topic=sponsorship"
-                className="w-full bg-primary-foreground/10 border border-background/35 text-background font-bold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-background/10 transition-colors text-xs uppercase tracking-wide"
+                className="w-full bg-primary-foreground/10 border border-background/35 text-background font-bold py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-background/10 transition-colors text-xs uppercase tracking-wide text-center"
               >
-                Use Contact Form <ArrowRight size={14} />
+                Use Contact Form <ArrowRight size={14} className="shrink-0" />
               </Link>
             </div>
           </div>
 
           {/* How to Register Checklist Card */}
-          <div className="bg-surface/60 border border-foreground/10 rounded-2xl p-7 shadow-sm space-y-5">
+          <div className="bg-surface/60 border border-foreground/10 rounded-2xl p-6 sm:p-7 shadow-sm space-y-5">
             <h3 className="text-sm font-bold uppercase tracking-wider text-foreground border-b border-foreground/10 pb-3">
               Sponsor Onboarding Checklist
             </h3>
@@ -382,7 +382,7 @@ export default function CorporateSponsorshipClient() {
                   <strong>1. Select Package &amp; Coordinate Billing:</strong> Contact {coordinatorName} (
                   <a
                     href={`mailto:${coordinatorEmail}`}
-                    className="text-primary font-semibold hover:underline font-mono"
+                    className="text-primary font-semibold hover:underline font-mono break-all"
                   >
                     {coordinatorEmail}
                   </a>
@@ -425,7 +425,7 @@ export default function CorporateSponsorshipClient() {
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 min-[380px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {SORTED_SPONSORS.map((sponsor) => {
             const href = normalizeExternalUrl(sponsor.url);
             const logoSrc = `/images/sponsors/${resolveLogoFilename(sponsor.logo_file)}`;

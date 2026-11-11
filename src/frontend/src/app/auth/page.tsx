@@ -68,7 +68,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="flex flex-col flex-grow py-16 px-4 bg-surface/50 relative overflow-hidden items-center justify-center">
+    <div className="flex flex-col flex-grow py-10 sm:py-16 px-4 bg-surface/50 relative overflow-hidden items-center justify-center">
       {/* Topographic Background Graphic */}
       <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
         <svg width="100%" height="100%" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +77,7 @@ export default function AuthPage() {
         </svg>
       </div>
 
-      <div className="max-w-md w-full bg-surface border border-foreground/10 p-8 rounded-2xl shadow-xl relative z-10">
+      <div className="max-w-md w-full bg-surface border border-foreground/10 p-5 sm:p-8 rounded-2xl shadow-xl relative z-10">
         <Link href="/" className="inline-flex items-center gap-2 text-foreground/50 hover:text-primary transition-all text-xs mb-8 font-bold">
           <ArrowLeft size={14} /> Back to Home
         </Link>
@@ -151,7 +151,7 @@ export default function AuthPage() {
                   value={name} 
                   onChange={e => setName(e.target.value)}
                   placeholder="Jane Doe"
-                  className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30 font-medium"
+                  className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-base sm:text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30 font-medium"
                   required
                 />
               </div>
@@ -167,7 +167,7 @@ export default function AuthPage() {
                 value={email} 
                 onChange={e => setEmail(e.target.value)}
                 placeholder="email@example.com"
-                className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30 font-medium"
+                className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-base sm:text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30 font-medium"
                 required
               />
             </div>
@@ -182,7 +182,7 @@ export default function AuthPage() {
                 value={password} 
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30 font-medium"
+                className="w-full bg-background border border-foreground/10 pl-10 pr-4 py-2.5 rounded-lg text-base sm:text-sm text-foreground focus:border-primary focus:outline-none transition-all placeholder:text-foreground/30 font-medium"
                 required
               />
             </div>

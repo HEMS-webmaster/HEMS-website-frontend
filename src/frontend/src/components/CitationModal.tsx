@@ -113,7 +113,7 @@ export default function CitationModal({
       />
 
       {/* Modal Container */}
-      <div className="relative bg-surface border border-foreground/10 w-full max-w-2xl rounded-2xl shadow-2xl p-6 overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative bg-surface border border-foreground/10 w-full max-w-2xl rounded-2xl shadow-2xl p-4 sm:p-6 overflow-hidden flex flex-col max-h-[90dvh] animate-in fade-in zoom-in-95 duration-200">
         
         {/* Header */}
         <div className="flex items-center justify-between border-b border-foreground/5 pb-4 mb-4">
@@ -123,14 +123,15 @@ export default function CitationModal({
           </div>
           <button 
             onClick={onClose}
-            className="text-foreground/40 hover:text-foreground/80 p-1 rounded-lg hover:bg-foreground/5 transition-colors cursor-pointer"
+            aria-label="Close citation modal"
+            className="text-foreground/40 hover:text-foreground/80 p-2 rounded-lg hover:bg-foreground/5 transition-colors cursor-pointer"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto space-y-6 pr-2">
+        <div className="flex-1 overflow-y-auto space-y-6 pr-1 sm:pr-2">
           
           {/* Metadata preview card */}
           <div className="bg-foreground/5 p-4 rounded-xl border border-foreground/5 space-y-1">
@@ -161,7 +162,7 @@ export default function CitationModal({
                 )}
               </button>
             </div>
-            <div className="p-3 bg-background border border-foreground/10 rounded-lg text-xs leading-relaxed text-foreground/90 font-mono select-all select-text">
+            <div className="p-3 bg-background border border-foreground/10 rounded-lg text-xs leading-relaxed text-foreground/90 font-mono break-words select-all select-text">
               {apaCitation}
             </div>
           </div>
@@ -187,7 +188,7 @@ export default function CitationModal({
                 )}
               </button>
             </div>
-            <pre className="p-3 bg-background border border-foreground/10 rounded-lg text-xs leading-relaxed text-foreground/90 overflow-x-auto font-mono whitespace-pre-wrap select-all select-text">
+            <pre className="p-3 bg-background border border-foreground/10 rounded-lg text-xs leading-relaxed text-foreground/90 overflow-x-auto font-mono whitespace-pre-wrap break-words select-all select-text">
               {bibtexCitation}
             </pre>
           </div>

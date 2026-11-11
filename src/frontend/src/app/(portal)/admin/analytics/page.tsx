@@ -274,13 +274,13 @@ export default function AdminAnalytics() {
   }
 
   return (
-    <div className="flex flex-col flex-grow py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div className="flex flex-col flex-grow py-2 sm:py-6 max-w-7xl mx-auto w-full min-w-0">
       
       {/* Header */}
       <header className="mb-8 border-b border-foreground/10 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black uppercase tracking-tight text-foreground flex items-center gap-2">
-            <BarChart2 className="text-primary" size={28} /> Website Traffic &amp; Analytics
+          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-foreground flex items-center gap-2">
+            <BarChart2 className="text-primary shrink-0" size={28} /> Website Traffic &amp; Analytics
           </h1>
           <p className="text-foreground/60 text-sm mt-1 font-mono">
             {isMock ? "⚡ Offline Mock Sandbox Mode" : "🔒 Connected to Google Cloud Project"}
@@ -337,14 +337,14 @@ export default function AdminAnalytics() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Side: Main Tables */}
-        <div className="lg:col-span-9 space-y-6">
+        <div className="lg:col-span-9 space-y-6 min-w-0">
           
           {/* Navigation tabs & Date Filter / CSV Export */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-foreground/10 pb-3 gap-4">
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
               <button
                 onClick={() => setActiveTab("users")}
-                className={`pb-1 text-sm font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                className={`pb-1 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer text-left ${
                   activeTab === "users" 
                     ? "border-primary text-primary" 
                     : "border-transparent text-foreground/60 hover:text-foreground"
@@ -354,7 +354,7 @@ export default function AdminAnalytics() {
               </button>
               <button
                 onClick={() => setActiveTab("files")}
-                className={`pb-1 text-sm font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                className={`pb-1 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer text-left ${
                   activeTab === "files" 
                     ? "border-primary text-primary" 
                     : "border-transparent text-foreground/60 hover:text-foreground"
@@ -366,7 +366,7 @@ export default function AdminAnalytics() {
             
             <div className="flex flex-wrap items-center gap-3">
               {/* Date Filter */}
-              <div className="flex items-center gap-2 bg-background border border-foreground/10 px-3 py-1.5 rounded-lg text-xs">
+              <div className="flex flex-wrap items-center gap-2 bg-background border border-foreground/10 px-3 py-1.5 rounded-lg text-xs">
                 <span className="font-bold text-foreground/60 uppercase tracking-wider">
                   {activeTab === "users" ? "Logins Since:" : "Downloads Since:"}
                 </span>
@@ -374,7 +374,7 @@ export default function AdminAnalytics() {
                   type="date"
                   value={sinceDate}
                   onChange={(e) => setSinceDate(e.target.value)}
-                  className="bg-transparent border-0 text-foreground focus:outline-none focus:ring-0 font-mono font-bold cursor-pointer"
+                  className="bg-transparent border-0 text-base sm:text-xs text-foreground focus:outline-none focus:ring-0 font-mono font-bold cursor-pointer"
                 />
                 {sinceDate && (
                   <button 

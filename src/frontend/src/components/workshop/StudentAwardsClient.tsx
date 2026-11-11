@@ -65,9 +65,11 @@ export default function StudentAwardsClient() {
       <header className="mb-14 pb-8 border-b border-slate-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
-              <GraduationCap size={15} className="text-primary" />
-              Graduate Student Research Support • {workshop.workshop_ordinal} HEMS Workshop ({workshop.target_window})
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+              <GraduationCap size={15} className="text-primary shrink-0" />
+              <span>
+                Graduate Student Research Support • {workshop.workshop_ordinal} HEMS Workshop ({workshop.target_window})
+              </span>
             </div>
             <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">
               Student Travel <span className="text-primary italic font-normal">Awards</span>
@@ -91,12 +93,12 @@ export default function StudentAwardsClient() {
       </header>
 
       {/* Purpose & Award Amount Hero Card */}
-      <section className="mb-16">
-        <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/95 p-8 md:p-10 shadow-xs">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+      <section className="mb-12 sm:mb-16">
+        <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/95 p-5 sm:p-8 md:p-10 shadow-xs">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-center">
             <div className="lg:col-span-2">
-              <div className="flex items-center gap-2.5 text-primary font-mono text-xs font-semibold uppercase tracking-widest mb-3">
-                <Award size={17} /> Purpose of the HEMS Workshop Student Travel Award
+              <div className="flex items-start sm:items-center gap-2.5 text-primary font-mono text-xs font-semibold uppercase tracking-widest mb-3">
+                <Award size={17} className="shrink-0 mt-0.5 sm:mt-0" /> Purpose of the HEMS Workshop Student Travel Award
               </div>
               <h2 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 mb-4">
                 Rewarding Scientific Merit in Harsh-Environment MS
@@ -126,7 +128,7 @@ export default function StudentAwardsClient() {
         {/* Left 2 Columns: Eligibility, Guidelines, and Criteria */}
         <div className="lg:col-span-2 space-y-12">
           {/* Eligibility */}
-          <section className="bg-surface/50 border border-foreground/10 rounded-2xl p-7 md:p-8 shadow-sm">
+          <section className="bg-surface/50 border border-foreground/10 rounded-2xl p-5 sm:p-7 md:p-8 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
               <span className="p-2.5 rounded-xl bg-primary/10 text-primary">
                 <UserCheck size={22} />
@@ -174,7 +176,7 @@ export default function StudentAwardsClient() {
           </section>
 
           {/* Criteria */}
-          <section className="bg-surface/50 border border-foreground/10 rounded-2xl p-7 md:p-8 shadow-sm">
+          <section className="bg-surface/50 border border-foreground/10 rounded-2xl p-5 sm:p-7 md:p-8 shadow-sm">
             <div className="flex items-center gap-2.5 mb-5">
               <Sparkles className="text-secondary" size={22} />
               <h2 className="text-2xl font-black uppercase tracking-tight text-foreground">

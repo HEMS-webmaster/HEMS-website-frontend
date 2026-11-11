@@ -979,3 +979,37 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Convert `src/frontend/src/app/archive/page.tsx` into a Server Component exporting `buildPageMetadata` for `/archive/` plus `CollectionPage` (`ItemList` of all 15 workshops) and `BreadcrumbList` JSON-LD.
   - Update `src/frontend/src/app/archive/[year]/page.tsx`: normalize trailing-slash canonical `https://www.hems-workshop.org/archive/${year}/`, strip trailing comma from `data.venue` in meta descriptions, add `DEFAULT_OG_IMAGE` + `twitter` (`summary_large_image`) in `generateMetadata`, emit `BreadcrumbList` JSON-LD alongside `generateArchiveJsonLd`, and add intrinsic `width`/`height` attributes to host/sponsor `<img>` tags without altering visual styles or schedule/preview/citation logic.
   - Zero edits to `master_workshops.json`, `src/data/archives/*.json`, `local_data/`, or `tools/manager/`.
+
+
+## [2026-11-11] Phase 10 — Cell Phone & Tablet Compatibility Audit, Plan & Auto-Advance Implementation (`@arch`, `@dev`, `@qa`, `@ops`)
+- **Directive (`@bo`):** `@arch` review the website for cell phone and tablet compatibility, develop a permanent plan to ensure full compatibility, and begin implementation immediately via auto-advance.
+- **Boundary & Lock Verification:**
+  - `src/frontend/src/app/archive/**`, `src/frontend/src/data/**`, and `tools/manager/**` remain strictly untouched (`0` bytes diff) per `docs/project_charter.md` Section 3.1.
+  - `docs/source-documents/pics/` remains untracked and unmodified; `/source-material` remains read-only.
+- **Architectural Audit Findings Across Cell Phones (`320px–430px`) & Tablets (`768px–1024px`):**
+  1. **Root Viewport & CSS Guard (`layout.tsx`, `globals.css`):** Add explicit Next.js `export const viewport: Viewport` (`device-width`, `initialScale: 1`, `viewportFit: "cover"`, `themeColor: "#FAFBFD"`) and `overflow-x: clip` on `html, body` (prevents stray horizontal scrollbars while preserving `position: sticky` on `Navbar` and portal sub-nav) plus a `.no-scrollbar` utility for touch pill rails.
+  2. **Navbar Portrait-Tablet Overflow & Touch Dropdown Defect (`Navbar.tsx`):**
+     - `hidden md:flex` (`768px`) overflows horizontally on all portrait tablets (`768px–1023px`) because Brand Lockup + 6 nav items + CTA totals `~925px` (`~1,030px` signed in). Promote desktop nav to `lg:flex` (`1024px+`) with compact `lg` spacing (`gap-0.5 xl:gap-1.5`, `px-2 xl:px-3`) and render the drawer button (`lg:hidden`, `44×44px`) across all phones and portrait tablets.
+     - Desktop `Archives` and signed-in `User` popovers previously relied solely on `group-hover:`, trapping touch-screen landscape tablets (`1024px+`). Add explicit click/tap toggle buttons with ARIA attributes, outside-click & `Escape` dismissal, and route-change auto-close alongside hover support.
+     - Upgrade `< 1024px` drawer with `max-h-[calc(100dvh-4rem)] overflow-y-auto`, `44px` minimum tap targets, collapsible `2027 Workshop` portal links, collapsible `Proceedings Archives` year selector (`2025`–`1999`), and authenticated officer role/Admin/Sign-Out controls.
+  3. **Missing Mobile Portal Sub-Navigation & Crushed Tablet Column (`(portal)/layout.tsx`):**
+     - `<aside className="hidden md:flex md:w-64">` hid all portal navigation on `< 768px` phones and crushed `<main>` to `416px` on `768px` portrait tablets (`768 - 256 - 96`).
+     - Move fixed sidebar to `lg:flex lg:w-64`, inject a sticky horizontal scrollable pill sub-navigation bar (`lg:hidden`) for all authorized `Workshop Portal` and `Administration` pages (plus Dev Role Switcher in mock mode), normalize trailing slashes in active-route checks, and replace nested `<main>` with `<div className="flex-grow min-w-0 p-4 sm:p-6 lg:p-10 xl:p-12 bg-surface">`.
+  4. **Homepage Impact Ledger & Hero Touch Ergonomics (`page.tsx`, `UpcomingHeroBadge.tsx`, `UpcomingWorkshopSpotlight.tsx`):**
+     - Replace misaligned `divide-y sm:divide-y-0 sm:divide-x` + `first:pl-0` on the 2×2 / 4-column Impact Ledger with exact cell-level borders across `< 1024px` (2×2) and `>= 1024px` (1×4).
+     - Stack primary/secondary hero CTAs cleanly (`w-full sm:w-auto justify-center`) on narrow phones and refine multi-line pill wrapping (`rounded-2xl sm:rounded-full`).
+  5. **Coarse-Pointer Hover Card & Short-Viewport Modals (`FrontendPreviewHover.tsx`, `DownloadGate.tsx`, `CitationModal.tsx`):**
+     - Gate `FrontendPreviewHover` floating card with `hidden md:block` and `w-[min(400px,calc(100vw-2rem))]` so `320px–390px` phones never clip or trap taps.
+     - Add `max-h-[90dvh] overflow-y-auto p-5 sm:p-8` to `DownloadGate.tsx` modals and `max-h-[90dvh] p-4 sm:p-6` + `break-all` permalink/APA wrapping to `CitationModal.tsx`.
+  6. **iOS Safari `< 16px` Auto-Zoom Prevention & Subpage Narrow-Screen Fit:**
+     - Set `text-base sm:text-sm` (`16px` mobile, `14px` `sm:`+) on form inputs/selects/textareas in `ContactClient.tsx`, `DownloadGate.tsx`, `auth/page.tsx`, `admin/page.tsx`, and `admin/analytics/page.tsx`.
+     - Apply `p-5 sm:p-8` card padding, `rounded-2xl sm:rounded-full` header badges, `break-all` on long filenames/emails (`HEMS_Abstract_LastName_FirstName.pdf`, coordinator mailto links), `flex-wrap` on `ArchiveHubClient.tsx` result action buttons and `admin/analytics` / `board` / `reviewer` rows, and `min-[380px]:grid-cols-2` on the Corporate Sponsor logo grid.
+
+## [2026-11-11] @qa & @ops — Phase 10 Verification Sign-Off & Local Release Commit
+- **@qa Verification Results:**
+  - `npm --prefix src/frontend run build`: Passed (`40/40` static routes, `0` TypeScript errors, `15/15` Zod archive schemas valid).
+  - Archive Lock check (`git diff --stat src/frontend/src/app/archive src/frontend/src/data tools/manager`): `0` bytes changed.
+  - `verify_seo_post.py`: Passed across all 32 exported HTML routes, `sitemap.xml` (27 trailing-slash URLs), `robots.txt`, `manifest.webmanifest`, and `llms.txt` (`Errors: 0`).
+  - `verify_responsive.py`: Real headless Chrome DevTools Protocol audit across 19 routes × 6 viewports (`320×568`, `375×812`, `390×844`, `768×1024`, `820×1180`, `1024×768` = 114 live combinations) + interactive mobile/tablet drawer & touch dropdown toggle tests passed with `TOTAL RESPONSIVE ERRORS: 0` (`0` horizontal overflows, `0` `<16px` mobile inputs, `44×44px` touch targets verified).
+- **@rte Gate:** `[PASS]` tags confirmed across `@arch`, `@dev`, `@brand`, `@sme`, `@legal`, and `@qa`.
+- **@ops Action:** Staging `src/frontend/`, `docs/implementation_plan.md`, `docs/session_history.md`, `docs/logs/thought_trace.md`, and `docs/plans/2026-11-11-mobile-and-tablet-compatibility.md` (keeping `docs/source-documents/pics/` untracked), committing locally on `main`, and starting local preview server on `http://localhost:3000`.

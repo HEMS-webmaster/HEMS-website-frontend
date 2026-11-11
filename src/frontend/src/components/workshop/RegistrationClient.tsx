@@ -22,8 +22,8 @@ export default function RegistrationClient() {
     <>
       {/* Page Header */}
       <header className="mb-10 border-b border-slate-200 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono mb-4 shadow-2xs">
-          <CreditCard size={14} className="text-primary" /> Workshop Access • {workshop.workshop_ordinal} Workshop
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug mb-4 shadow-2xs">
+          <CreditCard size={14} className="text-primary shrink-0" /> Workshop Access • {workshop.workshop_ordinal} Workshop
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
           Workshop Registration
@@ -251,7 +251,7 @@ export default function RegistrationClient() {
               page or contact {workshop.sponsor_coordinator_name} at{" "}
               <a
                 href={`mailto:${workshop.sponsor_coordinator_email}`}
-                className="text-primary font-mono hover:underline"
+                className="text-primary font-mono hover:underline break-all"
               >
                 {workshop.sponsor_coordinator_email}
               </a>

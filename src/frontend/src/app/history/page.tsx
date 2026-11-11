@@ -122,8 +122,8 @@ export default function SocietyHistoryPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono shadow-2xs">
-                <Calendar size={13} className="text-primary" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug shadow-2xs">
+                <Calendar size={13} className="text-primary shrink-0" />
                 <span>Inaugural Workshop Feb 1999 • 501(c)(3) Incorporated 2008</span>
               </div>
 

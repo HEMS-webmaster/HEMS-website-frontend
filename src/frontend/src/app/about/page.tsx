@@ -89,8 +89,8 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-mono shadow-2xs">
-                <ShieldCheck size={13} className="text-primary" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-mono leading-snug shadow-2xs">
+                <ShieldCheck size={13} className="text-primary shrink-0" />
                 <span>501(c)(3) Scientific Public Charity • Est. 1999</span>
               </div>
 
@@ -164,7 +164,7 @@ export default function About() {
                 />
               </div>
               <figcaption className="pt-3.5 px-1 space-y-1">
-                <div className="flex items-center justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
+                <div className="flex flex-wrap items-center justify-between gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">
                   <span>15th Biennial Symposium</span>
                   <span className="text-slate-400">Virginia Beach • Sept 2025</span>
                 </div>
