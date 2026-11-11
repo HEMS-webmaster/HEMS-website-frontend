@@ -53,3 +53,4 @@ All 10 images are extracted byte-for-byte via `doc.extract_image(xref)["image"]`
 - Verify `0` modifications to `/source-material` and `src/frontend/src/app/archive/**`.
 - Pass `npx next typegen`, `npx tsc --noEmit`, `node tests/unit/upcomingWorkshopCsv.test.mjs`, and `npm --prefix src/frontend run build`.
 - Commit locally on `main` (without pushing to `origin/main` or tracking `docs/source-documents/pics/`) and deploy to `preview-2027`.
+

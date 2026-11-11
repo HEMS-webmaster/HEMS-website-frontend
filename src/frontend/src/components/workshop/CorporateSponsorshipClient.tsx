@@ -166,7 +166,7 @@ export default function CorporateSponsorshipClient() {
                 <img
                   src="/images/gallery/sponsor-exhibit-smiles-2015.jpg"
                   alt="Smiling workshop participants conversing in front of an on-site corporate sponsor hardware and literature tabletop booth"
-                  className="w-full h-48 object-cover object-top"
+                  className="w-full aspect-[3/2] object-cover"
                   loading="lazy"
                 />
               </div>

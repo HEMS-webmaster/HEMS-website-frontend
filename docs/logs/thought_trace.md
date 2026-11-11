@@ -927,3 +927,15 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Zero byte modification on all extracted PDF graphics and all copied photographs (verified via SHA-256).
   - `/source-material` and `src/frontend/src/app/archive/**` remain 100% untouched.
   - Keep `docs/source-documents/pics/` untracked in git; commit locally on `main` (do not `git push`) and redeploy `preview-2027`.
+
+
+---
+### [2026-11-10] `@prod`, `@arch`, `@dev`, `@qa` & `@ops` — Lively Student Awards Photo & Native Aspect-Ratio Framing Fix on 16th Workshop Overview
+- **Feedback (`@bo`)**:
+  1. Find a livelier photo for `/student-awards`.
+  2. Fix `/layout-portal` (`16th HEMS Workshop Overview`), where `h-44 object-cover object-top` on `10thHEMS_44.JPG` anchored to the tall upper wall and sliced across attendees' faces.
+- **Root Cause & Fix**:
+  - Fixed-height containers (`h-44`, `h-48`, `h-52`) paired with `w-full object-cover object-top` force ~2.1:1–2.9:1 letterbox crops onto `3:2` and `4:3` photographs, slicing across faces when subjects stand below the top third of the frame.
+  - Swap `/student-awards` to `FromGottfried/2019/IMG_20190918_191514.jpg` (`banquet-awards-applause-2019.jpg` — lively evening awards banquet applause, beaming smiles, attendees standing up snapping photos in Hawaiian shirts, oceanfront palm trees outside window) inside a native `aspect-[4/3]` container (`0%` crop).
+  - Swap `/layout-portal` (`16th HEMS Workshop Overview`) to `Older Pics/10thHEMS_48.JPG` (`golden-hour-harbor-reception-2015.jpg` — golden-hour open-air waterfront marina reception with full-view smiling colleagues) inside a native `aspect-[3/2]` container (`0%` crop).
+  - Proactively replace fixed `h-48`/`h-52` `object-top` classes on `3:2` DSLR community photos across `/`, `/about`, `/corporate-sponsorship`, and `/history` `Fig. 02` with native `aspect-[3/2]` so no faces or edge subjects are ever clipped at any viewport width.

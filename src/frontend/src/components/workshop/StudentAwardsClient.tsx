@@ -271,22 +271,22 @@ export default function StudentAwardsClient() {
             </div>
           </div>
 
-          {/* Archive Reference & Mentorship Photo Card */}
+          {/* Archive Reference & Celebration Photo Card */}
           <figure className="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
             <div className="overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
               <img
-                src="/images/gallery/roundtable-smiles-2025.jpg"
-                alt="Smiling graduate students and senior investigators sharing a discussion table at the 2025 HEMS Workshop in Virginia Beach"
-                className="w-full h-44 object-cover object-top"
+                src="/images/gallery/banquet-awards-applause-2019.jpg"
+                alt="Smiling HEMS Workshop attendees applauding and snapping photos during the evening awards banquet in Myrtle Beach"
+                className="w-full aspect-[4/3] object-cover"
                 loading="lazy"
               />
             </div>
             <figcaption className="px-1.5 pb-1">
               <div className="flex items-center gap-2 text-primary font-mono text-[11px] font-semibold uppercase tracking-wider mb-1.5">
-                <BookOpen size={14} /> Direct Mentorship &amp; Fellowship
+                <BookOpen size={14} /> Celebrating Emerging Investigators
               </div>
               <p className="text-xs text-slate-600 leading-relaxed mb-3">
-                Student awardees present in the single-track plenary session and share round tables directly with principal investigators, national-lab mentors, and instrument builders.
+                Student awardees present in the single-track plenary session, are recognized before the full symposium community, and engage directly with principal investigators and instrument builders.
               </p>
               <Link
                 href="/archive"

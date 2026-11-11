@@ -128,7 +128,7 @@ export default function About() {
                 <img
                   src="/images/gallery/group-photo-2025.jpg"
                   alt="Participants of the 15th Biennial Harsh-Environment Mass Spectrometry Workshop gathered in Virginia Beach, September 2025"
-                  className="w-full max-h-[460px] object-cover object-center"
+                  className="w-full h-auto block"
                   loading="eager"
                 />
               </div>
@@ -200,7 +200,7 @@ export default function About() {
                 <img
                   src="/images/gallery/don-cesar-hawaiian-smiles-2013.jpg"
                   alt="Smiling HEMS Workshop colleagues in Hawaiian and casual attire on the beachfront terrace at St. Pete Beach"
-                  className="w-full h-48 object-cover object-top"
+                  className="w-full aspect-[3/2] object-cover"
                   loading="lazy"
                 />
               </div>

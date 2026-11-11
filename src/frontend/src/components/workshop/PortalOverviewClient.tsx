@@ -63,9 +63,9 @@ export default function PortalOverviewClient() {
       <figure className="mb-8 bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-2xs grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
         <div className="md:col-span-5 overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
           <img
-            src="/images/gallery/harborfront-reception-smiles-2015.jpg"
-            alt="Smiling HEMS Workshop investigators conversing outdoors on a waterfront reception deck"
-            className="w-full h-44 object-cover object-top"
+            src="/images/gallery/golden-hour-harbor-reception-2015.jpg"
+            alt="HEMS Workshop attendees conversing outdoors at sunset on a waterfront marina reception deck"
+            className="w-full aspect-[3/2] object-cover"
             loading="eager"
           />
         </div>

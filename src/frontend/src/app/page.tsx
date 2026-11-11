@@ -475,7 +475,7 @@ export default function Home() {
                     <img
                       src={item.image}
                       alt={item.alt}
-                      className={`w-full h-52 object-cover ${item.position}`}
+                      className="w-full aspect-[3/2] object-cover"
                       loading="lazy"
                     />
                   </div>
