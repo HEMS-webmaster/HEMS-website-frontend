@@ -1,14 +1,69 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Download, FileText, Layout, Info, ExternalLink, Type, List, ArrowRight } from "lucide-react";
+import { buildPageMetadata, buildWebPageJsonLd } from "@/utils/seo";
 
-export const metadata = {
-  title: "Formatting Guidelines - HEMS Workshop",
-  description: "View HEMS Workshop abstract formatting guidelines, manuscript structures, file naming rules, and template downloads.",
-};
+const PAGE_TITLE = "Abstract Formatting Guidelines | HEMS Workshop";
+const PAGE_DESCRIPTION =
+  "Review HEMS Workshop single-page PDF abstract formatting rules, typography, margin specifications, file naming conventions, and published examples.";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  path: "/formatting-guidelines",
+  keywords: [
+    "HEMS abstract formatting guidelines",
+    "HEMS Workshop template",
+    "mass spectrometry abstract specifications",
+  ],
+});
+
+const STRUCTURE_SECTIONS = [
+  {
+    label: "Title Block:",
+    body: "Bold, centered, 14pt text size, positioned at the top of the page.",
+  },
+  {
+    label: "Author List:",
+    body: "Centered below title, with full names. Use numerical superscripts to indicate institutional affiliations.",
+  },
+  {
+    label: "Institutions Panel:",
+    body: "Centered below author list, detailing organizations, city, state, country, and contact email.",
+  },
+  {
+    label: "Body Text:",
+    body: "Summarize the core scientific problem, experimental methods, miniaturization steps, analytical precision, and environmental conditions.",
+  },
+  {
+    label: "Figures & Captions (Optional):",
+    body: "Centered visual drawings, charts, or diagrams with brief descriptive text captions.",
+  },
+  {
+    label: "References:",
+    body: "Numbered citation list at the bottom of the page in standard academic format.",
+  },
+];
 
 export default function FormattingGuidelines() {
+  const jsonLd = buildWebPageJsonLd({
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    path: "/formatting-guidelines",
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "Call for Papers", path: "/call-for-papers" },
+      { name: "Formatting Guidelines", path: "/formatting-guidelines" },
+    ],
+  });
+
   return (
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Page Header */}
       <header className="text-center max-w-3xl mx-auto mb-16">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono mb-6">
@@ -18,7 +73,7 @@ export default function FormattingGuidelines() {
           Formatting <span className="text-primary border-b-4 border-primary">Guidelines</span>
         </h1>
         <p className="text-xl text-foreground/70 leading-relaxed">
-          Prepare your technical submission. Review abstract document specifications, margins, and download templates.
+          Prepare your technical submission. Review abstract document specifications, margins, and published layout examples.
         </p>
       </header>
 
@@ -28,7 +83,9 @@ export default function FormattingGuidelines() {
         <div className="lg:col-span-2 space-y-12">
           {/* Document Specifications */}
           <section className="bg-surface/30 border border-foreground/10 rounded-2xl p-8 backdrop-blur-md">
-            <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground mb-6">Technical Specifications</h2>
+            <h2 className="text-2xl font-bold uppercase tracking-tight text-foreground mb-6">
+              Technical Specifications
+            </h2>
             <p className="text-foreground/80 leading-relaxed mb-6">
               All abstract submissions must fit on a single page and be exported to PDF format. Use the formatting metrics below to ensure that papers fit cleanly in the workshop program catalog:
             </p>
@@ -36,9 +93,9 @@ export default function FormattingGuidelines() {
               <div className="border border-foreground/10 p-5 rounded-lg bg-background flex gap-3 items-start">
                 <Type className="text-primary shrink-0 mt-0.5" size={20} />
                 <div>
-                  <h4 className="font-bold text-sm uppercase text-foreground">Typography & Font</h4>
+                  <h3 className="font-bold text-sm uppercase text-foreground">Typography &amp; Font</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
-                    Standard **Times New Roman** or **Arial** font, 11pt or 12pt text size, with single line spacing. Keep text clean and consistent.
+                    Standard <strong>Times New Roman</strong> or <strong>Arial</strong> font, 11pt or 12pt text size, with single line spacing. Keep text clean and consistent.
                   </p>
                 </div>
               </div>
@@ -46,9 +103,9 @@ export default function FormattingGuidelines() {
               <div className="border border-foreground/10 p-5 rounded-lg bg-background flex gap-3 items-start">
                 <Layout className="text-primary shrink-0 mt-0.5" size={20} />
                 <div>
-                  <h4 className="font-bold text-sm uppercase text-foreground">Page Margins</h4>
+                  <h3 className="font-bold text-sm uppercase text-foreground">Page Margins</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
-                    Set **1-inch (2.54 cm)** margins on all sides (top, bottom, left, right). Do not overlap margins or bleed graphics.
+                    Set <strong>1-inch (2.54 cm)</strong> margins on all sides (top, bottom, left, right). Do not overlap margins or bleed graphics.
                   </p>
                 </div>
               </div>
@@ -56,9 +113,9 @@ export default function FormattingGuidelines() {
               <div className="border border-foreground/10 p-5 rounded-lg bg-background flex gap-3 items-start">
                 <FileText className="text-primary shrink-0 mt-0.5" size={20} />
                 <div>
-                  <h4 className="font-bold text-sm uppercase text-foreground">File Format</h4>
+                  <h3 className="font-bold text-sm uppercase text-foreground">File Format</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
-                    Export your finalized document as a single **PDF** file. Do not submit raw Word (.doc/.docx) or LaTeX source files.
+                    Export your finalized document as a single <strong>PDF</strong> file. Do not submit raw Word (.doc/.docx) or LaTeX source files.
                   </p>
                 </div>
               </div>
@@ -66,9 +123,13 @@ export default function FormattingGuidelines() {
               <div className="border border-foreground/10 p-5 rounded-lg bg-background flex gap-3 items-start">
                 <Info className="text-primary shrink-0 mt-0.5" size={20} />
                 <div>
-                  <h4 className="font-bold text-sm uppercase text-foreground">Naming Protocol</h4>
+                  <h3 className="font-bold text-sm uppercase text-foreground">Naming Protocol</h3>
                   <p className="text-xs text-foreground/70 mt-1 leading-relaxed">
-                    Save abstract files according to the format: `HEMS2025_Abstract_LastName_FirstName.pdf`.
+                    Save abstract files according to the format:{" "}
+                    <code className="font-mono text-[11px] bg-surface px-1 py-0.5 rounded">
+                      HEMS_Abstract_LastName_FirstName.pdf
+                    </code>
+                    .
                   </p>
                 </div>
               </div>
@@ -84,19 +145,15 @@ export default function FormattingGuidelines() {
               Technical abstracts must include the following structural sections in order:
             </p>
             <div className="space-y-4">
-              {[
-                "**Title Block:** Bold, centered, 14pt text size, positioned at the top of the page.",
-                "**Author List:** Centered below title, with full names. Use numerical superscripts to indicate institutional affiliations.",
-                "**Institutions Panel:** Centered below author list, detailing organizations, city, state, country, and contact email.",
-                "**Body Text:** Summarize the core scientific problem, experimental methods, miniaturization steps, analytical precision, and environment conditions.",
-                "**Figures & Captions (Optional):** Centered visual drawings, charts, or diagrams with brief descriptive text captions.",
-                "**References:** Numbered citation list at the bottom of the page in standard academic format."
-              ].map((item, idx) => (
-                <div key={idx} className="flex gap-3 items-start text-foreground/80">
+              {STRUCTURE_SECTIONS.map((item, idx) => (
+                <div key={item.label} className="flex gap-3 items-start text-foreground/80">
                   <span className="bg-primary/10 text-primary font-mono text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0">
                     {idx + 1}
                   </span>
-                  <p className="text-sm mt-0.5" dangerouslySetInnerHTML={{ __html: item }} />
+                  <p className="text-sm mt-0.5">
+                    <strong className="font-semibold text-foreground">{item.label}</strong>{" "}
+                    {item.body}
+                  </p>
                 </div>
               ))}
             </div>
@@ -113,7 +170,7 @@ export default function FormattingGuidelines() {
             <p className="text-xs text-foreground/70 leading-relaxed">
               Review the official 15th HEMS Workshop program and published single-page extended abstracts to model layout, figure sizing, and citation style.
             </p>
-            
+
             {/* 15th Program PDF */}
             <a
               href="https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Administrative/15th_Program.pdf"
@@ -149,19 +206,17 @@ export default function FormattingGuidelines() {
 
           {/* Submission Reminder */}
           <div className="bg-primary text-background rounded-xl p-6 shadow-md">
-            <h3 className="font-bold uppercase tracking-wider text-xs mb-2 opacity-95">Ex Ordo Portal</h3>
+            <h3 className="font-bold uppercase tracking-wider text-xs mb-2 opacity-95">Call for Papers</h3>
             <p className="text-xs opacity-90 mb-6 leading-relaxed">
-              Ready to submit your finalized single-page PDF abstract? Register an account on our submissions platform to complete the process.
+              Check abstract submission dates, portal availability, and session topics on our Call for Papers page.
             </p>
-            
-            <a 
-              href="https://hems-workshop2025.exordo.com/submissions/new"
-              target="_blank"
-              rel="noopener noreferrer"
+
+            <Link
+              href="/call-for-papers"
               className="w-full bg-background text-primary font-bold py-2.5 rounded flex items-center justify-center gap-2 hover:bg-background/90 transition-colors shadow-sm text-xs"
             >
-              Submit Abstract <ExternalLink size={12} />
-            </a>
+              View Call for Papers <ArrowRight size={12} />
+            </Link>
           </div>
         </div>
       </div>

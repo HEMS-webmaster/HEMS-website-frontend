@@ -55,6 +55,9 @@ export default function PortalOverviewClient() {
         <img
           src="/hemslogo.jpg"
           alt="HEMS Logo"
+          width={64}
+          height={64}
+          decoding="async"
           className="w-16 h-16 object-contain rounded-lg border border-slate-200 mix-blend-multiply bg-white p-1 hidden sm:block"
         />
       </header>
@@ -65,6 +68,9 @@ export default function PortalOverviewClient() {
           <img
             src="/images/gallery/golden-hour-harbor-reception-2015.jpg"
             alt="HEMS Workshop attendees conversing outdoors at sunset on a waterfront marina reception deck"
+            width={4928}
+            height={3264}
+            decoding="async"
             className="w-full aspect-[3/2] object-cover"
             loading="eager"
           />

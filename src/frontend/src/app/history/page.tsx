@@ -8,12 +8,24 @@ import {
   Compass,
   ShieldCheck,
 } from "lucide-react";
+import { buildPageMetadata, buildWebPageJsonLd } from "@/utils/seo";
 
-export const metadata: Metadata = {
-  title: "Workshop & Society History | HEMS Society",
-  description:
-    "Explore the origins and evolution of the Harsh-Environment Mass Spectrometry (HEMS) Workshop and Society—from an informal 1999 gathering at USF St. Petersburg to an international 501(c)(3) scientific community.",
-};
+const PAGE_TITLE = "Workshop & Society History (1999–2025) | HEMS Society";
+const PAGE_DESCRIPTION =
+  "Trace the history of the Harsh-Environment Mass Spectrometry (HEMS) Workshop from its 1999 USF St. Petersburg debut to an international 501(c)(3) society.";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  path: "/history",
+  ogType: "article",
+  keywords: [
+    "HEMS Workshop history",
+    "USF Center for Ocean Technology mass spectrometry",
+    "miniature vacuum pumps workshop NASA JPL",
+    "Harsh-Environment Mass Spectrometry Society history",
+  ],
+});
 
 interface TimelineEvent {
   era: string;
@@ -82,8 +94,22 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
 ];
 
 export default function SocietyHistoryPage() {
+  const jsonLd = buildWebPageJsonLd({
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    path: "/history",
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "History (1999–2025)", path: "/history" },
+    ],
+  });
+
   return (
     <div className="flex flex-col flex-grow">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* EDITORIAL PAGE HEADER */}
       <section className="bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] border-b border-slate-200/85 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,6 +142,9 @@ export default function SocietyHistoryPage() {
                 <img
                   src="/hemslogo.jpg"
                   alt="HEMS Society Official Emblem"
+                  width={56}
+                  height={56}
+                  decoding="async"
                   className="w-14 h-14 object-contain mix-blend-multiply shrink-0"
                 />
                 <div>
@@ -170,6 +199,9 @@ export default function SocietyHistoryPage() {
                 <img
                   src="/images/history/usf-cot-auv-nosecone-ms.jpg"
                   alt="Early underwater mass spectrometer and compact turbomolecular vacuum assembly packaged inside an autonomous underwater vehicle hull section"
+                  width={1600}
+                  height={1200}
+                  decoding="async"
                   className="w-full h-auto aspect-[4/3] object-cover"
                   loading="eager"
                 />
@@ -225,6 +257,9 @@ export default function SocietyHistoryPage() {
                 <img
                   src="/images/history/st-pete-beach-don-cesar-2013.jpg"
                   alt="Smiling HEMS Society investigators, organizers, and students gathered under palm trees on the beachfront terrace of The Don CeSar at St. Pete Beach, Florida"
+                  width={4928}
+                  height={3264}
+                  decoding="async"
                   className="w-full h-auto aspect-[3/2] object-cover"
                   loading="lazy"
                 />
@@ -333,6 +368,9 @@ export default function SocietyHistoryPage() {
                   <img
                     src="/images/history/myrtle-beach-pier-surf.jpg"
                     alt="Sunlit Atlantic Ocean surf, sandy shoreline, and pier viewed from the beachfront HEMS Workshop host hotel in Myrtle Beach"
+                    width={4032}
+                    height={3024}
+                    decoding="async"
                     className="w-full h-auto aspect-[4/3] object-cover"
                     loading="lazy"
                   />

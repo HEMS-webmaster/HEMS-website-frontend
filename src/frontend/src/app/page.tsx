@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -11,6 +12,24 @@ import {
 } from "lucide-react";
 import UpcomingHeroBadge from "@/components/workshop/UpcomingHeroBadge";
 import UpcomingWorkshopSpotlight from "@/components/workshop/UpcomingWorkshopSpotlight";
+import { getStaticUpcomingWorkshop } from "@/utils/upcomingWorkshop";
+import {
+  buildPageMetadata,
+  buildUpcomingWorkshopEventJsonLd,
+} from "@/utils/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "HEMS Society | Harsh-Environment Mass Spectrometry",
+  description:
+    "Biennial symposium and 25+ year open-access proceedings archive advancing in-situ mass spectrometry across oceans, planetary bodies, and austere environments.",
+  path: "/",
+  keywords: [
+    "Harsh-Environment Mass Spectrometry Society",
+    "16th HEMS Workshop 2027",
+    "field mass spectrometry proceedings",
+    "miniature mass spectrometer",
+  ],
+});
 
 interface SpectrumPeak {
   mz: number;
@@ -44,8 +63,8 @@ const IN_SITU_SPECTRUM_PEAKS: SpectrumPeak[] = [
 const IMPACT_METRICS = [
   {
     value: "1999",
-    label: "Founded in Baltimore",
-    detail: "Incorporated as an IRS 501(c)(3) scientific public charity in 2003",
+    label: "Founded in St. Petersburg",
+    detail: "Incorporated as an IRS 501(c)(3) scientific public charity in 2008",
   },
   {
     value: "15",
@@ -72,6 +91,8 @@ const CHARTER_PILLARS = [
       "Deploying mass spectrometers directly into extreme natural regimes—from deep-ocean hydrothermal vents and polar waters to volcanic plumes, stratospheric aircraft, and lunar or Martian landers.",
     tags: ["Deep-Sea MIMS", "Planetary Payloads", "Volcanic & Atmospheric"],
     image: "/images/gallery/fox-volcanic-fumarole-ms.jpg",
+    imageWidth: 875,
+    imageHeight: 600,
     imageAlt: "Investigator operating a backpack-portable mass spectrometer inside an active volcanic sulfur fumarole",
     imageFit: "cover" as const,
     credit: "15th HEMS WS • Volcanic Fumarole MS",
@@ -83,6 +104,8 @@ const CHARTER_PILLARS = [
       "Engineering compact ion sources, rectilinear and toroidal ion traps, portable time-of-flight and sector analyzers, harsh-environment membrane inlets, and low-SWaP vacuum systems.",
     tags: ["Low-SWaP Vacuum", "Portable Analyzers", "Harsh Inlets"],
     image: "/images/gallery/raith-spaceflight-orbitrap-cad.jpg",
+    imageWidth: 1217,
+    imageHeight: 603,
     imageAlt: "Cross-section engineering schematic of a spaceflight pulsed-UV laser desorption Orbitrap mass spectrometer",
     imageFit: "contain" as const,
     credit: "15th HEMS WS • Spaceflight LD-Orbitrap",
@@ -94,6 +117,8 @@ const CHARTER_PILLARS = [
       "Advancing uncrewed underwater and aerial sensing, real-time onboard spectral deconvolution, environmental forensics, industrial process monitoring, and chemical defense readiness.",
     tags: ["AUV / UAV Sensing", "Onboard Deconvolution", "Environmental & Defense"],
     image: "/images/gallery/coppin-icefin-underice-rov.jpg",
+    imageWidth: 1702,
+    imageHeight: 956,
     imageAlt: "Icefin autonomous under-ice vehicle carrying an underwater mass spectrometer beneath polar sea ice",
     imageFit: "cover" as const,
     credit: "15th HEMS WS • Icefin Under-Ice ROV",
@@ -107,6 +132,8 @@ const SYMPOSIUM_CULTURE = [
     caption:
       "True to our motto—just because our instruments operate in harsh environments doesn't mean we have to meet in one—workshops convene at welcoming coastal venues such as St. Pete Beach, Virginia Beach, Myrtle Beach, Cocoa Beach, and Oxnard.",
     image: "/images/gallery/don-cesar-terrace-smiles-2013.jpg",
+    width: 4928,
+    height: 3264,
     alt: "Smiling HEMS Workshop attendees applauding together on the sunlit pink beachfront terrace beneath palm trees at St. Pete Beach",
     position: "object-top",
   },
@@ -116,6 +143,8 @@ const SYMPOSIUM_CULTURE = [
     caption:
       "Every oral session convenes in a single shared room—where academic pioneers, national-lab scientists, space-agency engineers, and graduate students engage together with warmth and candor.",
     image: "/images/gallery/single-track-auditorium-smiles-2015.jpg",
+    width: 4928,
+    height: 3264,
     alt: "Full single-track lecture auditorium of HEMS Workshop scientists and engineers smiling toward the camera",
     position: "object-center",
   },
@@ -125,14 +154,22 @@ const SYMPOSIUM_CULTURE = [
     caption:
       "Since 2001, shorts and Hawaiian shirts have been the unofficial workshop attire—sparking relaxed, high-trust technical conversations right beside poster boards and hardware demos.",
     image: "/images/gallery/poster-session-smiles-oxnard-2017.jpg",
+    width: 4928,
+    height: 3264,
     alt: "Two HEMS investigators, one in a bright red Hawaiian shirt, smiling warmly in conversation beside technical posters",
     position: "object-top",
   },
 ];
 
 export default function Home() {
+  const upcomingJsonLd = buildUpcomingWorkshopEventJsonLd(getStaticUpcomingWorkshop());
+
   return (
     <div className="flex flex-col flex-grow">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(upcomingJsonLd) }}
+      />
       {/* SECTION 1: EDITORIAL SPLIT HERO */}
       <section className="relative border-b border-slate-200/85 bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] py-14 sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -400,6 +437,9 @@ export default function Home() {
                     <img
                       src={pillar.image}
                       alt={pillar.imageAlt}
+                      width={pillar.imageWidth}
+                      height={pillar.imageHeight}
+                      decoding="async"
                       className={`w-full h-full ${
                         pillar.imageFit === "contain"
                           ? "object-contain p-3 bg-white"
@@ -475,6 +515,9 @@ export default function Home() {
                     <img
                       src={item.image}
                       alt={item.alt}
+                      width={item.width}
+                      height={item.height}
+                      decoding="async"
                       className="w-full aspect-[3/2] object-cover"
                       loading="lazy"
                     />
@@ -520,6 +563,9 @@ export default function Home() {
                   <img
                     src="/images/gallery/danell-dragonfly-titan-ms-2019.jpg"
                     alt="NASA Dragonfly rotorcraft lander concept carrying the DraMS mass spectrometer on Saturn's moon Titan"
+                    width={941}
+                    height={803}
+                    decoding="async"
                     className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
                     loading="lazy"
                   />
@@ -545,6 +591,9 @@ export default function Home() {
                   <img
                     src="/images/gallery/bell-subsea-lander-ms-2025.jpg"
                     alt="Shipboard crane deploying a benthic subsea lander carrying an underwater mass spectrometer"
+                    width={940}
+                    height={727}
+                    decoding="async"
                     className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
                     loading="lazy"
                   />
@@ -570,6 +619,9 @@ export default function Home() {
                   <img
                     src="/images/gallery/verbeck-uav-drone-ms-2025.jpg"
                     alt="Researchers outdoors preparing a heavy-lift UAV drone outfitted with a portable mass spectrometer"
+                    width={793}
+                    height={537}
+                    decoding="async"
                     className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
                     loading="lazy"
                   />

@@ -1,12 +1,41 @@
 import type { Metadata } from "next";
 import CallForPapersClient from "@/components/workshop/CallForPapersClient";
+import { buildPageMetadata, buildWebPageJsonLd } from "@/utils/seo";
 
-export const metadata: Metadata = {
-  title: "Call for Papers | HEMS Workshop",
-  description:
-    "Abstract submission guidelines, milestone dates, and core research areas for the Harsh-Environment Mass Spectrometry (HEMS) Workshop.",
-};
+const PAGE_TITLE = "Call for Papers | HEMS Workshop";
+const PAGE_DESCRIPTION =
+  "Abstract submission guidelines, milestone dates, and technical focus areas for the biennial Harsh-Environment Mass Spectrometry (HEMS) Workshop.";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  path: "/call-for-papers",
+  keywords: [
+    "HEMS Call for Papers",
+    "mass spectrometry abstract submission",
+    "portable mass spectrometry conference",
+  ],
+});
 
 export default function CallForPapers() {
-  return <CallForPapersClient />;
+  const jsonLd = buildWebPageJsonLd({
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    path: "/call-for-papers",
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "2027 Workshop", path: "/layout-portal" },
+      { name: "Call for Papers", path: "/call-for-papers" },
+    ],
+  });
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <CallForPapersClient />
+    </>
+  );
 }

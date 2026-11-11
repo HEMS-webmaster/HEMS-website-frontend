@@ -11,12 +11,22 @@ import {
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
+import { buildPageMetadata, buildWebPageJsonLd } from "@/utils/seo";
 
-export const metadata: Metadata = {
-  title: "About the HEMS Society | Harsh-Environment Mass Spectrometry",
-  description:
-    "Learn about the official mission and strategic objectives of the Harsh-Environment Mass Spectrometry Society, Inc., a 501(c)(3) nonprofit advancing in situ chemical measurement.",
-};
+const PAGE_TITLE = "About the HEMS Society | Harsh-Environment Mass Spectrometry";
+const PAGE_DESCRIPTION =
+  "Official mission and five strategic pillars of the Harsh-Environment Mass Spectrometry Society, Inc., an IRS 501(c)(3) nonprofit advancing field chemical sensing.";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  path: "/about",
+  keywords: [
+    "About HEMS Society",
+    "Harsh-Environment Mass Spectrometry Society mission",
+    "501(c)(3) mass spectrometry society",
+  ],
+});
 
 const OBJECTIVES = [
   {
@@ -57,8 +67,23 @@ const OBJECTIVES = [
 ];
 
 export default function About() {
+  const jsonLd = buildWebPageJsonLd({
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    path: "/about",
+    pageType: "AboutPage",
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "About", path: "/about" },
+    ],
+  });
+
   return (
     <div className="flex flex-col flex-grow">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* EDITORIAL PAGE HEADER */}
       <section className="bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] border-b border-slate-200/85 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,6 +109,9 @@ export default function About() {
                 <img
                   src="/hemslogo.jpg"
                   alt="HEMS Society Official Seal"
+                  width={56}
+                  height={56}
+                  decoding="async"
                   className="w-14 h-14 object-contain mix-blend-multiply shrink-0"
                 />
                 <div>
@@ -128,6 +156,9 @@ export default function About() {
                 <img
                   src="/images/gallery/group-photo-2025.jpg"
                   alt="Participants of the 15th Biennial Harsh-Environment Mass Spectrometry Workshop gathered in Virginia Beach, September 2025"
+                  width={5568}
+                  height={3712}
+                  decoding="async"
                   className="w-full h-auto block"
                   loading="eager"
                 />
@@ -200,6 +231,9 @@ export default function About() {
                 <img
                   src="/images/gallery/don-cesar-hawaiian-smiles-2013.jpg"
                   alt="Smiling HEMS Workshop colleagues in Hawaiian and casual attire on the beachfront terrace at St. Pete Beach"
+                  width={4928}
+                  height={3264}
+                  decoding="async"
                   className="w-full aspect-[3/2] object-cover"
                   loading="lazy"
                 />

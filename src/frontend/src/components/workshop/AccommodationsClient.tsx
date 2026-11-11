@@ -39,6 +39,9 @@ export default function AccommodationsClient() {
             <img
               src="/images/gallery/virginia-beach-boardwalk-2025.jpg"
               alt="Oceanfront boardwalk and Atlantic shoreline at the 2025 Virginia Beach HEMS Workshop"
+              width={2688}
+              height={1512}
+              decoding="async"
               className="w-full h-44 object-cover"
               loading="lazy"
             />
@@ -56,6 +59,9 @@ export default function AccommodationsClient() {
             <img
               src="/images/history/myrtle-beach-pier-surf.jpg"
               alt="Atlantic surf and pier outside the 2019 Myrtle Beach HEMS Workshop hotel"
+              width={4032}
+              height={3024}
+              decoding="async"
               className="w-full h-44 object-cover"
               loading="lazy"
             />

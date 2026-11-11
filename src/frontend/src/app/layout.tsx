@@ -4,6 +4,12 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_LEGAL_NAME,
+  buildGlobalKnowledgeGraphJsonLd,
+} from "@/utils/seo";
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
@@ -28,9 +34,41 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "HEMS Society | Harsh-Environment Mass Spectrometry",
   description:
-    "The international scientific forum and open-access proceedings archive advancing in-situ mass spectrometry across oceans, planetary bodies, volcanic plumes, and austere field environments since 1999.",
+    "Biennial symposium and 25+ year open-access proceedings archive advancing in-situ mass spectrometry across oceans, planetary bodies, and austere environments.",
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_LEGAL_NAME, url: SITE_URL }],
+  creator: SITE_LEGAL_NAME,
+  publisher: SITE_LEGAL_NAME,
+  category: "science",
+  openGraph: {
+    title: "HEMS Society | Harsh-Environment Mass Spectrometry",
+    description:
+      "Biennial symposium and 25+ year open-access proceedings archive advancing in-situ mass spectrometry across oceans, planetary bodies, and austere environments.",
+    url: `${SITE_URL}/`,
+    siteName: SITE_NAME,
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HEMS Society | Harsh-Environment Mass Spectrometry",
+    description:
+      "Biennial symposium and 25+ year open-access proceedings archive advancing in-situ mass spectrometry across oceans, planetary bodies, and austere environments.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -38,12 +76,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const globalJsonLd = buildGlobalKnowledgeGraphJsonLd();
+
   return (
     <html
       lang="en"
       className={`${notoSans.variable} ${sourceSerif.variable} ${ibmPlexMono.variable}`}
     >
       <body className="antialiased min-h-screen flex flex-col theme-global">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(globalJsonLd) }}
+        />
         <AuthProvider>
           <Navbar />
           <main className="flex-grow flex flex-col">{children}</main>

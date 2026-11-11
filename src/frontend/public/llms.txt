@@ -1,45 +1,41 @@
-# HEMS Workshop — Harsh-Environment Mass Spectrometry
-> 25+ years of scientific proceedings on mass spectrometry for space, underwater, field-deployable, and defense applications.
+# Harsh-Environment Mass Spectrometry Society (HEMS)
+> Official website of the Harsh-Environment Mass Spectrometry Society, Inc. (IRS 501(c)(3) scientific public charity, founded 1999) — biennial international symposium and 25+ year open-access proceedings archive for portable, subsea, planetary, atmospheric, and field-deployable mass spectrometry.
 
-## About
-The HEMS Workshop is a biennial scientific conference focused on mass spectrometers designed for extreme operational environments: planetary exploration (Mars, Titan, Europa), underwater oceanography, battlefield chemical detection, environmental monitoring, and industrial process control. Founded in 1999, the workshop series brings together researchers from NASA, ESA, military laboratories, and academic institutions.
+## Primary Public Pages
+- [Home](https://www.hems-workshop.org/): Overview of the HEMS Society, technical charter, field mass spectrometry domains, and upcoming symposium highlights.
+- [16th HEMS Workshop Hub — September 2027](https://www.hems-workshop.org/layout-portal/): Save-the-date announcements, milestones, and central portal for the 16th Biennial HEMS Workshop (September 2027).
+- [About the HEMS Society](https://www.hems-workshop.org/about/): Official 501(c)(3) mission statement, volunteer governance, and five core strategic objectives.
+- [Workshop & Society History (1999–2025)](https://www.hems-workshop.org/history/): Complete historical chronicle from the 1999 USF Center for Ocean Technology workshop through NASA JPL miniature vacuum collaborations and global coastal symposia.
+- [Open-Access Proceedings Archive](https://www.hems-workshop.org/archive/): Searchable 15-workshop digital repository (1,590 PDF slide decks, extended abstracts, posters, and programs) with scientific synonym expansion.
+- [Student Travel Awards](https://www.hems-workshop.org/student-awards/): $1,500.00 graduate student travel grant guidelines, M.S./M.A./Ph.D. eligibility, required application items, and selection criteria.
+- [Call for Papers](https://www.hems-workshop.org/call-for-papers/): Abstract submission instructions, technical focus areas, and symposium deadlines.
+- [Formatting Guidelines](https://www.hems-workshop.org/formatting-guidelines/): Single-page PDF abstract layout specifications, typography, and file naming conventions.
+- [Workshop Registration](https://www.hems-workshop.org/registration/): Professional, student, and corporate attendee registration tiers and policies.
+- [Venue & Accommodations](https://www.hems-workshop.org/accommodations/): Host beachfront hotel details and group room-block information.
+- [Corporate Sponsorship](https://www.hems-workshop.org/corporate-sponsorship/): Evergreen 501(c)(3) corporate partnership benefits, tabletop hardware exhibition details, split-invoicing options, and historical registry of 52 industry sponsors.
+- [Contact the Committee](https://www.hems-workshop.org/contact/): Direct channels for general society inquiries (`info@hems-workshop.org`), Student Travel Awards (`hemsworkshop@hems-workshop.org`), and Corporate Sponsorship coordination.
 
-## Workshop Archives
-Each archive page contains: full technical program with session schedules, downloadable presentation PDFs, abstract PDFs, author/institution lists, corporate sponsor information, and student award winners.
+## Machine-Readable Proceedings Index
+For scholarly search engines, bibliometric indexers, and AI research assistants, a flat JSON catalog of all archived oral presentations, posters, authors, affiliations, and PDF URLs is published at:
+- [Proceedings JSON Index](https://www.hems-workshop.org/archives-index.json)
+- [XML Sitemap](https://www.hems-workshop.org/sitemap.xml)
 
-### Machine & AI Ingestion Interface
-To allow AI search agents, academic citation scrapers, and custom models to map and digest the entire HEMS body of work with zero HTML scraping overhead, a flat machine-readable proceedings database is served at:
-- [/archives-index.json](file:///archives-index.json): Full flat array of all 436 historical presentations, posters, and abstracts (including authors lists, affiliated institutions, workshop years, session titles, presentation slides PDF links, and abstract PDF coordinates).
+## Verified Biennial Workshop Proceedings (1999–2025)
+- [15th HEMS Workshop (2025)](https://www.hems-workshop.org/archive/2025/): Virginia Beach, VA — September 15–18, 2025
+- [14th HEMS Workshop (2022)](https://www.hems-workshop.org/archive/2022/): Cocoa Beach, FL — September 26–29, 2022
+- [13th HEMS Workshop (2019)](https://www.hems-workshop.org/archive/2019/): Myrtle Beach, SC — September 16–19, 2019
+- [12th HEMS Workshop (2018)](https://www.hems-workshop.org/archive/2018/): Köln, Germany — October 16–18, 2018
+- [11th HEMS Workshop (2017)](https://www.hems-workshop.org/archive/2017/): Oxnard, CA — September 18–21, 2017
+- [10th HEMS Workshop (2015)](https://www.hems-workshop.org/archive/2015/): Baltimore, MD — September 13–16, 2015
+- [9th HEMS Workshop (2013)](https://www.hems-workshop.org/archive/2013/): St. Pete Beach, FL — September 15–18, 2013
+- [8th HEMS Workshop (2011)](https://www.hems-workshop.org/archive/2011/): St. Pete Beach, FL — September 19–22, 2011
+- [7th HEMS Workshop (2009)](https://www.hems-workshop.org/archive/2009/): Santa Barbara, CA — September 21–24, 2009
+- [6th HEMS Workshop (2007)](https://www.hems-workshop.org/archive/2007/): Cocoa Beach, FL — September 17–20, 2007
+- [5th HEMS Workshop (2005)](https://www.hems-workshop.org/archive/2005/): Sarasota, FL — September 20–23, 2005
+- [4th HEMS Workshop (2003)](https://www.hems-workshop.org/archive/2003/): St. Pete Beach, FL — October 7–10, 2003
+- [3rd HEMS Workshop (2002)](https://www.hems-workshop.org/archive/2002/): Pasadena, CA (Joint with NASA JPL Miniature Vacuum Pumps Workshop) — March 25–28, 2002
+- [2nd HEMS Workshop (2001)](https://www.hems-workshop.org/archive/2001/): St. Petersburg, FL — March 18–21, 2001
+- [1st HEMS Workshop (1999)](https://www.hems-workshop.org/archive/1999/): St. Petersburg, FL (USF Center for Ocean Technology) — February 21–23, 1999
 
-- /archive/2023: 15th HEMS Workshop (2023)
-- /archive/2022: 14th HEMS Workshop — Cocoa Beach, FL (Sept 26-29, 2022)
-- /archive/2020: Virtual HEMS Workshop (2020)
-- /archive/2019: 13th HEMS Workshop — Myrtle Beach, SC (Sept 16-19, 2019)
-- /archive/2018: 12th EuroHEMS Workshop — Köln, Germany (Oct 16-18, 2018)
-- /archive/2017: 11th HEMS Workshop (2017)
-- /archive/2016: EuroHEMS Workshop (2016)
-- /archive/2015: 10th HEMS Workshop (2015)
-- /archive/2013: 9th HEMS Workshop (2013)
-- /archive/2011: 8th HEMS Workshop (2011)
-- /archive/2009: 7th HEMS Workshop (2009)
-- /archive/2007: 6th HEMS Workshop (2007)
-- /archive/2005: 5th HEMS Workshop (2005)
-- /archive/2003: 4th HEMS Workshop (2003)
-- /archive/2002: 3rd HEMS Workshop (2002)
-- /archive/2001: 2nd HEMS Workshop (2001)
-- /archive/1999: 1st HEMS Workshop (1999)
-
-## Key Topics
-Portable mass spectrometers, miniaturized instruments, ion trap technology, time-of-flight MS, membrane inlet mass spectrometry (MIMS), MALDI-TOF, quadrupole mass filters, coded aperture design, chemical warfare agent detection, planetary surface analysis, spacecraft atmosphere monitoring, underwater dissolved gas analysis, differential mobility spectrometry, field-deployable GC-MS
-
-## Content Types
-- Technical presentations (PDF slides)
-- Extended abstracts (PDF)
-- Poster session materials
-- Student award presentations
-- Corporate sponsor directory
-- Workshop programs and participant lists
-
-## Contact
-- Website: https://www.hems-workshop.org
-- Archive: https://www.hems-workshop.org/archive
+## Core Scientific & Engineering Domains
+Portable mass spectrometers, miniaturized mass analyzers, rectilinear and cylindrical ion traps, time-of-flight MS (TOF-MS), cycloidal and magnetic sector analyzers, Orbitrap spaceflight concepts, membrane inlet mass spectrometry (MIMS), miniature turbomolecular and diaphragm vacuum pumps, planetary exploration (Mars, Titan Dragonfly DraMS, Europa, lunar volatiles), autonomous underwater vehicle (AUV) and deep-sea hydrothermal vent sensing, volcanic plume UAV sampling, CBRNE defense and homeland security trace detection, environmental VOC monitoring, and harsh-environment industrial process control.

@@ -118,6 +118,9 @@ export default function CorporateSponsorshipClient() {
             <img
               src="/hemslogo.jpg"
               alt="HEMS Society Official Logo"
+              width={96}
+              height={96}
+              decoding="async"
               className="w-24 h-24 object-contain rounded-xl mix-blend-multiply bg-white p-1.5"
             />
             <span className="text-[11px] font-mono text-slate-500 mt-1.5">Industry Partnership</span>
@@ -166,6 +169,9 @@ export default function CorporateSponsorshipClient() {
                 <img
                   src="/images/gallery/sponsor-exhibit-smiles-2015.jpg"
                   alt="Smiling workshop participants conversing in front of an on-site corporate sponsor hardware and literature tabletop booth"
+                  width={4928}
+                  height={3264}
+                  decoding="async"
                   className="w-full aspect-[3/2] object-cover"
                   loading="lazy"
                 />
@@ -429,6 +435,9 @@ export default function CorporateSponsorshipClient() {
                   <img
                     src={logoSrc}
                     alt={`${sponsor.company} logo`}
+                    width={160}
+                    height={48}
+                    decoding="async"
                     loading="lazy"
                     className="max-h-12 max-w-full object-contain"
                   />

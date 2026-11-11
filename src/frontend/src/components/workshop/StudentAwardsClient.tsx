@@ -80,6 +80,9 @@ export default function StudentAwardsClient() {
             <img
               src="/hemslogo.jpg"
               alt="HEMS Society Official Logo"
+              width={96}
+              height={96}
+              decoding="async"
               className="w-24 h-24 object-contain rounded-xl mix-blend-multiply bg-white p-1.5"
             />
             <span className="text-[11px] font-mono text-slate-500 mt-1.5">Emerging Investigators</span>
@@ -277,6 +280,9 @@ export default function StudentAwardsClient() {
               <img
                 src="/images/gallery/banquet-awards-applause-2019.jpg"
                 alt="Smiling HEMS Workshop attendees applauding and snapping photos during the evening awards banquet in Myrtle Beach"
+                width={4032}
+                height={3024}
+                decoding="async"
                 className="w-full aspect-[4/3] object-cover"
                 loading="lazy"
               />

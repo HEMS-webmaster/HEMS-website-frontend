@@ -154,6 +154,17 @@ Each workshop follows a 4-point protocol:
 
 ---
 
+### Phase 9: Website-Wide SEO, Scholarly Indexing & GEO Optimization [COMPLETED]
+*Detailed Architectural Plan:* [docs/plans/2026-11-11-seo-optimization-architecture.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-11-seo-optimization-architecture.md)
+
+1. [x] **Centralized SEO & Knowledge Graph Engine (`@dev`):** Implement [`src/frontend/src/utils/seo.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/utils/seo.ts) providing trailing-slash canonical metadata builders, OpenGraph/Twitter card defaults, `Organization`/`NGO` + `WebSite` Knowledge Graph JSON-LD, upcoming `Event` JSON-LD, and `BreadcrumbList` generators; wire into [`layout.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/layout.tsx) and [`manifest.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/manifest.ts).
+2. [x] **Brand v3.0.0 Social Share Assets (`@dev`):** Generate deterministic `1200×630` `opengraph-image.png` and `twitter-image.png` (plus `.alt.txt`) in `src/frontend/src/app/` so all routes—including locked `/archive/**` pages—emit `summary_large_image` social previews.
+3. [x] **Archive Event & ScholarlyArticle JSON-LD Repair (`@dev`):** Upgrade [`generateArchiveJsonLd.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/utils/generateArchiveJsonLd.ts) to parse en-dash (`–`) and yearless workshop dates (`15/15` valid ISO `startDate`/`endDate`), fix `"False"` string -> boolean `false`, and enrich `Event` + `ScholarlyArticle` properties (`0` edits to `src/frontend/src/app/archive/**`).
+4. [x] **Sitemap, Robots, `llms.txt` & Private Route `noindex` (`@dev`):** Normalize all `27` public URLs to trailing slashes with `<lastmod>` in [`sitemap.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/sitemap.ts), harden [`robots.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/robots.ts), add `noindex, nofollow` layouts for `/auth`, `/admin`, `/board`, `/reviewer`, and overhaul [`public/llms.txt`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/public/llms.txt).
+5. [x] **Page-Level Metadata, `ContactClient` Split & Intrinsic Image Dimensions (`@dev`):** Extract [`ContactClient.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/workshop/ContactClient.tsx), apply unique canonical metadata + JSON-LD across all 11 non-archive public pages, fix `h2` -> `h3` hierarchy in [`formatting-guidelines/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/formatting-guidelines/page.tsx), and add explicit `width`/`height` image attributes.
+
+---
+
 ## Verification Plan
 
 ### Automated Tests

@@ -47,6 +47,9 @@ export default function CallForPapersClient() {
           <img
             src="/images/gallery/serpa-cycloidal-ion-trajectories.jpg"
             alt="Cycloidal mass analyzer spiral ion trajectory simulation from 15th HEMS Workshop proceedings"
+            width={1245}
+            height={1155}
+            decoding="async"
             className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
             loading="lazy"
           />
@@ -62,6 +65,9 @@ export default function CallForPapersClient() {
           <img
             src="/images/gallery/kibelka-aerosol-ms-cad-2025.jpg"
             alt="Exploded 3D CAD assembly of a compact aerosol-inlet portable mass spectrometer from 15th HEMS Workshop proceedings"
+            width={1103}
+            height={738}
+            decoding="async"
             className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
             loading="lazy"
           />
@@ -77,6 +83,9 @@ export default function CallForPapersClient() {
           <img
             src="/images/gallery/verbeck-urban-ms-heatmap-2019.jpg"
             alt="Real-time urban mobile mass spectrometry chemical plume map from 13th HEMS Workshop proceedings"
+            width={1143}
+            height={673}
+            decoding="async"
             className="w-24 h-20 object-cover rounded-lg border border-slate-100 shrink-0"
             loading="lazy"
           />

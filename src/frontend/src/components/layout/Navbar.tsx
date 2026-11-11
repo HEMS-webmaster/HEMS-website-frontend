@@ -96,6 +96,9 @@ export default function Navbar() {
               <img
                 src="/hemslogo.jpg"
                 alt="HEMS Society Emblem"
+                width={36}
+                height={36}
+                decoding="async"
                 className="w-full h-full object-contain mix-blend-multiply"
               />
             </div>

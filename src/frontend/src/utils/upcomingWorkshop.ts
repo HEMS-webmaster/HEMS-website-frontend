@@ -238,3 +238,7 @@ export function parseWorkshopSheetCsv(
   };
 }
 
+export function getStaticUpcomingWorkshop(): UpcomingWorkshopConfig {
+  return DEFAULT_UPCOMING_WORKSHOP;
+}
+
