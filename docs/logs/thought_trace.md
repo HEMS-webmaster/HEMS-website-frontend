@@ -1315,3 +1315,17 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Remove the `Abstract Guidelines` `<section>`, the `Manuscript Formatting` card, and the `Submission Window Status` card while preserving `Submission Scope`, `Core Research Areas`, `Key Submission Dates`, and the bottom `Previous Years • Archival Examples` section.
   3. Update header subtitle from "Abstract submission guidelines and core research areas..." to "Technical submission scope and core research areas..." so copy matches the visible page sections.
 - **Verification:** Kill `next dev`, run `npm --prefix src/frontend run build`, commit on `main`, and restart `next dev`.
+
+
+## [2026-11-12T12:32:00-07:00] @ms (@sme2) / @brand / @arch / @dev — Calibrated NIST 70 eV EI Front-Page Mass Spectrum Upgrade
+- **Request (`@bo`):** `@ms` review the front-page mass spectrum and make it highly accurate and professionally produced; `@brand` make it look amazing.
+- **Scientific Audit (`@ms` / `@sme2`):**
+  - Identified 8 scientific defects in the legacy inline `IN_SITU_SPECTRUM_PEAKS` stick chart (`src/frontend/src/app/page.tsx`):
+    1. Unphysical $^{15}\text{N}/^{13}\text{C}$ isotopologue heights ($m/z\ 29 = 8\%$ vs. NIST $0.73\%$; $m/z\ 45 = 9\%$ vs. NIST $1.19\%$; $m/z\ 66 = 5\%$ vs. $2.5\%$).
+    2. Missing mandatory 70 eV EI atomic & doubly-charged ions: $m/z\ 14$ ($\text{N}^+ + \text{CH}_2^{\bullet +}$), $m/z\ 12$ ($\text{C}^{\bullet +}$), $m/z\ 20$ ($^{40}\text{Ar}^{2+}$), $m/z\ 22$ ($\text{CO}_2^{2+}$), and $m/z\ 2$ ($\text{H}_2^{\bullet +}$).
+    3. Broken sulfur chemistry: $m/z\ 34 = 18\%$ ($\text{H}_2\text{S}^{\bullet +}$) lacked its mandatory $m/z\ 33$ ($\text{HS}^+$, $42\%$ of $m/z\ 34$) fragment.
+    4. Broken BTEX aromatic cracking: $m/z\ 91$ ($\text{C}_7\text{H}_7^+$ tropylium) appeared with $0\%$ molecular ion at $m/z\ 92$ ($\text{C}_7\text{H}_8^{\bullet +}$, NIST $68.4\%$ of $m/z\ 91$), and $m/z\ 78$ ($\text{C}_6\text{H}_6^{\bullet +}$) lacked $m/z\ 77, 52, 51, 50, 39$ ring-cleavage fragments.
+  - Solution: Forward-calculate linear superpositions $I(m/z) = \sum_k c_k S_k^{\text{NIST}}(m/z)$ directly from NIST Chemistry WebBook 70 eV EI reference fragmentation patterns + IUPAC natural isotopic abundances across three signature HEMS field regimes (`Subsea Vent MIMS`, `Volcanic Plume QMS`, `Planetary Probe QMS`), rendered with both a continuous unit-resolution quadrupole Gaussian profile ($\Delta m_{\text{FWHM}} = 0.42\text{ Da}$) and crisp `butt`-capped centroid sticks.
+- **Visual & Brand Design (`@brand` — Brand Guide v3.1.0):**
+  - Strictly adhere to Alabaster Paper (`#FAFBFD`), Specimen White (`#FFFFFF`), Oceanic Sapphire (`#0369A1`), Instrumentation Teal (`#0F766E`), Oxford Ink (`#0F172A`), and `Noto Sans` `tabular-nums` + italic `Source Serif 4` (*m/z*) — zero `font-mono` and zero sci-fi HUD tropes.
+  - Expand headroom to `118%` inside a full calibrated analytical frame (`m/z 0–100` major ticks every `10 Da`, minor ticks every `2 Da` & `5 Da`), add `<tspan>` chemical subscripts/superscripts with `paintOrder="stroke"` haloing and verified zero-collision leader hairlines, expose on mobile as well as desktop, and provide a constant-height (`CLS = 0`) interactive ion-assignment readout bar on hover/tap.

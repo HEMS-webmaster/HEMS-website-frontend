@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import UpcomingHeroBadge from "@/components/workshop/UpcomingHeroBadge";
 import UpcomingWorkshopSpotlight from "@/components/workshop/UpcomingWorkshopSpotlight";
+import HeroMassSpectrum from "@/components/home/HeroMassSpectrum";
 import { getStaticUpcomingWorkshop } from "@/utils/upcomingWorkshop";
 import {
   buildPageMetadata,
@@ -30,35 +31,6 @@ export const metadata: Metadata = buildPageMetadata({
     "miniature mass spectrometer",
   ],
 });
-
-interface SpectrumPeak {
-  mz: number;
-  abundance: number; // 0..100
-  label?: string;
-  accent?: "primary" | "secondary" | "neutral";
-}
-
-// Authentic EI mass spectrum profile representative of hydrothermal / volcanic / planetary volatiles (m/z 1–100)
-const IN_SITU_SPECTRUM_PEAKS: SpectrumPeak[] = [
-  { mz: 4, abundance: 10 },
-  { mz: 15, abundance: 31 },
-  { mz: 16, abundance: 38, label: "16 CH₄⁺", accent: "neutral" },
-  { mz: 17, abundance: 15 },
-  { mz: 18, abundance: 64, label: "18 H₂O⁺", accent: "primary" },
-  { mz: 28, abundance: 100, label: "28 N₂⁺", accent: "primary" },
-  { mz: 29, abundance: 8 },
-  { mz: 32, abundance: 46, label: "32 O₂⁺", accent: "neutral" },
-  { mz: 34, abundance: 18 },
-  { mz: 40, abundance: 29, label: "40 Ar⁺", accent: "neutral" },
-  { mz: 44, abundance: 78, label: "44 CO₂⁺", accent: "secondary" },
-  { mz: 45, abundance: 9 },
-  { mz: 48, abundance: 25 }, // SO+ fragment of SO2
-  { mz: 64, abundance: 52, label: "64 SO₂⁺", accent: "secondary" },
-  { mz: 66, abundance: 5 },
-  { mz: 78, abundance: 22, label: "78 C₆H₆⁺", accent: "neutral" },
-  { mz: 84, abundance: 9 },
-  { mz: 91, abundance: 13 },
-];
 
 const CHARTER_PILLARS = [
   {
@@ -217,171 +189,13 @@ export default function Home() {
 
             {/* Right Analytical Specimen & 2027 Dossier Card (5 Columns) */}
             <div className="lg:col-span-5">
-              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-6 shadow-sm md:space-y-4">
-                {/* Analytical Header (Tablet/Desktop) */}
-                <div className="hidden md:flex items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                  <div className="min-w-0">
-                    <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-slate-400 block">
-                      In-Situ Volatile Profile • EI 70 eV
-                    </span>
-                    <span className="text-xs font-semibold text-slate-800">
-                      Field-Deployed Spectral Signature (<em>m/z</em> 1–100)
-                    </span>
-                  </div>
-                  <span className="tabular-nums text-[10.5px] px-2 py-0.5 rounded bg-teal-50 text-secondary border border-teal-200/70 font-semibold shrink-0 whitespace-nowrap">
-                    10⁻⁶ Torr
-                  </span>
-                </div>
-
-                {/* Calibrated SVG Mass Spectrum (Tablet/Desktop) */}
-                <div className="hidden md:block bg-[#FAFBFD] border border-slate-100 rounded-xl p-3">
-                  <svg
-                    viewBox="0 0 420 176"
-                    className="w-full h-auto overflow-visible"
-                    role="img"
-                    aria-label="Calibrated harsh-environment electron ionization mass spectrum from m/z 1 to 100 showing CH4, H2O, N2, O2, Ar, CO2, SO2, and VOC peaks"
-                  >
-                    {/* Horizontal Relative Abundance Gridlines (25%, 50%, 75%, 100%) */}
-                    {[33, 66, 99, 132].map((y, idx) => (
-                      <line
-                        key={idx}
-                        x1="34"
-                        y1={y}
-                        x2="406"
-                        y2={y}
-                        stroke="#E2E8F0"
-                        strokeWidth="0.75"
-                        strokeDasharray={idx === 3 ? undefined : "2 3"}
-                      />
-                    ))}
-
-                    {/* Y-Axis Label */}
-                    <text
-                      x="10"
-                      y="85"
-                      transform="rotate(-90 10 85)"
-                      className="fill-slate-400"
-                      fontSize="8.5"
-                      fontFamily="var(--font-noto-sans), system-ui, sans-serif"
-                      textAnchor="middle"
-                    >
-                      Rel. Intensity (%)
-                    </text>
-                    <text
-                      x="28"
-                      y="36"
-                      className="fill-slate-400"
-                      fontSize="8"
-                      fontFamily="var(--font-noto-sans), system-ui, sans-serif"
-                      textAnchor="end"
-                    >
-                      100
-                    </text>
-                    <text
-                      x="28"
-                      y="86"
-                      className="fill-slate-400"
-                      fontSize="8"
-                      fontFamily="var(--font-noto-sans), system-ui, sans-serif"
-                      textAnchor="end"
-                    >
-                      50
-                    </text>
-                    <text
-                      x="28"
-                      y="135"
-                      className="fill-slate-400"
-                      fontSize="8"
-                      fontFamily="var(--font-noto-sans), system-ui, sans-serif"
-                      textAnchor="end"
-                    >
-                      0
-                    </text>
-
-                    {/* Baseline X-Axis (y = 132, m/z 0..100 mapped across x = 34..406) */}
-                    <line x1="34" y1="132" x2="406" y2="132" stroke="#94A3B8" strokeWidth="1" />
-
-                    {/* X-Axis Ticks & m/z Labels */}
-                    {[0, 20, 40, 60, 80, 100].map((mzTick) => {
-                      const x = 34 + (mzTick / 100) * 372;
-                      return (
-                        <g key={mzTick}>
-                          <line x1={x} y1="132" x2={x} y2="136" stroke="#94A3B8" strokeWidth="1" />
-                          <text
-                            x={x}
-                            y="147"
-                            className="fill-slate-500"
-                            fontSize="8.5"
-                            fontFamily="var(--font-noto-sans), system-ui, sans-serif"
-                            textAnchor="middle"
-                          >
-                            {mzTick}
-                          </text>
-                        </g>
-                      );
-                    })}
-                    <text
-                      x="220"
-                      y="164"
-                      className="fill-slate-500"
-                      fontSize="9"
-                      fontStyle="italic"
-                      fontFamily="var(--font-source-serif), serif"
-                      textAnchor="middle"
-                    >
-                      Mass-to-Charge Ratio (m/z)
-                    </text>
-
-                    {/* Ion Peaks */}
-                    {IN_SITU_SPECTRUM_PEAKS.map((peak) => {
-                      const x = 34 + (peak.mz / 100) * 372;
-                      const peakHeight = (peak.abundance / 100) * 99;
-                      const yTop = 132 - peakHeight;
-                      const strokeColor =
-                        peak.accent === "primary"
-                          ? "#0369A1"
-                          : peak.accent === "secondary"
-                          ? "#0F766E"
-                          : "#64748B";
-                      const labelColor =
-                        peak.accent === "primary"
-                          ? "#0369A1"
-                          : peak.accent === "secondary"
-                          ? "#0F766E"
-                          : "#475569";
-
-                      return (
-                        <g key={peak.mz}>
-                          <line
-                            x1={x}
-                            y1={132}
-                            x2={x}
-                            y2={yTop}
-                            stroke={strokeColor}
-                            strokeWidth={peak.abundance >= 45 ? "2.1" : "1.5"}
-                            strokeLinecap="round"
-                          />
-                          {peak.label && (
-                            <text
-                              x={x}
-                              y={Math.max(15, yTop - 5)}
-                              fill={labelColor}
-                              fontSize="8"
-                              fontWeight="600"
-                              fontFamily="var(--font-noto-sans), system-ui, sans-serif"
-                              textAnchor="middle"
-                            >
-                              {peak.label}
-                            </text>
-                          )}
-                        </g>
-                      );
-                    })}
-                  </svg>
-                </div>
+              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
+                <HeroMassSpectrum />
 
                 {/* Live-Hydrated 16th Workshop Dossier */}
-                <UpcomingWorkshopSpotlight />
+                <div className="pt-3.5 border-t border-slate-100 md:pt-0 md:border-t-0">
+                  <UpcomingWorkshopSpotlight />
+                </div>
               </div>
             </div>
           </div>
