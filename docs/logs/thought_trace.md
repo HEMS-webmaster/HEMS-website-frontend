@@ -1329,3 +1329,14 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 - **Visual & Brand Design (`@brand` — Brand Guide v3.1.0):**
   - Strictly adhere to Alabaster Paper (`#FAFBFD`), Specimen White (`#FFFFFF`), Oceanic Sapphire (`#0369A1`), Instrumentation Teal (`#0F766E`), Oxford Ink (`#0F172A`), and `Noto Sans` `tabular-nums` + italic `Source Serif 4` (*m/z*) — zero `font-mono` and zero sci-fi HUD tropes.
   - Expand headroom to `118%` inside a full calibrated analytical frame (`m/z 0–100` major ticks every `10 Da`, minor ticks every `2 Da` & `5 Da`), add `<tspan>` chemical subscripts/superscripts with `paintOrder="stroke"` haloing and verified zero-collision leader hairlines, expose on mobile as well as desktop, and provide a constant-height (`CLS = 0`) interactive ion-assignment readout bar on hover/tap.
+
+
+## [2026-11-12T12:47:15-07:00] @prod / @brand / @arch / @dev — Tidy `/about` Layout & Audit Against `mission-statementV1.md`
+- **Request (`@bo`):** Tidy up the `/about` page layout, compare the Mission Statement and Core Objectives against `docs/source-documents/mission-statementV1.md`, highlight any differences, and suggest conceptual/wordcrafting improvements.
+- **Comparison Findings (`about/page.tsx` vs. `mission-statementV1.md`):**
+  1. Verbatim match on all Mission Statement prose and all 5 Objective titles & descriptions.
+  2. Differences in framing: `/about` renamed headings (`Our Mission`, `Core Strategic Objectives`), wrapped the Society's own mission in third-party quotation marks, and attributed corporate governance solely to a "rotating volunteer Organizing Committee" rather than the 501(c)(3) Board of Directors + Workshop Organizing Committee.
+- **Layout Defects Fixed (`about/page.tsx`):**
+  1. `group-photo-2025.jpg` (`1029 × 1600` portrait) rendered full-column width (`~750–1,088 px` tall) opposite a short 2-sentence mission, creating `>500 px` of blank vertical void; constrained portrait container (`max-w-[380px]`) without cropping any attendees and paired the left column with a 2×2 Institutional Snapshot ledger so left and right columns align cleanly.
+  2. Separated the 2013 Don CeSar dinner photo out of slot #6 of the 5-item Objectives grid into Section 3 (`Community & Heritage`), formatting the 5 Objectives in a clean 6-column symmetrical bento grid (`3` × `col-span-2` + `2` × `col-span-3`).
+  3. Resized header society seal from `w-28` (`112px`) to `w-16` (`64px`) per `brand-guidelines.md` §4.2 (`56px–72px`), aligned headings to `Mission Statement` and `Core Objectives`, and preserved verbatim `mission-statementV1.md` text pending `@bo` approval of proposed V2 copy refinements.
