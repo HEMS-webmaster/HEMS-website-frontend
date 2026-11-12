@@ -1372,3 +1372,10 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Author `docs/source-documents/historyV2.md` resolving the 2007 vs. 2008 incorporation timeline, accounting for all 15 workshops (`2011 & 2013` St. Pete Beach consecutive workshops, `2018` Cologne European milestone, `2022` & `2025` post-pandemic schedule, and forward-looking `2027` cadence), expanding `WS`/`WSs` shorthand, fixing `biannual` -> `biennial` and duplicated `the member of`, adding Student Travel Awards & open-access archive stewardship, and upgrading tentative *"It was hoped..."* phrasing in `Summary` to 25+ years of realized community impact—followed by a complete item-by-item `V1 -> V2` changelog.
   3. Synchronize `src/frontend/src/app/history/page.tsx` (`@dev`) word-for-word with `historyV2.md`.
   4. Verify via `npm --prefix src/frontend run build` (`@qa`), commit on `main`, and restart `next dev` (`@ops`).
+
+
+## [2026-11-12T13:10:30-07:00] @dev — Remove Student Travel Awards from Top Navbar & Restore Persistent Sign In Button
+- **Request (`@bo`):** Remove `Student Travel Awards` from the top navbar and ensure the `Sign In` button is always visible on the navbar when not logged in.
+- **Root Cause & Fix (`Navbar.tsx`):**
+  1. Remove `{ href: "/student-awards", label: "Student Travel Awards" }` from `PRIMARY_LINKS` (keeping it inside `WORKSHOP_PORTAL_SUBLINKS` and adding `/student-awards` to `isWorkshopRoute` so `2027 Workshop` highlights when visiting `/student-awards`).
+  2. Previously `Navbar.tsx` rendered auth controls inside `{!loading && user && (...)}` with no `!user` fallback, causing the Sign In button to disappear whenever signed out (and during SSR/auth hydration). Replaced with an always-present auth slot rendering `<Link href="/auth">Sign In</Link>` whenever `!user` (on both desktop top bar and mobile/tablet drawer) and swapping to the role badge + `Sign Out` button when `user` is authenticated.
