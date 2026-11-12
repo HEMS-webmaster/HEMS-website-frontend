@@ -311,11 +311,37 @@ export function auditCampaignDeliverability(
 }
 
 /**
- * Parses a standard Mailchimp Audience CSV export (Subscribed, Unsubscribed, or Cleaned/Bounced).
+ * Cleans and normalizes a Board custom sublist / tag label while preserving readable casing
+ * (e.g., "Board Members", "2025 Attendees", "2025 Corporate Sponsors").
+ */
+export function normalizeSublistTag(raw: string): string {
+  return raw
+    .replace(/^sublist:/i, "")
+    .replace(/[;,]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 60);
+}
+
+export function formatSegmentDisplayName(segment: string): string {
+  if (segment === "all") return "All Active Subscribed";
+  if (segment === "workshop") return "Topic: Biennial Workshop";
+  if (segment === "student_awards") return "Topic: Student Travel Awards";
+  if (segment === "sponsorship") return "Topic: Corporate Sponsorship";
+  if (segment.startsWith("sublist:")) {
+    return `Sublist: ${segment.slice("sublist:".length)}`;
+  }
+  return segment;
+}
+
+/**
+ * Parses a standard Mailchimp Audience CSV export (Subscribed, Unsubscribed, or Cleaned/Bounced)
+ * or any committee CSV (Attendees, Presenters, Corporate Sponsors, Board Members).
  */
 export function parseMailchimpCsvExport(
   csvText: string,
-  defaultStatusOverride: "auto" | SubscriberStatus = "auto"
+  defaultStatusOverride: "auto" | SubscriberStatus = "auto",
+  assignSublistTag = ""
 ): MailchimpParsedRow[] {
   const rows = parseCsvRows(csvText);
   if (rows.length < 2) return [];
@@ -337,10 +363,18 @@ export function parseMailchimpCsvExport(
     "institute",
     "university",
   ]);
-  const tagsIdx = findCol(["tags", "groups", "interests"]);
+  const tagsIdx = findCol(["sublists", "sublist", "tags", "groups", "interests"]);
   const statusIdx = findCol(["status", "member status", "unsub_reason", "clean_time", "unsub_time"]);
   const unsubTimeIdx = headers.findIndex((h) => h.includes("unsub"));
   const cleanTimeIdx = headers.findIndex((h) => h.includes("clean") || h.includes("bounce"));
+
+  const cleanBatchTag = normalizeSublistTag(assignSublistTag);
+  const builtInTopicNames = new Set([
+    "workshop",
+    "student_awards",
+    "student awards",
+    "sponsorship",
+  ]);
 
   const parsed: MailchimpParsedRow[] = [];
 
@@ -353,7 +387,8 @@ export function parseMailchimpCsvExport(
     const firstName = firstIdx >= 0 ? (row[firstIdx] || "").trim() : "";
     const lastName = lastIdx >= 0 ? (row[lastIdx] || "").trim() : "";
     const affiliation = orgIdx >= 0 ? (row[orgIdx] || "").trim() : "";
-    const rawTags = tagsIdx >= 0 ? (row[tagsIdx] || "").toLowerCase() : "";
+    const rawTagsCell = tagsIdx >= 0 ? (row[tagsIdx] || "").trim() : "";
+    const rawTags = rawTagsCell.toLowerCase();
 
     const interests: MailingInterest[] = ["workshop"];
     if (rawTags.includes("student") || rawTags.includes("award")) {
@@ -361,6 +396,23 @@ export function parseMailchimpCsvExport(
     }
     if (rawTags.includes("sponsor") || rawTags.includes("exhibitor") || rawTags.includes("corporate")) {
       interests.push("sponsorship");
+    }
+
+    const rowSublistsSet = new Set<string>();
+    if (cleanBatchTag) {
+      rowSublistsSet.add(cleanBatchTag);
+    }
+    if (rawTagsCell) {
+      const splitTokens = rawTagsCell
+        .replace(/^"+|"+$/g, "")
+        .split(/[;,]/)
+        .map((t) => normalizeSublistTag(t.replace(/^"+|"+$/g, "")))
+        .filter(Boolean);
+      for (const tok of splitTokens) {
+        if (!builtInTopicNames.has(tok.toLowerCase())) {
+          rowSublistsSet.add(tok);
+        }
+      }
     }
 
     let status: SubscriberStatus = "active";
@@ -386,6 +438,7 @@ export function parseMailchimpCsvExport(
       lastName,
       affiliation,
       interests,
+      sublists: Array.from(rowSublistsSet),
       status,
     });
   }

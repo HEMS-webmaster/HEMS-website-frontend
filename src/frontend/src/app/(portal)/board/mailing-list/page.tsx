@@ -15,6 +15,10 @@ import {
   RefreshCw,
   Send,
   Trash2,
+  Info,
+  Tags,
+  Plus,
+  X,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useMailingAdmin } from "@/hooks/useMailingAdmin";
@@ -23,7 +27,21 @@ import {
   MailingSubscriber,
   SubscriberStatus,
 } from "@/types/mailing";
-import { parseMailchimpCsvExport } from "@/utils/mailingTemplate";
+import {
+  normalizeSublistTag,
+  parseMailchimpCsvExport,
+} from "@/utils/mailingTemplate";
+import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
+
+const SUGGESTED_SUBLIST_PRESETS = [
+  "Board Members",
+  "2025 Attendees",
+  "2025 Presenters",
+  "2025 Corporate Sponsors",
+  "2027 Attendees",
+  "2027 Presenters",
+  "2027 Corporate Sponsors",
+];
 
 const STATUS_BADGE: Record<
   SubscriberStatus,
@@ -51,6 +69,8 @@ const STATUS_BADGE: Record<
   },
 };
 
+type CohortViewFilter = "all_records" | "all_active" | `sublist:${string}`;
+
 export default function BoardMailingListPage() {
   const { user, loading } = useAuth();
   const isAuthorized = Boolean(
@@ -59,9 +79,15 @@ export default function BoardMailingListPage() {
 
   const {
     subscribers,
+    availableSublists,
+    isLiveFirestore,
     pendingRequests,
     loadingData,
     errorMessage,
+    createSublist,
+    deleteSublist,
+    updateSubscriberSublists,
+    bulkModifySublists,
     upsertSubscriber,
     updateSubscriberStatus,
     removeSubscriber,
@@ -69,10 +95,22 @@ export default function BoardMailingListPage() {
     applyPendingPublicRequests,
   } = useMailingAdmin(isAuthorized);
 
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | SubscriberStatus>("all");
+  const [cohortFilter, setCohortFilter] = useState<CohortViewFilter>("all_records");
+
+  // Sublist creation & bulk tagging state
+  const [newSublistInput, setNewSublistInput] = useState("");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkTagInput, setBulkTagInput] = useState("");
+  const [bulkBusy, setBulkBusy] = useState(false);
+
+  // CSV importer state
   const [importMode, setImportMode] = useState<"auto" | SubscriberStatus>("auto");
+  const [importSublistTag, setImportSublistTag] = useState("");
   const [importing, setImporting] = useState(false);
+
   const [feedbackBanner, setFeedbackBanner] = useState("");
   const [actionError, setActionError] = useState("");
 
@@ -83,6 +121,7 @@ export default function BoardMailingListPage() {
   const [newLast, setNewLast] = useState("");
   const [newAffiliation, setNewAffiliation] = useState("");
   const [newInterests, setNewInterests] = useState<MailingInterest[]>(["workshop"]);
+  const [newSublists, setNewSublists] = useState<string[]>([]);
 
   const counts = useMemo(() => {
     let active = 0;
@@ -98,19 +137,60 @@ export default function BoardMailingListPage() {
     return { active, pending, unsubscribed, bounced, total: subscribers.length };
   }, [subscribers]);
 
+  const sublistStats = useMemo(() => {
+    const stats = new Map<string, { total: number; active: number }>();
+    for (const tag of availableSublists) {
+      stats.set(tag, { total: 0, active: 0 });
+    }
+    for (const sub of subscribers) {
+      for (const rawTag of sub.sublists) {
+        const canonical =
+          availableSublists.find((t) => t.toLowerCase() === rawTag.toLowerCase()) ||
+          rawTag;
+        const curr = stats.get(canonical) || { total: 0, active: 0 };
+        curr.total += 1;
+        if (sub.status === "active") curr.active += 1;
+        stats.set(canonical, curr);
+      }
+    }
+    return stats;
+  }, [availableSublists, subscribers]);
+
+  const unusedPresets = useMemo(() => {
+    const existingLower = new Set(availableSublists.map((t) => t.toLowerCase()));
+    return SUGGESTED_SUBLIST_PRESETS.filter(
+      (p) => !existingLower.has(p.toLowerCase())
+    );
+  }, [availableSublists]);
+
   const filteredSubscribers = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return subscribers.filter((s) => {
+      if (cohortFilter === "all_active" && s.status !== "active") return false;
+      if (cohortFilter.startsWith("sublist:")) {
+        const target = cohortFilter.slice("sublist:".length).toLowerCase();
+        if (!s.sublists.some((t) => t.toLowerCase() === target)) return false;
+      }
       if (statusFilter !== "all" && s.status !== statusFilter) return false;
       if (!q) return true;
       return (
         s.email.toLowerCase().includes(q) ||
         s.firstName.toLowerCase().includes(q) ||
         s.lastName.toLowerCase().includes(q) ||
-        s.affiliation.toLowerCase().includes(q)
+        s.affiliation.toLowerCase().includes(q) ||
+        s.sublists.some((t) => t.toLowerCase().includes(q))
       );
     });
-  }, [subscribers, searchQuery, statusFilter]);
+  }, [subscribers, searchQuery, statusFilter, cohortFilter]);
+
+  const visibleRows = useMemo(
+    () => filteredSubscribers.slice(0, 250),
+    [filteredSubscribers]
+  );
+
+  const allFilteredSelected =
+    filteredSubscribers.length > 0 &&
+    filteredSubscribers.every((s) => selectedIds.has(s.id));
 
   if (loading) {
     return (
@@ -141,6 +221,110 @@ export default function BoardMailingListPage() {
     );
   }
 
+  const handleCreateSublist = async (rawName: string) => {
+    setActionError("");
+    setFeedbackBanner("");
+    try {
+      const created = await createSublist(rawName);
+      setNewSublistInput("");
+      setBulkTagInput(created);
+      setFeedbackBanner(`Sublist "${created}" is ready. Assign it via table checkboxes, inline "+ Tag", or CSV upload.`);
+    } catch (err: unknown) {
+      setActionError(err instanceof Error ? err.message : "Could not create sublist.");
+    }
+  };
+
+  const handleDeleteSublist = async (tag: string) => {
+    if (
+      typeof window !== "undefined" &&
+      !window.confirm(
+        `Remove sublist tag "${tag}" from the catalog and unassign it from subscribers? (Subscriber records themselves will NOT be deleted.)`
+      )
+    ) {
+      return;
+    }
+    setActionError("");
+    setFeedbackBanner("");
+    try {
+      await deleteSublist(tag);
+      if (cohortFilter === `sublist:${tag}`) {
+        setCohortFilter("all_records");
+      }
+      setFeedbackBanner(`Removed sublist tag "${tag}".`);
+    } catch (err: unknown) {
+      setActionError(err instanceof Error ? err.message : "Unable to remove sublist.");
+    }
+  };
+
+  const toggleSelectRow = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAllFiltered = () => {
+    if (allFilteredSelected) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filteredSubscribers.map((s) => s.id)));
+    }
+  };
+
+  const handleBulkTagAction = async (mode: "add" | "remove") => {
+    const cleanTag = normalizeSublistTag(bulkTagInput);
+    if (!cleanTag) {
+      setActionError("Select or type a sublist/tag name first.");
+      return;
+    }
+    if (selectedIds.size === 0) return;
+
+    setActionError("");
+    setFeedbackBanner("");
+    setBulkBusy(true);
+    try {
+      const changed = await bulkModifySublists(
+        Array.from(selectedIds),
+        cleanTag,
+        mode
+      );
+      setFeedbackBanner(
+        mode === "add"
+          ? `Added sublist "${cleanTag}" to ${changed} subscriber(s) (${selectedIds.size} selected).`
+          : `Removed sublist "${cleanTag}" from ${changed} subscriber(s).`
+      );
+      setSelectedIds(new Set());
+    } catch (err: unknown) {
+      setActionError(err instanceof Error ? err.message : "Bulk tag update failed.");
+    } finally {
+      setBulkBusy(false);
+    }
+  };
+
+  const handleInlineAddTag = async (sub: MailingSubscriber, tag: string) => {
+    if (!tag) return;
+    setActionError("");
+    try {
+      await updateSubscriberSublists(sub, [...sub.sublists, tag]);
+    } catch (err: unknown) {
+      setActionError(err instanceof Error ? err.message : "Unable to add tag.");
+    }
+  };
+
+  const handleInlineRemoveTag = async (sub: MailingSubscriber, tag: string) => {
+    setActionError("");
+    try {
+      await updateSubscriberSublists(
+        sub,
+        sub.sublists.filter((t) => t.toLowerCase() !== tag.toLowerCase())
+      );
+    } catch (err: unknown) {
+      setActionError(err instanceof Error ? err.message : "Unable to remove tag.");
+    }
+  };
+
   const handleCsvUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -149,15 +333,18 @@ export default function BoardMailingListPage() {
     setImporting(true);
     try {
       const csvText = await file.text();
-      const rows = parseMailchimpCsvExport(csvText, importMode);
+      const rows = parseMailchimpCsvExport(csvText, importMode, importSublistTag);
       if (rows.length === 0) {
         throw new Error(
           "No valid email rows found. Verify the CSV includes an 'Email Address' or 'Email' header column."
         );
       }
       const summary = await importMailchimpRows(rows);
+      const tagNote = normalizeSublistTag(importSublistTag)
+        ? ` Assigned sublist "${normalizeSublistTag(importSublistTag)}".`
+        : "";
       setFeedbackBanner(
-        `Mailchimp CSV processed (${summary.totalParsed} rows): ${summary.importedActive} active, ${summary.importedSuppressed} suppressed (unsubscribed/bounced), ${summary.skippedProtected} protected opt-outs preserved.`
+        `CSV processed (${summary.totalParsed} rows): ${summary.importedActive} active, ${summary.importedSuppressed} suppressed (unsubscribed/bounced), ${summary.skippedProtected} protected opt-outs preserved.${tagNote}`
       );
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "CSV import failed.";
@@ -169,12 +356,18 @@ export default function BoardMailingListPage() {
   };
 
   const handleExportCsv = () => {
+    const exportSource =
+      cohortFilter === "all_records" && statusFilter === "all" && !searchQuery.trim()
+        ? subscribers
+        : filteredSubscribers;
+
     const header = [
       "Email Address",
       "First Name",
       "Last Name",
       "Affiliation",
       "Status",
+      "Sublists",
       "Topics",
       "Source",
       "Updated At",
@@ -182,14 +375,15 @@ export default function BoardMailingListPage() {
     const escapeCell = (v: string) => `"${v.replace(/"/g, '""')}"`;
     const lines = [
       header.join(","),
-      ...subscribers.map((s) =>
+      ...exportSource.map((s) =>
         [
           escapeCell(s.email),
           escapeCell(s.firstName),
           escapeCell(s.lastName),
           escapeCell(s.affiliation),
           escapeCell(s.status),
-          escapeCell(s.interests.join(";")),
+          escapeCell(s.sublists.join("; ")),
+          escapeCell(s.interests.join("; ")),
           escapeCell(s.source),
           escapeCell(s.updatedAt),
         ].join(",")
@@ -199,7 +393,12 @@ export default function BoardMailingListPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `hems-mailing-list-${new Date().toISOString().slice(0, 10)}.csv`;
+    const slug = cohortFilter.startsWith("sublist:")
+      ? `-${cohortFilter.slice("sublist:".length).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
+      : cohortFilter === "all_active"
+      ? "-active"
+      : "";
+    a.download = `hems-mailing-list${slug}-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -215,6 +414,7 @@ export default function BoardMailingListPage() {
         lastName: newLast,
         affiliation: newAffiliation,
         interests: newInterests,
+        sublists: newSublists,
         status: "active",
       });
       setFeedbackBanner(`Added/updated ${newEmail.trim().toLowerCase()} as Active.`);
@@ -222,6 +422,7 @@ export default function BoardMailingListPage() {
       setNewFirst("");
       setNewLast("");
       setNewAffiliation("");
+      setNewSublists([]);
       setShowAddForm(false);
     } catch (err: unknown) {
       setActionError(err instanceof Error ? err.message : "Unable to add subscriber.");
@@ -248,6 +449,12 @@ export default function BoardMailingListPage() {
     );
   };
 
+  const toggleNewSublistChoice = (tag: string) => {
+    setNewSublists((prev) =>
+      prev.includes(tag) ? prev.filter((x) => x !== tag) : [...prev, tag]
+    );
+  };
+
   const handleStatusChange = async (
     sub: MailingSubscriber,
     next: SubscriberStatus
@@ -260,29 +467,34 @@ export default function BoardMailingListPage() {
     }
   };
 
+  const composeHref = cohortFilter.startsWith("sublist:")
+    ? `/board/announcements?segment=${encodeURIComponent(cohortFilter)}`
+    : "/board/announcements";
+
   return (
     <div className="space-y-8 max-w-6xl mx-auto w-full min-w-0">
       {/* Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+      <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-1">
             Board Communications • Postmark Broadcast Hygiene
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 flex items-center gap-2.5">
-            <Users className="text-primary shrink-0" size={26} /> Mailing List &amp; Subscriber Hygiene
+            <Users className="text-primary shrink-0" size={26} /> Mailing List &amp; Sublists
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
-            Migrate Mailchimp exports, suppress hard bounces to protect <code className="text-xs bg-slate-100 px-1 py-0.5 rounded">hems-workshop.org</code> domain reputation, and manage subscriber preferences.
+            Manage master subscribers in Google Cloud Firestore (<code className="text-xs bg-slate-100 px-1 py-0.5 rounded">hems-workshop</code>), organize cohort sublists, and protect <code className="text-xs bg-slate-100 px-1 py-0.5 rounded">hems-workshop.org</code> sender reputation.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-          <Link
-            href="/board/announcements"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-white text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-colors shadow-2xs"
+          <button
+            type="button"
+            onClick={() => setInfoModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg bg-primary/5 border border-primary/25 text-primary text-xs sm:text-sm font-semibold hover:bg-primary/10 transition-colors cursor-pointer"
           >
-            <Send size={14} /> Compose Announcement
-          </Link>
+            <Info size={15} /> How Mailing &amp; Postmark Work
+          </button>
           <button
             type="button"
             onClick={handleExportCsv}
@@ -290,21 +502,46 @@ export default function BoardMailingListPage() {
           >
             <Download size={14} /> Export CSV
           </button>
+          <Link
+            href={composeHref}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-white text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-colors shadow-2xs"
+          >
+            <Send size={14} /> Compose Announcement
+          </Link>
         </div>
       </header>
 
       {/* Metrics Bar */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white border border-slate-200/95 rounded-xl p-4 shadow-2xs">
+        <button
+          type="button"
+          onClick={() => {
+            setCohortFilter("all_active");
+            setStatusFilter("all");
+          }}
+          className={`text-left bg-white border rounded-xl p-4 shadow-2xs transition-colors cursor-pointer ${
+            cohortFilter === "all_active"
+              ? "border-emerald-500 ring-2 ring-emerald-500/15"
+              : "border-slate-200/95 hover:border-emerald-300"
+          }`}
+        >
           <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
-            Active Confirmed
+            All Active Subscribed
           </span>
           <span className="text-2xl sm:text-3xl font-bold text-emerald-700 tabular-nums mt-1 block">
             {counts.active}
           </span>
           <span className="text-[11px] text-slate-500">Eligible for Postmark Broadcast</span>
-        </div>
-        <div className="bg-white border border-slate-200/95 rounded-xl p-4 shadow-2xs">
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setCohortFilter("all_records");
+            setStatusFilter("pending_opt_in");
+          }}
+          className="text-left bg-white border border-slate-200/95 hover:border-amber-300 rounded-xl p-4 shadow-2xs transition-colors cursor-pointer"
+        >
           <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
             Pending Opt-In
           </span>
@@ -312,8 +549,16 @@ export default function BoardMailingListPage() {
             {counts.pending}
           </span>
           <span className="text-[11px] text-slate-500">Awaiting inbox confirmation</span>
-        </div>
-        <div className="bg-white border border-slate-200/95 rounded-xl p-4 shadow-2xs">
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setCohortFilter("all_records");
+            setStatusFilter("unsubscribed");
+          }}
+          className="text-left bg-white border border-slate-200/95 hover:border-slate-300 rounded-xl p-4 shadow-2xs transition-colors cursor-pointer"
+        >
           <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
             Unsubscribed
           </span>
@@ -321,8 +566,16 @@ export default function BoardMailingListPage() {
             {counts.unsubscribed}
           </span>
           <span className="text-[11px] text-slate-500">Protected opt-out suppression</span>
-        </div>
-        <div className="bg-white border border-slate-200/95 rounded-xl p-4 shadow-2xs">
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setCohortFilter("all_records");
+            setStatusFilter("bounced");
+          }}
+          className="text-left bg-white border border-slate-200/95 hover:border-red-300 rounded-xl p-4 shadow-2xs transition-colors cursor-pointer"
+        >
           <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
             Bounced / Complained
           </span>
@@ -330,7 +583,7 @@ export default function BoardMailingListPage() {
             {counts.bounced}
           </span>
           <span className="text-[11px] text-slate-500">Auto-suppressed dead addresses</span>
-        </div>
+        </button>
       </div>
 
       {/* Pending Web Requests Notice (Preview / Static Fallback Sync) */}
@@ -363,20 +616,157 @@ export default function BoardMailingListPage() {
         </div>
       )}
 
-      {/* Mailchimp CSV Importer */}
+      {/* Sublists & Cohort Tags Manager */}
       <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="max-w-2xl">
+          <div>
             <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
-              <Upload size={18} className="text-primary shrink-0" /> Mailchimp Audience CSV Migration
+              <Tags size={18} className="text-primary shrink-0" /> Sublists &amp; Cohort Tags
             </h2>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              <strong>Deliverability Best Practice:</strong> Import Mailchimp&apos;s{" "}
-              <em>Unsubscribed</em> and <em>Cleaned (Bounced)</em> CSV files first (or alongside <em>Subscribed</em>). Suppressed records are permanently locked so dead <code className="text-[11px] bg-slate-100 px-1 rounded">.edu</code>/<code className="text-[11px] bg-slate-100 px-1 rounded">.gov</code> addresses and past opt-outs are never accidentally re-emailed.
+            <p className="text-xs text-slate-600 mt-0.5">
+              Click any sublist below to view its members, or create new cohorts (e.g., <em>Board Members</em>, <em>2025 Attendees</em>, <em>2025 Presenters</em>, <em>2025 Corporate Sponsors</em>) for targeted announcements.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              void handleCreateSublist(newSublistInput);
+            }}
+            className="flex items-center gap-2 shrink-0"
+          >
+            <input
+              type="text"
+              value={newSublistInput}
+              onChange={(e) => setNewSublistInput(e.target.value)}
+              placeholder="New sublist (e.g. 2025 Presenters)"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-primary w-56 sm:w-60"
+            />
+            <button
+              type="submit"
+              className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
+            >
+              <Plus size={14} /> Create Sublist
+            </button>
+          </form>
+        </div>
+
+        {/* Active Sublist Filter Pills */}
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          <button
+            type="button"
+            onClick={() => setCohortFilter("all_records")}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer tabular-nums ${
+              cohortFilter === "all_records"
+                ? "bg-slate-900 text-white border-slate-900"
+                : "bg-slate-50 text-slate-700 border-slate-200 hover:border-primary/40"
+            }`}
+          >
+            All Directory ({counts.total})
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setCohortFilter("all_active")}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer tabular-nums ${
+              cohortFilter === "all_active"
+                ? "bg-emerald-700 text-white border-emerald-700"
+                : "bg-emerald-50/70 text-emerald-800 border-emerald-200 hover:border-emerald-400"
+            }`}
+          >
+            All Active Subscribed ({counts.active})
+          </button>
+
+          {availableSublists.map((tag) => {
+            const stat = sublistStats.get(tag) || { total: 0, active: 0 };
+            const key: CohortViewFilter = `sublist:${tag}`;
+            const isSelected = cohortFilter === key;
+            return (
+              <div
+                key={tag}
+                className={`inline-flex items-center rounded-full border text-xs font-semibold transition-colors ${
+                  isSelected
+                    ? "bg-primary text-white border-primary"
+                    : "bg-white text-slate-700 border-slate-200 hover:border-primary/45"
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setCohortFilter(isSelected ? "all_records" : key)}
+                  className="pl-3 pr-2 py-1.5 cursor-pointer tabular-nums"
+                  title={`${stat.active} active / ${stat.total} total in "${tag}"`}
+                >
+                  {tag}{" "}
+                  <span className={isSelected ? "text-white/85" : "text-slate-400"}>
+                    ({stat.active})
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void handleDeleteSublist(tag)}
+                  aria-label={`Delete sublist ${tag}`}
+                  title={`Remove sublist "${tag}"`}
+                  className={`pr-2.5 pl-1 py-1.5 cursor-pointer transition-colors ${
+                    isSelected
+                      ? "text-white/75 hover:text-white"
+                      : "text-slate-300 hover:text-red-600"
+                  }`}
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* One-Click Suggested Presets */}
+        {unusedPresets.length > 0 && (
+          <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-100 text-[11px] text-slate-500">
+            <span className="font-semibold text-slate-600 mr-1">Quick-add preset:</span>
+            {unusedPresets.map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                onClick={() => void handleCreateSublist(preset)}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-50 hover:bg-primary/5 border border-dashed border-slate-300 hover:border-primary/40 text-slate-600 hover:text-primary font-medium transition-colors cursor-pointer"
+              >
+                <Plus size={11} /> {preset}
+              </button>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Mailchimp / Committee CSV Importer */}
+      <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-4">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          <div className="max-w-xl">
+            <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
+              <Upload size={18} className="text-primary shrink-0" /> CSV Import &amp; Sublist Tagging
+            </h2>
+            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+              Upload Mailchimp CSVs (<em>Subscribed</em>, <em>Unsubscribed</em>, <em>Cleaned</em>) or workshop rosters (e.g. 2025 Attendees/Presenters). Re-uploading an existing email merges your chosen sublist tag while <strong>permanently protecting</strong> unsubscribes and bounces.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 shrink-0">
+            <input
+              type="text"
+              list="hems-sublist-suggestions"
+              value={importSublistTag}
+              onChange={(e) => setImportSublistTag(e.target.value)}
+              placeholder="Tag uploaded rows (optional)"
+              aria-label="Optional sublist tag to assign to all rows in uploaded CSV"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-xs font-medium text-slate-800 focus:outline-none focus:border-primary sm:w-52"
+            />
+            <datalist id="hems-sublist-suggestions">
+              {Array.from(
+                new Set([...availableSublists, ...SUGGESTED_SUBLIST_PRESETS])
+              ).map((tag) => (
+                <option key={tag} value={tag} />
+              ))}
+            </datalist>
+
             <select
               aria-label="Mailchimp CSV import status mapping"
               value={importMode}
@@ -386,14 +776,14 @@ export default function BoardMailingListPage() {
               className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-xs font-medium text-slate-800 focus:outline-none focus:border-primary"
             >
               <option value="auto">Auto-detect status from CSV</option>
-              <option value="active">Import file as Active (Subscribed CSV)</option>
-              <option value="unsubscribed">Import file as Unsubscribed CSV</option>
-              <option value="bounced">Import file as Bounced / Cleaned CSV</option>
+              <option value="active">Import file as Active (Subscribed)</option>
+              <option value="unsubscribed">Import file as Unsubscribed</option>
+              <option value="bounced">Import file as Bounced / Cleaned</option>
             </select>
 
             <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer">
               <Upload size={14} />
-              <span>{importing ? "Importing..." : "Select Mailchimp CSV"}</span>
+              <span>{importing ? "Importing..." : "Upload CSV"}</span>
               <input
                 type="file"
                 accept=".csv,text/csv"
@@ -406,7 +796,7 @@ export default function BoardMailingListPage() {
         </div>
       </section>
 
-      {/* Directory Controls + Manual Add */}
+      {/* Directory Controls + Bulk Tagging + Table */}
       <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex flex-col sm:flex-row gap-3 flex-grow">
@@ -419,7 +809,7 @@ export default function BoardMailingListPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search email, name, or institution..."
+                placeholder="Search email, name, institution, or sublist..."
                 className="w-full pl-9 pr-3.5 py-2 bg-slate-50/70 border border-slate-200 rounded-lg text-base sm:text-xs text-slate-900 focus:outline-none focus:border-primary"
               />
             </div>
@@ -448,6 +838,51 @@ export default function BoardMailingListPage() {
             <UserPlus size={14} /> {showAddForm ? "Close Form" : "Add Subscriber"}
           </button>
         </div>
+
+        {/* Bulk Sublist Assignment Action Bar (Appears when >= 1 rows selected) */}
+        {selectedIds.size > 0 && (
+          <div className="p-3.5 rounded-xl bg-primary/5 border border-primary/25 flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div className="flex items-center gap-3 text-xs">
+              <span className="font-semibold text-primary tabular-nums">
+                {selectedIds.size} subscriber(s) selected
+              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedIds(new Set())}
+                className="text-slate-500 hover:text-slate-800 underline cursor-pointer"
+              >
+                Clear selection
+              </button>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                type="text"
+                list="hems-sublist-suggestions"
+                value={bulkTagInput}
+                onChange={(e) => setBulkTagInput(e.target.value)}
+                placeholder="Choose or type sublist..."
+                className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-primary w-52"
+              />
+              <button
+                type="button"
+                disabled={bulkBusy}
+                onClick={() => void handleBulkTagAction("add")}
+                className="px-3 py-1.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 disabled:opacity-50 cursor-pointer"
+              >
+                + Add Sublist
+              </button>
+              <button
+                type="button"
+                disabled={bulkBusy}
+                onClick={() => void handleBulkTagAction("remove")}
+                className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-100 disabled:opacity-50 cursor-pointer"
+              >
+                &minus; Remove Sublist
+              </button>
+            </div>
+          </div>
+        )}
 
         {showAddForm && (
           <form
@@ -485,32 +920,61 @@ export default function BoardMailingListPage() {
                 className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-base sm:text-xs"
               />
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex flex-wrap gap-2">
-                {(
-                  [
-                    ["workshop", "Workshop"],
-                    ["student_awards", "Student Awards"],
-                    ["sponsorship", "Sponsorship"],
-                  ] as Array<[MailingInterest, string]>
-                ).map(([id, label]) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => toggleNewInterest(id)}
-                    className={`px-2.5 py-1 rounded-full text-[11px] font-medium border cursor-pointer ${
-                      newInterests.includes(id)
-                        ? "bg-primary text-white border-primary"
-                        : "bg-white text-slate-600 border-slate-200"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[11px] font-semibold text-slate-500 mr-1">
+                    Topics:
+                  </span>
+                  {(
+                    [
+                      ["workshop", "Workshop"],
+                      ["student_awards", "Student Awards"],
+                      ["sponsorship", "Sponsorship"],
+                    ] as Array<[MailingInterest, string]>
+                  ).map(([id, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => toggleNewInterest(id)}
+                      className={`px-2.5 py-1 rounded-full text-[11px] font-medium border cursor-pointer ${
+                        newInterests.includes(id)
+                          ? "bg-primary text-white border-primary"
+                          : "bg-white text-slate-600 border-slate-200"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {availableSublists.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-[11px] font-semibold text-slate-500 mr-1">
+                      Sublists:
+                    </span>
+                    {availableSublists.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => toggleNewSublistChoice(tag)}
+                        className={`px-2.5 py-1 rounded-full text-[11px] font-medium border cursor-pointer ${
+                          newSublists.includes(tag)
+                            ? "bg-slate-900 text-white border-slate-900"
+                            : "bg-white text-slate-600 border-slate-200"
+                        }`}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
+
               <button
                 type="submit"
-                className="px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 cursor-pointer self-start sm:self-end shrink-0"
               >
                 Save Active Subscriber
               </button>
@@ -532,20 +996,49 @@ export default function BoardMailingListPage() {
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="border-b border-slate-200 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  <th className="py-2.5 pr-3 w-8">
+                    <input
+                      type="checkbox"
+                      checked={allFilteredSelected}
+                      onChange={toggleSelectAllFiltered}
+                      aria-label={`Select all ${filteredSubscribers.length} matching subscribers`}
+                      className="rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
+                    />
+                  </th>
                   <th className="py-2.5 pr-4">Subscriber</th>
                   <th className="py-2.5 pr-4">Institution</th>
-                  <th className="py-2.5 pr-4">Topics</th>
+                  <th className="py-2.5 pr-4">Sublists &amp; Topics</th>
                   <th className="py-2.5 pr-4">Status</th>
                   <th className="py-2.5 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filteredSubscribers.slice(0, 200).map((sub) => {
+                {visibleRows.map((sub) => {
                   const badge = STATUS_BADGE[sub.status] || STATUS_BADGE.active;
                   const fullName = `${sub.firstName} ${sub.lastName}`.trim();
+                  const isChecked = selectedIds.has(sub.id);
+                  const unassignedSublists = availableSublists.filter(
+                    (t) =>
+                      !sub.sublists.some((st) => st.toLowerCase() === t.toLowerCase())
+                  );
+
                   return (
-                    <tr key={sub.id} className="hover:bg-slate-50/70">
-                      <td className="py-3 pr-4">
+                    <tr
+                      key={sub.id}
+                      className={
+                        isChecked ? "bg-primary/[0.04]" : "hover:bg-slate-50/70"
+                      }
+                    >
+                      <td className="py-3 pr-3 align-top pt-3.5">
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => toggleSelectRow(sub.id)}
+                          aria-label={`Select ${sub.email}`}
+                          className="rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
+                        />
+                      </td>
+                      <td className="py-3 pr-4 align-top">
                         <div className="font-semibold text-slate-900 break-all">
                           {sub.email}
                         </div>
@@ -553,34 +1046,73 @@ export default function BoardMailingListPage() {
                           <div className="text-[11px] text-slate-500">{fullName}</div>
                         )}
                       </td>
-                      <td className="py-3 pr-4 text-slate-600">
-                        {sub.affiliation || <span className="text-slate-400">—</span>}
+                      <td className="py-3 pr-4 text-slate-600 align-top">
+                        {sub.affiliation || <span className="text-slate-400">&mdash;</span>}
                       </td>
-                      <td className="py-3 pr-4">
-                        <div className="flex flex-wrap gap-1">
-                          {sub.interests.map((tag) => (
+                      <td className="py-3 pr-4 align-top">
+                        <div className="flex flex-wrap items-center gap-1">
+                          {sub.sublists.map((tag) => (
                             <span
                               key={tag}
-                              className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10.5px] font-medium"
+                              className="inline-flex items-center gap-1 pl-2 pr-1.5 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/20 text-[10.5px] font-semibold"
                             >
-                              {tag.replace("_", " ")}
+                              {tag}
+                              <button
+                                type="button"
+                                onClick={() => void handleInlineRemoveTag(sub, tag)}
+                                aria-label={`Remove ${tag} from ${sub.email}`}
+                                className="hover:text-red-600 cursor-pointer"
+                              >
+                                <X size={10} />
+                              </button>
                             </span>
                           ))}
+
+                          {sub.interests.map((topic) => (
+                            <span
+                              key={topic}
+                              className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10.5px] font-medium"
+                            >
+                              {topic.replace("_", " ")}
+                            </span>
+                          ))}
+
+                          {unassignedSublists.length > 0 && (
+                            <select
+                              aria-label={`Add sublist to ${sub.email}`}
+                              value=""
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                if (val) void handleInlineAddTag(sub, val);
+                              }}
+                              className="px-1.5 py-0.5 rounded border border-dashed border-slate-300 text-[10.5px] text-slate-500 hover:border-primary hover:text-primary bg-white cursor-pointer focus:outline-none"
+                            >
+                              <option value="">+ Sublist</option>
+                              {unassignedSublists.map((t) => (
+                                <option key={t} value={t}>
+                                  {t}
+                                </option>
+                              ))}
+                            </select>
+                          )}
                         </div>
                       </td>
-                      <td className="py-3 pr-4">
+                      <td className="py-3 pr-4 align-top">
                         <span
                           className={`inline-block px-2.5 py-0.5 rounded-full text-[10.5px] font-semibold border ${badge.className}`}
                         >
                           {badge.label}
                         </span>
                         {sub.bounceReason && (
-                          <div className="text-[10px] text-red-600 mt-0.5 max-w-[200px] truncate" title={sub.bounceReason}>
+                          <div
+                            className="text-[10px] text-red-600 mt-0.5 max-w-[200px] truncate"
+                            title={sub.bounceReason}
+                          >
                             {sub.bounceReason}
                           </div>
                         )}
                       </td>
-                      <td className="py-3 text-right whitespace-nowrap">
+                      <td className="py-3 text-right whitespace-nowrap align-top">
                         <div className="inline-flex items-center gap-1.5">
                           {sub.status !== "active" ? (
                             <button
@@ -617,15 +1149,21 @@ export default function BoardMailingListPage() {
                 })}
               </tbody>
             </table>
-            {filteredSubscribers.length > 200 && (
+            {filteredSubscribers.length > 250 && (
               <p className="text-[11px] text-slate-500 pt-3">
-                Showing first 200 of {filteredSubscribers.length} matching records. Use search to narrow results.
+                Showing first 250 of {filteredSubscribers.length} matching records (top-left checkbox selects all {filteredSubscribers.length} matching records for bulk sublist tagging).
               </p>
             )}
           </div>
         )}
       </section>
+
+      {/* Architecture & Postmark Reference Modal */}
+      <MailingSystemInfoModal
+        open={infoModalOpen}
+        onClose={() => setInfoModalOpen(false)}
+        isLiveFirestore={isLiveFirestore}
+      />
     </div>
   );
 }
-

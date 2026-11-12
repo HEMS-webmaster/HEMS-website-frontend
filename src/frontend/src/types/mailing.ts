@@ -7,7 +7,13 @@ export type SubscriberStatus =
 
 export type MailingInterest = "workshop" | "student_awards" | "sponsorship";
 
-export type MailingSegment = "all" | MailingInterest;
+/**
+ * Broadcast segment identifier:
+ * - "all": All Active Subscribed
+ * - MailingInterest: Public opt-in topic ("workshop" | "student_awards" | "sponsorship")
+ * - `sublist:${string}`: Custom Board Sublist / Tag (e.g., "sublist:Board Members", "sublist:2025 Attendees")
+ */
+export type MailingSegment = "all" | MailingInterest | `sublist:${string}`;
 
 export type SubscriberSource = "website" | "mailchimp_import" | "board_manual";
 
@@ -18,6 +24,7 @@ export interface MailingSubscriber {
   lastName: string;
   affiliation: string;
   interests: MailingInterest[];
+  sublists: string[];
   status: SubscriberStatus;
   source: SubscriberSource;
   unsubscribeToken: string;
@@ -80,6 +87,7 @@ export interface MailchimpParsedRow {
   lastName: string;
   affiliation: string;
   interests: MailingInterest[];
+  sublists: string[];
   status: SubscriberStatus;
 }
 
@@ -89,4 +97,3 @@ export interface MailchimpImportResult {
   importedSuppressed: number;
   skippedProtected: number;
 }
-

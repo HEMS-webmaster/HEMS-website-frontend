@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import {
   Send,
@@ -14,14 +14,20 @@ import {
   Users,
   History,
   Loader2,
+  Info,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { useMailingAdmin } from "@/hooks/useMailingAdmin";
+import {
+  matchesMailingSegment,
+  useMailingAdmin,
+} from "@/hooks/useMailingAdmin";
 import { MailingSegment } from "@/types/mailing";
 import {
   auditCampaignDeliverability,
+  formatSegmentDisplayName,
   renderAcademicEmailParts,
 } from "@/utils/mailingTemplate";
+import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
 
 const TEMPLATES: Array<{
   id: string;
@@ -76,9 +82,15 @@ export default function BoardAnnouncementsPage() {
     user && (user.roles?.includes("board") || user.roles?.includes("admin"))
   );
 
-  const { subscribers, campaigns, dispatchCampaign } =
-    useMailingAdmin(isAuthorized);
+  const {
+    subscribers,
+    availableSublists,
+    isLiveFirestore,
+    campaigns,
+    dispatchCampaign,
+  } = useMailingAdmin(isAuthorized);
 
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [subject, setSubject] = useState(TEMPLATES[0].subject);
   const [segment, setSegment] = useState<MailingSegment>("all");
   const [markdownBody, setMarkdownBody] = useState(TEMPLATES[0].body);
@@ -90,17 +102,38 @@ export default function BoardAnnouncementsPage() {
   const [statusBanner, setStatusBanner] = useState("");
   const [errorBanner, setErrorBanner] = useState("");
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const seg = params.get("segment");
+    if (
+      seg &&
+      (seg === "all" ||
+        seg === "workshop" ||
+        seg === "student_awards" ||
+        seg === "sponsorship" ||
+        seg.startsWith("sublist:"))
+    ) {
+      setSegment(seg as MailingSegment);
+    }
+  }, []);
+
   const currentDraftSignature = `${subject.trim()}::${segment}::${markdownBody.trim()}`;
   const isCurrentDraftTested =
     testVerifiedSignature !== "" && testVerifiedSignature === currentDraftSignature;
 
-  const recipientCount = useMemo(() => {
-    return subscribers.filter((s) => {
-      if (s.status !== "active") return false;
-      if (segment === "all") return true;
-      return s.interests.includes(segment);
-    }).length;
-  }, [subscribers, segment]);
+  const totalActiveCount = useMemo(
+    () => subscribers.filter((s) => s.status === "active").length,
+    [subscribers]
+  );
+
+  const countForSegment = (seg: MailingSegment) =>
+    subscribers.filter((s) => matchesMailingSegment(s, seg)).length;
+
+  const recipientCount = useMemo(
+    () => subscribers.filter((s) => matchesMailingSegment(s, segment)).length,
+    [subscribers, segment]
+  );
 
   const audit = useMemo(
     () => auditCampaignDeliverability(subject, markdownBody),
@@ -147,7 +180,6 @@ export default function BoardAnnouncementsPage() {
     const found = TEMPLATES.find((t) => t.id === tplId);
     if (!found) return;
     setSubject(found.subject);
-    setSegment(found.segment);
     setMarkdownBody(found.body);
     setStatusBanner("");
     setErrorBanner("");
@@ -208,7 +240,7 @@ export default function BoardAnnouncementsPage() {
   return (
     <div className="space-y-8 max-w-6xl mx-auto w-full min-w-0">
       {/* Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+      <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-1">
             Postmark Broadcast Stream • Direct URL Trust
@@ -221,12 +253,21 @@ export default function BoardAnnouncementsPage() {
           </p>
         </div>
 
-        <Link
-          href="/board/mailing-list"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold hover:border-primary/40 hover:text-primary transition-colors self-start md:self-center shrink-0"
-        >
-          <Users size={15} /> Manage Subscribers ({recipientCount} Active)
-        </Link>
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button
+            type="button"
+            onClick={() => setInfoModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg bg-primary/5 border border-primary/25 text-primary text-xs sm:text-sm font-semibold hover:bg-primary/10 transition-colors cursor-pointer"
+          >
+            <Info size={15} /> How Mailing Works
+          </button>
+          <Link
+            href="/board/mailing-list"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold hover:border-primary/40 hover:text-primary transition-colors"
+          >
+            <Users size={15} /> Manage Sublists ({totalActiveCount} Active)
+          </Link>
+        </div>
       </header>
 
       {statusBanner && (
@@ -265,8 +306,8 @@ export default function BoardAnnouncementsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="sm:col-span-2">
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
+            <div className="sm:col-span-7">
               <label
                 htmlFor="camp-subject"
                 className="block text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600 mb-1"
@@ -282,12 +323,12 @@ export default function BoardAnnouncementsPage() {
               />
             </div>
 
-            <div>
+            <div className="sm:col-span-5">
               <label
                 htmlFor="camp-segment"
                 className="block text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600 mb-1"
               >
-                Recipient Segment
+                Recipient Sublist / Audience
               </label>
               <select
                 id="camp-segment"
@@ -295,10 +336,36 @@ export default function BoardAnnouncementsPage() {
                 onChange={(e) => setSegment(e.target.value as MailingSegment)}
                 className="w-full bg-slate-50/60 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-primary"
               >
-                <option value="all">All Active ({subscribers.filter((s) => s.status === "active").length})</option>
-                <option value="workshop">Workshop Announcements</option>
-                <option value="student_awards">Student Travel Awards</option>
-                <option value="sponsorship">Corporate Sponsorship</option>
+                <optgroup label="Master List">
+                  <option value="all">
+                    All Active Subscribed ({totalActiveCount})
+                  </option>
+                </optgroup>
+
+                {availableSublists.length > 0 && (
+                  <optgroup label="Custom Sublists / Tags">
+                    {availableSublists.map((tag) => {
+                      const segKey: MailingSegment = `sublist:${tag}`;
+                      return (
+                        <option key={segKey} value={segKey}>
+                          {tag} ({countForSegment(segKey)} active)
+                        </option>
+                      );
+                    })}
+                  </optgroup>
+                )}
+
+                <optgroup label="Public Signup Topics">
+                  <option value="workshop">
+                    Biennial Workshop ({countForSegment("workshop")} active)
+                  </option>
+                  <option value="student_awards">
+                    Student Travel Awards ({countForSegment("student_awards")} active)
+                  </option>
+                  <option value="sponsorship">
+                    Corporate Sponsorship ({countForSegment("sponsorship")} active)
+                  </option>
+                </optgroup>
               </select>
             </div>
           </div>
@@ -356,7 +423,7 @@ export default function BoardAnnouncementsPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200/90">
               <div className="text-xs text-slate-600">
                 <strong className="text-slate-900 block">
-                  Step 2 — Broadcast to {recipientCount} Active Subscriber(s)
+                  Step 2 — Broadcast to {recipientCount} Active Subscriber(s) ({formatSegmentDisplayName(segment)})
                 </strong>
                 {isCurrentDraftTested
                   ? "Test copy verified for current draft. Ready for broadcast."
@@ -488,7 +555,7 @@ export default function BoardAnnouncementsPage() {
                 <tr className="border-b border-slate-200 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                   <th className="py-2.5 pr-4">Date</th>
                   <th className="py-2.5 pr-4">Subject</th>
-                  <th className="py-2.5 pr-4">Segment</th>
+                  <th className="py-2.5 pr-4">Sublist / Audience</th>
                   <th className="py-2.5 pr-4">Delivered</th>
                   <th className="py-2.5 pr-4">Officer</th>
                   <th className="py-2.5 text-right">Mode</th>
@@ -503,7 +570,9 @@ export default function BoardAnnouncementsPage() {
                     <td className="py-3 pr-4 font-semibold text-slate-900">
                       {c.subject}
                     </td>
-                    <td className="py-3 pr-4 text-slate-600">{c.segment}</td>
+                    <td className="py-3 pr-4 text-slate-600">
+                      {formatSegmentDisplayName(c.segment)}
+                    </td>
                     <td className="py-3 pr-4 tabular-nums font-medium text-slate-800">
                       {c.deliveredCount} / {c.recipientCount}
                     </td>
@@ -540,8 +609,11 @@ export default function BoardAnnouncementsPage() {
               You are about to dispatch{" "}
               <strong className="text-slate-900">&ldquo;{subject}&rdquo;</strong>{" "}
               to <strong className="text-primary tabular-nums">{recipientCount}</strong>{" "}
-              active subscriber(s) in segment{" "}
-              <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">{segment}</code>.
+              active subscriber(s) in{" "}
+              <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">
+                {formatSegmentDisplayName(segment)}
+              </code>
+              .
             </p>
             <div className="flex justify-end gap-3 pt-2">
               <button
@@ -562,7 +634,13 @@ export default function BoardAnnouncementsPage() {
           </div>
         </div>
       )}
+
+      {/* Architecture & Postmark Reference Modal */}
+      <MailingSystemInfoModal
+        open={infoModalOpen}
+        onClose={() => setInfoModalOpen(false)}
+        isLiveFirestore={isLiveFirestore}
+      />
     </div>
   );
 }
-
