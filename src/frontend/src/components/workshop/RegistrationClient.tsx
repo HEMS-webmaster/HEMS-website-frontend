@@ -1,17 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  CreditCard,
-  Calendar,
-  ShieldAlert,
-  CheckCircle2,
-  Building2,
-  GraduationCap,
-  UserCheck,
-  ExternalLink,
-  Clock,
-} from "lucide-react";
+import { Calendar, Clock, ExternalLink } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 
 export default function RegistrationClient() {
@@ -21,16 +11,16 @@ export default function RegistrationClient() {
   return (
     <>
       {/* Page Header */}
-      <header className="mb-10 border-b border-slate-200 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <header className="mb-8 sm:mb-10 border-b border-slate-200 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
-            <CreditCard size={14} className="text-primary shrink-0" /> Workshop Access • {workshop.workshop_ordinal} Workshop
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs tabular-nums">
+            <Calendar size={14} className="text-primary shrink-0" /> Symposium Registration • {workshop.workshop_ordinal} HEMS Workshop
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
             Workshop Registration
           </h1>
-          <p className="text-slate-600 text-sm sm:text-base">
-            Attendee pricing tiers, milestone dates, and sponsorship options for the {workshop.workshop_ordinal} Harsh-Environment Mass Spectrometry Workshop ({workshop.target_window}).
+          <p className="text-slate-600 text-sm sm:text-base max-w-2xl">
+            Registration information for the {workshop.workshop_ordinal} Harsh-Environment Mass Spectrometry Workshop ({workshop.target_window}).
           </p>
         </div>
         <div className="flex flex-col items-center p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-2xs self-start sm:self-center shrink-0">
@@ -45,269 +35,159 @@ export default function RegistrationClient() {
         </div>
       </header>
 
-      {/* Pricing Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* Student Pass */}
-        <div className="bg-background border border-foreground/10 rounded-xl p-6 flex flex-col justify-between hover:border-primary/50 transition-colors">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <GraduationCap className="text-primary" size={20} />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/50">Academic Rate</span>
-            </div>
-            <h2 className="text-xl font-bold tracking-tight text-foreground mb-2">
-              Student Pass
-            </h2>
-            <div className="flex items-baseline gap-1 mb-3">
-              <span className="text-3xl font-bold text-foreground tabular-nums">
-                {workshop.reg_student_fee}
-              </span>
-              <span className="text-[10px] text-foreground/50">USD</span>
-            </div>
-            <p className="text-xs text-foreground/70 mb-4 leading-relaxed">
-              Discounted access pass for full-time undergraduate and graduate students presenting papers or posters.
-            </p>
-            <ul className="space-y-2 text-[10px] text-foreground/80 border-t border-foreground/10 pt-3">
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Full workshop access
-              </li>
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Student travel award eligible
-              </li>
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Lunches &amp; social sessions
-              </li>
-            </ul>
+      {!workshop.registration_open ? (
+        /* Closed / Save-the-Date Academic Notice */
+        <section className="max-w-3xl bg-white border border-slate-200/95 rounded-2xl p-6 sm:p-8 shadow-2xs space-y-4">
+          <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-primary tabular-nums">
+            <Clock size={14} className="shrink-0" /> Registration Not Yet Open
           </div>
-          {canRegisterNow ? (
-            <a
-              href={workshop.reg_portal_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full text-center bg-background border border-foreground/20 text-foreground py-2.5 rounded font-bold uppercase hover:bg-foreground/5 transition-colors mt-6 text-xs"
-            >
-              Register Student
-            </a>
-          ) : (
-            <div className="w-full text-center bg-surface border border-foreground/10 text-foreground/60 py-2.5 rounded font-semibold uppercase tracking-wide mt-6 text-[11px] tabular-nums">
-              Registration Opens {workshop.workshop_year}
-            </div>
-          )}
-        </div>
-
-        {/* Professional Pass */}
-        <div className="bg-background border-2 border-primary rounded-xl p-6 relative flex flex-col justify-between shadow-lg shadow-primary/5">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-background px-3 py-0.5 rounded-full text-[9px] font-bold tracking-widest uppercase">
-            Standard
-          </div>
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <UserCheck className="text-primary" size={20} />
-              <span className="text-[10px] uppercase tracking-[0.08em] text-primary font-bold">
-                Standard Rate
-              </span>
-            </div>
-            <h2 className="text-xl font-bold tracking-tight text-foreground mb-2">
-              Professional Pass
-            </h2>
-            <div className="flex items-baseline gap-1 mb-3">
-              <span className="text-3xl font-bold text-primary tabular-nums">
-                {workshop.reg_professional_fee}
-              </span>
-              <span className="text-[10px] text-foreground/50">USD</span>
-            </div>
-            <p className="text-xs text-foreground/70 mb-4 leading-relaxed">
-              Standard registration pass for academic faculty, industrial researchers, engineers, and government officials.
-            </p>
-            <ul className="space-y-2 text-[10px] text-foreground/80 border-t border-foreground/10 pt-3">
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Full technical access
-              </li>
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Copy of workshop materials
-              </li>
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Banquet dinner included
-              </li>
-            </ul>
-          </div>
-          {canRegisterNow ? (
-            <a
-              href={workshop.reg_portal_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full text-center bg-primary text-background py-2.5 rounded font-bold uppercase hover:bg-primary/90 transition-colors mt-6 text-xs shadow-sm"
-            >
-              Register Professional
-            </a>
-          ) : (
-            <div className="w-full text-center bg-primary/10 border border-primary/25 text-primary py-2.5 rounded font-semibold uppercase tracking-wide mt-6 text-[11px] tabular-nums">
-              Registration Opens {workshop.workshop_year}
-            </div>
-          )}
-        </div>
-
-        {/* Corporate Sponsor */}
-        <div className="bg-background border border-foreground/10 rounded-xl p-6 flex flex-col justify-between hover:border-primary/50 transition-colors">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Building2 className="text-primary" size={20} />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-foreground/50">
-                Industrial Partner
-              </span>
-            </div>
-            <h2 className="text-xl font-bold tracking-tight text-foreground mb-2">
-              Sponsor Pass
-            </h2>
-            <div className="flex items-baseline gap-1 mb-3">
-              <span className="text-3xl font-bold text-foreground tabular-nums">
-                {workshop.reg_sponsor_fee}
-              </span>
-              <span className="text-[10px] text-foreground/50">USD</span>
-            </div>
-            <p className="text-xs text-foreground/70 mb-4 leading-relaxed">
-              Full corporate sponsorship benefits, exhibition display space, banner recognition, plus one (1) attendee registration.
-            </p>
-            <ul className="space-y-2 text-[10px] text-foreground/80 border-t border-foreground/10 pt-3">
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Includes 1 Attendee Pass
-              </li>
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Banner logotype credit
-              </li>
-              <li className="flex gap-2 items-center">
-                <CheckCircle2 className="text-primary" size={12} /> Display table &amp; poster space
-              </li>
-            </ul>
-          </div>
-          <Link
-            href="/corporate-sponsorship"
-            className="w-full text-center bg-background border border-foreground/20 text-foreground py-2.5 rounded font-bold uppercase hover:bg-foreground/5 transition-colors mt-6 text-xs"
-          >
-            Sponsorship Details
-          </Link>
-        </div>
-      </div>
-
-      {/* Info & Deadlines Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          {/* Timeline */}
-          <section className="bg-background border border-foreground/10 rounded-lg p-6 shadow-sm">
-            <h2 className="text-lg font-bold text-foreground mb-6 flex items-center gap-2">
-              <Calendar className="text-primary" size={20} /> Key Registration Dates ({workshop.workshop_ordinal} Workshop)
-            </h2>
-            <div className="relative border-l-2 border-foreground/10 pl-6 space-y-6">
-              <div className="relative">
-                <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-primary border-4 border-background" />
-                <span className="text-[11px] font-medium text-foreground/55 block tabular-nums">
-                  {workshop.reg_early_bird_opens}
-                </span>
-                <span className="font-bold text-sm text-foreground">Early-Bird Window Opens</span>
-                <p className="text-xs text-foreground/70 mt-1">
-                  Early registration window opens for attendees and student presenters.
-                </p>
-              </div>
-              <div className="relative">
-                <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-secondary border-4 border-background" />
-                <span className="text-[11px] font-medium text-foreground/55 block tabular-nums">
-                  {workshop.reg_early_bird_closes}
-                </span>
-                <span className="font-bold text-sm text-foreground">Early-Bird Window Closes</span>
-                <p className="text-xs text-foreground/70 mt-1">
-                  Standard registration rates apply following the early-bird deadline.
-                </p>
-              </div>
-              <div className="relative">
-                <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-foreground/45 border-4 border-background" />
-                <span className="text-[11px] font-medium text-foreground/55 block tabular-nums">
-                  {workshop.reg_final_cutoff}
-                </span>
-                <span className="font-bold text-sm text-foreground">Registration Final Cutoff</span>
-                <p className="text-xs text-foreground/70 mt-1">
-                  All attendee lists, badge names, and payments settled prior to the symposium.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* Cancellation Policy */}
-          <section className="bg-background border border-foreground/10 rounded-lg p-6 shadow-sm space-y-4">
-            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-              <ShieldAlert className="text-primary" size={20} /> Cancellation &amp; Refund Policy
-            </h2>
-            <p className="text-xs text-foreground/75 leading-relaxed">
-              Registration cancellations submitted in writing to the HEMS Organizing Committee on or before{" "}
-              <strong>{workshop.reg_refund_cutoff}</strong> are eligible for a full refund, minus a $50 processing fee. Cancellations received after {workshop.reg_refund_cutoff} are non-refundable due to catering and facility commitments, though passes may be transferred to another attendee from your institution or organization upon request.
-            </p>
-          </section>
-        </div>
-
-        {/* Sidebar Panel Details */}
-        <div className="space-y-6">
-          {/* Corporate Splitting */}
-          <div className="bg-background border border-foreground/10 p-6 rounded-xl shadow-sm space-y-3">
-            <h3 className="font-bold uppercase tracking-wider text-xs border-b border-foreground/10 pb-2">
-              Corporate Split Billing
-            </h3>
-            <p className="text-xs text-foreground/70 leading-relaxed">
-              Need to separate corporate sponsor fees into distinct sponsorship ($850) and attendee registration ($500) invoices to meet purchasing limits?
-            </p>
-            <p className="text-xs text-foreground/70 leading-relaxed">
-              Review full details on our{" "}
-              <Link
-                href="/corporate-sponsorship"
-                className="text-primary font-semibold hover:underline"
-              >
-                Corporate Sponsorship
-              </Link>{" "}
-              page or contact {workshop.sponsor_coordinator_name} at{" "}
-              <a
-                href={`mailto:${workshop.sponsor_coordinator_email}`}
-                className="text-primary font-medium hover:underline break-all"
-              >
-                {workshop.sponsor_coordinator_email}
-              </a>
-              .
-            </p>
-          </div>
-
-          {/* Portal Callout */}
-          <div className="bg-primary text-background rounded-xl p-6 shadow-md">
-            <h3 className="font-bold uppercase tracking-wider text-xs mb-2 opacity-95">
-              {canRegisterNow ? "Online Registration Open" : "Registration Window"}
-            </h3>
-            <p className="text-xs opacity-90 mb-6 leading-relaxed">
-              {canRegisterNow
-                ? `Online ticketing and attendee badge registration are live for the ${workshop.workshop_ordinal} HEMS Workshop.`
-                : `Online registration for the ${workshop.workshop_ordinal} HEMS Workshop (${workshop.target_window}) will open once venue and program dates are finalized.`}
-            </p>
-            {canRegisterNow ? (
-              <a
-                href={workshop.reg_portal_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-background text-primary font-bold py-2.5 rounded flex items-center justify-center gap-2 hover:bg-background/90 transition-colors shadow-sm text-xs uppercase"
-              >
-                Open Registration Portal <ExternalLink size={12} />
-              </a>
-            ) : workshop.interest_form_url ? (
+          <h2 className="font-serif text-xl sm:text-2xl font-semibold text-slate-900 leading-snug">
+            Registration for the {workshop.workshop_ordinal} HEMS Workshop ({workshop.target_window}) has not yet opened.
+          </h2>
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+            Registration dates, fee schedules (including reduced student rates), and the online registration link will be posted here once the host venue and scientific program schedule are finalized by the Organizing Committee.
+          </p>
+          <p className="text-sm text-slate-600 leading-relaxed">
+            In keeping with HEMS Society tradition, participation is open to academic, government, and industrial colleagues with no society membership requirement or separate membership fee.
+          </p>
+          <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-sm font-medium">
+            {workshop.interest_form_url ? (
               <a
                 href={workshop.interest_form_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full bg-background text-primary font-bold py-2.5 rounded flex items-center justify-center gap-2 hover:bg-background/90 transition-colors shadow-sm text-xs uppercase"
+                className="inline-flex items-center gap-1.5 text-primary font-semibold hover:underline"
               >
-                Join {workshop.workshop_year} Mailing List <ExternalLink size={12} />
+                Join {workshop.workshop_year} Mailing List <ExternalLink size={13} />
               </a>
             ) : (
-              <div className="w-full bg-background/15 border border-background/30 text-background font-semibold py-2.5 rounded flex items-center justify-center gap-2 text-xs uppercase tracking-wide tabular-nums">
-                <Clock size={14} /> Opening in {workshop.workshop_year}
-              </div>
+              <Link href="/contact" className="text-primary font-semibold hover:underline">
+                Contact Organizing Committee →
+              </Link>
             )}
+            <Link href="/student-awards" className="text-slate-600 hover:text-primary transition-colors">
+              Student Travel Awards →
+            </Link>
+            <Link href="/corporate-sponsorship" className="text-slate-600 hover:text-primary transition-colors">
+              Corporate Sponsorship →
+            </Link>
+          </div>
+        </section>
+      ) : (
+        /* Live Registration Schedule (Active Only When registration_open === true) */
+        <div className="space-y-8">
+          <section className="bg-white border border-slate-200/95 rounded-2xl p-6 sm:p-8 shadow-2xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-100">
+              <div>
+                <h2 className="font-serif text-xl sm:text-2xl font-semibold text-slate-900">
+                  Registration Categories &amp; Fees
+                </h2>
+                <p className="text-sm text-slate-600 mt-1">
+                  Registration includes technical sessions, poster receptions, abstract proceedings, and the workshop dinner.
+                </p>
+              </div>
+              {canRegisterNow && (
+                <a
+                  href={workshop.reg_portal_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors shrink-0 shadow-2xs"
+                >
+                  Online Registration <ExternalLink size={14} />
+                </a>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="p-5 rounded-xl bg-slate-50/70 border border-slate-200/90">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500 block mb-1">
+                  Academic Trainee
+                </span>
+                <h3 className="font-serif text-lg font-semibold text-slate-900">
+                  Student Registration
+                </h3>
+                <p className="text-2xl font-bold text-slate-900 tabular-nums mt-2 mb-2">
+                  {workshop.reg_student_fee} <span className="text-xs font-normal text-slate-500">USD</span>
+                </p>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Full-time undergraduate and graduate students. Eligible to apply for{" "}
+                  <Link href="/student-awards" className="text-primary font-medium hover:underline">
+                    Student Travel Awards
+                  </Link>
+                  .
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-white border border-primary/35 shadow-2xs">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-primary block mb-1">
+                  Standard Academic / Government / Industry
+                </span>
+                <h3 className="font-serif text-lg font-semibold text-slate-900">
+                  Regular Registration
+                </h3>
+                <p className="text-2xl font-bold text-primary tabular-nums mt-2 mb-2">
+                  {workshop.reg_professional_fee} <span className="text-xs font-normal text-slate-500">USD</span>
+                </p>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  University faculty, postdoctoral fellows, government laboratory scientists, and industrial researchers.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-slate-50/70 border border-slate-200/90">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500 block mb-1">
+                  Exhibitor &amp; Supporter
+                </span>
+                <h3 className="font-serif text-lg font-semibold text-slate-900">
+                  Corporate Sponsor
+                </h3>
+                <p className="text-2xl font-bold text-slate-900 tabular-nums mt-2 mb-2">
+                  {workshop.reg_sponsor_fee} <span className="text-xs font-normal text-slate-500">USD</span>
+                </p>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Includes display space, program recognition, and one regular registration. See{" "}
+                  <Link href="/corporate-sponsorship" className="text-primary font-medium hover:underline">
+                    Corporate Sponsorship
+                  </Link>
+                  .
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs">
+              <h2 className="font-serif text-lg font-semibold text-slate-900 mb-3">
+                Important Dates
+              </h2>
+              <dl className="space-y-2.5 text-sm">
+                <div className="flex items-baseline justify-between gap-4 border-b border-slate-100 pb-2">
+                  <dt className="text-slate-600">Early Registration Opens</dt>
+                  <dd className="font-medium text-slate-900 tabular-nums text-right">{workshop.reg_early_bird_opens}</dd>
+                </div>
+                <div className="flex items-baseline justify-between gap-4 border-b border-slate-100 pb-2">
+                  <dt className="text-slate-600">Early Registration Deadline</dt>
+                  <dd className="font-medium text-slate-900 tabular-nums text-right">{workshop.reg_early_bird_closes}</dd>
+                </div>
+                <div className="flex items-baseline justify-between gap-4">
+                  <dt className="text-slate-600">Final Registration Cutoff</dt>
+                  <dd className="font-medium text-slate-900 tabular-nums text-right">{workshop.reg_final_cutoff}</dd>
+                </div>
+              </dl>
+            </section>
+
+            <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs">
+              <h2 className="font-serif text-lg font-semibold text-slate-900 mb-3">
+                Cancellations &amp; Substitutions
+              </h2>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Written cancellation requests submitted to the Organizing Committee on or before{" "}
+                <strong className="font-semibold text-slate-800 tabular-nums">{workshop.reg_refund_cutoff}</strong>{" "}
+                are eligible for a refund less a $50 administrative fee. After {workshop.reg_refund_cutoff}, registrations are non-refundable due to venue commitments, though registrant substitutions from the same institution are welcome.
+              </p>
+            </section>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
-

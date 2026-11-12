@@ -4,7 +4,7 @@ import { buildPageMetadata, buildWebPageJsonLd } from "@/utils/seo";
 
 const PAGE_TITLE = "Workshop Registration | HEMS Workshop";
 const PAGE_DESCRIPTION =
-  "Attendee registration tiers, student and professional rates, corporate packages, and refund policies for the Harsh-Environment Mass Spectrometry Workshop.";
+  "Symposium registration information for the biennial Harsh-Environment Mass Spectrometry (HEMS) Workshop.";
 
 export const metadata: Metadata = buildPageMetadata({
   title: PAGE_TITLE,
