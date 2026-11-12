@@ -172,9 +172,23 @@ export function buildGlobalKnowledgeGraphJsonLd() {
         contactPoint: [
           {
             "@type": "ContactPoint",
-            contactType: "General & Symposium Inquiries",
-            email: "info@hems-workshop.org",
+            contactType: "General & Symposium Enquiries",
+            email: "president@hems-workshop.org",
             url: `${SITE_URL}/contact/`,
+            availableLanguage: ["English"],
+          },
+          {
+            "@type": "ContactPoint",
+            contactType: "Corporate Sponsorship & Billing",
+            email: "tim.short@hems-workshop.org",
+            url: `${SITE_URL}/corporate-sponsorship/`,
+            availableLanguage: ["English"],
+          },
+          {
+            "@type": "ContactPoint",
+            contactType: "Website & Technical Support",
+            email: "webmaster@hems-workshop.org",
+            url: `${SITE_URL}/contact/?topic=webmaster`,
             availableLanguage: ["English"],
           },
           {

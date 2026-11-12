@@ -12,6 +12,7 @@ import {
   Building2,
   ArrowRight,
   Award,
+  Wrench,
 } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import MailingListSignupCard from "@/components/mailing/MailingListSignupCard";
@@ -41,18 +42,28 @@ export default function ContactClient() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
-    if (params.get("topic") === "sponsorship") {
+    const topic = params.get("topic");
+    if (topic === "sponsorship") {
       setForm((prev) => ({ ...prev, subject: "Sponsorship & Billing Inquiries" }));
+    } else if (topic === "webmaster" || topic === "support") {
+      setForm((prev) => ({ ...prev, subject: "Website & Technical Support" }));
     }
   }, []);
+
+  const resolveRecipientEmail = (subject: string): string => {
+    if (subject === "Sponsorship & Billing Inquiries") {
+      return coordinatorEmail;
+    }
+    if (subject === "Website & Technical Support") {
+      return "webmaster@hems-workshop.org";
+    }
+    return "president@hems-workshop.org";
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fullName = `${form.firstName} ${form.lastName}`.trim();
-    const recipient =
-      form.subject === "Sponsorship & Billing Inquiries"
-        ? coordinatorEmail
-        : "info@hems-workshop.org";
+    const recipient = resolveRecipientEmail(form.subject);
 
     const bodyLines = [
       fullName ? `Name: ${fullName}` : "",
@@ -121,16 +132,10 @@ export default function ContactClient() {
                 <p className="text-foreground/75 mt-1">
                   If your mail client did not open automatically, please email{" "}
                   <a
-                    href={
-                      form.subject === "Sponsorship & Billing Inquiries"
-                        ? `mailto:${coordinatorEmail}`
-                        : "mailto:info@hems-workshop.org"
-                    }
+                    href={`mailto:${resolveRecipientEmail(form.subject)}`}
                     className="underline font-semibold text-primary break-all"
                   >
-                    {form.subject === "Sponsorship & Billing Inquiries"
-                      ? coordinatorEmail
-                      : "info@hems-workshop.org"}
+                    {resolveRecipientEmail(form.subject)}
                   </a>{" "}
                   directly.
                 </p>
@@ -196,6 +201,7 @@ export default function ContactClient() {
                 <option value="Biennial Workshop & Registration">Biennial Workshop &amp; Registration</option>
                 <option value="Sponsorship & Billing Inquiries">Sponsorship &amp; Billing Inquiries</option>
                 <option value="Proceedings Archive & Citations">Proceedings Archive &amp; Citations</option>
+                <option value="Website & Technical Support">Website &amp; Technical Support</option>
               </select>
 
               {form.subject === "Sponsorship & Billing Inquiries" && (
@@ -247,10 +253,10 @@ export default function ContactClient() {
                   <Mail size={22} />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="font-bold text-foreground">General &amp; Program Inquiries</h3>
-                  <p className="text-xs text-foreground/70 mb-1">Organizing committee &amp; technical program desk</p>
-                  <a href="mailto:info@hems-workshop.org" className="text-primary font-medium text-sm hover:underline break-all">
-                    info@hems-workshop.org
+                  <h3 className="font-bold text-foreground">General &amp; Symposium Enquiries</h3>
+                  <p className="text-xs text-foreground/70 mb-1">Society President &amp; Organizing Committee</p>
+                  <a href="mailto:president@hems-workshop.org" className="text-primary font-medium text-sm hover:underline break-all">
+                    president@hems-workshop.org
                   </a>
                 </div>
               </div>
@@ -278,6 +284,24 @@ export default function ContactClient() {
                       Sponsorship Details &amp; Packages <ArrowRight size={12} />
                     </Link>
                   </div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="bg-slate-200/70 p-3 rounded-xl text-slate-700 shrink-0">
+                  <Wrench size={22} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-bold text-foreground">Website &amp; Technical Support</h3>
+                  <p className="text-xs text-foreground/70 mb-1">
+                    Website troubles, proceedings archive access, mailing list, or portal sign-in support
+                  </p>
+                  <a
+                    href="mailto:webmaster@hems-workshop.org"
+                    className="text-primary font-medium text-sm hover:underline break-all"
+                  >
+                    webmaster@hems-workshop.org
+                  </a>
                 </div>
               </div>
 

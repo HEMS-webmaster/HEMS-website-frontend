@@ -106,6 +106,10 @@ export default function Footer() {
               2025 Proceedings
             </Link>
             <span className="text-slate-300">•</span>
+            <a href="mailto:webmaster@hems-workshop.org" className="py-1 hover:text-primary transition-colors">
+              Website Support
+            </a>
+            <span className="text-slate-300">•</span>
             <Link href="/unsubscribe" className="py-1 hover:text-primary transition-colors">
               Unsubscribe
             </Link>

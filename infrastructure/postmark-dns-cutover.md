@@ -7,7 +7,7 @@ This runbook documents the exact DNS records, Postmark stream settings, and Fire
 ## 1. Google Workspace for Nonprofits (`@hems-workshop.org` Officer Mailboxes)
 
 1. Apply at `https://www.google.com/nonprofits/` using HEMS Society's IRS 501(c)(3) EIN (`$0/month` for eligible 501(c)(3) organizations).
-2. Create officer mailboxes/aliases on `@hems-workshop.org` (e.g., `info@hems-workshop.org`, `awards@hems-workshop.org`).
+2. Create officer mailboxes/aliases on `@hems-workshop.org` (`president@hems-workshop.org`, `webmaster@hems-workshop.org`, `tim.short@hems-workshop.org`, `hemsworkshop@hems-workshop.org`).
 3. Add the Google Workspace `MX` record (`SMTP.GOOGLE.COM`, priority `1`) and root `SPF` record on `hems-workshop.org`:
    ```txt
    Type: TXT
@@ -20,7 +20,7 @@ This runbook documents the exact DNS records, Postmark stream settings, and Fire
 
 ## 2. Postmark Subdomain Setup (`mail.hems-workshop.org`)
 
-Sending bulk workshop announcements from `announcements@mail.hems-workshop.org` (`Reply-To: info@hems-workshop.org`) achieves strict organizational DMARC alignment with `hems-workshop.org` while isolating officer mailboxes from bulk-list reputation.
+Sending bulk workshop announcements from `announcements@mail.hems-workshop.org` (`Reply-To: president@hems-workshop.org`) achieves strict organizational DMARC alignment with `hems-workshop.org` while isolating officer mailboxes from bulk-list reputation.
 
 1. Create a Postmark Server (`HEMS Society`) with two standard streams:
    - **`outbound` (Transactional Stream):** Used for Double Opt-In confirmation emails.

@@ -376,6 +376,18 @@ export default function UnsubscribeClient() {
             </div>
           </form>
         )}
+
+        <p className="pt-3 border-t border-slate-100 text-xs text-slate-500">
+          Questions or website issues? Email{" "}
+          <a href="mailto:webmaster@hems-workshop.org" className="text-primary font-medium hover:underline">
+            webmaster@hems-workshop.org
+          </a>
+          {" "}or{" "}
+          <a href="mailto:president@hems-workshop.org" className="text-primary font-medium hover:underline">
+            president@hems-workshop.org
+          </a>
+          .
+        </p>
       </div>
     </div>
   );

@@ -59,8 +59,8 @@ const DEFAULT_STARTER_SUBLISTS = [
 
 const INITIAL_SAMPLE_SUBSCRIBERS: MailingSubscriber[] = [
   {
-    id: subscriberDocId("tshort@usf.edu"),
-    email: "tshort@usf.edu",
+    id: subscriberDocId("tim.short@hems-workshop.org"),
+    email: "tim.short@hems-workshop.org",
     firstName: "Tim",
     lastName: "Short",
     affiliation: "University of South Florida / SRI International",

@@ -239,6 +239,12 @@ export default function AuthPage() {
             Continue with Microsoft
           </button>
         </div>
+        <p className="mt-5 pt-4 border-t border-foreground/10 text-center text-xs text-foreground/60">
+          Trouble signing in? Contact{" "}
+          <a href="mailto:webmaster@hems-workshop.org" className="text-primary font-semibold hover:underline">
+            webmaster@hems-workshop.org
+          </a>
+        </p>
         </div>
       </div>
     </div>

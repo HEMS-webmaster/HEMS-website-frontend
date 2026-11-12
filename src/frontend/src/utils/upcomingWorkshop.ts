@@ -234,7 +234,12 @@ export function parseWorkshopSheetCsv(
     student_award_form_url: getStr("student_award_form_url"),
     sponsor_prospectus_url: getNonEmptyStr("sponsor_prospectus_url"),
     sponsor_coordinator_name: getNonEmptyStr("sponsor_coordinator_name"),
-    sponsor_coordinator_email: getNonEmptyStr("sponsor_coordinator_email"),
+    sponsor_coordinator_email: (() => {
+      const email = getNonEmptyStr("sponsor_coordinator_email");
+      return email.toLowerCase() === "rtshort00@gmail.com"
+        ? "tim.short@hems-workshop.org"
+        : email;
+    })(),
   };
 }
 
