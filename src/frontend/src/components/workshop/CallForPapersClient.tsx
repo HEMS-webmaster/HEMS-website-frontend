@@ -4,28 +4,16 @@ import Link from "next/link";
 import {
   FileText,
   Calendar,
-  ExternalLink,
   Cpu,
   Globe,
   Database,
-  List,
   ArrowRight,
-  Clock,
   History,
 } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 
-const ABSTRACT_REQUIREMENTS: string[] = [
-  "Abstracts must be submitted in clear English and describe original research not previously published in major journals.",
-  "Provide a descriptive title along with a complete listing of co-authors, academic affiliations, and email contacts.",
-  "Structure the abstract text to clearly define the scientific problem, experimental setup, analytical precision, and environment conditions.",
-  "Student submissions should highlight academic advisors and note eligibility for the Student Travel Award program.",
-  "Format documents as a single-page PDF according to the official guidelines before uploading.",
-];
-
 export default function CallForPapersClient() {
   const { workshop } = useUpcomingWorkshop();
-  const canSubmitNow = workshop.cfp_open && Boolean(workshop.cfp_submission_url);
 
   return (
     <>
@@ -39,7 +27,7 @@ export default function CallForPapersClient() {
             Call for Papers
           </h1>
           <p className="text-slate-600 text-sm sm:text-base">
-            Abstract submission guidelines and core research areas for oral presentations and poster sessions at the {workshop.workshop_ordinal} HEMS Workshop ({workshop.target_window}).
+            Technical submission scope and core research areas for oral presentations and poster sessions at the {workshop.workshop_ordinal} HEMS Workshop ({workshop.target_window}).
           </p>
         </div>
         <div className="flex flex-col items-center p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-2xs self-start sm:self-center shrink-0">
@@ -56,7 +44,7 @@ export default function CallForPapersClient() {
 
       {/* Main Upcoming Workshop CFP Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left 2 Columns: Guidelines and Topics */}
+        {/* Left 2 Columns: Scope and Core Research Areas */}
         <div className="lg:col-span-2 space-y-8">
           {/* Submission Overview */}
           <section className="bg-background border border-foreground/10 rounded-lg p-6 shadow-sm">
@@ -74,24 +62,6 @@ export default function CallForPapersClient() {
                   <strong>Poster Presentations:</strong> Interactive session for direct discussion and detailed hardware schematics. Highly recommended for students.
                 </div>
               </div>
-            </div>
-          </section>
-
-          {/* Guidelines */}
-          <section className="bg-background border border-foreground/10 rounded-lg p-6 shadow-sm space-y-6">
-            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-              <List className="text-primary" size={20} /> Abstract Guidelines
-            </h2>
-            <p className="text-sm text-foreground/80">
-              Please adhere to the following abstract structural requirements to ensure proper evaluation by our technical committee:
-            </p>
-            <div className="space-y-4">
-              {ABSTRACT_REQUIREMENTS.map((item, idx) => (
-                <div key={idx} className="flex gap-3 items-start text-foreground/80">
-                  <span className="tabular-nums text-xs text-primary font-bold shrink-0 mt-0.5">{`0${idx + 1}.`}</span>
-                  <p className="text-xs">{item}</p>
-                </div>
-              ))}
             </div>
           </section>
 
@@ -126,7 +96,7 @@ export default function CallForPapersClient() {
           </section>
         </div>
 
-        {/* Right Sidebar: Upcoming Workshop Deadlines & Actions */}
+        {/* Right Sidebar: Upcoming Workshop Key Dates */}
         <div className="space-y-6">
           {/* Key Dates Card */}
           <div className="bg-background border border-foreground/10 p-6 rounded-xl shadow-sm">
@@ -168,60 +138,6 @@ export default function CallForPapersClient() {
                 </span>
               </div>
             </div>
-          </div>
-
-          {/* Formatting Guidelines Card */}
-          <div className="bg-background border border-foreground/10 p-6 rounded-xl shadow-sm">
-            <h3 className="font-bold uppercase tracking-wider text-xs mb-4 border-b border-foreground/10 pb-2 flex items-center gap-2">
-              <FileText size={16} className="text-secondary" /> Manuscript Formatting
-            </h3>
-            <p className="text-xs text-foreground/70 leading-relaxed mb-4">
-              All submissions must comply with HEMS single-page PDF document guidelines, margins, and typography standards.
-            </p>
-            <Link
-              href="/formatting-guidelines"
-              className="w-full inline-flex items-center justify-center gap-2 bg-secondary text-background font-bold py-2.5 rounded text-xs hover:bg-secondary/90 transition-colors shadow-sm"
-            >
-              View Formatting Rules <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          {/* Submissions Action Link */}
-          <div className="bg-primary text-background rounded-xl p-6 shadow-md flex flex-col justify-between">
-            <div>
-              <h3 className="font-bold uppercase tracking-wider text-xs mb-2 opacity-95">
-                {canSubmitNow ? "Submission Portal Open" : "Submission Window Status"}
-              </h3>
-              <p className="text-xs opacity-90 mb-6 leading-relaxed">
-                {canSubmitNow
-                  ? `Online abstract submission is open for the ${workshop.workshop_ordinal} HEMS Workshop.`
-                  : `Abstract submission for the ${workshop.workshop_ordinal} HEMS Workshop (${workshop.target_window}) has not opened yet. Check back here or reach out with program questions.`}
-              </p>
-            </div>
-
-            {canSubmitNow ? (
-              <a
-                href={workshop.cfp_submission_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-background text-primary font-bold py-2.5 rounded flex items-center justify-center gap-2 hover:bg-background/90 transition-colors shadow-sm text-xs uppercase"
-              >
-                Submit Abstract <ExternalLink size={14} />
-              </a>
-            ) : workshop.interest_form_url ? (
-              <a
-                href={workshop.interest_form_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full bg-background text-primary font-bold py-2.5 rounded flex items-center justify-center gap-2 hover:bg-background/90 transition-colors shadow-sm text-xs uppercase"
-              >
-                Join {workshop.workshop_year} Update List <ExternalLink size={14} />
-              </a>
-            ) : (
-              <div className="w-full bg-background/15 border border-background/30 text-background tabular-nums font-bold py-2.5 rounded flex items-center justify-center gap-2 text-xs uppercase tracking-wide">
-                <Clock size={14} /> Opening in {workshop.workshop_year}
-              </div>
-            )}
           </div>
         </div>
       </div>

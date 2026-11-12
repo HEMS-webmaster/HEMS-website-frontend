@@ -1306,3 +1306,12 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   1. `PortalOverviewClient.tsx`: Remove top-of-page 2015 Baltimore photo banner and group all past-workshop material (2015 Inner Harbor photo + 2025 Featured Proceedings table & 2025 Archive card) into a clearly demarcated bottom section titled **Highlights from Previous HEMS Workshops** (`Past Biennial Symposia • Archival Reference`).
   2. `CallForPapersClient.tsx`: Move the 3-card 2025/2019 presentation graphics strip and the 2017 Oxnard poster session photo to a clearly labeled bottom section titled **Examples from Previous HEMS Workshops** (`Past Biennial Symposia • Archival Reference`).
   3. `AccommodationsClient.tsx`: Move the 2025 Virginia Beach and 2011/2013 Don CeSar venue photo cards to a clearly labeled bottom section titled **Previous Workshop Host Venues** (`Past Biennial Venues • Not the 2027 Host Hotel`), switching moved images from `eager` to `lazy` loading.
+
+
+## [2026-11-12T12:20:45-07:00] @dev — Remove Deferred CFP Cards (Abstract Guidelines, Manuscript Formatting, Submission Window Status)
+- **Request (`@bo`):** Remove everything shown in the screenshot snippet on `/call-for-papers` (`Abstract Guidelines` card on the left, plus `Manuscript Formatting` and `Submission Window Status` cards on the right sidebar) for future re-addition.
+- **Implementation (`CallForPapersClient.tsx`):**
+  1. Delete `ABSTRACT_REQUIREMENTS`, `canSubmitNow`, and unused Lucide icons (`ExternalLink`, `List`, `Clock`).
+  2. Remove the `Abstract Guidelines` `<section>`, the `Manuscript Formatting` card, and the `Submission Window Status` card while preserving `Submission Scope`, `Core Research Areas`, `Key Submission Dates`, and the bottom `Previous Years • Archival Examples` section.
+  3. Update header subtitle from "Abstract submission guidelines and core research areas..." to "Technical submission scope and core research areas..." so copy matches the visible page sections.
+- **Verification:** Kill `next dev`, run `npm --prefix src/frontend run build`, commit on `main`, and restart `next dev`.
