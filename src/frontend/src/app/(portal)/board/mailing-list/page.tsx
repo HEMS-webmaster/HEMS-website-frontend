@@ -19,6 +19,9 @@ import {
   Tags,
   Plus,
   X,
+  ArrowUp,
+  ArrowDown,
+  ArrowUpDown,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useMailingAdmin } from "@/hooks/useMailingAdmin";
@@ -71,6 +74,52 @@ const STATUS_BADGE: Record<
 
 type CohortViewFilter = "all_records" | "all_active" | `sublist:${string}`;
 
+type SortField =
+  | "subscriber"
+  | "institution"
+  | "tags"
+  | "status"
+  | "date_added";
+
+type SortDirection = "asc" | "desc";
+
+const STATUS_SORT_ORDER: Record<SubscriberStatus, number> = {
+  active: 1,
+  pending_opt_in: 2,
+  unsubscribed: 3,
+  bounced: 4,
+  complained: 5,
+};
+
+const SOURCE_LABEL: Record<MailingSubscriber["source"], string> = {
+  mailchimp_import: "Mailchimp / CSV Import",
+  website: "Website Opt-In",
+  board_manual: "Board Manual Entry",
+};
+
+function formatDateAdded(iso: string | undefined): {
+  short: string;
+  tooltip: string;
+  timestampMs: number;
+} {
+  if (!iso) {
+    return { short: "—", tooltip: "Date not recorded", timestampMs: 0 };
+  }
+  const ms = Date.parse(iso);
+  if (Number.isNaN(ms)) {
+    return { short: iso.slice(0, 10) || "—", tooltip: iso, timestampMs: 0 };
+  }
+  const short = new Date(ms).toISOString().slice(0, 10);
+  const tooltip = new Date(ms).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return { short, tooltip, timestampMs: ms };
+}
+
 export default function BoardMailingListPage() {
   const { user, loading } = useAuth();
   const isAuthorized = Boolean(
@@ -99,6 +148,18 @@ export default function BoardMailingListPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | SubscriberStatus>("all");
   const [cohortFilter, setCohortFilter] = useState<CohortViewFilter>("all_records");
+  const [sortField, setSortField] = useState<SortField>("subscriber");
+  const [sortDir, setSortDir] = useState<SortDirection>("asc");
+
+  const handleSortColumn = (field: SortField) => {
+    if (sortField === field) {
+      setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortField(field);
+      // Date Added is most naturally inspected newest-first on initial click
+      setSortDir(field === "date_added" ? "desc" : "asc");
+    }
+  };
 
   // Sublist creation & bulk tagging state
   const [newSublistInput, setNewSublistInput] = useState("");
@@ -165,7 +226,7 @@ export default function BoardMailingListPage() {
 
   const filteredSubscribers = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    return subscribers.filter((s) => {
+    const matched = subscribers.filter((s) => {
       if (cohortFilter === "all_active" && s.status !== "active") return false;
       if (cohortFilter.startsWith("sublist:")) {
         const target = cohortFilter.slice("sublist:".length).toLowerCase();
@@ -181,7 +242,42 @@ export default function BoardMailingListPage() {
         s.sublists.some((t) => t.toLowerCase().includes(q))
       );
     });
-  }, [subscribers, searchQuery, statusFilter, cohortFilter]);
+
+    const dirMultiplier = sortDir === "asc" ? 1 : -1;
+
+    return [...matched].sort((a, b) => {
+      if (sortField === "subscriber") {
+        const cmp = a.email.localeCompare(b.email);
+        if (cmp !== 0) return cmp * dirMultiplier;
+      } else if (sortField === "institution") {
+        const instA = a.affiliation.trim();
+        const instB = b.affiliation.trim();
+        // Keep blank institutions at the bottom regardless of sort direction
+        if (!instA && instB) return 1;
+        if (instA && !instB) return -1;
+        const cmp = instA.localeCompare(instB, undefined, { sensitivity: "base" });
+        if (cmp !== 0) return cmp * dirMultiplier;
+      } else if (sortField === "tags") {
+        const tagsA = [...a.sublists, ...a.interests].join(", ");
+        const tagsB = [...b.sublists, ...b.interests].join(", ");
+        // Prioritize records with custom sublists over untagged records when sorting ascending
+        if (a.sublists.length === 0 && b.sublists.length > 0) return dirMultiplier;
+        if (a.sublists.length > 0 && b.sublists.length === 0) return -dirMultiplier;
+        const cmp = tagsA.localeCompare(tagsB, undefined, { sensitivity: "base" });
+        if (cmp !== 0) return cmp * dirMultiplier;
+      } else if (sortField === "status") {
+        const rankA = STATUS_SORT_ORDER[a.status] ?? 99;
+        const rankB = STATUS_SORT_ORDER[b.status] ?? 99;
+        if (rankA !== rankB) return (rankA - rankB) * dirMultiplier;
+      } else if (sortField === "date_added") {
+        const msA = Date.parse(a.createdAt || "") || 0;
+        const msB = Date.parse(b.createdAt || "") || 0;
+        if (msA !== msB) return (msA - msB) * dirMultiplier;
+      }
+
+      return a.email.localeCompare(b.email);
+    });
+  }, [subscribers, searchQuery, statusFilter, cohortFilter, sortField, sortDir]);
 
   const visibleRows = useMemo(
     () => filteredSubscribers.slice(0, 250),
@@ -356,10 +452,7 @@ export default function BoardMailingListPage() {
   };
 
   const handleExportCsv = () => {
-    const exportSource =
-      cohortFilter === "all_records" && statusFilter === "all" && !searchQuery.trim()
-        ? subscribers
-        : filteredSubscribers;
+    const exportSource = filteredSubscribers;
 
     const header = [
       "Email Address",
@@ -370,6 +463,7 @@ export default function BoardMailingListPage() {
       "Sublists",
       "Topics",
       "Source",
+      "Date Added",
       "Updated At",
     ];
     const escapeCell = (v: string) => `"${v.replace(/"/g, '""')}"`;
@@ -385,6 +479,7 @@ export default function BoardMailingListPage() {
           escapeCell(s.sublists.join("; ")),
           escapeCell(s.interests.join("; ")),
           escapeCell(s.source),
+          escapeCell(s.createdAt),
           escapeCell(s.updatedAt),
         ].join(",")
       ),
@@ -1005,11 +1100,55 @@ export default function BoardMailingListPage() {
                       className="rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
                     />
                   </th>
-                  <th className="py-2.5 pr-4">Subscriber</th>
-                  <th className="py-2.5 pr-4">Institution</th>
-                  <th className="py-2.5 pr-4">Sublists &amp; Topics</th>
-                  <th className="py-2.5 pr-4">Status</th>
-                  <th className="py-2.5 text-right">Actions</th>
+                  {(
+                    [
+                      { field: "subscriber" as SortField, label: "Subscriber" },
+                      { field: "institution" as SortField, label: "Institution" },
+                      { field: "tags" as SortField, label: "Sublists & Topics" },
+                      { field: "status" as SortField, label: "Status" },
+                      { field: "date_added" as SortField, label: "Date Added" },
+                    ]
+                  ).map(({ field, label }) => {
+                    const isActiveSort = sortField === field;
+                    return (
+                      <th
+                        key={field}
+                        aria-sort={
+                          isActiveSort
+                            ? sortDir === "asc"
+                              ? "ascending"
+                              : "descending"
+                            : "none"
+                        }
+                        className="py-2.5 pr-4 whitespace-nowrap select-none"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => handleSortColumn(field)}
+                          className={`inline-flex items-center gap-1 uppercase tracking-wider transition-colors cursor-pointer ${
+                            isActiveSort
+                              ? "text-primary font-bold"
+                              : "text-slate-500 hover:text-slate-800 font-semibold"
+                          }`}
+                        >
+                          <span>{label}</span>
+                          {isActiveSort ? (
+                            sortDir === "asc" ? (
+                              <ArrowUp size={12} className="text-primary shrink-0" />
+                            ) : (
+                              <ArrowDown size={12} className="text-primary shrink-0" />
+                            )
+                          ) : (
+                            <ArrowUpDown
+                              size={12}
+                              className="text-slate-300 shrink-0"
+                            />
+                          )}
+                        </button>
+                      </th>
+                    );
+                  })}
+                  <th className="py-2.5 text-right whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -1111,6 +1250,27 @@ export default function BoardMailingListPage() {
                             {sub.bounceReason}
                           </div>
                         )}
+                      </td>
+                      <td className="py-3 pr-4 align-top whitespace-nowrap tabular-nums text-slate-600">
+                        {(() => {
+                          const dateInfo = formatDateAdded(sub.createdAt);
+                          const srcLabel =
+                            SOURCE_LABEL[sub.source] || sub.source;
+                          return (
+                            <div title={`Added: ${dateInfo.tooltip} • Source: ${srcLabel}`}>
+                              <span className="font-medium text-slate-700 block">
+                                {dateInfo.short}
+                              </span>
+                              <span className="text-[10px] text-slate-400 block">
+                                {sub.source === "mailchimp_import"
+                                  ? "CSV import"
+                                  : sub.source === "board_manual"
+                                  ? "Manual"
+                                  : "Web opt-in"}
+                              </span>
+                            </div>
+                          );
+                        })()}
                       </td>
                       <td className="py-3 text-right whitespace-nowrap align-top">
                         <div className="inline-flex items-center gap-1.5">

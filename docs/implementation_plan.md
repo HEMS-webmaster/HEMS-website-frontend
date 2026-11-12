@@ -228,6 +228,11 @@ Each workshop follows a 4-point protocol:
 1. [x] **Operations & Postmark Info Dialog (`@ops`, `@prod`, `@dev`):** Added [`MailingSystemInfoModal.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/mailing/MailingSystemInfoModal.tsx) triggered via `How Mailing & Postmark Work` on `/board/mailing-list` and `/board/announcements`, documenting live Cloud Firestore storage (`hems-workshop` shared across `localhost:3000` and `preview-2027`), zero-pixel / direct-URL Postmark broadcast hygiene, single-admin Postmark login policy, and sublist workflows.
 2. [x] **Non-Destructive Custom Sublists & Cohort Tagging (`@arch`, `@dev`):** Extended [`useMailingAdmin.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/hooks/useMailingAdmin.ts) (`_meta_sublists` catalog + `sublists` array preserving existing imported Firestore records), added 1-click `All Active Subscribed` & custom sublist cohort pills, HEMS preset chips (`Board Members`, `2025 Attendees`, `2025 Presenters`, `2025 Corporate Sponsors`, `2027 ...`), multi-select bulk tag assignment, inline `+ Sublist` / `×` row tags, CSV upload tag assignment, and sublist recipient targeting in `/board/announcements`.
 
+### Phase 20: Mailing List Multi-Column Sorting & Date Added Column [COMPLETED]
+*Detailed Architectural Plan:* [docs/plans/2026-11-12-mailing-list-column-sorting-and-date-added.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-12-mailing-list-column-sorting-and-date-added.md)
+
+1. [x] **Interactive Column Sorting & `Date Added` Column (`@ops`, `@dev`):** Added sortable column headers across every data column in [`mailing-list/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/%28portal%29/board/mailing-list/page.tsx) (`Subscriber`, `Institution`, `Sublists & Topics`, `Status`, and `Date Added`), displaying `createdAt` in `tabular-nums` (`YYYY-MM-DD` with full timestamp/source tooltip) and round-tripping `Date Added` / Mailchimp `OPTIN_TIME` / `CONFIRM_TIME` in [`mailingTemplate.ts`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/utils/mailingTemplate.ts) and CSV exports.
+
 ---
 
 ## Verification Plan

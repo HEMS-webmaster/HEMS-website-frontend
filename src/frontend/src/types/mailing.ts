@@ -89,6 +89,7 @@ export interface MailchimpParsedRow {
   interests: MailingInterest[];
   sublists: string[];
   status: SubscriberStatus;
+  createdAt?: string;
 }
 
 export interface MailchimpImportResult {

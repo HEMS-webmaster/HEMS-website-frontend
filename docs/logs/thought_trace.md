@@ -1209,3 +1209,10 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Multi-select checkboxes + Bulk Tag Add/Remove action bar for tagging already-imported subscribers rapidly,
   3. Inline per-row `+ Tag` / `×` tag chips, CSV import tag assignment (`importTag`), lossless CSV export of `Sublists`, and
   4. Sublist targeting in `/board/announcements` (`Recipient Segment / Sublist` selector).
+
+## [2026-11-12] @ops Pre-Cutover Timing Advice — What to Do in Postmark Now vs. During Domain Port
+- **@ops**: Advising `@bo` NOT to touch DNS (`DKIM`/`Return-Path`) on the outgoing registrar or wire live Cloud Function tokens today since `hems-workshop.org` ports to Google/Firebase in 1–2 days (avoiding duplicate DNS work). However, recommending two 5-minute zero-DNS actions inside Postmark today that clear human review queues ahead of cutover: (1) submitting Postmark's Account + Broadcast Stream human approval questionnaire (saves 1–2 business days at launch) and (2) emailing Postmark Support with HEMS's 501(c)(3) status for the nonprofit discount, plus optionally creating the `HEMS Society Production` server & staging `hems-workshop.org` unverified so its DKIM/Return-Path strings are ready to paste into Google Cloud DNS in one pass.
+
+## [2026-11-12] Phase 20 — Mailing List Column Sorting & Date Added Column (@ops, @arch, @dev, @qa)
+- **@arch & @ops**: Adding `Date Added` (`createdAt`) display and CSV round-trip support (`Date Added`, Mailchimp `OPTIN_TIME` / `CONFIRM_TIME` parsing in `mailingTemplate.ts` + earliest-timestamp preservation in `useMailingAdmin.ts`) so both newly added addresses and Mailchimp historical opt-in timestamps are preserved accurately in `mailing_subscribers`.
+- **@dev**: Adding interactive multi-column sorting (`Subscriber`, `Institution`, `Sublists & Topics`, `Status`, and `Date Added`) with directional indicators (`ArrowUp`, `ArrowDown`, `ArrowUpDown`), `aria-sort` accessibility attributes, empty-value-last tie-breaking, and `tabular-nums` ISO date formatting (`YYYY-MM-DD`) in `src/frontend/src/app/(portal)/board/mailing-list/page.tsx`.

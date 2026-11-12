@@ -364,6 +364,15 @@ export function parseMailchimpCsvExport(
     "university",
   ]);
   const tagsIdx = findCol(["sublists", "sublist", "tags", "groups", "interests"]);
+  const dateAddedIdx = findCol([
+    "date added",
+    "added at",
+    "created at",
+    "created_at",
+    "optin_time",
+    "confirm_time",
+    "timestamp",
+  ]);
   const statusIdx = findCol(["status", "member status", "unsub_reason", "clean_time", "unsub_time"]);
   const unsubTimeIdx = headers.findIndex((h) => h.includes("unsub"));
   const cleanTimeIdx = headers.findIndex((h) => h.includes("clean") || h.includes("bounce"));
@@ -432,6 +441,17 @@ export function parseMailchimpCsvExport(
       }
     }
 
+    let parsedCreatedAt: string | undefined;
+    if (dateAddedIdx >= 0) {
+      const rawDate = (row[dateAddedIdx] || "").trim().replace(/^"+|"+$/g, "");
+      if (rawDate) {
+        const ms = Date.parse(rawDate);
+        if (!Number.isNaN(ms) && ms > 0) {
+          parsedCreatedAt = new Date(ms).toISOString();
+        }
+      }
+    }
+
     parsed.push({
       email,
       firstName,
@@ -440,6 +460,7 @@ export function parseMailchimpCsvExport(
       interests,
       sublists: Array.from(rowSublistsSet),
       status,
+      ...(parsedCreatedAt ? { createdAt: parsedCreatedAt } : {}),
     });
   }
 

@@ -811,6 +811,15 @@ export function useMailingAdmin(enabled: boolean) {
           new Set([...(current?.interests || []), ...row.interests])
         ) as MailingInterest[];
 
+        let resolvedCreatedAt = current?.createdAt || row.createdAt || now;
+        if (current?.createdAt && row.createdAt) {
+          const currMs = Date.parse(current.createdAt);
+          const rowMs = Date.parse(row.createdAt);
+          if (!Number.isNaN(currMs) && !Number.isNaN(rowMs) && rowMs < currMs) {
+            resolvedCreatedAt = row.createdAt;
+          }
+        }
+
         const nextRecord: MailingSubscriber = {
           id,
           email: cleanEmail,
@@ -823,7 +832,7 @@ export function useMailingAdmin(enabled: boolean) {
           source: current?.source || "mailchimp_import",
           unsubscribeToken: current?.unsubscribeToken || generateClientToken(),
           optInToken: current?.optInToken || generateClientToken(),
-          createdAt: current?.createdAt || now,
+          createdAt: resolvedCreatedAt,
           updatedAt: now,
           ...(finalStatus === "active"
             ? { confirmedAt: current?.confirmedAt || now }
