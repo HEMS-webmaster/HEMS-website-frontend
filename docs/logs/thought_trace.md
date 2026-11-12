@@ -1430,3 +1430,21 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
      - `03 · Participation & Purchasing-Friendly Invoicing Options` (clean 3-tier comparative table: `$1,350` Standard Full Package w/ 1 Attendee Registration, `$850 + $500` Split Invoicing for Corporate Purchasing-Card Limits, `$850` Remote / Non-Attending Corporate Sponsor).
      - `04 · Participating Community & Representative Partners` + `05 · 3-Step Onboarding & Direct Coordinator Contact` (`Tim Short`, `tim.short@hems-workshop.org`, `501(c)(3)` billing note).
   4. **Web View Refinement (`@brand` v3.1.0):** Upgrade legacy `font-black uppercase` headings in `CorporateSponsorshipClient.tsx` to `Source Serif 4` Title-Case headings + `Noto Sans` `tabular-nums` and crisp Specimen White cards.
+
+## [2026-11-12T14:23:15-07:00] @prod & @brand — Student Travel Awards Photo Audit & No-Photo Recommendation
+- **Context:** `@bo` asked `@prod` and `@brand` to find a better photo for `/student-awards` ("everyone looks drunk in this shot. Perhaps no photot at all?").
+- **Rule Compliance:** Per `scrumrules.md` Rules #2, #8, and #9 (speculative phrasing + read-only `@prod`/`@brand` personas), performed a full visual + provenance audit of all repository photos (`src/frontend/public/images/` and `docs/source-documents/pics/` across 2007–2025) without modifying `src/`.
+- **Findings:**
+  1. Current `student-award-certificate-2015.jpg` (`10thHEMS_52.JPG`) suffers from harsh direct flash in a dark restaurant catching the awardee mid-blink/mid-syllable.
+  2. All other student-award presentation photos in the archive (`IMG_20190918_191510.jpg` from 2019; `HEMS2013_57..65.JPG` from 2013) were also shot at evening banquets with foreground beer bottles/wine glasses or dim blue uplighting.
+  3. Clean daytime podium/poster shots (`HEMS2013_07.JPG`, `10thHEMS_22.JPG`) depict senior PIs (e.g. Dr. Jorge Andres Diaz) or cluttered poster boards rather than student awardees.
+  4. Meanwhile, `master_workshops.json` contains 18 verified Student Travel Award recipients (2007–2022) across premier US and European universities.
+- **Action:** Present concise `@prod` + `@brand` audit and recommend **Option 1 (No Photo + Compact "Past Student Award Recipients" Honor Roll Card)** vs. **Option 2 (Simple Photo Removal)** vs. **Option 3 (Cropped 2019 Awardees / 2013 Daytime Podium Photo)**, awaiting `@bo`'s go-ahead for `@dev`.
+
+## [2026-11-12T14:30:45-07:00] @arch & @dev — Implementing Option 1 on /student-awards
+- **Decision:** `@bo` selected Option 1 ("@dev option 1 please").
+- **Architecture & Layout:**
+  - Read-only import of `master_workshops.json` in `StudentAwardsClient.tsx` using strict TypeScript interfaces (`RawStudentAwardRecord`, `RawWorkshopRecord`, `AwardCycleGroup`) with zero `any` types and zero modifications to `master_workshops.json`.
+  - Group recipients newest-first (`2022` down to `2007`) inside a compact `max-h-64 overflow-y-auto` ledger inside the right sidebar so the two-column desktop layout maintains clean bottom alignment alongside `Selection Criteria`.
+  - Each cycle links directly to `/archive/${year}` so prospective applicants can inspect winning student abstracts and presentation slides immediately.
+  - Upgrade `Eligibility`, `Application Guidelines`, `Selection Criteria`, `Application Deadline`, and `HEMS Student Awards Committee` cards to `@brand` v3.1.0 (`Source Serif 4` Title-Case headings, `Noto Sans` `tabular-nums`, Specimen White cards).
