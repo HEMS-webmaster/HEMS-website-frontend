@@ -22,6 +22,8 @@ import {
   ArrowUp,
   ArrowDown,
   ArrowUpDown,
+  Inbox,
+  ExternalLink,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useMailingAdmin } from "@/hooks/useMailingAdmin";
@@ -130,6 +132,7 @@ export default function BoardMailingListPage() {
     availableSublists,
     isLiveFirestore,
     pendingRequests,
+    contactInquiries,
     loadingData,
     errorMessage,
     createSublist,
@@ -141,6 +144,7 @@ export default function BoardMailingListPage() {
     removeSubscriber,
     importMailchimpRows,
     applyPendingPublicRequests,
+    resolveContactInquiry,
   } = useMailingAdmin(isAuthorized);
 
   const [infoModalOpen, setInfoModalOpen] = useState(false);
@@ -694,6 +698,65 @@ export default function BoardMailingListPage() {
             <RefreshCw size={13} /> Sync {pendingRequests.length} Request(s) Now
           </button>
         </div>
+      )}
+
+      {/* Conditional Online Contact Inquiries Banner (Shown only when open inquiries exist) */}
+      {contactInquiries.length > 0 && (
+        <section className="bg-white border border-primary/25 rounded-2xl p-5 shadow-2xs space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <h2 className="font-serif text-base sm:text-lg font-semibold text-slate-900 flex items-center gap-2">
+              <Inbox size={17} className="text-primary shrink-0" />
+              <span>Website Contact Inquiries ({contactInquiries.length} Open)</span>
+            </h2>
+            <span className="text-[11px] text-slate-500">Submitted via /contact</span>
+          </div>
+          <div className="space-y-2.5">
+            {contactInquiries.slice(0, 10).map((inq) => {
+              const senderName = `${inq.firstName || ""} ${inq.lastName || ""}`.trim() || inq.email;
+              const replySubj = `Re: [HEMS Website] ${inq.subject || "Inquiry"}`;
+              const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+                inq.email
+              )}&su=${encodeURIComponent(replySubj)}`;
+              return (
+                <div
+                  key={inq.id}
+                  className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div className="text-xs">
+                      <strong className="text-slate-900">{inq.subject || "General Society Inquiry"}</strong>{" "}
+                      <span className="text-slate-500">
+                        • From {senderName} ({inq.email}) → {inq.recipientEmail || "president@hems-workshop.org"}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-1.5 shrink-0">
+                      <a
+                        href={gmailUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-white border border-slate-200 text-[11px] font-semibold text-slate-700 hover:border-primary hover:text-primary"
+                      >
+                        Reply in Gmail <ExternalLink size={11} />
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => void resolveContactInquiry(inq.id)}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded border border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-[11px] font-semibold cursor-pointer"
+                      >
+                        <CheckCircle2 size={11} /> Mark Resolved
+                      </button>
+                    </div>
+                  </div>
+                  {inq.message && (
+                    <p className="text-xs text-slate-700 whitespace-pre-wrap bg-white p-2.5 rounded-lg border border-slate-200/80">
+                      {inq.message}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
       )}
 
       {feedbackBanner && (

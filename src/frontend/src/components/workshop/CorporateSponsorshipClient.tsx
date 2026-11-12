@@ -12,7 +12,6 @@ import {
   Globe,
   GraduationCap,
   CheckCircle2,
-  ArrowLeft,
   ArrowRight,
 } from "lucide-react";
 import corporateRegistry from "@/data/corporate_registry.json";
@@ -88,17 +87,7 @@ export default function CorporateSponsorshipClient() {
   const prospectusPdfUrl = workshop.sponsor_prospectus_url;
 
   return (
-    <div className="flex flex-col flex-grow py-10 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full min-w-0">
-      {/* Breadcrumb Back to Contact */}
-      <div className="mb-6">
-        <Link
-          href="/contact"
-          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-foreground/60 hover:text-primary transition-colors"
-        >
-          <ArrowLeft size={14} /> Back to Contact &amp; Inquiries
-        </Link>
-      </div>
-
+    <div className="flex flex-col flex-grow max-w-6xl mx-auto w-full min-w-0">
       {/* Page Header */}
       <header className="mb-10 sm:mb-14 pb-8 border-b border-slate-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">

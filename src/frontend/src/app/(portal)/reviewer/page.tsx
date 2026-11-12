@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useAuth } from "@/context/AuthContext";
+import { hasReviewerRole } from "@/utils/telemetryClient";
 import { ClipboardCheck, ShieldAlert, Award, FileText, CheckCircle2, Clock } from "lucide-react";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ export default function ReviewerPage() {
   }
 
   // Access Control check
-  if (!user || (!user.roles?.includes("reviewer") && !user.roles?.includes("admin"))) {
+  if (!user || !hasReviewerRole(user.roles)) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-8 bg-surface border border-red-500/10 rounded-2xl max-w-lg mx-auto">
         <ShieldAlert className="text-red-500 mb-4" size={48} />

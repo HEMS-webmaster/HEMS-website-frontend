@@ -95,19 +95,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return ["general"];
   };
 
-  const fetchInitialRoles = async (email: string): Promise<string[]> => {
+  const fetchWhitelistEntry = async (
+    email: string
+  ): Promise<{ found: boolean; roles: string[] }> => {
     if (!hasFirebaseKeys) {
-      return getRolesForEmail(email);
+      return { found: true, roles: getRolesForEmail(email) };
     }
     try {
-      const whitelistDoc = await getDoc(doc(db, "whitelist", email.toLowerCase().trim()));
+      const whitelistDoc = await getDoc(
+        doc(db, "whitelist", email.toLowerCase().trim())
+      );
       if (whitelistDoc.exists()) {
-        return whitelistDoc.data()?.roles || ["general"];
+        const rawRoles = whitelistDoc.data()?.roles;
+        const roles = Array.isArray(rawRoles) && rawRoles.length > 0 ? rawRoles : ["general"];
+        return { found: true, roles };
       }
     } catch (err) {
       console.error("Error fetching whitelist roles during initialization:", err);
     }
-    return ["general"];
+    return { found: false, roles: ["general"] };
+  };
+
+  const fetchInitialRoles = async (email: string): Promise<string[]> => {
+    const res = await fetchWhitelistEntry(email);
+    return res.roles;
   };
 
   useEffect(() => {
@@ -132,11 +143,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const profile = userDoc.data() as UserProfile;
             const email = (firebaseUser.email || profile.email || "").toLowerCase().trim();
             if (email) {
-              const wlRoles = await fetchInitialRoles(email);
-              const mergedRoles = Array.from(
-                new Set([...(Array.isArray(profile.roles) ? profile.roles : []), ...wlRoles])
-              );
-              setUser({ ...profile, roles: mergedRoles });
+              const wl = await fetchWhitelistEntry(email);
+              const resolvedRoles = wl.found
+                ? wl.roles
+                : Array.isArray(profile.roles) && profile.roles.length > 0
+                ? profile.roles
+                : ["general"];
+              setUser({ ...profile, roles: resolvedRoles });
             } else {
               setUser(profile);
             }
@@ -205,7 +218,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         emailVerified: credential.user.emailVerified
       };
       await setDoc(userDocRef, updated);
-      setUser(updated as UserProfile);
+      const emailLookup = (credential.user.email || data.email || "").toLowerCase().trim();
+      const wl = emailLookup ? await fetchWhitelistEntry(emailLookup) : { found: false, roles: ["general"] };
+      const effectiveRoles = wl.found
+        ? wl.roles
+        : Array.isArray(data.roles) && data.roles.length > 0
+        ? data.roles
+        : ["general"];
+      setUser({ ...(updated as UserProfile), roles: effectiveRoles });
     } else {
       // New user from OAuth
       const email = credential.user.email || "";
@@ -258,7 +278,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         emailVerified: credential.user.emailVerified
       };
       await setDoc(userDocRef, updated);
-      setUser(updated as UserProfile);
+      const emailLookup = (credential.user.email || data.email || email).toLowerCase().trim();
+      const wl = emailLookup ? await fetchWhitelistEntry(emailLookup) : { found: false, roles: ["general"] };
+      const effectiveRoles = wl.found
+        ? wl.roles
+        : Array.isArray(data.roles) && data.roles.length > 0
+        ? data.roles
+        : ["general"];
+      setUser({ ...(updated as UserProfile), roles: effectiveRoles });
     }
   };
 

@@ -6,6 +6,11 @@ import { usePathname } from "next/navigation";
 import { Shield, User, Menu, X, ChevronDown } from "lucide-react";
 import workshopsData from "@/data/master_workshops.json";
 import { useAuth } from "@/context/AuthContext";
+import {
+  hasAdminRole,
+  hasBoardOrAdminRole,
+  hasReviewerRole,
+} from "@/utils/telemetryClient";
 
 interface WorkshopNavEntry {
   year: number | string;
@@ -65,12 +70,12 @@ const PRIMARY_LINKS = [
 ];
 
 const WORKSHOP_PORTAL_SUBLINKS = [
-  { href: "/layout-portal", label: "Workshop Overview" },
+  { href: "/layout-portal", label: "Overview" },
   { href: "/call-for-papers", label: "Call for Papers" },
   { href: "/registration", label: "Registration" },
-  { href: "/accommodations", label: "Venue & Accommodations" },
+  { href: "/accommodations", label: "Accommodations" },
   { href: "/corporate-sponsorship", label: "Corporate Sponsorship" },
-  { href: "/formatting-guidelines", label: "Formatting Guidelines" },
+  { href: "/student-awards", label: "Student Travel Awards" },
 ];
 
 function supportsHoverPointer(): boolean {
@@ -99,6 +104,7 @@ export default function Navbar() {
     cleanPathname.startsWith("/call-for-papers") ||
     cleanPathname.startsWith("/registration") ||
     cleanPathname.startsWith("/accommodations") ||
+    cleanPathname.startsWith("/corporate-sponsorship") ||
     cleanPathname.startsWith("/formatting-guidelines");
 
   const isActive = (href: string): boolean => {
@@ -270,7 +276,7 @@ export default function Navbar() {
             <Link
               href="/contact"
               className={`ml-1.5 xl:ml-2 px-3.5 xl:px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all whitespace-nowrap ${
-                cleanPathname.startsWith("/contact") || cleanPathname.startsWith("/corporate-sponsorship")
+                cleanPathname.startsWith("/contact")
                   ? "bg-primary text-white shadow-xs"
                   : "bg-slate-900 text-white hover:bg-primary shadow-xs"
               }`}
@@ -349,15 +355,46 @@ export default function Navbar() {
                         })}
                       </div>
 
-                      {user.roles?.includes("admin") && (
-                        <div className="mt-3 pt-2.5 border-t border-slate-100">
-                          <Link
-                            href="/admin"
-                            onClick={() => setProfileOpen(false)}
-                            className="text-xs font-semibold text-primary hover:underline"
-                          >
-                            Open Admin Portal →
-                          </Link>
+                      {(hasBoardOrAdminRole(user.roles) ||
+                        hasReviewerRole(user.roles) ||
+                        hasAdminRole(user.roles)) && (
+                        <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap gap-x-3 gap-y-1.5">
+                          {hasBoardOrAdminRole(user.roles) && (
+                            <>
+                              <Link
+                                href="/board/mailing-list"
+                                onClick={() => setProfileOpen(false)}
+                                className="text-xs font-semibold text-primary hover:underline"
+                              >
+                                Mailing List →
+                              </Link>
+                              <Link
+                                href="/admin/analytics"
+                                onClick={() => setProfileOpen(false)}
+                                className="text-xs font-semibold text-primary hover:underline"
+                              >
+                                Analytics →
+                              </Link>
+                            </>
+                          )}
+                          {hasReviewerRole(user.roles) && (
+                            <Link
+                              href="/reviewer"
+                              onClick={() => setProfileOpen(false)}
+                              className="text-xs font-semibold text-primary hover:underline"
+                            >
+                              Reviewer Panel →
+                            </Link>
+                          )}
+                          {hasAdminRole(user.roles) && (
+                            <Link
+                              href="/admin"
+                              onClick={() => setProfileOpen(false)}
+                              className="text-xs font-semibold text-primary hover:underline"
+                            >
+                              Admin →
+                            </Link>
+                          )}
                         </div>
                       )}
                     </div>
@@ -574,44 +611,51 @@ export default function Navbar() {
                 </button>
               </div>
 
-              {(user.roles?.includes("admin") ||
-                user.roles?.includes("board") ||
-                user.roles?.includes("reviewer")) && (
+              {(hasBoardOrAdminRole(user.roles) ||
+                hasReviewerRole(user.roles) ||
+                hasAdminRole(user.roles)) && (
                 <div className="flex flex-wrap gap-2 px-2">
-                  {user.roles?.includes("admin") && (
+                  {hasBoardOrAdminRole(user.roles) && (
                     <>
                       <Link
-                        href="/admin"
+                        href="/board/mailing-list"
                         onClick={() => setMobileOpen(false)}
-                        className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
+                        className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
                       >
-                        Admin Panel
+                        Mailing List
+                      </Link>
+                      <Link
+                        href="/board/announcements"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                      >
+                        Announcements
                       </Link>
                       <Link
                         href="/admin/analytics"
                         onClick={() => setMobileOpen(false)}
                         className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
                       >
-                        Analytics
+                        Website Analytics
                       </Link>
                     </>
                   )}
-                  {(user.roles?.includes("board") || user.roles?.includes("admin")) && (
-                    <Link
-                      href="/board"
-                      onClick={() => setMobileOpen(false)}
-                      className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
-                    >
-                      Board Panel
-                    </Link>
-                  )}
-                  {(user.roles?.includes("reviewer") || user.roles?.includes("admin")) && (
+                  {hasReviewerRole(user.roles) && (
                     <Link
                       href="/reviewer"
                       onClick={() => setMobileOpen(false)}
                       className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
                     >
                       Reviewer Panel
+                    </Link>
+                  )}
+                  {hasAdminRole(user.roles) && (
+                    <Link
+                      href="/admin"
+                      onClick={() => setMobileOpen(false)}
+                      className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
+                    >
+                      Admin
                     </Link>
                   )}
                 </div>

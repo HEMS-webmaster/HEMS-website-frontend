@@ -38,6 +38,7 @@ const MOCK_SUBSCRIBERS_KEY = "hems_mock_mailing_subscribers_v1";
 const MOCK_CAMPAIGNS_KEY = "hems_mock_mailing_campaigns_v1";
 const MOCK_PUBLIC_REQ_KEY = "hems_mock_mailing_requests_v1";
 const MOCK_SUBLISTS_KEY = "hems_mock_mailing_sublists_v1";
+const MOCK_CONTACT_INQUIRIES_KEY = "hems_mock_contact_inquiries_v1";
 
 /**
  * Reserved document ID inside `mailing_subscribers` storing the Board's Sublist Catalog.
@@ -260,6 +261,7 @@ export function useMailingAdmin(enabled: boolean) {
   const [catalogSublists, setCatalogSublists] = useState<string[]>([]);
   const [campaigns, setCampaigns] = useState<MailingCampaign[]>([]);
   const [pendingRequests, setPendingRequests] = useState<PublicMailingRequest[]>([]);
+  const [contactInquiries, setContactInquiries] = useState<PublicMailingRequest[]>([]);
   const [loadingData, setLoadingData] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -306,6 +308,15 @@ export function useMailingAdmin(enabled: boolean) {
           (mockReqs as PublicMailingRequest[]).filter(
             (r) => r.status === "pending" && r.type !== "contact_inquiry"
           )
+        );
+        const mockInq =
+          typeof window !== "undefined"
+            ? (JSON.parse(
+                localStorage.getItem(MOCK_CONTACT_INQUIRIES_KEY) || "[]"
+              ) as PublicMailingRequest[])
+            : [];
+        setContactInquiries(
+          mockInq.filter((r) => r.status !== "processed")
         );
         return;
       }
@@ -383,9 +394,25 @@ export function useMailingAdmin(enabled: boolean) {
       setCampaigns(campList);
 
       const reqList: PublicMailingRequest[] = [];
+      const inqList: PublicMailingRequest[] = [];
       reqSnap.forEach((d) => {
         const data = d.data();
-        if (data.status === "pending" && data.type !== "contact_inquiry") {
+        if (data.type === "contact_inquiry" && data.status !== "processed") {
+          inqList.push({
+            id: d.id,
+            type: "contact_inquiry",
+            email: String(data.email || ""),
+            firstName: data.firstName ? String(data.firstName) : undefined,
+            lastName: data.lastName ? String(data.lastName) : undefined,
+            subject: data.subject ? String(data.subject) : "General Society Inquiry",
+            message: data.message ? String(data.message) : "",
+            recipientEmail: data.recipientEmail
+              ? String(data.recipientEmail)
+              : "president@hems-workshop.org",
+            createdAt: String(data.createdAt || ""),
+            status: data.status === "forwarded" ? "forwarded" : "pending",
+          });
+        } else if (data.status === "pending" && data.type !== "contact_inquiry") {
           reqList.push({
             id: d.id,
             type: data.type as PublicMailingRequest["type"],
@@ -402,7 +429,27 @@ export function useMailingAdmin(enabled: boolean) {
           });
         }
       });
+      if (typeof window !== "undefined") {
+        try {
+          const localInq = JSON.parse(
+            localStorage.getItem(MOCK_CONTACT_INQUIRIES_KEY) || "[]"
+          ) as PublicMailingRequest[];
+          for (const item of localInq) {
+            if (
+              item.id &&
+              item.status !== "processed" &&
+              !inqList.some((x) => x.id === item.id)
+            ) {
+              inqList.push(item);
+            }
+          }
+        } catch {
+          // Ignore malformed local buffer
+        }
+      }
+      inqList.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
       setPendingRequests(reqList);
+      setContactInquiries(inqList);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Unknown Firestore error";
       console.error("[useMailingAdmin] Error loading mailing directory:", err);
@@ -1165,12 +1212,38 @@ export function useMailingAdmin(enabled: boolean) {
     [subscribers, campaigns, refreshAll]
   );
 
+  const resolveContactInquiry = useCallback(
+    async (inquiryId: string): Promise<void> => {
+      if (inquiryId.startsWith("inq-")) {
+        if (typeof window !== "undefined") {
+          const raw = JSON.parse(
+            localStorage.getItem(MOCK_CONTACT_INQUIRIES_KEY) || "[]"
+          ) as PublicMailingRequest[];
+          const updated = raw.map((r) =>
+            r.id === inquiryId ? { ...r, status: "processed" as const } : r
+          );
+          localStorage.setItem(
+            MOCK_CONTACT_INQUIRIES_KEY,
+            JSON.stringify(updated)
+          );
+        }
+      } else if (hasFirebaseKeys && db) {
+        await updateDoc(doc(db, "mailing_public_requests", inquiryId), {
+          status: "processed",
+        });
+      }
+      setContactInquiries((prev) => prev.filter((x) => x.id !== inquiryId));
+    },
+    []
+  );
+
   return {
     subscribers,
     availableSublists,
     isLiveFirestore,
     campaigns,
     pendingRequests,
+    contactInquiries,
     loadingData,
     errorMessage,
     refreshAll,
@@ -1183,6 +1256,7 @@ export function useMailingAdmin(enabled: boolean) {
     removeSubscriber,
     importMailchimpRows,
     applyPendingPublicRequests,
+    resolveContactInquiry,
     dispatchCampaign,
   };
 }

@@ -60,7 +60,7 @@ export default function StudentAwardsClient() {
   const { workshop } = useUpcomingWorkshop();
 
   return (
-    <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+    <div className="flex flex-col flex-grow max-w-6xl mx-auto w-full min-w-0">
       {/* Page Header */}
       <header className="mb-14 pb-8 border-b border-slate-200">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">

@@ -30,6 +30,23 @@ const PAGE_TITLES: Record<string, string> = {
   "/auth": "Member & Committee Sign In",
 };
 
+export function hasAdminRole(roles?: string[] | null): boolean {
+  if (!Array.isArray(roles)) return false;
+  return roles.some((r) => String(r || "").trim().toLowerCase() === "admin");
+}
+
+export function hasReviewerRole(roles?: string[] | null): boolean {
+  if (!Array.isArray(roles)) return false;
+  return roles.some((r) => {
+    const clean = String(r || "").trim().toLowerCase();
+    return (
+      clean === "reviewer" ||
+      clean === "abstract reviewer" ||
+      clean === "reviewers"
+    );
+  });
+}
+
 export function hasBoardOrAdminRole(roles?: string[] | null): boolean {
   if (!Array.isArray(roles)) return false;
   return roles.some((r) => {
