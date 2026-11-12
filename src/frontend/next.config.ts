@@ -12,12 +12,30 @@ const nextConfig: NextConfig = {
     ? { output: "export" }
     : {
         async rewrites() {
-          return [
-            {
-              source: "/api/manager/:path*",
-              destination: "http://localhost:4000/api/manager/:path*",
-            },
-          ];
+          const serveFromGcs = {
+            has: [
+              {
+                type: "query" as const,
+                key: "file",
+                value: "(?<filepath>.+)",
+              },
+            ],
+            destination:
+              "https://storage.googleapis.com/hems-workshop-archives/proceedings/:filepath",
+          };
+          return {
+            beforeFiles: [
+              { source: "/api/manager/serve", ...serveFromGcs },
+              { source: "/api/manager/serve/", ...serveFromGcs },
+            ],
+            afterFiles: [
+              {
+                source: "/api/manager/:path*",
+                destination: "http://localhost:4000/api/manager/:path*",
+              },
+            ],
+            fallback: [],
+          };
         },
       }),
   trailingSlash: true,
