@@ -1340,3 +1340,12 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   1. `group-photo-2025.jpg` (`1029 × 1600` portrait) rendered full-column width (`~750–1,088 px` tall) opposite a short 2-sentence mission, creating `>500 px` of blank vertical void; constrained portrait container (`max-w-[380px]`) without cropping any attendees and paired the left column with a 2×2 Institutional Snapshot ledger so left and right columns align cleanly.
   2. Separated the 2013 Don CeSar dinner photo out of slot #6 of the 5-item Objectives grid into Section 3 (`Community & Heritage`), formatting the 5 Objectives in a clean 6-column symmetrical bento grid (`3` × `col-span-2` + `2` × `col-span-3`).
   3. Resized header society seal from `w-28` (`112px`) to `w-16` (`64px`) per `brand-guidelines.md` §4.2 (`56px–72px`), aligned headings to `Mission Statement` and `Core Objectives`, and preserved verbatim `mission-statementV1.md` text pending `@bo` approval of proposed V2 copy refinements.
+
+
+## [2026-11-12T12:53:00-07:00] @prod / @brand / @dev — Create `mission-statementV2.md` with Changelog & Sync `/about`
+- **Request (`@bo`):** Create `docs/source-documents/mission-statementV2.md` with the proposed V2 Mission Statement, 5 Core Objectives, and a detailed V1 -> V2 changelog explaining each change and its reasoning; then update `/about` (`src/frontend/src/app/about/page.tsx`) to match `V2` word-for-word.
+- **Execution:**
+  1. Preserve `docs/source-documents/mission-statementV1.md` untouched as historical baseline.
+  2. Author `docs/source-documents/mission-statementV2.md` containing the ratified V2 Mission Statement, 5 parallel Verb+Noun Objectives in unified active `we` voice, and a structured V1 -> V2 Changelog table + item-by-item rationale.
+  3. Update `src/frontend/src/app/about/page.tsx` (`@dev`) so the Mission Statement and `OBJECTIVES` array match `mission-statementV2.md` verbatim.
+  4. Verify via `npm --prefix src/frontend run build` (`@qa`), commit on `main`, and restart `next dev` (`@ops`).

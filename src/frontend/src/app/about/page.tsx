@@ -30,42 +30,42 @@ export const metadata: Metadata = buildPageMetadata({
   ],
 });
 
-// Verbatim core objectives from docs/source-documents/mission-statementV1.md
+// Verbatim core objectives from docs/source-documents/mission-statementV2.md
 const OBJECTIVES = [
   {
-    title: "Facilitate Collaboration",
+    title: "Facilitate Cross-Disciplinary Collaboration",
     icon: Users,
     accent: "primary" as const,
     description:
-      "We strive to create an inclusive community that encourages cross-disciplinary collaboration among scientists and engineers working in the field of mass spectrometry.",
+      "We unite instrument builders, analytical scientists, and end-users across academia, government laboratories, and industry in an open, single-track community.",
   },
   {
-    title: "Promote Enabling Technologies",
+    title: "Advance Enabling Technologies",
     icon: Cpu,
     accent: "secondary" as const,
     description:
-      "Engage with groups that focus on enabling technologies that enhance the capabilities of portable mass spectrometers. These include advancements in power management, sample introduction, signal processing, and miniaturization techniques to improve performance and expand application possibilities.",
+      "We champion breakthroughs in subsystem engineering—including compact vacuum systems, harsh-environment sample inlets, ruggedized analyzers, power management, and onboard signal processing—that expand what field mass spectrometers can measure.",
   },
   {
-    title: "Knowledge Exchange",
+    title: "Share Candid Field Knowledge",
     icon: BookOpen,
     accent: "primary" as const,
     description:
-      "Through the HEMS Workshop, focus groups at conferences, and publications, we promote the dissemination of cutting-edge research, innovative technologies, and practical experiences related to mass spectrometry deployment in challenging environments.",
+      "Through the biennial HEMS Workshop, conference focus groups, and our open-access proceedings archive, we disseminate cutting-edge research, practical deployment lessons, and candid engineering insights from the field.",
   },
   {
-    title: "Foster Innovation",
+    title: "Accelerate Field-Ready Innovation",
     icon: Lightbulb,
     accent: "secondary" as const,
     description:
-      "The HEMS Society is committed to fostering innovation and development efforts that enhance the reliability, portability, efficiency, and performance of mass spectrometers in various harsh environments.",
+      "We bridge the gap between laboratory concepts and operational deployment, advancing the ruggedness, autonomy, analytical performance, and environmental survivability of in-situ instrumentation.",
   },
   {
-    title: "Outreach and Education",
+    title: "Cultivate Education & Emerging Investigators",
     icon: GraduationCap,
     accent: "primary" as const,
     description:
-      "We engage with the public, researchers, and industry stakeholders to raise awareness about the importance and potential of portable mass spectrometry in field applications.",
+      "Through competitive Student Travel Awards, mentorship, and community outreach, we support the next generation of field mass spectrometrists and broaden awareness of in-situ chemical sensing.",
   },
 ];
 
@@ -176,7 +176,7 @@ export default function About() {
 
               <div className="bg-[#FAFBFD] border border-slate-200/90 border-l-4 border-l-primary rounded-r-xl p-6 sm:p-7 shadow-2xs">
                 <p className="font-serif text-lg sm:text-[19.5px] text-slate-800 leading-relaxed">
-                  Our mission is to provide a platform for scientists, engineers, and users to come together, exchange knowledge, and address common challenges related to deploying mass spectrometry technology outside a controlled laboratory environment. By facilitating interaction and cooperation, we aim to accelerate the realization of reliable, compact, and energy-efficient mass spectrometry solutions for demanding, and at times extremely harsh, environments.
+                  Our mission is to convene scientists, engineers, and field operators to exchange knowledge and solve the shared challenges of deploying mass spectrometry outside the controlled laboratory. Through open, cross-sector cooperation, we accelerate reliable, compact, and energy-efficient mass spectrometry for demanding—and at times extreme—environments across ocean, atmospheric, planetary, industrial, and security frontiers.
                 </p>
               </div>
 
