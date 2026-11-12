@@ -936,7 +936,7 @@ export default function ArchiveHubClient() {
           
           <button 
             onClick={() => setShowFilters(!showFilters)}
-            className={`px-6 py-3 rounded-md flex items-center gap-2 border transition-all ${
+            className={`px-6 py-3 rounded-md flex items-center justify-center gap-2 border transition-all ${
               showFilters || activeCategory !== "All" || activeYearEra !== "All"
                 ? "bg-primary/10 border-primary text-primary font-semibold"
                 : "bg-surface border-foreground/20 text-foreground hover:bg-foreground/5"

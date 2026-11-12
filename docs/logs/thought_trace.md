@@ -1502,3 +1502,19 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
     2. Add `www.hems-workshop.org` (Primary) and `hems-workshop.org` (301 Redirect) in Firebase Hosting + verify Firebase Auth Authorized Domains.
     3. Single final login to GoDaddy: disable Sucuri WAF/Forwarding, switch Nameservers to Google Cloud DNS (`ns-cloud-*1..4.googledomains.com`), turn off GoDaddy Auto-Renew, avoid 60-day WHOIS Change-of-Registrant lock, unlock domain (`Domain Lock -> OFF`), copy EPP Authorization Code.
     4. Transfer ICANN `.org` registration to a Google-SSO set-and-forget registrar (**Squarespace Domains** — Google's official `domains.google` partner — or **Porkbun** with up to 10-year pre-paid registration), keeping `ns-cloud-*.googledomains.com` nameservers intact, then click **Approve Transfer** in GoDaddy `Transfers Out` to finish in ~15–30 minutes and close GoDaddy permanently.
+
+## [2026-11-12] @arch / @brand / @dev — Comprehensive Mobile Viewport Audit (360px–430px) & Surgical Touch/Layout Polish
+- **Context**: `@bo` asked for a careful review of the cell-phone friendly version of the HEMS website (whether it is tidy and ready to launch) and instructions for viewing a simulated mobile version on their Windows PC.
+- **Audit Scope**: Audited global CSS (`globals.css`), layout chrome (`Navbar.tsx`, `Footer.tsx`, `(portal)/layout.tsx`), interactive widgets (`HeroMassSpectrum.tsx`, `FrontendPreviewHover.tsx`, `DownloadGate.tsx`, `MailingListSignupCard.tsx`), and all public routes (`/`, `/layout-portal`, `/call-for-papers`, `/registration`, `/accommodations`, `/corporate-sponsorship`, `/student-awards`, `/archive`, `/archive/[year]`, `/history`, `/about`, `/contact`).
+- **Core Mobile Architecture Assessment**:
+  - Viewport overflow guarded via `html, body { overflow-x: clip; }` (preserving `position: sticky` headers).
+  - `Navbar.tsx` implements a `44x44px` mobile drawer toggle, `max-h-[calc(100dvh-4rem)]` dynamic-viewport scrolling, collapsible Workshop sub-links, and 3-column archive year grid.
+  - `(portal)/layout.tsx` provides a sticky horizontal pill sub-bar (`overflow-x-auto no-scrollbar`) below `< 1024px` (`lg:hidden`) and `min-w-0` content containment.
+  - `HeroMassSpectrum.tsx` uses `touch-pan-y` on the SVG and a fixed-height readout bar (`min-h-[34px]`) to eliminate vertical scroll hijacking and layout shift.
+  - Desktop hover tooltips (`Navbar.tsx`, `FrontendPreviewHover.tsx`) guard against touch-screen sticky hover traps via `(hover: hover) and (pointer: fine)`.
+  - Form inputs across `ArchiveHubClient.tsx`, `ContactClient.tsx`, and `MailingListSignupCard.tsx` use `text-base` (`16px`) on mobile to prevent iOS Safari auto-zoom on focus.
+- **Surgical Mobile Fixes in Mutable `src/`**:
+  1. `CorporateSponsorshipClient.tsx`: Make the on-screen Printable Version preview action bar wrap cleanly on `360px` phones and switch the 3-column Participation Tiers table wrapper from `overflow-hidden` to `overflow-x-auto print:overflow-visible` (`min-w-[520px] sm:min-w-0 print:min-w-0`) so narrow mobile screens can swipe horizontally without crushing column 2, while preserving exact US-Letter print output.
+  2. `ArchiveHubClient.tsx`: Center the mobile full-width `Filters` button (`justify-center`) to match the adjacent `Reset` button when stacked on `< 768px`.
+  3. `MailingListSignupCard.tsx`: Wrap inline text + `<code>hems-workshop.org</code>` inside a single `<span>` inside the flex privacy footer so flexbox does not split inline `<code>` into separate narrow columns on `360px` screens.
+- **Read-Only Lock Compliance**: `src/frontend/src/app/archive/[year]/page.tsx` remains untouched; flag the `w-[245px]` Official Workshop Host badge inline-flex layout on `375px` screens for `@bo`'s awareness.

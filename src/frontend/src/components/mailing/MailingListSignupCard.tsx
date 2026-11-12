@@ -302,11 +302,13 @@ export default function MailingListSignupCard() {
         </div>
 
         <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <p className="text-[11px] text-slate-500 flex items-center gap-1.5">
-            <ShieldCheck size={14} className="text-primary shrink-0" />
-            Never shared with third parties. Direct{" "}
-            <code className="text-[10.5px] bg-slate-100 px-1 py-0.5 rounded">hems-workshop.org</code>{" "}
-            delivery.
+          <p className="text-[11px] text-slate-500 flex items-start sm:items-center gap-1.5 leading-relaxed">
+            <ShieldCheck size={14} className="text-primary shrink-0 mt-0.5 sm:mt-0" />
+            <span>
+              Never shared with third parties. Direct{" "}
+              <code className="text-[10.5px] bg-slate-100 px-1 py-0.5 rounded">hems-workshop.org</code>{" "}
+              delivery.
+            </span>
           </p>
           <button
             type="submit"

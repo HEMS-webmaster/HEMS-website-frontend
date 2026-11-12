@@ -561,11 +561,11 @@ export default function CorporateSponsorshipClient() {
           ===================================================================== */}
       <div className={isPrintView ? "block" : "hidden print:block"}>
         {/* On-Screen Print Preview Action Bar (Never Printed) */}
-        <div className="print:hidden max-w-[8.5in] mx-auto mb-5 bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-2xs flex flex-wrap items-center justify-between gap-3">
+        <div className="print:hidden max-w-[8.5in] mx-auto mb-5 bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-2xs flex flex-col sm:flex-row sm:flex-wrap sm:items-center justify-between gap-3">
           <button
             type="button"
             onClick={closePrintableView}
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:text-primary transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:text-primary transition-colors cursor-pointer self-start sm:self-auto"
           >
             <ArrowLeft size={15} /> Back to Corporate Sponsorship Page
           </button>
@@ -574,17 +574,17 @@ export default function CorporateSponsorshipClient() {
             Executive 1-Page Summary • Formatted for US Letter &amp; PDF
           </span>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             <a
               href={`mailto:${coordinatorEmail}?subject=HEMS%20Workshop%20Corporate%20Sponsorship%20Inquiry`}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-primary hover:text-primary text-xs font-semibold transition-colors"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-primary hover:text-primary text-xs font-semibold transition-colors whitespace-nowrap"
             >
               <Mail size={14} /> Email Coordinator
             </a>
             <button
               type="button"
               onClick={handlePrintDocument}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white hover:bg-sky-800 text-xs sm:text-sm font-semibold shadow-2xs transition-colors cursor-pointer"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 min-h-[40px] rounded-lg bg-primary text-white hover:bg-sky-800 text-xs sm:text-sm font-semibold shadow-2xs transition-colors cursor-pointer whitespace-nowrap"
             >
               <Printer size={15} /> Print / Save as PDF
             </button>
@@ -714,8 +714,8 @@ export default function CorporateSponsorshipClient() {
             <h2 className="text-[10.5px] print:text-[9.5px] font-bold uppercase tracking-[0.12em] text-primary">
               03 · Participation Tiers &amp; Purchasing-Friendly Invoicing
             </h2>
-            <div className="border border-slate-300 rounded-lg overflow-hidden">
-              <table className="w-full text-left border-collapse">
+            <div className="border border-slate-300 rounded-lg overflow-x-auto print:overflow-visible">
+              <table className="w-full min-w-[520px] sm:min-w-0 print:min-w-0 text-left border-collapse">
                 <thead>
                   <tr className="bg-slate-100 border-b border-slate-300 text-[10px] print:text-[9.5px] font-bold uppercase tracking-wider text-slate-700">
                     <th className="py-2 px-3 print:py-1.5 print:px-2.5 w-[28%]">Sponsorship Option</th>
