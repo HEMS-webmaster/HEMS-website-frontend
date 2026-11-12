@@ -166,9 +166,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   );
 
   return (
-    <div className="flex flex-col flex-grow bg-surface border-t border-foreground/5">
+    <div className="flex flex-col flex-grow bg-surface border-t border-foreground/5 print:bg-white print:border-0 print:block">
       {/* Mobile & Portrait-Tablet Horizontal Portal Sub-Navigation (< 1024px) */}
-      <div className="lg:hidden sticky top-16 sm:top-[72px] z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90">
+      <div className="lg:hidden sticky top-16 sm:top-[72px] z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 print:hidden">
         <nav
           aria-label="Workshop portal navigation"
           className="flex items-center gap-2 overflow-x-auto no-scrollbar px-4 sm:px-6 py-2.5"
@@ -258,9 +258,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         )}
       </div>
 
-      <div className="max-w-[1400px] mx-auto w-full flex flex-col lg:flex-row flex-grow min-w-0">
+      <div className="max-w-[1400px] mx-auto w-full flex flex-col lg:flex-row flex-grow min-w-0 print:block print:max-w-none">
         {/* Desktop & Landscape-Tablet Left Sidebar Nav (1024px+) */}
-        <aside className="w-full lg:w-64 bg-background border-r border-foreground/10 flex-shrink-0 py-8 px-4 hidden lg:flex flex-col justify-between">
+        <aside className="w-full lg:w-64 bg-background border-r border-foreground/10 flex-shrink-0 py-8 px-4 hidden lg:flex flex-col justify-between print:hidden">
           <div className="sticky top-24">
             <Link
               href="/layout-portal"
@@ -315,7 +315,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         </aside>
 
         {/* Main Content Area (min-w-0 prevents flex children/tables from blowing out viewport width) */}
-        <div className="flex-grow min-w-0 p-4 sm:p-6 lg:p-10 xl:p-12 bg-surface">
+        <div className="flex-grow min-w-0 p-4 sm:p-6 lg:p-10 xl:p-12 bg-surface print:p-0 print:bg-white">
           {children}
         </div>
       </div>

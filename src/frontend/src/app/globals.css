@@ -50,3 +50,20 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 0.38in 0.45in;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

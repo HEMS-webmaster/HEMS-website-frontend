@@ -1,17 +1,17 @@
 field_key,section,label,value,status,used_on_pages,notes_for_editors
 workshop_number,Identity,Workshop Number,16,Confirmed,Cycle Metadata (paired with workshop_ordinal),Numeric edition (e.g. 16); update alongside workshop_ordinal
-workshop_ordinal,Identity,Workshop Ordinal,16th,Confirmed,"Home, Portal Overview, Call for Papers, Registration, Accommodations, Student Travel Awards, Contact",Ordinal edition label (e.g. 16th)
+workshop_ordinal,Identity,Workshop Ordinal,16th,Confirmed,"Home, Portal Overview, Call for Papers, Registration, Accommodations, Student Travel Awards, Corporate Sponsorship, Contact",Ordinal edition label (e.g. 16th)
 workshop_year,Identity,Workshop Year,2027,Confirmed,"Home, Portal Overview, Call for Papers, Registration, Accommodations",4-digit calendar year (e.g. 2027)
-target_window,Identity,Target Month & Year,September 2027,Confirmed,"Home, Portal Overview, Call for Papers, Registration, Accommodations, Student Travel Awards, Contact",Displayed prominently before and after exact dates are set
+target_window,Identity,Target Month & Year,September 2027,Confirmed,"Home, Portal Overview, Call for Papers, Registration, Accommodations, Student Travel Awards, Corporate Sponsorship, Contact",Displayed prominently before and after exact dates are set
 cycle_stage,Identity,Lifecycle Stage,save_the_date,Confirmed,"Home (Dossier Badge), Student Travel Awards",Allowed values: save_the_date | open | program_published | concluded ('open' flips Home Dossier badge to 'Submissions Open')
-exact_dates,Identity,Exact Workshop Dates,September 2027 (Exact Dates TBA),TBA,"Portal Overview, Call for Papers, Accommodations, Contact","Replace with exact date range once finalized (e.g. Sept 13 – Sept 16, 2027)"
+exact_dates,Identity,Exact Workshop Dates,September 2027 (Exact Dates TBA),TBA,"Portal Overview, Call for Papers, Accommodations, Corporate Sponsorship, Contact","Replace with exact date range once finalized (e.g. Sept 13 – Sept 16, 2027)"
 dates_confirmed,Identity,Are Exact Dates Finalized?,FALSE,TBA,Cycle Metadata (paired with exact_dates),Set to TRUE once exact_dates are finalized
 announcement_headline,Announcements,Primary Announcement Headline,16th HEMS Workshop — Save the Date (September 2027),Confirmed,Portal Overview,Main headline on the public Portal Overview 'Official Announcements' card (email blasts are sent via Board Portal -> Announcements)
 announcement_body,Announcements,Primary Announcement Summary,"Following our biennial tradition, planning is underway for the 16th Workshop on Harsh-Environment Mass Spectrometry in September 2027. Coastal venue selection, Call for Papers deadlines, and registration dates will be posted as soon as confirmed by the Organizing Committee.",Confirmed,"Portal Overview, SEO Event Schema",1-3 sentence update shown on Portal Overview and embedded in Schema.org Event metadata
 interest_form_url,Announcements,Save-the-Date / Mailing List Google Form URL,,TBA,"Home, Portal Overview, Registration",Optional external Google Form URL override; leave blank to route Portal & Registration to the native /contact#mailing-list signup (and Home to 2025 Proceedings)
-venue_confirmed,Venue & Lodging,Is Official Hotel Finalized?,FALSE,TBA,"Home, Portal Overview, Accommodations, Contact",Set to TRUE once the hotel contract is signed
-venue_city_state,Venue & Lodging,Host City & State,Coastal Venue TBA,TBA,"Home, Portal Overview, Accommodations, Contact","e.g. Virginia Beach, VA"
-hotel_name,Venue & Lodging,Official Conference Hotel,Official Beachfront Venue To Be Announced,TBA,"Portal Overview, Accommodations, Contact",Hotel name
+venue_confirmed,Venue & Lodging,Is Official Hotel Finalized?,FALSE,TBA,"Home, Portal Overview, Accommodations, Corporate Sponsorship, Contact",Set to TRUE once the hotel contract is signed
+venue_city_state,Venue & Lodging,Host City & State,Coastal Venue TBA,TBA,"Home, Portal Overview, Accommodations, Corporate Sponsorship, Contact","e.g. Virginia Beach, VA"
+hotel_name,Venue & Lodging,Official Conference Hotel,Official Beachfront Venue To Be Announced,TBA,"Portal Overview, Accommodations, Corporate Sponsorship, Contact",Hotel name
 hotel_address,Venue & Lodging,Hotel Street Address,Host hotel & room block details will be published once finalized for September 2027.,TBA,"Accommodations, Contact",Full street address once confirmed
 hotel_maps_url,Venue & Lodging,Google Maps Link,,TBA,"Accommodations, Contact",Paste Google Maps share URL once venue_confirmed is TRUE
 hotel_group_rate,Venue & Lodging,HEMS Group Room Rate,TBA,TBA,Accommodations,e.g. $124.00 (leave as TBA until negotiated)
@@ -31,11 +31,11 @@ reg_student_fee,Registration,Student Pass Rate (USD),$250,Confirmed,"Registratio
 reg_professional_fee,Registration,Professional Pass Rate (USD),$500,Confirmed,"Registration, SEO Event Schema",e.g. $500 (shown on Registration page when registration_open is TRUE)
 reg_sponsor_fee,Registration,Corporate Sponsor + 1 Attendee Rate (USD),"$1,350",Confirmed,"Corporate Sponsorship, Registration","e.g. $1,350 (always live on Corporate Sponsorship; shown on Registration when registration_open is TRUE)"
 reg_portal_url,Registration,Attendee Registration Portal / Google Form URL,,TBA,Registration,Paste registration link when registration_open is TRUE (activates 'Online Registration' button)
-student_award_amount,Student Travel Awards,Proposed Student Travel Award Amount,"$1,500.00",Confirmed,"Home (Dossier), Portal Overview, Student Travel Awards","e.g. $1,500.00"
+student_award_amount,Student Travel Awards,Proposed Student Travel Award Amount,"$1,500.00",Confirmed,"Home (Dossier), Portal Overview, Student Travel Awards, Corporate Sponsorship","e.g. $1,500.00"
 student_award_deadline,Student Travel Awards,Student Travel Award Application Deadline,Summer 2027 (To Be Announced),TBA,Student Travel Awards,"e.g. Friday, August 6, 2027"
 student_award_extended,Student Travel Awards,Show 'Extended' Badge?,FALSE,Confirmed,Student Travel Awards,Set to TRUE only if the application deadline is extended
-student_award_email,Student Travel Awards,Student Awards Committee Email,hemsworkshop@hems-workshop.org,Confirmed,Student Travel Awards,Committee submission email
+student_award_email,Student Travel Awards,Student Awards Committee Email,president@hems-workshop.org,Confirmed,Student Travel Awards,Committee submission email
 student_award_form_url,Student Travel Awards,Optional Student Award Google Form URL,,TBA,Student Travel Awards,Optional Google Form URL for PDF packet upload; leave blank to use email only
-sponsor_prospectus_url,Corporate Sponsorship,Sponsorship Information PDF URL,https://www.hems-workshop.org/15thWS/Corporate%20Sponsorship%20Information.pdf,Confirmed,Corporate Sponsorship,Direct URL to downloadable Corporate Sponsorship PDF flyer (currently 15th WS reference PDF; update to GCS/site URL before DNS cutover or when 16th WS flyer is issued)
+sponsor_prospectus_url,Corporate Sponsorship,Sponsorship Information PDF URL (Retired),,Confirmed,Retired (Built-in Printable Version),Legacy PDF link removed; /corporate-sponsorship now generates a live 1-page Printable Version handout directly from sheet values
 sponsor_coordinator_name,Corporate Sponsorship,Sponsorship Coordinator Name,Tim Short,Confirmed,"Corporate Sponsorship, Contact",Coordinator full name
 sponsor_coordinator_email,Corporate Sponsorship,Sponsorship Coordinator Email,tim.short@hems-workshop.org,Confirmed,"Corporate Sponsorship, Contact",Official @hems-workshop.org coordinator email address

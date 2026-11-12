@@ -232,7 +232,7 @@ export function parseWorkshopSheetCsv(
       : baseConfig.student_award_extended,
     student_award_email: getNonEmptyStr("student_award_email"),
     student_award_form_url: getStr("student_award_form_url"),
-    sponsor_prospectus_url: getNonEmptyStr("sponsor_prospectus_url"),
+    sponsor_prospectus_url: getStr("sponsor_prospectus_url"),
     sponsor_coordinator_name: getNonEmptyStr("sponsor_coordinator_name"),
     sponsor_coordinator_email: (() => {
       const email = getNonEmptyStr("sponsor_coordinator_email");

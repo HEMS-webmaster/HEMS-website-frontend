@@ -113,6 +113,7 @@ async function main() {
       'cfp_submission_url',
       'reg_portal_url',
       'student_award_form_url',
+      'sponsor_prospectus_url',
     ]);
 
     const updated = { ...base, sheet_csv_url: cliUrl ? cliUrl : base.sheet_csv_url };

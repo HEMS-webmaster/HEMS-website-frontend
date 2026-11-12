@@ -1412,3 +1412,21 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   5. **Portal Overview (`/layout-portal/`) & Venue & Accommodations (`/accommodations/`):** Both now link to the native Society Mailing List (`/contact#mailing-list`) when `interest_form_url` is blank, `/accommodations` also ingests `workshop_year`, `PortalOverviewClient` does not ingest `cfp_open` directly, and both pages now house historical photos/tables in clearly separated bottom `"Previous Years"` sections.
   6. **Contact Page (`/contact/` — `ContactClient.tsx`):** Now features the native `MailingListSignupCard`, dual Online + Email App inquiry submission routing `Sponsorship & Billing Inquiries` to `tim.short@hems-workshop.org`, `Website & Technical Support` to `webmaster@hems-workshop.org`, and general inquiries to `president@hems-workshop.org`.
 - **Execution:** Write narrow non-destructive cell updates to `186ouD9WrOQ8tV2z4VkCOSIDJ80Uc1aCm4Dcsy99plx0` via `gsheets mutate batch`, sync `docs/workshop-sheets/*.csv`, verify live CSV publish endpoint + `sync:workshop`, and restart local dev server.
+
+
+---
+### [2026-11-12] `@prod` · `@brand` · `@arch` · `@dev` — Printable Corporate Sponsorship Prospectus & Web Page Refinement
+- **User Request (`@bo`):** Remove the link to the sponsor prospectus PDF, add a `'Printable Version'` button to `/corporate-sponsorship`, and reformat the information into a professional, printable copy an attendee would be proud to print and hand to their boss.
+- **Product & Design Architecture:**
+  1. **Retire External PDF Dependency:** Remove `Download Sponsorship Info (PDF)` (`sponsor_prospectus_url`) from `CorporateSponsorshipClient.tsx` and clear `sponsor_prospectus_url` in `upcoming_workshop.json` + live Google Sheet (`186ouD9WrOQ8tV2z4VkCOSIDJ80Uc1aCm4Dcsy99plx0`).
+  2. **Dual-Mode Printable Experience:**
+     - Add a prominent **"Printable Version"** button (`Printer` icon) in both the top banner CTA bar and the right-hand Coordinator sidebar card (and support `?print=1` query param).
+     - Clicking **"Printable Version"** opens an on-screen **Executive 1-Page Prospectus View** (`max-w-[8.5in]` US-Letter sheet preview) with a `print:hidden` top toolbar (**"← Back to Web Page"** + **"Print / Save as PDF"** calling `window.print()`).
+     - Pressing `Ctrl+P` / `Cmd+P` from *either* the standard web view or the Printable Version view automatically suppresses all site chrome (`Navbar`, `Footer`, `PortalLayout` sidebars/padding, and the 52-logo web grid) via `print:hidden` and `@page { size: letter portrait; margin: 0.4in 0.45in; }`, printing only the single-page executive prospectus cleanly on 1 US-Letter sheet.
+  3. **Executive 1-Page Content Hierarchy (Designed for Manager / R&D Director / Purchasing Sign-Off):**
+     - Official HEMS Society Letterhead (Emblem, `Harsh-Environment Mass Spectrometry Society, Inc.`, IRS `501(c)(3)` Public Charity status, upcoming `16th Biennial HEMS Workshop • September 2027`, `www.hems-workshop.org`).
+     - `01 · Executive Summary & Mission Impact` + 4-column institutional quick-facts strip (`IRS 501(c)(3)`, `Single-Track Symposium`, `15 Workshops Since 1999`, `52 Industry Partners`, `$1,500.00 Student Travel Awards`).
+     - `02 · Included Corporate Sponsor Benefits` (`2×2` bordered grid: Tabletop Hardware & Literature Exhibition, Corporate Engineering Poster, Symposium Banner & Program Recognition, Year-Round Website Logo & Backlink).
+     - `03 · Participation & Purchasing-Friendly Invoicing Options` (clean 3-tier comparative table: `$1,350` Standard Full Package w/ 1 Attendee Registration, `$850 + $500` Split Invoicing for Corporate Purchasing-Card Limits, `$850` Remote / Non-Attending Corporate Sponsor).
+     - `04 · Participating Community & Representative Partners` + `05 · 3-Step Onboarding & Direct Coordinator Contact` (`Tim Short`, `tim.short@hems-workshop.org`, `501(c)(3)` billing note).
+  4. **Web View Refinement (`@brand` v3.1.0):** Upgrade legacy `font-black uppercase` headings in `CorporateSponsorshipClient.tsx` to `Source Serif 4` Title-Case headings + `Noto Sans` `tabular-nums` and crisp Specimen White cards.
