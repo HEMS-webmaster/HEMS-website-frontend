@@ -1485,3 +1485,20 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   1. `@arch`: Document plan in `docs/plans/2026-11-12-gsc-link-and-godaddy-cutover-guide.md`.
   2. `@dev`: Upgrade the External Analytics & SEO launch bar in `src/frontend/src/app/(portal)/admin/analytics/page.tsx` to a 3-card grid adding **Google Search Console** (`https://search.google.com/search-console`) between **Google Analytics 4** (`https://analytics.google.com/`) and **Ahrefs Authority Checker** (`https://ahrefs.com/website-authority-checker/?input=www.hems-workshop.org`).
   3. `@ops`: Author standalone interactive HTML runbook at `docs/domain_porting_guide.html` featuring live GoDaddy DNS diff table, 8 pitfall callouts, copy-to-clipboard values, and persistent checklist checkboxes.
+
+
+## [2026-11-12T15:56:30-07:00] @ops / @arch — Full GoDaddy Exit: Google Cloud DNS + ICANN Registrar Transfer Runbook
+- **Request (`@bo`):** Expand `docs/domain_porting_guide.html` with complete step-by-step instructions and pitfall warnings to move `hems-workshop.org` completely off GoDaddy to Google so `@bo` never has to sign into GoDaddy again.
+- **Ground-Truth Verification Performed:**
+  1. **Google Domains & Google Cloud Domains Status:** Verified via Google Cloud release notes and live local `gcloud domains registrations --help` that Google sold retail Google Domains (`domains.google`) to Squarespace and permanently removed inbound registrar transfers (`registrations:transfer`) from Google Cloud Domains.
+  2. **Public Interest Registry (`.org`) Live RDAP Query (`rdap.publicinterestregistry.org/rdap/domain/hems-workshop.org`):**
+     - Registered: `2006-12-11T19:26:46.861Z`; Last Changed: `2026-08-12T02:14:59.2Z` (>90 days ago -> zero 60-day ICANN lock).
+     - **Expiration Date:** `2026-12-11T19:26:46.861Z` (<30 days away! Transferring out before GoDaddy's auto-renewal window avoids GoDaddy's expensive renewal and the 45-day ICANN auto-renewal clawback trap while adding +1 year to `2027-12-11`).
+     - EPP Status: `clientTransferProhibited` ON (standard Domain Lock in GoDaddy); `secureDNS.delegationSigned: false` (DNSSEC OFF — safe nameserver switch).
+- **Architecture Decision for `docs/domain_porting_guide.html`:**
+  - Make **Path A (Recommended): Complete GoDaddy Exit -> Google Cloud DNS (`hems-workshop` GCP Project) + ICANN Registrar Transfer Out of GoDaddy** the default primary workflow, with a toggleable **Path B: Temporary DNS-Only Cutover on GoDaddy** tab.
+  - Sequence Path A strictly to avoid ICANN's `pendingTransfer` nameserver freeze:
+    1. Pre-create and fully populate the **Google Cloud DNS** public zone (`hems-workshop-org`) inside GCP project `hems-workshop` (including trailing-dot FQDNs `1 smtp.google.com.` and `hems-workshop.web.app.`, and unified RRset for `@` `TXT` records).
+    2. Add `www.hems-workshop.org` (Primary) and `hems-workshop.org` (301 Redirect) in Firebase Hosting + verify Firebase Auth Authorized Domains.
+    3. Single final login to GoDaddy: disable Sucuri WAF/Forwarding, switch Nameservers to Google Cloud DNS (`ns-cloud-*1..4.googledomains.com`), turn off GoDaddy Auto-Renew, avoid 60-day WHOIS Change-of-Registrant lock, unlock domain (`Domain Lock -> OFF`), copy EPP Authorization Code.
+    4. Transfer ICANN `.org` registration to a Google-SSO set-and-forget registrar (**Squarespace Domains** — Google's official `domains.google` partner — or **Porkbun** with up to 10-year pre-paid registration), keeping `ns-cloud-*.googledomains.com` nameservers intact, then click **Approve Transfer** in GoDaddy `Transfers Out` to finish in ~15–30 minutes and close GoDaddy permanently.

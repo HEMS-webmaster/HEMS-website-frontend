@@ -17,7 +17,19 @@
 
 ---
 
-## 2. Deliverables
+## 2. Full GoDaddy Exit & Live `.org` Registry (PIR RDAP) Findings
+- **Google Registrar Reality Check:** Retail Google Domains (`domains.google`) transitioned to **Squarespace Domains**, and Google Cloud permanently removed inbound domain transfers (`registrations:transfer`) from **Google Cloud Domains** (verified via `gcloud domains registrations --help`).
+- **How to Achieve 100% Google DNS Operations + Zero GoDaddy Logins Forever:**
+  1. **Authoritative DNS -> Google Cloud DNS (`hems-workshop` GCP Project):** Host the entire `hems-workshop.org` zone inside Google Cloud Console (`console.cloud.google.com/net-services/dns/zones?project=hems-workshop`, ~\$0.20/mo) on `ns-cloud-*1..4.googledomains.com` so 100% of DNS, Firebase Hosting, Storage, and Cloud Functions live in one Google Cloud project.
+  2. **ICANN `.org` Registrar -> Google-SSO Set-and-Forget Registrar:** Transfer the `.org` domain registration out of GoDaddy (using Google Workspace SSO + Auto-Renew or multi-year registration) to **Squarespace Domains** (official `domains.google` successor) or **Porkbun** (up to 10-year pre-paid `.org` registration), keeping custom nameservers pointed at Google Cloud DNS. *(Explicitly avoid Cloudflare Registrar if using Google Cloud DNS, as Cloudflare locks nameservers to `*.ns.cloudflare.com`.)*
+- **Urgent PIR RDAP Timing (`hems-workshop.org`):**
+  - **Expires:** `2026-12-11T19:26:46Z` (**Dec 11, 2026** — <30 days away!). Transferring out *before* GoDaddy runs pre-expiration auto-renewal avoids GoDaddy renewal fees and the ICANN 45-day auto-renew clawback rule while extending registration to `2027-12-11+`.
+  - **Locks & DNSSEC:** Last changed `2026-08-12` (>90 days -> no 60-day ICANN lock); `clientTransferProhibited` currently ON (toggle Domain Lock OFF in GoDaddy); `delegationSigned: false` (DNSSEC OFF -> clean nameserver delegation).
+- **Mandatory Zero-Downtime Sequence:** Pre-populate Google Cloud DNS zone -> switch GoDaddy Nameservers to `ns-cloud-*.googledomains.com` FIRST -> THEN unlock & submit EPP transfer code (because ICANN freezes nameserver changes while `pendingTransfer` is active!) -> click **Approve Transfer** in GoDaddy `Transfers Out` to finish in ~15–30 minutes and close GoDaddy permanently.
+
+---
+
+## 3. Deliverables
 1. **`src/frontend/src/app/(portal)/admin/analytics/page.tsx` (`@dev`):** Expand the external console bar into a 3-column grid featuring **Google Analytics 4** (`G-F06RZ8L5CR`), **Google Search Console** (`https://search.google.com/search-console`), and **Website Authority Checker** (`https://ahrefs.com/website-authority-checker/?input=www.hems-workshop.org`).
-2. **`docs/domain_porting_guide.html` (`@ops` / `@arch`):** Self-contained, printable HTML cutover checklist with one-click copy buttons, live GoDaddy DNS before/after comparison table, 8 pitfall warnings (Sucuri WAF, canonical redirect direction, Firebase Auth Authorized Domains, SSL minting window, GoDaddy Forwarding tab, MX/GSC preservation, SPF fix, and legacy `*WS/` academic links), and post-cutover verification steps.
+2. **`docs/domain_porting_guide.html` (`@ops` / `@arch`):** Self-contained, printable HTML cutover & full GoDaddy exit runbook with interactive Path switcher (**Path A: Complete GoDaddy Exit -> Google Cloud DNS + Registrar Transfer** default; **Path B: Temporary DNS-Only Cutover on GoDaddy**), `gcloud dns` automation commands, Cloud DNS RRset/trailing-dot rules, PIR RDAP expiration alert (`Dec 11, 2026`), and GoDaddy fast-release transfer steps.
 

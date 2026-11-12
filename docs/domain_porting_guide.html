@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HEMS Society — GoDaddy to Firebase Domain Porting Runbook (www.hems-workshop.org)</title>
+  <title>HEMS Society — Complete GoDaddy Exit &amp; Google Cloud DNS / Firebase Migration Runbook</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet" />
@@ -20,6 +20,7 @@
       --primary-soft: #F0F9FF;
       --teal: #0F766E;
       --teal-soft: #F0FDFA;
+      --teal-border: #99F6E4;
       --amber: #B45309;
       --amber-soft: #FFFBEB;
       --amber-border: #FDE68A;
@@ -57,9 +58,9 @@
     }
 
     .container {
-      max-width: 1080px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 32px 24px 72px;
+      padding: 30px 24px 72px;
     }
 
     /* Sticky Progress Bar */
@@ -67,14 +68,14 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
       padding: 10px 24px;
     }
 
     .sticky-inner {
-      max-width: 1080px;
+      max-width: 1100px;
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
@@ -93,7 +94,7 @@
 
     .progress-track {
       flex: 1;
-      max-width: 280px;
+      max-width: 260px;
       height: 8px;
       background: #E2E8F0;
       border-radius: 999px;
@@ -160,7 +161,7 @@
       border-radius: 18px;
       padding: 28px 32px;
       box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .eyebrow {
@@ -182,14 +183,29 @@
       margin: 0;
       color: var(--ink-muted);
       font-size: 15px;
-      max-width: 820px;
+      max-width: 880px;
+    }
+
+    .urgent-banner {
+      margin-top: 18px;
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-border);
+      border-left: 4px solid var(--amber);
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-size: 13.5px;
+      color: #78350F;
+    }
+
+    .urgent-banner strong {
+      color: #92400E;
     }
 
     .meta-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
       gap: 12px;
-      margin-top: 20px;
+      margin-top: 18px;
       padding-top: 18px;
       border-top: 1px solid var(--border);
     }
@@ -218,12 +234,73 @@
       margin-top: 2px;
     }
 
+    /* Mode Switcher */
+    .mode-switcher {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .mode-tab {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 15px 18px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .mode-tab:hover {
+      border-color: #94A3B8;
+    }
+
+    .mode-tab.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 4px 12px rgba(3, 105, 161, 0.08);
+    }
+
+    .mode-tab .mode-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14.5px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .mode-tab.active .mode-title {
+      color: var(--primary-dark);
+    }
+
+    .mode-tab .mode-sub {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      margin: 0;
+    }
+
+    .mode-only-godaddy {
+      display: none;
+    }
+
+    body[data-mode="godaddy-only"] .mode-only-exit {
+      display: none;
+    }
+
+    body[data-mode="godaddy-only"] .mode-only-godaddy {
+      display: block;
+    }
+
     /* Quick Console Links */
     .console-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 10px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .console-card {
@@ -246,7 +323,7 @@
     }
 
     .console-card strong {
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--primary);
       display: flex;
       align-items: center;
@@ -254,7 +331,7 @@
     }
 
     .console-card small {
-      font-size: 11.5px;
+      font-size: 11px;
       color: var(--ink-subtle);
     }
 
@@ -270,6 +347,7 @@
 
     .section-header {
       display: flex;
+      flex-wrap: wrap;
       align-items: baseline;
       justify-content: space-between;
       gap: 12px;
@@ -298,7 +376,7 @@
     /* Callouts & Pitfalls */
     .pitfall-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
       gap: 14px;
     }
 
@@ -345,7 +423,17 @@
       color: var(--primary-dark);
     }
 
-    /* DNS Table */
+    .callout-teal {
+      background: var(--teal-soft);
+      border-color: var(--teal-border);
+      color: #134E4A;
+    }
+
+    .callout-teal strong.title {
+      color: var(--teal);
+    }
+
+    /* Tables */
     .table-wrap {
       overflow-x: auto;
       border: 1px solid var(--border);
@@ -488,13 +576,19 @@
       color: #F8FAFC;
       padding: 12px 14px;
       border-radius: 9px;
-      font-size: 12.5px;
+      font-size: 12px;
+      line-height: 1.5;
       overflow-x: auto;
       margin: 8px 0 0;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
+    }
+
+    pre.cmd code {
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     pre.cmd button {
@@ -523,7 +617,7 @@
     }
 
     @media print {
-      .sticky-bar, .console-grid, pre.cmd button, .copy-chip .hint {
+      .sticky-bar, .console-grid, .mode-switcher, pre.cmd button, .copy-chip .hint {
         display: none !important;
       }
       body {
@@ -542,7 +636,7 @@
     }
   </style>
 </head>
-<body>
+<body data-mode="full-exit">
 
   <!-- Sticky Interactive Progress Toolbar -->
   <div class="sticky-bar">
@@ -551,7 +645,7 @@
         <div class="progress-track">
           <div id="progressFill" class="progress-fill"></div>
         </div>
-        <span id="progressLabel" class="progress-label">0 / 16 steps completed</span>
+        <span id="progressLabel" class="progress-label">0 / 20 steps completed</span>
       </div>
       <div class="btn-row">
         <button type="button" class="btn" onclick="resetChecklist()">Reset Checkboxes</button>
@@ -563,407 +657,683 @@
   <div class="container">
     <!-- Hero Header -->
     <header class="hero">
-      <span class="eyebrow">HEMS DevSecOps Cutover Runbook • GoDaddy DNS → Firebase Hosting</span>
-      <h1>Porting <span class="mono" style="font-size:26px;color:#0369A1;">www.hems-workshop.org</span> to Firebase Hosting</h1>
+      <span class="eyebrow">HEMS DevSecOps Migration Runbook • Permanently Exit GoDaddy → Google Cloud</span>
+      <h1>Moving <span class="mono" style="font-size:26px;color:#0369A1;">hems-workshop.org</span> Completely Off GoDaddy</h1>
       <p>
-        Step-by-step migration checklist and live DNS pitfall guide tailored specifically to <strong>hems-workshop.org</strong>'s current GoDaddy DNS zone (<code class="mono">ns33/ns34.domaincontrol.com</code>), Google Workspace email, Firebase Authentication, and Google Analytics 4 (<code class="mono">G-F06RZ8L5CR</code>).
+        End-to-end runbook to port <strong>www.hems-workshop.org</strong> to <strong>Firebase Hosting</strong>, move <strong>100% of DNS management into Google Cloud DNS</strong> (<code class="mono">hems-workshop</code> GCP project), and transfer the <code class="mono">.org</code> domain registration permanently out of GoDaddy so you <strong>never have to sign into GoDaddy again</strong>.
       </p>
+
+      <div class="urgent-banner">
+        <strong>⏰ URGENT LIVE REGISTRY FINDING — GoDaddy Renewal Date Is December 11, 2026:</strong>
+        Public Interest Registry (<code class="mono">.org</code> RDAP) shows <code class="mono">hems-workshop.org</code> expires on <strong>2026-12-11</strong> (registered 2006-12-11; last updated 2026-08-12 → <em>zero 60-day ICANN lock</em>; DNSSEC is <em>OFF</em>). GoDaddy typically bills auto-renewals 15–30 days early. Completing this transfer <strong>now</strong> automatically adds <strong>+1 full year (to Dec 11, 2027)</strong>, avoids GoDaddy's renewal bill + WAF upsells, and avoids ICANN's 45-day auto-renewal clawback trap!
+      </div>
 
       <div class="meta-strip">
         <div class="meta-box">
-          <span class="k">Canonical Primary Domain</span>
+          <span class="k">Canonical Web URL</span>
           <span class="v mono">https://www.hems-workshop.org</span>
         </div>
         <div class="meta-box">
-          <span class="k">Apex Root Behavior</span>
-          <span class="v mono">hems-workshop.org → 301 → www</span>
+          <span class="k">New DNS Home (100% Google)</span>
+          <span class="v mono">Google Cloud DNS (~$0.20/mo)</span>
         </div>
         <div class="meta-box">
-          <span class="k">Firebase Project ID</span>
+          <span class="k">GCP / Firebase Project</span>
           <span class="v mono">hems-workshop</span>
         </div>
         <div class="meta-box">
-          <span class="k">GA4 Measurement ID</span>
+          <span class="k">GA4 Stream ID</span>
           <span class="v mono">G-F06RZ8L5CR</span>
+        </div>
+        <div class="meta-box">
+          <span class="k">Current GoDaddy Expiry</span>
+          <span class="v mono" style="color:#B45309;">2026-12-11 (Transfer Eligible)</span>
         </div>
       </div>
     </header>
 
+    <!-- Strategy Mode Switcher -->
+    <div class="mode-switcher">
+      <button type="button" id="tab-full-exit" class="mode-tab active" onclick="setMode('full-exit')">
+        <div class="mode-title">
+          <span>Path A (Recommended): Complete GoDaddy Exit → Google Cloud</span>
+          <span class="badge badge-add">Never Log Into GoDaddy Again</span>
+        </div>
+        <p class="mode-sub">
+          Moves 100% of DNS into <strong>Google Cloud DNS</strong>, points web traffic to <strong>Firebase Hosting</strong>, and transfers the <code class="mono">.org</code> ICANN registration out of GoDaddy in one clean session.
+        </p>
+      </button>
+
+      <button type="button" id="tab-godaddy-only" class="mode-tab" onclick="setMode('godaddy-only')">
+        <div class="mode-title">
+          <span>Path B (Fallback): Temporary DNS-Only Cutover on GoDaddy</span>
+          <span class="badge badge-keep">Keep GoDaddy Registrar For Now</span>
+        </div>
+        <p class="mode-sub">
+          Only updates <code class="mono">A</code>, <code class="mono">CNAME</code>, and <code class="mono">TXT</code> records inside GoDaddy's DNS editor to launch Firebase Hosting first, leaving registrar exit for a later day.
+        </p>
+      </button>
+    </div>
+
     <!-- One-Click Admin Consoles -->
     <div class="console-grid">
-      <a class="console-card" href="https://dcc.godaddy.com/control/hems-workshop.org/dns" target="_blank" rel="noopener noreferrer">
-        <strong>1. GoDaddy DNS <span>↗</span></strong>
-        <small>Manage A, CNAME &amp; TXT records</small>
+      <a class="console-card" href="https://console.cloud.google.com/net-services/dns/zones?project=hems-workshop" target="_blank" rel="noopener noreferrer">
+        <strong>1. Google Cloud DNS <span>↗</span></strong>
+        <small>Create hems-workshop.org zone</small>
       </a>
       <a class="console-card" href="https://console.firebase.google.com/project/hems-workshop/hosting/sites" target="_blank" rel="noopener noreferrer">
         <strong>2. Firebase Hosting <span>↗</span></strong>
-        <small>Add custom domains &amp; SSL</small>
+        <small>Add www &amp; apex custom domains</small>
       </a>
       <a class="console-card" href="https://console.firebase.google.com/project/hems-workshop/authentication/settings" target="_blank" rel="noopener noreferrer">
         <strong>3. Firebase Auth <span>↗</span></strong>
-        <small>Verify Authorized Domains</small>
+        <small>Check Authorized Domains</small>
+      </a>
+      <a class="console-card" href="https://dcc.godaddy.com/control/hems-workshop.org/settings" target="_blank" rel="noopener noreferrer">
+        <strong>4. GoDaddy Settings <span>↗</span></strong>
+        <small>Final login: NS + Unlock + EPP</small>
+      </a>
+      <a class="console-card" href="https://dcc.godaddy.com/transfers/out" target="_blank" rel="noopener noreferrer">
+        <strong>5. GoDaddy Fast-Exit <span>↗</span></strong>
+        <small>Click "Approve Transfer" (~15m)</small>
       </a>
       <a class="console-card" href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">
-        <strong>4. Search Console <span>↗</span></strong>
-        <small>Submit sitemap.xml post-port</small>
-      </a>
-      <a class="console-card" href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">
-        <strong>5. Google Analytics <span>↗</span></strong>
-        <small>Verify Realtime stream (G-F06RZ8L5CR)</small>
+        <strong>6. Search Console <span>↗</span></strong>
+        <small>Submit sitemap.xml post-cutover</small>
       </a>
     </div>
 
-    <!-- CRITICAL PITFALLS SECTION -->
-    <section class="section">
+    <!-- ARCHITECTURE EXPLAINER FOR PATH A -->
+    <section class="section mode-only-exit">
       <div class="section-header">
-        <h2>Read First: 8 Critical Pitfalls Uncovered on Your Live GoDaddy Zone</h2>
-        <span class="phase-pill" style="background:#FEF2F2;color:#B91C1C;border-color:#FECACA;">Must Review Before Editing DNS</span>
+        <h2>Important Reality Check: How "Moving Completely to Google" Works Today</h2>
+        <span class="phase-pill" style="background:#F0FDFA;color:#0F766E;border-color:#99F6E4;">2024–2026 Google Architecture</span>
       </div>
 
-      <div class="pitfall-grid">
-        <div class="callout callout-danger">
-          <strong class="title">1. Sucuri / GoDaddy Website Security WAF IP (<code class="mono">192.124.249.10</code>)</strong>
-          Your live <code class="mono">@</code> A record currently points to <code class="mono">192.124.249.10</code>, which is GoDaddy's <strong>Website Security Firewall (Sucuri WAF)</strong> proxy—not an ordinary server! If GoDaddy Website Security WAF is left active, it can overwrite your DNS edits or block Firebase's Let's Encrypt SSL verification. Disable/bypass Website Security WAF for <code class="mono">hems-workshop.org</code> before swapping the A record.
-        </div>
-
-        <div class="callout callout-danger">
-          <strong class="title">2. Canonical Direction: <code class="mono">www</code> MUST Be Primary (Not Apex)</strong>
-          Every <code class="mono">&lt;link rel="canonical"&gt;</code>, <code class="mono">sitemap.xml</code> entry, JSON-LD article, and <code class="mono">llms.txt</code> link in our codebase uses <code class="mono">https://www.hems-workshop.org/</code>. In Firebase Hosting, add <strong><code class="mono">www.hems-workshop.org</code> as the Primary Domain</strong>, and set <strong><code class="mono">hems-workshop.org</code> to Redirect to <code class="mono">www.hems-workshop.org</code></strong>—never the reverse, or Google will see canonical redirect loops!
-        </div>
-
-        <div class="callout callout-danger">
-          <strong class="title">3. NEVER Delete <code class="mono">MX</code> or <code class="mono">google-site-verification</code></strong>
-          Your GoDaddy zone currently has <code class="mono">MX → smtp.google.com</code> (Priority 1) powering <code class="mono">@hems-workshop.org</code> email and <code class="mono">TXT → google-site-verification=FsDtU...</code> verifying Google Search Console. Leave both untouched, and <strong>do NOT change GoDaddy Nameservers</strong> (<code class="mono">ns33/ns34.domaincontrol.com</code>).
-        </div>
-
-        <div class="callout callout-danger">
-          <strong class="title">4. Check GoDaddy's Hidden "Forwarding" Card at Page Bottom</strong>
-          At the bottom of GoDaddy's DNS page is a separate <strong>Forwarding</strong> panel (Domain / Subdomain forwarding). Make sure GoDaddy Forwarding is <strong>OFF</strong>—if turned on, GoDaddy injects a hidden parked A record that breaks HTTPS certificates. Let Firebase Hosting handle the HTTPS 301 redirect cleanly.
-        </div>
-
-        <div class="callout callout-warn">
-          <strong class="title">5. Firebase Auth "Authorized Domains" (Google/Microsoft Login)</strong>
-          Both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code> MUST appear under <strong>Firebase Console → Authentication → Settings → Authorized domains</strong>. If missing, users clicking <em>Sign In with Google/Microsoft</em> to download archive PDFs will get <code class="mono">auth/unauthorized-domain</code>.
-        </div>
-
-        <div class="callout callout-warn">
-          <strong class="title">6. Expect a 15–45 Minute SSL Certificate Minting Window</strong>
-          Because your current GoDaddy A record has a <code class="mono">30-second</code> TTL, traffic switches to Firebase within minutes—but Google's automated SSL certificate takes <strong>15–60 minutes</strong> to mint once DNS resolves. Browsers may briefly show <code class="mono">ERR_SSL_VERSION_OR_CIPHER_MISMATCH</code> during that window. <strong>Do not panic or revert DNS</strong>; wait ~30–45 minutes (cut over in the evening).
-        </div>
-
-        <div class="callout callout-warn">
-          <strong class="title">7. Live Email Bug Found: Old GoDaddy SPF Hard-Fail (<code class="mono">-all</code>)</strong>
-          Your live DNS uses Google Workspace (<code class="mono">smtp.google.com</code>), yet your SPF TXT record still says <code class="mono">v=spf1 include:secureserver.net -all</code>! That tells <code class="mono">.gov</code>/<code class="mono">.edu</code> mail servers to reject Google Workspace mail. Edit that existing TXT record in-place to <code class="mono">v=spf1 include:_spf.google.com ~all</code> (never create two separate <code class="mono">v=spf1</code> records!).
-        </div>
-
-        <div class="callout callout-info">
-          <strong class="title">8. Keep Old GoDaddy Hosting Un-Cancelled for 7–14 Days</strong>
-          All <code class="mono">1,590</code> HEMS proceedings PDFs and slide previews already live on Google Cloud Storage (<code class="mono">storage.googleapis.com/hems-workshop-archives</code>), so zero archive PDFs depend on GoDaddy hosting. Still, wait 1–2 weeks before cancelling the legacy hosting plan as a safety backup.
-        </div>
-      </div>
-    </section>
-
-    <!-- LIVE GODADDY DNS DIFF TABLE -->
-    <section class="section">
-      <div class="section-header">
-        <h2>Exact GoDaddy DNS Record Map (Live Snapshot vs. Target State)</h2>
-        <span class="phase-pill">Click Any Value Chip to Copy</span>
+      <div class="callout callout-teal" style="margin-bottom:16px;">
+        <strong class="title">Why Google Cloud Handles 100% of Your DNS, While a Google-SSO Partner Holds the Bare <code class="mono">.org</code> Registration</strong>
+        Google shut down consumer <strong>Google Domains (<code class="mono">domains.google</code>)</strong> and transitioned its retail registrar business to <strong>Squarespace Domains</strong>. Furthermore, Google Cloud permanently removed inbound domain transfers (<code class="mono">registrations:transfer</code>) from <strong>Google Cloud Domains</strong> (verified directly via the <code class="mono">gcloud domains</code> SDK—Cloud Domains only registers brand-new unregistered domains).
+        <br /><br />
+        <strong>How to achieve 100% day-to-day management inside Google Cloud AND never sign into GoDaddy again:</strong>
+        <ol style="margin:8px 0 0 18px;padding:0;">
+          <li><strong>Host 100% of DNS in Google Cloud DNS (<code class="mono">hems-workshop</code> project):</strong> Your <code class="mono">A</code>, <code class="mono">CNAME</code>, <code class="mono">MX</code>, <code class="mono">TXT</code>, <code class="mono">SPF</code>, and Postmark <code class="mono">DKIM</code> records live right inside Google Cloud Console alongside Firebase (~<strong>$0.20/month</strong> on your existing Firebase/GCP billing account) using Google's <code class="mono">ns-cloud-*.googledomains.com</code> nameservers.</li>
+          <li><strong>Park the annual <code class="mono">.org</code> ICANN renewal at a zero-upsell "Sign in with Google" registrar:</strong> Transfer <code class="mono">hems-workshop.org</code> out of GoDaddy using one-click <strong>Continue with Google</strong> SSO, point its Custom Nameservers to your 4 <code class="mono">ns-cloud-*.googledomains.com</code> servers, turn on Auto-Renew (or pre-pay up to 10 years), and never touch the registrar again!</li>
+        </ol>
       </div>
 
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Action</th>
-              <th>Type</th>
-              <th>Name (Host)</th>
-              <th>Current Live Value on GoDaddy</th>
-              <th>New Target Value in GoDaddy</th>
+              <th>ICANN Registrar Option</th>
+              <th>Google SSO Login?</th>
+              <th>Custom Nameservers → Google Cloud DNS?</th>
+              <th>Approx. <code class="mono">.org</code> Cost &amp; Term</th>
+              <th>DevSecOps Verdict</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><span class="badge badge-delete">Delete</span></td>
-              <td class="mono"><strong>A</strong></td>
-              <td class="mono">@</td>
-              <td class="mono">192.124.249.10 <span style="color:#64748B;">(Sucuri WAF)</span></td>
-              <td><em>Remove this old A record so Firebase SSL can verify cleanly.</em></td>
+              <td><strong>Option 1: Squarespace Domains</strong><br /><a href="https://domains.squarespace.com/domain-transfer" target="_blank" rel="noopener noreferrer">domains.squarespace.com/domain-transfer ↗</a></td>
+              <td><span class="badge badge-add">Yes (Google SSO)</span></td>
+              <td><span class="badge badge-add">Yes</span></td>
+              <td>~$14–$20/yr (+1 yr included on transfer; Auto-Renew)</td>
+              <td><strong>Official Google Domains successor</strong> (where <code class="mono">domains.google</code> redirects). Clean UI, zero GoDaddy phone spam or fake WAF upsells.</td>
             </tr>
             <tr>
-              <td><span class="badge badge-add">Add</span></td>
-              <td class="mono"><strong>TXT</strong></td>
-              <td><span class="copy-chip" onclick="copyText(this, '@')">@ <span class="hint">Copy</span></span></td>
-              <td><em>(Not present yet)</em></td>
-              <td>
-                <span class="copy-chip" onclick="copyText(this, 'hosting-site=hems-workshop')">hosting-site=hems-workshop <span class="hint">Copy</span></span>
-                <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Use exact TXT string shown by Firebase Hosting wizard if different)*</div>
-              </td>
+              <td><strong>Option 2: Porkbun</strong><br /><a href="https://porkbun.com/transfer" target="_blank" rel="noopener noreferrer">porkbun.com/transfer ↗</a></td>
+              <td><span class="badge badge-add">Yes (Google SSO)</span></td>
+              <td><span class="badge badge-add">Yes</span></td>
+              <td>~$10.73/yr wholesale; supports <strong>up to 10-year pre-pay</strong> (to 2036!)</td>
+              <td><strong>Best set-and-forget value:</strong> Pre-pay 5–10 years in one click, point NS to Google Cloud DNS, and literally never think about renewals until 2036.</td>
             </tr>
             <tr>
-              <td><span class="badge badge-add">Add</span></td>
-              <td class="mono"><strong>A</strong></td>
-              <td><span class="copy-chip" onclick="copyText(this, '@')">@ <span class="hint">Copy</span></span></td>
-              <td><em>(Replaces 192.124.249.10)</em></td>
-              <td>
-                <span class="copy-chip" onclick="copyText(this, '199.36.158.100')">199.36.158.100 <span class="hint">Copy</span></span>
-                <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Firebase Hosting Anycast IP — confirm exact IP(s) shown in Firebase wizard; TTL 1/2 Hour or 600s)*</div>
-              </td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-edit">Edit</span></td>
-              <td class="mono"><strong>CNAME</strong></td>
-              <td><span class="copy-chip" onclick="copyText(this, 'www')">www <span class="hint">Copy</span></span></td>
-              <td class="mono">hems-workshop.org <span style="color:#64748B;">(@)</span></td>
-              <td>
-                <span class="copy-chip" onclick="copyText(this, 'hems-workshop.web.app')">hems-workshop.web.app <span class="hint">Copy</span></span>
-                <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Or use the A record <code class="mono">199.36.158.100</code> if Firebase prompts for an A record on <code class="mono">www</code>)*</div>
-              </td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-edit">Edit (Fix Email)</span></td>
-              <td class="mono"><strong>TXT</strong></td>
-              <td class="mono">@</td>
-              <td class="mono" style="color:#B91C1C;">v=spf1 include:secureserver.net -all</td>
-              <td>
-                <span class="copy-chip" onclick="copyText(this, 'v=spf1 include:_spf.google.com ~all')">v=spf1 include:_spf.google.com ~all <span class="hint">Copy</span></span>
-                <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Edit existing SPF row in-place; do NOT create two <code class="mono">v=spf1</code> rows!)*</div>
-              </td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-keep">Keep Untouched</span></td>
-              <td class="mono"><strong>MX</strong></td>
-              <td class="mono">@</td>
-              <td class="mono">smtp.google.com (Priority 1)</td>
-              <td><strong>DO NOT MODIFY OR DELETE</strong> — powers <code class="mono">@hems-workshop.org</code> Google Workspace email.</td>
-            </tr>
-            <tr>
-              <td><span class="badge badge-keep">Keep Untouched</span></td>
-              <td class="mono"><strong>TXT</strong></td>
-              <td class="mono">@</td>
-              <td class="mono">google-site-verification=FsDtU72CA...</td>
-              <td><strong>DO NOT MODIFY OR DELETE</strong> — preserves Google Search Console ownership.</td>
+              <td><strong>Avoid (for Cloud DNS): Cloudflare Registrar</strong></td>
+              <td>Yes</td>
+              <td><span class="badge badge-delete">NO — Locked!</span></td>
+              <td>~$10.11/yr</td>
+              <td><strong>Warning:</strong> Cloudflare Registrar <em>forbids</em> custom nameservers—it forces <code class="mono">*.ns.cloudflare.com</code> and prevents using Google Cloud DNS.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- PHASE 1: PRE-FLIGHT -->
+    <!-- CRITICAL PITFALLS SECTION -->
     <section class="section">
       <div class="section-header">
-        <h2>Phase 1 — Pre-Flight Backup &amp; Fresh Firebase Deploy (Before Touching GoDaddy)</h2>
-        <span class="phase-pill">~5 Minutes</span>
+        <h2>Read First: Critical Pitfalls Found on Live <code class="mono">hems-workshop.org</code> DNS &amp; Registry</h2>
+        <span class="phase-pill" style="background:#FEF2F2;color:#B91C1C;border-color:#FECACA;">Must Review Before Starting</span>
       </div>
 
-      <div class="checklist">
-        <div class="step-item">
-          <input type="checkbox" id="step-1" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-1">1. Export a backup of your current GoDaddy DNS Zone File</label>
-            <p class="step-desc">
-              In GoDaddy → <strong>Domains → hems-workshop.org → DNS → DNS Records</strong>, click the <strong>More ▾</strong> menu above the records table and select <strong>Export Zone File (Unix/Windows)</strong> (and take a quick screenshot). This gives you an instant 30-second rollback reference.
-            </p>
-          </div>
+      <div class="pitfall-grid">
+        <div class="callout callout-danger mode-only-exit">
+          <strong class="title">1. Switch Nameservers to Google Cloud DNS <em>BEFORE</em> Submitting EPP Transfer Code!</strong>
+          Once you submit an EPP transfer code to a new registrar, the <code class="mono">.org</code> registry puts the domain into <code class="mono">pendingTransfer</code>. <strong>ICANN freezes ALL nameserver edits while a transfer is pending!</strong> Always pre-load Google Cloud DNS and switch GoDaddy Nameservers to <code class="mono">ns-cloud-*.googledomains.com</code> <em>first</em>, then unlock &amp; transfer 10 minutes later.
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-2" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-2">2. Push the latest production build to Firebase Hosting</label>
-            <p class="step-desc">
-              Ensure the latest build (with SEO JSON-LD, <code class="mono">llms-full.txt</code>, GA4 <code class="mono">G-F06RZ8L5CR</code>, and Search Console links) is deployed to <code class="mono">https://hems-workshop.web.app</code> before switching DNS:
-            </p>
-            <pre class="cmd"><code>npm --prefix src/frontend run build &amp;&amp; npx firebase-tools deploy --only hosting --project hems-workshop</code><button type="button" onclick="copyText(this, 'npm --prefix src/frontend run build ; npx firebase-tools deploy --only hosting --project hems-workshop')">Copy PowerShell</button></pre>
-          </div>
+        <div class="callout callout-danger mode-only-exit">
+          <strong class="title">2. Google Cloud DNS Requires a Trailing Dot (<code class="mono">.</code>) on Hostnames</strong>
+          In Google Cloud DNS, <code class="mono">MX</code> and <code class="mono">CNAME</code> targets MUST end with a period: <code class="mono">1 smtp.google.com.</code> and <code class="mono">hems-workshop.web.app.</code>. If you omit the trailing dot, Cloud DNS appends your domain (<code class="mono">smtp.google.com.hems-workshop.org</code>), which breaks email!
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-3" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-3">3. Disable GoDaddy Website Security WAF / Domain Forwarding</label>
-            <p class="step-desc">
-              In your GoDaddy product dashboard, check <strong>Website Security &amp; Backups → Firewall (WAF)</strong>. If active on <code class="mono">hems-workshop.org</code> (which set the <code class="mono">192.124.249.10</code> A record), disable WAF proxy forwarding. Also verify the <strong>Forwarding</strong> section at the bottom of GoDaddy DNS says <em>Off</em>.
-            </p>
-          </div>
+        <div class="callout callout-danger mode-only-exit">
+          <strong class="title">3. Google Cloud DNS Groups All Root <code class="mono">@</code> TXT Values Into ONE Record</strong>
+          Unlike GoDaddy (which uses 3 separate rows), Cloud DNS uses strict RFC record sets: create <strong>one single <code class="mono">TXT</code> record</strong> at the root (<code class="mono">hems-workshop.org.</code>) and click <strong>"+ Add item"</strong> 3 times to hold: (1) <code class="mono">google-site-verification=...</code>, (2) <code class="mono">hosting-site=hems-workshop</code>, and (3) <code class="mono">v=spf1 include:_spf.google.com ~all</code>.
+        </div>
+
+        <div class="callout callout-danger mode-only-exit">
+          <strong class="title">4. Do NOT Edit GoDaddy Contact / WHOIS Info (60-Day Lock Trap!)</strong>
+          If you change the Registrant Name, Organization, or Email inside GoDaddy right before leaving, GoDaddy triggers an automatic <strong>60-day ICANN Change-of-Registrant transfer lock</strong>! Leave contact info as-is while transferring out (update it at your new registrar <em>after</em> transfer completes).
+        </div>
+
+        <div class="callout callout-danger">
+          <strong class="title">5. Sucuri / GoDaddy Website Security WAF IP (<code class="mono">192.124.249.10</code>)</strong>
+          Your live <code class="mono">@</code> A record points to <code class="mono">192.124.249.10</code>—GoDaddy's <strong>Website Security Firewall (Sucuri WAF)</strong> proxy. Disable/cancel GoDaddy Website Security WAF and ensure GoDaddy's <strong>Forwarding</strong> panel is <em>Off</em> so nothing interferes with Let's Encrypt SSL or keeps billing your card.
+        </div>
+
+        <div class="callout callout-danger">
+          <strong class="title">6. Canonical Direction: <code class="mono">www</code> MUST Be Primary (Not Apex)</strong>
+          Every <code class="mono">&lt;link rel="canonical"&gt;</code>, <code class="mono">sitemap.xml</code> URL, JSON-LD citation, and <code class="mono">llms.txt</code> link uses <code class="mono">https://www.hems-workshop.org/</code>. In Firebase Hosting, add <strong><code class="mono">www.hems-workshop.org</code> FIRST as Primary</strong>, and add <strong><code class="mono">hems-workshop.org</code> SECOND as a Redirect to <code class="mono">www.hems-workshop.org</code></strong>.
+        </div>
+
+        <div class="callout callout-warn mode-only-exit">
+          <strong class="title">7. Select "Keep Existing Nameservers" During Registrar Transfer</strong>
+          When pasting your EPP code into Squarespace Domains or Porkbun, make sure <strong>Keep existing nameservers (<code class="mono">ns-cloud-*.googledomains.com</code>)</strong> is selected—do NOT let the registrar reset nameservers to its default parked DNS, or your live site &amp; email will blip!
+        </div>
+
+        <div class="callout callout-warn mode-only-exit">
+          <strong class="title">8. Avoid the 45-Day GoDaddy Auto-Renewal Clawback Trap</strong>
+          Turn <strong>Auto-Renew OFF</strong> in GoDaddy immediately. Under ICANN/PIR rules, if GoDaddy auto-renews <code class="mono">hems-workshop.org</code> first and you transfer out within 45 days after that charge, the <code class="mono">.org</code> registry revokes GoDaddy's renewal year unless you manually demand a refund from GoDaddy!
+        </div>
+
+        <div class="callout callout-warn">
+          <strong class="title">9. Fix Live Email SPF Bug (<code class="mono">secureserver.net -all</code> → <code class="mono">_spf.google.com ~all</code>)</strong>
+          Your live domain uses Google Workspace (<code class="mono">MX → smtp.google.com</code>), yet GoDaddy still serves <code class="mono">v=spf1 include:secureserver.net -all</code>! That tells <code class="mono">.gov</code>/<code class="mono">.edu</code> servers to reject Google Workspace mail. Our target zone below fixes this to <code class="mono">v=spf1 include:_spf.google.com ~all</code>.
+        </div>
+
+        <div class="callout callout-warn">
+          <strong class="title">10. Firebase Auth "Authorized Domains" &amp; 15–45 Min SSL Minting</strong>
+          Confirm <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code> are in <strong>Firebase Auth → Settings → Authorized domains</strong> (so Google/Microsoft archive PDF login works immediately). Expect <strong>15–45 minutes</strong> after DNS cutover for Firebase's automated SSL padlock to turn green.
         </div>
       </div>
     </section>
 
-    <!-- PHASE 2: FIREBASE HOSTING WIZARD -->
-    <section class="section">
-      <div class="section-header">
-        <h2>Phase 2 — Register Both Domains in Firebase Hosting (Order Matters!)</h2>
-        <span class="phase-pill">~5 Minutes</span>
-      </div>
+    <!-- =================================================================== -->
+    <!-- PATH A: COMPLETE GODADDY EXIT -> GOOGLE CLOUD DNS + REGISTRAR EXIT  -->
+    <!-- =================================================================== -->
+    <div class="mode-only-exit">
 
-      <div class="checklist">
-        <div class="step-item">
-          <input type="checkbox" id="step-4" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-4">4. Add <code class="mono">www.hems-workshop.org</code> FIRST as the Primary Custom Domain</label>
-            <p class="step-desc">
-              Open <a href="https://console.firebase.google.com/project/hems-workshop/hosting/sites" target="_blank" rel="noopener noreferrer">Firebase Console → Hosting</a> and click <strong>Add custom domain</strong>. Enter <span class="copy-chip" onclick="copyText(this, 'www.hems-workshop.org')">www.hems-workshop.org <span class="hint">Copy</span></span>. Leave <em>"Redirect to another domain"</em> <strong>UNCHECKED</strong>, click <strong>Continue</strong>, and keep the DNS values shown on screen.
-            </p>
-          </div>
+      <!-- TARGET GOOGLE CLOUD DNS ZONE TABLE -->
+      <section class="section">
+        <div class="section-header">
+          <h2>Complete Target Zone for Google Cloud DNS (<code class="mono">hems-workshop.org</code>)</h2>
+          <span class="phase-pill">Click Any Chip to Copy Exact Cloud DNS Format</span>
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-5" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-5">5. Add <code class="mono">hems-workshop.org</code> SECOND with 301 Redirect → <code class="mono">www.hems-workshop.org</code></label>
-            <p class="step-desc">
-              Click <strong>Add custom domain</strong> again. Enter <span class="copy-chip" onclick="copyText(this, 'hems-workshop.org')">hems-workshop.org <span class="hint">Copy</span></span>, <strong>CHECK</strong> <em>"Redirect to another domain"</em>, and choose <code class="mono">www.hems-workshop.org</code> as the destination. Note the required <code class="mono">TXT</code> and <code class="mono">A</code> record values Firebase displays (Firebase also warns if an old A record like <code class="mono">192.124.249.10</code> must be removed).
-            </p>
-          </div>
+        <p style="font-size:13.5px;color:var(--ink-muted);margin:0 0 14px;">
+          Every record currently keeping <code class="mono">hems-workshop.org</code> alive (Google Workspace <code class="mono">MX</code> + Search Console <code class="mono">TXT</code>), plus the fixed <code class="mono">SPF</code> policy and new <strong>Firebase Hosting</strong> endpoints—formatted with exact trailing dots for <strong>Google Cloud DNS</strong>:
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>DNS Name in Cloud DNS</th>
+                <th>Resource Record Type</th>
+                <th>TTL</th>
+                <th>Exact Value(s) to Enter in Google Cloud DNS</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono"><em>(leave blank)</em><br /><span style="color:#64748B;font-size:11.5px;">hems-workshop.org.</span></td>
+                <td class="mono"><strong>A</strong></td>
+                <td class="mono">300</td>
+                <td>
+                  <span class="copy-chip" onclick="copyText(this, '199.36.158.100')">199.36.158.100 <span class="hint">Copy</span></span>
+                  <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Confirm exact Anycast IP shown in Firebase Hosting step)*</div>
+                </td>
+                <td>Routes apex <code class="mono">hems-workshop.org</code> to Firebase (301 → <code class="mono">www</code>). Replaces Sucuri WAF <code class="mono">192.124.249.10</code>.</td>
+              </tr>
+              <tr>
+                <td><span class="copy-chip" onclick="copyText(this, 'www')">www <span class="hint">Copy</span></span><br /><span style="color:#64748B;font-size:11.5px;">www.hems-workshop.org.</span></td>
+                <td class="mono"><strong>CNAME</strong></td>
+                <td class="mono">300</td>
+                <td>
+                  <span class="copy-chip" onclick="copyText(this, 'hems-workshop.web.app.')">hems-workshop.web.app. <span class="hint">Copy</span></span>
+                  <div style="font-size:11.5px;color:#B45309;margin-top:3px;"><strong>Note the trailing period (<code class="mono">.</code>)!</strong> *(Or use <code class="mono">A → 199.36.158.100</code> if Firebase requests an A record)*</div>
+                </td>
+                <td>Serves canonical production site <code class="mono">https://www.hems-workshop.org</code>.</td>
+              </tr>
+              <tr>
+                <td class="mono"><em>(leave blank)</em><br /><span style="color:#64748B;font-size:11.5px;">hems-workshop.org.</span></td>
+                <td class="mono"><strong>MX</strong></td>
+                <td class="mono">3600</td>
+                <td>
+                  <span class="copy-chip" onclick="copyText(this, '1 smtp.google.com.')">1 smtp.google.com. <span class="hint">Copy</span></span>
+                  <div style="font-size:11.5px;color:#B45309;margin-top:3px;"><strong>Mandatory trailing period (<code class="mono">.</code>)!</strong></div>
+                </td>
+                <td>Preserves 100% uninterrupted <code class="mono">@hems-workshop.org</code> Google Workspace email.</td>
+              </tr>
+              <tr>
+                <td class="mono"><em>(leave blank)</em><br /><span style="color:#64748B;font-size:11.5px;">hems-workshop.org.</span></td>
+                <td class="mono"><strong>TXT</strong><br /><span class="badge badge-edit" style="margin-top:4px;">1 Record, 3 Items</span></td>
+                <td class="mono">300</td>
+                <td>
+                  <div><strong>Item 1:</strong> <span class="copy-chip" onclick="copyText(this, 'google-site-verification=FsDtU72CA50Yr3tK7g1ZbNYwSiGKqXng0LU3MIijH5Y')">google-site-verification=FsDtU72CA50Yr3tK7g1ZbNYwSiGKqXng0LU3MIijH5Y <span class="hint">Copy</span></span></div>
+                  <div><strong>Item 2:</strong> <span class="copy-chip" onclick="copyText(this, 'hosting-site=hems-workshop')">hosting-site=hems-workshop <span class="hint">Copy</span></span></div>
+                  <div><strong>Item 3:</strong> <span class="copy-chip" onclick="copyText(this, 'v=spf1 include:_spf.google.com ~all')">v=spf1 include:_spf.google.com ~all <span class="hint">Copy</span></span></div>
+                </td>
+                <td>Preserves Search Console ownership + verifies Firebase + fixes Google Workspace SPF authentication.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- PATH A — PHASE 1 -->
+      <section class="section">
+        <div class="section-header">
+          <h2>Phase 1 — Pre-Build Your DNS Zone Inside Google Cloud DNS (Zero Live Impact Yet)</h2>
+          <span class="phase-pill">~10 Minutes in Google Cloud</span>
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-6" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-6">6. Verify Firebase Authentication "Authorized Domains"</label>
-            <p class="step-desc">
-              Open <a href="https://console.firebase.google.com/project/hems-workshop/authentication/settings" target="_blank" rel="noopener noreferrer">Firebase Console → Authentication → Settings → Authorized domains</a> and confirm both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code> are in the list (click <strong>Add domain</strong> right now if either is missing so Google/Microsoft sign-in works at zero-minute cutover!).
-            </p>
+        <div class="checklist">
+          <div class="step-item">
+            <input type="checkbox" id="a-step-1" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-1">1. Deploy the latest production frontend to Firebase Hosting</label>
+              <p class="step-desc">
+                Make sure the latest production build (with GA4 <code class="mono">G-F06RZ8L5CR</code>, Search Console links, JSON-LD, and <code class="mono">llms-full.txt</code>) is live on <code class="mono">hems-workshop.web.app</code> before switching domains:
+              </p>
+              <pre class="cmd"><code>npm --prefix src/frontend run build ; npx firebase-tools deploy --only hosting --project hems-workshop</code><button type="button" onclick="copyText(this, 'npm --prefix src/frontend run build ; npx firebase-tools deploy --only hosting --project hems-workshop')">Copy PowerShell</button></pre>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-2" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-2">2. Register <code class="mono">www.hems-workshop.org</code> (Primary) &amp; <code class="mono">hems-workshop.org</code> (Redirect) in Firebase Hosting</label>
+              <p class="step-desc">
+                In <a href="https://console.firebase.google.com/project/hems-workshop/hosting/sites" target="_blank" rel="noopener noreferrer">Firebase Console → Hosting</a>:
+                <br />• Click <strong>Add custom domain</strong> → enter <span class="copy-chip" onclick="copyText(this, 'www.hems-workshop.org')">www.hems-workshop.org <span class="hint">Copy</span></span> (leave <em>Redirect</em> <strong>UNCHECKED</strong>).
+                <br />• Click <strong>Add custom domain</strong> again → enter <span class="copy-chip" onclick="copyText(this, 'hems-workshop.org')">hems-workshop.org <span class="hint">Copy</span></span>, <strong>CHECK</strong> <em>Redirect to another domain</em> → <code class="mono">www.hems-workshop.org</code>.
+                <br />• Confirm the exact <code class="mono">TXT</code> verification string (usually <code class="mono">hosting-site=hems-workshop</code>) and Anycast IP (<code class="mono">199.36.158.100</code>) Firebase displays.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-3" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-3">3. Confirm both domains are listed in Firebase Auth "Authorized Domains"</label>
+              <p class="step-desc">
+                Open <a href="https://console.firebase.google.com/project/hems-workshop/authentication/settings" target="_blank" rel="noopener noreferrer">Firebase Console → Authentication → Settings → Authorized domains</a> and verify both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code> appear so Google/Microsoft archive sign-in works at zero-second cutover.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-4" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-4">4. Create Public Zone <code class="mono">hems-workshop-org</code> in Google Cloud DNS &amp; add all 4 record sets</label>
+              <p class="step-desc">
+                Open <a href="https://console.cloud.google.com/net-services/dns/zones?project=hems-workshop" target="_blank" rel="noopener noreferrer">Google Cloud Console → Network Services → Cloud DNS</a> (click <strong>Enable</strong> if prompted):
+                <br />• Click <strong>Create Zone</strong> → Zone type: <strong>Public</strong> → Zone name: <span class="copy-chip" onclick="copyText(this, 'hems-workshop-org')">hems-workshop-org <span class="hint">Copy</span></span> → DNS name: <span class="copy-chip" onclick="copyText(this, 'hems-workshop.org')">hems-workshop.org <span class="hint">Copy</span></span> → DNSSEC: <strong>Off</strong> (keep Off until after registrar transfer completes) → <strong>Create</strong>.
+                <br />• Add the <strong>4 record sets</strong> from the table above (<code class="mono">A</code>, <code class="mono">CNAME www</code>, <code class="mono">MX</code>, and the 3-item <code class="mono">TXT</code> set)—<strong>OR</strong> run this optional PowerShell block to create the zone and all 4 record sets automatically with zero typos:
+              </p>
+              <pre class="cmd"><code>gcloud auth login
+gcloud services enable dns.googleapis.com --project=hems-workshop
+gcloud dns managed-zones create hems-workshop-org --dns-name="hems-workshop.org." --description="HEMS Society Production DNS" --visibility=public --project=hems-workshop
+@'
+$ORIGIN hems-workshop.org.
+@ 300 IN A 199.36.158.100
+www 300 IN CNAME hems-workshop.web.app.
+@ 3600 IN MX 1 smtp.google.com.
+@ 300 IN TXT "google-site-verification=FsDtU72CA50Yr3tK7g1ZbNYwSiGKqXng0LU3MIijH5Y"
+@ 300 IN TXT "hosting-site=hems-workshop"
+@ 300 IN TXT "v=spf1 include:_spf.google.com ~all"
+'@ | Set-Content -Path "$env:TEMP\hems-dns.zone" -Encoding ASCII
+gcloud dns record-sets import "$env:TEMP\hems-dns.zone" --zone-file-format --zone=hems-workshop-org --project=hems-workshop</code><button type="button" onclick="copyPre(this)">Copy PowerShell</button></pre>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-5" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-5">5. Copy your 4 assigned Google Cloud DNS Nameservers &amp; verify pre-cutover answers</label>
+              <p class="step-desc">
+                Click <strong>Registrar Setup</strong> in the top-right corner of your <code class="mono">hems-workshop-org</code> Cloud DNS zone and copy the exact 4 nameservers assigned to your zone (e.g., <code class="mono">ns-cloud-a1.googledomains.com</code> through <code class="mono">ns-cloud-a4.googledomains.com</code>—note whether yours uses letter <code class="mono">a</code>, <code class="mono">b</code>, <code class="mono">c</code>, <code class="mono">d</code>, or <code class="mono">e</code>!). Test that Google Cloud DNS answers properly <em>before</em> touching GoDaddy (replace <code class="mono">ns-cloud-a1</code> with your assigned server):
+              </p>
+              <pre class="cmd"><code>Resolve-DnsName hems-workshop.org -Type MX -Server ns-cloud-a1.googledomains.com ; Resolve-DnsName hems-workshop.org -Type A -Server ns-cloud-a1.googledomains.com</code><button type="button" onclick="copyText(this, 'Resolve-DnsName hems-workshop.org -Type MX -Server ns-cloud-a1.googledomains.com ; Resolve-DnsName hems-workshop.org -Type A -Server ns-cloud-a1.googledomains.com')">Copy PowerShell</button></pre>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- PHASE 3: GODADDY DNS CUTOVER -->
-    <section class="section">
-      <div class="section-header">
-        <h2>Phase 3 — Apply DNS Records in GoDaddy &amp; Trigger SSL Minting</h2>
-        <span class="phase-pill">~10 Minutes Active + 15–45 Min SSL Wait</span>
-      </div>
-
-      <div class="checklist">
-        <div class="step-item">
-          <input type="checkbox" id="step-7" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-7">7. Add Firebase's <code class="mono">TXT</code> ownership record on <code class="mono">@</code></label>
-            <p class="step-desc">
-              In GoDaddy DNS, click <strong>Add New Record</strong> → Type: <code class="mono">TXT</code>, Name: <code class="mono">@</code>, Value: <code class="mono">hosting-site=hems-workshop</code> (or exact string shown in Firebase), TTL: <code class="mono">1/2 Hour</code> (or Custom <code class="mono">600</code> seconds). Leave your existing <code class="mono">google-site-verification=...</code> TXT record untouched.
-            </p>
-          </div>
+      <!-- PATH A — PHASE 2: FINAL LOGIN TO GODADDY (NAMESERVER CUTOVER) -->
+      <section class="section">
+        <div class="section-header">
+          <h2>Phase 2 — Your Final Single Login to GoDaddy: Cut Over Nameservers to Google Cloud DNS</h2>
+          <span class="phase-pill">~5 Minutes Active + Verify SSL</span>
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-8" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-8">8. Delete old <code class="mono">192.124.249.10</code> A record and add Firebase's <code class="mono">A</code> record on <code class="mono">@</code></label>
-            <p class="step-desc">
-              Delete the <code class="mono">A</code> record pointing <code class="mono">@</code> to <code class="mono">192.124.249.10</code>. Add a new <code class="mono">A</code> record with Name: <code class="mono">@</code> and Value: <code class="mono">199.36.158.100</code> (matching Firebase's exact prompt). Confirm no other <code class="mono">@</code> A or AAAA records exist.
-            </p>
+        <div class="checklist">
+          <div class="step-item">
+            <input type="checkbox" id="a-step-6" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-6">6. Export a backup of your legacy GoDaddy DNS Zone File &amp; turn OFF WAF / Forwarding</label>
+              <p class="step-desc">
+                Sign into <a href="https://dcc.godaddy.com/control/hems-workshop.org/dns" target="_blank" rel="noopener noreferrer">GoDaddy DNS</a> one last time → click <strong>More ▾ → Export Zone File (Unix)</strong> for your local archive. Confirm <strong>Forwarding</strong> at the bottom of the DNS page is <em>Off</em>, and disable any <strong>Website Security Firewall (WAF)</strong> add-on.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-7" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-7">7. Switch GoDaddy Nameservers from <code class="mono">domaincontrol.com</code> to your 4 Google Cloud DNS Nameservers</label>
+              <p class="step-desc">
+                In GoDaddy → <strong>DNS → Nameservers → Change Nameservers → "I'll use my own nameservers"</strong>: enter all 4 <code class="mono">ns-cloud-*1..4.googledomains.com</code> hostnames from Step 5 (with <strong>no</strong> trailing dot in GoDaddy's input boxes) and click <strong>Save</strong> + confirm the prompt. Because your Cloud DNS zone is already pre-loaded, DNS &amp; email transition seamlessly with <strong>zero downtime</strong>!
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-8" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-8">8. Verify <code class="mono">googledomains.com</code> Nameservers are live &amp; click "Verify" in Firebase Hosting</label>
+              <p class="step-desc">
+                Wait 5–15 minutes and run the PowerShell check below until <code class="mono">NameHost</code> returns <code class="mono">ns-cloud-*.googledomains.com</code>. Then click <strong>Verify</strong> on both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code> in Firebase Hosting so Google begins minting SSL certificates (keep your GoDaddy browser tab open for Phase 3!).
+              </p>
+              <pre class="cmd"><code>Resolve-DnsName hems-workshop.org -Type NS ; Resolve-DnsName www.hems-workshop.org</code><button type="button" onclick="copyText(this, 'Resolve-DnsName hems-workshop.org -Type NS ; Resolve-DnsName www.hems-workshop.org')">Copy PowerShell</button></pre>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-9" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-9">9. Update the <code class="mono">www</code> CNAME (or A) record per Firebase's prompt</label>
-            <p class="step-desc">
-              Edit the existing <code class="mono">www</code> CNAME row (currently pointing to <code class="mono">hems-workshop.org</code>) to point to <span class="copy-chip" onclick="copyText(this, 'hems-workshop.web.app')">hems-workshop.web.app <span class="hint">Copy</span></span> (or if Firebase shows an A record for <code class="mono">www</code>, delete the <code class="mono">www</code> CNAME and add the <code class="mono">www</code> A record <code class="mono">199.36.158.100</code>).
-            </p>
-          </div>
+      <!-- PATH A — PHASE 3: PERMANENT REGISTRAR TRANSFER OUT OF GODADDY -->
+      <section class="section">
+        <div class="section-header">
+          <h2>Phase 3 — Transfer <code class="mono">.org</code> Registration Out of GoDaddy &amp; Close GoDaddy Forever</h2>
+          <span class="phase-pill">~15–30 Minutes Total (With Fast-Approve)</span>
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-10" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-10">10. Fix the Google Workspace SPF <code class="mono">TXT</code> record while in GoDaddy DNS</label>
-            <p class="step-desc">
-              Click <strong>Edit</strong> on the existing TXT row <code class="mono">v=spf1 include:secureserver.net -all</code> and replace its value with <span class="copy-chip" onclick="copyText(this, 'v=spf1 include:_spf.google.com ~all')">v=spf1 include:_spf.google.com ~all <span class="hint">Copy</span></span>. Save. Confirm there is only <strong>one</strong> <code class="mono">v=spf1</code> TXT record in the table.
-            </p>
+        <div class="checklist">
+          <div class="step-item">
+            <input type="checkbox" id="a-step-9" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-9">9. Turn OFF Auto-Renew in GoDaddy (and do NOT edit Registrant Contact fields!)</label>
+              <p class="step-desc">
+                In <a href="https://dcc.godaddy.com/control/hems-workshop.org/settings" target="_blank" rel="noopener noreferrer">GoDaddy Domain Settings</a> (and <strong>Account → Renewals &amp; Billing</strong>), toggle <strong>Auto-Renew → OFF</strong> for <code class="mono">hems-workshop.org</code>, legacy hosting, and Website Security so GoDaddy does not bill you before <strong>Dec 11, 2026</strong>. <em>Reminder: Do NOT modify Registrant Name/Org/Email right now so you don't trigger a 60-day lock!</em>
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-10" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-10">10. Toggle GoDaddy "Domain Lock" OFF &amp; copy your Authorization (EPP) Code</label>
+              <p class="step-desc">
+                Scroll to the bottom of <strong>GoDaddy → Domain Settings</strong> under <em>Additional Settings</em>:
+                <br />• Toggle <strong>Domain Lock → OFF</strong> (clears <code class="mono">clientTransferProhibited</code> at the <code class="mono">.org</code> registry).
+                <br />• Click <strong>Transfer domain away from GoDaddy → Continue with transfer → Click here to see Authorization Code</strong> (also emailed to the registrant address) and copy the EPP code.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-11" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-11">11. Sign in with Google at Squarespace Domains (or Porkbun) &amp; submit the transfer</label>
+              <p class="step-desc">
+                Open <a href="https://domains.squarespace.com/domain-transfer" target="_blank" rel="noopener noreferrer">Squarespace Domains Transfer</a> (official Google Domains partner) or <a href="https://porkbun.com/transfer" target="_blank" rel="noopener noreferrer">Porkbun Transfer</a> and sign in using <strong>Continue with Google</strong> (your HEMS Google Workspace login):
+                <br />• Enter <span class="copy-chip" onclick="copyText(this, 'hems-workshop.org')">hems-workshop.org <span class="hint">Copy</span></span> and paste your GoDaddy <strong>Authorization (EPP) Code</strong>.
+                <br />• <strong>CRITICAL CHECKBOX:</strong> When asked about DNS/Nameservers, select <strong>"Keep existing nameservers" (<code class="mono">ns-cloud-*.googledomains.com</code>)</strong>—do <em>not</em> import records or reset nameservers!
+                <br />• Enable free WHOIS Privacy + Auto-Renew (or add multi-year registration up to 10 years) and complete checkout (automatically extends expiry from <code class="mono">2026-12-11</code> → <code class="mono">2027-12-11+</code>).
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-12" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-12">12. Click "Approve Transfer" inside GoDaddy Transfers-Out (Finishes in ~15 Mins Instead of 5 Days!)</label>
+              <p class="step-desc">
+                Wait ~3–5 minutes after submitting the transfer at your new registrar, then open <a href="https://dcc.godaddy.com/transfers/out" target="_blank" rel="noopener noreferrer">GoDaddy → Transfers Out</a> (or click the link in GoDaddy's <em>"Confirm transfer of hems-workshop.org"</em> email), select <code class="mono">hems-workshop.org</code>, and click <strong>Approve Transfer</strong>. GoDaddy releases the <code class="mono">.org</code> domain immediately (~15–30 minutes instead of holding it for 5 days)!
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-13" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-13">13. Verify Domain Lock is back ON at your new registrar</label>
+              <p class="step-desc">
+                Once your new registrar emails <em>"Transfer Complete!"</em>, verify in its dashboard that <strong>Domain Lock = ON</strong>, <strong>Auto-Renew = ON</strong>, and Nameservers still show <code class="mono">ns-cloud-*1..4.googledomains.com</code>.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-14" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-14">14. Cancel remaining GoDaddy subscriptions, delete saved credit cards &amp; sign out forever</label>
+              <p class="step-desc">
+                In <a href="https://account.godaddy.com/subscriptions" target="_blank" rel="noopener noreferrer">GoDaddy → Subscriptions &amp; Payment Methods</a>, cancel any remaining legacy web hosting / Website Security plans (all 1,590 HEMS archive PDFs already live on Google Cloud Storage!), remove saved payment methods, and sign out of GoDaddy permanently.
+              </p>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-11" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-11">11. Click "Verify" in Firebase Hosting &amp; wait for SSL status = "Connected"</label>
-            <p class="step-desc">
-              Return to Firebase Hosting and click <strong>Verify</strong> on both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code>. Wait <strong>15–60 minutes</strong> while Google provisions the free Let's Encrypt TLS certificates until both badges turn green (<strong>Connected</strong>). You can verify live DNS propagation from Windows PowerShell anytime:
-            </p>
-            <pre class="cmd"><code>Resolve-DnsName www.hems-workshop.org ; Resolve-DnsName hems-workshop.org -Type A</code><button type="button" onclick="copyText(this, 'Resolve-DnsName www.hems-workshop.org ; Resolve-DnsName hems-workshop.org -Type A')">Copy PowerShell</button></pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PHASE 4: POST-CUTOVER VERIFICATION -->
-    <section class="section">
-      <div class="section-header">
-        <h2>Phase 4 — Post-Cutover SEO, Analytics &amp; Smoke-Test Verification</h2>
-        <span class="phase-pill">~10 Minutes Once SSL Is Green</span>
-      </div>
-
-      <div class="checklist">
-        <div class="step-item">
-          <input type="checkbox" id="step-12" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-12">12. Verify all 4 HTTP/HTTPS redirect permutations resolve to <code class="mono">https://www.hems-workshop.org/</code></label>
-            <p class="step-desc">
-              Test in an Incognito browser window: <code class="mono">http://hems-workshop.org</code>, <code class="mono">https://hems-workshop.org</code>, and <code class="mono">http://www.hems-workshop.org</code> should all 301-redirect cleanly with a valid padlock to <code class="mono">https://www.hems-workshop.org/</code>.
-            </p>
-          </div>
+      <!-- PATH A — PHASE 4: POST-CUTOVER VERIFICATION -->
+      <section class="section">
+        <div class="section-header">
+          <h2>Phase 4 — Final SSL, SEO, Analytics &amp; Email Verification</h2>
+          <span class="phase-pill">~10 Minutes Once Firebase SSL Is Green</span>
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-13" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-13">13. Test Archive PDF Download Gate, Hover Previews &amp; AI Feeds</label>
-            <p class="step-desc">
-              Visit <code class="mono">https://www.hems-workshop.org/archive/2025/</code> — hover a Slide PDF and an Abstract PDF to verify preview cards, sign in via Google/Microsoft to test a PDF download, and confirm <code class="mono">/llms.txt</code>, <code class="mono">/llms-full.txt</code>, <code class="mono">/archives-index.json</code>, and <code class="mono">/sitemap.xml</code> all load cleanly.
-            </p>
+        <div class="checklist">
+          <div class="step-item">
+            <input type="checkbox" id="a-step-15" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-15">15. Confirm Firebase Hosting status = "Connected" on both domains</label>
+              <p class="step-desc">
+                Verify both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code> show green <strong>Connected</strong> badges in Firebase Hosting (SSL minting typically completes within 15–45 minutes of Step 8).
+              </p>
+            </div>
           </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-16" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-16">16. Test all 4 HTTP/HTTPS permutations in an Incognito window</label>
+              <p class="step-desc">
+                Confirm <code class="mono">http://hems-workshop.org</code>, <code class="mono">https://hems-workshop.org</code>, and <code class="mono">http://www.hems-workshop.org</code> all 301-redirect cleanly with a valid HTTPS padlock to <code class="mono">https://www.hems-workshop.org/</code>.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-17" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-17">17. Smoke-test Archive PDF downloads, Hover Previews &amp; AI feeds</label>
+              <p class="step-desc">
+                Open <code class="mono">https://www.hems-workshop.org/archive/2025/</code>, check hover slide/abstract previews, sign in via Google/Microsoft to download a PDF, and verify <code class="mono">/llms.txt</code>, <code class="mono">/llms-full.txt</code>, <code class="mono">/archives-index.json</code>, and <code class="mono">/sitemap.xml</code> load cleanly.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-18" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-18">18. Submit <code class="mono">sitemap.xml</code> in Google Search Console</label>
+              <p class="step-desc">
+                In <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">Google Search Console</a> → <strong>Sitemaps</strong> → submit <span class="copy-chip" onclick="copyText(this, 'https://www.hems-workshop.org/sitemap.xml')">https://www.hems-workshop.org/sitemap.xml <span class="hint">Copy</span></span> and click <strong>Request Indexing</strong> on <code class="mono">/</code> and <code class="mono">/archive/</code>.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-19" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-19">19. Verify Google Analytics 4 (<code class="mono">G-F06RZ8L5CR</code>) Realtime stream</label>
+              <p class="step-desc">
+                Open <a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">Google Analytics</a> → <strong>Reports → Realtime</strong> while browsing <code class="mono">https://www.hems-workshop.org</code> on an Incognito window or phone and confirm active visits appear immediately.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <input type="checkbox" id="a-step-20" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="a-step-20">20. Send a round-trip test email to <code class="mono">@hems-workshop.org</code></label>
+              <p class="step-desc">
+                Send a quick test email from an external account to <code class="mono">webmaster@hems-workshop.org</code> and reply back, confirming instant Google Workspace delivery and <code class="mono">SPF: PASS</code> via Google Cloud DNS!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- PATH B: FALLBACK TEMPORARY DNS-ONLY CUTOVER ON GODADDY              -->
+    <!-- =================================================================== -->
+    <div class="mode-only-godaddy">
+      <section class="section">
+        <div class="section-header">
+          <h2>Path B — Temporary In-Place GoDaddy DNS Record Map</h2>
+          <span class="phase-pill">If Leaving Nameservers on GoDaddy Temporarily</span>
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-14" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-14">14. Submit <code class="mono">sitemap.xml</code> in Google Search Console</label>
-            <p class="step-desc">
-              Open <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">Google Search Console</a> → select your <code class="mono">hems-workshop.org</code> property → <strong>Sitemaps</strong> → submit <span class="copy-chip" onclick="copyText(this, 'https://www.hems-workshop.org/sitemap.xml')">https://www.hems-workshop.org/sitemap.xml <span class="hint">Copy</span></span>. Then use <strong>URL Inspection</strong> on <code class="mono">https://www.hems-workshop.org/</code> and <code class="mono">https://www.hems-workshop.org/archive/</code> and click <strong>Request Indexing</strong>.
-            </p>
-          </div>
+        <div class="table-wrap" style="margin-bottom:18px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Type</th>
+                <th>Name (Host)</th>
+                <th>Current Live Value on GoDaddy</th>
+                <th>New Target Value in GoDaddy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-delete">Delete</span></td>
+                <td class="mono"><strong>A</strong></td>
+                <td class="mono">@</td>
+                <td class="mono">192.124.249.10 (Sucuri WAF)</td>
+                <td><em>Delete so Firebase SSL can verify cleanly.</em></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-add">Add</span></td>
+                <td class="mono"><strong>TXT</strong></td>
+                <td><span class="copy-chip" onclick="copyText(this, '@')">@ <span class="hint">Copy</span></span></td>
+                <td><em>(Not present)</em></td>
+                <td><span class="copy-chip" onclick="copyText(this, 'hosting-site=hems-workshop')">hosting-site=hems-workshop <span class="hint">Copy</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-add">Add</span></td>
+                <td class="mono"><strong>A</strong></td>
+                <td><span class="copy-chip" onclick="copyText(this, '@')">@ <span class="hint">Copy</span></span></td>
+                <td><em>(Replaces 192.124.249.10)</em></td>
+                <td><span class="copy-chip" onclick="copyText(this, '199.36.158.100')">199.36.158.100 <span class="hint">Copy</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-edit">Edit</span></td>
+                <td class="mono"><strong>CNAME</strong></td>
+                <td><span class="copy-chip" onclick="copyText(this, 'www')">www <span class="hint">Copy</span></span></td>
+                <td class="mono">hems-workshop.org</td>
+                <td><span class="copy-chip" onclick="copyText(this, 'hems-workshop.web.app')">hems-workshop.web.app <span class="hint">Copy</span></span> *(no trailing dot needed in GoDaddy)*</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-edit">Edit (Fix SPF)</span></td>
+                <td class="mono"><strong>TXT</strong></td>
+                <td class="mono">@</td>
+                <td class="mono" style="color:#B91C1C;">v=spf1 include:secureserver.net -all</td>
+                <td><span class="copy-chip" onclick="copyText(this, 'v=spf1 include:_spf.google.com ~all')">v=spf1 include:_spf.google.com ~all <span class="hint">Copy</span></span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-keep">Keep Untouched</span></td>
+                <td class="mono"><strong>MX &amp; GSC TXT</strong></td>
+                <td class="mono">@</td>
+                <td class="mono">smtp.google.com (1) &amp; google-site-verification=...</td>
+                <td><strong>DO NOT MODIFY OR DELETE</strong></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <div class="step-item">
-          <input type="checkbox" id="step-15" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-15">15. Confirm Google Analytics 4 (<code class="mono">G-F06RZ8L5CR</code>) Realtime Stream</label>
-            <p class="step-desc">
-              Open <a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">Google Analytics</a> → <strong>Admin → Data Streams</strong> → confirm the Web Stream URL is set to <code class="mono">https://www.hems-workshop.org</code>. Browse two public pages on your phone or an Incognito window and confirm <strong>1 active user</strong> lights up in <strong>Reports → Realtime</strong>.
-            </p>
+        <div class="checklist">
+          <div class="step-item">
+            <input type="checkbox" id="b-step-1" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="b-step-1">1. Export GoDaddy Zone File backup, deploy Firebase Hosting, and disable GoDaddy WAF / Forwarding</label>
+              <p class="step-desc">Export a zone backup in GoDaddy DNS, disable Website Security WAF (<code class="mono">192.124.249.10</code>), and confirm Forwarding is Off.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="b-step-2" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="b-step-2">2. Add <code class="mono">www.hems-workshop.org</code> (Primary) &amp; <code class="mono">hems-workshop.org</code> (301 Redirect) in Firebase Hosting + check Auth</label>
+              <p class="step-desc">Register <code class="mono">www</code> first without redirect, <code class="mono">hems-workshop.org</code> second with redirect to <code class="mono">www</code>, and confirm both are in Firebase Auth Authorized Domains.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="b-step-3" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="b-step-3">3. Apply the <code class="mono">TXT</code>, <code class="mono">A</code>, <code class="mono">CNAME</code>, and <code class="mono">SPF</code> edits in GoDaddy DNS (preserving <code class="mono">MX</code> &amp; Search Console <code class="mono">TXT</code>)</label>
+              <p class="step-desc">Follow the Path B table above, click <strong>Verify</strong> in Firebase Hosting, and wait 15–45 minutes for SSL status = <strong>Connected</strong>.</p>
+            </div>
+          </div>
+          <div class="step-item">
+            <input type="checkbox" id="b-step-4" onchange="toggleStep(this)" />
+            <div class="step-body">
+              <label class="step-title" for="b-step-4">4. Switch back to Path A before December 11, 2026 to transfer out of GoDaddy before auto-renewal!</label>
+              <p class="step-desc">Remember <code class="mono">hems-workshop.org</code> renews on <strong>2026-12-11</strong>—switch back to the <strong>Path A</strong> tab above whenever you are ready to move DNS to Google Cloud DNS and close GoDaddy permanently.</p>
+            </div>
           </div>
         </div>
-
-        <div class="step-item">
-          <input type="checkbox" id="step-16" onchange="toggleStep(this)" />
-          <div class="step-body">
-            <label class="step-title" for="step-16">16. Send a quick round-trip email test to <code class="mono">@hems-workshop.org</code></label>
-            <p class="step-desc">
-              Send a test email from an external Gmail/institutional account to <code class="mono">webmaster@hems-workshop.org</code> (and reply back) to confirm 100% uninterrupted Google Workspace mail delivery and clean <code class="mono">SPF: PASS</code> headers.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <footer class="doc-footer">
-      Harsh-Environment Mass Spectrometry Society, Inc. • Domain Migration &amp; DevSecOps Checklist (<code class="mono">docs/domain_porting_guide.html</code>)
+      Harsh-Environment Mass Spectrometry Society, Inc. • Complete GoDaddy Exit &amp; Google Cloud DNS Migration Runbook (<code class="mono">docs/domain_porting_guide.html</code>)
     </footer>
   </div>
 
   <script>
-    const STORAGE_KEY = 'hems_domain_port_checklist_v1';
+    const STORAGE_KEY = 'hems_domain_port_checklist_v2';
+    const MODE_KEY = 'hems_domain_port_mode_v2';
+
+    function getVisibleCheckboxes() {
+      const mode = document.body.getAttribute('data-mode') || 'full-exit';
+      const selector = mode === 'full-exit'
+        ? '.mode-only-exit .step-item input[type="checkbox"]'
+        : '.mode-only-godaddy .step-item input[type="checkbox"]';
+      return Array.from(document.querySelectorAll(selector));
+    }
 
     function updateProgress() {
-      const boxes = Array.from(document.querySelectorAll('.step-item input[type="checkbox"]'));
+      const boxes = getVisibleCheckboxes();
       const completed = boxes.filter((b) => b.checked).length;
       const pct = boxes.length ? Math.round((completed / boxes.length) * 100) : 0;
       document.getElementById('progressFill').style.width = pct + '%';
       document.getElementById('progressLabel').textContent = completed + ' / ' + boxes.length + ' steps completed (' + pct + '%)';
+    }
+
+    function setMode(mode) {
+      document.body.setAttribute('data-mode', mode);
+      document.getElementById('tab-full-exit').classList.toggle('active', mode === 'full-exit');
+      document.getElementById('tab-godaddy-only').classList.toggle('active', mode === 'godaddy-only');
+      try {
+        localStorage.setItem(MODE_KEY, mode);
+      } catch (e) {}
+      updateProgress();
     }
 
     function saveState() {
@@ -986,15 +1356,18 @@
     }
 
     function resetChecklist() {
-      document.querySelectorAll('.step-item input[type="checkbox"]').forEach((box) => {
+      getVisibleCheckboxes().forEach((box) => {
         box.checked = false;
         const card = box.closest('.step-item');
         if (card) card.classList.remove('done');
       });
-      try {
-        localStorage.removeItem(STORAGE_KEY);
-      } catch (e) {}
+      saveState();
       updateProgress();
+    }
+
+    function copyPre(btn) {
+      const code = btn.parentElement && btn.parentElement.querySelector('code');
+      if (code) copyText(btn, code.innerText.trim());
     }
 
     function copyText(el, text) {
@@ -1013,9 +1386,12 @@
       });
     }
 
-    // Hydrate saved progress on load
     (function init() {
       try {
+        const savedMode = localStorage.getItem(MODE_KEY);
+        if (savedMode === 'full-exit' || savedMode === 'godaddy-only') {
+          setMode(savedMode);
+        }
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
         Object.keys(saved).forEach((id) => {
           const box = document.getElementById(id);
@@ -1031,4 +1407,3 @@
   </script>
 </body>
 </html>
-
