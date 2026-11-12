@@ -209,6 +209,12 @@ Each workshop follows a 4-point protocol:
 
 1. [x] **Concise Closed-Window Academic Notice (`@prod`, `@dev`):** Refactored [`RegistrationClient.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/workshop/RegistrationClient.tsx) and [`(portal)/registration/page.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/%28portal%29/registration/page.tsx) to remove commercial ticketing jargon, unconfirmed fee cards, `"TBA"` timelines, refund boilerplate, and split-billing boxes when `!workshop.registration_open`, presenting only the header and a single concise scholarly status notice while preserving live Google Sheet turn-key activation (`workshop.registration_open === true`) with academic meeting terminology.
 
+### Phase 17: Accommodations Sunny Venue Stock Photos & Light TBA Consolidation [COMPLETED]
+*Detailed Architectural Plan:* [docs/plans/2026-11-12-accommodations-sunny-venues-and-tba-consolidation.md](file:///c:/AntigravityP1_2/HEMS-website/docs/plans/2026-11-12-accommodations-sunny-venues-and-tba-consolidation.md)
+
+1. [x] **Sunny Open-License Coastal Venue Photography (`@prod`, `@legal`, `@dev`):** Replaced the two overcast venue photos on `/accommodations` with web-optimized (`1600×900`) `CC BY-SA 4.0` sunny photographs of **Virginia Beach, VA** (`virginia-beach-oceanfront-sunny.jpg`, 15th Workshop host city) and **The Don CeSar, St. Pete Beach, FL** (`st-pete-beach-don-cesar-sunny.jpg`, 8th & 9th Workshops host resort) with Commons attribution links, while preserving `myrtle-beach-pier-surf.jpg` for `/history`.
+2. [x] **Light `"TBA"` Consolidation (`@dev`):** Consolidated redundant `"TBA"` placeholders in [`AccommodationsClient.tsx`](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/components/workshop/AccommodationsClient.tsx) when `!workshop.venue_confirmed` (collapsing the triple `"TBA"` sidebar into one clean `16th Workshop Lodging` card and condensing the unconfirmed room-block summary while keeping the `$124/night` 2025 benchmark and 100% live Google Sheet bindings).
+
 ---
 
 ## Verification Plan
