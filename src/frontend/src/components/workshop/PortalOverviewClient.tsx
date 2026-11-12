@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FileText, Bell, Clock, ArrowRight, ExternalLink } from "lucide-react";
+import { FileText, Bell, Clock, ArrowRight, ExternalLink, History } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 
 interface FeaturedPaper {
@@ -64,34 +64,9 @@ export default function PortalOverviewClient() {
         </div>
       </header>
 
-      {/* Coastal Symposium Visual Banner */}
-      <figure className="mb-8 bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-2xs grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
-        <div className="md:col-span-5 overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
-          <img
-            src="/images/gallery/golden-hour-harbor-reception-2015.jpg"
-            alt="HEMS Workshop attendees conversing outdoors at sunset overlooking Baltimore's Inner Harbor"
-            width={1600}
-            height={892}
-            decoding="async"
-            className="w-full h-auto block"
-            loading="eager"
-          />
-        </div>
-        <figcaption className="md:col-span-7 px-2 py-1 space-y-2">
-          <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-secondary block">
-            10th HEMS Workshop • Sept 15, 2015
-          </span>
-          <h2 className="font-serif text-xl font-semibold text-slate-900">
-            Baltimore&apos;s Inner Harbor, Maryland
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            Tuesday evening gathering overlooking Baltimore&apos;s Inner Harbor ahead of the 10th HEMS Workshop Dinner at the Rusty Scupper—continuing the Society&apos;s biennial tradition of pairing single-track technical sessions with relaxed waterfront fellowship.
-          </p>
-        </figcaption>
-      </figure>
-
+      {/* Upcoming Workshop Section (Primary Above-the-Fold Content) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Center Column: Latest Updates & Data */}
+        {/* Left 2 Columns: Announcements & Upcoming Workshop Programs */}
         <div className="lg:col-span-2 space-y-8 min-w-0">
           <section className="bg-background border border-foreground/10 rounded-lg p-5 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
@@ -109,7 +84,7 @@ export default function PortalOverviewClient() {
                 <p className="text-sm text-foreground/75 mt-1 leading-relaxed">
                   {workshop.announcement_body}
                 </p>
-                {workshop.interest_form_url && (
+                {workshop.interest_form_url ? (
                   <a
                     href={workshop.interest_form_url}
                     target="_blank"
@@ -118,12 +93,19 @@ export default function PortalOverviewClient() {
                   >
                     Join {workshop.workshop_ordinal} Workshop Interest List <ExternalLink size={12} />
                   </a>
+                ) : (
+                  <Link
+                    href="/contact#mailing-list"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline mt-2"
+                  >
+                    Join Society Mailing List <ArrowRight size={12} />
+                  </Link>
                 )}
               </div>
 
               <div className="border-l-2 border-foreground/20 pl-4 py-1">
                 <span className="tabular-nums text-xs font-semibold text-foreground/50 block mb-1">
-                  15th Workshop • Sept 2025
+                  Previous Cycle • 15th Workshop (Sept 2025)
                 </span>
                 <Link
                   href="/archive/2025"
@@ -140,7 +122,7 @@ export default function PortalOverviewClient() {
 
           <section className="bg-background border border-foreground/10 rounded-lg p-6 shadow-sm">
             <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <FileText className="text-primary" size={20} /> Workshop Resources &amp; Programs
+              <FileText className="text-primary" size={20} /> {workshop.workshop_ordinal} Workshop Resources &amp; Programs
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="border border-foreground/10 rounded-md p-4 hover:border-primary/50 transition-colors flex flex-col justify-between">
@@ -191,12 +173,78 @@ export default function PortalOverviewClient() {
               </div>
             </div>
           </section>
+        </div>
 
-          <section className="bg-background border border-foreground/10 rounded-lg p-5 sm:p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
-              <h2 className="text-lg font-bold flex items-center gap-2">
-                <FileText className="text-primary shrink-0" size={20} /> Featured 15th Workshop Proceedings (2025)
-              </h2>
+        {/* Right Column: Upcoming Cycle Status & Reference Dates */}
+        <div className="space-y-6">
+          <div className="bg-background border-2 border-primary/30 rounded-lg p-6 shadow-sm">
+            <h3 className="font-bold flex items-center gap-2 mb-4 border-b border-foreground/10 pb-3 text-sm text-foreground">
+              <Clock size={18} className="text-primary" /> {workshop.workshop_ordinal} Workshop Cycle ({workshop.workshop_year})
+            </h3>
+            <ul className="space-y-4 text-xs">
+              <li className="flex justify-between items-start gap-3">
+                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Target Dates</span>
+                <span className="font-bold text-foreground text-right">{workshop.exact_dates}</span>
+              </li>
+              <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
+                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Location</span>
+                <span className="font-bold text-foreground text-right">{workshop.venue_city_state}</span>
+              </li>
+              <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
+                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Abstracts Due</span>
+                <span className="font-bold text-foreground text-right">
+                  {workshop.cfp_abstract_deadline}
+                </span>
+              </li>
+              <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
+                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Registration</span>
+                <span
+                  className={`font-bold tabular-nums uppercase tracking-wide ${workshop.registration_open ? "text-secondary" : "text-foreground/70"
+                    }`}
+                >
+                  {workshop.registration_open ? "Open" : "Opening 2027"}
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Archival Section: Clearly Separated Previous Workshops Material */}
+      <section
+        aria-labelledby="previous-workshops-overview-heading"
+        className="mt-14 pt-10 border-t-2 border-slate-200/90 space-y-6"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-[11px] font-semibold uppercase tracking-[0.08em] mb-2.5">
+              <History size={13} className="text-slate-500 shrink-0" />
+              <span>Previous Years • Historical Reference</span>
+            </div>
+            <h2
+              id="previous-workshops-overview-heading"
+              className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900"
+            >
+              Highlights from Previous HEMS Workshops
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl">
+              Published proceedings and fellowship photographs from past biennial workshops (archival examples—distinct from the upcoming {workshop.workshop_ordinal} Workshop in {workshop.target_window}).
+            </p>
+          </div>
+          <Link
+            href="/history"
+            className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1 shrink-0"
+          >
+            Explore 25+ Year Workshop History <ArrowRight size={13} />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          <div className="lg:col-span-2 bg-background border border-foreground/10 rounded-lg p-5 sm:p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-5 gap-4 flex-wrap">
+              <h3 className="text-base sm:text-lg font-bold flex items-center gap-2 text-foreground">
+                <FileText className="text-primary shrink-0" size={19} /> Sample Proceedings — 15th Workshop (2025)
+              </h3>
               <Link
                 href="/archive/2025"
                 className="text-xs font-bold text-primary hover:underline inline-flex items-center gap-1"
@@ -237,61 +285,51 @@ export default function PortalOverviewClient() {
                 </tbody>
               </table>
             </div>
-          </section>
-        </div>
-
-        {/* Right Column: Cycle Status & Reference Dates */}
-        <div className="space-y-6">
-          <div className="bg-background border-2 border-primary/30 rounded-lg p-6 shadow-sm">
-            <h3 className="font-bold flex items-center gap-2 mb-4 border-b border-foreground/10 pb-3 text-sm text-foreground">
-              <Clock size={18} className="text-primary" /> {workshop.workshop_ordinal} Workshop Cycle ({workshop.workshop_year})
-            </h3>
-            <ul className="space-y-4 text-xs">
-              <li className="flex justify-between items-start gap-3">
-                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Target Dates</span>
-                <span className="font-bold text-foreground text-right">{workshop.exact_dates}</span>
-              </li>
-              <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
-                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Location</span>
-                <span className="font-bold text-foreground text-right">{workshop.venue_city_state}</span>
-              </li>
-              <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
-                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Abstracts Due</span>
-                <span className="font-bold text-foreground text-right">
-                  {workshop.cfp_abstract_deadline}
-                </span>
-              </li>
-              <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
-                <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Registration</span>
-                <span
-                  className={`font-bold tabular-nums uppercase tracking-wide ${
-                    workshop.registration_open ? "text-secondary" : "text-foreground/70"
-                  }`}
-                >
-                  {workshop.registration_open ? "Open" : "Opening 2027"}
-                </span>
-              </li>
-            </ul>
           </div>
 
-          <div className="bg-primary text-background rounded-lg p-6 shadow-md">
-            <h3 className="font-bold uppercase tracking-wider text-xs mb-3 opacity-90 tabular-nums">
-              15th Workshop Archive
-            </h3>
-            <div className="text-2xl font-black mb-2">PROCEEDINGS LIVE</div>
-            <p className="text-xs opacity-90 mb-6 leading-relaxed">
-              The 15th HEMS Workshop concluded in Virginia Beach (Sept 15–18, 2025). Explore all slides, posters, and abstracts in the archive.
+          <div className="bg-slate-800 text-white rounded-xl p-6 shadow-sm">
+            <span className="font-bold uppercase tracking-wider text-[11px] text-slate-300 block mb-2 tabular-nums">
+              Past Symposium • 15th Workshop (2025)
+            </span>
+            <div className="text-xl font-bold mb-2">2025 Proceedings Archive</div>
+            <p className="text-xs text-slate-200 mb-5 leading-relaxed">
+              The 15th HEMS Workshop concluded in Virginia Beach, VA (Sept 15–18, 2025). Browse all slides, posters, and extended abstracts in the open-access archive.
             </p>
             <Link
               href="/archive/2025"
-              className="w-full bg-background text-primary font-bold py-3 rounded flex items-center justify-center gap-2 hover:bg-background/90 transition-colors text-center text-xs shadow-sm uppercase tracking-wide"
+              className="w-full bg-white text-slate-900 font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors text-center text-xs shadow-2xs uppercase tracking-wide"
             >
               Open 2025 Proceedings <ArrowRight size={14} />
             </Link>
           </div>
         </div>
-      </div>
+
+        {/* Past Workshop Coastal Fellowship Photo Card */}
+        <figure className="bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-2xs grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+          <div className="md:col-span-5 overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
+            <img
+              src="/images/gallery/golden-hour-harbor-reception-2015.jpg"
+              alt="HEMS Workshop attendees conversing outdoors at sunset overlooking Baltimore's Inner Harbor during the 2015 symposium"
+              width={1600}
+              height={892}
+              decoding="async"
+              className="w-full h-auto block"
+              loading="lazy"
+            />
+          </div>
+          <figcaption className="md:col-span-7 px-2 py-1 space-y-2">
+            <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-slate-500 block">
+              Previous Workshop Example • 10th HEMS Workshop (Sept 15, 2015)
+            </span>
+            <h3 className="font-serif text-xl font-semibold text-slate-900">
+              Baltimore&apos;s Inner Harbor, Maryland (2015)
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Tuesday evening gathering overlooking Baltimore&apos;s Inner Harbor ahead of the 10th HEMS Workshop Dinner at the Rusty Scupper—illustrating the Society&apos;s biennial tradition of pairing single-track technical sessions with relaxed waterfront fellowship.
+            </p>
+          </figcaption>
+        </figure>
+      </section>
     </>
   );
 }
-

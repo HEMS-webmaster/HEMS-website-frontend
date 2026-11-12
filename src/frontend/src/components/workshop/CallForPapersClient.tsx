@@ -11,6 +11,7 @@ import {
   List,
   ArrowRight,
   Clock,
+  History,
 } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 
@@ -53,64 +54,7 @@ export default function CallForPapersClient() {
         </div>
       </header>
 
-      {/* Representative Presentation Graphics Strip */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-3.5">
-          <img
-            src="/images/gallery/serpa-cycloidal-ion-trajectories.jpg"
-            alt="Cycloidal mass analyzer spiral ion trajectory simulation from 15th HEMS Workshop proceedings"
-            width={1245}
-            height={1155}
-            decoding="async"
-            className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
-            loading="lazy"
-          />
-          <figcaption className="text-xs text-slate-600 leading-relaxed">
-            <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
-              15th HEMS Workshop • Sept 18, 2025
-            </span>
-            Coded-aperture underwater cycloidal analyzer study — R. B. Serpa &amp; J. J. Amsden et al. (Duke Univ. &amp; Univ. of Arizona), Virginia Beach, VA.
-          </figcaption>
-        </figure>
-
-        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-3.5">
-          <img
-            src="/images/gallery/kibelka-aerosol-ms-cad-2025.jpg"
-            alt="Exploded 3D CAD assembly of a compact aerosol-inlet portable mass spectrometer from 15th HEMS Workshop proceedings"
-            width={1200}
-            height={803}
-            decoding="async"
-            className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
-            loading="lazy"
-          />
-          <figcaption className="text-xs text-slate-600 leading-relaxed">
-            <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
-              15th HEMS Workshop • Sept 17, 2025
-            </span>
-            Portable aerosol threat detector subsystem — G. Kibelka et al. (Detect-ION, Tampa, FL), presented in Virginia Beach, VA.
-          </figcaption>
-        </figure>
-
-        <figure className="bg-white border border-slate-200/90 rounded-xl p-3 shadow-2xs flex items-center gap-3.5">
-          <img
-            src="/images/gallery/verbeck-urban-ms-heatmap-2019.jpg"
-            alt="Real-time urban mobile mass spectrometry chemical plume map from 13th HEMS Workshop proceedings"
-            width={1200}
-            height={707}
-            decoding="async"
-            className="w-24 h-20 object-cover rounded-lg border border-slate-100 shrink-0"
-            loading="lazy"
-          />
-          <figcaption className="text-xs text-slate-600 leading-relaxed">
-            <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-primary block mb-0.5">
-              13th HEMS Workshop • Sept 19, 2019
-            </span>
-            Mobile membrane-inlet MS survey across downtown Dallas, TX — G. F. Verbeck (Univ. of North Texas), presented in Myrtle Beach, SC.
-          </figcaption>
-        </figure>
-      </div>
-
-      {/* Main Grid */}
+      {/* Main Upcoming Workshop CFP Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left 2 Columns: Guidelines and Topics */}
         <div className="lg:col-span-2 space-y-8">
@@ -182,12 +126,12 @@ export default function CallForPapersClient() {
           </section>
         </div>
 
-        {/* Right Sidebar: Deadlines & Actions */}
+        {/* Right Sidebar: Upcoming Workshop Deadlines & Actions */}
         <div className="space-y-6">
           {/* Key Dates Card */}
           <div className="bg-background border border-foreground/10 p-6 rounded-xl shadow-sm">
             <h3 className="font-bold uppercase tracking-wider text-xs mb-4 border-b border-foreground/10 pb-2 flex items-center gap-2">
-              <Calendar size={16} className="text-primary" /> Key Submission Dates
+              <Calendar size={16} className="text-primary" /> Key Submission Dates ({workshop.workshop_year})
             </h3>
             <div className="space-y-4">
               <div>
@@ -279,30 +223,121 @@ export default function CallForPapersClient() {
               </div>
             )}
           </div>
+        </div>
+      </div>
 
-          {/* Interactive Poster Session Photo Card */}
-          <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs space-y-2.5">
-            <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
-              <img
-                src="/images/gallery/poster-session-smiles-oxnard-2017.jpg"
-                alt="Two HEMS Workshop investigators smiling in conversation beside technical posters during an evening poster session"
-                width={1600}
-                height={1060}
-                decoding="async"
-                className="w-full h-auto block"
-                loading="lazy"
-              />
+      {/* Bottom Archival Section: Clearly Separated Examples from Previous Years */}
+      <section
+        aria-labelledby="previous-cfp-examples-heading"
+        className="mt-14 pt-10 border-t-2 border-slate-200/90 space-y-6"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-[11px] font-semibold uppercase tracking-[0.08em] mb-2.5">
+              <History size={13} className="text-slate-500 shrink-0" />
+              <span>Previous Years • Archival Examples</span>
             </div>
-            <figcaption className="px-1 pb-0.5 text-xs text-slate-600 leading-relaxed">
-              <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-secondary block mb-0.5">
-                11th HEMS Workshop • Sept 20, 2017
+            <h2
+              id="previous-cfp-examples-heading"
+              className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900"
+            >
+              Examples from Previous HEMS Workshops
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl">
+              Representative technical presentations and evening poster sessions from prior biennial workshops—shown for historical scope reference only (not the upcoming {workshop.workshop_ordinal} Workshop).
+            </p>
+          </div>
+          <Link
+            href="/archive"
+            className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1 shrink-0"
+          >
+            Browse Full Proceedings Archive (1999–2025) <ArrowRight size={13} />
+          </Link>
+        </div>
+
+        {/* Representative Presentation Graphics Strip (Past Workshops) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs flex items-center gap-3.5">
+            <img
+              src="/images/gallery/serpa-cycloidal-ion-trajectories.jpg"
+              alt="Cycloidal mass analyzer spiral ion trajectory simulation from 15th HEMS Workshop proceedings"
+              width={1245}
+              height={1155}
+              decoding="async"
+              className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
+              loading="lazy"
+            />
+            <figcaption className="text-xs text-slate-600 leading-relaxed">
+              <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-slate-500 block mb-0.5">
+                Past Presentation • 15th Workshop (2025)
               </span>
-              Wednesday evening Poster Session at the Embassy Suites Mandalay Beach Resort in Oxnard, California, hosted by UTC Aerospace Systems.
+              Coded-aperture underwater cycloidal analyzer study — R. B. Serpa &amp; J. J. Amsden et al. (Duke Univ. &amp; Univ. of Arizona), Virginia Beach, VA.
+            </figcaption>
+          </figure>
+
+          <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs flex items-center gap-3.5">
+            <img
+              src="/images/gallery/kibelka-aerosol-ms-cad-2025.jpg"
+              alt="Exploded 3D CAD assembly of a compact aerosol-inlet portable mass spectrometer from 15th HEMS Workshop proceedings"
+              width={1200}
+              height={803}
+              decoding="async"
+              className="w-24 h-20 object-contain rounded-lg border border-slate-100 bg-white p-1 shrink-0"
+              loading="lazy"
+            />
+            <figcaption className="text-xs text-slate-600 leading-relaxed">
+              <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-slate-500 block mb-0.5">
+                Past Presentation • 15th Workshop (2025)
+              </span>
+              Portable aerosol threat detector subsystem — G. Kibelka et al. (Detect-ION, Tampa, FL), presented in Virginia Beach, VA.
+            </figcaption>
+          </figure>
+
+          <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs flex items-center gap-3.5">
+            <img
+              src="/images/gallery/verbeck-urban-ms-heatmap-2019.jpg"
+              alt="Real-time urban mobile mass spectrometry chemical plume map from 13th HEMS Workshop proceedings"
+              width={1200}
+              height={707}
+              decoding="async"
+              className="w-24 h-20 object-cover rounded-lg border border-slate-100 shrink-0"
+              loading="lazy"
+            />
+            <figcaption className="text-xs text-slate-600 leading-relaxed">
+              <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-slate-500 block mb-0.5">
+                Past Presentation • 13th Workshop (2019)
+              </span>
+              Mobile membrane-inlet MS survey across downtown Dallas, TX — G. F. Verbeck (Univ. of North Texas), presented in Myrtle Beach, SC.
             </figcaption>
           </figure>
         </div>
-      </div>
+
+        {/* Past Poster Session Photo Card */}
+        <figure className="bg-white border border-slate-200/90 rounded-2xl p-3.5 shadow-2xs grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+          <div className="md:col-span-5 overflow-hidden rounded-xl border border-slate-100 bg-slate-100">
+            <img
+              src="/images/gallery/poster-session-smiles-oxnard-2017.jpg"
+              alt="Two HEMS Workshop investigators smiling in conversation beside technical posters during the 2017 evening poster session"
+              width={1600}
+              height={1060}
+              decoding="async"
+              className="w-full h-auto block"
+              loading="lazy"
+            />
+          </div>
+          <figcaption className="md:col-span-7 px-2 py-1 space-y-1.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-slate-500 block">
+              Previous Poster Session • 11th HEMS Workshop (Sept 20, 2017)
+            </span>
+            <h3 className="font-serif text-lg sm:text-xl font-semibold text-slate-900">
+              Interactive Evening Poster Reception — Oxnard, California (2017)
+            </h3>
+            <p>
+              Wednesday evening Poster Session at the Embassy Suites Mandalay Beach Resort in Oxnard, CA, hosted by UTC Aerospace Systems.
+            </p>
+          </figcaption>
+        </figure>
+      </section>
     </>
   );
 }
-
