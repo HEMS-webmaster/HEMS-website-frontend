@@ -303,7 +303,9 @@ export function useMailingAdmin(enabled: boolean) {
             ? JSON.parse(localStorage.getItem(MOCK_PUBLIC_REQ_KEY) || "[]")
             : [];
         setPendingRequests(
-          (mockReqs as PublicMailingRequest[]).filter((r) => r.status === "pending")
+          (mockReqs as PublicMailingRequest[]).filter(
+            (r) => r.status === "pending" && r.type !== "contact_inquiry"
+          )
         );
         return;
       }
@@ -383,7 +385,7 @@ export function useMailingAdmin(enabled: boolean) {
       const reqList: PublicMailingRequest[] = [];
       reqSnap.forEach((d) => {
         const data = d.data();
-        if (data.status === "pending") {
+        if (data.status === "pending" && data.type !== "contact_inquiry") {
           reqList.push({
             id: d.id,
             type: data.type as PublicMailingRequest["type"],
@@ -943,7 +945,11 @@ export function useMailingAdmin(enabled: boolean) {
       writeMockSubscribers(next);
       setSubscribers(next);
       if (typeof window !== "undefined") {
-        localStorage.setItem(MOCK_PUBLIC_REQ_KEY, "[]");
+        const rawAll = JSON.parse(
+          localStorage.getItem(MOCK_PUBLIC_REQ_KEY) || "[]"
+        ) as PublicMailingRequest[];
+        const preservedInquiries = rawAll.filter((r) => r.type === "contact_inquiry");
+        localStorage.setItem(MOCK_PUBLIC_REQ_KEY, JSON.stringify(preservedInquiries));
       }
       setPendingRequests([]);
       return pendingRequests.length;

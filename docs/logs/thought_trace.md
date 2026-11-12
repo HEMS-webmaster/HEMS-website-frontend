@@ -1268,3 +1268,22 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   1. Harden `firestore.rules` `isBoardOrAdmin()` to safely check `exists(...users/$(userId))` for `'board'`, `'board_member'`, `'board member'`, or `'admin'`, AND check `whitelist/$(request.auth.token.email.lower())` as a fallback so whitelisted Board accounts always pass even before user-doc role sync.
   2. Switch `useSiteAnalytics.ts` from `Promise.all` to `Promise.allSettled` so partial collection results render immediately and detect `permission-denied` with a clear `firestore:rules` deployment notice.
   3. Normalize frontend Board role checks (`board`, `board_member`, `board member`, `admin` case-insensitive) in `analytics/page.tsx` and `(portal)/layout.tsx`.
+
+---
+## [2026-11-12T10:59:30-07:00] @arch / @ops / @dev — Dual Online + Email Client Submission on `/contact`
+- **Context:** `@bo` reported that clicking "Prepare Email Inquiry" on `/contact` failed to open a mail client (standard failure mode when Windows/Chrome has no desktop `mailto:` handler registered) and requested an **Online Submission button** side-by-side with an **Email Submission button**, granting explicit `locksrules.md` Rule #6 override permission.
+- **Architectural Plan (`docs/plans/2026-11-12-dual-online-and-email-inquiry-submission.md`):**
+  1. **Backend Cloud Function (`contactInquiry` in `functions/src/mailing.ts`, exported in `functions/src/index.ts`, rewritten at `/api/contact/inquiry` in `firebase.json`):**
+     - Validates `firstName`, `lastName`, `email`, `subject` (topic), `message`, and honeypot `websiteUrl`.
+     - Maps topic to official Society officer recipient (`Sponsorship & Billing Inquiries` -> `tim.short@hems-workshop.org`, `Website & Technical Support` -> `webmaster@hems-workshop.org`, all other topics -> `president@hems-workshop.org`).
+     - Stores every online inquiry in `mailing_public_requests` (`type: "contact_inquiry"`, `status: "pending"` or `"forwarded"`).
+     - When `POSTMARK_SERVER_TOKEN` is configured, immediately forwards a formatted transactional email via Postmark (`TrackOpens: false`, `TrackLinks: "None"`, `ReplyTo: <sender email>`) directly to the appropriate officer's `@hems-workshop.org` inbox.
+  2. **Firestore Security Rules (`firestore.rules`):**
+     - Extend `mailing_public_requests` write-only `allow create` schema to permit `'contact_inquiry'` with `subject`, `message`, and `recipientEmail` fields (message bounded `<= 5000` chars) so online submissions also work 100% natively on localhost and static previews prior to Cloud Function/DNS cutover.
+     - Add `'contact_inquiry'` to `telemetry_events` allowed `eventType`s (and `functions/src/telemetry.ts`).
+  3. **Frontend Contact Page (`src/frontend/src/components/workshop/ContactClient.tsx`):**
+     - Replace the single mailto button with a responsive side-by-side dual button bar:
+       - Primary: **Submit Online** (instant website submission + clear confirmation card showing which officer received it).
+       - Secondary: **Open in Email App** (triggers `mailto:` draft AND displays a helper strip with one-click **Open in Gmail Web** + **Copy Address & Message** in case the visitor's OS has no desktop mail client).
+  4. **Board Panel Inquiry Inbox (`src/frontend/src/app/(portal)/board/page.tsx` & `src/frontend/src/hooks/useMailingAdmin.ts`):**
+     - Ensure `useMailingAdmin.ts` ignores `contact_inquiry` items when syncing mailing subscribers, and add a clean **Website Inquiries Inbox** section on `/board` so Board Members can read, reply (`mailto:` / `Gmail Web`), or archive online inquiries submitted before or after Postmark cutover.

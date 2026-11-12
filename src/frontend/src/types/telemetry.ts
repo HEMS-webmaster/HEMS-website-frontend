@@ -3,7 +3,8 @@ export type TelemetryEventType =
   | "mailto_click"
   | "outbound_click"
   | "mailing_signup"
-  | "pdf_download";
+  | "pdf_download"
+  | "contact_inquiry";
 
 export type TelemetryDeviceType = "Desktop" | "Mobile" | "Tablet";
 

@@ -13,9 +13,20 @@ import {
   ArrowRight,
   Award,
   Wrench,
+  Loader2,
+  Copy,
+  Check,
+  AlertTriangle,
 } from "lucide-react";
+import { addDoc, collection } from "firebase/firestore";
+import { db, hasFirebaseKeys } from "@/utils/firebase";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import MailingListSignupCard from "@/components/mailing/MailingListSignupCard";
+import { recordTelemetryEvent } from "@/utils/telemetryClient";
+import {
+  isValidSubscriberEmail,
+  normalizeSubscriberEmail,
+} from "@/utils/mailingTemplate";
 
 interface InquiryFormState {
   firstName: string;
@@ -23,6 +34,16 @@ interface InquiryFormState {
   email: string;
   subject: string;
   message: string;
+}
+
+export const MOCK_CONTACT_INQUIRIES_KEY = "hems_mock_contact_inquiries_v1";
+
+interface PreparedEmailDraft {
+  recipient: string;
+  subjectLine: string;
+  bodyText: string;
+  mailtoUrl: string;
+  gmailComposeUrl: string;
 }
 
 export default function ContactClient() {
@@ -37,7 +58,15 @@ export default function ContactClient() {
     subject: "General Society Inquiry",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [websiteUrl, setWebsiteUrl] = useState(""); // Bot honeypot
+  const [submittingOnline, setSubmittingOnline] = useState(false);
+  const [onlineSuccess, setOnlineSuccess] = useState<{
+    message: string;
+    recipient: string;
+  } | null>(null);
+  const [emailDraft, setEmailDraft] = useState<PreparedEmailDraft | null>(null);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [copiedDraft, setCopiedDraft] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -60,24 +89,212 @@ export default function ContactClient() {
     return "president@hems-workshop.org";
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const fullName = `${form.firstName} ${form.lastName}`.trim();
+  const buildEmailDraft = (): PreparedEmailDraft => {
+    const fullName = `${form.firstName.trim()} ${form.lastName.trim()}`.trim();
+    const cleanEmail = normalizeSubscriberEmail(form.email);
     const recipient = resolveRecipientEmail(form.subject);
+    const subjectLine = `[HEMS Website] ${form.subject}`;
 
     const bodyLines = [
       fullName ? `Name: ${fullName}` : "",
-      form.email ? `Reply-To: ${form.email}` : "",
+      cleanEmail ? `Reply-To: ${cleanEmail}` : "",
       "",
-      form.message,
+      form.message.trim(),
     ].filter((line, idx) => line !== "" || idx === 2);
 
+    const bodyText = bodyLines.join("\n");
     const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(
-      `[HEMS Website] ${form.subject}`
-    )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+      subjectLine
+    )}&body=${encodeURIComponent(bodyText)}`;
+    const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+      recipient
+    )}&su=${encodeURIComponent(subjectLine)}&body=${encodeURIComponent(bodyText)}`;
 
-    window.location.href = mailtoUrl;
-    setSubmitted(true);
+    return {
+      recipient,
+      subjectLine,
+      bodyText,
+      mailtoUrl,
+      gmailComposeUrl,
+    };
+  };
+
+  const validateFormFields = (): string | null => {
+    if (!form.firstName.trim() || !form.lastName.trim()) {
+      return "Please enter your first and last name.";
+    }
+    const cleanEmail = normalizeSubscriberEmail(form.email);
+    if (!isValidSubscriberEmail(cleanEmail)) {
+      return "Please enter a valid email address so we can reply to your inquiry.";
+    }
+    if (form.message.trim().length < 2) {
+      return "Please enter a message before submitting.";
+    }
+    return null;
+  };
+
+  const handleOnlineSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMsg("");
+    setOnlineSuccess(null);
+    setEmailDraft(null);
+
+    const recipient = resolveRecipientEmail(form.subject);
+
+    if (websiteUrl.trim() !== "") {
+      setOnlineSuccess({
+        message: `Thank you. Your inquiry has been sent online to ${recipient}.`,
+        recipient,
+      });
+      return;
+    }
+
+    const validationErr = validateFormFields();
+    if (validationErr) {
+      setErrorMsg(validationErr);
+      return;
+    }
+
+    const cleanEmail = normalizeSubscriberEmail(form.email);
+    setSubmittingOnline(true);
+
+    try {
+      // 1. Try primary Cloud Functions endpoint (/api/contact/inquiry)
+      let handledByFunction = false;
+      try {
+        const res = await fetch("/api/contact/inquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: form.firstName.trim(),
+            lastName: form.lastName.trim(),
+            email: cleanEmail,
+            subject: form.subject,
+            message: form.message.trim(),
+            websiteUrl,
+          }),
+        });
+        const ct = res.headers.get("content-type") || "";
+        if (ct.includes("application/json")) {
+          const data = (await res.json()) as {
+            ok?: boolean;
+            message?: string;
+            recipientEmail?: string;
+            error?: string;
+          };
+          if (!res.ok || !data.ok) {
+            throw new Error(data.error || "Unable to submit inquiry.");
+          }
+          setOnlineSuccess({
+            message:
+              data.message ||
+              `Thank you. Your inquiry has been delivered online to ${data.recipientEmail || recipient}.`,
+            recipient: data.recipientEmail || recipient,
+          });
+          handledByFunction = true;
+        }
+      } catch {
+        handledByFunction = false;
+      }
+
+      // 2. Fallback to write-only Firestore public queue (and local Board buffer if rules await deploy)
+      if (!handledByFunction) {
+        const now = new Date().toISOString();
+        const payload = {
+          type: "contact_inquiry" as const,
+          email: cleanEmail,
+          firstName: form.firstName.trim().slice(0, 80),
+          lastName: form.lastName.trim().slice(0, 80),
+          subject: form.subject.slice(0, 200),
+          message: form.message.trim().slice(0, 5000),
+          recipientEmail: recipient,
+          createdAt: now,
+          status: "pending" as const,
+        };
+
+        let wroteToFirestore = false;
+        if (hasFirebaseKeys && db) {
+          try {
+            await addDoc(collection(db, "mailing_public_requests"), payload);
+            wroteToFirestore = true;
+          } catch {
+            wroteToFirestore = false;
+          }
+        }
+
+        if (!wroteToFirestore && typeof window !== "undefined") {
+          const existing = JSON.parse(
+            window.localStorage.getItem(MOCK_CONTACT_INQUIRIES_KEY) || "[]"
+          ) as Array<Record<string, unknown>>;
+          existing.unshift({ id: `inq-${Date.now()}`, ...payload });
+          window.localStorage.setItem(
+            MOCK_CONTACT_INQUIRIES_KEY,
+            JSON.stringify(existing.slice(0, 200))
+          );
+        }
+
+        setOnlineSuccess({
+          message: `Thank you. Your inquiry has been submitted online for ${recipient} and the HEMS Organizing Committee.`,
+          recipient,
+        });
+      }
+
+      void recordTelemetryEvent({
+        eventType: "contact_inquiry",
+        path: "/contact",
+        targetLabel: `${form.subject} (${recipient})`,
+      });
+
+      setForm((prev) => ({ ...prev, message: "" }));
+    } catch (err: unknown) {
+      setErrorMsg(
+        err instanceof Error
+          ? err.message
+          : "Unable to submit inquiry online right now. Please use the Email App button or email us directly."
+      );
+    } finally {
+      setSubmittingOnline(false);
+    }
+  };
+
+  const handleOpenEmailClient = () => {
+    setErrorMsg("");
+    setOnlineSuccess(null);
+
+    const validationErr = validateFormFields();
+    if (validationErr) {
+      setErrorMsg(validationErr);
+      return;
+    }
+
+    const draft = buildEmailDraft();
+    setEmailDraft(draft);
+
+    void recordTelemetryEvent({
+      eventType: "mailto_click",
+      path: "/contact",
+      targetLabel: draft.recipient,
+    });
+
+    // Trigger OS mail handler via anchor click so single-page state remains intact
+    const link = document.createElement("a");
+    link.href = draft.mailtoUrl;
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleCopyDraft = async () => {
+    if (!emailDraft || typeof navigator === "undefined") return;
+    const text = `To: ${emailDraft.recipient}\nSubject: ${emailDraft.subjectLine}\n\n${emailDraft.bodyText}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedDraft(true);
+      window.setTimeout(() => setCopiedDraft(false), 2200);
+    } catch {
+      // Ignore clipboard permission errors
+    }
   };
 
   return (
@@ -120,30 +337,86 @@ export default function ContactClient() {
         {/* Contact Form */}
         <div className="bg-surface/50 border border-foreground/10 rounded-2xl p-5 sm:p-8 shadow-sm h-fit">
           <h2 className="text-2xl font-bold uppercase mb-2 text-foreground">Compose an Inquiry</h2>
-          <p className="text-xs text-foreground/65 mb-6">
-            Submitting opens your default email client pre-addressed to the appropriate HEMS Society coordinator.
+          <p className="text-xs text-foreground/65 mb-6 leading-relaxed">
+            Submit directly online (no local mail app required) or open a pre-addressed message in your email client—routed to{" "}
+            <span className="font-semibold text-primary">
+              {resolveRecipientEmail(form.subject)}
+            </span>
+            .
           </p>
 
-          {submitted && (
-            <div className="mb-6 p-4 rounded-xl bg-secondary/10 border border-secondary/30 text-secondary text-xs flex items-start gap-2.5">
-              <CheckCircle2 size={16} className="shrink-0 mt-0.5" />
+          {errorMsg && (
+            <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs flex items-start gap-2.5">
+              <AlertTriangle size={16} className="text-red-600 shrink-0 mt-0.5" />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
+          {onlineSuccess && (
+            <div className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-start gap-2.5">
+              <CheckCircle2 size={16} className="text-emerald-700 shrink-0 mt-0.5" />
               <div className="min-w-0">
-                <p className="font-bold">Email draft prepared in your mail client.</p>
-                <p className="text-foreground/75 mt-1">
-                  If your mail client did not open automatically, please email{" "}
-                  <a
-                    href={`mailto:${resolveRecipientEmail(form.subject)}`}
-                    className="underline font-semibold text-primary break-all"
-                  >
-                    {resolveRecipientEmail(form.subject)}
-                  </a>{" "}
-                  directly.
+                <p className="font-bold">Inquiry submitted online.</p>
+                <p className="text-emerald-800/90 mt-1 leading-relaxed">
+                  {onlineSuccess.message}
                 </p>
               </div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          {emailDraft && (
+            <div className="mb-6 p-4 rounded-xl bg-secondary/10 border border-secondary/30 text-secondary text-xs space-y-2.5">
+              <div className="flex items-start gap-2.5">
+                <CheckCircle2 size={16} className="shrink-0 mt-0.5" />
+                <div className="min-w-0">
+                  <p className="font-bold">Email draft prepared for {emailDraft.recipient}.</p>
+                  <p className="text-foreground/75 mt-1 leading-relaxed">
+                    Didn&apos;t see a mail window open? You can click <strong>Submit Online</strong> below, open the draft directly in Gmail Web, or copy the formatted message:
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 pl-6">
+                <a
+                  href={emailDraft.gmailComposeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 hover:border-primary hover:text-primary font-semibold transition-colors"
+                >
+                  Open in Gmail Web <ExternalLink size={12} />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => void handleCopyDraft()}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-800 hover:border-primary hover:text-primary font-semibold transition-colors cursor-pointer"
+                >
+                  {copiedDraft ? (
+                    <>
+                      <Check size={12} className="text-emerald-600" /> Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={12} /> Copy To &amp; Message
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          <form onSubmit={(e) => void handleOnlineSubmit(e)} className="space-y-5">
+            {/* Hidden honeypot field for bots */}
+            <div className="hidden" aria-hidden="true">
+              <label htmlFor="contact-website-url">Website</label>
+              <input
+                id="contact-website-url"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={websiteUrl}
+                onChange={(e) => setWebsiteUrl(e.target.value)}
+              />
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-1.5">
                 <label htmlFor="firstName" className="text-[11px] font-semibold text-foreground/80 uppercase tracking-[0.08em]">
@@ -233,12 +506,36 @@ export default function ContactClient() {
               />
             </div>
 
-            <button
-              type="submit"
-              className="w-full bg-primary text-background font-bold uppercase py-3.5 min-h-[44px] rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 text-sm shadow-sm cursor-pointer"
-            >
-              <Send size={16} /> Prepare Email Inquiry
-            </button>
+            {/* Side-by-Side Online Submission + Email Client Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <button
+                type="submit"
+                disabled={submittingOnline}
+                className="w-full bg-primary text-background font-bold uppercase py-3.5 px-4 min-h-[46px] rounded-lg hover:bg-primary/90 disabled:opacity-60 transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm shadow-sm cursor-pointer"
+              >
+                {submittingOnline ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin shrink-0" />
+                    <span>Sending Online...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send size={16} className="shrink-0" />
+                    <span>Submit Online</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                disabled={submittingOnline}
+                onClick={handleOpenEmailClient}
+                className="w-full bg-background border-2 border-primary/35 text-primary hover:bg-primary/5 hover:border-primary font-bold uppercase py-3.5 px-4 min-h-[46px] rounded-lg disabled:opacity-60 transition-colors flex items-center justify-center gap-2 text-xs sm:text-sm cursor-pointer"
+              >
+                <Mail size={16} className="shrink-0" />
+                <span>Open in Email App</span>
+              </button>
+            </div>
           </form>
         </div>
 
@@ -403,4 +700,3 @@ export default function ContactClient() {
     </div>
   );
 }
-

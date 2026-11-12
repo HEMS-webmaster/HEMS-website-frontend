@@ -860,3 +860,169 @@ export const mailingSendCampaign = onRequest(
   }
 );
 
+function resolveInquiryRecipient(topic: string): string {
+  const clean = topic.trim();
+  if (clean === "Sponsorship & Billing Inquiries") {
+    return process.env.HEMS_SPONSOR_EMAIL || "tim.short@hems-workshop.org";
+  }
+  if (clean === "Website & Technical Support") {
+    return process.env.HEMS_WEBMASTER_EMAIL || "webmaster@hems-workshop.org";
+  }
+  return process.env.HEMS_PRESIDENT_EMAIL || "president@hems-workshop.org";
+}
+
+/**
+ * Public Online Contact Inquiry Endpoint
+ * Route: POST /api/contact/inquiry
+ *
+ * Accepts inquiries submitted directly via `/contact`, stores them in Firestore
+ * (`mailing_public_requests` with `type: "contact_inquiry"`) for Board visibility,
+ * and forwards via Postmark transactional email (`ReplyTo` = sender) when configured.
+ */
+export const contactInquiry = onRequest(
+  { cors: true, region: "us-central1" },
+  async (req, res) => {
+    if (req.method !== "POST") {
+      res.status(405).json({ ok: false, error: "Method not allowed" });
+      return;
+    }
+
+    try {
+      const body = (req.body || {}) as Record<string, unknown>;
+
+      // Bot honeypot check: silently accept without writing or sending
+      if (typeof body.websiteUrl === "string" && body.websiteUrl.trim() !== "") {
+        res.status(200).json({
+          ok: true,
+          message: "Your inquiry has been submitted to the HEMS Society.",
+        });
+        return;
+      }
+
+      const email = normalizeEmail(body.email);
+      const firstName =
+        typeof body.firstName === "string" ? body.firstName.trim().slice(0, 80) : "";
+      const lastName =
+        typeof body.lastName === "string" ? body.lastName.trim().slice(0, 80) : "";
+      const subject =
+        typeof body.subject === "string" && body.subject.trim()
+          ? body.subject.trim().slice(0, 160)
+          : "General Society Inquiry";
+      const message =
+        typeof body.message === "string" ? body.message.trim().slice(0, 5000) : "";
+
+      if (!isValidEmail(email)) {
+        res.status(400).json({
+          ok: false,
+          error: "Please enter a valid email address so we can reply to you.",
+        });
+        return;
+      }
+
+      if (message.length < 2) {
+        res.status(400).json({
+          ok: false,
+          error: "Please enter a brief inquiry message before submitting.",
+        });
+        return;
+      }
+
+      const recipientEmail = resolveInquiryRecipient(subject);
+      const now = new Date().toISOString();
+      const db = getDb();
+
+      const postmarkToken = process.env.POSTMARK_SERVER_TOKEN || "";
+      let forwardedViaEmail = false;
+
+      if (postmarkToken) {
+        const senderName = `${firstName} ${lastName}`.trim() || email;
+        const htmlParagraphs = `
+          <h2 style="margin:0 0 12px 0;font-family:Georgia,'Times New Roman',serif;font-size:20px;color:#0F172A;">
+            Website Contact Inquiry: ${escapeHtml(subject)}
+          </h2>
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px 0;font-size:14px;color:#334155;">
+            <tr>
+              <td style="padding:3px 12px 3px 0;font-weight:600;color:#0F172A;">From:</td>
+              <td style="padding:3px 0;">${escapeHtml(senderName)} (&lt;${escapeHtml(email)}&gt;)</td>
+            </tr>
+            <tr>
+              <td style="padding:3px 12px 3px 0;font-weight:600;color:#0F172A;">Topic:</td>
+              <td style="padding:3px 0;">${escapeHtml(subject)}</td>
+            </tr>
+            <tr>
+              <td style="padding:3px 12px 3px 0;font-weight:600;color:#0F172A;">Routed To:</td>
+              <td style="padding:3px 0;">${escapeHtml(recipientEmail)}</td>
+            </tr>
+          </table>
+          <div style="padding:16px 18px;background-color:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;white-space:pre-wrap;font-size:14.5px;color:#0F172A;line-height:1.65;">${escapeHtml(message)}</div>
+          <p style="margin:16px 0 0 0;font-size:13px;color:#64748B;">
+            Reply directly to this email to respond to <strong>${escapeHtml(email)}</strong>.
+          </p>
+        `;
+
+        const plainText = [
+          `HEMS Website Contact Inquiry`,
+          `Topic: ${subject}`,
+          `From: ${senderName} <${email}>`,
+          `Routed To: ${recipientEmail}`,
+          `Submitted: ${now}`,
+          ``,
+          `----------------------------------------`,
+          message,
+          `----------------------------------------`,
+          `Reply directly to this email to respond to ${email}.`,
+        ].join("\n");
+
+        const sendRes = await sendPostmarkSingle(postmarkToken, {
+          From: FROM_TRANSACTIONAL,
+          To: recipientEmail,
+          ReplyTo: email,
+          Subject: `[HEMS Website Inquiry] ${subject} — ${senderName}`,
+          HtmlBody: buildScholarlyLetterHtml({
+            heading: `[HEMS Inquiry] ${subject}`,
+            paragraphsHtml: htmlParagraphs,
+            unsubscribeUrl: `${SITE_ORIGIN}/contact/`,
+            isTransactional: true,
+          }),
+          TextBody: plainText,
+          MessageStream: process.env.POSTMARK_TRANSACTIONAL_STREAM || "outbound",
+          TrackOpens: false,
+          TrackLinks: "None",
+        });
+
+        forwardedViaEmail = sendRes.ok;
+        if (!sendRes.ok) {
+          console.error("[contactInquiry] Postmark forward error:", sendRes.error);
+        }
+      }
+
+      await db.collection("mailing_public_requests").add({
+        type: "contact_inquiry",
+        email,
+        firstName,
+        lastName,
+        subject,
+        message,
+        recipientEmail,
+        createdAt: now,
+        status: forwardedViaEmail ? "forwarded" : "pending",
+      });
+
+      res.status(200).json({
+        ok: true,
+        recipientEmail,
+        forwardedViaEmail,
+        message: forwardedViaEmail
+          ? `Thank you. Your inquiry has been delivered online to ${recipientEmail}.`
+          : `Thank you. Your inquiry has been securely recorded online for ${recipientEmail} and the HEMS Organizing Committee.`,
+      });
+    } catch (err) {
+      console.error("[contactInquiry] Unexpected error:", err);
+      res.status(500).json({
+        ok: false,
+        error: "Unable to submit your inquiry right now. Please try again or email us directly.",
+      });
+    }
+  }
+);
+

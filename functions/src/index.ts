@@ -11,6 +11,7 @@ export {
   mailingUnsubscribe,
   mailingWebhookPostmark,
   mailingSendCampaign,
+  contactInquiry,
 } from "./mailing";
 export { telemetryEvent } from "./telemetry";
 

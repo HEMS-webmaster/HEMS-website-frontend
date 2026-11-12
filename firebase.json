@@ -57,6 +57,13 @@
         }
       },
       {
+        "source": "/api/contact/inquiry",
+        "function": {
+          "functionId": "contactInquiry",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/404.html"
       }

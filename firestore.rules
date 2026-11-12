@@ -102,17 +102,20 @@ service cloud.firestore {
       allow read, write: if request.auth != null && isBoardOrAdmin(request.auth.uid);
     }
 
-    // Write-only public signup / unsubscribe fallback queue (unreadable publicly; reviewed by Board/Admin)
+    // Write-only public signup / unsubscribe / contact inquiry queue (unreadable publicly; reviewed by Board/Admin)
     match /mailing_public_requests/{requestId} {
       allow read, update, delete: if request.auth != null && isBoardOrAdmin(request.auth.uid);
       allow create: if request.resource.data.keys().hasOnly([
           'type', 'email', 'newEmail', 'firstName', 'lastName',
-          'affiliation', 'interests', 'token', 'createdAt', 'status'
+          'affiliation', 'interests', 'token', 'subject', 'message',
+          'recipientEmail', 'createdAt', 'status'
         ])
-        && request.resource.data.type in ['subscribe', 'unsubscribe', 'update_email']
+        && request.resource.data.type in ['subscribe', 'unsubscribe', 'update_email', 'contact_inquiry']
         && request.resource.data.email is string
         && request.resource.data.email.size() >= 5
-        && request.resource.data.email.size() <= 254;
+        && request.resource.data.email.size() <= 254
+        && (!('message' in request.resource.data) || (request.resource.data.message is string && request.resource.data.message.size() <= 5000))
+        && (!('subject' in request.resource.data) || (request.resource.data.subject is string && request.resource.data.subject.size() <= 200));
     }
 
     // Whitelist management (Admins manage full list; authenticated users may read only their own email entry)
@@ -149,7 +152,7 @@ service cloud.firestore {
           'dateKey', 'timestamp', 'rolledUp'
         ])
         && request.resource.data.eventType in [
-          'page_view', 'mailto_click', 'outbound_click', 'mailing_signup', 'pdf_download'
+          'page_view', 'mailto_click', 'outbound_click', 'mailing_signup', 'pdf_download', 'contact_inquiry'
         ]
         && request.resource.data.path is string
         && request.resource.data.path.size() >= 1

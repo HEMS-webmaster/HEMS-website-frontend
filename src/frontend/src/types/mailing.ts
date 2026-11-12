@@ -38,7 +38,7 @@ export interface MailingSubscriber {
 
 export interface PublicMailingRequest {
   id: string;
-  type: "subscribe" | "unsubscribe" | "update_email";
+  type: "subscribe" | "unsubscribe" | "update_email" | "contact_inquiry";
   email: string;
   newEmail?: string;
   firstName?: string;
@@ -46,8 +46,11 @@ export interface PublicMailingRequest {
   affiliation?: string;
   interests?: MailingInterest[];
   token?: string;
+  subject?: string;
+  message?: string;
+  recipientEmail?: string;
   createdAt: string;
-  status: "pending" | "processed";
+  status: "pending" | "processed" | "forwarded";
 }
 
 export type CampaignStatus = "sent" | "sandbox_logged" | "draft";

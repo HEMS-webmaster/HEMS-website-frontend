@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.syncUserOnRegistrationV2 = exports.syncWhitelistToUserV2 = exports.telemetryEvent = exports.mailingSendCampaign = exports.mailingWebhookPostmark = exports.mailingUnsubscribe = exports.mailingConfirm = exports.mailingSubscribe = void 0;
+exports.syncUserOnRegistrationV2 = exports.syncWhitelistToUserV2 = exports.telemetryEvent = exports.contactInquiry = exports.mailingSendCampaign = exports.mailingWebhookPostmark = exports.mailingUnsubscribe = exports.mailingConfirm = exports.mailingSubscribe = void 0;
 const firestore_1 = require("firebase-functions/v2/firestore");
 const admin = __importStar(require("firebase-admin"));
 admin.initializeApp();
@@ -44,6 +44,7 @@ Object.defineProperty(exports, "mailingConfirm", { enumerable: true, get: functi
 Object.defineProperty(exports, "mailingUnsubscribe", { enumerable: true, get: function () { return mailing_1.mailingUnsubscribe; } });
 Object.defineProperty(exports, "mailingWebhookPostmark", { enumerable: true, get: function () { return mailing_1.mailingWebhookPostmark; } });
 Object.defineProperty(exports, "mailingSendCampaign", { enumerable: true, get: function () { return mailing_1.mailingSendCampaign; } });
+Object.defineProperty(exports, "contactInquiry", { enumerable: true, get: function () { return mailing_1.contactInquiry; } });
 var telemetry_1 = require("./telemetry");
 Object.defineProperty(exports, "telemetryEvent", { enumerable: true, get: function () { return telemetry_1.telemetryEvent; } });
 // Trigger on any write (create, update, delete) to the 'whitelist/{email}' collection

@@ -6,7 +6,8 @@ type TelemetryEventType =
   | "mailto_click"
   | "outbound_click"
   | "mailing_signup"
-  | "pdf_download";
+  | "pdf_download"
+  | "contact_inquiry";
 
 const ALLOWED_EVENT_TYPES: ReadonlySet<string> = new Set([
   "page_view",
@@ -14,6 +15,7 @@ const ALLOWED_EVENT_TYPES: ReadonlySet<string> = new Set([
   "outbound_click",
   "mailing_signup",
   "pdf_download",
+  "contact_inquiry",
 ]);
 
 const BOT_USER_AGENT_REGEX =
@@ -169,7 +171,8 @@ export const telemetryEvent = onRequest(
       const isConversion =
         eventType === "mailto_click" ||
         eventType === "outbound_click" ||
-        eventType === "mailing_signup";
+        eventType === "mailing_signup" ||
+        eventType === "contact_inquiry";
       const isDownload = eventType === "pdf_download";
 
       const pathKey = encodeMapFieldKey(normalizedPath);

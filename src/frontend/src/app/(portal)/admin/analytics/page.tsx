@@ -82,6 +82,11 @@ function formatEventBadge(type: TelemetryEventType): {
         label: "Mailing Signup",
         classes: "bg-primary/10 text-primary border-primary/25",
       };
+    case "contact_inquiry":
+      return {
+        label: "Online Inquiry",
+        classes: "bg-teal-50 text-teal-800 border-teal-200",
+      };
     case "pdf_download":
       return {
         label: "PDF Download",

@@ -42,6 +42,7 @@ const ALLOWED_EVENT_TYPES = new Set([
     "outbound_click",
     "mailing_signup",
     "pdf_download",
+    "contact_inquiry",
 ]);
 const BOT_USER_AGENT_REGEX = /bot|crawler|spider|headless|proofpoint|mimecast|barracuda|defender|safelinks|curl|wget|python-requests|go-http-client|facebookexternalhit|slackbot|linkedinbot|WhatsApp|preview/i;
 function getDb() {
@@ -165,7 +166,8 @@ exports.telemetryEvent = (0, https_1.onRequest)({ cors: true, region: "us-centra
         const isPageView = eventType === "page_view";
         const isConversion = eventType === "mailto_click" ||
             eventType === "outbound_click" ||
-            eventType === "mailing_signup";
+            eventType === "mailing_signup" ||
+            eventType === "contact_inquiry";
         const isDownload = eventType === "pdf_download";
         const pathKey = encodeMapFieldKey(normalizedPath);
         const refKey = encodeMapFieldKey(campaignSlug ? `Email: ${campaignSlug}` : referrerCategory);
