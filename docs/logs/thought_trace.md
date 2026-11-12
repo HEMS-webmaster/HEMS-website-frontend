@@ -1090,3 +1090,23 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - `/`, `/student-awards`, `/corporate-sponsorship`: 100% zero alcohol (`single-track-auditorium-smiles-2015.jpg`, `mandalay-beach-corridor-smiles-2017.jpg`, `virginia-beach-staircase-smiles-2025.jpg`, `student-award-certificate-2015.jpg`, `sponsor-exhibit-roundtable-2017.jpg`).
   - `/about`, `/history`, `/layout-portal`, `/call-for-papers`: Subtle alcohol only at evening Workshop Dinners and Poster Session, with foreground/prominent bottles and photobombing glassware cropped out.
 - **CSS Container Safety:** Set standalone figures on `/student-awards`, `/corporate-sponsorship`, `/history` (`Fig. 02`), `/layout-portal`, and `/call-for-papers` to `w-full h-auto block` with exact intrinsic `width`/`height` (`CLS = 0`, `0` CSS edge clipping), and `aspect-[16/10] object-cover` on the 3-card `/` grid.
+
+
+## [2026-11-11T16:38:05-07:00] @ops — Firebase Preview Channel `preview-2027` Deployment
+- `@bo` completed `firebase login --reauth`.
+- Verifying `src/frontend/out` contains the latest Option A + Brand `v3.1.0` + web-optimized (`5.02 MB`) static export and deploying to Firebase Hosting preview channel `preview-2027` (`--expires 30d --project hems-workshop`).
+
+
+## [2026-11-11T16:56:45-07:00] @prod — Front Page (`src/frontend/src/app/page.tsx`) Content Value Audit
+- Audited all 5 sections (`737` lines) of `/` against actual visitor intent (prospective/returning HEMS investigators, graduate students, corporate sponsors):
+  1. **Duplicate Research Sections (Lowest-Value Bloat):** Section 3 (`01 — Technical Charter: Core Domains`, 3 cards + 9 unclickable tag pills) and Section 5 Left (`03 — Recent Highlights from the Proceedings`, 3 category blurb cards with zero direct paper links) repeat the exact same three HEMS research themes twice on the same page.
+  2. **Hero Clutter & Synthetic Spectrum:** Left column stacks a redundant society eyebrow, duplicate `16th Biennial Workshop` badge, lead paragraph, AND an unattributed filler pull-quote repeating the lead paragraph; right column places a synthetic decorative SVG stick-plot mass spectrum (`EI 70 eV`, `10⁻⁶ Torr`) above the high-value `16th HEMS Workshop (2027)` dossier.
+  3. **Verbose Chrome & Secondary Cards:** Numbered `01 — / 02 — / 03 —` kickers, `01 / DOMAIN` labels, multi-line blurbs under the `1999 / 15 / 1,590 / 52` stat strip, and lengthy prose in the `Student Travel Awards` and `501(c)(3)` cards inflate scroll depth without adding new information beyond the dedicated subpages.
+- Consulting `@bo` via `ask_question` to confirm Hero visual preference and below-the-fold cuts before `@arch` updates the blueprint and `@dev` implements.
+
+
+## [2026-11-11T17:06:15-07:00] @arch, @dev, @qa, @ops — Front Page Low-Value Content Reduction (Mobile Hero + Stats Strip Removal)
+- **@bo Direction Confirmed:**
+  1. **Hero (`A1`):** Apply Option 1 specifically to the cell phone version (`< md` / `< 768px`) — hide the synthetic SVG mass spectrum (`EI 70 eV` header + plot), unattributed `<blockquote>` pull-quote, redundant society eyebrow, duplicate `<UpcomingHeroBadge />` pill, and tertiary `Society History` button on mobile so cell phone visitors immediately see the concise mission + primary Archive/2027 CTAs + crisp `16th HEMS Workshop (2027)` card, while preserving the full two-column split hero on `md:`+ tablet/desktop viewports.
+  2. **Stats Strip (`A2`):** Remove the 4-box `IMPACT_METRICS` (`1999 / 15 / 1,590 / 52`) section from `src/frontend/src/app/page.tsx`, eliminating redundant vanity counters and multi-line sub-paragraphs while leaving `Core Domains`, `The Symposium Spirit`, and `Recent Highlights / Institutional Pathways` intact.
+- **Component Polish:** Update `UpcomingWorkshopSpotlight.tsx` top divider to `md:pt-4 md:border-t md:border-slate-100` so no orphan top hairline appears when the SVG spectrum above it is hidden on `< md` cell phones.

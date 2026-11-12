@@ -60,29 +60,6 @@ const IN_SITU_SPECTRUM_PEAKS: SpectrumPeak[] = [
   { mz: 91, abundance: 13 },
 ];
 
-const IMPACT_METRICS = [
-  {
-    value: "1999",
-    label: "Founded in St. Petersburg",
-    detail: "Incorporated as an IRS 501(c)(3) scientific public charity in 2008",
-  },
-  {
-    value: "15",
-    label: "Completed Workshops",
-    detail: "Over two decades of informal, high-candor coastal & global symposia",
-  },
-  {
-    value: "1,590",
-    label: "Open-Access Files",
-    detail: "Archived oral slide decks, abstracts, programs & poster records",
-  },
-  {
-    value: "52",
-    label: "Industry & Lab Partners",
-    detail: "Instrumentation innovators, national laboratories & space agencies",
-  },
-];
-
 const CHARTER_PILLARS = [
   {
     index: "01",
@@ -171,32 +148,32 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(upcomingJsonLd) }}
       />
       {/* SECTION 1: EDITORIAL SPLIT HERO */}
-      <section className="relative border-b border-slate-200/85 bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] py-14 sm:py-20 lg:py-24">
+      <section className="relative border-b border-slate-200/85 bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] py-10 sm:py-18 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-12 lg:gap-10 items-center">
             {/* Left Editorial Narrative (7 Columns) */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="space-y-3">
+            <div className="lg:col-span-7 space-y-4 sm:space-y-6">
+              <div className="hidden md:block space-y-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                   Harsh-Environment Mass Spectrometry Society
                 </p>
                 <UpcomingHeroBadge />
               </div>
 
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-[3.35rem] font-semibold text-slate-900 tracking-tight leading-[1.1]">
+              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[3.35rem] font-semibold text-slate-900 tracking-tight leading-[1.12] sm:leading-[1.1]">
                 Mass Spectrometry{" "}
                 <span className="text-primary italic font-normal">Beyond</span> the Controlled Laboratory.
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
+              <p className="text-[15px] sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
                 Since 1999, the biennial HEMS Workshop has convened academic, government, and industrial investigators to solve the engineering and analytical challenges of operating mass spectrometers in the field.
               </p>
 
-              <blockquote className="border-l-2 border-primary/50 pl-4 py-0.5 text-sm sm:text-[15px] font-serif italic text-slate-700 max-w-2xl">
+              <blockquote className="hidden md:block border-l-2 border-primary/50 pl-4 py-0.5 text-sm sm:text-[15px] font-serif italic text-slate-700 max-w-2xl">
                 &ldquo;Providing an open, collaborative forum where instrument builders and field scientists share breakthroughs, setbacks, and real-world deployment lessons.&rdquo;
               </blockquote>
 
-              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
                 <Link
                   href="/archive"
                   className="inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3 min-h-[44px] rounded-lg text-sm font-semibold hover:bg-sky-800 transition-colors shadow-xs"
@@ -212,7 +189,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/history"
-                  className="inline-flex items-center justify-center sm:justify-start gap-1.5 px-3 py-2.5 min-h-[44px] text-sm font-medium text-slate-600 hover:text-primary transition-colors"
+                  className="hidden md:inline-flex items-center justify-start gap-1.5 px-3 py-2.5 min-h-[44px] text-sm font-medium text-slate-600 hover:text-primary transition-colors"
                 >
                   <span>Society History (1999–2025)</span>
                 </Link>
@@ -221,9 +198,9 @@ export default function Home() {
 
             {/* Right Analytical Specimen & 2027 Dossier Card (5 Columns) */}
             <div className="lg:col-span-5">
-              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
-                {/* Analytical Header */}
-                <div className="flex items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-6 shadow-sm md:space-y-4">
+                {/* Analytical Header (Tablet/Desktop) */}
+                <div className="hidden md:flex items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
                   <div className="min-w-0">
                     <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.12em] text-slate-400 block">
                       In-Situ Volatile Profile • EI 70 eV
@@ -237,8 +214,8 @@ export default function Home() {
                   </span>
                 </div>
 
-                {/* Calibrated SVG Mass Spectrum */}
-                <div className="bg-[#FAFBFD] border border-slate-100 rounded-xl p-3">
+                {/* Calibrated SVG Mass Spectrum (Tablet/Desktop) */}
+                <div className="hidden md:block bg-[#FAFBFD] border border-slate-100 rounded-xl p-3">
                   <svg
                     viewBox="0 0 420 176"
                     className="w-full h-auto overflow-visible"
@@ -392,32 +369,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 2: INSTITUTIONAL IMPACT LEDGER */}
-      <section className="bg-white border-b border-slate-200/85">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4">
-            {IMPACT_METRICS.map((item, idx) => (
-              <div
-                key={item.label}
-                className={`py-6 sm:py-7 px-3 sm:px-6 lg:first:pl-0 lg:last:pr-0 border-slate-200/80 ${
-                  idx >= 2 ? "border-t lg:border-t-0" : ""
-                } ${idx % 2 === 1 ? "border-l" : ""} ${idx >= 1 ? "lg:border-l" : ""}`}
-              >
-                <div className="font-serif tabular-nums text-2xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
-                  {item.value}
-                </div>
-                <div className="text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-[0.1em] sm:tracking-[0.12em] text-primary mt-1.5">
-                  {item.label}
-                </div>
-                <p className="text-xs text-slate-500 leading-relaxed mt-1">{item.detail}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3: TECHNICAL CHARTER PILLARS */}
-      <section className="py-18 sm:py-22 bg-[#FAFBFD] border-b border-slate-200/80">
+      {/* SECTION 2: TECHNICAL CHARTER PILLARS */}
+      <section className="py-12 sm:py-18 lg:py-22 bg-[#FAFBFD] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mb-12">
             <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
@@ -485,8 +438,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 4: SYMPOSIUM CULTURE — CASUAL, COASTAL & ACADEMIC */}
-      <section className="py-18 sm:py-22 bg-white border-b border-slate-200/80">
+      {/* SECTION 3: SYMPOSIUM CULTURE — CASUAL, COASTAL & ACADEMIC */}
+      <section className="py-12 sm:py-18 lg:py-22 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="max-w-2xl">
@@ -545,8 +498,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 5: OPEN-ACCESS REPOSITORY & SOCIETY PARTICIPATION */}
-      <section className="py-18 sm:py-22 bg-[#FAFBFD]">
+      {/* SECTION 4: OPEN-ACCESS REPOSITORY & SOCIETY PARTICIPATION */}
+      <section className="py-12 sm:py-18 lg:py-22 bg-[#FAFBFD]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
             {/* Left 7 Columns: Workshop Proceedings Spotlight */}

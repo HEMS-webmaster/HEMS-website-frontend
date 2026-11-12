@@ -8,7 +8,7 @@ export default function UpcomingWorkshopSpotlight() {
   const { workshop } = useUpcomingWorkshop();
 
   return (
-    <div className="pt-4 border-t border-slate-100 space-y-3">
+    <div className="md:pt-4 md:border-t md:border-slate-100 space-y-3">
       <div className="flex items-center justify-between gap-2">
         <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-primary">
           Upcoming Symposium Dossier
