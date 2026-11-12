@@ -9,8 +9,14 @@ const DEFAULT_FIREBASE_CONFIG = {
   projectId: "hems-workshop",
   storageBucket: "hems-workshop.firebasestorage.app",
   messagingSenderId: "996590178042",
-  appId: "1:996590178042:web:bb06372e6672bcb6e5c343"
+  appId: "1:996590178042:web:bb06372e6672bcb6e5c343",
+  measurementId: "G-F06RZ8L5CR",
 };
+
+export const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID ||
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
+  DEFAULT_FIREBASE_CONFIG.measurementId;
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || DEFAULT_FIREBASE_CONFIG.apiKey,
@@ -18,7 +24,8 @@ const firebaseConfig = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || DEFAULT_FIREBASE_CONFIG.projectId,
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || DEFAULT_FIREBASE_CONFIG.storageBucket,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || DEFAULT_FIREBASE_CONFIG.messagingSenderId,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || DEFAULT_FIREBASE_CONFIG.appId
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || DEFAULT_FIREBASE_CONFIG.appId,
+  measurementId: GA_MEASUREMENT_ID,
 };
 
 // Check if running on a live deployed Firebase hosting domain

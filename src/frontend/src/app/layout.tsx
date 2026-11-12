@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import TelemetryTracker from "@/components/telemetry/TelemetryTracker";
+import GoogleAnalyticsTag from "@/components/telemetry/GoogleAnalyticsTag";
 import { AuthProvider } from "@/context/AuthContext";
 import {
   SITE_URL,
@@ -85,6 +86,7 @@ export default function RootLayout({
       className={`${notoSans.variable} ${sourceSerif.variable}`}
     >
       <body className="antialiased min-h-screen flex flex-col theme-global">
+        <GoogleAnalyticsTag />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(globalJsonLd) }}

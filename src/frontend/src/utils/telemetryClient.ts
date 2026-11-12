@@ -5,6 +5,13 @@ import {
 } from "@/types/telemetry";
 import { auth, db, hasFirebaseKeys } from "@/utils/firebase";
 
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 const SESSION_ID_STORAGE_KEY = "hems_telemetry_session_v1";
 const SESSION_CAMPAIGN_STORAGE_KEY = "hems_telemetry_campaign_v1";
 const SESSION_REFERRER_STORAGE_KEY = "hems_telemetry_referrer_v1";
@@ -160,7 +167,16 @@ export function captureAndCleanCampaignQuery(): string {
       if (mutated && window.history?.replaceState) {
         const nextSearch = url.searchParams.toString();
         const cleanUrl = `${url.pathname}${nextSearch ? `?${nextSearch}` : ""}${url.hash}`;
-        window.history.replaceState(window.history.state, "", cleanUrl);
+        // Delay address-bar cleanup briefly so afterInteractive Google Analytics (gtag.js) captures raw UTM / ?src= query parameters first
+        window.setTimeout(() => {
+          try {
+            if (window.location.pathname === url.pathname) {
+              window.history.replaceState(window.history.state, "", cleanUrl);
+            }
+          } catch {
+            // Ignore history state errors
+          }
+        }, 1500);
       }
       return slug;
     }
@@ -303,10 +319,28 @@ export async function recordTelemetryEvent(params: {
     rolledUp: false,
   };
 
-  // 1. Primary Production Path: First-Party Cloud Function `/api/telemetry/event` (only on deployed non-localhost domains)
+  // 1. Primary Production Path: First-Party Cloud Function `/api/telemetry/event` + GA4 custom conversion forwarding
   const isLocalhost =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1";
+
+  if (
+    !isLocalhost &&
+    params.eventType !== "page_view" &&
+    !isInternalPortalManagementRoute(normalizedPath) &&
+    typeof window.gtag === "function"
+  ) {
+    try {
+      window.gtag("event", params.eventType, {
+        event_category: "hems_engagement",
+        event_label: (params.targetLabel || normalizedPath).slice(0, 120),
+        page_path: normalizedPath,
+        ...(campaignSlug ? { campaign_name: campaignSlug } : {}),
+      });
+    } catch {
+      // Ignore GA4 forwarding errors
+    }
+  }
 
   if (!isLocalhost && hasFirebaseKeys) {
     try {

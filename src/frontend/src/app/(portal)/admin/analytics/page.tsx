@@ -34,6 +34,7 @@ import {
   useSiteAnalytics,
 } from "@/hooks/useSiteAnalytics";
 import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
+import { GA_MEASUREMENT_ID } from "@/utils/firebase";
 import { TelemetryEventType } from "@/types/telemetry";
 
 type AnalyticsTab = "pages" | "campaigns" | "stream" | "users" | "files";
@@ -521,8 +522,8 @@ export default function AdminAnalyticsPage() {
       {/* Header & Time-Range Controls */}
       <header className="border-b border-slate-200 pb-6 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
         <div>
-          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-1">
-            Cookie-Free First-Party Telemetry • Zero Tracking Pixels
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-1 tabular-nums">
+            First-Party Firestore Telemetry • Google Analytics 4 ({GA_MEASUREMENT_ID})
           </span>
           <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 flex items-center gap-2.5">
             <BarChart2 className="text-primary shrink-0" size={26} />
@@ -530,7 +531,7 @@ export default function AdminAnalyticsPage() {
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
             {isLiveFirestore
-              ? "Connected to live Google Cloud Firestore (hems-workshop) — ad-blocker-resilient first-party telemetry."
+              ? "Connected to live Google Cloud Firestore (hems-workshop) alongside Google Analytics 4 web stream."
               : "Offline Browser Sandbox Mode — displaying local mock telemetry."}
           </p>
         </div>
@@ -611,6 +612,57 @@ export default function AdminAnalyticsPage() {
           {error}
         </div>
       )}
+
+      {/* External Analytics & Domain Authority Quick-Launch Bar */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a
+          href="https://analytics.google.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group bg-white border border-slate-200/95 hover:border-primary/50 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-xs transition-all flex items-center justify-between gap-4"
+        >
+          <div className="space-y-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-semibold text-slate-900 group-hover:text-primary transition-colors">
+                Google Analytics 4 Console
+              </span>
+              <span className="text-[10.5px] font-semibold tabular-nums bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full">
+                {GA_MEASUREMENT_ID}
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Open real-time visitor streams, organic search acquisition, and geographic engagement on analytics.google.com.
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1.5 shrink-0 bg-primary text-white group-hover:bg-sky-800 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
+            Open GA4 <ExternalLink size={13} />
+          </span>
+        </a>
+
+        <a
+          href="https://ahrefs.com/website-authority-checker/?input=www.hems-workshop.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group bg-white border border-slate-200/95 hover:border-secondary/50 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-xs transition-all flex items-center justify-between gap-4"
+        >
+          <div className="space-y-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-semibold text-slate-900 group-hover:text-secondary transition-colors">
+                Website Authority &amp; Backlink Checker
+              </span>
+              <span className="text-[10.5px] font-semibold bg-teal-50 text-teal-800 border border-teal-200 px-2 py-0.5 rounded-full">
+                Ahrefs DR
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Check live Domain Rating (DR), referring academic/industry domains, and authority score for www.hems-workshop.org.
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1.5 shrink-0 bg-slate-900 text-white group-hover:bg-slate-800 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
+            Check Authority <ExternalLink size={13} />
+          </span>
+        </a>
+      </div>
 
       {/* 6 Executive KPI Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
