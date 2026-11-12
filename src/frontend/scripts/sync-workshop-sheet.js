@@ -130,6 +130,11 @@ async function main() {
         updated[key] = parseBool(val, base[key]);
       } else if (nullableUrlKeys.has(key)) {
         updated[key] = val;
+      } else if (key === 'sponsor_coordinator_email' && val !== '') {
+        updated[key] =
+          val.toLowerCase() === 'rtshort00@gmail.com'
+            ? 'tim.short@hems-workshop.org'
+            : val;
       } else if (val !== '') {
         updated[key] = val;
       }
