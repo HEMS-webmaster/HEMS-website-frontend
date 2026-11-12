@@ -1,7 +1,7 @@
 /**
  * Generates Schema.org JSON-LD structured data for a HEMS workshop archive page.
- * Maps the existing archive JSON schema to Event + ScholarlyArticle markup
- * for search engines (Google, Bing) and AI systems (Google Scholar, Semantic Scholar, LLMs).
+ * Maps the archive JSON schema to Event + open-access ScholarlyArticle markup
+ * for search engines (Google, Bing) and AI/scholarly systems (Google Scholar, Semantic Scholar, LLMs).
  */
 
 export interface ArchiveAuthorInput {
@@ -45,6 +45,11 @@ export interface ArchiveSponsorInput {
   url?: string;
 }
 
+export interface ArchiveResourceInput {
+  label?: string;
+  public_website_url?: string;
+}
+
 export interface ArchiveDataInput {
   year: number | string;
   ordinal?: string;
@@ -52,6 +57,7 @@ export interface ArchiveDataInput {
   dates?: string;
   venue?: string;
   address?: string;
+  resources?: ArchiveResourceInput[];
   sponsors?: ArchiveSponsorInput[];
   schedule?: ArchiveDayInput[];
 }
@@ -74,19 +80,22 @@ interface JsonLdMediaObject {
 
 interface JsonLdArticle {
   "@type": "ScholarlyArticle";
+  "@id"?: string;
   name: string;
   headline: string;
   url?: string;
   datePublished?: string;
   inLanguage: string;
   isAccessibleForFree: boolean;
-  hasPart: {
-    "@type": "WebPageElement";
-    isAccessibleForFree: boolean;
-    cssSelector: string;
+  creditText?: string;
+  isPartOf: {
+    "@type": "PublicationIssue";
+    name: string;
+    url: string;
   };
   publisher: {
     "@type": "Organization";
+    "@id": string;
     name: string;
     url: string;
   };
@@ -100,6 +109,7 @@ interface JsonLdSubEvent {
   startDate?: string;
   eventAttendanceMode: string;
   eventStatus: string;
+  isAccessibleForFree: boolean;
   workPerformed?: JsonLdArticle[];
 }
 
@@ -122,6 +132,7 @@ interface JsonLdEvent {
   endDate?: string;
   eventStatus: string;
   eventAttendanceMode: string;
+  isAccessibleForFree: boolean;
   location?: {
     "@type": "Place";
     name?: string;
@@ -129,6 +140,7 @@ interface JsonLdEvent {
   };
   organizer: JsonLdOrganization;
   sponsor?: JsonLdOrganization[];
+  recordedIn?: JsonLdMediaObject[];
   subEvent?: JsonLdSubEvent[];
 }
 
@@ -286,15 +298,13 @@ function extractAuthors(
   return [];
 }
 
-function getAbsoluteUrl(urlStr: string): string {
+function getLiveMediaUrl(urlStr: string | undefined): string {
   if (!urlStr || urlStr.startsWith("gs://")) return "";
-  if (urlStr.startsWith("http://") || urlStr.startsWith("https://")) {
-    return urlStr;
+  const trimmed = urlStr.trim();
+  if (trimmed.startsWith("https://storage.googleapis.com/")) {
+    return trimmed;
   }
-  if (urlStr.startsWith("/")) {
-    return `https://www.hems-workshop.org${urlStr}`;
-  }
-  return `https://www.hems-workshop.org/${urlStr}`;
+  return "";
 }
 
 export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
@@ -303,13 +313,14 @@ export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
   const cleanVenue = data.venue ? data.venue.replace(/,\s*$/, "").trim() : "";
   const cleanAddress = data.address ? data.address.trim() : "";
   const canonicalArchiveUrl = `https://www.hems-workshop.org/archive/${yearStr}/`;
+  const proceedingsVolumeTitle = `Proceedings of the ${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry (${yearStr})`;
 
   const jsonLd: JsonLdEvent = {
     "@context": "https://schema.org",
     "@type": "Event",
     "@id": `${canonicalArchiveUrl}#event`,
     name: `${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry`,
-    description: `Scientific proceedings from the ${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry (${yearStr}). International symposium advancing portable, miniaturized, and field-deployable mass spectrometers for space exploration, subsea science, environmental monitoring, and security applications.`,
+    description: `Open-access scientific proceedings from the ${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry (${yearStr}). International symposium advancing portable, miniaturized, and field-deployable mass spectrometers for space exploration, subsea science, environmental monitoring, and security applications.`,
     url: canonicalArchiveUrl,
     image: [
       "https://www.hems-workshop.org/images/og-hems-social.png",
@@ -317,6 +328,7 @@ export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
     ],
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    isAccessibleForFree: true,
     organizer: {
       "@type": "Organization",
       "@id": "https://www.hems-workshop.org/#organization",
@@ -346,6 +358,24 @@ export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
       }));
   }
 
+  if (data.resources && data.resources.length > 0) {
+    const adminDocs = data.resources
+      .map((r) => {
+        const docUrl = getLiveMediaUrl(r.public_website_url);
+        if (!docUrl) return null;
+        return {
+          "@type": "MediaObject" as const,
+          contentUrl: docUrl,
+          encodingFormat: "application/pdf",
+          name: r.label || "Workshop Proceedings Document",
+        };
+      })
+      .filter((m): m is NonNullable<typeof m> => m !== null);
+    if (adminDocs.length > 0) {
+      jsonLd.recordedIn = adminDocs;
+    }
+  }
+
   const subEvents: JsonLdSubEvent[] = [];
 
   if (data.schedule && Array.isArray(data.schedule)) {
@@ -366,6 +396,7 @@ export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
             ...(sessionStart ? { startDate: sessionStart } : {}),
             eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
             eventStatus: "https://schema.org/EventScheduled",
+            isAccessibleForFree: true,
           };
 
           if (item.talks && item.talks.length > 0) {
@@ -375,62 +406,68 @@ export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
                   Boolean(talk.title && talk.type !== "event")
               )
               .map((talk) => {
+                const articleUrl = talk.id ? `${canonicalArchiveUrl}#${talk.id}` : canonicalArchiveUrl;
+                const authors = extractAuthors(talk.authors, talk.institutes);
+                const authorNames =
+                  authors.length > 0
+                    ? authors.map((p) => p.name).join(", ")
+                    : "HEMS Workshop Contributors";
+                const creditText = `${authorNames} (${yearStr}). "${talk.title}." ${proceedingsVolumeTitle}. ${articleUrl}`;
+
                 const article: JsonLdArticle = {
                   "@type": "ScholarlyArticle",
+                  ...(talk.id ? { "@id": articleUrl } : {}),
                   name: talk.title,
                   headline: talk.title,
-                  ...(talk.id ? { url: `${canonicalArchiveUrl}#${talk.id}` } : {}),
-                  datePublished: yearStr,
+                  url: articleUrl,
+                  datePublished: startDate || yearStr,
                   inLanguage: "en",
-                  isAccessibleForFree: false,
-                  hasPart: {
-                    "@type": "WebPageElement",
-                    isAccessibleForFree: false,
-                    cssSelector: ".gated-pdf-content",
+                  isAccessibleForFree: true,
+                  creditText,
+                  isPartOf: {
+                    "@type": "PublicationIssue",
+                    name: proceedingsVolumeTitle,
+                    url: canonicalArchiveUrl,
                   },
                   publisher: {
                     "@type": "Organization",
+                    "@id": "https://www.hems-workshop.org/#organization",
                     name: "Harsh-Environment Mass Spectrometry Society, Inc.",
                     url: "https://www.hems-workshop.org/",
                   },
                 };
 
-                const authors = extractAuthors(talk.authors, talk.institutes);
                 if (authors.length > 0) {
                   article.author = authors;
                 }
 
                 const media: JsonLdMediaObject[] = [];
-                const slidesUrlStr =
-                  talk.public_website_url ||
-                  talk.legacy_url ||
-                  talk.presentationUrl ||
-                  talk.url ||
-                  "";
-                const absSlidesUrl = getAbsoluteUrl(slidesUrlStr);
+                const absSlidesUrl = getLiveMediaUrl(talk.public_website_url);
                 if (absSlidesUrl) {
                   media.push({
                     "@type": "MediaObject",
                     contentUrl: absSlidesUrl,
                     encodingFormat: "application/pdf",
-                    name: "Presentation Slides",
+                    name: "Presentation Slides (PDF)",
                   });
                 }
 
-                const abstractUrlStr =
-                  talk.public_abstract_url ||
-                  talk.legacy_abstract_url ||
-                  talk.abstractUrl ||
-                  talk.abstract_url ||
-                  "";
-                const absAbstractUrl = getAbsoluteUrl(abstractUrlStr);
+                const absAbstractUrl = getLiveMediaUrl(talk.public_abstract_url);
                 if (absAbstractUrl) {
                   media.push({
                     "@type": "MediaObject",
                     contentUrl: absAbstractUrl,
                     encodingFormat: "application/pdf",
-                    name: "Extended Abstract",
+                    name: "Extended Abstract (PDF)",
                   });
+                  if (absAbstractUrl.includes("_Abstract")) {
+                    media.push({
+                      "@type": "MediaObject",
+                      contentUrl: absAbstractUrl.replace(/\.pdf$/i, "_preview.txt"),
+                      encodingFormat: "text/plain",
+                      name: "Abstract Plain-Text Preview",
+                    });
+                  }
                 }
 
                 if (media.length > 0) {

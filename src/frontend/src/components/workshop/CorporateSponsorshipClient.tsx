@@ -610,9 +610,9 @@ export default function CorporateSponsorshipClient() {
                 />
               </div>
               <div>
-                <h1 className="font-serif text-lg sm:text-xl print:text-[17px] font-bold text-slate-900 tracking-tight leading-snug">
+                <h2 className="font-serif text-lg sm:text-xl print:text-[17px] font-bold text-slate-900 tracking-tight leading-snug">
                   Harsh-Environment Mass Spectrometry Society, Inc.
-                </h1>
+                </h2>
                 <p className="text-[11px] print:text-[10px] font-medium text-slate-600 tabular-nums mt-0.5">
                   IRS-Recognized 501(c)(3) Scientific Public Charity • Incorporated in Florida • Est. 1999
                 </p>

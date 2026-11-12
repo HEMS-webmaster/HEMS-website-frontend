@@ -106,6 +106,10 @@ export default function Footer() {
               2025 Proceedings
             </Link>
             <span className="text-slate-300">•</span>
+            <a href="/llms.txt" className="py-1 hover:text-primary transition-colors" title="Machine-readable HEMS Society & Proceedings index for scholarly and AI citation">
+              AI &amp; Citation Index
+            </a>
+            <span className="text-slate-300">•</span>
             <a href="mailto:webmaster@hems-workshop.org" className="py-1 hover:text-primary transition-colors">
               Website Support
             </a>

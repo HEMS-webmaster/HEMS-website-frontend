@@ -2,9 +2,11 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { Search, FileText, Filter, Download, RotateCcw, X, ArrowRight, ExternalLink } from "lucide-react";
+import { Search, FileText, Filter, Download, RotateCcw, X, ArrowRight, ExternalLink, Database } from "lucide-react";
 import workshopsData from "@/data/master_workshops.json";
 import scientificSynonyms from "@/data/scientific_synonyms.json";
+import DownloadGate from "@/components/DownloadGate";
+import FrontendPreviewHover from "@/components/FrontendPreviewHover";
 
 // Read Algolia credentials from environment variables
 const ALGOLIA_APP_ID = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || "";
@@ -21,6 +23,30 @@ interface BrowseWorkshopCard {
   year: number;
   title: string;
   url: string;
+}
+
+interface IndexedAuthorDetail {
+  name: string;
+  institute?: string;
+  isPresenter?: boolean;
+}
+
+interface ArchiveIndexEntry {
+  id?: string;
+  canonical_url?: string;
+  title: string;
+  authors: string[];
+  author_details?: IndexedAuthorDetail[];
+  institutions: string[];
+  workshop_year: number | string;
+  workshop_ordinal: number;
+  workshop_ordinal_label?: string;
+  workshop_location?: string;
+  session_title: string;
+  type: "presentation" | "poster";
+  presentation_url: string;
+  abstract_url: string;
+  citation?: string;
 }
 
 function formatOrdinal(n: number): string {
@@ -53,9 +79,24 @@ export default function ArchiveHubClient() {
   const [enableSynonyms, setEnableSynonyms] = useState(true);
   const [searchMode, setSearchMode] = useState<"metadata" | "algolia" | "mock_chunks">("metadata");
   
-  // Local fallback database of 2,180 page-level slide and abstract text chunks
+  // Local fallback database of page-level slide and abstract text chunks
   const [mockChunks, setMockChunks] = useState<any[]>([]);
+  const [catalogEntries, setCatalogEntries] = useState<ArchiveIndexEntry[]>([]);
   const [isSearchingDeep, setIsSearchingDeep] = useState(false);
+
+  // Hydrate enriched proceedings catalog (with verified GCS PDFs & #anchor deep links)
+  useEffect(() => {
+    fetch("/archives-index.json")
+      .then((res) => (res.ok ? res.json() : []))
+      .then((data: ArchiveIndexEntry[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setCatalogEntries(data);
+        }
+      })
+      .catch(() => {
+        // Fallback to static master_workshops.json if offline
+      });
+  }, []);
 
   const suggestedKeywords = ["Martian Regolith", "Deep Sea Vent", "Quadrupole", "Miniaturization"];
 
@@ -288,15 +329,34 @@ export default function ArchiveHubClient() {
 
   // Flatten all presentations and posters for standard metadata queries
   const allPapers = useMemo(() => {
+    if (catalogEntries.length > 0) {
+      return catalogEntries.map((entry) => {
+        const yrNum = Number(entry.workshop_year);
+        const ordLabel = entry.workshop_ordinal_label || formatOrdinal(entry.workshop_ordinal);
+        return {
+          id: entry.id || "",
+          type: entry.type,
+          workshopYear: Number.isFinite(yrNum) ? yrNum : entry.workshop_year,
+          workshopOrdinal: entry.workshop_ordinal,
+          workshopTitle: `${ordLabel} HEMS Workshop (${entry.workshop_year})`,
+          sessionTitle: entry.session_title || "Oral Session",
+          title: entry.title || "",
+          authors:
+            entry.author_details && entry.author_details.length > 0
+              ? entry.author_details
+              : entry.authors || [],
+          presenter: "",
+          institutes: entry.institutions || [],
+          presentationUrl: entry.presentation_url || "",
+          abstractUrl: entry.abstract_url || "",
+        };
+      });
+    }
+
     const papers: any[] = [];
     workshopsData.forEach((ws: any) => {
-      const getOrdinal = (n: number) => {
-        if (n === 1) return "1st";
-        if (n === 2) return "2nd";
-        if (n === 3) return "3rd";
-        return `${n}th`;
-      };
-      const wsTitle = `${getOrdinal(ws.number)} HEMS Workshop (${ws.year})`;
+      const yrNum = Number(ws.year);
+      const wsTitle = `${formatOrdinal(Number(ws.number))} HEMS Workshop (${ws.year})`;
 
       // Extract regular presentations
       if (ws.presentation_sessions && Array.isArray(ws.presentation_sessions)) {
@@ -304,17 +364,18 @@ export default function ArchiveHubClient() {
           if (session.presentations && Array.isArray(session.presentations)) {
             session.presentations.forEach((talk: any) => {
               papers.push({
+                id: talk.id || "",
                 type: "presentation",
-                workshopYear: ws.year,
-                workshopOrdinal: ws.number,
+                workshopYear: Number.isFinite(yrNum) ? yrNum : ws.year,
+                workshopOrdinal: Number(ws.number),
                 workshopTitle: wsTitle,
                 sessionTitle: session.session_title || session.title || "Oral Session",
                 title: talk.title || "",
                 authors: talk.authors || [],
                 presenter: talk.presenter || "",
                 institutes: talk.institutes || [],
-                presentationUrl: talk.public_website_url || talk.local_target_path || talk.legacy_url || talk.presentationUrl || talk.url || "",
-                abstractUrl: talk.public_abstract_url || talk.local_abstract_target_path || talk.legacy_abstract_url || talk.abstractUrl || talk.abstract_url || ""
+                presentationUrl: talk.public_website_url || "",
+                abstractUrl: talk.public_abstract_url || "",
               });
             });
           }
@@ -325,23 +386,24 @@ export default function ArchiveHubClient() {
       if (ws.posters && Array.isArray(ws.posters)) {
         ws.posters.forEach((poster: any) => {
           papers.push({
+            id: poster.id || "",
             type: "poster",
-            workshopYear: ws.year,
-            workshopOrdinal: ws.number,
+            workshopYear: Number.isFinite(yrNum) ? yrNum : ws.year,
+            workshopOrdinal: Number(ws.number),
             workshopTitle: wsTitle,
             sessionTitle: "Poster Session",
             title: poster.title || "",
             authors: poster.authors || [],
             presenter: poster.presenter || "",
             institutes: poster.institutes || [],
-            presentationUrl: poster.public_website_url || poster.local_target_path || poster.legacy_url || poster.presentationUrl || poster.url || "",
-            abstractUrl: poster.public_abstract_url || poster.local_abstract_target_path || poster.legacy_abstract_url || poster.abstractUrl || poster.abstract_url || ""
+            presentationUrl: poster.public_website_url || "",
+            abstractUrl: poster.public_abstract_url || "",
           });
         });
       }
     });
     return papers;
-  }, []);
+  }, [catalogEntries]);
 
   // Match full-text paper contents (either via local chunks database or live Algolia indexing)
   const fullTextSearchResults = useMemo(() => {
@@ -440,29 +502,28 @@ export default function ArchiveHubClient() {
     const paperGroups: Record<string, { paper: any; matches: any[]; maxScore: number }> = {};
 
     matchedChunks.forEach((chunk) => {
-      const key = `${chunk.title}_${chunk.workshop_year}`;
+      const key = chunk.id || `${chunk.title}_${chunk.workshop_year}`;
       if (!paperGroups[key]) {
-        const getOrdinal = (n: number) => {
-          if (n === 1) return "1st";
-          if (n === 2) return "2nd";
-          if (n === 3) return "3rd";
-          return `${n}th`;
-        };
+        const yrNum = Number(chunk.workshop_year);
         paperGroups[key] = {
           paper: {
+            id: chunk.id || "",
             title: chunk.title,
-            authors: chunk.authors,
+            authors:
+              Array.isArray(chunk.author_details) && chunk.author_details.length > 0
+                ? chunk.author_details
+                : chunk.authors,
             institutes: chunk.institutions,
-            workshopYear: chunk.workshop_year,
-            workshopOrdinal: chunk.workshop_ordinal,
-            workshopTitle: `${getOrdinal(chunk.workshop_ordinal)} HEMS Workshop (${chunk.workshop_year})`,
+            workshopYear: Number.isFinite(yrNum) ? yrNum : chunk.workshop_year,
+            workshopOrdinal: Number(chunk.workshop_ordinal),
+            workshopTitle: `${formatOrdinal(Number(chunk.workshop_ordinal))} HEMS Workshop (${chunk.workshop_year})`,
             sessionTitle: chunk.session_title,
             type: chunk.type,
             presentationUrl: chunk.presentation_url,
-            abstractUrl: chunk.abstract_url
+            abstractUrl: chunk.abstract_url,
           },
           matches: [],
-          maxScore: 0
+          maxScore: 0,
         };
       }
 
@@ -1020,9 +1081,53 @@ export default function ArchiveHubClient() {
               </Link>
             ))}
           </div>
+
+          {/* Open Bibliometric & AI Citation Feeds */}
+          <div className="mt-10 pt-8 border-t border-slate-200/90">
+            <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-2xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div className="space-y-1 max-w-2xl">
+                <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-primary">
+                  <Database size={14} /> Open Bibliometric &amp; AI Citation Access
+                </div>
+                <h4 className="font-serif font-semibold text-base sm:text-lg text-slate-900">
+                  Machine-Readable Proceedings Catalogs (1999–2025)
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Direct structured indexes of all <span className="tabular-nums font-medium text-slate-800">436</span> HEMS oral presentations, extended abstracts, and posters with canonical citation anchors and archival PDF references for literature reviews, bibliometric tools, and AI research assistants.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+                <a
+                  href="/llms-full.txt"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-white border border-primary/20 text-xs font-semibold transition-colors"
+                >
+                  <FileText size={13} /> Full Citation Corpus (.txt)
+                </a>
+                <a
+                  href="/archives-index.json"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 text-xs font-semibold transition-colors"
+                >
+                  <Database size={13} /> JSON Index
+                </a>
+                <a
+                  href="/llms.txt"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-slate-600 hover:text-primary border border-slate-200/80 hover:border-primary/30 text-xs font-medium transition-colors"
+                >
+                  AI Guide (llms.txt)
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         /* Interactive Search Results List */
+        <DownloadGate>
         <div className="space-y-6 animate-fadeIn">
           <div className="flex justify-between items-center border-b border-foreground/10 pb-4 mb-4">
             <h3 className="text-xs font-semibold text-foreground/55 tracking-[0.1em] uppercase flex items-center gap-2 tabular-nums">
@@ -1058,7 +1163,11 @@ export default function ArchiveHubClient() {
           ) : (
             <div className="space-y-6">
               {/* Render Search Results - Standard Metadata View */}
-              {searchMode === "metadata" && metadataSearchResults.slice(0, displayLimit).map((paper: any, idx) => (
+              {searchMode === "metadata" && metadataSearchResults.slice(0, displayLimit).map((paper: any, idx) => {
+                const programHref = paper.id
+                  ? `/archive/${paper.workshopYear}/#${paper.id}`
+                  : `/archive/${paper.workshopYear}/`;
+                return (
                 <div 
                   key={idx} 
                   className="bg-surface border border-foreground/10 rounded-lg p-6 hover:border-primary/40 hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
@@ -1081,7 +1190,9 @@ export default function ArchiveHubClient() {
                       )}
                     </div>
                     <h4 className="text-lg font-bold text-foreground leading-snug">
-                      {highlightText(paper.title, searchQuery)}
+                      <Link href={programHref} className="hover:text-primary transition-colors">
+                        {highlightText(paper.title, searchQuery)}
+                      </Link>
                     </h4>
                     <div className="flex flex-col gap-1">
                       {renderAuthors(paper.authors, searchQuery)}
@@ -1090,37 +1201,46 @@ export default function ArchiveHubClient() {
 
                   <div className="flex flex-wrap md:flex-col gap-2 flex-shrink-0 justify-start md:justify-end items-stretch md:min-w-[140px]">
                     {paper.presentationUrl && (
-                      <a 
-                        href={paper.presentationUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-primary text-background hover:bg-primary/90 text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors shadow-sm text-center"
-                      >
-                        <Download size={14} /> Slide PDF
-                      </a>
+                      <FrontendPreviewHover href={paper.presentationUrl} title={paper.title}>
+                        <a 
+                          href={paper.presentationUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full bg-primary text-background hover:bg-primary/90 text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors shadow-sm text-center"
+                        >
+                          <Download size={14} /> Slide PDF
+                        </a>
+                      </FrontendPreviewHover>
                     )}
                     {paper.abstractUrl && (
-                      <a 
-                        href={paper.abstractUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-background border border-foreground/20 hover:border-secondary hover:text-secondary text-foreground/80 text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors text-center"
-                      >
-                        <FileText size={14} /> Abstract
-                      </a>
+                      <FrontendPreviewHover href={paper.abstractUrl} title={paper.title}>
+                        <a 
+                          href={paper.abstractUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full bg-background border border-foreground/20 hover:border-secondary hover:text-secondary text-foreground/80 text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors text-center"
+                        >
+                          <FileText size={14} /> Abstract
+                        </a>
+                      </FrontendPreviewHover>
                     )}
                     <Link 
-                      href={`/archive/${paper.workshopYear}/`}
+                      href={programHref}
                       className="bg-transparent border border-foreground/10 hover:bg-foreground/5 text-foreground/70 hover:text-foreground text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1 transition-colors text-center"
                     >
-                      Program <ArrowRight size={12} />
+                      Cite / Program <ArrowRight size={12} />
                     </Link>
                   </div>
                 </div>
-              ))}
+                );
+              })}
 
               {/* Render Search Results - Grouped Full-Text Document Search View */}
-              {searchMode !== "metadata" && fullTextSearchResults.slice(0, displayLimit).map((hit, idx) => (
+              {searchMode !== "metadata" && fullTextSearchResults.slice(0, displayLimit).map((hit, idx) => {
+                const hitProgramHref = hit.paper.id
+                  ? `/archive/${hit.paper.workshopYear}/#${hit.paper.id}`
+                  : `/archive/${hit.paper.workshopYear}/`;
+                return (
                 <div 
                   key={idx} 
                   className="bg-surface border border-foreground/10 rounded-lg p-6 hover:border-primary/30 hover:shadow-md transition-all space-y-4"
@@ -1144,7 +1264,9 @@ export default function ArchiveHubClient() {
                         )}
                       </div>
                       <h4 className="text-lg font-bold text-foreground leading-snug">
-                        {highlightText(hit.paper.title, searchQuery)}
+                        <Link href={hitProgramHref} className="hover:text-primary transition-colors">
+                          {highlightText(hit.paper.title, searchQuery)}
+                        </Link>
                       </h4>
                       <div className="flex flex-col gap-1">
                         {renderAuthors(hit.paper.authors, searchQuery)}
@@ -1153,30 +1275,34 @@ export default function ArchiveHubClient() {
 
                     <div className="flex flex-wrap md:flex-col gap-2 flex-shrink-0 justify-start md:justify-end items-stretch md:min-w-[140px]">
                       {hit.paper.presentationUrl && (
-                        <a 
-                          href={hit.paper.presentationUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-primary text-background hover:bg-primary/90 text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors shadow-sm text-center"
-                        >
-                          <Download size={14} /> Slide PDF
-                        </a>
+                        <FrontendPreviewHover href={hit.paper.presentationUrl} title={hit.paper.title}>
+                          <a 
+                            href={hit.paper.presentationUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full bg-primary text-background hover:bg-primary/90 text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors shadow-sm text-center"
+                          >
+                            <Download size={14} /> Slide PDF
+                          </a>
+                        </FrontendPreviewHover>
                       )}
                       {hit.paper.abstractUrl && (
-                        <a 
-                          href={hit.paper.abstractUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-background border border-foreground/20 hover:border-secondary hover:text-secondary text-foreground/80 text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors text-center"
-                        >
-                          <FileText size={14} /> Abstract
-                        </a>
+                        <FrontendPreviewHover href={hit.paper.abstractUrl} title={hit.paper.title}>
+                          <a 
+                            href={hit.paper.abstractUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full bg-background border border-foreground/20 hover:border-secondary hover:text-secondary text-foreground/80 text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1.5 transition-colors text-center"
+                          >
+                            <FileText size={14} /> Abstract
+                          </a>
+                        </FrontendPreviewHover>
                       )}
                       <Link 
-                        href={`/archive/${hit.paper.workshopYear}/`}
+                        href={hitProgramHref}
                         className="bg-transparent border border-foreground/10 hover:bg-foreground/5 text-foreground/70 hover:text-foreground text-xs font-bold py-2 px-3 rounded flex items-center justify-center gap-1 transition-colors text-center"
                       >
-                        Program <ArrowRight size={12} />
+                        Cite / Program <ArrowRight size={12} />
                       </Link>
                     </div>
                   </div>
@@ -1190,15 +1316,25 @@ export default function ArchiveHubClient() {
                       <div className="space-y-3">
                         {hit.matches.map((match: any, mIdx: number) => {
                           const isAbstract = match.contentType === "abstract_text";
-                          const targetUrl = isAbstract ? hit.paper.abstractUrl : hit.paper.presentationUrl;
+                          const isBiblio = match.contentType === "bibliographic_summary";
+                          const targetUrl = isBiblio
+                            ? null
+                            : isAbstract
+                            ? hit.paper.abstractUrl
+                            : hit.paper.presentationUrl;
                           const anchorLink = targetUrl ? `${targetUrl}#page=${match.pageNumber}` : null;
+                          const matchLabel = isBiblio
+                            ? "Catalog Bibliographic Record"
+                            : isAbstract
+                            ? "Extended Abstract"
+                            : `Slide Page ${match.pageNumber}`;
                           
                           return (
                             <div key={mIdx} className="text-xs bg-surface/40 p-3 rounded border border-foreground/15 flex flex-col sm:flex-row sm:items-start justify-between gap-3 hover:border-primary/20 transition-all">
                               <div className="space-y-1">
                                 <div className="font-semibold text-[11px] text-secondary flex items-center gap-2 tabular-nums">
                                   <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                                  {isAbstract ? "Extended Abstract" : `Slide Page ${match.pageNumber}`}
+                                  {matchLabel}
                                   <span className="text-foreground/40 text-[9px] font-normal">Score: {match.score}</span>
                                 </div>
                                 <p className="text-foreground/70 italic leading-relaxed">
@@ -1222,7 +1358,8 @@ export default function ArchiveHubClient() {
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
 
               {/* Load More Button */}
               {((searchMode === "metadata" && metadataSearchResults.length > displayLimit) || 
@@ -1242,6 +1379,7 @@ export default function ArchiveHubClient() {
             </div>
           )}
         </div>
+        </DownloadGate>
       )}
     </div>
   );

@@ -38,9 +38,10 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
     
     let fileName = "";
     if (url.includes("?file=")) {
-      fileName = decodeURIComponent(url.split("?file=")[1].split("&")[0]);
+      fileName = decodeURIComponent(url.split("?file=")[1].split("&")[0].split("#")[0]);
     } else {
-      fileName = decodeURIComponent(url.split("/").pop() || "");
+      const cleanPath = url.split("#")[0].split("?")[0];
+      fileName = decodeURIComponent(cleanPath.split("/").pop() || "");
     }
     if (!fileName) return;
 
@@ -165,7 +166,7 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
     if (anchor) {
       const href = anchor.getAttribute("href");
       
-      if (href && (href.toLowerCase().endsWith(".pdf") || href.includes("serve?file="))) {
+      if (href && (/\.pdf(?:$|[?#])/i.test(href) || href.includes("serve?file="))) {
         if (!user) {
           e.preventDefault();
           e.stopPropagation();

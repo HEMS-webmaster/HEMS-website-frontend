@@ -211,6 +211,61 @@ export function buildGlobalKnowledgeGraphJsonLd() {
           "@id": `${SITE_URL}/#organization`,
         },
       },
+      {
+        "@type": "DataCatalog",
+        "@id": `${SITE_URL}/archive/#catalog`,
+        name: "HEMS Workshop Open-Access Proceedings Archive (1999–2025)",
+        description:
+          "Open-access scholarly repository of 436 oral presentations, extended abstracts, and posters from 15 biennial Workshops on Harsh-Environment Mass Spectrometry (1999–2025), available as structured JSON and Markdown corpora for academic citation and AI retrieval.",
+        url: `${SITE_URL}/archive/`,
+        inLanguage: "en-US",
+        isAccessibleForFree: true,
+        publisher: {
+          "@id": `${SITE_URL}/#organization`,
+        },
+        dataset: [
+          {
+            "@type": "Dataset",
+            "@id": `${SITE_URL}/archive/#proceedings-dataset`,
+            name: "Harsh-Environment Mass Spectrometry Workshop Proceedings Index (1999–2025)",
+            description:
+              "Machine-readable bibliographic metadata, canonical citation anchors, Google Cloud Storage PDF links, and full-text extracted slide/abstract corpora across 15 HEMS Workshops (1999–2025).",
+            url: `${SITE_URL}/archive/`,
+            isAccessibleForFree: true,
+            temporalCoverage: "1999/2025",
+            keywords: CORE_KEYWORDS,
+            creator: {
+              "@id": `${SITE_URL}/#organization`,
+            },
+            distribution: [
+              {
+                "@type": "DataDownload",
+                name: "HEMS Structured Proceedings Index (JSON)",
+                contentUrl: `${SITE_URL}/archives-index.json`,
+                encodingFormat: "application/json",
+              },
+              {
+                "@type": "DataDownload",
+                name: "HEMS Complete Citation & Proceedings Corpus (llms-full.txt)",
+                contentUrl: `${SITE_URL}/llms-full.txt`,
+                encodingFormat: "text/markdown",
+              },
+              {
+                "@type": "DataDownload",
+                name: "HEMS Concise AI Directory (llms.txt)",
+                contentUrl: `${SITE_URL}/llms.txt`,
+                encodingFormat: "text/markdown",
+              },
+              {
+                "@type": "DataDownload",
+                name: "HEMS Extracted Slide & Abstract Full-Text Chunks (JSON)",
+                contentUrl: `${SITE_URL}/mock-pdf-chunks.json`,
+                encodingFormat: "application/json",
+              },
+            ],
+          },
+        ],
+      },
     ],
   };
 }

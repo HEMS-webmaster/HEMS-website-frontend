@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const { execSync } = require('child_process');
 
 const nextPath = '.next';
@@ -49,6 +48,7 @@ try {
   execSync('node scripts/generate-archives-index.js', { stdio: 'inherit' });
 } catch (e) {
   console.error('Failed to generate proceedings search database:', e.message);
+  process.exit(1);
 }
 
 // Compile dynamic page-level PDF slide/abstract index chunks for deep full-text queries
@@ -57,6 +57,16 @@ try {
   execSync('node scripts/index-pdf-contents.js', { stdio: 'inherit' });
 } catch (e) {
   console.error('Failed to compile HEMS PDF contents database:', e.message);
+  process.exit(1);
+}
+
+// Generate complete Markdown AI citation corpus (llms-full.txt) from verified index + extracted abstracts
+try {
+  console.log('Generating complete HEMS AI citation corpus (llms-full.txt)...');
+  execSync('node scripts/generate-llms-catalog.js', { stdio: 'inherit' });
+} catch (e) {
+  console.error('Failed to generate llms-full.txt:', e.message);
+  process.exit(1);
 }
 
 // Execute clean static production build
