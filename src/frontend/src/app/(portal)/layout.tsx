@@ -11,6 +11,8 @@ import {
   ShieldCheck,
   ClipboardCheck,
   BarChart2,
+  Users,
+  Send,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -48,6 +50,8 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
   const adminLinks: PortalLinkItem[] = [
     { name: "Board Panel", shortName: "Board", path: "/board", icon: Building2, requiredRole: "board" },
+    { name: "Mailing List", shortName: "Mailing List", path: "/board/mailing-list", icon: Users, requiredRole: "board" },
+    { name: "Announcements", shortName: "Announce", path: "/board/announcements", icon: Send, requiredRole: "board" },
     { name: "Admin Panel", shortName: "Admin", path: "/admin", icon: ShieldCheck, requiredRole: "admin" },
     {
       name: "Website Analytics",

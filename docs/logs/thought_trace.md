@@ -1160,3 +1160,41 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Replace the `<DollarSign>` icon on `HEMS Group Room Block` with `<Hotel>` / `<BedDouble>` for scholarly polish, and when `!workshop.venue_confirmed`:
     - Instead of repeating `"TBA"` across 5 separate boxes (`Address box` + `Group Rate` + `Availability Window` + `Key Dates` sidebar + `Room Block Cutoff` sidebar + `Room Block TBA` button), consolidate the right sidebar into **one clean `Schedule & Room Block Status` card** (showing `Target Window: September 2027`, noting that room-block dates and reservation links will open once the host hotel is announced, with a quiet link to `/contact`) and condense the `HEMS Group Room Block` unconfirmed state into a clean prose summary citing the `$124/night` 2025 benchmark without two giant `"TBA"` / `"Dates TBA"` boxes!
     - Preserve 100% of the live Google Sheet bindings (`workshop.venue_confirmed`, `workshop.hotel_name`, `workshop.hotel_address`, `workshop.hotel_maps_url`, `workshop.hotel_group_rate`, `workshop.hotel_discount_window`, `workshop.hotel_booking_cutoff`, `workshop.hotel_booking_url`) so when `venue_confirmed` flips to `true`, the full booking rate cards, cutoff date, and `Book Hotel Room` button render automatically.
+
+---
+### [2026-11-12T07:10:30-07:00] @prod & @ops (with @arch & @legal) — Implementation Advice: Replacing Mailchimp with High-Deliverability Google/Firebase Mailing Architecture
+- **Context & Rule #9 (`scrumrules.md`):** `@bo` asked `@prod` and `@ops` for implementation advice on migrating off Mailchimp, improving bulk send deliverability (minimizing spam flags and maximizing URL trust), moving the domain and stack into the Google-centric architecture, and adding ~2 signed-in Board Member email-interface pages. Strictly advisory/brainstorm response — zero `src/` or `functions/` edits.
+- **Codebase Alignment Audit:**
+  - `firebase.json` & `functions/src/index.ts` already run **Firebase Hosting** (`src/frontend/out`) + **Cloud Firestore** (`firestore.rules` already defines `board` and `admin` roles!) + **Cloud Functions v2 on Node 22**.
+  - `ContactClient.tsx` currently uses a `mailto:` link (`Prepare Email Inquiry`) and `RegistrationClient.tsx` has a hook for mailing list signups.
+  - `(portal)/board/page.tsx` already enforces `user.roles?.includes("board") || user.roles?.includes("admin")`.
+- **Core Deliverability Findings (`@ops`):**
+  1. Mailchimp hurts `.gov` (NASA, NRL, DOE national labs) and `.edu` inbox placement primarily because of shared marketing IPs, click-tracking link rewriting (`list-manage.com` mismatching `hems-workshop.org`), `1x1` spy pixels, heavy HTML tables, and stale biennial `.edu` bounces.
+  2. **Crucial Warning:** While HEMS (as a 2008 501(c)(3)) qualifies for free **Google Workspace for Nonprofits** (`@hems-workshop.org` human mailboxes) and should host DNS on **Google Cloud DNS** + website on **Firebase Hosting**, bulk workshop blasts MUST NOT be sent directly out of an officer's Gmail SMTP / Google Group—doing so risks 24-hour mailbox lockouts, lacks bounce/complaint suppression webhooks, and lacks `RFC 8058` one-click unsubscribe headers.
+  3. **Optimal Google-Centric Hybrid:** Keep 100% of DNS, Hosting, Auth, Subscriber DB (Firestore), Unsubscribe UI, and Board Composer UI inside Google Cloud / Firebase, and wire a single Firebase Cloud Function v2 to a high-trust SMTP/API relay (**Amazon SES** at ~$0.10/1,000 emails with $0/mo idle cost for biennial cadence, **Resend**, or **Postmark Broadcast**) authenticated on `mail.hems-workshop.org` with **click-tracking and open-pixels turned OFF** so every URL in the email is a direct `https://hems-workshop.org/...` link.
+- **Proposed UI Surface (`@prod`):**
+  - Public: Embedded Double Opt-In signup widget (`/contact`, Footer, `/registration`) + token-signed 1-click `/unsubscribe` & email-update page.
+  - Signed-In Board/Admin (`/board/subscribers` & `/board/campaigns`): Mailchimp CSV importer (preserving unsubscribes/bounces!), subscriber search/hygiene table, and a clean academic announcement composer with mandatory test-send + audit log.
+
+---
+### [2026-11-12T07:20:30-07:00] @ops, @arch, @prod — Postmark Mailing List & Board Interface Blueprint + Lock Check
+- **Decision (`@bo`):**
+  1. Selected **Postmark** (`outbound` Transactional stream + `broadcast` Broadcast stream, with click-tracking & open-tracking disabled for 100% direct `https://hems-workshop.org/...` URL trust).
+  2. Approved building the Firestore schema, Cloud Functions backend, Public Signup / Unsubscribe UI, and two signed-in Board Member pages (`/board/mailing-list` & `/board/announcements` with Mailchimp CSV import & sandbox preview) now, ahead of live DNS cutover.
+- **Lock Check (`locksrules.md` Rule #3 & Rule #6):**
+  - `src/frontend/src/**` (`@dev`), `infrastructure/**` (`@ops`), and `docs/**` (`@arch`) are within standard agent write boundaries.
+  - Modifying root `firestore.rules`, root `firebase.json`, and `functions/src/index.ts` crosses strict directory boundaries (`locksrules.md` Rule #3: `@dev` = `src/` only, `@ops` = `.env`, `Dockerfile`, `infrastructure/`).
+  - Per `locksrules.md` Rule #6 (`ESCAPE HATCH`), publish `@arch`'s permanent plan (`docs/plans/2026-11-12-postmark-mailing-list-architecture.md`) first, halt before modifying locked paths, and output the exact `SYSTEM LOCK ENCOUNTERED` request for `firestore.rules`, `firebase.json`, and `functions/src/index.ts`.
+
+---
+### [2026-11-12T07:49:00-07:00] @ops -> @dev -> @qa — Executing Postmark Mailing List, Cloud Functions v2, Public Signup/Unsubscribe & Two Board Interfaces
+- **Lock Override Confirmed (`@bo`):** Explicit `"yes, go"` received for `firestore.rules`, `firebase.json`, and `functions/src/index.ts`.
+- **Implementation Sequence:**
+  1. `@ops`: Update `firestore.rules` (`mailing_subscribers`, `mailing_campaigns`, `mailing_public_requests`), `firebase.json` (`/api/mailing/*` Hosting rewrites before `404.html`), `functions/src/mailing.ts` + `functions/src/index.ts` (Postmark Transactional & Broadcast streams with `TrackOpens: false`, `TrackLinks: "None"`, `RFC 8058` `List-Unsubscribe-Post: List-Unsubscribe=One-Click`, Double Opt-In, and hard-bounce/spam-complaint webhook suppression), plus `infrastructure/postmark-dns-cutover.md` & `infrastructure/.env.postmark.example`.
+  2. `@dev`: Create strict TypeScript models (`src/frontend/src/types/mailing.ts`), academic letterhead + URL-trust deliverability auditor + RFC-4180 Mailchimp CSV parser (`src/frontend/src/utils/mailingTemplate.ts`), custom hook (`src/frontend/src/hooks/useMailingAdmin.ts`), public signup card (`MailingListSignupCard.tsx` wired into `/contact`, `/registration`, and `Footer.tsx`), `/unsubscribe` route (`noindex`), and the two signed-in Board Member routes (`/board/mailing-list` & `/board/announcements` wired into `(portal)/layout.tsx` and `/board`).
+  3. `@qa` & `@ops`: Build `functions` (`npm --prefix functions run build`) AND `src/frontend` (`npm --prefix src/frontend run build`), commit on `main`, deploy Hosting preview to `preview-2027`, and restart local `next dev`.
+
+## [2026-11-12] Phase 18 Execution Continuation — Frontend Entry Wiring, Build & Preview Deploy (@dev, @arch, @qa, @ops)
+- **@dev**: Wiring `<MailingListSignupCard />` (`id="mailing-list"`) onto `/contact` (`ContactClient.tsx`), adding `/contact#mailing-list` CTA to `RegistrationClient.tsx` and `Footer.tsx` (plus `/unsubscribe` in footer utility bar), disallowing `/unsubscribe/` in `robots.ts`, and wiring `/board/mailing-list` + `/board/announcements` into `(portal)/layout.tsx` (`requiredRole: "board"`) and `(portal)/board/page.tsx`.
+- **@arch**: Recording Phase 18 in `docs/implementation_plan.md` and Section 19 in `docs/session_history.md` linking `docs/plans/2026-11-12-postmark-mailing-list-architecture.md`.
+- **@qa & @ops**: Stopping background `next dev`, running `npm --prefix src/frontend run build` and `npm --prefix functions run build`, verifying zero archive/source-material mutations, committing to `main`, deploying `firestore:rules` and Hosting channel `preview-2027`, and restarting `next dev`.

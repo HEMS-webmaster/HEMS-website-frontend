@@ -14,6 +14,7 @@ import {
   Award,
 } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
+import MailingListSignupCard from "@/components/mailing/MailingListSignupCard";
 
 interface InquiryFormState {
   firstName: string;
@@ -98,6 +99,10 @@ export default function ContactClient() {
           />
           <span className="text-[11px] font-medium text-slate-500 mt-1.5">Organizing Committee</span>
         </div>
+      </div>
+
+      <div className="mb-10 sm:mb-12">
+        <MailingListSignupCard />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">

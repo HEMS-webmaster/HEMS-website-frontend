@@ -84,6 +84,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/contact#mailing-list" className="inline-block py-1 hover:text-primary transition-colors">
+                  Join Mailing List
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="inline-block py-1 hover:text-primary transition-colors">
                   Contact the Committee
                 </Link>
@@ -99,6 +104,10 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium">
             <Link href="/archive/2025" className="py-1 hover:text-primary transition-colors">
               2025 Proceedings
+            </Link>
+            <span className="text-slate-300">•</span>
+            <Link href="/unsubscribe" className="py-1 hover:text-primary transition-colors">
+              Unsubscribe
             </Link>
             <span className="text-slate-300">•</span>
             <Link href="/auth" className="py-1 hover:text-primary transition-colors">

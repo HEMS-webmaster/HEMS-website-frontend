@@ -2,7 +2,18 @@
 
 import React from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Building2, ShieldAlert, FileText, Download, Lock, Calendar } from "lucide-react";
+import {
+  Building2,
+  ShieldAlert,
+  FileText,
+  Download,
+  Lock,
+  Calendar,
+  Users,
+  Send,
+  ArrowRight,
+  ShieldCheck,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function BoardPage() {
@@ -52,6 +63,67 @@ export default function BoardPage() {
         </div>
         <div className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl text-xs font-bold text-primary self-start md:self-center break-all">
           Board Member: {user.email}
+        </div>
+      </div>
+
+      {/* Society Communications & High-Deliverability Mailing Suite */}
+      <div className="space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 className="font-serif text-xl font-semibold text-foreground flex items-center gap-2">
+              <ShieldCheck size={19} className="text-primary shrink-0" />
+              Society Communications &amp; Mailing List
+            </h3>
+            <p className="text-xs text-foreground/60 mt-0.5">
+              High-deliverability Postmark distribution on <code className="font-semibold text-primary">hems-workshop.org</code> (zero tracking pixels, direct URLs, RFC 8058 one-click unsubscribe).
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Link
+            href="/board/mailing-list"
+            className="group bg-background border border-foreground/10 hover:border-primary/45 rounded-2xl p-5 sm:p-6 transition-all shadow-2xs flex flex-col justify-between gap-4"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <span className="p-2.5 rounded-xl bg-primary/10 text-primary">
+                  <Users size={20} />
+                </span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-primary inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  Open Directory <ArrowRight size={13} />
+                </span>
+              </div>
+              <h4 className="font-serif text-lg font-semibold text-foreground">
+                Subscriber Directory &amp; Mailchimp Import
+              </h4>
+              <p className="text-xs text-foreground/65 leading-relaxed">
+                Manage confirmed subscribers, sync public opt-ins, export CSV backups, and migrate Mailchimp Subscribed, Unsubscribed, and Cleaned lists without losing suppression history.
+              </p>
+            </div>
+          </Link>
+
+          <Link
+            href="/board/announcements"
+            className="group bg-background border border-foreground/10 hover:border-primary/45 rounded-2xl p-5 sm:p-6 transition-all shadow-2xs flex flex-col justify-between gap-4"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <span className="p-2.5 rounded-xl bg-secondary/10 text-secondary">
+                  <Send size={20} />
+                </span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-primary inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  Open Composer <ArrowRight size={13} />
+                </span>
+              </div>
+              <h4 className="font-serif text-lg font-semibold text-foreground">
+                Academic Announcement Composer
+              </h4>
+              <p className="text-xs text-foreground/65 leading-relaxed">
+                Draft official Call for Papers and Workshop announcements with scholarly letterhead HTML + plain-text companion, URL-trust spam audit, and mandatory officer test-send gate.
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
 

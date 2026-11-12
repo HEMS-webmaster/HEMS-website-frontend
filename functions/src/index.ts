@@ -5,6 +5,14 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
+export {
+  mailingSubscribe,
+  mailingConfirm,
+  mailingUnsubscribe,
+  mailingWebhookPostmark,
+  mailingSendCampaign,
+} from "./mailing";
+
 // Trigger on any write (create, update, delete) to the 'whitelist/{email}' collection
 export const syncWhitelistToUserV2 = onDocumentWritten(
   "whitelist/{email}",

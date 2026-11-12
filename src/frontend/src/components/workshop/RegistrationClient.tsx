@@ -61,10 +61,13 @@ export default function RegistrationClient() {
                 Join {workshop.workshop_year} Mailing List <ExternalLink size={13} />
               </a>
             ) : (
-              <Link href="/contact" className="text-primary font-semibold hover:underline">
-                Contact Organizing Committee →
+              <Link href="/contact#mailing-list" className="text-primary font-semibold hover:underline">
+                Join Mailing List →
               </Link>
             )}
+            <Link href="/contact" className="text-slate-600 hover:text-primary transition-colors">
+              Contact Committee →
+            </Link>
             <Link href="/student-awards" className="text-slate-600 hover:text-primary transition-colors">
               Student Travel Awards →
             </Link>

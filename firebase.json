@@ -8,6 +8,48 @@
     ],
     "rewrites": [
       {
+        "source": "/api/mailing/subscribe",
+        "function": {
+          "functionId": "mailingSubscribe",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/mailing/confirm",
+        "function": {
+          "functionId": "mailingConfirm",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/mailing/unsubscribe",
+        "function": {
+          "functionId": "mailingUnsubscribe",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/mailing/one-click-unsubscribe",
+        "function": {
+          "functionId": "mailingUnsubscribe",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/mailing/webhooks/postmark",
+        "function": {
+          "functionId": "mailingWebhookPostmark",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/mailing/send-campaign",
+        "function": {
+          "functionId": "mailingSendCampaign",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/404.html"
       }

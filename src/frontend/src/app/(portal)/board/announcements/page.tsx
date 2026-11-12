@@ -1,0 +1,568 @@
+"use client";
+
+import React, { useState, useMemo } from "react";
+import Link from "next/link";
+import {
+  Send,
+  ShieldAlert,
+  ShieldCheck,
+  CheckCircle2,
+  AlertTriangle,
+  XCircle,
+  Eye,
+  FileText,
+  Users,
+  History,
+  Loader2,
+} from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useMailingAdmin } from "@/hooks/useMailingAdmin";
+import { MailingSegment } from "@/types/mailing";
+import {
+  auditCampaignDeliverability,
+  renderAcademicEmailParts,
+} from "@/utils/mailingTemplate";
+
+const TEMPLATES: Array<{
+  id: string;
+  label: string;
+  subject: string;
+  segment: MailingSegment;
+  body: string;
+}> = [
+  {
+    id: "save-date",
+    label: "16th Workshop — Save the Date",
+    subject: "16th HEMS Workshop (September 2027) — Save the Date",
+    segment: "all",
+    body: `Dear Colleagues,
+
+Planning is underway for the **16th Harsh-Environment Mass Spectrometry (HEMS) Workshop**, scheduled for **September 2027**.
+
+## Upcoming Symposium Information
+- **Workshop Portal:** [16th HEMS Workshop Overview](https://hems-workshop.org/layout-portal/)
+- **Proceedings Archive:** [1999–2025 Open-Access Archive](https://hems-workshop.org/archive/)
+- **Graduate Student Support:** [Student Travel Awards](https://hems-workshop.org/student-awards/)
+
+Host venue details, Call for Papers deadlines, and registration dates will be announced once finalized by the Organizing Committee.
+
+Sincerely,
+HEMS Workshop Organizing Committee`,
+  },
+  {
+    id: "cfp",
+    label: "Call for Papers & Student Travel Awards",
+    subject: "16th HEMS Workshop — Call for Papers & Student Travel Awards",
+    segment: "workshop",
+    body: `Dear Colleagues,
+
+The Organizing Committee invites abstract submissions for oral presentations and poster sessions at the **16th Harsh-Environment Mass Spectrometry Workshop**.
+
+## Submission & Formatting Links
+- **Call for Papers:** [Submission Guidelines & Topics](https://hems-workshop.org/call-for-papers/)
+- **Abstract Formatting:** [Single-Page Formatting Specifications](https://hems-workshop.org/formatting-guidelines/)
+- **Graduate Students:** [Apply for Student Travel Awards](https://hems-workshop.org/student-awards/)
+
+Consistent with HEMS Society tradition, all sessions are single-track to foster open discussion across academic, government, and industrial groups.
+
+Sincerely,
+HEMS Workshop Organizing Committee`,
+  },
+];
+
+export default function BoardAnnouncementsPage() {
+  const { user, loading } = useAuth();
+  const isAuthorized = Boolean(
+    user && (user.roles?.includes("board") || user.roles?.includes("admin"))
+  );
+
+  const { subscribers, campaigns, dispatchCampaign } =
+    useMailingAdmin(isAuthorized);
+
+  const [subject, setSubject] = useState(TEMPLATES[0].subject);
+  const [segment, setSegment] = useState<MailingSegment>("all");
+  const [markdownBody, setMarkdownBody] = useState(TEMPLATES[0].body);
+  const [previewTab, setPreviewTab] = useState<"html" | "plain">("html");
+  const [testEmail, setTestEmail] = useState("");
+  const [testVerifiedSignature, setTestVerifiedSignature] = useState("");
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [statusBanner, setStatusBanner] = useState("");
+  const [errorBanner, setErrorBanner] = useState("");
+
+  const currentDraftSignature = `${subject.trim()}::${segment}::${markdownBody.trim()}`;
+  const isCurrentDraftTested =
+    testVerifiedSignature !== "" && testVerifiedSignature === currentDraftSignature;
+
+  const recipientCount = useMemo(() => {
+    return subscribers.filter((s) => {
+      if (s.status !== "active") return false;
+      if (segment === "all") return true;
+      return s.interests.includes(segment);
+    }).length;
+  }, [subscribers, segment]);
+
+  const audit = useMemo(
+    () => auditCampaignDeliverability(subject, markdownBody),
+    [subject, markdownBody]
+  );
+
+  const rendered = useMemo(
+    () => renderAcademicEmailParts(subject, markdownBody),
+    [subject, markdownBody]
+  );
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[300px]">
+        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm text-slate-500 mt-4">Verifying Board credentials...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthorized || !user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-8 bg-white border border-red-200 rounded-2xl max-w-lg mx-auto">
+        <ShieldAlert className="text-red-500 mb-4" size={44} />
+        <h2 className="font-serif text-2xl font-semibold text-slate-900">
+          Board Access Required
+        </h2>
+        <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+          Sign in with an authorized HEMS Board Member or Admin account to compose and dispatch society announcements.
+        </p>
+        <Link
+          href="/auth"
+          className="mt-6 bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+        >
+          Committee Sign In
+        </Link>
+      </div>
+    );
+  }
+
+  const effectiveTestRecipient = (testEmail || user.email || "").trim();
+
+  const handleApplyTemplate = (tplId: string) => {
+    const found = TEMPLATES.find((t) => t.id === tplId);
+    if (!found) return;
+    setSubject(found.subject);
+    setSegment(found.segment);
+    setMarkdownBody(found.body);
+    setStatusBanner("");
+    setErrorBanner("");
+  };
+
+  const handleTestSend = async () => {
+    setErrorBanner("");
+    setStatusBanner("");
+    if (audit.overallStatus === "fail") {
+      setErrorBanner("Please resolve red deliverability checks before sending a test copy.");
+      return;
+    }
+
+    setSending(true);
+    try {
+      const res = await dispatchCampaign({
+        mode: "test",
+        subject,
+        segment,
+        markdownBody,
+        testEmail: effectiveTestRecipient,
+        callerEmail: user.email,
+      });
+      setTestVerifiedSignature(currentDraftSignature);
+      setStatusBanner(res.message);
+    } catch (err: unknown) {
+      setErrorBanner(err instanceof Error ? err.message : "Test send failed.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const handleBroadcastConfirm = async () => {
+    setConfirmModalOpen(false);
+    setErrorBanner("");
+    setStatusBanner("");
+    setSending(true);
+    try {
+      const res = await dispatchCampaign({
+        mode: "broadcast",
+        subject,
+        segment,
+        markdownBody,
+        testEmail: effectiveTestRecipient,
+        callerEmail: user.email,
+      });
+      setStatusBanner(res.message);
+      setTestVerifiedSignature("");
+    } catch (err: unknown) {
+      setErrorBanner(
+        err instanceof Error ? err.message : "Broadcast dispatch failed."
+      );
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <div className="space-y-8 max-w-6xl mx-auto w-full min-w-0">
+      {/* Header */}
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+        <div>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-1">
+            Postmark Broadcast Stream • Direct URL Trust
+          </span>
+          <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 flex items-center gap-2.5">
+            <Send className="text-primary shrink-0" size={24} /> Academic Announcement Composer
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
+            Sends lightweight <code className="text-xs bg-slate-100 px-1 py-0.5 rounded">multipart/alternative</code> scholarly announcements with zero tracking pixels, direct <code className="text-xs bg-slate-100 px-1 py-0.5 rounded">https://hems-workshop.org</code> links, and <code className="text-xs bg-slate-100 px-1 py-0.5 rounded">RFC 8058</code> one-click unsubscribe headers.
+          </p>
+        </div>
+
+        <Link
+          href="/board/mailing-list"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold hover:border-primary/40 hover:text-primary transition-colors self-start md:self-center shrink-0"
+        >
+          <Users size={15} /> Manage Subscribers ({recipientCount} Active)
+        </Link>
+      </header>
+
+      {statusBanner && (
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm flex items-start gap-2.5">
+          <CheckCircle2 size={17} className="text-emerald-700 shrink-0 mt-0.5" />
+          <span>{statusBanner}</span>
+        </div>
+      )}
+
+      {errorBanner && (
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm flex items-start gap-2.5">
+          <AlertTriangle size={17} className="text-red-600 shrink-0 mt-0.5" />
+          <span>{errorBanner}</span>
+        </div>
+      )}
+
+      {/* Composer + Live Preview Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Left 7 Cols: Editor */}
+        <div className="lg:col-span-7 bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-5">
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+              Starter Templates
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {TEMPLATES.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => handleApplyTemplate(t.id)}
+                  className="px-3 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs font-medium text-slate-700 hover:border-primary/40 hover:text-primary transition-colors cursor-pointer"
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="camp-subject"
+                className="block text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600 mb-1"
+              >
+                Subject Line
+              </label>
+              <input
+                id="camp-subject"
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                className="w-full bg-slate-50/60 border border-slate-200 rounded-lg px-3.5 py-2.5 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-primary focus:bg-white"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="camp-segment"
+                className="block text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600 mb-1"
+              >
+                Recipient Segment
+              </label>
+              <select
+                id="camp-segment"
+                value={segment}
+                onChange={(e) => setSegment(e.target.value as MailingSegment)}
+                className="w-full bg-slate-50/60 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-sm text-slate-900 focus:outline-none focus:border-primary"
+              >
+                <option value="all">All Active ({subscribers.filter((s) => s.status === "active").length})</option>
+                <option value="workshop">Workshop Announcements</option>
+                <option value="student_awards">Student Travel Awards</option>
+                <option value="sponsorship">Corporate Sponsorship</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label
+                htmlFor="camp-body"
+                className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600"
+              >
+                Announcement Body
+              </label>
+              <span className="text-[11px] text-slate-400">
+                Supports <code className="bg-slate-100 px-1 rounded">## Heading</code>, <code className="bg-slate-100 px-1 rounded">**bold**</code>, <code className="bg-slate-100 px-1 rounded">- list</code>, <code className="bg-slate-100 px-1 rounded">[Label](https://...)</code>
+              </span>
+            </div>
+            <textarea
+              id="camp-body"
+              rows={13}
+              value={markdownBody}
+              onChange={(e) => setMarkdownBody(e.target.value)}
+              className="w-full bg-slate-50/60 border border-slate-200 rounded-xl p-4 text-base sm:text-sm text-slate-900 leading-relaxed focus:outline-none focus:border-primary focus:bg-white"
+            />
+          </div>
+
+          {/* Two-Step Dispatch Safety Bar */}
+          <div className="pt-4 border-t border-slate-100 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-end gap-3">
+              <div className="flex-grow">
+                <label
+                  htmlFor="test-recipient"
+                  className="block text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-600 mb-1"
+                >
+                  Step 1 — Officer Test Recipient
+                </label>
+                <input
+                  id="test-recipient"
+                  type="email"
+                  value={testEmail || user.email}
+                  onChange={(e) => setTestEmail(e.target.value)}
+                  className="w-full bg-slate-50/60 border border-slate-200 rounded-lg px-3.5 py-2 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-primary"
+                />
+              </div>
+              <button
+                type="button"
+                disabled={sending || audit.overallStatus === "fail"}
+                onClick={() => void handleTestSend()}
+                className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 disabled:opacity-50 transition-colors cursor-pointer shrink-0"
+              >
+                {sending ? <Loader2 size={14} className="animate-spin" /> : <Send size={13} />}
+                1. Send Test Copy
+              </button>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200/90">
+              <div className="text-xs text-slate-600">
+                <strong className="text-slate-900 block">
+                  Step 2 — Broadcast to {recipientCount} Active Subscriber(s)
+                </strong>
+                {isCurrentDraftTested
+                  ? "Test copy verified for current draft. Ready for broadcast."
+                  : "Send a test copy first (any edit resets verification to prevent accidental typos)."}
+              </div>
+              <button
+                type="button"
+                disabled={
+                  sending ||
+                  !isCurrentDraftTested ||
+                  audit.overallStatus === "fail" ||
+                  recipientCount === 0
+                }
+                onClick={() => setConfirmModalOpen(true)}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 disabled:opacity-45 disabled:cursor-not-allowed transition-colors cursor-pointer shrink-0 shadow-2xs"
+              >
+                <Send size={14} /> 2. Dispatch Broadcast ({recipientCount})
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right 5 Cols: URL Trust Auditor + Live Preview */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* Deliverability & URL Trust Pre-Flight */}
+          <section className="bg-white border border-slate-200/95 rounded-2xl p-5 shadow-2xs space-y-3.5">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h2 className="font-serif text-base font-semibold text-slate-900 flex items-center gap-2">
+                <ShieldCheck size={18} className="text-primary" /> URL Trust &amp; Spam Audit
+              </h2>
+              <span
+                className={`px-2.5 py-0.5 rounded-full text-[10.5px] font-semibold border uppercase tracking-wide ${
+                  audit.overallStatus === "pass"
+                    ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                    : audit.overallStatus === "warning"
+                    ? "bg-amber-50 text-amber-800 border-amber-200"
+                    : "bg-red-50 text-red-700 border-red-200"
+                }`}
+              >
+                {audit.overallStatus === "pass"
+                  ? "High Trust"
+                  : audit.overallStatus === "warning"
+                  ? "Review Warning"
+                  : "Action Required"}
+              </span>
+            </div>
+
+            <ul className="space-y-2.5">
+              {audit.checks.map((chk) => (
+                <li key={chk.id} className="flex items-start gap-2.5 text-xs">
+                  {chk.severity === "pass" ? (
+                    <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                  ) : chk.severity === "warning" ? (
+                    <AlertTriangle size={15} className="text-amber-600 shrink-0 mt-0.5" />
+                  ) : (
+                    <XCircle size={15} className="text-red-600 shrink-0 mt-0.5" />
+                  )}
+                  <div>
+                    <span className="font-semibold text-slate-800 block">
+                      {chk.label}
+                    </span>
+                    <span className="text-slate-600 leading-snug">{chk.detail}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Live Letterhead / Plain-Text Preview */}
+          <section className="bg-white border border-slate-200/95 rounded-2xl p-5 shadow-2xs space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <Eye size={14} className="text-primary" /> Live Preview
+              </span>
+              <div className="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setPreviewTab("html")}
+                  className={`px-2.5 py-1 rounded-md font-medium cursor-pointer ${
+                    previewTab === "html"
+                      ? "bg-white text-primary shadow-2xs font-semibold"
+                      : "text-slate-600"
+                  }`}
+                >
+                  Letterhead HTML
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewTab("plain")}
+                  className={`px-2.5 py-1 rounded-md font-medium cursor-pointer flex items-center gap-1 ${
+                    previewTab === "plain"
+                      ? "bg-white text-primary shadow-2xs font-semibold"
+                      : "text-slate-600"
+                  }`}
+                >
+                  <FileText size={12} /> Plain Text
+                </button>
+              </div>
+            </div>
+
+            {previewTab === "html" ? (
+              <div
+                className="text-xs overflow-x-auto"
+                dangerouslySetInnerHTML={{ __html: rendered.fullPreviewHtml }}
+              />
+            ) : (
+              <pre className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 whitespace-pre-wrap font-sans leading-relaxed">
+                {rendered.fullPreviewPlain}
+              </pre>
+            )}
+          </section>
+        </div>
+      </div>
+
+      {/* Broadcast History Audit Log */}
+      <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-4">
+        <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
+          <History size={18} className="text-primary" /> Broadcast Audit Log
+        </h2>
+
+        {campaigns.length === 0 ? (
+          <p className="text-xs sm:text-sm text-slate-500 py-4">
+            No announcements have been dispatched yet.
+          </p>
+        ) : (
+          <div className="overflow-x-auto -mx-6 px-6">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="border-b border-slate-200 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  <th className="py-2.5 pr-4">Date</th>
+                  <th className="py-2.5 pr-4">Subject</th>
+                  <th className="py-2.5 pr-4">Segment</th>
+                  <th className="py-2.5 pr-4">Delivered</th>
+                  <th className="py-2.5 pr-4">Officer</th>
+                  <th className="py-2.5 text-right">Mode</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {campaigns.map((c) => (
+                  <tr key={c.id}>
+                    <td className="py-3 pr-4 tabular-nums text-slate-600 whitespace-nowrap">
+                      {(c.sentAt || c.createdAt).slice(0, 16).replace("T", " ")}
+                    </td>
+                    <td className="py-3 pr-4 font-semibold text-slate-900">
+                      {c.subject}
+                    </td>
+                    <td className="py-3 pr-4 text-slate-600">{c.segment}</td>
+                    <td className="py-3 pr-4 tabular-nums font-medium text-slate-800">
+                      {c.deliveredCount} / {c.recipientCount}
+                    </td>
+                    <td className="py-3 pr-4 text-slate-600 break-all">
+                      {c.createdByEmail}
+                    </td>
+                    <td className="py-3 text-right">
+                      <span
+                        className={`inline-block px-2.5 py-0.5 rounded-full text-[10.5px] font-semibold border ${
+                          c.status === "sent"
+                            ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                            : "bg-slate-100 text-slate-700 border-slate-200"
+                        }`}
+                      >
+                        {c.status === "sent" ? "Postmark Live" : "Preview Sandbox"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      {/* Broadcast Confirmation Modal */}
+      {confirmModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4 max-h-[90dvh] overflow-y-auto">
+            <h3 className="font-serif text-xl font-semibold text-slate-900">
+              Confirm Broadcast Dispatch
+            </h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              You are about to dispatch{" "}
+              <strong className="text-slate-900">&ldquo;{subject}&rdquo;</strong>{" "}
+              to <strong className="text-primary tabular-nums">{recipientCount}</strong>{" "}
+              active subscriber(s) in segment{" "}
+              <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">{segment}</code>.
+            </p>
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setConfirmModalOpen(false)}
+                className="px-4 py-2 rounded-lg border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleBroadcastConfirm()}
+                className="px-5 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 cursor-pointer"
+              >
+                Confirm &amp; Send ({recipientCount})
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+

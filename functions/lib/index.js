@@ -33,11 +33,17 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.syncUserOnRegistrationV2 = exports.syncWhitelistToUserV2 = void 0;
+exports.syncUserOnRegistrationV2 = exports.syncWhitelistToUserV2 = exports.mailingSendCampaign = exports.mailingWebhookPostmark = exports.mailingUnsubscribe = exports.mailingConfirm = exports.mailingSubscribe = void 0;
 const firestore_1 = require("firebase-functions/v2/firestore");
 const admin = __importStar(require("firebase-admin"));
 admin.initializeApp();
 const db = admin.firestore();
+var mailing_1 = require("./mailing");
+Object.defineProperty(exports, "mailingSubscribe", { enumerable: true, get: function () { return mailing_1.mailingSubscribe; } });
+Object.defineProperty(exports, "mailingConfirm", { enumerable: true, get: function () { return mailing_1.mailingConfirm; } });
+Object.defineProperty(exports, "mailingUnsubscribe", { enumerable: true, get: function () { return mailing_1.mailingUnsubscribe; } });
+Object.defineProperty(exports, "mailingWebhookPostmark", { enumerable: true, get: function () { return mailing_1.mailingWebhookPostmark; } });
+Object.defineProperty(exports, "mailingSendCampaign", { enumerable: true, get: function () { return mailing_1.mailingSendCampaign; } });
 // Trigger on any write (create, update, delete) to the 'whitelist/{email}' collection
 exports.syncWhitelistToUserV2 = (0, firestore_1.onDocumentWritten)("whitelist/{email}", async (event) => {
     const email = event.params.email.toLowerCase();

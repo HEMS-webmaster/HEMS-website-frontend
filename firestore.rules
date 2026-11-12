@@ -12,6 +12,11 @@ service cloud.firestore {
       return 'admin' in getUserRoles(userId);
     }
 
+    // Helper function to check if the user is a board member or admin
+    function isBoardOrAdmin(userId) {
+      return 'board' in getUserRoles(userId) || isAdmin(userId);
+    }
+
     // User profiles rules
     match /users/{userId} {
       // Authenticated users can read their own profile, admins can read all profiles
@@ -57,7 +62,30 @@ service cloud.firestore {
 
     // Board-only documents (meeting minutes, annual budgets)
     match /board_documents/{document} {
-      allow read, write: if request.auth != null && ('board' in getUserRoles(request.auth.uid) || isAdmin(request.auth.uid));
+      allow read, write: if request.auth != null && isBoardOrAdmin(request.auth.uid);
+    }
+
+    // Mailing list subscriber directory (Board & Admin access; public flows go via Cloud Functions / write-only queue)
+    match /mailing_subscribers/{subscriberId} {
+      allow read, write: if request.auth != null && isBoardOrAdmin(request.auth.uid);
+    }
+
+    // Mailing list campaign & broadcast audit log (Board & Admin access)
+    match /mailing_campaigns/{campaignId} {
+      allow read, write: if request.auth != null && isBoardOrAdmin(request.auth.uid);
+    }
+
+    // Write-only public signup / unsubscribe fallback queue (unreadable publicly; reviewed by Board/Admin)
+    match /mailing_public_requests/{requestId} {
+      allow read, update, delete: if request.auth != null && isBoardOrAdmin(request.auth.uid);
+      allow create: if request.resource.data.keys().hasOnly([
+          'type', 'email', 'newEmail', 'firstName', 'lastName',
+          'affiliation', 'interests', 'token', 'createdAt', 'status'
+        ])
+        && request.resource.data.type in ['subscribe', 'unsubscribe', 'update_email']
+        && request.resource.data.email is string
+        && request.resource.data.email.size() >= 5
+        && request.resource.data.email.size() <= 254;
     }
 
     // Whitelist management
