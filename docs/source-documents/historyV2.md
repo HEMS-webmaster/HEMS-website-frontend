@@ -1,0 +1,60 @@
+# HEMS Workshop and Society History
+
+## HEMS Workshop Early Years
+
+The idea of convening a recurring workshop on harsh-environment mass spectrometry arose in the late 1990s among researchers at the University of South Florida (USF) Center for Ocean Technology (COT). Rapid advances in vacuum technology and the miniaturization of benchtop instruments were motivating research groups worldwide to carry mass spectrometers out of controlled laboratories and directly into the field for *in-situ* chemical measurements.
+
+At the time, USF COT investigators were developing underwater mass spectrometers for marine science and environmental monitoring. They recognized that while field applications spanned vastly different regimes—from deep oceans to planetary surfaces and industrial plumes—the groups pioneering these deployments rarely crossed paths at traditional conferences, despite confronting remarkably similar engineering bottlenecks. Advancing field-deployable and *in-situ* mass spectrometry for demanding, and at times extreme, environments clearly called for a dedicated forum where dispersed teams could openly share experiences, setbacks, and solutions.
+
+That vision became reality in February 1999, when USF COT hosted the inaugural Harsh-Environment Mass Spectrometry (HEMS) Workshop on the USF St. Petersburg, Florida campus. Roughly twenty researchers from across the United States gathered for one and a half days of single-track talks and candid technical discussions in an informal setting (see the Archives for programs and proceedings from this and all subsequent HEMS Workshops).
+
+Enthusiasm from that initial meeting prompted USF COT to organize a longer, broadly advertised 2nd HEMS Workshop in downtown St. Petersburg in February 2001, introducing formal registration and drawing 65 participants—including the Workshop’s first international attendees. Its relaxed, collegial spirit took hold immediately, establishing shorts and Hawaiian shirts as the unofficial symposium attire. Energized by the breadth of applications represented—spanning disaster response, environmental monitoring, marine biogeochemistry, space exploration, fundamental analytical science, and frontier hardware engineering—the organizers initially set out on an annual schedule.
+
+Discussions at the 2001 meeting also spotlighted a defining hardware bottleneck for compact mass spectrometers: achieving and sustaining high vacuum with low-power, miniature pumps. Consequently, the 3rd HEMS Workshop was held jointly with NASA’s 2nd Miniature Vacuum Pumps Workshop and hosted by the NASA Jet Propulsion Laboratory (JPL) in Pasadena, California in March 2002. USF COT returned the 4th HEMS Workshop to the Florida Gulf Coast at St. Pete Beach in October 2003, cementing both the symposium’s coastal character and its role in connecting academic and government innovators with instrument manufacturers. Recognizing the multi-year engineering cycles required to design, ruggedize, and field-test harsh-environment hardware, the community elected to shift to a two-year interval—a rhythm inaugurated when USF COT hosted the 5th HEMS Workshop at Lido Beach in Sarasota, Florida in September 2005, establishing the Workshop’s signature mid-September biennial cadence.
+
+## The HEMS Society
+
+During the 5th HEMS Workshop at Lido Beach in 2005, attendees proposed forming a dedicated Organizing Committee so the growing community could steward future symposia independently rather than relying indefinitely on USF sponsorship. That newly established Organizing Committee convened the 6th HEMS Workshop in Cocoa Beach, Florida in September 2007 and, in 2008, formally incorporated the organization in the State of Florida as the **Harsh-Environment Mass Spectrometry Society, Inc.** Today the HEMS Society operates as an all-volunteer nonprofit corporation exempt from federal income tax under Section 501(c)(3) of the Internal Revenue Code—providing an independent institutional identity to manage symposium finances, plan future meetings, fund competitive Student Travel Awards, and preserve an open-access proceedings archive without charging annual membership dues.
+
+From the outset, governance was structured around shared leadership: responsibility for chairing and hosting each biennial workshop rotates among members of the Board of Directors and Organizing Committee, backed by the full committee’s operational continuity.
+
+Following formal incorporation, the Society convened its 7th HEMS Workshop on the Pacific coast in Santa Barbara, California (2009), returned to the Gulf of Mexico for consecutive meetings at St. Pete Beach, Florida (2011 and 2013), and continued to Baltimore, Maryland (2015) and Oxnard, California (2017). In 2018, the Society marked an off-cycle international milestone with its first European symposium in Cologne, Germany (12th Workshop), before returning to Myrtle Beach, South Carolina in 2019. Following pandemic-era scheduling adjustments, the community reconvened in Cocoa Beach, Florida (2022) and most recently in Virginia Beach, Virginia (2025) for its 15th symposium, ahead of resuming its two-year September cadence in 2027. Across every venue, the committee has prioritized welcoming waterfront or coastal settings where candid technical exchange and lasting professional friendships flourish side by side.
+
+## Summary
+
+> *"Just because we send our mass spectrometers into harsh environments doesn’t mean we have to meet in one!"*
+
+From the very first gathering in 1999, HEMS Workshops have paired rigorous single-track science with relaxed, predominantly beachfront venues and generous unscheduled time for informal conversation.
+
+Over more than a quarter-century, uniting the scientists, engineers, and operators who design, build, and deploy field mass spectrometers—alongside corporate instrument manufacturers and government agencies—has forged enduring cross-sector collaborations and accelerated field-ready instrumentation. Because HEMS participants apply chemical sensing across widely varied ocean, space, atmospheric, industrial, and security missions—often supported by distinct funding programs—competitive barriers remain low, encouraging investigators to share detailed engineering lessons openly and advance the entire discipline together.
+
+---
+
+## V1 → V2 Changelog & Editorial Rationale
+
+**Baseline Reference:** [`historyV1.md`](./historyV1.md)  
+**Prepared By:** `@prod` & `@brand` (2026-11-12)
+
+### 1. Factual & Chronological Corrections
+
+| Item | V1 Baseline (`historyV1.md`) | V2 Update (`historyV2.md`) | Reasoning |
+| :--- | :--- | :--- | :--- |
+| **1. 2007 vs. 2008 Incorporation Sequence** | Stated HEMS incorporated *"in 2008"* (line 17), then wrote *"The newly incorporated HEMS Society held its 6th WS in Cocoa Beach, FL in 2007"* (line 21). | Clarified that the newly formed **Organizing Committee** convened the **6th Workshop in Cocoa Beach (Sept 2007)**, completed formal Florida **501(c)(3) incorporation in 2008**, and held its first post-incorporation meeting in **Santa Barbara (2009)**. | Eliminates an internal 2007/2008 chronological contradiction while honoring both milestones accurately. |
+| **2. `biannual` vs. `biennial` (Line 13)** | *"...establishing its **biannual** recurrence in mid-September."* | *"...establishing the Workshop’s signature mid-September **biennial** cadence."* | *Biannual* means twice per year; *biennial* accurately means once every two years. |
+| **3. Complete 15-Workshop Count & Dates (Line 21)** | Listed *"St. Pete Beach, FL"* once without years, omitted why 2018 was 1 year after 2017, omitted the 2019→2022→2025 gap, and ended with *"and finally, Virginia Beach, VA"*. | Explicitly notes **2011 & 2013** consecutive St. Pete Beach meetings, highlights **Cologne (2018)** as the Society's first European off-cycle milestone, explains the post-pandemic **2022 & 2025** dates, and replaces *"finally"* with *"most recently... ahead of resuming its two-year September cadence in 2027"*. | Ensures the city list accounts for all **15 workshops** (previously summed to 14) and keeps the Society forward-looking toward 2027 rather than sounding concluded. |
+| **4. Governance Title & Duplicated Words (Line 19)** | *"...hosted (either formally or informally) by the member of the board member leading the workshop."* | *"...rotates among members of the Board of Directors and Organizing Committee, backed by the full committee’s operational continuity."* | Fixes the duplicated *"the member of"* typo in V1 and accurately names both the 501(c)(3) **Board of Directors** and **Organizing Committee**. |
+
+---
+
+### 2. Conceptual & Wordcrafting Enhancements
+
+1. **Expanded Internal Shorthand & Standardized Typography:**
+   - Replaced 11 occurrences of raw shorthand (`HEMS WS`, `WSs`, `1990’s`, `1 ½ days`, spaced en-dashes ` – `) with clean editorial prose (**`HEMS Workshop`**, **`workshops`**, **`1990s`**, **`one and a half days`**, and unspaced em-dashes `—`) matching `brand-guidelines.md` v3.1.0.
+2. **Broader *In-Situ* & Harsh-Environment Framing (Early Years, Paragraphs 1–3):**
+   - Balanced V1's *"portable"* phrasing with **field-deployable and *in-situ*** language and explicitly connected marine, planetary, and industrial regimes so subsea landers, AUVs, and spacecraft payloads are represented alongside person-portable units.
+3. **Connected 501(c)(3) Incorporation to Student Grants, Zero Dues & Open Archive (The HEMS Society, Paragraph 1):**
+   - Added that 501(c)(3) incorporation enabled HEMS to **fund competitive Student Travel Awards** and **preserve an open-access proceedings archive without charging annual membership dues**—linking the Society's history directly to its flagship public-charity programs today.
+4. **Upgraded Tentative *"It was hoped..."* Phrasing to Realized 25+ Year Impact (Summary):**
+   - **V1:** Used passive, tentative past-tense phrasing twice (*"It was hoped the gathering... would facilitate collaborations... And it was also hoped that... making it more likely for detailed information to be freely shared"*), reflecting when the text was originally drafted nearly two decades ago.
+   - **V2:** Preserved the exact insight (diverse mission agencies and funding sources reduce head-to-head competition and foster candid technical sharing) while reframing it as **25+ years of proven community achievement** rather than an untested hope, and promoted the beloved HEMS motto (*"Just because we send our mass spectrometers into harsh environments doesn’t mean we have to meet in one!"*) to lead the Summary cleanly.
+

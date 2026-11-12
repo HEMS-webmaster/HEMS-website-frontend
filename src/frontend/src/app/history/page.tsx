@@ -55,7 +55,7 @@ const FORMATIVE_MILESTONES: FormativeMilestone[] = [
     ordinal: "3rd",
     date: "Mar 2002",
     location: "NASA JPL • Pasadena, CA",
-    note: "Jointly held with NASA 2nd Miniature Vacuum Pumps WS",
+    note: "Jointly held with NASA 2nd Miniature Vacuum Pumps Workshop",
     year: 2002,
   },
   {
@@ -166,7 +166,7 @@ export default function SocietyHistoryPage() {
         </div>
       </section>
 
-      {/* CHAPTER 01: HEMS WS EARLY YEARS (UNINTERRUPTED NARRATIVE + ARCHIVAL PLATE & LEDGER) */}
+      {/* CHAPTER 01: HEMS WORKSHOP EARLY YEARS (MATCHES historyV2.md VERBATIM) */}
       <section className="py-12 sm:py-18 bg-[#FAFBFD] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
@@ -177,29 +177,29 @@ export default function SocietyHistoryPage() {
                   01 — Genesis &amp; Formative Symposia (1999–2005)
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
-                  HEMS WS Early Years
+                  HEMS Workshop Early Years
                 </h2>
               </div>
 
               <div className="space-y-4 text-slate-700 leading-relaxed text-[15px] sm:text-base max-w-2xl">
                 <p>
-                  The idea of starting a periodic workshop on harsh-environment mass spectrometry arose in the very late 1990’s from researchers at the University of South Florida (USF) Center for Ocean Technology (COT). Recent advances in vacuum technology and reduction in size of benchtop mass spectrometers were beginning to motivate more research groups around the globe to explore the potential advantages of taking mass spectrometers out of the laboratory and into the field for in situ chemical measurements.
+                  The idea of convening a recurring workshop on harsh-environment mass spectrometry arose in the late 1990s among researchers at the University of South Florida (USF) Center for Ocean Technology (COT). Rapid advances in vacuum technology and the miniaturization of benchtop instruments were motivating research groups worldwide to carry mass spectrometers out of controlled laboratories and directly into the field for <em className="italic">in-situ</em> chemical measurements.
                 </p>
                 <p>
-                  At that time researchers at the USF COT were in the early stages of such a project that aimed at putting mass spectrometers underwater for marine science and environmental monitoring applications. It also occurred to them that the applications for portable mass spectrometry technology are quite diverse, and the various groups exploring this approach might not normally communicate with, or even be aware of, the activities of other groups that may be facing similar challenges for the different field environments and end-goal measurements. Yet the overall field of portable and transportable mass spectrometry for in situ chemical measurements – in sometimes extremely harsh environments – might advance more rapidly if there were a forum for these diverse groups to share their knowledge, experiences, challenges and solutions.
+                  At the time, USF COT investigators were developing underwater mass spectrometers for marine science and environmental monitoring. They recognized that while field applications spanned vastly different regimes—from deep oceans to planetary surfaces and industrial plumes—the groups pioneering these deployments rarely crossed paths at traditional conferences, despite confronting remarkably similar engineering bottlenecks. Advancing field-deployable and <em className="italic">in-situ</em> mass spectrometry for demanding, and at times extreme, environments clearly called for a dedicated forum where dispersed teams could openly share experiences, setbacks, and solutions.
                 </p>
                 <p>
-                  And so, the concept of hosting a recurring Harsh-Environment Mass Spectrometry Workshop (HEMS WS) became a reality, with the hope to foster communication and advancement among the various researchers involved in the development and deployment of portable mass spectrometer technology. The USF COT hosted the first workshop in February 1999 on the St. Petersburg, FL campus of USF and invited around 20 researchers from around the US working in various areas of HEMS and related enabling technologies to participate in 1 ½ days of talks and discussions in an informal atmosphere (see{" "}
+                  That vision became reality in February 1999, when USF COT hosted the inaugural Harsh-Environment Mass Spectrometry (HEMS) Workshop on the USF St. Petersburg, Florida campus. Roughly twenty researchers from across the United States gathered for one and a half days of single-track talks and candid technical discussions in an informal setting (see the{" "}
                   <Link href="/archive" className="text-primary font-semibold hover:underline">
                     Archives
                   </Link>{" "}
-                  for details of this and all other HEMS WSs).
+                  for programs and proceedings from this and all subsequent HEMS Workshops).
                 </p>
                 <p>
-                  There was sufficient enthusiasm after this short initial meeting that the COT decided to host a more formal and longer 2nd HEMS WS in February 2001 with broad advertisement and registration fees. This took place in downtown St. Petersburg and attracted 65 participants, including several from outside the US. The casual and relaxed atmosphere was quickly embraced, and shorts and Hawaiian shirts became the unofficial attire of the workshop. The many positive responses and broad range of interests of the participants – from disaster management to environmental monitoring and space exploration, and pure science to cutting edge engineering – encouraged the organizers to make the HEMS WS an annual event.
+                  Enthusiasm from that initial meeting prompted USF COT to organize a longer, broadly advertised 2nd HEMS Workshop in downtown St. Petersburg in February 2001, introducing formal registration and drawing 65 participants—including the Workshop’s first international attendees. Its relaxed, collegial spirit took hold immediately, establishing shorts and Hawaiian shirts as the unofficial symposium attire. Energized by the breadth of applications represented—spanning disaster response, environmental monitoring, marine biogeochemistry, space exploration, fundamental analytical science, and frontier hardware engineering—the organizers initially set out on an annual schedule.
                 </p>
                 <p>
-                  This 2nd workshop also made a crucial pain point for development of small mass spectrometers very clear – the need for vacuum and the small portable pumps required to produce it. The 3rd HEMS WS was thus combined with NASA’s 2nd Miniature Vacuum Pumps WS and hosted by the Jet Propulsion Lab (JPL) / NASA in Pasadena, CA (March 2002). The following year USF COT hosted the 4th HEMS WS and held it in St. Petersburg Beach, FL (October 2003). This further consolidated the “beachy” vibe of the workshop and demonstrated the necessity for it to be a focused workshop that facilitates collaborations and demonstrates a path toward instrumentation development for manufacturers. And due to the time-consuming nature of instrumental development required for many HEMS endeavors, it was decided to have two years in between WSs. So, USF COT subsequently hosted the 5th HEMS WS at Lido Beach in Sarasota, FL (September 2005) establishing its biennial recurrence in mid-September.
+                  Discussions at the 2001 meeting also spotlighted a defining hardware bottleneck for compact mass spectrometers: achieving and sustaining high vacuum with low-power, miniature pumps. Consequently, the 3rd HEMS Workshop was held jointly with NASA’s 2nd Miniature Vacuum Pumps Workshop and hosted by the NASA Jet Propulsion Laboratory (JPL) in Pasadena, California in March 2002. USF COT returned the 4th HEMS Workshop to the Florida Gulf Coast at St. Pete Beach in October 2003, cementing both the symposium’s coastal character and its role in connecting academic and government innovators with instrument manufacturers. Recognizing the multi-year engineering cycles required to design, ruggedize, and field-test harsh-environment hardware, the community elected to shift to a two-year interval—a rhythm inaugurated when USF COT hosted the 5th HEMS Workshop at Lido Beach in Sarasota, Florida in September 2005, establishing the Workshop’s signature mid-September biennial cadence.
                 </p>
               </div>
             </div>
@@ -249,7 +249,7 @@ export default function SocietyHistoryPage() {
                         <div className="min-w-0">
                           <div className="text-xs font-semibold text-slate-900 group-hover:text-primary transition-colors">
                             <span className="tabular-nums text-primary mr-1.5">
-                              {item.ordinal} WS ({item.date})
+                              {item.ordinal} Workshop ({item.date})
                             </span>
                             · {item.location}
                           </div>
@@ -271,7 +271,7 @@ export default function SocietyHistoryPage() {
         </div>
       </section>
 
-      {/* CHAPTER 02: HEMS SOCIETY + COMPLETE 15-WORKSHOP CHRONOLOGY */}
+      {/* CHAPTER 02: THE HEMS SOCIETY + COMPLETE 15-WORKSHOP CHRONOLOGY */}
       <section className="py-12 sm:py-18 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
@@ -299,26 +299,26 @@ export default function SocietyHistoryPage() {
               </figcaption>
             </figure>
 
-            {/* Society Narrative (Right on Desktop) */}
+            {/* Society Narrative (Right on Desktop — Matches historyV2.md Verbatim) */}
             <div className="lg:col-span-7 order-1 lg:order-2 space-y-5">
               <div>
                 <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary flex items-center gap-1.5 mb-2">
                   <ShieldCheck size={14} /> 02 — Independent Governance (2005–Present)
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
-                  HEMS Society
+                  The HEMS Society
                 </h2>
               </div>
 
               <div className="space-y-4 text-slate-700 leading-relaxed text-[15px] sm:text-base max-w-2xl">
                 <p>
-                  The idea of forming a HEMS WS Organizing Committee was proposed during the 5th meeting at Lido Beach in 2005. The success of the first five workshops showed that there was solid support for additional workshops and that the group was ready to take independent responsibility for future workshops rather than have it remain under the USF umbrella. The organizing committee was subsequently created, and it formally incorporated the workshop in the State of Florida as the <strong className="font-semibold text-slate-900">HEMS Society</strong> in 2008. The formal organization helped the HEMS workshop project a clear and independent identity and allowed the committee to more easily handle funds and plan future workshops. The workshop is now a nonprofit corporation exempt from federal income tax under Section 501(c)(3) of the Internal Revenue Code.
+                  During the 5th HEMS Workshop at Lido Beach in 2005, attendees proposed forming a dedicated Organizing Committee so the growing community could steward future symposia independently rather than relying indefinitely on USF sponsorship. That newly established Organizing Committee convened the 6th HEMS Workshop in Cocoa Beach, Florida in September 2007 and, in 2008, formally incorporated the organization in the State of Florida as the <strong className="font-semibold text-slate-900">Harsh-Environment Mass Spectrometry Society, Inc.</strong> Today the HEMS Society operates as an all-volunteer nonprofit corporation exempt from federal income tax under Section 501(c)(3) of the Internal Revenue Code—providing an independent institutional identity to manage symposium finances, plan future meetings, fund competitive Student Travel Awards, and preserve an open-access proceedings archive without charging annual membership dues.
                 </p>
                 <p>
-                  The organizing committee itself was structured to ensure that responsibility for each upcoming WS would be taken by a different member of the committee with support from the others. And indeed, each of the subsequent workshops has been organized by the HEMS Organizing Committee and hosted (either formally or informally) by the board member leading the workshop.
+                  From the outset, governance was structured around shared leadership: responsibility for chairing and hosting each biennial workshop rotates among members of the Board of Directors and Organizing Committee, backed by the full committee’s operational continuity.
                 </p>
                 <p>
-                  The newly incorporated HEMS Society held its 6th WS in Cocoa Beach, FL in 2007, and then moved back across the US in 2009 to Santa Barbara, CA, for the 7th workshop. Since then, the workshop has been held in St. Pete Beach, FL, Baltimore, MD, Oxnard, CA, Cologne, Germany, Myrtle Beach, SC, back to Cocoa Beach, FL, and finally, Virginia Beach, VA. In each case, the workshop committee has sought a venue that provides a relaxing atmosphere, often near an ocean or the Gulf of Mexico, where technical interchange of ideas can occur and relationships can be fostered.
+                  Following formal incorporation, the Society convened its 7th HEMS Workshop on the Pacific coast in Santa Barbara, California (2009), returned to the Gulf of Mexico for consecutive meetings at St. Pete Beach, Florida (2011 and 2013), and continued to Baltimore, Maryland (2015) and Oxnard, California (2017). In 2018, the Society marked an off-cycle international milestone with its first European symposium in Cologne, Germany (12th Workshop), before returning to Myrtle Beach, South Carolina in 2019. Following pandemic-era scheduling adjustments, the community reconvened in Cocoa Beach, Florida (2022) and most recently in Virginia Beach, Virginia (2025) for its 15th symposium, ahead of resuming its two-year September cadence in 2027. Across every venue, the committee has prioritized welcoming waterfront or coastal settings where candid technical exchange and lasting professional friendships flourish side by side.
                 </p>
               </div>
             </div>
@@ -359,7 +359,7 @@ export default function SocietyHistoryPage() {
         </div>
       </section>
 
-      {/* CHAPTER 03: SUMMARY & DUAL NAVIGATION PATHWAYS */}
+      {/* CHAPTER 03: SUMMARY (MATCHES historyV2.md VERBATIM) & DUAL NAVIGATION PATHWAYS */}
       <section className="py-12 sm:py-18 bg-[#FAFBFD]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="bg-white border border-slate-200/95 rounded-2xl p-6 sm:p-9 lg:p-10 shadow-2xs">
@@ -380,10 +380,10 @@ export default function SocietyHistoryPage() {
 
                 <div className="space-y-4 pt-1 text-slate-700 text-[15px] sm:text-base leading-relaxed max-w-2xl">
                   <p>
-                    From the beginning, there has been an emphasis on holding HEMS WSs in locations that provide a relaxing, pleasant and casual environment, with a majority of WSs being held at beachfront hotels. Ample free time for informal discussions and networking has always been provided.
+                    From the very first gathering in 1999, HEMS Workshops have paired rigorous single-track science with relaxed, predominantly beachfront venues and generous unscheduled time for informal conversation.
                   </p>
                   <p>
-                    It was hoped the gathering of researchers and engineers that design, build, and use field deployable mass spectrometers and their enabling components would facilitate collaborations and expedite progress. Corporate vendor and US Government agency participation has always been solicited and included. And it was also hoped that, due to the wide variety of applications of HEMS technology, the participants would likely be seeking funding from many different sources, thus reducing competition among each other and making it more likely for detailed information to be freely shared.
+                    Over more than a quarter-century, uniting the scientists, engineers, and operators who design, build, and deploy field mass spectrometers—alongside corporate instrument manufacturers and government agencies—has forged enduring cross-sector collaborations and accelerated field-ready instrumentation. Because HEMS participants apply chemical sensing across widely varied ocean, space, atmospheric, industrial, and security missions—often supported by distinct funding programs—competitive barriers remain low, encouraging investigators to share detailed engineering lessons openly and advance the entire discipline together.
                   </p>
                 </div>
               </div>

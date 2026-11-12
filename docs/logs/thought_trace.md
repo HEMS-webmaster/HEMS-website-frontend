@@ -1363,3 +1363,12 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Re-unify all 5 paragraphs of `HEMS WS Early Years` into one uninterrupted left narrative column, balanced on the right by `Fig. 01` (USF COT AUV MS) + a clean **Formative Symposia (1999–2005)** timeline card.
   3. Pair Chapter 02 (`HEMS Society`) with `Fig. 02` (2013 Don CeSar) and a compact clickable **All 15 Workshops (1999–2025)** roster linking directly to `/archive/[year]`.
   4. Tidy Chapter 03 (`Summary`) and match bottom pathway cards to `/about`.
+
+
+## [2026-11-12T13:02:30-07:00] @prod / @brand / @dev — Create `historyV2.md` with Changelog & Sync `/history`
+- **Request (`@bo`):** Create `docs/source-documents/historyV2.md` incorporating the historical, chronological, conceptual, and wordcrafting improvements with a full `V1 -> V2` changelog and reasoning, then update `/history` (`src/frontend/src/app/history/page.tsx`) to match `V2` word-for-word.
+- **Execution:**
+  1. Leave `docs/source-documents/historyV1.md` untouched as historical baseline.
+  2. Author `docs/source-documents/historyV2.md` resolving the 2007 vs. 2008 incorporation timeline, accounting for all 15 workshops (`2011 & 2013` St. Pete Beach consecutive workshops, `2018` Cologne European milestone, `2022` & `2025` post-pandemic schedule, and forward-looking `2027` cadence), expanding `WS`/`WSs` shorthand, fixing `biannual` -> `biennial` and duplicated `the member of`, adding Student Travel Awards & open-access archive stewardship, and upgrading tentative *"It was hoped..."* phrasing in `Summary` to 25+ years of realized community impact—followed by a complete item-by-item `V1 -> V2` changelog.
+  3. Synchronize `src/frontend/src/app/history/page.tsx` (`@dev`) word-for-word with `historyV2.md`.
+  4. Verify via `npm --prefix src/frontend run build` (`@qa`), commit on `main`, and restart `next dev` (`@ops`).
