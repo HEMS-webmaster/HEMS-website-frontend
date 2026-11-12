@@ -1349,3 +1349,17 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Author `docs/source-documents/mission-statementV2.md` containing the ratified V2 Mission Statement, 5 parallel Verb+Noun Objectives in unified active `we` voice, and a structured V1 -> V2 Changelog table + item-by-item rationale.
   3. Update `src/frontend/src/app/about/page.tsx` (`@dev`) so the Mission Statement and `OBJECTIVES` array match `mission-statementV2.md` verbatim.
   4. Verify via `npm --prefix src/frontend run build` (`@qa`), commit on `main`, and restart `next dev` (`@ops`).
+
+
+## [2026-11-12T13:01:00-07:00] @prod / @brand / @arch / @dev — Tidy `/history` Layout & Audit Against `historyV1.md`
+- **Request (`@bo`):** Tidy up the `/history` page layout, compare its text to `docs/source-documents/historyV1.md`, surface all differences, and recommend conceptual and wordcrafting improvements.
+- **Comparison Audit (`history/page.tsx` vs. `historyV1.md`):**
+  1. Two silent typo corrections on `/history`: `biannual` -> `biennial` (line 13 of V1) and `by the member of the board member leading` -> `by the board member leading` (line 19 of V1).
+  2. Partial abbreviation expansion: `ARCHIVES` converted to a link (`Archives`), and `WSs` expanded to `Workshops` in 3 spots while `WS` / `WSs` remained unexpanded in 8 other places.
+  3. Structural differences: Renamed headings (`HEMS Workshop Early Years`, `Formation of the HEMS Society`, `Summary & The HEMS Philosophy`), split Paragraphs 4–5 of Section 1 into two unequal-height side-by-side boxes with invented subheadings, and extracted Sentence 2 of `Summary` out of sequence into a pull-quote above Paragraph 1.
+  4. Chronological / conceptual catches in `V1` to report to `@bo`: (a) `V1` states incorporation occurred in **2008** yet says *"The newly incorporated HEMS Society held its 6th WS in Cocoa Beach, FL in 2007"*; (b) the post-2009 city list mentions St. Pete Beach once even though it hosted consecutively in **2011 (8th) & 2013 (9th)**, omits noting **2018 Cologne** as an off-cycle first European workshop and the **2019 -> 2022 -> 2025** pandemic shift, and ends with *"and finally, Virginia Beach, VA"* (implying finality rather than *"most recently"*); (c) tentative passive *"It was hoped..."* phrasing in `Summary`.
+- **Layout Refinements (`history/page.tsx`):**
+  1. Resize header seal from `w-28` (`112px`) to `w-14 sm:w-16` (`56–64px`) matching `/about` and `brand-guidelines.md` §4.2.
+  2. Re-unify all 5 paragraphs of `HEMS WS Early Years` into one uninterrupted left narrative column, balanced on the right by `Fig. 01` (USF COT AUV MS) + a clean **Formative Symposia (1999–2005)** timeline card.
+  3. Pair Chapter 02 (`HEMS Society`) with `Fig. 02` (2013 Don CeSar) and a compact clickable **All 15 Workshops (1999–2025)** roster linking directly to `/archive/[year]`.
+  4. Tidy Chapter 03 (`Summary`) and match bottom pathway cards to `/about`.
