@@ -1471,3 +1471,17 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   3. `@dev`: Create `src/components/telemetry/GoogleAnalyticsTag.tsx` loading official `gtag.js` (`G-F06RZ8L5CR`, `send_page_view: false`) via `next/script` (`afterInteractive`) so Google Analytics tag diagnostics immediately detect the tag on `www.hems-workshop.org` / `hems-workshop.org` upon DNS cutover while avoiding duplicate automatic pageviews.
   4. `@dev`: Coordinate `TelemetryTracker.tsx` and `telemetryClient.ts` so raw arrival URLs (including `?utm_*` and synthesized `?src=` campaign parameters) are captured BEFORE `history.replaceState` strips them from the address bar, forwarding clean `page_view` and conversion events (`pdf_download`, `mailing_signup`, `contact_inquiry`, `mailto_click`, `outbound_click`) to `window.gtag` on non-localhost production domains (while suppressing localhost and internal `/admin`, `/board`, `/reviewer` management views).
   5. `@dev`: Add an **External Analytics & Domain Authority Consoles** bar on `/admin/analytics` (`src/app/(portal)/admin/analytics/page.tsx`) with 1-click external buttons to `https://analytics.google.com/` (displaying `G-F06RZ8L5CR`) and `https://ahrefs.com/website-authority-checker/?input=www.hems-workshop.org`.
+
+
+## [2026-11-12] @arch / @ops / @dev — Google Search Console Portal Link & GoDaddy-to-Firebase Domain Porting HTML Guide
+- **Trigger**: `@bo` requested adding a Google Search Console link on `/admin/analytics` and creating an HTML review document with step-by-step instructions and pitfall warnings for porting `www.hems-workshop.org` (currently on GoDaddy) to Firebase Hosting.
+- **Live DNS Reconnaissance (`hems-workshop.org` & `www.hems-workshop.org`)**:
+  - GoDaddy nameservers (`ns33.domaincontrol.com`, `ns34.domaincontrol.com`).
+  - Current `@` `A` record points to `192.124.249.10` (`TTL: 30s`, GoDaddy Website Security / Sucuri WAF proxy — critical SSL provisioning pitfall if WAF proxy is left active).
+  - Current `www` is `CNAME -> hems-workshop.org`.
+  - Current `MX` is `smtp.google.com` (Priority `1`) and `TXT` includes `google-site-verification=FsDtU72CA50Yr3tK7g1ZbNYwSiGKqXng0LU3MIijH5Y` (must be preserved).
+  - Live SPF `TXT` currently reads `v=spf1 include:secureserver.net -all` despite `MX` pointing to `smtp.google.com` — flagged in the HTML runbook as an urgent email deliverability fix (`v=spf1 include:_spf.google.com ~all`, single SPF TXT record rule).
+- **Execution**:
+  1. `@arch`: Document plan in `docs/plans/2026-11-12-gsc-link-and-godaddy-cutover-guide.md`.
+  2. `@dev`: Upgrade the External Analytics & SEO launch bar in `src/frontend/src/app/(portal)/admin/analytics/page.tsx` to a 3-card grid adding **Google Search Console** (`https://search.google.com/search-console`) between **Google Analytics 4** (`https://analytics.google.com/`) and **Ahrefs Authority Checker** (`https://ahrefs.com/website-authority-checker/?input=www.hems-workshop.org`).
+  3. `@ops`: Author standalone interactive HTML runbook at `docs/domain_porting_guide.html` featuring live GoDaddy DNS diff table, 8 pitfall callouts, copy-to-clipboard values, and persistent checklist checkboxes.

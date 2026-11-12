@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEMS Society — GoDaddy to Firebase Domain Porting Runbook (www.hems-workshop.org)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #FAFBFD;
+      --surface: #FFFFFF;
+      --ink: #0F172A;
+      --ink-muted: #475569;
+      --ink-subtle: #64748B;
+      --border: #E2E8F0;
+      --primary: #0369A1;
+      --primary-dark: #075985;
+      --primary-soft: #F0F9FF;
+      --teal: #0F766E;
+      --teal-soft: #F0FDFA;
+      --amber: #B45309;
+      --amber-soft: #FFFBEB;
+      --amber-border: #FDE68A;
+      --red: #B91C1C;
+      --red-soft: #FEF2F2;
+      --red-border: #FECACA;
+      --green: #15803D;
+      --green-soft: #F0FDF4;
+      --green-border: #BBF7D0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      margin: 0;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    code, pre, .mono {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 24px 72px;
+    }
+
+    /* Sticky Progress Bar */
+    .sticky-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+    }
+
+    .sticky-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 280px;
+      height: 8px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--teal));
+      transition: width 0.25s ease;
+    }
+
+    .progress-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 13px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+      color: #FFFFFF;
+    }
+
+    /* Hero Card */
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 32px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--ink-muted);
+      font-size: 15px;
+      max-width: 820px;
+    }
+
+    .meta-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+
+    .meta-box span.k {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-subtle);
+    }
+
+    .meta-box span.v {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-top: 2px;
+    }
+
+    /* Quick Console Links */
+    .console-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .console-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .console-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(3, 105, 161, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .console-card strong {
+      font-size: 13px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .console-card small {
+      font-size: 11.5px;
+      color: var(--ink-subtle);
+    }
+
+    /* Section Cards */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-header h2 {
+      font-size: 22px;
+    }
+
+    .phase-pill {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: 1px solid #BAE6FD;
+      white-space: nowrap;
+    }
+
+    /* Callouts & Pitfalls */
+    .pitfall-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 14px;
+    }
+
+    .callout {
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      border: 1px solid;
+    }
+
+    .callout strong.title {
+      display: block;
+      font-size: 13.5px;
+      margin-bottom: 5px;
+    }
+
+    .callout-danger {
+      background: var(--red-soft);
+      border-color: var(--red-border);
+      color: #7F1D1D;
+    }
+
+    .callout-danger strong.title {
+      color: var(--red);
+    }
+
+    .callout-warn {
+      background: var(--amber-soft);
+      border-color: var(--amber-border);
+      color: #78350F;
+    }
+
+    .callout-warn strong.title {
+      color: var(--amber);
+    }
+
+    .callout-info {
+      background: var(--primary-soft);
+      border-color: #BAE6FD;
+      color: #0C4A6E;
+    }
+
+    .callout-info strong.title {
+      color: var(--primary-dark);
+    }
+
+    /* DNS Table */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th {
+      background: #F8FAFC;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-subtle);
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .badge-delete { background: var(--red-soft); color: var(--red); border: 1px solid var(--red-border); }
+    .badge-add { background: var(--green-soft); color: var(--green); border: 1px solid var(--green-border); }
+    .badge-edit { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber-border); }
+    .badge-keep { background: #F1F5F9; color: #334155; border: 1px solid #CBD5E1; }
+
+    /* Interactive Checklist Items */
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #FCFDFE;
+      transition: all 0.15s ease;
+    }
+
+    .step-item.done {
+      background: var(--green-soft);
+      border-color: var(--green-border);
+    }
+
+    .step-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 3px;
+      accent-color: var(--green);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .step-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 14.5px;
+      color: var(--ink);
+      margin-bottom: 4px;
+      display: block;
+      cursor: pointer;
+    }
+
+    .step-item.done .step-title {
+      text-decoration: line-through;
+      color: var(--green);
+    }
+
+    .step-desc {
+      font-size: 13.5px;
+      color: var(--ink-muted);
+      margin: 0;
+    }
+
+    .copy-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #0F172A;
+      margin: 3px 2px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .copy-chip:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+    }
+
+    .copy-chip .hint {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    pre.cmd {
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 12px 14px;
+      border-radius: 9px;
+      font-size: 12.5px;
+      overflow-x: auto;
+      margin: 8px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    pre.cmd button {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    pre.cmd button:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    footer.doc-footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-subtle);
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media print {
+      .sticky-bar, .console-grid, pre.cmd button, .copy-chip .hint {
+        display: none !important;
+      }
+      body {
+        background: #FFFFFF;
+      }
+      .container {
+        padding: 0;
+        max-width: 100%;
+      }
+      .section, .hero {
+        break-inside: avoid;
+        box-shadow: none;
+        margin-bottom: 16px;
+        padding: 16px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Interactive Progress Toolbar -->
+  <div class="sticky-bar">
+    <div class="sticky-inner">
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <span id="progressLabel" class="progress-label">0 / 16 steps completed</span>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn" onclick="resetChecklist()">Reset Checkboxes</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Hero Header -->
+    <header class="hero">
+      <span class="eyebrow">HEMS DevSecOps Cutover Runbook • GoDaddy DNS → Firebase Hosting</span>
+      <h1>Porting <span class="mono" style="font-size:26px;color:#0369A1;">www.hems-workshop.org</span> to Firebase Hosting</h1>
+      <p>
+        Step-by-step migration checklist and live DNS pitfall guide tailored specifically to <strong>hems-workshop.org</strong>'s current GoDaddy DNS zone (<code class="mono">ns33/ns34.domaincontrol.com</code>), Google Workspace email, Firebase Authentication, and Google Analytics 4 (<code class="mono">G-F06RZ8L5CR</code>).
+      </p>
+
+      <div class="meta-strip">
+        <div class="meta-box">
+          <span class="k">Canonical Primary Domain</span>
+          <span class="v mono">https://www.hems-workshop.org</span>
+        </div>
+        <div class="meta-box">
+          <span class="k">Apex Root Behavior</span>
+          <span class="v mono">hems-workshop.org → 301 → www</span>
+        </div>
+        <div class="meta-box">
+          <span class="k">Firebase Project ID</span>
+          <span class="v mono">hems-workshop</span>
+        </div>
+        <div class="meta-box">
+          <span class="k">GA4 Measurement ID</span>
+          <span class="v mono">G-F06RZ8L5CR</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- One-Click Admin Consoles -->
+    <div class="console-grid">
+      <a class="console-card" href="https://dcc.godaddy.com/control/hems-workshop.org/dns" target="_blank" rel="noopener noreferrer">
+        <strong>1. GoDaddy DNS <span>↗</span></strong>
+        <small>Manage A, CNAME &amp; TXT records</small>
+      </a>
+      <a class="console-card" href="https://console.firebase.google.com/project/hems-workshop/hosting/sites" target="_blank" rel="noopener noreferrer">
+        <strong>2. Firebase Hosting <span>↗</span></strong>
+        <small>Add custom domains &amp; SSL</small>
+      </a>
+      <a class="console-card" href="https://console.firebase.google.com/project/hems-workshop/authentication/settings" target="_blank" rel="noopener noreferrer">
+        <strong>3. Firebase Auth <span>↗</span></strong>
+        <small>Verify Authorized Domains</small>
+      </a>
+      <a class="console-card" href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">
+        <strong>4. Search Console <span>↗</span></strong>
+        <small>Submit sitemap.xml post-port</small>
+      </a>
+      <a class="console-card" href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">
+        <strong>5. Google Analytics <span>↗</span></strong>
+        <small>Verify Realtime stream (G-F06RZ8L5CR)</small>
+      </a>
+    </div>
+
+    <!-- CRITICAL PITFALLS SECTION -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Read First: 8 Critical Pitfalls Uncovered on Your Live GoDaddy Zone</h2>
+        <span class="phase-pill" style="background:#FEF2F2;color:#B91C1C;border-color:#FECACA;">Must Review Before Editing DNS</span>
+      </div>
+
+      <div class="pitfall-grid">
+        <div class="callout callout-danger">
+          <strong class="title">1. Sucuri / GoDaddy Website Security WAF IP (<code class="mono">192.124.249.10</code>)</strong>
+          Your live <code class="mono">@</code> A record currently points to <code class="mono">192.124.249.10</code>, which is GoDaddy's <strong>Website Security Firewall (Sucuri WAF)</strong> proxy—not an ordinary server! If GoDaddy Website Security WAF is left active, it can overwrite your DNS edits or block Firebase's Let's Encrypt SSL verification. Disable/bypass Website Security WAF for <code class="mono">hems-workshop.org</code> before swapping the A record.
+        </div>
+
+        <div class="callout callout-danger">
+          <strong class="title">2. Canonical Direction: <code class="mono">www</code> MUST Be Primary (Not Apex)</strong>
+          Every <code class="mono">&lt;link rel="canonical"&gt;</code>, <code class="mono">sitemap.xml</code> entry, JSON-LD article, and <code class="mono">llms.txt</code> link in our codebase uses <code class="mono">https://www.hems-workshop.org/</code>. In Firebase Hosting, add <strong><code class="mono">www.hems-workshop.org</code> as the Primary Domain</strong>, and set <strong><code class="mono">hems-workshop.org</code> to Redirect to <code class="mono">www.hems-workshop.org</code></strong>—never the reverse, or Google will see canonical redirect loops!
+        </div>
+
+        <div class="callout callout-danger">
+          <strong class="title">3. NEVER Delete <code class="mono">MX</code> or <code class="mono">google-site-verification</code></strong>
+          Your GoDaddy zone currently has <code class="mono">MX → smtp.google.com</code> (Priority 1) powering <code class="mono">@hems-workshop.org</code> email and <code class="mono">TXT → google-site-verification=FsDtU...</code> verifying Google Search Console. Leave both untouched, and <strong>do NOT change GoDaddy Nameservers</strong> (<code class="mono">ns33/ns34.domaincontrol.com</code>).
+        </div>
+
+        <div class="callout callout-danger">
+          <strong class="title">4. Check GoDaddy's Hidden "Forwarding" Card at Page Bottom</strong>
+          At the bottom of GoDaddy's DNS page is a separate <strong>Forwarding</strong> panel (Domain / Subdomain forwarding). Make sure GoDaddy Forwarding is <strong>OFF</strong>—if turned on, GoDaddy injects a hidden parked A record that breaks HTTPS certificates. Let Firebase Hosting handle the HTTPS 301 redirect cleanly.
+        </div>
+
+        <div class="callout callout-warn">
+          <strong class="title">5. Firebase Auth "Authorized Domains" (Google/Microsoft Login)</strong>
+          Both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code> MUST appear under <strong>Firebase Console → Authentication → Settings → Authorized domains</strong>. If missing, users clicking <em>Sign In with Google/Microsoft</em> to download archive PDFs will get <code class="mono">auth/unauthorized-domain</code>.
+        </div>
+
+        <div class="callout callout-warn">
+          <strong class="title">6. Expect a 15–45 Minute SSL Certificate Minting Window</strong>
+          Because your current GoDaddy A record has a <code class="mono">30-second</code> TTL, traffic switches to Firebase within minutes—but Google's automated SSL certificate takes <strong>15–60 minutes</strong> to mint once DNS resolves. Browsers may briefly show <code class="mono">ERR_SSL_VERSION_OR_CIPHER_MISMATCH</code> during that window. <strong>Do not panic or revert DNS</strong>; wait ~30–45 minutes (cut over in the evening).
+        </div>
+
+        <div class="callout callout-warn">
+          <strong class="title">7. Live Email Bug Found: Old GoDaddy SPF Hard-Fail (<code class="mono">-all</code>)</strong>
+          Your live DNS uses Google Workspace (<code class="mono">smtp.google.com</code>), yet your SPF TXT record still says <code class="mono">v=spf1 include:secureserver.net -all</code>! That tells <code class="mono">.gov</code>/<code class="mono">.edu</code> mail servers to reject Google Workspace mail. Edit that existing TXT record in-place to <code class="mono">v=spf1 include:_spf.google.com ~all</code> (never create two separate <code class="mono">v=spf1</code> records!).
+        </div>
+
+        <div class="callout callout-info">
+          <strong class="title">8. Keep Old GoDaddy Hosting Un-Cancelled for 7–14 Days</strong>
+          All <code class="mono">1,590</code> HEMS proceedings PDFs and slide previews already live on Google Cloud Storage (<code class="mono">storage.googleapis.com/hems-workshop-archives</code>), so zero archive PDFs depend on GoDaddy hosting. Still, wait 1–2 weeks before cancelling the legacy hosting plan as a safety backup.
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE GODADDY DNS DIFF TABLE -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Exact GoDaddy DNS Record Map (Live Snapshot vs. Target State)</h2>
+        <span class="phase-pill">Click Any Value Chip to Copy</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Type</th>
+              <th>Name (Host)</th>
+              <th>Current Live Value on GoDaddy</th>
+              <th>New Target Value in GoDaddy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-delete">Delete</span></td>
+              <td class="mono"><strong>A</strong></td>
+              <td class="mono">@</td>
+              <td class="mono">192.124.249.10 <span style="color:#64748B;">(Sucuri WAF)</span></td>
+              <td><em>Remove this old A record so Firebase SSL can verify cleanly.</em></td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-add">Add</span></td>
+              <td class="mono"><strong>TXT</strong></td>
+              <td><span class="copy-chip" onclick="copyText(this, '@')">@ <span class="hint">Copy</span></span></td>
+              <td><em>(Not present yet)</em></td>
+              <td>
+                <span class="copy-chip" onclick="copyText(this, 'hosting-site=hems-workshop')">hosting-site=hems-workshop <span class="hint">Copy</span></span>
+                <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Use exact TXT string shown by Firebase Hosting wizard if different)*</div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-add">Add</span></td>
+              <td class="mono"><strong>A</strong></td>
+              <td><span class="copy-chip" onclick="copyText(this, '@')">@ <span class="hint">Copy</span></span></td>
+              <td><em>(Replaces 192.124.249.10)</em></td>
+              <td>
+                <span class="copy-chip" onclick="copyText(this, '199.36.158.100')">199.36.158.100 <span class="hint">Copy</span></span>
+                <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Firebase Hosting Anycast IP — confirm exact IP(s) shown in Firebase wizard; TTL 1/2 Hour or 600s)*</div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-edit">Edit</span></td>
+              <td class="mono"><strong>CNAME</strong></td>
+              <td><span class="copy-chip" onclick="copyText(this, 'www')">www <span class="hint">Copy</span></span></td>
+              <td class="mono">hems-workshop.org <span style="color:#64748B;">(@)</span></td>
+              <td>
+                <span class="copy-chip" onclick="copyText(this, 'hems-workshop.web.app')">hems-workshop.web.app <span class="hint">Copy</span></span>
+                <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Or use the A record <code class="mono">199.36.158.100</code> if Firebase prompts for an A record on <code class="mono">www</code>)*</div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-edit">Edit (Fix Email)</span></td>
+              <td class="mono"><strong>TXT</strong></td>
+              <td class="mono">@</td>
+              <td class="mono" style="color:#B91C1C;">v=spf1 include:secureserver.net -all</td>
+              <td>
+                <span class="copy-chip" onclick="copyText(this, 'v=spf1 include:_spf.google.com ~all')">v=spf1 include:_spf.google.com ~all <span class="hint">Copy</span></span>
+                <div style="font-size:11.5px;color:#64748B;margin-top:3px;">*(Edit existing SPF row in-place; do NOT create two <code class="mono">v=spf1</code> rows!)*</div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-keep">Keep Untouched</span></td>
+              <td class="mono"><strong>MX</strong></td>
+              <td class="mono">@</td>
+              <td class="mono">smtp.google.com (Priority 1)</td>
+              <td><strong>DO NOT MODIFY OR DELETE</strong> — powers <code class="mono">@hems-workshop.org</code> Google Workspace email.</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-keep">Keep Untouched</span></td>
+              <td class="mono"><strong>TXT</strong></td>
+              <td class="mono">@</td>
+              <td class="mono">google-site-verification=FsDtU72CA...</td>
+              <td><strong>DO NOT MODIFY OR DELETE</strong> — preserves Google Search Console ownership.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PHASE 1: PRE-FLIGHT -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Phase 1 — Pre-Flight Backup &amp; Fresh Firebase Deploy (Before Touching GoDaddy)</h2>
+        <span class="phase-pill">~5 Minutes</span>
+      </div>
+
+      <div class="checklist">
+        <div class="step-item">
+          <input type="checkbox" id="step-1" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-1">1. Export a backup of your current GoDaddy DNS Zone File</label>
+            <p class="step-desc">
+              In GoDaddy → <strong>Domains → hems-workshop.org → DNS → DNS Records</strong>, click the <strong>More ▾</strong> menu above the records table and select <strong>Export Zone File (Unix/Windows)</strong> (and take a quick screenshot). This gives you an instant 30-second rollback reference.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-2" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-2">2. Push the latest production build to Firebase Hosting</label>
+            <p class="step-desc">
+              Ensure the latest build (with SEO JSON-LD, <code class="mono">llms-full.txt</code>, GA4 <code class="mono">G-F06RZ8L5CR</code>, and Search Console links) is deployed to <code class="mono">https://hems-workshop.web.app</code> before switching DNS:
+            </p>
+            <pre class="cmd"><code>npm --prefix src/frontend run build &amp;&amp; npx firebase-tools deploy --only hosting --project hems-workshop</code><button type="button" onclick="copyText(this, 'npm --prefix src/frontend run build ; npx firebase-tools deploy --only hosting --project hems-workshop')">Copy PowerShell</button></pre>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-3" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-3">3. Disable GoDaddy Website Security WAF / Domain Forwarding</label>
+            <p class="step-desc">
+              In your GoDaddy product dashboard, check <strong>Website Security &amp; Backups → Firewall (WAF)</strong>. If active on <code class="mono">hems-workshop.org</code> (which set the <code class="mono">192.124.249.10</code> A record), disable WAF proxy forwarding. Also verify the <strong>Forwarding</strong> section at the bottom of GoDaddy DNS says <em>Off</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 2: FIREBASE HOSTING WIZARD -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Phase 2 — Register Both Domains in Firebase Hosting (Order Matters!)</h2>
+        <span class="phase-pill">~5 Minutes</span>
+      </div>
+
+      <div class="checklist">
+        <div class="step-item">
+          <input type="checkbox" id="step-4" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-4">4. Add <code class="mono">www.hems-workshop.org</code> FIRST as the Primary Custom Domain</label>
+            <p class="step-desc">
+              Open <a href="https://console.firebase.google.com/project/hems-workshop/hosting/sites" target="_blank" rel="noopener noreferrer">Firebase Console → Hosting</a> and click <strong>Add custom domain</strong>. Enter <span class="copy-chip" onclick="copyText(this, 'www.hems-workshop.org')">www.hems-workshop.org <span class="hint">Copy</span></span>. Leave <em>"Redirect to another domain"</em> <strong>UNCHECKED</strong>, click <strong>Continue</strong>, and keep the DNS values shown on screen.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-5" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-5">5. Add <code class="mono">hems-workshop.org</code> SECOND with 301 Redirect → <code class="mono">www.hems-workshop.org</code></label>
+            <p class="step-desc">
+              Click <strong>Add custom domain</strong> again. Enter <span class="copy-chip" onclick="copyText(this, 'hems-workshop.org')">hems-workshop.org <span class="hint">Copy</span></span>, <strong>CHECK</strong> <em>"Redirect to another domain"</em>, and choose <code class="mono">www.hems-workshop.org</code> as the destination. Note the required <code class="mono">TXT</code> and <code class="mono">A</code> record values Firebase displays (Firebase also warns if an old A record like <code class="mono">192.124.249.10</code> must be removed).
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-6" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-6">6. Verify Firebase Authentication "Authorized Domains"</label>
+            <p class="step-desc">
+              Open <a href="https://console.firebase.google.com/project/hems-workshop/authentication/settings" target="_blank" rel="noopener noreferrer">Firebase Console → Authentication → Settings → Authorized domains</a> and confirm both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code> are in the list (click <strong>Add domain</strong> right now if either is missing so Google/Microsoft sign-in works at zero-minute cutover!).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 3: GODADDY DNS CUTOVER -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Phase 3 — Apply DNS Records in GoDaddy &amp; Trigger SSL Minting</h2>
+        <span class="phase-pill">~10 Minutes Active + 15–45 Min SSL Wait</span>
+      </div>
+
+      <div class="checklist">
+        <div class="step-item">
+          <input type="checkbox" id="step-7" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-7">7. Add Firebase's <code class="mono">TXT</code> ownership record on <code class="mono">@</code></label>
+            <p class="step-desc">
+              In GoDaddy DNS, click <strong>Add New Record</strong> → Type: <code class="mono">TXT</code>, Name: <code class="mono">@</code>, Value: <code class="mono">hosting-site=hems-workshop</code> (or exact string shown in Firebase), TTL: <code class="mono">1/2 Hour</code> (or Custom <code class="mono">600</code> seconds). Leave your existing <code class="mono">google-site-verification=...</code> TXT record untouched.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-8" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-8">8. Delete old <code class="mono">192.124.249.10</code> A record and add Firebase's <code class="mono">A</code> record on <code class="mono">@</code></label>
+            <p class="step-desc">
+              Delete the <code class="mono">A</code> record pointing <code class="mono">@</code> to <code class="mono">192.124.249.10</code>. Add a new <code class="mono">A</code> record with Name: <code class="mono">@</code> and Value: <code class="mono">199.36.158.100</code> (matching Firebase's exact prompt). Confirm no other <code class="mono">@</code> A or AAAA records exist.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-9" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-9">9. Update the <code class="mono">www</code> CNAME (or A) record per Firebase's prompt</label>
+            <p class="step-desc">
+              Edit the existing <code class="mono">www</code> CNAME row (currently pointing to <code class="mono">hems-workshop.org</code>) to point to <span class="copy-chip" onclick="copyText(this, 'hems-workshop.web.app')">hems-workshop.web.app <span class="hint">Copy</span></span> (or if Firebase shows an A record for <code class="mono">www</code>, delete the <code class="mono">www</code> CNAME and add the <code class="mono">www</code> A record <code class="mono">199.36.158.100</code>).
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-10" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-10">10. Fix the Google Workspace SPF <code class="mono">TXT</code> record while in GoDaddy DNS</label>
+            <p class="step-desc">
+              Click <strong>Edit</strong> on the existing TXT row <code class="mono">v=spf1 include:secureserver.net -all</code> and replace its value with <span class="copy-chip" onclick="copyText(this, 'v=spf1 include:_spf.google.com ~all')">v=spf1 include:_spf.google.com ~all <span class="hint">Copy</span></span>. Save. Confirm there is only <strong>one</strong> <code class="mono">v=spf1</code> TXT record in the table.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-11" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-11">11. Click "Verify" in Firebase Hosting &amp; wait for SSL status = "Connected"</label>
+            <p class="step-desc">
+              Return to Firebase Hosting and click <strong>Verify</strong> on both <code class="mono">www.hems-workshop.org</code> and <code class="mono">hems-workshop.org</code>. Wait <strong>15–60 minutes</strong> while Google provisions the free Let's Encrypt TLS certificates until both badges turn green (<strong>Connected</strong>). You can verify live DNS propagation from Windows PowerShell anytime:
+            </p>
+            <pre class="cmd"><code>Resolve-DnsName www.hems-workshop.org ; Resolve-DnsName hems-workshop.org -Type A</code><button type="button" onclick="copyText(this, 'Resolve-DnsName www.hems-workshop.org ; Resolve-DnsName hems-workshop.org -Type A')">Copy PowerShell</button></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 4: POST-CUTOVER VERIFICATION -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Phase 4 — Post-Cutover SEO, Analytics &amp; Smoke-Test Verification</h2>
+        <span class="phase-pill">~10 Minutes Once SSL Is Green</span>
+      </div>
+
+      <div class="checklist">
+        <div class="step-item">
+          <input type="checkbox" id="step-12" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-12">12. Verify all 4 HTTP/HTTPS redirect permutations resolve to <code class="mono">https://www.hems-workshop.org/</code></label>
+            <p class="step-desc">
+              Test in an Incognito browser window: <code class="mono">http://hems-workshop.org</code>, <code class="mono">https://hems-workshop.org</code>, and <code class="mono">http://www.hems-workshop.org</code> should all 301-redirect cleanly with a valid padlock to <code class="mono">https://www.hems-workshop.org/</code>.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-13" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-13">13. Test Archive PDF Download Gate, Hover Previews &amp; AI Feeds</label>
+            <p class="step-desc">
+              Visit <code class="mono">https://www.hems-workshop.org/archive/2025/</code> — hover a Slide PDF and an Abstract PDF to verify preview cards, sign in via Google/Microsoft to test a PDF download, and confirm <code class="mono">/llms.txt</code>, <code class="mono">/llms-full.txt</code>, <code class="mono">/archives-index.json</code>, and <code class="mono">/sitemap.xml</code> all load cleanly.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-14" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-14">14. Submit <code class="mono">sitemap.xml</code> in Google Search Console</label>
+            <p class="step-desc">
+              Open <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">Google Search Console</a> → select your <code class="mono">hems-workshop.org</code> property → <strong>Sitemaps</strong> → submit <span class="copy-chip" onclick="copyText(this, 'https://www.hems-workshop.org/sitemap.xml')">https://www.hems-workshop.org/sitemap.xml <span class="hint">Copy</span></span>. Then use <strong>URL Inspection</strong> on <code class="mono">https://www.hems-workshop.org/</code> and <code class="mono">https://www.hems-workshop.org/archive/</code> and click <strong>Request Indexing</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-15" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-15">15. Confirm Google Analytics 4 (<code class="mono">G-F06RZ8L5CR</code>) Realtime Stream</label>
+            <p class="step-desc">
+              Open <a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">Google Analytics</a> → <strong>Admin → Data Streams</strong> → confirm the Web Stream URL is set to <code class="mono">https://www.hems-workshop.org</code>. Browse two public pages on your phone or an Incognito window and confirm <strong>1 active user</strong> lights up in <strong>Reports → Realtime</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" id="step-16" onchange="toggleStep(this)" />
+          <div class="step-body">
+            <label class="step-title" for="step-16">16. Send a quick round-trip email test to <code class="mono">@hems-workshop.org</code></label>
+            <p class="step-desc">
+              Send a test email from an external Gmail/institutional account to <code class="mono">webmaster@hems-workshop.org</code> (and reply back) to confirm 100% uninterrupted Google Workspace mail delivery and clean <code class="mono">SPF: PASS</code> headers.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="doc-footer">
+      Harsh-Environment Mass Spectrometry Society, Inc. • Domain Migration &amp; DevSecOps Checklist (<code class="mono">docs/domain_porting_guide.html</code>)
+    </footer>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'hems_domain_port_checklist_v1';
+
+    function updateProgress() {
+      const boxes = Array.from(document.querySelectorAll('.step-item input[type="checkbox"]'));
+      const completed = boxes.filter((b) => b.checked).length;
+      const pct = boxes.length ? Math.round((completed / boxes.length) * 100) : 0;
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressLabel').textContent = completed + ' / ' + boxes.length + ' steps completed (' + pct + '%)';
+    }
+
+    function saveState() {
+      const state = {};
+      document.querySelectorAll('.step-item input[type="checkbox"]').forEach((box) => {
+        state[box.id] = box.checked;
+      });
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function toggleStep(checkbox) {
+      const card = checkbox.closest('.step-item');
+      if (card) {
+        card.classList.toggle('done', checkbox.checked);
+      }
+      saveState();
+      updateProgress();
+    }
+
+    function resetChecklist() {
+      document.querySelectorAll('.step-item input[type="checkbox"]').forEach((box) => {
+        box.checked = false;
+        const card = box.closest('.step-item');
+        if (card) card.classList.remove('done');
+      });
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
+      updateProgress();
+    }
+
+    function copyText(el, text) {
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const hint = el.querySelector('.hint');
+        if (hint) {
+          const prev = hint.textContent;
+          hint.textContent = 'Copied!';
+          setTimeout(() => { hint.textContent = prev; }, 1600);
+        } else {
+          const prev = el.textContent;
+          el.textContent = 'Copied!';
+          setTimeout(() => { el.textContent = prev; }, 1600);
+        }
+      });
+    }
+
+    // Hydrate saved progress on load
+    (function init() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        Object.keys(saved).forEach((id) => {
+          const box = document.getElementById(id);
+          if (box && saved[id]) {
+            box.checked = true;
+            const card = box.closest('.step-item');
+            if (card) card.classList.add('done');
+          }
+        });
+      } catch (e) {}
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>
+

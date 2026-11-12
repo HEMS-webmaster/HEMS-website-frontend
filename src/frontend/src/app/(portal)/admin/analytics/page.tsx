@@ -613,54 +613,84 @@ export default function AdminAnalyticsPage() {
         </div>
       )}
 
-      {/* External Analytics & Domain Authority Quick-Launch Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* External Analytics, Search Console & Domain Authority Quick-Launch Bar */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <a
           href="https://analytics.google.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="group bg-white border border-slate-200/95 hover:border-primary/50 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-xs transition-all flex items-center justify-between gap-4"
+          className="group bg-white border border-slate-200/95 hover:border-primary/50 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-xs transition-all flex flex-col justify-between gap-3.5"
         >
-          <div className="space-y-1 min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
+          <div className="space-y-1.5 min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-sm font-semibold text-slate-900 group-hover:text-primary transition-colors">
-                Google Analytics 4 Console
+                Google Analytics 4
               </span>
               <span className="text-[10.5px] font-semibold tabular-nums bg-primary/10 text-primary border border-primary/20 px-2 py-0.5 rounded-full">
                 {GA_MEASUREMENT_ID}
               </span>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Open real-time visitor streams, organic search acquisition, and geographic engagement on analytics.google.com.
+              Real-time visitor streams, organic acquisition channels, and geographic engagement on analytics.google.com.
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 shrink-0 bg-primary text-white group-hover:bg-sky-800 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
-            Open GA4 <ExternalLink size={13} />
-          </span>
+          <div className="pt-1">
+            <span className="inline-flex items-center gap-1.5 bg-primary text-white group-hover:bg-sky-800 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
+              Open Google Analytics <ExternalLink size={13} />
+            </span>
+          </div>
+        </a>
+
+        <a
+          href="https://search.google.com/search-console"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group bg-white border border-slate-200/95 hover:border-primary/50 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-xs transition-all flex flex-col justify-between gap-3.5"
+        >
+          <div className="space-y-1.5 min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-sm font-semibold text-slate-900 group-hover:text-primary transition-colors">
+                Google Search Console
+              </span>
+              <span className="text-[10.5px] font-semibold bg-sky-50 text-sky-800 border border-sky-200 px-2 py-0.5 rounded-full">
+                Indexing &amp; Sitemaps
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Monitor Google search queries, proceedings indexing coverage, and sitemap status (sitemap.xml).
+            </p>
+          </div>
+          <div className="pt-1">
+            <span className="inline-flex items-center gap-1.5 bg-white text-slate-800 border border-slate-300 group-hover:border-primary group-hover:text-primary px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
+              Open Search Console <ExternalLink size={13} />
+            </span>
+          </div>
         </a>
 
         <a
           href="https://ahrefs.com/website-authority-checker/?input=www.hems-workshop.org"
           target="_blank"
           rel="noopener noreferrer"
-          className="group bg-white border border-slate-200/95 hover:border-secondary/50 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-xs transition-all flex items-center justify-between gap-4"
+          className="group bg-white border border-slate-200/95 hover:border-secondary/50 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-xs transition-all flex flex-col justify-between gap-3.5"
         >
-          <div className="space-y-1 min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
+          <div className="space-y-1.5 min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-sm font-semibold text-slate-900 group-hover:text-secondary transition-colors">
-                Website Authority &amp; Backlink Checker
+                Website Authority Checker
               </span>
               <span className="text-[10.5px] font-semibold bg-teal-50 text-teal-800 border border-teal-200 px-2 py-0.5 rounded-full">
                 Ahrefs DR
               </span>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Check live Domain Rating (DR), referring academic/industry domains, and authority score for www.hems-workshop.org.
+              Inspect live Domain Rating (DR), referring academic/industry backlinks, and authority for www.hems-workshop.org.
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 shrink-0 bg-slate-900 text-white group-hover:bg-slate-800 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
-            Check Authority <ExternalLink size={13} />
-          </span>
+          <div className="pt-1">
+            <span className="inline-flex items-center gap-1.5 bg-slate-900 text-white group-hover:bg-slate-800 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
+              Check Authority <ExternalLink size={13} />
+            </span>
+          </div>
         </a>
       </div>
 
