@@ -13,6 +13,7 @@ import {
   Send,
   ArrowRight,
   ShieldCheck,
+  BarChart2,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -80,7 +81,7 @@ export default function BoardPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
             href="/board/mailing-list"
             className="group bg-background border border-foreground/10 hover:border-primary/45 rounded-2xl p-5 sm:p-6 transition-all shadow-2xs flex flex-col justify-between gap-4"
@@ -95,10 +96,10 @@ export default function BoardPage() {
                 </span>
               </div>
               <h4 className="font-serif text-lg font-semibold text-foreground">
-                Subscriber Directory &amp; Mailchimp Import
+                Subscriber Directory &amp; Sublists
               </h4>
               <p className="text-xs text-foreground/65 leading-relaxed">
-                Manage confirmed subscribers, sync public opt-ins, export CSV backups, and migrate Mailchimp Subscribed, Unsubscribed, and Cleaned lists without losing suppression history.
+                Manage confirmed subscribers, custom sublists, public opt-ins, CSV backups, and Mailchimp audience imports while preserving suppression history.
               </p>
             </div>
           </Link>
@@ -120,7 +121,29 @@ export default function BoardPage() {
                 Academic Announcement Composer
               </h4>
               <p className="text-xs text-foreground/65 leading-relaxed">
-                Draft official Call for Papers and Workshop announcements with scholarly letterhead HTML + plain-text companion, URL-trust spam audit, and mandatory officer test-send gate.
+                Draft Call for Papers and Workshop announcements with automatic <code className="text-[11px]">?src=</code> first-party link tagging, URL-trust audit, and officer test-send safety gate.
+              </p>
+            </div>
+          </Link>
+
+          <Link
+            href="/admin/analytics"
+            className="group bg-background border border-foreground/10 hover:border-primary/45 rounded-2xl p-5 sm:p-6 transition-all shadow-2xs flex flex-col justify-between gap-4"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <span className="p-2.5 rounded-xl bg-primary/10 text-primary">
+                  <BarChart2 size={20} />
+                </span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-primary inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  View Telemetry <ArrowRight size={13} />
+                </span>
+              </div>
+              <h4 className="font-serif text-lg font-semibold text-foreground">
+                Website &amp; Campaign Analytics
+              </h4>
+              <p className="text-xs text-foreground/65 leading-relaxed">
+                Inspect page views, daily traffic spikes, <code className="text-[11px]">?src=</code> email campaign arrivals, live visitor stream, proceedings PDF downloads, and authenticated member activity.
               </p>
             </div>
           </Link>

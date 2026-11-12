@@ -10,6 +10,7 @@ import {
   isValidSubscriberEmail,
   normalizeSubscriberEmail,
 } from "@/utils/mailingTemplate";
+import { recordTelemetryEvent } from "@/utils/telemetryClient";
 
 const INTEREST_OPTIONS: Array<{ id: MailingInterest; label: string }> = [
   { id: "workshop", label: "Biennial Workshop & Call for Papers" },
@@ -129,6 +130,11 @@ export default function MailingListSignupCard() {
           "Your subscription request has been recorded for the HEMS Society announcement list."
         );
       }
+
+      void recordTelemetryEvent({
+        eventType: "mailing_signup",
+        targetLabel: `Topics: ${interests.join(", ")}`,
+      });
 
       setFirstName("");
       setLastName("");

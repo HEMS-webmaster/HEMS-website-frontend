@@ -56,6 +56,7 @@ export interface MailingCampaign {
   id: string;
   subject: string;
   segment: MailingSegment;
+  campaignSlug?: string;
   markdownBody: string;
   status: CampaignStatus;
   recipientCount: number;

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { recordTelemetryEvent } from "@/utils/telemetryClient";
 import { X, Lock, KeyRound, Mail, User } from "lucide-react";
 
 export default function DownloadGate({ children }: { children: React.ReactNode }) {
@@ -144,6 +145,12 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
           workshopName: wsName
         }, { merge: true });
       }
+
+      void recordTelemetryEvent({
+        eventType: "pdf_download",
+        targetLabel: `${wsName !== "Unknown" ? `${wsName}: ` : ""}${fileName}`,
+        user,
+      });
     } catch (err) {
       console.error("Failed to track download:", err);
     } finally {

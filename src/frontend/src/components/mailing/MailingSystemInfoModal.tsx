@@ -140,6 +140,12 @@ export default function MailingSystemInfoModal({
               <li className="flex items-start gap-2">
                 <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
                 <span>
+                  <strong>First-Party <code className="text-xs bg-slate-100 px-1 rounded">?src=</code> Attribution (Zero Redirects):</strong> The Announcement Composer automatically appends a clean first-party <code className="text-xs bg-slate-100 px-1 rounded">?src=&lt;campaign-slug&gt;</code> query tag to <code className="text-xs bg-slate-100 px-1 rounded">hems-workshop.org</code> links so you can measure real human visits, pages read, and conversions in <strong>Website Analytics</strong> without email pixels or redirect wrappers.
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                <span>
                   <strong>RFC 8058 One-Click Unsubscribe + Multipart Text:</strong> Every email includes a plain-text companion alongside scholarly HTML letterhead, the 501(c)(3) footer, and native Gmail/Outlook 1-click <code className="text-xs bg-slate-100 px-1 rounded">List-Unsubscribe-Post</code> headers.
                 </span>
               </li>

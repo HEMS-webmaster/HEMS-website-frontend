@@ -12,6 +12,7 @@ export {
   mailingWebhookPostmark,
   mailingSendCampaign,
 } from "./mailing";
+export { telemetryEvent } from "./telemetry";
 
 // Trigger on any write (create, update, delete) to the 'whitelist/{email}' collection
 export const syncWhitelistToUserV2 = onDocumentWritten(

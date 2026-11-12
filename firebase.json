@@ -50,6 +50,13 @@
         }
       },
       {
+        "source": "/api/telemetry/event",
+        "function": {
+          "functionId": "telemetryEvent",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/404.html"
       }

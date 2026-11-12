@@ -3,6 +3,7 @@ import { Noto_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import TelemetryTracker from "@/components/telemetry/TelemetryTracker";
 import { AuthProvider } from "@/context/AuthContext";
 import {
   SITE_URL,
@@ -89,6 +90,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(globalJsonLd) }}
         />
         <AuthProvider>
+          <TelemetryTracker />
           <Navbar />
           <main className="flex-grow flex flex-col">{children}</main>
           <Footer />

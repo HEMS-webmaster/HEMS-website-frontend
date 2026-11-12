@@ -536,8 +536,32 @@ exports.mailingSendCampaign = (0, https_1.onRequest)({ cors: true, region: "us-c
         const mode = req.body?.mode === "broadcast" ? "broadcast" : "test";
         const subject = String(req.body?.subject || "").trim();
         const segment = String(req.body?.segment || "all").trim();
-        const paragraphsHtml = String(req.body?.paragraphsHtml || "").trim();
-        const plainBodyCore = String(req.body?.plainBodyCore || "").trim();
+        const campaignSlug = String(req.body?.campaignSlug || "")
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9_-]+/g, "-")
+            .replace(/-{2,}/g, "-")
+            .replace(/^-+|-+$/g, "")
+            .slice(0, 80);
+        const tagFirstPartyUrls = (content) => {
+            if (!campaignSlug)
+                return content;
+            return content.replace(/https:\/\/(?:www\.)?hems-workshop\.org(?:\/[^\s"<)]*)?/gi, (matchedUrl) => {
+                const lower = matchedUrl.toLowerCase();
+                if (lower.includes("/unsubscribe") ||
+                    lower.includes("/api/mailing/") ||
+                    /[?&](?:src|utm_campaign)=/i.test(matchedUrl)) {
+                    return matchedUrl;
+                }
+                const hashIdx = matchedUrl.indexOf("#");
+                const base = hashIdx >= 0 ? matchedUrl.slice(0, hashIdx) : matchedUrl;
+                const hash = hashIdx >= 0 ? matchedUrl.slice(hashIdx) : "";
+                const sep = base.includes("?") ? "&" : "?";
+                return `${base}${sep}src=${encodeURIComponent(campaignSlug)}${hash}`;
+            });
+        };
+        const paragraphsHtml = tagFirstPartyUrls(String(req.body?.paragraphsHtml || "").trim());
+        const plainBodyCore = tagFirstPartyUrls(String(req.body?.plainBodyCore || "").trim());
         const markdownBody = String(req.body?.markdownBody || "").trim();
         if (!subject || !paragraphsHtml || !plainBodyCore) {
             res.status(400).json({
@@ -613,9 +637,18 @@ exports.mailingSendCampaign = (0, https_1.onRequest)({ cors: true, region: "us-c
             if (!isValidEmail(email))
                 return;
             if (segment !== "all") {
-                const tags = Array.isArray(d.interests) ? d.interests : [];
-                if (!tags.includes(segment))
+                const interests = Array.isArray(d.interests) ? d.interests : [];
+                const sublists = Array.isArray(d.sublists) ? d.sublists : [];
+                if (segment.startsWith("sublist:")) {
+                    const targetSublist = segment.slice("sublist:".length).trim().toLowerCase();
+                    const matchedSublist = sublists.some((t) => String(t).trim().toLowerCase() === targetSublist) ||
+                        interests.some((t) => String(t).trim().toLowerCase() === segment.toLowerCase());
+                    if (!matchedSublist)
+                        return;
+                }
+                else if (!interests.includes(segment)) {
                     return;
+                }
             }
             recipients.push({
                 email,
@@ -627,6 +660,7 @@ exports.mailingSendCampaign = (0, https_1.onRequest)({ cors: true, region: "us-c
             const campaignRef = await db.collection("mailing_campaigns").add({
                 subject,
                 segment,
+                campaignSlug,
                 markdownBody,
                 status: "sandbox_logged",
                 recipientCount: recipients.length,
@@ -675,6 +709,7 @@ exports.mailingSendCampaign = (0, https_1.onRequest)({ cors: true, region: "us-c
         const campaignRef = await db.collection("mailing_campaigns").add({
             subject,
             segment,
+            campaignSlug,
             markdownBody,
             status: "sent",
             recipientCount: recipients.length,

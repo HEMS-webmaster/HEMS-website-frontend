@@ -91,19 +91,92 @@ function formatInlineMarkdownPlain(rawLine: string): string {
 }
 
 /**
+ * Generates a readable, deterministic first-party `?src=` campaign tag from subject & audience segment.
+ */
+export function buildCampaignSlug(subject: string, segment: string): string {
+  const cleanSubj = subject
+    .toLowerCase()
+    .replace(/\b(the|and|for|with|from|hems|workshop)\b/g, " ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 44)
+    .replace(/-+$/, "");
+
+  const segPart =
+    segment === "all"
+      ? ""
+      : segment
+          .replace(/^sublist:/i, "")
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/-{2,}/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .slice(0, 24)
+          .replace(/-+$/, "");
+
+  const combined = [cleanSubj || "announcement", segPart]
+    .filter(Boolean)
+    .join("--");
+  return combined.slice(0, 72);
+}
+
+/**
+ * Appends `?src=<campaignSlug>` to canonical first-party `https://hems-workshop.org/...` links
+ * (excluding `/unsubscribe` and `/api/mailing/`) while preserving 100% direct `200 OK` URLs.
+ */
+export function tagHemsUrlsWithCampaignSlug(
+  content: string,
+  campaignSlug: string
+): string {
+  const slug = campaignSlug
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+  if (!slug) return content;
+
+  return content.replace(
+    /https:\/\/(?:www\.)?hems-workshop\.org(?:\/[^\s"<)]*)?/gi,
+    (matchedUrl) => {
+      const lower = matchedUrl.toLowerCase();
+      if (
+        lower.includes("/unsubscribe") ||
+        lower.includes("/api/mailing/") ||
+        /[?&](?:src|utm_campaign)=/i.test(matchedUrl)
+      ) {
+        return matchedUrl;
+      }
+      const hashIdx = matchedUrl.indexOf("#");
+      const base = hashIdx >= 0 ? matchedUrl.slice(0, hashIdx) : matchedUrl;
+      const hash = hashIdx >= 0 ? matchedUrl.slice(hashIdx) : "";
+      const sep = base.includes("?") ? "&" : "?";
+      return `${base}${sep}src=${encodeURIComponent(slug)}${hash}`;
+    }
+  );
+}
+
+/**
  * Converts clean academic Markdown-lite prose into both lightweight semantic HTML
  * paragraphs (zero tracking pixels, zero redirect wrappers) and a matching plain-text body.
  */
 export function renderAcademicEmailParts(
   subject: string,
-  markdownBody: string
+  markdownBody: string,
+  campaignSlug = ""
 ): {
   paragraphsHtml: string;
   fullPreviewHtml: string;
   plainBodyCore: string;
   fullPreviewPlain: string;
 } {
-  const blocks = markdownBody
+  const effectiveMarkdown = campaignSlug
+    ? tagHemsUrlsWithCampaignSlug(markdownBody, campaignSlug)
+    : markdownBody;
+
+  const blocks = effectiveMarkdown
     .replace(/\r\n/g, "\n")
     .split(/\n{2,}/)
     .map((b) => b.trim())
@@ -193,7 +266,8 @@ export function renderAcademicEmailParts(
  */
 export function auditCampaignDeliverability(
   subject: string,
-  markdownBody: string
+  markdownBody: string,
+  campaignSlug = ""
 ): DeliverabilityAudit {
   const checks: DeliverabilityCheckItem[] = [];
   const trimmedSubject = subject.trim();
@@ -261,7 +335,7 @@ export function auditCampaignDeliverability(
       severity: "pass",
       detail:
         urls.length > 0
-          ? `All ${urls.length} link(s) use direct HTTPS with zero tracking redirects (TrackLinks: None).`
+          ? `All ${urls.length} link(s) use direct HTTPS with zero tracking redirects (TrackLinks: None${campaignSlug ? `; first-party ?src=${campaignSlug} active` : ""}).`
           : "Zero insecure or shortened links detected (TrackLinks: None, TrackOpens: OFF).",
     });
   }

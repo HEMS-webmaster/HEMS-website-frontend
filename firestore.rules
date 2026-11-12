@@ -19,9 +19,9 @@ service cloud.firestore {
 
     // User profiles rules
     match /users/{userId} {
-      // Authenticated users can read their own profile, admins can read all profiles
-      allow get: if request.auth != null && (request.auth.uid == userId || isAdmin(request.auth.uid));
-      allow list: if request.auth != null && isAdmin(request.auth.uid);
+      // Authenticated users can read their own profile; board & admins can read/list profiles for analytics
+      allow get: if request.auth != null && (request.auth.uid == userId || isBoardOrAdmin(request.auth.uid));
+      allow list: if request.auth != null && isBoardOrAdmin(request.auth.uid);
       
       // Users can create their own profile, defaulting strictly to ['general'] or matching their whitelist roles
       allow create: if request.auth != null && request.auth.uid == userId && (
@@ -93,10 +93,44 @@ service cloud.firestore {
       allow read, write: if request.auth != null && isAdmin(request.auth.uid);
     }
 
-    // Document download counters
+    // Document download counters (Board & Admin read access for analytics)
     match /downloads/{document} {
-      allow read: if request.auth != null && isAdmin(request.auth.uid);
+      allow read: if request.auth != null && isBoardOrAdmin(request.auth.uid);
       allow create, update: if request.auth != null;
+    }
+
+    // First-party website & campaign telemetry rollups (written by Cloud Functions; read by Board & Admin)
+    match /telemetry_daily/{dayId} {
+      allow read: if request.auth != null && isBoardOrAdmin(request.auth.uid);
+    }
+
+    match /telemetry_campaigns/{campaignSlug} {
+      allow read: if request.auth != null && isBoardOrAdmin(request.auth.uid);
+    }
+
+    // First-party telemetry event stream (Board & Admin read; schema-validated write-only fallback for pre-cutover/local)
+    match /telemetry_events/{eventId} {
+      allow read, delete: if request.auth != null && isBoardOrAdmin(request.auth.uid);
+      allow create: if request.resource.data.keys().hasOnly([
+          'eventType', 'path', 'pageTitle', 'sessionId', 'campaignSlug',
+          'referrerCategory', 'referrerHost', 'deviceType', 'country',
+          'region', 'targetLabel', 'userUid', 'userEmail', 'userName',
+          'dateKey', 'timestamp', 'rolledUp'
+        ])
+        && request.resource.data.eventType in [
+          'page_view', 'mailto_click', 'outbound_click', 'mailing_signup', 'pdf_download'
+        ]
+        && request.resource.data.path is string
+        && request.resource.data.path.size() >= 1
+        && request.resource.data.path.size() <= 180
+        && request.resource.data.sessionId is string
+        && request.resource.data.sessionId.size() <= 80
+        && request.resource.data.campaignSlug is string
+        && request.resource.data.campaignSlug.size() <= 100
+        && request.resource.data.timestamp is string
+        && request.resource.data.timestamp.size() >= 10
+        && request.resource.data.timestamp.size() <= 40
+        && request.resource.data.rolledUp == false;
     }
   }
 }

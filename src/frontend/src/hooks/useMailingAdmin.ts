@@ -25,6 +25,7 @@ import {
   SubscriberStatus,
 } from "@/types/mailing";
 import {
+  buildCampaignSlug,
   generateClientToken,
   isValidSubscriberEmail,
   normalizeSublistTag,
@@ -363,6 +364,9 @@ export function useMailingAdmin(enabled: boolean) {
           id: d.id,
           subject: String(data.subject || ""),
           segment: (data.segment as MailingSegment) || "all",
+          campaignSlug: data.campaignSlug
+            ? String(data.campaignSlug)
+            : buildCampaignSlug(String(data.subject || ""), String(data.segment || "all")),
           markdownBody: String(data.markdownBody || ""),
           status: (data.status as MailingCampaign["status"]) || "sent",
           recipientCount: Number(data.recipientCount || 0),
@@ -1001,13 +1005,27 @@ export function useMailingAdmin(enabled: boolean) {
       mode: "test" | "broadcast";
       subject: string;
       segment: MailingSegment;
+      campaignSlug?: string;
       markdownBody: string;
       testEmail: string;
       callerEmail: string;
     }): Promise<{ mode: "live" | "sandbox"; message: string; deliveredCount: number }> => {
+      const effectiveSlug = (
+        params.campaignSlug !== undefined
+          ? params.campaignSlug
+          : buildCampaignSlug(params.subject, params.segment)
+      )
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9_-]+/g, "-")
+        .replace(/-{2,}/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 80);
+
       const { paragraphsHtml, plainBodyCore } = renderAcademicEmailParts(
         params.subject,
-        params.markdownBody
+        params.markdownBody,
+        effectiveSlug
       );
 
       const matchingActive = subscribers.filter((s) =>
@@ -1047,6 +1065,7 @@ export function useMailingAdmin(enabled: boolean) {
               mode: params.mode,
               subject: params.subject,
               segment: params.segment,
+              campaignSlug: effectiveSlug,
               paragraphsHtml,
               plainBodyCore,
               markdownBody: params.markdownBody,
@@ -1097,6 +1116,7 @@ export function useMailingAdmin(enabled: boolean) {
         id: `sandbox-${Date.now()}`,
         subject: params.subject,
         segment: params.segment,
+        campaignSlug: effectiveSlug,
         markdownBody: params.markdownBody,
         status: "sandbox_logged",
         recipientCount: matchingActive.length,
@@ -1112,6 +1132,7 @@ export function useMailingAdmin(enabled: boolean) {
         await addDoc(collection(db, "mailing_campaigns"), {
           subject: newCampaign.subject,
           segment: newCampaign.segment,
+          campaignSlug: effectiveSlug,
           markdownBody: newCampaign.markdownBody,
           status: newCampaign.status,
           recipientCount: newCampaign.recipientCount,

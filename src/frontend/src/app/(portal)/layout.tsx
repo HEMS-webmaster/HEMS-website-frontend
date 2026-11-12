@@ -52,14 +52,14 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     { name: "Board Panel", shortName: "Board", path: "/board", icon: Building2, requiredRole: "board" },
     { name: "Mailing List", shortName: "Mailing List", path: "/board/mailing-list", icon: Users, requiredRole: "board" },
     { name: "Announcements", shortName: "Announce", path: "/board/announcements", icon: Send, requiredRole: "board" },
-    { name: "Admin Panel", shortName: "Admin", path: "/admin", icon: ShieldCheck, requiredRole: "admin" },
     {
       name: "Website Analytics",
       shortName: "Analytics",
       path: "/admin/analytics",
       icon: BarChart2,
-      requiredRole: "admin",
+      requiredRole: "board",
     },
+    { name: "Admin Panel", shortName: "Admin", path: "/admin", icon: ShieldCheck, requiredRole: "admin" },
   ];
 
   const hasRole = (role: string | null) => {
