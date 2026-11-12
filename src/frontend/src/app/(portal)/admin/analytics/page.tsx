@@ -33,6 +33,7 @@ import {
   AnalyticsWindowPreset,
   useSiteAnalytics,
 } from "@/hooks/useSiteAnalytics";
+import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
 import { TelemetryEventType } from "@/types/telemetry";
 
 type AnalyticsTab = "pages" | "campaigns" | "stream" | "users" | "files";
@@ -98,12 +99,7 @@ export default function AdminAnalyticsPage() {
   const { user, loading: authLoading, isMock } = useAuth();
 
   const isAuthorized = useMemo(
-    () =>
-      Boolean(
-        user &&
-          user.roles &&
-          (user.roles.includes("admin") || user.roles.includes("board"))
-      ),
+    () => Boolean(user && hasBoardOrAdminRole(user.roles)),
     [user]
   );
 

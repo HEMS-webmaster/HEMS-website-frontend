@@ -31,6 +31,7 @@ import {
   formatSegmentDisplayName,
   renderAcademicEmailParts,
 } from "@/utils/mailingTemplate";
+import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
 import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
 
 const TEMPLATES: Array<{
@@ -82,9 +83,7 @@ HEMS Workshop Organizing Committee`,
 
 export default function BoardAnnouncementsPage() {
   const { user, loading, isMock } = useAuth();
-  const isAuthorized = Boolean(
-    user && (user.roles?.includes("board") || user.roles?.includes("admin"))
-  );
+  const isAuthorized = Boolean(user && hasBoardOrAdminRole(user.roles));
 
   const {
     subscribers,

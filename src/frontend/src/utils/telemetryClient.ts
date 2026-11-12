@@ -30,6 +30,20 @@ const PAGE_TITLES: Record<string, string> = {
   "/auth": "Member & Committee Sign In",
 };
 
+export function hasBoardOrAdminRole(roles?: string[] | null): boolean {
+  if (!Array.isArray(roles)) return false;
+  return roles.some((r) => {
+    const clean = String(r || "").trim().toLowerCase();
+    return (
+      clean === "admin" ||
+      clean === "board" ||
+      clean === "board_member" ||
+      clean === "board member" ||
+      clean === "board members"
+    );
+  });
+}
+
 export function normalizeTelemetryPath(rawPath: string | null | undefined): string {
   if (!rawPath) return "/";
   const clean = rawPath.split("?")[0].split("#")[0].replace(/\/+$/, "");
@@ -312,7 +326,7 @@ export async function recordTelemetryEvent(params: {
       await addDoc(collection(db, "telemetry_events"), eventPayload);
       return;
     } catch {
-      // Silently ignore telemetry write errors so visitor UX is never impacted
+      // Fall through to localStorage buffer if Firestore rules have not been deployed yet
     }
   }
 

@@ -175,6 +175,21 @@ async function sendPostmarkBatch(
   return { delivered, failed };
 }
 
+function matchesBoardOrAdminRoles(roles: unknown): boolean {
+  if (!Array.isArray(roles)) return false;
+  return roles.some((r) => {
+    if (typeof r !== "string") return false;
+    const norm = r.trim().toLowerCase();
+    return (
+      norm === "admin" ||
+      norm === "board" ||
+      norm === "board_member" ||
+      norm === "board member" ||
+      norm === "board members"
+    );
+  });
+}
+
 async function verifyBoardOrAdminCaller(
   authHeader: string | undefined
 ): Promise<{ email: string; uid: string } | null> {
@@ -186,11 +201,7 @@ async function verifyBoardOrAdminCaller(
     const decoded = await admin.auth().verifyIdToken(idToken);
     const db = getDb();
     const userDoc = await db.collection("users").doc(decoded.uid).get();
-    const roles: string[] = Array.isArray(userDoc.data()?.roles)
-      ? userDoc.data()!.roles
-      : [];
-
-    if (roles.includes("board") || roles.includes("admin")) {
+    if (matchesBoardOrAdminRoles(userDoc.data()?.roles)) {
       return { email: decoded.email || "", uid: decoded.uid };
     }
 
@@ -199,10 +210,7 @@ async function verifyBoardOrAdminCaller(
         .collection("whitelist")
         .doc(decoded.email.toLowerCase())
         .get();
-      const wlRoles: string[] = Array.isArray(wlDoc.data()?.roles)
-        ? wlDoc.data()!.roles
-        : [];
-      if (wlRoles.includes("board") || wlRoles.includes("admin")) {
+      if (matchesBoardOrAdminRoles(wlDoc.data()?.roles)) {
         return { email: decoded.email, uid: decoded.uid };
       }
     }

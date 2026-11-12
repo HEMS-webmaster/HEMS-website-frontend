@@ -359,13 +359,13 @@ export function useSiteAnalytics(
       );
 
       const [
-        dailySnap,
-        rolledCampSnap,
-        eventsSnap,
-        mailingCampSnap,
-        usersSnap,
-        downloadsSnap,
-      ] = await Promise.all([
+        dailyRes,
+        rolledCampRes,
+        eventsRes,
+        mailingCampRes,
+        usersRes,
+        downloadsRes,
+      ] = await Promise.allSettled([
         getDocs(collection(db, "telemetry_daily")),
         getDocs(collection(db, "telemetry_campaigns")),
         getDocs(
@@ -380,112 +380,154 @@ export function useSiteAnalytics(
         getDocs(query(collection(db, "downloads"), orderBy("downloadCount", "desc"))),
       ]);
 
+      const rejectedPermissions = [
+        dailyRes,
+        rolledCampRes,
+        eventsRes,
+        usersRes,
+        downloadsRes,
+      ].some(
+        (r) =>
+          r.status === "rejected" &&
+          String(r.reason?.message || r.reason || "")
+            .toLowerCase()
+            .includes("insufficient permissions")
+      );
+
+      if (rejectedPermissions) {
+        setError(
+          "Google Cloud is still running the previous Firestore security rules — run `firebase login --reauth` and `firebase deploy --only firestore:rules --project hems-workshop` once to activate live Board Member analytics permissions in Cloud Firestore."
+        );
+      }
+
       const loadedDaily: RawDailyDoc[] = [];
-      dailySnap.forEach((docSnap) => {
-        const d = docSnap.data();
-        loadedDaily.push({
-          dateKey: String(d.dateKey || docSnap.id),
-          totalViews: Number(d.totalViews || 0),
-          campaignViews: Number(d.campaignViews || 0),
-          conversions: Number(d.conversions || 0),
-          downloads: Number(d.downloads || 0),
-          pages: (d.pages as Record<string, number>) || {},
-          referrers: (d.referrers as Record<string, number>) || {},
-          devices: (d.devices as Record<string, number>) || {},
-          countries: (d.countries as Record<string, number>) || {},
-          campaigns: (d.campaigns as Record<string, number>) || {},
-          lastUpdatedAt: String(d.lastUpdatedAt || ""),
+      if (dailyRes.status === "fulfilled") {
+        dailyRes.value.forEach((docSnap) => {
+          const d = docSnap.data();
+          loadedDaily.push({
+            dateKey: String(d.dateKey || docSnap.id),
+            totalViews: Number(d.totalViews || 0),
+            campaignViews: Number(d.campaignViews || 0),
+            conversions: Number(d.conversions || 0),
+            downloads: Number(d.downloads || 0),
+            pages: (d.pages as Record<string, number>) || {},
+            referrers: (d.referrers as Record<string, number>) || {},
+            devices: (d.devices as Record<string, number>) || {},
+            countries: (d.countries as Record<string, number>) || {},
+            campaigns: (d.campaigns as Record<string, number>) || {},
+            lastUpdatedAt: String(d.lastUpdatedAt || ""),
+          });
         });
-      });
+      }
 
       const loadedRolledCamps: RawRolledCampaignDoc[] = [];
-      rolledCampSnap.forEach((docSnap) => {
-        const d = docSnap.data();
-        loadedRolledCamps.push({
-          campaignSlug: String(d.campaignSlug || docSnap.id),
-          views: Number(d.views || 0),
-          conversions: Number(d.conversions || 0),
-          downloads: Number(d.downloads || 0),
-          pages: (d.pages as Record<string, number>) || {},
-          lastSeenAt: String(d.lastSeenAt || ""),
+      if (rolledCampRes.status === "fulfilled") {
+        rolledCampRes.value.forEach((docSnap) => {
+          const d = docSnap.data();
+          loadedRolledCamps.push({
+            campaignSlug: String(d.campaignSlug || docSnap.id),
+            views: Number(d.views || 0),
+            conversions: Number(d.conversions || 0),
+            downloads: Number(d.downloads || 0),
+            pages: (d.pages as Record<string, number>) || {},
+            lastSeenAt: String(d.lastSeenAt || ""),
+          });
         });
-      });
+      }
 
       const loadedEvents: TelemetryEventRecord[] = [];
-      eventsSnap.forEach((docSnap) => {
-        const d = docSnap.data();
-        loadedEvents.push({
-          id: docSnap.id,
-          eventType: (d.eventType as TelemetryEventType) || "page_view",
-          path: normalizeTelemetryPath(String(d.path || "/")),
-          pageTitle:
-            String(d.pageTitle || "") ||
-            formatFriendlyPageTitle(String(d.path || "/")),
-          sessionId: String(d.sessionId || "anon"),
-          campaignSlug: sanitizeCampaignSlug(String(d.campaignSlug || "")),
-          referrerCategory: String(d.referrerCategory || "Direct"),
-          referrerHost: String(d.referrerHost || ""),
-          deviceType:
-            d.deviceType === "Mobile" || d.deviceType === "Tablet"
-              ? (d.deviceType as TelemetryDeviceType)
-              : "Desktop",
-          country: String(d.country || "Unknown"),
-          region: String(d.region || ""),
-          targetLabel: String(d.targetLabel || ""),
-          userUid: String(d.userUid || ""),
-          userEmail: String(d.userEmail || ""),
-          userName: String(d.userName || ""),
-          dateKey: String(d.dateKey || String(d.timestamp || "").slice(0, 10)),
-          timestamp: String(d.timestamp || ""),
-          rolledUp: Boolean(d.rolledUp),
+      if (eventsRes.status === "fulfilled") {
+        eventsRes.value.forEach((docSnap) => {
+          const d = docSnap.data();
+          loadedEvents.push({
+            id: docSnap.id,
+            eventType: (d.eventType as TelemetryEventType) || "page_view",
+            path: normalizeTelemetryPath(String(d.path || "/")),
+            pageTitle:
+              String(d.pageTitle || "") ||
+              formatFriendlyPageTitle(String(d.path || "/")),
+            sessionId: String(d.sessionId || "anon"),
+            campaignSlug: sanitizeCampaignSlug(String(d.campaignSlug || "")),
+            referrerCategory: String(d.referrerCategory || "Direct"),
+            referrerHost: String(d.referrerHost || ""),
+            deviceType:
+              d.deviceType === "Mobile" || d.deviceType === "Tablet"
+                ? (d.deviceType as TelemetryDeviceType)
+                : "Desktop",
+            country: String(d.country || "Unknown"),
+            region: String(d.region || ""),
+            targetLabel: String(d.targetLabel || ""),
+            userUid: String(d.userUid || ""),
+            userEmail: String(d.userEmail || ""),
+            userName: String(d.userName || ""),
+            dateKey: String(d.dateKey || String(d.timestamp || "").slice(0, 10)),
+            timestamp: String(d.timestamp || ""),
+            rolledUp: Boolean(d.rolledUp),
+          });
         });
-      });
+      } else if (typeof window !== "undefined") {
+        // Merge any locally buffered browser telemetry while awaiting `firestore:rules` deploy
+        try {
+          const buffered = window.localStorage.getItem(MOCK_TELEMETRY_STORAGE_KEY);
+          if (buffered) {
+            loadedEvents.push(...(JSON.parse(buffered) as TelemetryEventRecord[]));
+          }
+        } catch {
+          // Ignore malformed local buffer
+        }
+      }
 
       const loadedMetas: RawCampaignMeta[] = [];
-      mailingCampSnap.forEach((docSnap) => {
-        const d = docSnap.data();
-        const subject = String(d.subject || "");
-        const segment = String(d.segment || "all");
-        const slug = sanitizeCampaignSlug(
-          String(d.campaignSlug || "") || buildCampaignSlug(subject, segment)
-        );
-        if (slug) {
-          loadedMetas.push({
-            slug,
-            subject,
-            sentAt: String(d.sentAt || d.createdAt || ""),
-            recipientCount: Number(d.recipientCount || 0),
-          });
-        }
-      });
+      if (mailingCampRes.status === "fulfilled") {
+        mailingCampRes.value.forEach((docSnap) => {
+          const d = docSnap.data();
+          const subject = String(d.subject || "");
+          const segment = String(d.segment || "all");
+          const slug = sanitizeCampaignSlug(
+            String(d.campaignSlug || "") || buildCampaignSlug(subject, segment)
+          );
+          if (slug) {
+            loadedMetas.push({
+              slug,
+              subject,
+              sentAt: String(d.sentAt || d.createdAt || ""),
+              recipientCount: Number(d.recipientCount || 0),
+            });
+          }
+        });
+      }
 
       const loadedUsers: UserActivityStat[] = [];
-      usersSnap.forEach((docSnap) => {
-        const d = docSnap.data();
-        loadedUsers.push({
-          uid: docSnap.id,
-          name: String(d.name || "Unknown"),
-          email: String(d.email || ""),
-          loginCount: Number(d.loginCount || 0),
-          pageViewCount: 0,
-          downloadCount: Number(d.downloadCount || 0),
-          lastLogin: String(d.lastLogin || ""),
-          lastActivePath: "",
-          createdAt: String(d.createdAt || ""),
+      if (usersRes.status === "fulfilled") {
+        usersRes.value.forEach((docSnap) => {
+          const d = docSnap.data();
+          loadedUsers.push({
+            uid: docSnap.id,
+            name: String(d.name || "Unknown"),
+            email: String(d.email || ""),
+            loginCount: Number(d.loginCount || 0),
+            pageViewCount: 0,
+            downloadCount: Number(d.downloadCount || 0),
+            lastLogin: String(d.lastLogin || ""),
+            lastActivePath: "",
+            createdAt: String(d.createdAt || ""),
+          });
         });
-      });
+      }
 
       const loadedDownloads: FileDownloadStat[] = [];
-      downloadsSnap.forEach((docSnap) => {
-        const d = docSnap.data();
-        loadedDownloads.push({
-          fileName: String(d.fileName || docSnap.id),
-          downloadCount: Number(d.downloadCount || 0),
-          lastDownloaded: String(d.lastDownloaded || ""),
-          category: String(d.category || "Other"),
-          workshopName: String(d.workshopName || "Unknown"),
+      if (downloadsRes.status === "fulfilled") {
+        downloadsRes.value.forEach((docSnap) => {
+          const d = docSnap.data();
+          loadedDownloads.push({
+            fileName: String(d.fileName || docSnap.id),
+            downloadCount: Number(d.downloadCount || 0),
+            lastDownloaded: String(d.lastDownloaded || ""),
+            category: String(d.category || "Other"),
+            workshopName: String(d.workshopName || "Unknown"),
+          });
         });
-      });
+      }
 
       setDailyDocs(loadedDaily);
       setRolledCampaignDocs(loadedRolledCamps);

@@ -15,6 +15,7 @@ import {
   Send,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
 
 interface PortalLinkItem {
   name: string;
@@ -67,6 +68,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     if (!user) return false;
     // Admins have access to everything that requires a role
     if (user.roles?.includes("admin")) return true;
+    if (role === "board") return hasBoardOrAdminRole(user.roles);
     return Boolean(user.roles?.includes(role));
   };
 

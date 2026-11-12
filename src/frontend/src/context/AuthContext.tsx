@@ -129,7 +129,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const userDoc = await getDoc(userDocRef);
           
           if (userDoc.exists()) {
-            setUser(userDoc.data() as UserProfile);
+            const profile = userDoc.data() as UserProfile;
+            const email = (firebaseUser.email || profile.email || "").toLowerCase().trim();
+            if (email) {
+              const wlRoles = await fetchInitialRoles(email);
+              const mergedRoles = Array.from(
+                new Set([...(Array.isArray(profile.roles) ? profile.roles : []), ...wlRoles])
+              );
+              setUser({ ...profile, roles: mergedRoles });
+            } else {
+              setUser(profile);
+            }
           } else {
             // Fallback profile if Firestore document is missing
             const email = firebaseUser.email || "";

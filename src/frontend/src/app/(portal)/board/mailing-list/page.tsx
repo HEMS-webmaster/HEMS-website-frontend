@@ -34,6 +34,7 @@ import {
   normalizeSublistTag,
   parseMailchimpCsvExport,
 } from "@/utils/mailingTemplate";
+import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
 import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
 
 const SUGGESTED_SUBLIST_PRESETS = [
@@ -122,9 +123,7 @@ function formatDateAdded(iso: string | undefined): {
 
 export default function BoardMailingListPage() {
   const { user, loading } = useAuth();
-  const isAuthorized = Boolean(
-    user && (user.roles?.includes("board") || user.roles?.includes("admin"))
-  );
+  const isAuthorized = Boolean(user && hasBoardOrAdminRole(user.roles));
 
   const {
     subscribers,
