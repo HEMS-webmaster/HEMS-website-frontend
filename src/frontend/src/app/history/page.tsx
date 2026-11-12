@@ -71,14 +71,14 @@ export default function SocietyHistoryPage() {
             </div>
 
             <div className="lg:col-span-4 lg:justify-self-end">
-              <div className="inline-flex items-center gap-4 bg-white border border-slate-200/90 rounded-xl px-5 py-4 shadow-2xs">
+              <div className="inline-flex items-center gap-4 bg-white border border-slate-200/90 rounded-2xl px-4 py-3.5 shadow-2xs">
                 <img
                   src="/hemslogo.jpg"
                   alt="HEMS Society Official Emblem"
-                  width={56}
-                  height={56}
+                  width={3756}
+                  height={2594}
                   decoding="async"
-                  className="w-14 h-14 object-contain mix-blend-multiply shrink-0"
+                  className="w-24 sm:w-28 h-auto object-contain mix-blend-multiply shrink-0 block"
                 />
                 <div>
                   <div className="font-serif font-semibold text-slate-900 text-base">

@@ -78,14 +78,14 @@ export default function StudentAwardsClient() {
               Encouraging interest in Harsh-Environment Mass Spectrometry and rewarding the scientific merit and quality of graduate student research.
             </p>
           </div>
-          <div className="flex flex-col items-center p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center">
+          <div className="flex flex-col items-center p-3.5 sm:p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
             <img
               src="/hemslogo.jpg"
-              alt="HEMS Society Official Logo"
-              width={96}
-              height={96}
+              alt="Harsh-Environment Mass Spectrometry Society Emblem"
+              width={3756}
+              height={2594}
               decoding="async"
-              className="w-24 h-24 object-contain rounded-xl mix-blend-multiply bg-white p-1.5"
+              className="w-28 sm:w-32 h-auto object-contain rounded-lg mix-blend-multiply bg-white p-1 block"
             />
             <span className="text-[11px] font-medium text-slate-500 mt-1.5">Emerging Investigators</span>
           </div>

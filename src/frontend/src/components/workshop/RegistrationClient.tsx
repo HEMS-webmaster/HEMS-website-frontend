@@ -21,16 +21,28 @@ export default function RegistrationClient() {
   return (
     <>
       {/* Page Header */}
-      <header className="mb-10 border-b border-slate-200 pb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
-          <CreditCard size={14} className="text-primary shrink-0" /> Workshop Access • {workshop.workshop_ordinal} Workshop
+      <header className="mb-10 border-b border-slate-200 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
+            <CreditCard size={14} className="text-primary shrink-0" /> Workshop Access • {workshop.workshop_ordinal} Workshop
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
+            Workshop Registration
+          </h1>
+          <p className="text-slate-600 text-sm sm:text-base">
+            Attendee pricing tiers, milestone dates, and sponsorship options for the {workshop.workshop_ordinal} Harsh-Environment Mass Spectrometry Workshop ({workshop.target_window}).
+          </p>
         </div>
-        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 mb-2">
-          Workshop Registration
-        </h1>
-        <p className="text-slate-600 text-sm sm:text-base">
-          Attendee pricing tiers, milestone dates, and sponsorship options for the {workshop.workshop_ordinal} Harsh-Environment Mass Spectrometry Workshop ({workshop.target_window}).
-        </p>
+        <div className="flex flex-col items-center p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-2xs self-start sm:self-center shrink-0">
+          <img
+            src="/hemslogo.jpg"
+            alt="Harsh-Environment Mass Spectrometry Society Emblem"
+            width={3756}
+            height={2594}
+            decoding="async"
+            className="w-24 sm:w-28 h-auto object-contain rounded-lg mix-blend-multiply bg-white p-0.5 block"
+          />
+        </div>
       </header>
 
       {/* Pricing Grid */}

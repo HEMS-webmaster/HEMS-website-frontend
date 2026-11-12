@@ -59,15 +59,17 @@ All fonts MUST be self-hosted/optimized via Next.js `next/font/google` in `src/a
 1. **Analytical Graphics Over Sci-Fi Tropes:**
    - Visual centerpieces must reflect real mass spectrometry and field science: calibrated $m/z$ spectral plots (labeled molecular/fragment peaks such as $\text{H}_2\text{O}^+$, $\text{N}_2^+$, $\text{O}_2^+$, $\text{Ar}^+$, $\text{CO}_2^+$, $\text{SO}_2^+$ set in clean `Noto Sans` `tabular-nums`), authentic deployment photography, and structured archival ledgers.
 2. **Official Emblem (`hemslogo.jpg`):**
-   - Render with `mix-blend-multiply` inside a clean white frame (`bg-white`) at restrained architectural scales (`32px–40px` in the navbar brand lockup; `56px–72px` in formal society seals)—avoiding oversized `128px+` heavy-bordered boxes on every page.
+   - Because `hemslogo.jpg` (`3756×2594`) is a detailed `~3:2` landscape scientific emblem (depicting Earth's oceans encircled by five mass analyzers and a spacecraft), always frame it in its natural `~3:2` landscape proportion (`mix-blend-multiply` inside a clean `bg-white` card) rather than cramping it into tiny square boxes:
+     - **Global Navbar (`Navbar.tsx`):** `56px–70px` wide (`w-14 h-10 sm:w-[70px] sm:h-12`).
+     - **Homepage Hero Lockup, Footer & Subpage Headers:** `88px–144px` wide (`w-24` to `w-36`, `h-auto`), giving the HEMS emblem consistent, recognizable institutional presence across every public route and portal view.
 
 ---
 
 ## 5. Navigation, Chrome & Layout Architecture
 
 1. **Global Header (`Navbar.tsx`):**
-   - Clean translucent bar (`bg-white/90 backdrop-blur-md border-b border-slate-200/80`) with zero decorative background SVG waves.
-   - Left lockup: `36px` HEMS emblem + **HEMS Society** (`font-serif font-semibold`) + subtle `Est. 1999` sans-serif subtitle (`Noto Sans`, `text-[11px] font-medium text-slate-500`).
+   - Clean translucent bar (`bg-white/92 backdrop-blur-md border-b border-slate-200/85`) with zero decorative background SVG waves.
+   - Left lockup: `56px–70px` wide `3:2` HEMS emblem + **HEMS Society** (`font-serif font-semibold`) + subtle `Est. 1999 • 501(c)(3)` sans-serif subtitle (`Noto Sans`, `text-[11px] font-medium text-slate-500`).
    - Clear visitor-first navigation labels (**Home**, **2027 Workshop**, **About**, **History**, **Student Travel Awards**, **Archives** dropdown, and **Contact** CTA) with active-route underline indicators and a full **Mobile/Tablet Navigation Drawer** (`< 1024px`).
    - Internal **Committee Sign In** (`/auth`) lives discreetly in `Footer.tsx` when signed out; authenticated officers/reviewers still see their role badge & Admin Portal popover in `Navbar.tsx`.
 2. **Two Complementary Page Modes:**

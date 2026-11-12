@@ -151,15 +151,15 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full bg-white/92 backdrop-blur-md border-b border-slate-200/85">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-2">
+        <div className="flex items-center justify-between h-16 sm:h-[72px] gap-2">
           {/* Brand Lockup */}
           <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 min-w-0">
-            <div className="w-9 h-9 rounded-lg bg-white border border-slate-200 p-1 flex items-center justify-center shadow-2xs shrink-0">
+            <div className="w-14 h-10 sm:w-[70px] sm:h-12 rounded-lg bg-white border border-slate-200 px-1 py-0.5 flex items-center justify-center shadow-2xs shrink-0">
               <img
                 src="/hemslogo.jpg"
                 alt="HEMS Society Emblem"
-                width={36}
-                height={36}
+                width={3756}
+                height={2594}
                 decoding="async"
                 className="w-full h-full object-contain mix-blend-multiply"
               />
@@ -190,7 +190,7 @@ export default function Navbar() {
                 >
                   {item.label}
                   {active && (
-                    <span className="absolute inset-x-2 -bottom-[13px] h-[2px] bg-primary rounded-full" />
+                    <span className="absolute inset-x-2 -bottom-[17px] h-[2px] bg-primary rounded-full" />
                   )}
                 </Link>
               );
@@ -231,7 +231,7 @@ export default function Navbar() {
                   />
                 </button>
                 {isArchiveActive && (
-                  <span className="absolute inset-x-2 -bottom-[13px] h-[2px] bg-primary rounded-full" />
+                  <span className="absolute inset-x-2 -bottom-[17px] h-[2px] bg-primary rounded-full" />
                 )}
               </div>
 
@@ -390,7 +390,7 @@ export default function Navbar() {
 
       {/* Mobile & Portrait-Tablet Navigation Drawer (< 1024px) */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white px-4 sm:px-6 pt-3 pb-6 space-y-1.5 shadow-xl max-h-[calc(100dvh-4rem)] overflow-y-auto">
+        <div className="lg:hidden border-t border-slate-200 bg-white px-4 sm:px-6 pt-3 pb-6 space-y-1.5 shadow-xl max-h-[calc(100dvh-4rem)] sm:max-h-[calc(100dvh-4.5rem)] overflow-y-auto">
           {PRIMARY_LINKS.map((item) => {
             const active = isActive(item.href);
 

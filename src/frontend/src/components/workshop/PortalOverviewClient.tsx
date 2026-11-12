@@ -40,7 +40,7 @@ export default function PortalOverviewClient() {
 
   return (
     <>
-      <header className="mb-10 border-b border-slate-200 pb-8 flex items-center justify-between gap-6">
+      <header className="mb-10 border-b border-slate-200 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
           <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.14em] text-primary block mb-1.5">
             Biennial Symposium Hub • {workshop.target_window}
@@ -52,14 +52,16 @@ export default function PortalOverviewClient() {
             Central hub for {workshop.workshop_ordinal} Workshop ({workshop.target_window}) planning, authors, attendees, and corporate sponsors.
           </p>
         </div>
-        <img
-          src="/hemslogo.jpg"
-          alt="HEMS Logo"
-          width={64}
-          height={64}
-          decoding="async"
-          className="w-16 h-16 object-contain rounded-lg border border-slate-200 mix-blend-multiply bg-white p-1 hidden sm:block"
-        />
+        <div className="flex flex-col items-center p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-2xs self-start sm:self-center shrink-0">
+          <img
+            src="/hemslogo.jpg"
+            alt="Harsh-Environment Mass Spectrometry Society Emblem"
+            width={3756}
+            height={2594}
+            decoding="async"
+            className="w-24 sm:w-28 h-auto object-contain rounded-lg mix-blend-multiply bg-white p-0.5 block"
+          />
+        </div>
       </header>
 
       {/* Coastal Symposium Visual Banner */}

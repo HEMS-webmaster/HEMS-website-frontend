@@ -117,7 +117,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   return (
     <div className="flex flex-col flex-grow bg-surface border-t border-foreground/5">
       {/* Mobile & Portrait-Tablet Horizontal Portal Sub-Navigation (< 1024px) */}
-      <div className="lg:hidden sticky top-16 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90">
+      <div className="lg:hidden sticky top-16 sm:top-[72px] z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90">
         <nav
           aria-label="Workshop portal navigation"
           className="flex items-center gap-2 overflow-x-auto no-scrollbar px-4 sm:px-6 py-2.5"
@@ -168,6 +168,27 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         {/* Desktop & Landscape-Tablet Left Sidebar Nav (1024px+) */}
         <aside className="w-full lg:w-64 bg-background border-r border-foreground/10 flex-shrink-0 py-8 px-4 hidden lg:flex flex-col justify-between">
           <div className="sticky top-24">
+            <Link
+              href="/layout-portal"
+              className="flex items-center gap-3 p-3 mb-6 bg-white border border-slate-200/90 rounded-xl shadow-2xs hover:border-primary/40 transition-colors group"
+            >
+              <img
+                src="/hemslogo.jpg"
+                alt="HEMS Society Emblem"
+                width={3756}
+                height={2594}
+                decoding="async"
+                className="w-16 h-auto object-contain rounded-md mix-blend-multiply shrink-0 block"
+              />
+              <div className="min-w-0">
+                <span className="block font-serif text-sm font-semibold text-primary leading-tight group-hover:underline">
+                  HEMS Society
+                </span>
+                <span className="block text-[11px] font-medium text-slate-500 leading-snug">
+                  Workshop Portal
+                </span>
+              </div>
+            </Link>
             {renderNavSection("Workshop Portal", portalLinks)}
             {(hasRole("admin") || hasRole("board")) && renderNavSection("Administration", adminLinks)}
           </div>

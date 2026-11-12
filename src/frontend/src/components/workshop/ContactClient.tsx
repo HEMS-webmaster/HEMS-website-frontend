@@ -70,20 +70,34 @@ export default function ContactClient() {
 
   return (
     <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-      <div className="mb-10 sm:mb-12 pb-8 border-b border-slate-200">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
-          <Mail size={14} className="text-primary shrink-0" /> Official Society Communications
+      <div className="mb-10 sm:mb-12 pb-8 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-8">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
+            <Mail size={14} className="text-primary shrink-0" /> Official Society Communications
+          </div>
+          <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-slate-900">
+            Contact the <span className="text-primary italic font-normal">HEMS</span> Society
+          </h1>
+          <p className="text-base md:text-lg text-slate-600 max-w-2xl leading-relaxed">
+            Get in touch with the HEMS Society organizing committee regarding the {workshop.workshop_ordinal} Workshop ({workshop.target_window}), proceedings,{" "}
+            <Link href="/corporate-sponsorship" className="text-primary font-semibold hover:underline">
+              corporate sponsorships
+            </Link>
+            , or general inquiries.
+          </p>
         </div>
-        <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-slate-900">
-          Contact the <span className="text-primary italic font-normal">HEMS</span> Society
-        </h1>
-        <p className="text-base md:text-lg text-slate-600 max-w-2xl leading-relaxed">
-          Get in touch with the HEMS Society organizing committee regarding the {workshop.workshop_ordinal} Workshop ({workshop.target_window}), proceedings,{" "}
-          <Link href="/corporate-sponsorship" className="text-primary font-semibold hover:underline">
-            corporate sponsorships
-          </Link>
-          , or general inquiries.
-        </p>
+
+        <div className="flex flex-col items-center p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
+          <img
+            src="/hemslogo.jpg"
+            alt="HEMS Society Official Emblem"
+            width={3756}
+            height={2594}
+            decoding="async"
+            className="w-28 sm:w-32 h-auto object-contain rounded-lg mix-blend-multiply bg-white p-1 block"
+          />
+          <span className="text-[11px] font-medium text-slate-500 mt-1.5">Organizing Committee</span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">

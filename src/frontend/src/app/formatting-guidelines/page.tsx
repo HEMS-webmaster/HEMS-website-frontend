@@ -66,8 +66,20 @@ export default function FormattingGuidelines() {
 
       {/* Page Header */}
       <header className="text-center max-w-3xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium mb-5 shadow-2xs">
-          <Layout size={15} className="text-primary" /> Author Resources
+        <div className="inline-flex flex-col items-center p-3 bg-white border border-slate-200 rounded-2xl shadow-2xs mb-5">
+          <img
+            src="/hemslogo.jpg"
+            alt="Harsh-Environment Mass Spectrometry Society Emblem"
+            width={3756}
+            height={2594}
+            decoding="async"
+            className="w-24 sm:w-28 h-auto object-contain rounded-lg mix-blend-multiply bg-white p-0.5 block"
+          />
+        </div>
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium mb-5 shadow-2xs">
+            <Layout size={15} className="text-primary" /> Author Resources
+          </div>
         </div>
         <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-slate-900">
           Formatting <span className="text-primary italic font-normal">Guidelines</span>

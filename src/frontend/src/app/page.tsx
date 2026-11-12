@@ -153,11 +153,30 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-12 lg:gap-10 items-center">
             {/* Left Editorial Narrative (7 Columns) */}
             <div className="lg:col-span-7 space-y-4 sm:space-y-6">
-              <div className="hidden md:block space-y-3">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                  Harsh-Environment Mass Spectrometry Society
-                </p>
-                <UpcomingHeroBadge />
+              <div className="space-y-3">
+                <div className="flex items-center gap-3.5 sm:gap-4">
+                  <div className="w-24 sm:w-32 lg:w-36 rounded-xl bg-white border border-slate-200/95 p-1.5 sm:p-2 shadow-2xs shrink-0">
+                    <img
+                      src="/hemslogo.jpg"
+                      alt="Harsh-Environment Mass Spectrometry Society Official Emblem"
+                      width={3756}
+                      height={2594}
+                      decoding="async"
+                      className="w-full h-auto object-contain mix-blend-multiply block"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-serif text-xl sm:text-2xl lg:text-3xl font-semibold text-primary tracking-tight leading-snug">
+                      Harsh-Environment Mass Spectrometry Society
+                    </p>
+                    <p className="text-xs sm:text-[13px] font-medium text-slate-500 mt-0.5 tabular-nums">
+                      All-Volunteer 501(c)(3) Scientific Forum • Est. 1999
+                    </p>
+                  </div>
+                </div>
+                <div className="hidden md:block pt-1">
+                  <UpcomingHeroBadge />
+                </div>
               </div>
 
               <h1 className="font-serif text-3xl sm:text-5xl lg:text-[3.35rem] font-semibold text-slate-900 tracking-tight leading-[1.12] sm:leading-[1.1]">
@@ -653,10 +672,21 @@ export default function Home() {
 
               {/* Industry Partnership & Non-Profit Charter Card */}
               <div className="p-6 rounded-2xl bg-slate-900 text-slate-100 space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-3">
                   <span className="inline-flex items-center gap-1.5 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sky-300">
-                    <ShieldCheck size={14} /> All-Volunteer 501(c)(3) Society
+                    <ShieldCheck size={14} className="shrink-0" /> All-Volunteer 501(c)(3) Society
                   </span>
+                  <div className="w-16 sm:w-20 rounded-lg bg-white p-1 shadow-xs shrink-0">
+                    <img
+                      src="/hemslogo.jpg"
+                      alt="HEMS Society Official Emblem"
+                      width={3756}
+                      height={2594}
+                      decoding="async"
+                      loading="lazy"
+                      className="w-full h-auto object-contain mix-blend-multiply block"
+                    />
+                  </div>
                 </div>
                 <h3 className="font-serif text-xl font-semibold text-white">
                   Sustained by Community &amp; Industry Partners

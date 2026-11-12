@@ -6,23 +6,24 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
           {/* Column 1: Society Identity */}
-          <div className="sm:col-span-2 lg:col-span-5 space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-white border border-slate-200 p-1 flex items-center justify-center shrink-0">
+          <div className="sm:col-span-2 lg:col-span-5 space-y-3.5">
+            <div className="flex items-center gap-3.5">
+              <div className="w-24 sm:w-28 rounded-xl bg-white border border-slate-200 p-1.5 flex items-center justify-center shadow-2xs shrink-0">
                 <img
                   src="/hemslogo.jpg"
                   alt="HEMS Society Emblem"
-                  width={36}
-                  height={36}
+                  width={3756}
+                  height={2594}
                   decoding="async"
-                  className="w-full h-full object-contain mix-blend-multiply"
+                  loading="lazy"
+                  className="w-full h-auto object-contain mix-blend-multiply block"
                 />
               </div>
               <div className="min-w-0">
-                <h3 className="font-serif font-semibold text-base sm:text-lg text-slate-900 leading-tight">
+                <h3 className="font-serif font-semibold text-lg sm:text-xl text-slate-900 leading-snug">
                   Harsh-Environment Mass Spectrometry Society
                 </h3>
-                <p className="text-[11px] font-medium text-slate-500 mt-0.5 tabular-nums">
+                <p className="text-xs font-medium text-slate-500 mt-0.5 tabular-nums">
                   501(c)(3) Scientific Organization • Est. 1999
                 </p>
               </div>
