@@ -13,8 +13,9 @@ import {
   SaveAbstractReviewInput,
 } from "@/types/abstractSubmission";
 
-const LEGACY_SUBMISSIONS_STORAGE_KEY = "hems_abstract_submissions_v1";
-const SUBMISSIONS_STORAGE_KEY = "hems_abstract_submissions_v2";
+const LEGACY_V1_STORAGE_KEY = "hems_abstract_submissions_v1";
+const LEGACY_V2_STORAGE_KEY = "hems_abstract_submissions_v2";
+const SUBMISSIONS_STORAGE_KEY = "hems_abstract_submissions_v3";
 const SUBMISSIONS_SYNC_EVENT = "hems-abstracts-updated";
 const IDB_NAME = "hems_abstract_files_idb";
 const IDB_VERSION = 1;
@@ -30,8 +31,16 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     affiliation: "Woods Hole Oceanographic Institution",
     coAuthors: "M. Alvarez, K. Sato",
     affiliations: [
-      { id: "aff-1", institution: "Woods Hole Oceanographic Institution, Woods Hole, MA" },
-      { id: "aff-2", institution: "Monterey Bay Aquarium Research Institute, Moss Landing, CA" },
+      {
+        id: "aff-1",
+        institution: "Woods Hole Oceanographic Institution",
+        location: "Woods Hole, MA, USA",
+      },
+      {
+        id: "aff-2",
+        institution: "Monterey Bay Aquarium Research Institute",
+        location: "Moss Landing, CA, USA",
+      },
     ],
     authors: [
       { id: "auth-1", name: "Dr. Alice Vance", affiliationId: "aff-1", isPresenter: true },
@@ -43,7 +52,10 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     summary:
       "AUV-integrated membrane-inlet quadrupole calibrated for real-time C₁–C₇ alkane, BTEX, and dissolved CO₂ profiling to 4,000 m depth.",
     abstractText:
-      "In-situ geochemical mapping of hydrothermal vents and subseafloor hydrocarbon seeps requires compact mass analyzers capable of continuous dissolved-gas quantification at 40 MPa hydrostatic head. We present a 14 W triple-filter hyperbolic quadrupole mass spectrometer (m/z 2–200, Δm = 0.6 Da at FWHM) coupled behind a reinforced 25 μm polydimethylsiloxane (PDMS) capillary membrane inlet heated to 45 °C.\n\nBy stabilizing source electron emission at 70 eV and regulating foreline pressure to 1.4 × 10⁻⁶ Torr via a Ti-housing turbomolecular drag stage, permeation response times (τ₉₀) dropped below 18 s for CH₄, C₂H₆, benzene, and toluene. Across 42 hours of autonomous seabed deployment in the Guaymas Basin, calibrated sensitivity reached 1.2 nmol·L⁻¹ for dissolved CO₂ and H₂S while resolving isotopic methane ratios δ¹³C-CH₄ within ±1.8‰.",
+      "In-situ geochemical mapping of hydrothermal vents and subseafloor hydrocarbon seeps requires compact mass analyzers capable of continuous dissolved-gas quantification at 40 MPa hydrostatic head. We present a <b>14 W triple-filter hyperbolic quadrupole</b> (<i>m/z</i> 2–200, Δm = 0.6 Da at FWHM) coupled behind a reinforced 25 μm polydimethylsiloxane (PDMS) capillary membrane inlet heated to 45 °C.\n\nBy stabilizing source electron emission at 70 eV and regulating foreline pressure to 1.4 × 10<sup>-6</sup> Torr via a Ti-housing turbomolecular drag stage, permeation response times (τ<sub>90</sub>) dropped below 18 s for CH<sub>4</sub>, C<sub>2</sub>H<sub>6</sub>, benzene, and toluene. Across 42 hours of autonomous seabed deployment in the Guaymas Basin, calibrated sensitivity reached 1.2 nmol·L<sup>-1</sup> for dissolved CO<sub>2</sub> and H<sub>2</sub>S while resolving δ<sup>13</sup>C-CH<sub>4</sub> within ±1.8‰.",
+    keywords: "subsea mass spectrometry, MIMS, AUV, hydrothermal plumes, C1-C7 hydrocarbons",
+    presenterBio:
+      "Dr. Alice Vance is an Associate Scientist in the Department of Applied Ocean Physics & Engineering at WHOI, leading in-situ chemical sensor integration on deep-submergence autonomous underwater vehicles.",
     studentTravelAwardApplicant: false,
     submittedByUid: "sample-001",
     submittedByEmail: "avance@whoi.example.org",
@@ -63,8 +75,16 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     affiliation: "Scripps Institution of Oceanography, UC San Diego",
     coAuthors: "J. Nguyen, L. Park",
     affiliations: [
-      { id: "aff-1", institution: "Scripps Institution of Oceanography, UC San Diego, La Jolla, CA" },
-      { id: "aff-2", institution: "University of Colorado Boulder, INSTAAR, Boulder, CO" },
+      {
+        id: "aff-1",
+        institution: "Scripps Institution of Oceanography, UC San Diego",
+        location: "La Jolla, CA, USA",
+      },
+      {
+        id: "aff-2",
+        institution: "University of Colorado Boulder, INSTAAR",
+        location: "Boulder, CO, USA",
+      },
     ],
     authors: [
       { id: "auth-1", name: "Prof. Robert Chen", affiliationId: "aff-1", isPresenter: true },
@@ -76,7 +96,10 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     summary:
       "Cold-tolerant PDMS membrane pre-concentrators coupled with a 12 W cylindrical ion trap MS during polar firn air field campaigns.",
     abstractText:
-      "Quantifying volatile organic halocarbons and biogenic sulfur species in polar firn air at -35 °C demands sub-pptv detection limits without liquid cryogens or bulky cylinder banks. We fabricated a 4-channel micro-machined cylindrical ion trap array (r₀ = 2.5 mm) integrated with a dual-bed Carboxen/PDMS thermal desorption trap consuming ≤12 W average power.\n\nFollowing the Mathieu stability criterion $q_z = \\frac{4eV}{m r_0^2 \\Omega^2}$ at Ω/2π = 1.45 MHz, resonance ejection scans achieved unit mass resolution through m/z 310 with duty cycles exceeding 65%. Field deployment at Summit Station demonstrated linear calibration (R² = 0.998) across 5–500 pptv for DMS, CH₃Br, and trichlorofluoromethane, maintaining <3.2% RSD across ambient pressure swings.",
+      "Quantifying volatile organic halocarbons and biogenic sulfur species in polar firn air at -35 °C demands sub-pptv detection limits without liquid cryogens or bulky cylinder banks. We fabricated a 4-channel micro-machined cylindrical ion trap array (r<sub>0</sub> = 2.5 mm) integrated with a dual-bed Carboxen/PDMS thermal desorption trap consuming ≤12 W average power.\n\nFollowing the Mathieu stability criterion $q_z = \\frac{4eV}{m r_0^2 \\Omega^2}$ at Ω/2π = 1.45 MHz, resonance ejection scans achieved unit mass resolution through <i>m/z</i> 310 with duty cycles exceeding 65%. Field deployment at Summit Station demonstrated linear calibration (R<sup>2</sup> = 0.998) across 5–500 pptv for DMS, CH<sub>3</sub>Br, and trichlorofluoromethane.",
+    keywords: "cylindrical ion trap, polar firn air, trace VOCs, thermal desorption, cryogen-free",
+    presenterBio:
+      "Prof. Robert Chen directs the Field Analytical Atmospheric Chemistry Laboratory at Scripps Institution of Oceanography, focusing on autonomous polar and alpine trace-gas instrumentation.",
     studentTravelAwardApplicant: false,
     submittedByUid: "sample-002",
     submittedByEmail: "rchen@ucsd.example.edu",
@@ -100,7 +123,11 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     affiliation: "NASA Jet Propulsion Laboratory / Caltech",
     coAuthors: "D. Patel",
     affiliations: [
-      { id: "aff-1", institution: "NASA Jet Propulsion Laboratory / Caltech, Pasadena, CA" },
+      {
+        id: "aff-1",
+        institution: "NASA Jet Propulsion Laboratory / Caltech",
+        location: "Pasadena, CA, USA",
+      },
     ],
     authors: [
       { id: "auth-1", name: "Elena Rostova", affiliationId: "aff-1", isPresenter: true },
@@ -111,7 +138,10 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     summary:
       "Dual-stage reflectron mass resolution vs. cryogenic gas load constraints for hypervelocity ice-grain sampling on Enceladus.",
     abstractText:
-      "Hypervelocity flybys (3–6 km·s⁻¹) through icy moon plumes generate transient impact ionization bursts characterized by wide axial energy spreads (ΔE ≥ 35 eV) alongside high H₂O vapor densities. Using SIMION 8.2 Monte Carlo ray tracing and laboratory laser-desorption analogs, we optimized a compact dual-stage gridless reflectron ToF analyzer with a total flight path L = 240 mm.\n\nUnder the kinetic time-focusing relation $\\frac{m}{z} = \\frac{2Vt^2}{L^2}$, second-order energy compensation preserved mass resolving power m/Δm > 2,400 across m/z 18–500 (including protonated amino-acid clusters [M+H]⁺) even when chamber background pressure spiked momentarily to 2.1 × 10⁻⁵ Torr. Vibration qualification to 18 g_rms confirmed <0.4 mDa mass-scale drift without active thermal stabilization.",
+      "Hypervelocity flybys (3–6 km·s<sup>-1</sup>) through icy moon plumes generate transient impact ionization bursts characterized by wide axial energy spreads (ΔE ≥ 35 eV) alongside high H<sub>2</sub>O vapor densities. Using SIMION 8.2 Monte Carlo ray tracing and laboratory laser-desorption analogs, we optimized a compact dual-stage gridless reflectron ToF analyzer with a total flight path <i>L</i> = 240 mm.\n\nUnder the kinetic time-focusing relation $\\frac{m}{z} = \\frac{2Vt^2}{L^2}$, second-order energy compensation preserved mass resolving power m/Δm > 2,400 across <i>m/z</i> 18–500 (including protonated amino-acid clusters [M+H]<sup>+</sup>) even during transient 2.1 × 10<sup>-5</sup> Torr gas loads.",
+    keywords: "time-of-flight, reflectron, Enceladus, impact ionization, planetary mass spectrometry",
+    presenterBio:
+      "Elena Rostova is a Ph.D. candidate in Planetary Instrumentation at Caltech and NASA JPL researching miniaturized reflectron optics for ocean-world biosignature detection.",
     studentTravelAwardApplicant: true,
     submittedByUid: "sample-003",
     submittedByEmail: "erostova@jpl.example.gov",
@@ -223,6 +253,26 @@ function sortNewestFirst(items: AbstractSubmissionRecord[]): AbstractSubmissionR
   });
 }
 
+function readLegacyNonSeedSubmissions(): AbstractSubmissionRecord[] {
+  const byId = new Map<string, AbstractSubmissionRecord>();
+  for (const key of [LEGACY_V2_STORAGE_KEY, LEGACY_V1_STORAGE_KEY]) {
+    try {
+      const raw = window.localStorage.getItem(key);
+      if (!raw) continue;
+      const parsed = JSON.parse(raw) as unknown;
+      if (!Array.isArray(parsed)) continue;
+      for (const item of parsed as AbstractSubmissionRecord[]) {
+        if (item?.id && !item.isSampleSeed && !byId.has(item.id)) {
+          byId.set(item.id, item);
+        }
+      }
+    } catch {
+      // Ignore malformed legacy storage entry
+    }
+  }
+  return Array.from(byId.values());
+}
+
 function readLocalSubmissions(): AbstractSubmissionRecord[] {
   if (typeof window === "undefined") return INITIAL_SAMPLE_SUBMISSIONS;
   try {
@@ -234,20 +284,11 @@ function readLocalSubmissions(): AbstractSubmissionRecord[] {
       }
     }
 
-    // Migrate non-seed user submissions from v1 if present
-    const legacyRaw = window.localStorage.getItem(LEGACY_SUBMISSIONS_STORAGE_KEY);
-    let initialRecords = INITIAL_SAMPLE_SUBMISSIONS;
-    if (legacyRaw) {
-      const legacyParsed = JSON.parse(legacyRaw) as unknown;
-      if (Array.isArray(legacyParsed)) {
-        const userCreated = (legacyParsed as AbstractSubmissionRecord[]).filter(
-          (item) => item && !item.isSampleSeed
-        );
-        if (userCreated.length > 0) {
-          initialRecords = sortNewestFirst([...userCreated, ...INITIAL_SAMPLE_SUBMISSIONS]);
-        }
-      }
-    }
+    const legacyUserItems = readLegacyNonSeedSubmissions();
+    const initialRecords =
+      legacyUserItems.length > 0
+        ? sortNewestFirst([...legacyUserItems, ...INITIAL_SAMPLE_SUBMISSIONS])
+        : INITIAL_SAMPLE_SUBMISSIONS;
 
     window.localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(initialRecords));
     return initialRecords;
@@ -326,7 +367,14 @@ function deriveLegacyAuthorFields(
   affiliation: string;
   coAuthors: string;
 } {
-  const affLookup = new Map(affiliations.map((a) => [a.id, a.institution.trim()]));
+  const affLookup = new Map(
+    affiliations.map((a) => [
+      a.id,
+      a.location?.trim()
+        ? `${a.institution.trim()}, ${a.location.trim()}`
+        : a.institution.trim(),
+    ])
+  );
   const cleanAuthors = authors.filter((a) => a.name.trim().length > 0);
   const presenters = cleanAuthors.filter((a) => a.isPresenter);
   const primaryPresenter = presenters[0] || cleanAuthors[0];
@@ -345,10 +393,15 @@ function deriveLegacyAuthorFields(
     .map((a) => a.name.trim())
     .join(", ");
 
+  const firstAffEntry = affiliations.find((a) => a.institution.trim().length > 0);
+  const fallbackAff = firstAffEntry
+    ? firstAffEntry.location?.trim()
+      ? `${firstAffEntry.institution.trim()}, ${firstAffEntry.location.trim()}`
+      : firstAffEntry.institution.trim()
+    : "";
+
   const primaryAff =
-    (primaryPresenter && affLookup.get(primaryPresenter.affiliationId)) ||
-    affiliations.find((a) => a.institution.trim().length > 0)?.institution.trim() ||
-    "";
+    (primaryPresenter && affLookup.get(primaryPresenter.affiliationId)) || fallbackAff;
 
   return {
     presentingAuthor: presenterNames,
@@ -429,10 +482,15 @@ export function useAbstractSubmissions() {
         const id = generateSubmissionId(input.workshopYear, current);
         const nowIso = new Date().toISOString();
 
-        const cleanAffiliations = input.affiliations
-          .map((a) => ({ id: a.id, institution: a.institution.trim() }))
+        const cleanAffiliations: AffiliationEntry[] = input.affiliations
+          .map((a) => ({
+            id: a.id,
+            institution: a.institution.trim(),
+            location: (a.location || "").trim(),
+          }))
           .filter((a) => a.institution.length > 0);
-        const cleanAuthors = input.authors
+
+        const cleanAuthors: AuthorEntry[] = input.authors
           .map((a) => ({
             id: a.id,
             name: a.name.trim(),
@@ -443,7 +501,6 @@ export function useAbstractSubmissions() {
 
         const derived = deriveLegacyAuthorFields(cleanAuthors, cleanAffiliations);
 
-        // Optional PDF storage
         let pdfStorageUrl: string | undefined;
         let storedPdfLocally = false;
         if (assets?.pdfFile) {
@@ -468,7 +525,6 @@ export function useAbstractSubmissions() {
           }
         }
 
-        // Optional 300-DPI graphic storage
         let graphicRecord: GraphicMetadata | undefined;
         if (assets?.graphicFile && assets.graphicMeta) {
           const storedGraphicLocally = await putBlob(
@@ -514,6 +570,9 @@ export function useAbstractSubmissions() {
           title: input.title.trim(),
           presentingAuthor: (input.presentingAuthor || derived.presentingAuthor).trim(),
           correspondingEmail: input.correspondingEmail.trim(),
+          ...(input.secondaryEmail?.trim()
+            ? { secondaryEmail: input.secondaryEmail.trim() }
+            : {}),
           affiliation: (input.affiliation || derived.affiliation).trim(),
           coAuthors: (input.coAuthors ?? derived.coAuthors).trim(),
           affiliations: cleanAffiliations,
@@ -522,6 +581,8 @@ export function useAbstractSubmissions() {
           researchTrack: input.researchTrack,
           summary: input.summary.trim(),
           abstractText: input.abstractText.trim(),
+          keywords: input.keywords.trim(),
+          presenterBio: input.presenterBio.trim(),
           ...(graphicRecord ? { graphic: graphicRecord } : {}),
           studentTravelAwardApplicant: input.studentTravelAwardApplicant,
           ...(assets?.pdfFile

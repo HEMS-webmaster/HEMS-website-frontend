@@ -21,7 +21,10 @@ export type ReviewDecision =
   | "Decline";
 
 export const SYNOPSIS_MAX_CHARS = 200;
-export const ABSTRACT_MAX_CHARS = 1500;
+export const ABSTRACT_MAX_CHARS = 3000;
+export const CAPTION_MAX_CHARS = 300;
+export const KEYWORDS_MAX_CHARS = 150;
+export const BIO_MAX_CHARS = 500;
 export const MIN_GRAPHIC_DPI = 300;
 
 export const PRESENTATION_FORMAT_OPTIONS: readonly PresentationFormat[] = [
@@ -42,6 +45,7 @@ export const RESEARCH_TRACK_OPTIONS: readonly ResearchTrack[] = [
 export interface AffiliationEntry {
   id: string;
   institution: string;
+  location?: string;
 }
 
 export interface AuthorEntry {
@@ -72,6 +76,7 @@ export interface AbstractSubmissionRecord {
   title: string;
   presentingAuthor: string;
   correspondingEmail: string;
+  secondaryEmail?: string;
   affiliation: string;
   coAuthors: string;
   affiliations?: AffiliationEntry[];
@@ -80,6 +85,8 @@ export interface AbstractSubmissionRecord {
   researchTrack: ResearchTrack;
   summary: string;
   abstractText?: string;
+  keywords?: string;
+  presenterBio?: string;
   graphic?: GraphicMetadata;
   studentTravelAwardApplicant: boolean;
   fileName?: string;
@@ -106,6 +113,7 @@ export interface CreateAbstractSubmissionInput {
   title: string;
   presentingAuthor?: string;
   correspondingEmail: string;
+  secondaryEmail?: string;
   affiliation?: string;
   coAuthors?: string;
   affiliations: AffiliationEntry[];
@@ -114,6 +122,8 @@ export interface CreateAbstractSubmissionInput {
   researchTrack: ResearchTrack;
   summary: string;
   abstractText: string;
+  keywords: string;
+  presenterBio: string;
   graphicCaption?: string;
   studentTravelAwardApplicant: boolean;
   deadline: string;

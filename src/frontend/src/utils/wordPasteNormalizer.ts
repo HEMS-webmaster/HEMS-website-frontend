@@ -3,11 +3,77 @@ import type React from "react";
 export interface WordPasteOptions {
   multiline?: boolean;
   maxChars?: number;
+  preserveInlineFormatting?: boolean;
+  countVisibleOnly?: boolean;
 }
 
 export interface WordPasteResult {
   text: string;
   truncatedChars: number;
+}
+
+const INLINE_FORMAT_TAG_REGEX = /<\/?(?:b|i|u|sub|sup)>/gi;
+
+export function stripFormattingTags(input: string): string {
+  if (!input) return "";
+  return input.replace(INLINE_FORMAT_TAG_REGEX, "");
+}
+
+export function countVisibleChars(input: string): number {
+  return stripFormattingTags(input).length;
+}
+
+export function slicePreservingTags(
+  input: string,
+  maxVisibleChars: number
+): { text: string; truncatedChars: number } {
+  if (maxVisibleChars <= 0) {
+    return { text: "", truncatedChars: countVisibleChars(input) };
+  }
+
+  const totalVisible = countVisibleChars(input);
+  if (totalVisible <= maxVisibleChars) {
+    return { text: input, truncatedChars: 0 };
+  }
+
+  let out = "";
+  let visibleCount = 0;
+  let i = 0;
+  const openStack: string[] = [];
+
+  while (i < input.length && visibleCount < maxVisibleChars) {
+    if (input[i] === "<") {
+      const rest = input.slice(i);
+      const tagMatch = rest.match(/^<(\/?)(b|i|u|sub|sup)>/i);
+      if (tagMatch) {
+        const isClosing = tagMatch[1] === "/";
+        const tagName = tagMatch[2].toLowerCase();
+        out += `<${isClosing ? "/" : ""}${tagName}>`;
+        if (!isClosing) {
+          openStack.push(tagName);
+        } else {
+          const lastIdx = openStack.lastIndexOf(tagName);
+          if (lastIdx >= 0) openStack.splice(lastIdx, 1);
+        }
+        i += tagMatch[0].length;
+        continue;
+      }
+    }
+
+    out += input[i];
+    visibleCount += 1;
+    i += 1;
+  }
+
+  while (openStack.length > 0) {
+    const tag = openStack.pop();
+    if (tag) out += `</${tag}>`;
+  }
+
+  return {
+    text: out,
+    truncatedChars: Math.max(0, totalVisible - maxVisibleChars),
+  };
 }
 
 const SUPERSCRIPT_MAP: Record<string, string> = {
@@ -146,7 +212,7 @@ const SYMBOL_FONT_MAP: Record<string, string> = {
 };
 
 const MATH_SPECIAL_OVERRIDES: Record<number, string> = {
-  0x210e: "h", // Planck constant
+  0x210e: "h",
   0x1d455: "h",
   0x212c: "B",
   0x2130: "E",
@@ -175,34 +241,33 @@ function mapMathCodePoint(cp: number): string {
   const override = MATH_SPECIAL_OVERRIDES[cp];
   if (override) return override;
 
-  // Mathematical Bold / Italic / Bold Italic / Script / Fraktur / Double-struck / Sans-Serif / Monospace
   const latinRanges: Array<[number, number, number]> = [
-    [0x1d400, 0x1d419, 65], // Bold A-Z
-    [0x1d41a, 0x1d433, 97], // Bold a-z
-    [0x1d434, 0x1d44d, 65], // Italic A-Z
-    [0x1d44e, 0x1d467, 97], // Italic a-z
-    [0x1d468, 0x1d481, 65], // Bold Italic A-Z
-    [0x1d482, 0x1d49b, 97], // Bold Italic a-z
-    [0x1d49c, 0x1d4b5, 65], // Script A-Z
-    [0x1d4b6, 0x1d4cf, 97], // Script a-z
-    [0x1d4d0, 0x1d4e9, 65], // Bold Script A-Z
-    [0x1d4ea, 0x1d503, 97], // Bold Script a-z
-    [0x1d504, 0x1d51d, 65], // Fraktur A-Z
-    [0x1d51e, 0x1d537, 97], // Fraktur a-z
-    [0x1d538, 0x1d551, 65], // Double-struck A-Z
-    [0x1d552, 0x1d56b, 97], // Double-struck a-z
-    [0x1d56c, 0x1d585, 65], // Bold Fraktur A-Z
-    [0x1d586, 0x1d59f, 97], // Bold Fraktur a-z
-    [0x1d5a0, 0x1d5b9, 65], // Sans A-Z
-    [0x1d5ba, 0x1d5d3, 97], // Sans a-z
-    [0x1d5d4, 0x1d5ed, 65], // Sans Bold A-Z
-    [0x1d5ee, 0x1d607, 97], // Sans Bold a-z
-    [0x1d608, 0x1d621, 65], // Sans Italic A-Z
-    [0x1d622, 0x1d63b, 97], // Sans Italic a-z
-    [0x1d63c, 0x1d655, 65], // Sans Bold Italic A-Z
-    [0x1d656, 0x1d66f, 97], // Sans Bold Italic a-z
-    [0x1d670, 0x1d689, 65], // Monospace A-Z
-    [0x1d68a, 0x1d6a3, 97], // Monospace a-z
+    [0x1d400, 0x1d419, 65],
+    [0x1d41a, 0x1d433, 97],
+    [0x1d434, 0x1d44d, 65],
+    [0x1d44e, 0x1d467, 97],
+    [0x1d468, 0x1d481, 65],
+    [0x1d482, 0x1d49b, 97],
+    [0x1d49c, 0x1d4b5, 65],
+    [0x1d4b6, 0x1d4cf, 97],
+    [0x1d4d0, 0x1d4e9, 65],
+    [0x1d4ea, 0x1d503, 97],
+    [0x1d504, 0x1d51d, 65],
+    [0x1d51e, 0x1d537, 97],
+    [0x1d538, 0x1d551, 65],
+    [0x1d552, 0x1d56b, 97],
+    [0x1d56c, 0x1d585, 65],
+    [0x1d586, 0x1d59f, 97],
+    [0x1d5a0, 0x1d5b9, 65],
+    [0x1d5ba, 0x1d5d3, 97],
+    [0x1d5d4, 0x1d5ed, 65],
+    [0x1d5ee, 0x1d607, 97],
+    [0x1d608, 0x1d621, 65],
+    [0x1d622, 0x1d63b, 97],
+    [0x1d63c, 0x1d655, 65],
+    [0x1d656, 0x1d66f, 97],
+    [0x1d670, 0x1d689, 65],
+    [0x1d68a, 0x1d6a3, 97],
   ];
 
   for (const [start, end, baseCharCode] of latinRanges) {
@@ -211,7 +276,6 @@ function mapMathCodePoint(cp: number): string {
     }
   }
 
-  // Greek math alphanumeric blocks (Bold, Italic, Bold Italic, Sans Bold, Sans Bold Italic)
   const greekStarts = [0x1d6a8, 0x1d6e2, 0x1d71c, 0x1d756, 0x1d790];
   for (const blockStart of greekStarts) {
     if (cp >= blockStart && cp < blockStart + 25) {
@@ -233,7 +297,6 @@ function mapMathCodePoint(cp: number): string {
     if (cp === blockStart + 51) return "∂";
   }
 
-  // Math Bold/Double-struck/Sans/Monospace digits 0-9
   const digitStarts = [0x1d7ce, 0x1d7d8, 0x1d7e2, 0x1d7ec, 0x1d7f6];
   for (const dStart of digitStarts) {
     if (cp >= dStart && cp <= dStart + 9) {
@@ -422,17 +485,18 @@ function extractOmmlExpression(fragmentHtml: string): string {
         .replace(/\s+/g, " ")
         .trim();
       if (expr) {
-        return expr.includes("\\frac") || expr.includes("\\sqrt") || expr.includes("_{") || expr.includes("^{")
+        return expr.includes("\\frac") ||
+          expr.includes("\\sqrt") ||
+          expr.includes("_{") ||
+          expr.includes("^{")
           ? `$${expr}$`
           : expr;
       }
     }
-    // HTML fallback if OMML fragment isn't strict XML
     const htmlDoc = parser.parseFromString(stripped, "text/html");
-    const fallback = normalizeMathAlphanumerics(htmlDoc.body?.textContent || "")
+    return normalizeMathAlphanumerics(htmlDoc.body?.textContent || "")
       .replace(/\s+/g, " ")
       .trim();
-    return fallback;
   } catch {
     return "";
   }
@@ -448,14 +512,18 @@ function mathmlNodeToText(node: Node): string {
   const children = Array.from(el.children);
 
   if (tag === "mfrac" && children.length >= 2) {
-    return `\\frac{${mathmlNodeToText(children[0]).trim()}}{${mathmlNodeToText(children[1]).trim()}}`;
+    return `\\frac{${mathmlNodeToText(children[0]).trim()}}{${mathmlNodeToText(
+      children[1]
+    ).trim()}}`;
   }
   if (tag === "msqrt") {
     const inner = Array.from(el.childNodes).map(mathmlNodeToText).join("").trim();
     return `\\sqrt{${inner}}`;
   }
   if (tag === "mroot" && children.length >= 2) {
-    return `^{${mathmlNodeToText(children[1]).trim()}}\\sqrt{${mathmlNodeToText(children[0]).trim()}}`;
+    return `^{${mathmlNodeToText(children[1]).trim()}}\\sqrt{${mathmlNodeToText(
+      children[0]
+    ).trim()}}`;
   }
   if (tag === "msup" && children.length >= 2) {
     return `${mathmlNodeToText(children[0]).trim()}${toUnicodeSuperscript(
@@ -485,10 +553,8 @@ function escapeHtmlText(text: string): string {
 }
 
 function preprocessWordHtml(rawHtml: string): { html: string; hadWordEquation: boolean } {
-  let hadWordEquation =
-    /msEquation|oMath|clip_image\d+/i.test(rawHtml);
+  let hadWordEquation = /msEquation|oMath|clip_image\d+/i.test(rawHtml);
 
-  // Replace conditional Word equation blocks + paired !msEquation fallback images
   let processed = rawHtml.replace(
     /<!--\[if\s+gte\s+msEquation[^\]]*\]>([\s\S]*?)<!\[endif\]-->(?:\s*<!\[if\s+!msEquation\]>[\s\S]*?<!\[endif\]>)?/gi,
     (_match, inner: string) => {
@@ -499,11 +565,7 @@ function preprocessWordHtml(rawHtml: string): { html: string; hadWordEquation: b
     }
   );
 
-  // Also strip orphaned Word !msEquation image conditional blocks
-  processed = processed.replace(
-    /<!\[if\s+!msEquation\]>[\s\S]*?<!\[endif\]>/gi,
-    ""
-  );
+  processed = processed.replace(/<!\[if\s+!msEquation\]>[\s\S]*?<!\[endif\]>/gi, "");
 
   return { html: processed, hadWordEquation };
 }
@@ -524,7 +586,34 @@ const BLOCK_TAGS = new Set([
   "article",
 ]);
 
-function walkHtmlNode(node: Node, symbolMode = false): string {
+function wrapInlineTag(text: string, tag: "b" | "i" | "u" | "sub" | "sup"): string {
+  if (!text || !text.trim()) return text;
+  if (tag === "sub" || tag === "sup") {
+    return `<${tag}>${text.trim()}</${tag}>`;
+  }
+  return `<${tag}>${text}</${tag}>`;
+}
+
+function collapseAdjacentFormatTags(text: string): string {
+  let prev = "";
+  let current = text;
+  while (current !== prev) {
+    prev = current;
+    current = current
+      .replace(/<\/b>(\s*)<b>/gi, "$1")
+      .replace(/<\/i>(\s*)<i>/gi, "$1")
+      .replace(/<\/u>(\s*)<u>/gi, "$1")
+      .replace(/<\/sub><sub>/gi, "")
+      .replace(/<\/sup><sup>/gi, "");
+  }
+  return current;
+}
+
+function walkHtmlNode(
+  node: Node,
+  symbolMode = false,
+  preserveInlineFormatting = false
+): string {
   if (node.nodeType === Node.TEXT_NODE) {
     const raw = node.textContent || "";
     const normalized = normalizeMathAlphanumerics(raw);
@@ -570,24 +659,51 @@ function walkHtmlNode(node: Node, symbolMode = false): string {
   const isSymbolFont =
     symbolMode || /font-family\s*:[^;]*\b(symbol|wingdings|webdings)\b/i.test(styleAttr);
 
-  const innerText = Array.from(el.childNodes)
-    .map((child) => walkHtmlNode(child, isSymbolFont))
+  let innerText = Array.from(el.childNodes)
+    .map((child) => walkHtmlNode(child, isSymbolFont, preserveInlineFormatting))
     .join("");
 
   if (tag === "sub" || /vertical-align\s*:\s*sub\b/.test(styleAttr)) {
-    return toUnicodeSubscript(innerText);
+    return preserveInlineFormatting
+      ? wrapInlineTag(innerText, "sub")
+      : toUnicodeSubscript(innerText);
   }
   if (tag === "sup" || /vertical-align\s*:\s*super\b/.test(styleAttr)) {
-    return toUnicodeSuperscript(innerText);
+    return preserveInlineFormatting
+      ? wrapInlineTag(innerText, "sup")
+      : toUnicodeSuperscript(innerText);
   }
 
   const msoRaiseMatch = styleAttr.match(/mso-text-raise\s*:\s*([-+]?[\d.]+)/);
   if (msoRaiseMatch) {
     const val = Number.parseFloat(msoRaiseMatch[1]);
     if (!Number.isNaN(val)) {
-      if (val > 0.5) return toUnicodeSuperscript(innerText);
-      if (val < -0.5) return toUnicodeSubscript(innerText);
+      if (val > 0.5) {
+        return preserveInlineFormatting
+          ? wrapInlineTag(innerText, "sup")
+          : toUnicodeSuperscript(innerText);
+      }
+      if (val < -0.5) {
+        return preserveInlineFormatting
+          ? wrapInlineTag(innerText, "sub")
+          : toUnicodeSubscript(innerText);
+      }
     }
+  }
+
+  if (preserveInlineFormatting && !BLOCK_TAGS.has(tag)) {
+    const isBold =
+      tag === "b" ||
+      tag === "strong" ||
+      /font-weight\s*:\s*(?:bold|[7-9]00)\b/.test(styleAttr);
+    const isItalic =
+      tag === "i" || tag === "em" || /font-style\s*:\s*italic\b/.test(styleAttr);
+    const isUnderline =
+      tag === "u" || /text-decoration(?:-line)?\s*:[^;]*\bunderline\b/.test(styleAttr);
+
+    if (isUnderline) innerText = wrapInlineTag(innerText, "u");
+    if (isItalic) innerText = wrapInlineTag(innerText, "i");
+    if (isBold) innerText = wrapInlineTag(innerText, "b");
   }
 
   if (tag === "li") {
@@ -611,7 +727,7 @@ function cleanTypography(raw: string, multiline: boolean): string {
     .replace(/[\uF0B7\uF0A7\uF076\uF0D8]/g, "•");
 
   if (!multiline) {
-    return cleaned.replace(/\s+/g, " ").trim();
+    return collapseAdjacentFormatTags(cleaned.replace(/\s+/g, " ").trim());
   }
 
   cleaned = cleaned
@@ -621,7 +737,7 @@ function cleanTypography(raw: string, multiline: boolean): string {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 
-  return cleaned;
+  return collapseAdjacentFormatTags(cleaned);
 }
 
 export function normalizeWordClipboard(
@@ -630,6 +746,8 @@ export function normalizeWordClipboard(
   options: WordPasteOptions = {}
 ): WordPasteResult {
   const multiline = options.multiline ?? true;
+  const preserveInlineFormatting = options.preserveInlineFormatting ?? false;
+  const countVisibleOnly = options.countVisibleOnly ?? false;
   const normalizedPlain = cleanTypography(plainText || "", multiline);
 
   let chosen = normalizedPlain;
@@ -638,14 +756,15 @@ export function normalizeWordClipboard(
       const { html, hadWordEquation } = preprocessWordHtml(htmlText);
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
-      const rawWalked = doc.body ? walkHtmlNode(doc.body, false) : "";
+      const rawWalked = doc.body
+        ? walkHtmlNode(doc.body, false, preserveInlineFormatting)
+        : "";
       const cleanedHtml = cleanTypography(rawWalked, multiline);
 
       if (cleanedHtml) {
-        // Guard: if Word shipped a clip_image fallback that stripped text shorter than plainText, prefer normalizedPlain
         if (
           hadWordEquation &&
-          normalizedPlain.length > cleanedHtml.length + 12 &&
+          normalizedPlain.length > countVisibleChars(cleanedHtml) + 12 &&
           !cleanedHtml.includes("\\frac") &&
           !cleanedHtml.includes("\\sqrt")
         ) {
@@ -659,11 +778,16 @@ export function normalizeWordClipboard(
     }
   }
 
-  if (typeof options.maxChars === "number" && chosen.length > options.maxChars) {
-    return {
-      text: chosen.slice(0, options.maxChars),
-      truncatedChars: chosen.length - options.maxChars,
-    };
+  if (typeof options.maxChars === "number") {
+    if (countVisibleOnly) {
+      return slicePreservingTags(chosen, options.maxChars);
+    }
+    if (chosen.length > options.maxChars) {
+      return {
+        text: chosen.slice(0, options.maxChars),
+        truncatedChars: chosen.length - options.maxChars,
+      };
+    }
   }
 
   return { text: chosen, truncatedChars: 0 };
@@ -687,6 +811,7 @@ export function applyWordPasteToField(
 
   const normalized = normalizeWordClipboard(plainText, htmlText, {
     multiline: options.multiline ?? false,
+    preserveInlineFormatting: options.preserveInlineFormatting ?? false,
   });
 
   const target = e.currentTarget;
@@ -699,9 +824,15 @@ export function applyWordPasteToField(
   let finalValue = combined;
   let truncatedChars = 0;
 
-  if (typeof options.maxChars === "number" && combined.length > options.maxChars) {
-    finalValue = combined.slice(0, options.maxChars);
-    truncatedChars = combined.length - options.maxChars;
+  if (typeof options.maxChars === "number") {
+    if (options.countVisibleOnly) {
+      const sliced = slicePreservingTags(combined, options.maxChars);
+      finalValue = sliced.text;
+      truncatedChars = sliced.truncatedChars;
+    } else if (combined.length > options.maxChars) {
+      finalValue = combined.slice(0, options.maxChars);
+      truncatedChars = combined.length - options.maxChars;
+    }
   }
 
   setValue(finalValue);
@@ -713,7 +844,7 @@ export function applyWordPasteToField(
       try {
         target.setSelectionRange(nextCursor, nextCursor);
       } catch {
-        // Certain input types (e.g., email) do not support setSelectionRange in all browsers
+        // Input types such as email may disallow setSelectionRange
       }
     });
   }

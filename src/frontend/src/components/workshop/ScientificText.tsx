@@ -114,10 +114,8 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
   };
 
   while (i < expr.length) {
-    // Fraction: \frac{num}{den}
     if (expr.startsWith("\\frac", i)) {
-      const afterCmd = i + 5;
-      const numGroup = readBracedGroup(expr, afterCmd);
+      const numGroup = readBracedGroup(expr, i + 5);
       if (numGroup) {
         const denGroup = readBracedGroup(expr, numGroup.endIndex);
         if (denGroup) {
@@ -138,7 +136,6 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
       }
     }
 
-    // Square root: \sqrt{arg}
     if (expr.startsWith("\\sqrt", i)) {
       const argGroup = readBracedGroup(expr, i + 5);
       if (argGroup) {
@@ -156,7 +153,6 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
       }
     }
 
-    // Superscript: ^{...}
     if (expr.startsWith("^{", i)) {
       const supGroup = readBracedGroup(expr, i + 1);
       if (supGroup) {
@@ -171,7 +167,6 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
       }
     }
 
-    // Subscript: _{...}
     if (expr.startsWith("_{", i)) {
       const subGroup = readBracedGroup(expr, i + 1);
       if (subGroup) {
@@ -186,7 +181,6 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
       }
     }
 
-    // TeX command symbol: \alpha, \mu, \rightarrow, etc.
     if (expr[i] === "\\") {
       const match = expr.slice(i + 1).match(/^[A-Za-z]+/);
       if (match) {
@@ -209,20 +203,19 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
   return nodes;
 }
 
-function renderMixedLine(line: string, lineKey: string): React.ReactNode[] {
+function renderMixedMathSegment(segment: string, segKey: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
-  // Match $...$ or \(...\) inline math delimiters without greedy cross-match
   const delimiterRegex = /(\$[^$\n]+?\$|\\\([^)\n]+?\\\))/g;
   let lastIdx = 0;
   let segIdx = 0;
-  let match: RegExpExecArray | null = delimiterRegex.exec(line);
+  let match: RegExpExecArray | null = delimiterRegex.exec(segment);
 
   while (match !== null) {
     if (match.index > lastIdx) {
-      const plainSeg = line.slice(lastIdx, match.index);
+      const plainSeg = segment.slice(lastIdx, match.index);
       parts.push(
-        <React.Fragment key={`${lineKey}-p-${segIdx++}`}>
-          {renderInlineMathTokens(plainSeg, `${lineKey}-pt-${segIdx}`)}
+        <React.Fragment key={`${segKey}-p-${segIdx++}`}>
+          {renderInlineMathTokens(plainSeg, `${segKey}-pt-${segIdx}`)}
         </React.Fragment>
       );
     }
@@ -232,24 +225,135 @@ function renderMixedLine(line: string, lineKey: string): React.ReactNode[] {
       ? token.slice(1, -1)
       : token.slice(2, -2);
     parts.push(
-      <span key={`${lineKey}-m-${segIdx++}`} className="sci-math">
-        {renderInlineMathTokens(inner, `${lineKey}-mt-${segIdx}`)}
+      <span key={`${segKey}-m-${segIdx++}`} className="sci-math">
+        {renderInlineMathTokens(inner, `${segKey}-mt-${segIdx}`)}
       </span>
     );
 
     lastIdx = delimiterRegex.lastIndex;
-    match = delimiterRegex.exec(line);
+    match = delimiterRegex.exec(segment);
   }
 
-  if (lastIdx < line.length) {
+  if (lastIdx < segment.length) {
     parts.push(
-      <React.Fragment key={`${lineKey}-tail-${segIdx++}`}>
-        {renderInlineMathTokens(line.slice(lastIdx), `${lineKey}-tt-${segIdx}`)}
+      <React.Fragment key={`${segKey}-tail-${segIdx++}`}>
+        {renderInlineMathTokens(segment.slice(lastIdx), `${segKey}-tt-${segIdx}`)}
       </React.Fragment>
     );
   }
 
   return parts;
+}
+
+type FormatTag = "b" | "i" | "u" | "sub" | "sup";
+
+function findMatchingClosingTag(
+  src: string,
+  searchFrom: number,
+  tagName: FormatTag
+): { innerEnd: number; afterClose: number } | null {
+  const openToken = `<${tagName}>`;
+  const closeToken = `</${tagName}>`;
+  const lower = src.toLowerCase();
+  let depth = 1;
+  let cursor = searchFrom;
+
+  while (cursor < lower.length) {
+    const nextOpen = lower.indexOf(openToken, cursor);
+    const nextClose = lower.indexOf(closeToken, cursor);
+    if (nextClose === -1) return null;
+
+    if (nextOpen !== -1 && nextOpen < nextClose) {
+      depth += 1;
+      cursor = nextOpen + openToken.length;
+    } else {
+      depth -= 1;
+      if (depth === 0) {
+        return {
+          innerEnd: nextClose,
+          afterClose: nextClose + closeToken.length,
+        };
+      }
+      cursor = nextClose + closeToken.length;
+    }
+  }
+  return null;
+}
+
+function renderFormattedAndMath(line: string, lineKey: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let i = 0;
+  let plainBuf = "";
+  let chunkIdx = 0;
+
+  const flushPlain = () => {
+    if (plainBuf) {
+      nodes.push(
+        <React.Fragment key={`${lineKey}-s-${chunkIdx++}`}>
+          {renderMixedMathSegment(plainBuf, `${lineKey}-sm-${chunkIdx}`)}
+        </React.Fragment>
+      );
+      plainBuf = "";
+    }
+  };
+
+  while (i < line.length) {
+    if (line[i] === "<") {
+      const openMatch = line.slice(i).match(/^<(b|i|u|sub|sup)>/i);
+      if (openMatch) {
+        const tag = openMatch[1].toLowerCase() as FormatTag;
+        const innerStart = i + openMatch[0].length;
+        const closeInfo = findMatchingClosingTag(line, innerStart, tag);
+        if (closeInfo) {
+          flushPlain();
+          const innerContent = line.slice(innerStart, closeInfo.innerEnd);
+          const children = renderFormattedAndMath(
+            innerContent,
+            `${lineKey}-${tag}-${chunkIdx++}`
+          );
+          if (tag === "b") {
+            nodes.push(
+              <strong key={`${lineKey}-el-${chunkIdx}`} className="font-bold">
+                {children}
+              </strong>
+            );
+          } else if (tag === "i") {
+            nodes.push(
+              <em key={`${lineKey}-el-${chunkIdx}`} className="italic">
+                {children}
+              </em>
+            );
+          } else if (tag === "u") {
+            nodes.push(
+              <u key={`${lineKey}-el-${chunkIdx}`} className="underline underline-offset-2">
+                {children}
+              </u>
+            );
+          } else if (tag === "sub") {
+            nodes.push(
+              <sub key={`${lineKey}-el-${chunkIdx}`} className="text-[0.75em] leading-none">
+                {children}
+              </sub>
+            );
+          } else {
+            nodes.push(
+              <sup key={`${lineKey}-el-${chunkIdx}`} className="text-[0.75em] leading-none">
+                {children}
+              </sup>
+            );
+          }
+          i = closeInfo.afterClose;
+          continue;
+        }
+      }
+    }
+
+    plainBuf += line[i];
+    i += 1;
+  }
+
+  flushPlain();
+  return nodes;
 }
 
 export default function ScientificText({
@@ -262,7 +366,7 @@ export default function ScientificText({
   if (!multiline) {
     return (
       <span className={className}>
-        {renderMixedLine(text, "inline")}
+        {renderFormattedAndMath(text, "inline")}
       </span>
     );
   }
@@ -282,7 +386,7 @@ export default function ScientificText({
             {lines.map((line, lIdx) => (
               <React.Fragment key={`line-${pIdx}-${lIdx}`}>
                 {lIdx > 0 && <br />}
-                {renderMixedLine(line, `p${pIdx}-l${lIdx}`)}
+                {renderFormattedAndMath(line, `p${pIdx}-l${lIdx}`)}
               </React.Fragment>
             ))}
           </p>

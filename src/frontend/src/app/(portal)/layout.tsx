@@ -302,7 +302,13 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         )}
       </div>
 
-      <div className="max-w-[1400px] mx-auto w-full flex flex-col lg:flex-row flex-grow min-w-0 print:block print:max-w-none">
+      <div
+        className={`${
+          currentPath === "/abstract-submission"
+            ? "w-full"
+            : "max-w-[1400px] mx-auto w-full"
+        } flex flex-col lg:flex-row flex-grow min-w-0 print:block print:max-w-none`}
+      >
         {/* Desktop & Landscape-Tablet Left Sidebar Nav (1024px+) */}
         <aside className="w-full lg:w-64 bg-background border-r border-foreground/10 flex-shrink-0 py-8 px-4 hidden lg:flex flex-col justify-between print:hidden">
           <div className="sticky top-24">
@@ -346,10 +352,13 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                 className="w-full bg-background border border-foreground/10 px-2.5 py-1.5 rounded-lg text-xs text-foreground focus:outline-none focus:border-primary font-medium"
               >
                 <option value="general">General User</option>
+                <option value="attendee">Attendee</option>
+                <option value="attendee,reviewer">Attendee + Reviewer</option>
                 <option value="board">Board Member</option>
                 <option value="board,reviewer">Board + Reviewer</option>
                 <option value="board,admin">Board + Admin</option>
                 <option value="board,reviewer,admin">Board + Reviewer + Admin</option>
+                <option value="attendee,board,reviewer,admin">All Roles</option>
                 <option value="reviewer">Reviewer Only</option>
               </select>
               <p className="text-[8px] text-foreground/40 mt-1.5 leading-tight">
@@ -360,7 +369,13 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         </aside>
 
         {/* Main Content Area (min-w-0 prevents flex children/tables from blowing out viewport width) */}
-        <div className="flex-grow min-w-0 p-4 sm:p-6 lg:p-10 xl:p-12 bg-surface print:p-0 print:bg-white">
+        <div
+          className={`flex-grow min-w-0 ${
+            currentPath === "/abstract-submission"
+              ? "p-4 sm:p-6 lg:p-8"
+              : "p-4 sm:p-6 lg:p-10 xl:p-12"
+          } bg-surface print:p-0 print:bg-white`}
+        >
           {children}
         </div>
       </div>

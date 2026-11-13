@@ -27,6 +27,7 @@ import {
 import { hasAttendeeRole, hasReviewerRole } from "@/utils/telemetryClient";
 import ScientificText from "@/components/workshop/ScientificText";
 import AbstractOnePagePreview from "@/components/workshop/AbstractOnePagePreview";
+import { countVisibleChars } from "@/utils/wordPasteNormalizer";
 
 type ReviewerFilter = "all" | "pending" | "reviewed" | "student_award";
 
@@ -59,7 +60,13 @@ function renderAuthorLine(sub: AbstractSubmissionRecord): React.ReactNode {
           return (
             <React.Fragment key={a.id || idx}>
               {idx > 0 && ", "}
-              <span className={a.isPresenter ? "font-semibold underline underline-offset-2 text-foreground" : undefined}>
+              <span
+                className={
+                  a.isPresenter
+                    ? "font-semibold underline underline-offset-2 text-foreground"
+                    : undefined
+                }
+              >
                 <ScientificText text={a.name} />
               </span>
               {num && (
@@ -73,10 +80,18 @@ function renderAuthorLine(sub: AbstractSubmissionRecord): React.ReactNode {
         })}
         {" • "}
         <span className="text-slate-500">
-          {sub.affiliations.map((aff, idx) => `${idx + 1}: ${aff.institution}`).join(" ; ")}
+          {sub.affiliations
+            .map(
+              (aff, idx) =>
+                `${idx + 1}: ${aff.institution}${aff.location ? ` (${aff.location})` : ""}`
+            )
+            .join(" ; ")}
         </span>
         {" • "}
         <span className="text-primary">{sub.correspondingEmail}</span>
+        {sub.secondaryEmail ? (
+          <span className="text-slate-500"> / {sub.secondaryEmail}</span>
+        ) : null}
       </span>
     );
   }
@@ -150,7 +165,9 @@ export default function ReviewerPage() {
       }
       if (!q) return true;
       const authorNames = (sub.authors || []).map((a) => a.name).join(" ");
-      const affNames = (sub.affiliations || []).map((a) => a.institution).join(" ");
+      const affNames = (sub.affiliations || [])
+        .map((a) => `${a.institution} ${a.location || ""}`)
+        .join(" ");
       const haystack = [
         sub.id,
         sub.title,
@@ -162,6 +179,8 @@ export default function ReviewerPage() {
         sub.researchTrack,
         sub.summary,
         sub.abstractText || "",
+        sub.keywords || "",
+        sub.presenterBio || "",
       ]
         .join(" ")
         .toLowerCase();
@@ -273,11 +292,14 @@ export default function ReviewerPage() {
         affiliationFallback={sub.affiliation}
         coAuthorsFallback={sub.coAuthors}
         correspondingEmail={sub.correspondingEmail}
+        secondaryEmail={sub.secondaryEmail}
         presentationFormat={sub.presentationFormat}
         researchTrack={sub.researchTrack}
         studentTravelAwardApplicant={sub.studentTravelAwardApplicant}
         synopsis={sub.summary}
         abstractText={sub.abstractText || sub.summary}
+        keywords={sub.keywords}
+        presenterBio={sub.presenterBio}
         graphicUrl={graphicUrl}
         graphicMeta={sub.graphic || null}
         graphicCaption={sub.graphic?.caption}
@@ -295,7 +317,7 @@ export default function ReviewerPage() {
             <ClipboardCheck className="text-primary shrink-0" /> Reviewer Portal
           </h2>
           <p className="text-xs text-foreground/60 mt-1">
-            Inspect full 1-page attendee abstracts, equations, 300-DPI figures, and assign format recommendations.
+            Inspect full 1-page attendee abstracts, equations, 300-DPI figures, keywords, presenter bios, and assign format recommendations.
           </p>
         </div>
 
@@ -410,14 +432,14 @@ export default function ReviewerPage() {
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Filter by title, author, track, ID..."
+            placeholder="Filter by title, author, keyword, ID..."
             aria-label="Filter abstract queue"
             className="w-full bg-white border border-slate-200 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-primary"
           />
         </div>
       </div>
 
-      {/* Abstract Table */}
+      {/* Abstract Queue */}
       <div className="bg-background border border-foreground/10 rounded-2xl overflow-hidden shadow-sm">
         <div className="px-4 sm:px-6 py-4 border-b border-foreground/10 bg-surface flex flex-wrap items-center justify-between gap-2">
           <h3 className="font-bold text-sm text-foreground">
@@ -446,7 +468,7 @@ export default function ReviewerPage() {
                   className="p-4 sm:p-6 hover:bg-surface/30 transition-all duration-200 space-y-4"
                 >
                   <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                    <div className="space-y-1.5 flex-1 min-w-0">
+                    <div className="space-y-2 flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="tabular-nums text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">
                           {sub.id}
@@ -479,17 +501,29 @@ export default function ReviewerPage() {
                       <p>{renderAuthorLine(sub)}</p>
 
                       {sub.summary && (
-                        <div className="text-xs text-slate-600 leading-relaxed bg-white/80 border border-slate-200/80 rounded-lg p-3 mt-1 space-y-1">
+                        <div className="text-xs text-slate-600 leading-relaxed bg-white/80 border border-slate-200/80 rounded-lg p-3 space-y-1.5">
                           <div>
                             <strong className="text-slate-800">Synopsis:</strong>{" "}
                             <ScientificText text={sub.summary} />
                           </div>
+                          {sub.keywords && (
+                            <p className="text-[11px] text-slate-500">
+                              <strong className="text-slate-700">Keywords:</strong> {sub.keywords}
+                            </p>
+                          )}
                           {sub.abstractText && (
                             <p className="text-[11px] text-slate-400 tabular-nums">
-                              Full abstract body: {sub.abstractText.length.toLocaleString()} characters
+                              Abstract body: {countVisibleChars(sub.abstractText).toLocaleString()} visible chars
                             </p>
                           )}
                         </div>
+                      )}
+
+                      {sub.presenterBio && (
+                        <p className="text-[11.5px] text-slate-600 bg-slate-50 border border-slate-200/70 rounded-lg px-3 py-2">
+                          <strong className="text-slate-800">Presenter Bio:</strong>{" "}
+                          <ScientificText text={sub.presenterBio} />
+                        </p>
                       )}
 
                       {sub.status === "Reviewed" && sub.reviewerComments && !isEditing && (
