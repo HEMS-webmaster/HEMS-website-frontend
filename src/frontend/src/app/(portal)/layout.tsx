@@ -14,15 +14,17 @@ import {
   BarChart2,
   Users,
   Send,
+  Upload,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import {
   hasAdminRole,
+  hasAttendeeRole,
   hasBoardOrAdminRole,
   hasReviewerRole,
 } from "@/utils/telemetryClient";
 
-type PortalRequiredRole = "board" | "reviewer" | "admin" | null;
+type PortalRequiredRole = "attendee" | "board" | "reviewer" | "admin" | null;
 
 interface PortalLinkItem {
   name: string;
@@ -59,6 +61,16 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
       path: "/student-awards",
       icon: GraduationCap,
       requiredRole: null,
+    },
+  ];
+
+  const attendeesPortalLinks: PortalLinkItem[] = [
+    {
+      name: "Abstract Submission",
+      shortName: "Submit Abstract",
+      path: "/abstract-submission",
+      icon: Upload,
+      requiredRole: "attendee",
     },
   ];
 
@@ -103,12 +115,14 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   const hasRole = (role: PortalRequiredRole): boolean => {
     if (!role) return true;
     if (!user) return false;
+    if (role === "attendee") return hasAttendeeRole(user.roles);
     if (role === "board") return hasBoardOrAdminRole(user.roles);
     if (role === "reviewer") return hasReviewerRole(user.roles);
     if (role === "admin") return hasAdminRole(user.roles);
     return false;
   };
 
+  const showAttendeesPortal = Boolean(user && hasAttendeeRole(user.roles));
   const showBoardPortal = Boolean(
     user && (hasBoardOrAdminRole(user.roles) || hasReviewerRole(user.roles))
   );
@@ -192,6 +206,33 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             );
           })}
 
+          {showAttendeesPortal && (
+            <>
+              <span
+                aria-hidden="true"
+                className="h-5 w-px bg-slate-200 mx-1 shrink-0"
+              />
+              {attendeesPortalLinks.map((link) => {
+                const Icon = link.icon;
+                const isActive = currentPath === normalizePath(link.path);
+                return (
+                  <Link
+                    key={link.path}
+                    href={link.path}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-colors border ${
+                      isActive
+                        ? "bg-primary text-white border-primary shadow-2xs"
+                        : "bg-slate-50/90 text-slate-700 border-slate-200/90 hover:border-primary/40 hover:text-primary"
+                    }`}
+                  >
+                    <Icon size={14} className={isActive ? "text-white" : "text-primary/80"} />
+                    <span>{link.shortName || link.name}</span>
+                  </Link>
+                );
+              })}
+            </>
+          )}
+
           {showBoardPortal && (
             <>
               <span
@@ -248,10 +289,13 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-base sm:text-xs text-slate-800 focus:outline-none focus:border-primary font-medium"
             >
               <option value="general">General User</option>
+              <option value="attendee">Attendee</option>
+              <option value="attendee,reviewer">Attendee + Reviewer</option>
               <option value="board">Board Member</option>
               <option value="board,reviewer">Board + Reviewer</option>
               <option value="board,admin">Board + Admin</option>
               <option value="board,reviewer,admin">Board + Reviewer + Admin</option>
+              <option value="attendee,board,reviewer,admin">All Roles (Attendee + Board + Reviewer + Admin)</option>
               <option value="reviewer">Reviewer Only</option>
             </select>
           </div>
@@ -285,6 +329,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             </Link>
 
             {renderNavSection("Workshop Portal", workshopPortalLinks)}
+            {showAttendeesPortal && renderNavSection("Attendees", attendeesPortalLinks)}
             {showBoardPortal && renderNavSection("Board Portal", boardPortalLinks)}
           </div>
 

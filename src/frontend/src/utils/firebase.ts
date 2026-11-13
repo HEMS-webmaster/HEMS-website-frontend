@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage, type FirebaseStorage } from "firebase/storage";
 
 // Public Firebase config keys (safe to include in bundle fallbacks)
 const DEFAULT_FIREBASE_CONFIG = {
@@ -41,6 +42,7 @@ const hasFirebaseKeys = !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY || isLiveDoma
 let app;
 let auth: any = null;
 let db: any = null;
+let storage: FirebaseStorage | null = null;
 let googleProvider: any = null;
 let microsoftProvider: any = null;
 
@@ -49,6 +51,7 @@ if (hasFirebaseKeys) {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
     auth = getAuth(app);
     db = getFirestore(app);
+    storage = getStorage(app);
     googleProvider = new GoogleAuthProvider();
     googleProvider.setCustomParameters({ prompt: 'select_account' });
     microsoftProvider = new OAuthProvider('microsoft.com');
@@ -58,4 +61,4 @@ if (hasFirebaseKeys) {
   }
 }
 
-export { auth, db, googleProvider, microsoftProvider, hasFirebaseKeys };
+export { auth, db, storage, googleProvider, microsoftProvider, hasFirebaseKeys };

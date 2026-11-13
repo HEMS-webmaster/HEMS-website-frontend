@@ -1598,3 +1598,13 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   3. Add LinkedIn Community channel row with telemetry tracking to `src/frontend/src/components/workshop/ContactClient.tsx`.
   4. Upgrade `CitationButton.tsx` and `CitationModal.tsx` (`Cite / Share`) with trailing-slash canonical permalink, `?src=linkedin-archive-share` tracked share link, 1-click ready-to-post LinkedIn blurb copy, LinkedIn Feed share link, and HEMS LinkedIn Group link—zero modifications to locked `src/frontend/src/app/archive/**`.
   5. Add 4th Quick-Launch card for the HEMS LinkedIn Group and 5 1-click 2027 Ad & Social Campaign UTM presets in `src/frontend/src/app/(portal)/admin/analytics/page.tsx`.
+
+
+### [2026-11-12T22:18:45-07:00] @web / @arch / @dev — Attendee Portal Section, Abstract Submission Page & Live Reviewer Queue Integration
+- **Context:** `@bo` requested adding an `'Attendees'` section on the left panel of the Workshop Portal (`attendee` role gated), an `'Abstract Submission'` page (`/abstract-submission`) with single-page PDF upload + metadata, and live flow into `/reviewer`.
+- **Architecture (`@arch` + `@dev`):**
+  - Export `storage` (`firebase/storage`) in `src/frontend/src/utils/firebase.ts` and `hasAttendeeRole` in `src/frontend/src/utils/telemetryClient.ts`; support `attendee` in `AuthContext.tsx` `getRolesForEmail`.
+  - Define strict TypeScript interfaces in `src/frontend/src/types/abstractSubmission.ts`.
+  - Implement `src/frontend/src/hooks/useAbstractSubmissions.ts` using dual-mode persistence: Firebase Storage + Firestore (`abstract_submissions`) when live/authorized, backed by IndexedDB (`hems_abstract_files_idb`) for PDF binaries + `localStorage` (`hems_abstract_submissions_v1`) + custom DOM/storage sync events for instant responsiveness locally and across tabs.
+  - Add `"Attendees"` section in `(portal)/layout.tsx` (both desktop sidebar & mobile pill nav) and quick links in `Navbar.tsx`.
+  - Build `/abstract-submission` (`AbstractSubmissionClient.tsx`) and upgrade `/reviewer/page.tsx` to read live submissions, preview uploaded PDFs, filter/search, and save scores/recommendations/notes.

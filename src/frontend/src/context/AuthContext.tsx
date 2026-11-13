@@ -92,6 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (email.toLowerCase().includes("admin")) return ["admin", "reviewer", "board"];
     if (email.toLowerCase().includes("reviewer")) return ["reviewer"];
     if (email.toLowerCase().includes("board")) return ["board"];
+    if (email.toLowerCase().includes("attendee")) return ["attendee"];
     return ["general"];
   };
 

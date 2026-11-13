@@ -8,6 +8,7 @@ import workshopsData from "@/data/master_workshops.json";
 import { useAuth } from "@/context/AuthContext";
 import {
   hasAdminRole,
+  hasAttendeeRole,
   hasBoardOrAdminRole,
   hasReviewerRole,
 } from "@/utils/telemetryClient";
@@ -100,6 +101,7 @@ export default function Navbar() {
 
   const isWorkshopRoute =
     cleanPathname.startsWith("/layout-portal") ||
+    cleanPathname.startsWith("/abstract-submission") ||
     cleanPathname.startsWith("/call-for-papers") ||
     cleanPathname.startsWith("/registration") ||
     cleanPathname.startsWith("/accommodations") ||
@@ -358,10 +360,20 @@ export default function Navbar() {
                           })}
                         </div>
 
-                        {(hasBoardOrAdminRole(user.roles) ||
+                        {(hasAttendeeRole(user.roles) ||
+                          hasBoardOrAdminRole(user.roles) ||
                           hasReviewerRole(user.roles) ||
                           hasAdminRole(user.roles)) && (
                           <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap gap-x-3 gap-y-1.5">
+                            {hasAttendeeRole(user.roles) && (
+                              <Link
+                                href="/abstract-submission"
+                                onClick={() => setProfileOpen(false)}
+                                className="text-xs font-semibold text-primary hover:underline"
+                              >
+                                Abstract Submission →
+                              </Link>
+                            )}
                             {hasBoardOrAdminRole(user.roles) && (
                               <>
                                 <Link
@@ -635,10 +647,20 @@ export default function Navbar() {
                   </button>
                 </div>
 
-                {(hasBoardOrAdminRole(user.roles) ||
+                {(hasAttendeeRole(user.roles) ||
+                  hasBoardOrAdminRole(user.roles) ||
                   hasReviewerRole(user.roles) ||
                   hasAdminRole(user.roles)) && (
                   <div className="flex flex-wrap gap-2 px-2">
+                    {hasAttendeeRole(user.roles) && (
+                      <Link
+                        href="/abstract-submission"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
+                      >
+                        Abstract Submission
+                      </Link>
+                    )}
                     {hasBoardOrAdminRole(user.roles) && (
                       <>
                         <Link

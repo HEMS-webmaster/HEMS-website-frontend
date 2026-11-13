@@ -26,6 +26,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/history": "25+ Year Workshop History",
   "/archive": "Proceedings Archive Index",
   "/layout-portal": "16th Workshop Hub (2027)",
+  "/abstract-submission": "Abstract Submission",
   "/call-for-papers": "Call for Papers",
   "/formatting-guidelines": "Abstract Formatting Guidelines",
   "/student-awards": "Student Travel Awards",
@@ -54,6 +55,18 @@ export function hasReviewerRole(roles?: string[] | null): boolean {
   });
 }
 
+export function hasAttendeeRole(roles?: string[] | null): boolean {
+  if (!Array.isArray(roles)) return false;
+  return roles.some((r) => {
+    const clean = String(r || "").trim().toLowerCase();
+    return (
+      clean === "attendee" ||
+      clean === "registered attendee" ||
+      clean === "attendees"
+    );
+  });
+}
+
 export function hasBoardOrAdminRole(roles?: string[] | null): boolean {
   if (!Array.isArray(roles)) return false;
   return roles.some((r) => {
@@ -77,6 +90,8 @@ export function normalizeTelemetryPath(rawPath: string | null | undefined): stri
 export function isInternalPortalManagementRoute(path: string): boolean {
   const norm = normalizeTelemetryPath(path);
   return (
+    norm === "/abstract-submission" ||
+    norm.startsWith("/abstract-submission/") ||
     norm === "/admin" ||
     norm.startsWith("/admin/") ||
     norm === "/board" ||
