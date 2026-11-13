@@ -158,18 +158,20 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 w-full bg-white/92 backdrop-blur-md border-b border-slate-200/85 print:hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-[72px] gap-2">
-          {/* Brand Lockup */}
+          {/* Brand Lockup (Logo box hidden on `/` where the full Society Masthead sits directly below) */}
           <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 min-w-0">
-            <div className="w-14 h-10 sm:w-[70px] sm:h-12 rounded-lg bg-white border border-slate-200 px-1 py-0.5 flex items-center justify-center shadow-2xs shrink-0">
-              <img
-                src="/hemslogo.jpg"
-                alt="HEMS Society Emblem"
-                width={3756}
-                height={2594}
-                decoding="async"
-                className="w-full h-full object-contain mix-blend-multiply"
-              />
-            </div>
+            {cleanPathname !== "/" && (
+              <div className="w-14 h-10 sm:w-[70px] sm:h-12 rounded-lg bg-white border border-slate-200 px-1 py-0.5 flex items-center justify-center shadow-2xs shrink-0">
+                <img
+                  src="/hemslogo.jpg"
+                  alt="HEMS Society Emblem"
+                  width={3756}
+                  height={2594}
+                  decoding="async"
+                  className="w-full h-full object-contain mix-blend-multiply"
+                />
+              </div>
+            )}
             <div className="flex flex-col min-w-0">
               <span className="font-serif font-semibold text-base sm:text-lg leading-none text-slate-900 tracking-tight group-hover:text-primary transition-colors truncate">
                 HEMS Society

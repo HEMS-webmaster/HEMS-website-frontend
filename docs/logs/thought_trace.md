@@ -1580,3 +1580,11 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   1. **Stacked Duplicate Logos (Top-Left Echo):** The `72px` Navbar logo box sits directly above the larger Hero Masthead logo on `/`, creating a double-header stutter.
   2. **Unbalanced Hero Columns:** Left column (`~220px` tall) floats vertically centered beside the much taller right column (`HeroMassSpectrum` + `UpcomingWorkshopSpotlight`, `~490px` tall), leaving empty dead space on the left while two large serif titles (`<h1>` + `<h2>`) compete.
   3. **Duplicate Domain Sections (`Section 2` vs `Section 4`):** Section 2 (3 domain cards: Extreme Environments, Ruggedized Hardware, Autonomous Sensing) and Section 4's left list (Planetary, Underwater, Field-Portable UAV) repeat the same 3 research themes twice on one scroll.
+
+
+### [2026-11-12T21:24:30-07:00] @arch / @brand / @dev — Execute All 3 Frontpage Layout Tweaks
+- **Context:** `@bo` approved executing all 3 layout tweaks (`@dev go on all 3 tweaks`).
+- **Plan (`docs/plans/2026-11-12-frontpage-three-tweaks.md`):**
+  1. **Tweak 1 (`Navbar.tsx`):** Hide the small boxed `/hemslogo.jpg` thumbnail in the sticky Navbar when `cleanPathname === "/"` (retaining it on all subpages) so the large frontpage Society Masthead emblem never stacks underneath an identical small logo.
+  2. **Tweak 2 (`page.tsx` + `UpcomingWorkshopSpotlight.tsx`):** Move `<UpcomingWorkshopSpotlight />` from under the right-hand mass spectrum into a crisp Save-the-Date card below the CTA buttons in the left Hero column, stepping `<h2>` slightly below the Society `<h1>` (`lg:text-[2.2rem]`) so both Hero columns match in vertical height (`~365px` each) and `<HeroMassSpectrum />` stands cleanly on the right.
+  3. **Tweak 3 (`page.tsx`):** Replace the duplicate 3 domain photo blurbs in Section 4 (`Planetary`, `Underwater`, `Field-Portable UAV` — already covered in Section 2) with a clean, scannable `2×3` direct-jump grid into the Open-Access Proceedings Archive (`2025 Virginia Beach`, `2022 Cocoa Beach`, `2019 Myrtle Beach`, `2018 Cologne`, `2017 Oxnard`, and `1999–2015 1st–10th Workshops`) paired with the Student Travel Awards & Corporate Sponsorship cards.

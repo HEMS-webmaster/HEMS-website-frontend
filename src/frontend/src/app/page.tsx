@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowRight,
-  Compass,
-  Anchor,
-  Cpu,
   GraduationCap,
   BookOpen,
   Building2,
   ShieldCheck,
+  Calendar,
 } from "lucide-react";
 import UpcomingWorkshopSpotlight from "@/components/workshop/UpcomingWorkshopSpotlight";
 import HeroMassSpectrum from "@/components/home/HeroMassSpectrum";
@@ -37,7 +35,6 @@ const CHARTER_PILLARS = [
     title: "Planetary, Oceanic & Volcanic Frontiers",
     description:
       "Deploying mass spectrometers directly into extreme natural regimes—from deep-ocean hydrothermal vents and polar waters to volcanic plumes, stratospheric aircraft, and lunar or Martian landers.",
-    tags: ["Deep-Sea MIMS", "Planetary Payloads", "Volcanic & Atmospheric"],
     image: "/images/gallery/fox-volcanic-fumarole-ms.jpg",
     imageWidth: 1400,
     imageHeight: 960,
@@ -50,7 +47,6 @@ const CHARTER_PILLARS = [
     title: "Miniature & Ruggedized Hardware",
     description:
       "Engineering compact ion sources, rectilinear and toroidal ion traps, portable time-of-flight and sector analyzers, harsh-environment membrane inlets, and low-SWaP vacuum systems.",
-    tags: ["Low-SWaP Vacuum", "Portable Analyzers", "Harsh Inlets"],
     image: "/images/gallery/raith-spaceflight-orbitrap-cad.jpg",
     imageWidth: 1400,
     imageHeight: 694,
@@ -63,7 +59,6 @@ const CHARTER_PILLARS = [
     title: "Autonomous Field Sensing & Rapid Response",
     description:
       "Advancing uncrewed underwater and aerial sensing, real-time onboard spectral deconvolution, environmental forensics, industrial process monitoring, and chemical defense readiness.",
-    tags: ["AUV / UAV Sensing", "Onboard Deconvolution", "Environmental & Defense"],
     image: "/images/gallery/coppin-icefin-underice-rov.jpg",
     imageWidth: 1600,
     imageHeight: 899,
@@ -109,6 +104,51 @@ const SYMPOSIUM_CULTURE = [
   },
 ];
 
+const ARCHIVE_QUICK_VOLUMES = [
+  {
+    href: "/archive/2025",
+    year: "2025",
+    ordinal: "15th Workshop",
+    location: "Virginia Beach, VA",
+    dates: "Sept 15–18, 2025",
+  },
+  {
+    href: "/archive/2022",
+    year: "2022",
+    ordinal: "14th Workshop",
+    location: "Cocoa Beach, FL",
+    dates: "Sept 26–29, 2022",
+  },
+  {
+    href: "/archive/2019",
+    year: "2019",
+    ordinal: "13th Workshop",
+    location: "Myrtle Beach, SC",
+    dates: "Sept 16–19, 2019",
+  },
+  {
+    href: "/archive/2018",
+    year: "2018",
+    ordinal: "12th Workshop",
+    location: "Cologne, Germany",
+    dates: "Oct 16–18, 2018",
+  },
+  {
+    href: "/archive/2017",
+    year: "2017",
+    ordinal: "11th Workshop",
+    location: "Oxnard, CA",
+    dates: "Sept 18–21, 2017",
+  },
+  {
+    href: "/archive",
+    year: "1999–2015",
+    ordinal: "1st–10th Workshops",
+    location: "Foundational Archive",
+    dates: "10 Biennial Volumes",
+  },
+];
+
 export default function Home() {
   const upcomingJsonLd = buildUpcomingWorkshopEventJsonLd(getStaticUpcomingWorkshop());
 
@@ -118,7 +158,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(upcomingJsonLd) }}
       />
-      {/* SECTION 1: EDITORIAL MASTHEAD & SPLIT HERO */}
+      {/* SECTION 1: SOCIETY MASTHEAD & BALANCED SPLIT HERO */}
       <section className="relative border-b border-slate-200/85 bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] pt-5 pb-12 sm:pt-7 sm:pb-16 lg:pt-8 lg:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Society Masthead — Prominent Emblem & Society Title */}
@@ -143,19 +183,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Editorial Narrative (6 Columns) */}
-            <div className="lg:col-span-6 space-y-5 sm:space-y-6">
-              <h2 className="font-serif text-2xl sm:text-4xl lg:text-[2.5rem] font-semibold text-slate-900 tracking-tight leading-[1.14]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            {/* Left Editorial Narrative + 2027 Workshop Card (6 Columns) */}
+            <div className="lg:col-span-6 space-y-5">
+              <h2 className="font-serif text-2xl sm:text-3xl lg:text-[2.2rem] font-semibold text-slate-900 tracking-tight leading-[1.16]">
                 Mass Spectrometry{" "}
                 <span className="text-primary italic font-normal">Beyond</span> the Controlled Laboratory.
               </h2>
 
-              <p className="text-[15px] sm:text-[17px] text-slate-600 leading-relaxed max-w-xl">
+              <p className="text-[15px] sm:text-base text-slate-600 leading-relaxed max-w-xl">
                 Every two years, the HEMS Workshop brings together academic, government, and industrial investigators in an open, single-track forum—sharing real-world instrumentation breakthroughs, field setbacks, and deployment lessons across oceans, atmospheres, and planetary missions.
               </p>
 
-              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 pt-1">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3">
                 <Link
                   href="/archive"
                   className="inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3 min-h-[44px] rounded-lg text-sm font-semibold hover:bg-sky-800 transition-colors shadow-xs"
@@ -170,13 +210,16 @@ export default function Home() {
                   <span>2027 Workshop Overview</span>
                 </Link>
               </div>
+
+              <div className="pt-1">
+                <UpcomingWorkshopSpotlight />
+              </div>
             </div>
 
-            {/* Right Analytical Specimen & Compact 2027 Strip (6 Columns) */}
+            {/* Right Dedicated Analytical Showcase (6 Columns) */}
             <div className="lg:col-span-6">
-              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5">
+              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-5 shadow-sm">
                 <HeroMassSpectrum />
-                <UpcomingWorkshopSpotlight />
               </div>
             </div>
           </div>
@@ -298,122 +341,68 @@ export default function Home() {
       <section className="py-12 sm:py-18 lg:py-22 bg-[#FAFBFD]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-            {/* Left 7 Columns: Workshop Proceedings Spotlight */}
+            {/* Left 7 Columns: Direct Biennial Proceedings Index (1999–2025) */}
             <div className="lg:col-span-7 space-y-6">
               <div>
                 <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
                   03 — Open-Access Digital Archive (1999–2025)
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
-                  Recent Highlights from the Proceedings
+                  25+ Years of Workshop Proceedings
                 </h2>
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-2">
-                  Every HEMS symposium preserves an open archival record of oral presentations, abstracts, and technical programs for the global research community.
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-2 max-w-2xl">
+                  Browse 436 open-access oral presentations, extended abstracts, slide decks, and posters preserved across 15 biennial symposia—freely searchable with full-text indexing and academic citations.
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200/90 hover:border-primary/40 transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-2xs">
-                  <img
-                    src="/images/gallery/danell-dragonfly-titan-ms-2019.jpg"
-                    alt="NASA Dragonfly rotorcraft lander concept carrying the DraMS mass spectrometer on Saturn's moon Titan"
-                    width={1400}
-                    height={1195}
-                    decoding="async"
-                    className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
-                    loading="lazy"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <Compass size={17} className="text-primary shrink-0" />
-                      <h3 className="font-semibold text-base text-slate-900">
-                        Planetary &amp; Spaceflight Mass Spectrometry
-                      </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {ARCHIVE_QUICK_VOLUMES.map((vol) => (
+                  <Link
+                    key={vol.year}
+                    href={vol.href}
+                    className="group p-4 rounded-xl bg-white border border-slate-200/90 hover:border-primary/45 transition-colors shadow-2xs flex items-center justify-between gap-3"
+                  >
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="tabular-nums text-xs font-bold text-primary">
+                          {vol.year}
+                        </span>
+                        <span className="text-slate-300">•</span>
+                        <span className="font-serif text-base font-semibold text-slate-900 group-hover:text-primary transition-colors truncate">
+                          {vol.ordinal}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-600 mt-1 flex items-center gap-1.5 tabular-nums">
+                        <Calendar size={12} className="text-slate-400 shrink-0" />
+                        <span className="truncate">
+                          {vol.location} ({vol.dates})
+                        </span>
+                      </p>
                     </div>
-                    <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
-                      Next-generation analyzers for Titan rotorcraft missions, lunar volatiles, Europa/ocean-world plumes, and laser desorption spaceflight instrumentation.
-                    </p>
-                    <p className="text-[11px] text-slate-500 mt-2">
-                      Image: NASA Dragonfly / DraMS — R. M. Danell et al., 13th HEMS Workshop (Myrtle Beach, SC, Sept 17, 2019)
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200/90 hover:border-primary/40 transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-2xs">
-                  <img
-                    src="/images/gallery/bell-subsea-lander-ms-2025.jpg"
-                    alt="Shipboard crane deploying a benthic subsea lander carrying an underwater mass spectrometer"
-                    width={1400}
-                    height={1083}
-                    decoding="async"
-                    className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
-                    loading="lazy"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <Anchor size={17} className="text-secondary shrink-0" />
-                      <h3 className="font-semibold text-base text-slate-900">
-                        Underwater &amp; Marine Biogeochemistry
-                      </h3>
-                    </div>
-                    <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
-                      In-situ Membrane Introduction Mass Spectrometry (MIMS), benthic subsea landers, autonomous underwater vehicle (AUV) mapping, and deep-sea profiling.
-                    </p>
-                    <p className="text-[11px] text-slate-500 mt-2">
-                      Image: Cold-seep subsea MS lander — R. Bell (Beaver Creek Analytical) &amp; AWI-Bremerhaven, 15th HEMS Workshop (Sept 18, 2025)
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200/90 hover:border-primary/40 transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center shadow-2xs">
-                  <img
-                    src="/images/gallery/verbeck-uav-drone-ms-2025.jpg"
-                    alt="Researchers outdoors preparing a heavy-lift UAV drone outfitted with a portable mass spectrometer"
-                    width={1400}
-                    height={948}
-                    decoding="async"
-                    className="w-full sm:w-32 h-36 sm:h-24 object-cover rounded-lg border border-slate-100 shrink-0"
-                    loading="lazy"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <Cpu size={17} className="text-primary shrink-0" />
-                      <h3 className="font-semibold text-base text-slate-900">
-                        Field-Portable &amp; Autonomous Instrumentation
-                      </h3>
-                    </div>
-                    <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
-                      UAV-borne and mobile-vehicle MS platforms, person-portable TOF and tandem MS/MS systems, and rapid-response chemical plume detection.
-                    </p>
-                    <p className="text-[11px] text-slate-500 mt-2">
-                      Image: Augusta University (Augusta, GA) UAV-MS testbed — G. F. Verbeck, 15th HEMS Workshop (Sept 16, 2025)
-                    </p>
-                  </div>
-                </div>
+                    <ArrowRight
+                      size={15}
+                      className="text-slate-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0"
+                    />
+                  </Link>
+                ))}
               </div>
 
-              <div className="flex flex-wrap items-center gap-5 pt-1">
-                <Link
-                  href="/archive/2025"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-                >
-                  <span>View 15th Workshop Proceedings (2025)</span>
-                  <ArrowRight size={15} />
-                </Link>
+              <div className="pt-1">
                 <Link
                   href="/archive"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-primary transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
                 >
-                  <BookOpen size={15} />
-                  <span>Browse All 15 Workshops (1999–2025)</span>
+                  <BookOpen size={16} />
+                  <span>Search All 436 Presentations, Slide Decks &amp; Posters (1999–2025)</span>
+                  <ArrowRight size={15} />
                 </Link>
               </div>
             </div>
 
-            {/* Right 5 Columns: Institutional Pathways (Student Grants + Sponsorship + Governance) */}
+            {/* Right 5 Columns: Institutional Pathways (Student Grants + Sponsorship) */}
             <aside className="lg:col-span-5 space-y-5">
               {/* Student Travel Awards Card */}
-              <div className="p-6 rounded-2xl bg-[#FAFBFD] border border-slate-200/95 space-y-3">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200/95 shadow-2xs space-y-3">
                 <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary">
                   <GraduationCap size={16} /> Emerging Investigators
                 </div>
@@ -427,7 +416,7 @@ export default function Home() {
                   href="/student-awards"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline pt-1"
                 >
-                  <span>Eligibility, Selection Criteria &amp; Application Guidelines</span>
+                  <span>Eligibility, Selection Criteria &amp; Printable Flyer</span>
                   <ArrowRight size={13} />
                 </Link>
               </div>
