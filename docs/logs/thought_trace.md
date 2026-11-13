@@ -1558,3 +1558,13 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 - **Context:** `@bo` requested changing `'An all-volunteer international forum uniting academic, government, and industrial scientists deploying mass spectrometry from the deep ocean to planetary surfaces.'` to `'An international forum uniting academic, government, and industrial scientists deploying mass spectrometry from the deep ocean to planetary surfaces.'`.
 - **Target:** Located exact match at `src/frontend/src/components/layout/Footer.tsx:32`.
 - **Action:** Replace exact string in `Footer.tsx` and commit cleanly while keeping the live dev server running.
+
+
+### [2026-11-12T21:09:10-07:00] @arch / @web / @dev — Printable Student Travel Awards Flyer
+- **Context:** `@bo` requested adding a `'Printable Version'` of the Student Travel Awards webpage (`/student-awards`) modeled after the printable button and US-Letter 1-page executive view on `/corporate-sponsorship`.
+- **Architecture & UX (`@arch` + `@web`):**
+  - Mirror `CorporateSponsorshipClient.tsx`'s dual-mode architecture (`MODE A: Interactive Web View` with `print:hidden` + `MODE B: 1-Page US-Letter Printable Flyer` with `isPrintView ? "block" : "hidden print:block"`).
+  - Support `?print=1` and `?view=print` URL query parameters so faculty advisors and department administrators can share direct links to the printable flyer.
+  - Add `<Printer /> Printable Version` alongside `Email Application` in the hero card of `StudentAwardsClient.tsx`, plus a mobile-responsive print preview action bar (`Back to Student Travel Awards Page`, `Email Committee`, `Print / Save as PDF`).
+  - Calibrate vertical spacing (`space-y-4 print:space-y-3` inside `max-w-[8.5in]`) so the entire flyer prints cleanly on a single US Letter sheet (`0.38in` top/bottom `@page` margin already defined in `globals.css`), suitable for university bulletin boards and departmental email distribution.
+  - Ground past fellow institutional examples strictly in verified `master_workshops.json` records (18 fellows across 8 cycles, 2007–2022).
