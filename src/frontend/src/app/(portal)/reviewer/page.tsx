@@ -303,6 +303,7 @@ export default function ReviewerPage() {
         graphicUrl={graphicUrl}
         graphicMeta={sub.graphic || null}
         graphicCaption={sub.graphic?.caption}
+        figureWidthInches={sub.graphic?.widthInches}
         modeLabel={`Reviewer Inspection — ${sub.id}`}
         onClose={() => setActivePreview(null)}
       />

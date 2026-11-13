@@ -8,6 +8,7 @@ import {
   AbstractSubmissionRecord,
   AffiliationEntry,
   AuthorEntry,
+  clampFigureWidthInches,
   CreateAbstractSubmissionInput,
   GraphicMetadata,
   SaveAbstractReviewInput,
@@ -331,10 +332,10 @@ function mergeByIdNewestWins(
         hasLocalFileBlob: remote.hasLocalFileBlob ?? existing.hasLocalFileBlob,
         graphic: remote.graphic
           ? {
-              ...remote.graphic,
-              hasLocalBlob:
-                remote.graphic.hasLocalBlob ?? existing.graphic?.hasLocalBlob,
-            }
+            ...remote.graphic,
+            hasLocalBlob:
+              remote.graphic.hasLocalBlob ?? existing.graphic?.hasLocalBlob,
+          }
           : existing.graphic,
       });
     }
@@ -556,6 +557,9 @@ export function useAbstractSubmissions() {
 
           graphicRecord = {
             ...assets.graphicMeta,
+            widthInches: clampFigureWidthInches(
+              input.figureWidthInches ?? assets.graphicMeta.widthInches
+            ),
             ...(input.graphicCaption?.trim()
               ? { caption: input.graphicCaption.trim() }
               : {}),
@@ -587,12 +591,12 @@ export function useAbstractSubmissions() {
           studentTravelAwardApplicant: input.studentTravelAwardApplicant,
           ...(assets?.pdfFile
             ? {
-                fileName: assets.pdfFile.name,
-                fileSizeBytes: assets.pdfFile.size,
-                fileMimeType: assets.pdfFile.type || "application/pdf",
-                ...(pdfStorageUrl ? { fileStorageUrl: pdfStorageUrl } : {}),
-                hasLocalFileBlob: storedPdfLocally,
-              }
+              fileName: assets.pdfFile.name,
+              fileSizeBytes: assets.pdfFile.size,
+              fileMimeType: assets.pdfFile.type || "application/pdf",
+              ...(pdfStorageUrl ? { fileStorageUrl: pdfStorageUrl } : {}),
+              hasLocalFileBlob: storedPdfLocally,
+            }
             : {}),
           submittedByUid: input.submittedByUid,
           submittedByEmail: input.submittedByEmail,

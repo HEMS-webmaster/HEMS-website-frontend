@@ -13,10 +13,11 @@ export interface WordPasteResult {
 }
 
 const INLINE_FORMAT_TAG_REGEX = /<\/?(?:b|i|u|sub|sup)>/gi;
+const FIGURE_TOKEN_REGEX = /\[FIGURE\]/gi;
 
 export function stripFormattingTags(input: string): string {
   if (!input) return "";
-  return input.replace(INLINE_FORMAT_TAG_REGEX, "");
+  return input.replace(INLINE_FORMAT_TAG_REGEX, "").replace(FIGURE_TOKEN_REGEX, "");
 }
 
 export function countVisibleChars(input: string): number {
@@ -42,6 +43,15 @@ export function slicePreservingTags(
   const openStack: string[] = [];
 
   while (i < input.length && visibleCount < maxVisibleChars) {
+    if (input[i] === "[") {
+      const figMatch = input.slice(i).match(/^\[FIGURE\]/i);
+      if (figMatch) {
+        out += "[FIGURE]";
+        i += figMatch[0].length;
+        continue;
+      }
+    }
+
     if (input[i] === "<") {
       const rest = input.slice(i);
       const tagMatch = rest.match(/^<(\/?)(b|i|u|sub|sup)>/i);
@@ -451,9 +461,8 @@ function ommlNodeToText(node: Node): string {
     const sub = subEl ? ommlChildrenToText(subEl).trim() : "";
     const sup = supEl ? ommlChildrenToText(supEl).trim() : "";
     const base = baseEl ? ommlChildrenToText(baseEl).trim() : "";
-    return `${op}${sub ? toUnicodeSubscript(sub) : ""}${
-      sup ? toUnicodeSuperscript(sup) : ""
-    }${base}`;
+    return `${op}${sub ? toUnicodeSubscript(sub) : ""}${sup ? toUnicodeSuperscript(sup) : ""
+      }${base}`;
   }
 
   if (tag === "omathpr" || tag === "rpr" || tag === "ctrlpr" || tag === "npr") {
@@ -615,7 +624,7 @@ function walkHtmlNode(
   preserveInlineFormatting = false
 ): string {
   if (node.nodeType === Node.TEXT_NODE) {
-    const raw = node.textContent || "";
+    const raw = (node.textContent || "").replace(/[\r\n\t]+/g, " ");
     const normalized = normalizeMathAlphanumerics(raw);
     return symbolMode ? mapSymbolFontText(normalized) : normalized;
   }
@@ -713,13 +722,51 @@ function walkHtmlNode(
 
   if (BLOCK_TAGS.has(tag)) {
     const trimmed = innerText.trim();
-    return trimmed ? `${trimmed}\n` : "";
+    return trimmed ? `${trimmed}\n\n` : "";
   }
 
   return innerText;
 }
 
-function cleanTypography(raw: string, multiline: boolean): string {
+function unwrapPlainTextParagraphs(text: string): string {
+  const normalized = text.replace(/\r\n?/g, "\n");
+  const paragraphs = normalized.split(/\n{2,}/);
+  const unwrapped = paragraphs
+    .map((para) => {
+      const lines = para
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+      if (lines.length <= 1) return lines.join("");
+
+      const mergedLines: string[] = [];
+      for (const line of lines) {
+        const isListItem = /^(?:•|-|\*|\d+[.)])\s+/.test(line);
+        const isFigureMarker = /^\[FIGURE\]$/i.test(line);
+        if (
+          mergedLines.length === 0 ||
+          isListItem ||
+          isFigureMarker ||
+          /^\[FIGURE\]$/i.test(mergedLines[mergedLines.length - 1])
+        ) {
+          mergedLines.push(line);
+        } else {
+          const prev = mergedLines[mergedLines.length - 1];
+          if (prev.endsWith("-") && !prev.endsWith(" -") && /^[a-z]/.test(line)) {
+            mergedLines[mergedLines.length - 1] = `${prev.slice(0, -1)}${line}`;
+          } else {
+            mergedLines[mergedLines.length - 1] = `${prev} ${line}`;
+          }
+        }
+      }
+      return mergedLines.join("\n");
+    })
+    .filter(Boolean);
+
+  return unwrapped.join("\n\n");
+}
+
+function cleanTypography(raw: string, multiline: boolean, unwrapLines = false): string {
   let cleaned = normalizeMathAlphanumerics(raw)
     .replace(/\r\n?/g, "\n")
     .replace(/[\u00A0\u202F]/g, " ")
@@ -730,9 +777,14 @@ function cleanTypography(raw: string, multiline: boolean): string {
     return collapseAdjacentFormatTags(cleaned.replace(/\s+/g, " ").trim());
   }
 
+  if (unwrapLines) {
+    cleaned = unwrapPlainTextParagraphs(cleaned);
+  }
+
   cleaned = cleaned
+    .replace(/\s*(\[FIGURE\])\s*/gi, "\n\n[FIGURE]\n\n")
     .split("\n")
-    .map((line) => line.replace(/[ \t]+/g, " ").trimEnd())
+    .map((line) => line.replace(/[ \t]+/g, " ").trim())
     .join("\n")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
@@ -748,7 +800,7 @@ export function normalizeWordClipboard(
   const multiline = options.multiline ?? true;
   const preserveInlineFormatting = options.preserveInlineFormatting ?? false;
   const countVisibleOnly = options.countVisibleOnly ?? false;
-  const normalizedPlain = cleanTypography(plainText || "", multiline);
+  const normalizedPlain = cleanTypography(plainText || "", multiline, multiline);
 
   let chosen = normalizedPlain;
   if (htmlText && htmlText.trim() && typeof DOMParser !== "undefined") {

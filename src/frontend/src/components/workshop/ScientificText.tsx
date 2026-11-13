@@ -8,6 +8,25 @@ interface ScientificTextProps {
   className?: string;
 }
 
+export interface FigureSplitResult {
+  hasMarker: boolean;
+  beforeText: string;
+  afterText: string;
+}
+
+export function splitAtFigureMarker(raw: string): FigureSplitResult {
+  if (!raw) return { hasMarker: false, beforeText: "", afterText: "" };
+  const match = /\[FIGURE\]/i.exec(raw);
+  if (!match) {
+    return { hasMarker: false, beforeText: raw.trim(), afterText: "" };
+  }
+  return {
+    hasMarker: true,
+    beforeText: raw.slice(0, match.index).trim(),
+    afterText: raw.slice(match.index + match[0].length).trim(),
+  };
+}
+
 const TEX_SYMBOLS: Record<string, string> = {
   alpha: "α",
   beta: "β",

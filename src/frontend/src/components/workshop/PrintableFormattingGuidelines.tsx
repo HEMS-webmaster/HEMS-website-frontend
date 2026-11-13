@@ -7,6 +7,8 @@ import {
   BIO_MAX_CHARS,
   CAPTION_MAX_CHARS,
   KEYWORDS_MAX_CHARS,
+  MAX_FIGURE_WIDTH_IN,
+  MIN_FIGURE_WIDTH_IN,
   MIN_GRAPHIC_DPI,
   SYNOPSIS_MAX_CHARS,
 } from "@/types/abstractSubmission";
@@ -35,9 +37,9 @@ const SUBMISSION_STAGES_GUIDE = [
   },
   {
     stage: "03",
-    title: "Presenters & Co-Authors",
+    title: "Single Presenter & Co-Authors",
     details:
-      "Add unlimited presenters and co-authors and assign each author's institution via the Affiliation dropdown. Presenting authors are underlined on the final formatted page.",
+      "Designate 1 presenting author (underlined on the formatted page) and add unlimited co-authors, assigning each author's institution via the Affiliation dropdown.",
   },
   {
     stage: "04",
@@ -46,24 +48,24 @@ const SUBMISSION_STAGES_GUIDE = [
   },
   {
     stage: "05",
-    title: "Abstract Body, Rich Formatting & Live Preview",
-    details: `Compose or paste up to ${ABSTRACT_MAX_CHARS.toLocaleString()} characters (visible characters including spaces). Use the Subscript, Superscript, Bold, Italic, and Underline controls or paste directly from Microsoft Word (equations preserved) while verifying real-time output in the Live Formatted Text Preview box.`,
+    title: "Abstract Body, Rich Formatting, Inline Figure Marker & Live Preview",
+    details: `Compose or paste up to ${ABSTRACT_MAX_CHARS.toLocaleString()} visible characters (with spaces). Word line-wrapping is automatically unwrapped to fill the 6.5" column cleanly. Use italic m/z, Bold/Italic/Underline/Sub/Sup, or Insert Figure Here ([FIGURE]) while verifying real-time line breaks in the 1"-margin calibrated Live Preview.`,
   },
   {
     stage: "06",
-    title: "Figure Upload & Mandatory Caption",
-    details: `Optionally upload a high-resolution scientific figure (${MIN_GRAPHIC_DPI} DPI minimum: PNG, JPEG, WebP ≥900 px wide, or clean SVG). Whenever a figure is attached, a descriptive caption (up to ${CAPTION_MAX_CHARS} characters) is required.`,
+    title: "Figure Upload, Desired Width (3.0–6.5 in) & Mandatory Caption",
+    details: `Optionally upload a high-resolution scientific figure (${MIN_GRAPHIC_DPI} DPI minimum: PNG, JPEG, WebP ≥900 px wide, or clean SVG), choose its desired width (${MIN_FIGURE_WIDTH_IN}–${MAX_FIGURE_WIDTH_IN} in), and provide a required descriptive caption (up to ${CAPTION_MAX_CHARS} characters).`,
   },
   {
     stage: "07",
-    title: "Keywords & Presenter Biography",
-    details: `Provide comma-separated technical keywords (maximum ${KEYWORDS_MAX_CHARS} characters) for indexing and a brief presenter biography (maximum ${BIO_MAX_CHARS} characters) for session chairs.`,
+    title: "Keywords (w/ Suggestions) & Presenter Biography",
+    details: `Select from automatically extracted keyword phrase suggestions or type comma-separated keywords (< ${KEYWORDS_MAX_CHARS} characters) plus a brief presenter biography (< ${BIO_MAX_CHARS} characters).`,
   },
   {
     stage: "08",
-    title: "1-Page Preview & Final Submission",
+    title: "8.5\" × 11\" Preview (1\" Margins, 1–2 Pages) & Submit",
     details:
-      "Inspect the complete 1-page formatted US-Letter abstract (with authors, affiliations, synopsis, abstract, and figure fitted onto one page), optionally print/save a PDF copy, and submit directly to the Reviewer Panel.",
+      "Inspect the complete 8.5\" × 11\" US-Letter preview with 1-inch margins (extending naturally onto Page 2 if needed), fine-tune Desired Figure Width (3.0–6.5 in), print/save a formatted PDF copy, and submit to the Reviewer Panel.",
   },
 ];
 
@@ -223,17 +225,17 @@ export default function PrintableFormattingGuidelines({
         {/* Formatting, Word Equations & Page Output Rules */}
         <footer className="border border-slate-300 bg-slate-50/90 rounded-xl p-3.5 print:p-2.5 space-y-1 text-[11px] print:text-[8.5pt] text-slate-700 break-inside-avoid">
           <p className="font-bold text-slate-900 uppercase tracking-wider text-[10px] print:text-[8pt]">
-            Word Copy-Paste, Inline Styling &amp; Single-Page Output Rules
+            Word Copy-Paste, Inline Styling &amp; 8.5&quot; × 11&quot; (1&quot; Margin) Output Rules
           </p>
           <ul className="list-disc list-inside space-y-0.5 leading-snug">
             <li>
-              <strong>Microsoft Word Copy-Paste:</strong> Equations (OMML/MathML), Greek letters, superscripts, subscripts, bold, italics, and underlines paste cleanly into every text input.
+              <strong>Microsoft Word Copy-Paste:</strong> Equations (OMML/MathML), Greek letters, superscripts, subscripts, bold, italics, and underlines paste cleanly and unwrap automatically across the full 6.5&quot; text width.
             </li>
             <li>
-              <strong>Inline Formatting Markup:</strong> Raw tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) do not count against your {ABSTRACT_MAX_CHARS.toLocaleString()}-character abstract limit and preview in real time below the input box.
+              <strong>Inline Formatting &amp; Figure Marker:</strong> Raw tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) and <code>[FIGURE]</code> placement markers do not count against your {ABSTRACT_MAX_CHARS.toLocaleString()}-character abstract limit.
             </li>
             <li>
-              <strong>High-Resolution Graphics:</strong> Raster figures require embedded {MIN_GRAPHIC_DPI} DPI metadata (≥600×300 px) or ≥900 px width; clean vector SVGs are accepted automatically. Captions are mandatory when uploading a figure.
+              <strong>High-Resolution Graphics ({MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN} in):</strong> Raster figures require embedded {MIN_GRAPHIC_DPI} DPI metadata (≥600×300 px) or ≥900 px width; clean vector SVGs are accepted automatically. Captions are mandatory when uploading a figure, and outputs may flow onto Page 2 with 1&quot; margins.
             </li>
           </ul>
         </footer>
@@ -241,3 +243,4 @@ export default function PrintableFormattingGuidelines({
     </div>
   );
 }
+

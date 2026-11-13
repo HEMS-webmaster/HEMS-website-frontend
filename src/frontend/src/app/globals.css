@@ -57,6 +57,15 @@ body {
     margin: 0.38in 0.45in;
   }
 
+  @page hems-abstract {
+    size: letter portrait;
+    margin: 1in;
+  }
+
+  .hems-abstract-print-sheet {
+    page: hems-abstract;
+  }
+
   html,
   body {
     background: #ffffff !important;

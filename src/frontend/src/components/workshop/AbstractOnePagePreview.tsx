@@ -1,16 +1,24 @@
 "use client";
 
-import React, { useMemo } from "react";
-import { ArrowLeft, Printer, Upload, GraduationCap, Image as ImageIcon, User } from "lucide-react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ArrowLeft,
+  Printer,
+  Upload,
+  GraduationCap,
+  Image as ImageIcon,
+  User,
+} from "lucide-react";
 import {
   AffiliationEntry,
   AuthorEntry,
+  clampFigureWidthInches,
   GraphicMetadata,
   PresentationFormat,
+  PRINTABLE_TEXT_WIDTH_IN,
   ResearchTrack,
 } from "@/types/abstractSubmission";
-import ScientificText from "@/components/workshop/ScientificText";
-import { countVisibleChars } from "@/utils/wordPasteNormalizer";
+import ScientificText, { splitAtFigureMarker } from "@/components/workshop/ScientificText";
 
 export interface AbstractOnePagePreviewProps {
   submissionId?: string;
@@ -35,6 +43,7 @@ export interface AbstractOnePagePreviewProps {
   graphicUrl?: string | null;
   graphicMeta?: GraphicMetadata | null;
   graphicCaption?: string;
+  figureWidthInches?: number;
   onClose?: () => void;
   onSubmitDraft?: () => void;
   submittingDraft?: boolean;
@@ -72,12 +81,16 @@ export default function AbstractOnePagePreview({
   graphicUrl,
   graphicMeta,
   graphicCaption,
+  figureWidthInches,
   onClose,
   onSubmitDraft,
   submittingDraft = false,
-  modeLabel = "1-Page Formatted Abstract Preview",
+  modeLabel = "Formatted Abstract Preview (8.5\" × 11\" • 1\" Margins)",
   hideTopToolbar = false,
 }: AbstractOnePagePreviewProps) {
+  const sheetRef = useRef<HTMLElement | null>(null);
+  const [isTwoPages, setIsTwoPages] = useState(false);
+
   const { numberedAffiliations, affiliationIndexMap, normalizedAuthors } = useMemo(() => {
     const cleanAffs = affiliations.filter((a) => a.institution.trim().length > 0);
     const list: ResolvedAffiliation[] =
@@ -137,34 +150,36 @@ export default function AbstractOnePagePreview({
     };
   }, [affiliations, authors, presentingAuthorFallback, affiliationFallback, coAuthorsFallback]);
 
-  const visibleAbstractLength = useMemo(
-    () => countVisibleChars(abstractText),
+  const resolvedWidthInches = clampFigureWidthInches(
+    figureWidthInches ?? graphicMeta?.widthInches
+  );
+  const figureWidthPct = Math.min(
+    100,
+    Math.max(46.15, (resolvedWidthInches / PRINTABLE_TEXT_WIDTH_IN) * 100)
+  );
+
+  const splitAbstract = useMemo(
+    () => splitAtFigureMarker(abstractText),
     [abstractText]
   );
 
-  const isPortraitOrSquare =
-    Boolean(graphicUrl) &&
-    graphicMeta &&
-    graphicMeta.widthPx > 0 &&
-    graphicMeta.heightPx > 0
-      ? graphicMeta.widthPx / graphicMeta.heightPx <= 1.25
-      : false;
+  useEffect(() => {
+    const el = sheetRef.current;
+    if (!el || typeof window === "undefined") return;
 
-  const shouldFloatGraphic =
-    Boolean(graphicUrl) && (visibleAbstractLength > 1350 || isPortraitOrSquare);
+    const measure = () => {
+      // 11in at 96 DPI = 1056px; allow slight subpixel buffer before flagging Page 2
+      setIsTwoPages(el.scrollHeight > 1080);
+    };
+    measure();
 
-  const bodyScaleClass = useMemo(() => {
-    if (visibleAbstractLength > 2300) {
-      return "text-[11.5px] print:text-[8.4pt] leading-[1.36] print:leading-[1.24]";
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(measure);
+      observer.observe(el);
+      return () => observer.disconnect();
     }
-    if (visibleAbstractLength > 1400) {
-      return "text-[12px] print:text-[9.0pt] leading-[1.4] print:leading-[1.29]";
-    }
-    if (graphicUrl) {
-      return "text-[12.5px] print:text-[9.5pt] leading-[1.44] print:leading-[1.34]";
-    }
-    return "text-[13.5px] print:text-[10.2pt] leading-relaxed";
-  }, [visibleAbstractLength, graphicUrl]);
+    return undefined;
+  }, [abstractText, title, synopsis, graphicUrl, resolvedWidthInches, graphicCaption]);
 
   const handlePrint = () => {
     if (typeof window !== "undefined") {
@@ -173,6 +188,28 @@ export default function AbstractOnePagePreview({
   };
 
   const resolvedCaption = graphicCaption?.trim() || graphicMeta?.caption?.trim() || "";
+
+  const renderFigureBlock = () => {
+    if (!graphicUrl) return null;
+    return (
+      <figure
+        style={{ width: `${figureWidthPct.toFixed(2)}%` }}
+        className="mx-auto my-4 border border-slate-200 rounded-lg p-2 bg-white space-y-1.5 break-inside-avoid max-w-full"
+      >
+        <img
+          src={graphicUrl}
+          alt={resolvedCaption || "Submitted scientific figure"}
+          className="w-full h-auto object-contain mx-auto rounded"
+        />
+        {resolvedCaption && (
+          <figcaption className="text-[10pt] print:text-[9.5pt] text-slate-700 leading-snug text-center font-serif">
+            <strong className="text-slate-900">Figure 1.</strong>{" "}
+            <ScientificText text={resolvedCaption} />
+          </figcaption>
+        )}
+      </figure>
+    );
+  };
 
   return (
     <div className="space-y-4 w-full min-w-0 print:space-y-0">
@@ -195,7 +232,8 @@ export default function AbstractOnePagePreview({
                 {modeLabel}
               </span>
               <span className="block text-[11px] text-slate-500 truncate">
-                Single US-Letter sheet • Styled with HEMS formatting &amp; inline equations
+                8.5&quot; × 11&quot; US-Letter • 1&quot; margins (6.5&quot; text width) • Est.{" "}
+                {isTwoPages ? "2 pages" : "1 page"}
               </span>
             </div>
           </div>
@@ -207,7 +245,7 @@ export default function AbstractOnePagePreview({
               className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg border border-slate-300 bg-white hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
             >
               <Printer size={14} className="text-primary" />
-              <span>Print / Save 1-Page PDF</span>
+              <span>Print / Save Formatted PDF</span>
             </button>
             {onSubmitDraft && (
               <button
@@ -224,14 +262,27 @@ export default function AbstractOnePagePreview({
         </div>
       )}
 
-      {/* Single US-Letter Formatted Sheet */}
+      {/* 8.5" × 11" US-Letter Sheet With 1-Inch Margins (6.5" Printable Text Width; Flows up to 2 Pages) */}
       <article
-        aria-label="HEMS Formatted One-Page Abstract"
-        className="max-w-[8.5in] min-h-[10.1in] print:min-h-[9.95in] mx-auto bg-white text-slate-900 border border-slate-200/95 rounded-2xl shadow-sm p-6 sm:p-8 print:max-w-none print:mx-0 print:border-0 print:rounded-none print:shadow-none print:p-0 flex flex-col justify-between gap-3 print:gap-2 break-inside-avoid"
+        ref={sheetRef}
+        aria-label="HEMS Formatted Abstract Sheet"
+        className="hems-abstract-print-sheet relative w-full max-w-[8.5in] min-h-[11in] mx-auto bg-white text-slate-900 border border-slate-300 rounded-md shadow-sm p-6 sm:p-[1in] print:max-w-none print:min-h-0 print:mx-0 print:border-0 print:rounded-none print:shadow-none print:p-0 flex flex-col justify-between gap-4"
       >
-        <div className="space-y-2.5 print:space-y-2">
+        {/* Subtle Screen-Only Page 1 -> Page 2 Boundary Indicator at 11in */}
+        {isTwoPages && (
+          <div
+            aria-hidden="true"
+            className="print:hidden pointer-events-none absolute left-0 right-0 top-[11in] border-t-2 border-dashed border-sky-400/70 flex justify-end pr-3 z-10"
+          >
+            <span className="-translate-y-1/2 bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-2xs">
+              Page 2 Boundary (8.5&quot; × 11&quot; • 1&quot; margins)
+            </span>
+          </div>
+        )}
+
+        <div className="space-y-3.5 print:space-y-3">
           {/* 1. Society Letterhead */}
-          <header className="flex flex-col sm:flex-row print:flex-row sm:items-center print:items-center justify-between gap-3 pb-2 print:pb-1.5 border-b-2 border-slate-900">
+          <header className="flex flex-col sm:flex-row print:flex-row sm:items-center print:items-center justify-between gap-3 pb-2.5 border-b-2 border-slate-900 break-inside-avoid">
             <div className="flex items-center gap-3">
               <div className="w-11 print:w-10 rounded-md bg-white border border-slate-200 p-0.5 shrink-0">
                 <img
@@ -247,7 +298,7 @@ export default function AbstractOnePagePreview({
                 <p className="font-serif text-sm print:text-[11pt] font-bold text-slate-900 leading-tight">
                   Harsh-Environment Mass Spectrometry Society
                 </p>
-                <p className="text-[10.5px] print:text-[8.2pt] text-slate-600 tabular-nums">
+                <p className="text-[10.5px] print:text-[8.5pt] text-slate-600 tabular-nums">
                   {workshopOrdinal} Biennial HEMS Workshop • {workshopWindow} ({workshopYear})
                 </p>
               </div>
@@ -255,27 +306,27 @@ export default function AbstractOnePagePreview({
 
             <div className="sm:text-right print:text-right space-y-0.5 shrink-0">
               <div className="flex flex-wrap sm:justify-end print:justify-end items-center gap-1.5">
-                <span className="tabular-nums text-[10px] print:text-[7.8pt] font-bold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded">
+                <span className="tabular-nums text-[10px] print:text-[8pt] font-bold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded">
                   {submissionId || "DRAFT PREVIEW"}
                 </span>
-                <span className="text-[10px] print:text-[7.8pt] font-semibold bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded">
+                <span className="text-[10px] print:text-[8pt] font-semibold bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded">
                   {presentationFormat}
                 </span>
               </div>
-              <p className="text-[10px] print:text-[7.8pt] font-medium text-slate-600">
+              <p className="text-[10px] print:text-[8pt] font-medium text-slate-600">
                 Track: {researchTrack}
               </p>
             </div>
           </header>
 
-          {/* 2. Title, Authors (Presenters Underlined) & Numbered Affiliations with Locations */}
-          <section className="text-center space-y-1.5 print:space-y-1 pt-0.5">
-            <h1 className="font-serif text-lg sm:text-[18px] print:text-[13.5pt] font-bold text-slate-950 leading-snug">
+          {/* 2. Title, Authors (Single Presenter Underlined) & Numbered Affiliations */}
+          <section className="text-center space-y-1.5 pt-0.5 break-inside-avoid">
+            <h1 className="font-serif text-[14pt] print:text-[14pt] font-bold text-slate-950 leading-snug">
               <ScientificText text={title.trim() || "Untitled HEMS Workshop Abstract"} />
             </h1>
 
             {normalizedAuthors.length > 0 && (
-              <p className="font-serif text-[12.5px] print:text-[10pt] text-slate-900 leading-snug">
+              <p className="font-serif text-[11pt] print:text-[11pt] text-slate-900 leading-snug">
                 {normalizedAuthors.map((author, idx) => {
                   const affNum = affiliationIndexMap.get(author.affiliationId);
                   return (
@@ -303,7 +354,7 @@ export default function AbstractOnePagePreview({
             )}
 
             {numberedAffiliations.length > 0 && (
-              <div className="font-serif italic text-[11px] print:text-[8.6pt] text-slate-600 leading-snug">
+              <div className="font-serif italic text-[9.5pt] print:text-[9.5pt] text-slate-600 leading-snug">
                 <p>
                   {numberedAffiliations.map((aff, idx) => (
                     <React.Fragment key={aff.id}>
@@ -324,7 +375,7 @@ export default function AbstractOnePagePreview({
               </div>
             )}
 
-            <p className="text-[10px] print:text-[8pt] text-slate-500">
+            <p className="text-[9pt] print:text-[8.5pt] text-slate-500">
               *Presenting / Corresponding Author:{" "}
               <span className="font-medium text-slate-700">
                 {correspondingEmail.trim() || "author@institution.edu"}
@@ -343,17 +394,17 @@ export default function AbstractOnePagePreview({
 
           {/* 3. Synopsis Callout + Keywords */}
           {(synopsis.trim() || keywords?.trim()) && (
-            <section className="border-l-3 border-primary bg-slate-50/90 px-3 py-1.5 print:px-2.5 print:py-1 rounded-r-lg space-y-0.5">
+            <section className="border-l-3 border-primary bg-slate-50/90 px-3 py-2 rounded-r-lg space-y-1 break-inside-avoid">
               {synopsis.trim() && (
-                <p className="text-[11px] print:text-[8.5pt] text-slate-800 leading-snug">
-                  <span className="font-bold uppercase tracking-wider text-[9.5px] print:text-[7.5pt] text-primary mr-1.5">
+                <p className="text-[9.5pt] print:text-[9.5pt] text-slate-800 leading-snug">
+                  <span className="font-bold uppercase tracking-wider text-[8.5pt] text-primary mr-1.5">
                     Synopsis:
                   </span>
                   <ScientificText text={synopsis.trim()} />
                 </p>
               )}
               {keywords?.trim() && (
-                <p className="text-[10.5px] print:text-[8pt] text-slate-600 leading-snug">
+                <p className="text-[9pt] print:text-[9pt] text-slate-600 leading-snug">
                   <span className="font-semibold text-slate-700 mr-1">Keywords:</span>
                   <ScientificText text={keywords.trim()} />
                 </p>
@@ -361,75 +412,46 @@ export default function AbstractOnePagePreview({
             </section>
           )}
 
-          {/* 4. Abstract Body (<= 3,000 visible chars) + 300-DPI Figure */}
-          <section className="pt-0.5">
-            {shouldFloatGraphic && graphicUrl ? (
-              <div className="clearfix">
-                <figure className="sm:float-right print:float-right sm:w-[42%] print:w-[42%] sm:ml-4 print:ml-3 mb-2 border border-slate-200 rounded-lg p-2 bg-white space-y-1 break-inside-avoid">
-                  <img
-                    src={graphicUrl}
-                    alt={resolvedCaption || "Submitted scientific figure"}
-                    className="w-full max-h-[3.2in] print:max-h-[2.95in] object-contain mx-auto rounded"
-                  />
-                  {resolvedCaption && (
-                    <figcaption className="text-[9.5px] print:text-[7.5pt] text-slate-600 leading-snug text-center">
-                      <strong className="text-slate-800">Figure 1.</strong>{" "}
-                      <ScientificText text={resolvedCaption} />
-                    </figcaption>
-                  )}
-                </figure>
-
-                <div className={`font-serif text-slate-900 text-justify ${bodyScaleClass}`}>
-                  <ScientificText
-                    text={abstractText.trim() || "Abstract body text not yet entered."}
-                    multiline
-                  />
-                </div>
+          {/* 4. Abstract Body (11pt serif on 6.5in text column) + Inline or Trailing Figure */}
+          <section className="pt-1 font-serif text-[11pt] print:text-[11pt] text-slate-900 leading-[1.45] text-justify">
+            {splitAbstract.hasMarker ? (
+              <div className="space-y-3">
+                {splitAbstract.beforeText && (
+                  <ScientificText text={splitAbstract.beforeText} multiline />
+                )}
+                {renderFigureBlock()}
+                {splitAbstract.afterText && (
+                  <ScientificText text={splitAbstract.afterText} multiline />
+                )}
               </div>
             ) : (
-              <div className="space-y-2.5 print:space-y-2">
-                <div className={`font-serif text-slate-900 text-justify ${bodyScaleClass}`}>
-                  <ScientificText
-                    text={abstractText.trim() || "Abstract body text not yet entered."}
-                    multiline
-                  />
-                </div>
-
-                {graphicUrl && (
-                  <figure className="border border-slate-200 rounded-lg p-2 print:p-1.5 bg-white space-y-1 break-inside-avoid">
-                    <img
-                      src={graphicUrl}
-                      alt={resolvedCaption || "Submitted scientific figure"}
-                      className="max-h-[2.85in] print:max-h-[2.65in] max-w-full w-auto object-contain mx-auto rounded"
-                    />
-                    {resolvedCaption && (
-                      <figcaption className="text-[10px] print:text-[7.8pt] text-slate-600 leading-snug text-center max-w-2xl mx-auto">
-                        <strong className="text-slate-800">Figure 1.</strong>{" "}
-                        <ScientificText text={resolvedCaption} />
-                      </figcaption>
-                    )}
-                  </figure>
-                )}
+              <div className="space-y-3">
+                <ScientificText
+                  text={abstractText.trim() || "Abstract body text not yet entered."}
+                  multiline
+                />
+                {renderFigureBlock()}
               </div>
             )}
           </section>
         </div>
 
-        {/* 5. Single-Page Footer Strip */}
-        <footer className="border-t border-slate-200 pt-1.5 print:pt-1 flex flex-wrap items-center justify-between gap-2 text-[9.5px] print:text-[7.5pt] text-slate-500 tabular-nums">
+        {/* 5. Sheet Footer Strip */}
+        <footer className="border-t border-slate-200 pt-2 flex flex-wrap items-center justify-between gap-2 text-[8.5pt] text-slate-500 tabular-nums break-inside-avoid">
           <span>
             HEMS Society • www.hems-workshop.org • {workshopOrdinal} Workshop ({workshopYear})
           </span>
           <div className="flex flex-wrap items-center gap-3">
             {graphicMeta && (
               <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold">
-                <ImageIcon size={10} />
-                Figure: {graphicMeta.detectedDpi} DPI ({graphicMeta.widthPx}×{graphicMeta.heightPx} px)
+                <ImageIcon size={11} />
+                Figure: {graphicMeta.detectedDpi} DPI ({graphicMeta.widthPx}×{graphicMeta.heightPx} px •{" "}
+                {resolvedWidthInches.toFixed(2)}&quot; width)
               </span>
             )}
             {studentTravelAwardApplicant && (
               <span className="inline-flex items-center gap-1 text-secondary font-semibold">
-                <GraduationCap size={10} />
+                <GraduationCap size={11} />
                 Student Travel Award Applicant
               </span>
             )}

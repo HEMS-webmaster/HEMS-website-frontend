@@ -20,12 +20,25 @@ export type ReviewDecision =
   | "Revision Requested"
   | "Decline";
 
-export const SYNOPSIS_MAX_CHARS = 200;
+export const SYNOPSIS_MAX_CHARS = 300;
 export const ABSTRACT_MAX_CHARS = 3000;
 export const CAPTION_MAX_CHARS = 300;
 export const KEYWORDS_MAX_CHARS = 150;
 export const BIO_MAX_CHARS = 500;
 export const MIN_GRAPHIC_DPI = 300;
+export const FIGURE_MARKER_TOKEN = "[FIGURE]";
+export const MIN_FIGURE_WIDTH_IN = 3;
+export const MAX_FIGURE_WIDTH_IN = 6.5;
+export const DEFAULT_FIGURE_WIDTH_IN = 4.5;
+export const PRINTABLE_TEXT_WIDTH_IN = 6.5;
+
+export function clampFigureWidthInches(raw?: number): number {
+  if (typeof raw !== "number" || Number.isNaN(raw)) {
+    return DEFAULT_FIGURE_WIDTH_IN;
+  }
+  const clamped = Math.min(MAX_FIGURE_WIDTH_IN, Math.max(MIN_FIGURE_WIDTH_IN, raw));
+  return Math.round(clamped * 100) / 100;
+}
 
 export const PRESENTATION_FORMAT_OPTIONS: readonly PresentationFormat[] = [
   "Oral Presentation",
@@ -65,6 +78,7 @@ export interface GraphicMetadata {
   heightPx: number;
   detectedDpi: number;
   dpiSource: DpiDetectionSource;
+  widthInches?: number;
   caption?: string;
   storageUrl?: string;
   hasLocalBlob?: boolean;
@@ -125,6 +139,7 @@ export interface CreateAbstractSubmissionInput {
   keywords: string;
   presenterBio: string;
   graphicCaption?: string;
+  figureWidthInches?: number;
   studentTravelAwardApplicant: boolean;
   deadline: string;
   submittedByUid: string;

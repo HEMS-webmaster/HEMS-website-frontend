@@ -32,6 +32,7 @@ import {
   Sparkles,
   Tag,
   User,
+  Ruler,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
@@ -43,11 +44,17 @@ import {
   AuthorEntry,
   BIO_MAX_CHARS,
   CAPTION_MAX_CHARS,
+  clampFigureWidthInches,
+  DEFAULT_FIGURE_WIDTH_IN,
+  FIGURE_MARKER_TOKEN,
   GraphicMetadata,
   KEYWORDS_MAX_CHARS,
+  MAX_FIGURE_WIDTH_IN,
+  MIN_FIGURE_WIDTH_IN,
   MIN_GRAPHIC_DPI,
   PRESENTATION_FORMAT_OPTIONS,
   PresentationFormat,
+  PRINTABLE_TEXT_WIDTH_IN,
   RESEARCH_TRACK_OPTIONS,
   ResearchTrack,
   SYNOPSIS_MAX_CHARS,
@@ -62,23 +69,34 @@ import {
   slicePreservingTags,
 } from "@/utils/wordPasteNormalizer";
 import { validateImageDpi } from "@/utils/imageDpiValidator";
+import { extractSuggestedKeywords } from "@/utils/keywordExtractor";
 import AbstractOnePagePreview from "@/components/workshop/AbstractOnePagePreview";
 import PrintableFormattingGuidelines from "@/components/workshop/PrintableFormattingGuidelines";
-import ScientificText from "@/components/workshop/ScientificText";
+import ScientificText, { splitAtFigureMarker } from "@/components/workshop/ScientificText";
 
 const WORKFLOW_STAGES: Array<{ id: number; shortLabel: string; title: string }> = [
   { id: 1, shortLabel: "Title & Contact", title: "1. Title, Contact Emails, Format & Student Award" },
   { id: 2, shortLabel: "Affiliations", title: "2. Institutional Affiliations & Locations" },
-  { id: 3, shortLabel: "Authors", title: "3. Presenters & Co-Authors" },
+  { id: 3, shortLabel: "Authors", title: "3. Presenter & Co-Authors" },
   { id: 4, shortLabel: "Track & Synopsis", title: "4. Technical Research Track & Synopsis" },
   { id: 5, shortLabel: "Abstract Text", title: "5. Structured Abstract & Live Formatted Preview" },
-  { id: 6, shortLabel: "Figure & Caption", title: "6. High-Resolution Figure (300 DPI) & Caption" },
+  { id: 6, shortLabel: "Figure & Width", title: "6. High-Resolution Figure (300 DPI), Width & Caption" },
   { id: 7, shortLabel: "Keywords & Bio", title: "7. Keywords & Presenter Biography" },
-  { id: 8, shortLabel: "Preview & Submit", title: "8. Full 1-Page Preview & Submit" },
+  { id: 8, shortLabel: "Preview & Submit", title: "8. Formatted Preview (8.5\" × 11\", 1\" Margins) & Submit" },
 ];
 
-const QUICK_MATH_TOKENS: Array<{ label: string; token: string; title: string }> = [
-  { label: "m/z", token: "m/z", title: "Mass-to-charge ratio" },
+const QUICK_MATH_TOKENS: Array<{
+  label: string;
+  token: string;
+  title: string;
+  italic?: boolean;
+}> = [
+  {
+    label: "m/z",
+    token: "<i>m/z</i>",
+    title: "Mass-to-charge ratio (italicized m/z)",
+    italic: true,
+  },
   { label: "μ", token: "μ", title: "Micro (mu)" },
   { label: "Δ", token: "Δ", title: "Delta" },
   { label: "±", token: "±", title: "Plus-minus" },
@@ -95,6 +113,11 @@ const QUICK_MATH_TOKENS: Array<{ label: string; token: string; title: string }> 
   { label: "a/b", token: "$\\frac{a}{b}$", title: "Stacked fraction" },
   { label: "√x", token: "$\\sqrt{x}$", title: "Square root" },
 ];
+
+const LABEL_CLASS =
+  "block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 mb-1.5";
+const INPUT_CLASS =
+  "w-full bg-white border-2 border-slate-300 hover:border-slate-400 rounded-xl px-3.5 py-2.5 text-[15px] font-normal text-slate-950 placeholder:text-slate-400 shadow-2xs focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 transition-colors";
 
 function nextId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
@@ -164,6 +187,12 @@ export default function AbstractSubmissionClient() {
     "storageUrl" | "hasLocalBlob"
   > | null>(null);
   const [graphicPreviewUrl, setGraphicPreviewUrl] = useState<string>("");
+  const [figureWidthInches, setFigureWidthInches] = useState<number>(
+    DEFAULT_FIGURE_WIDTH_IN
+  );
+  const [figureWidthInput, setFigureWidthInput] = useState<string>(
+    String(DEFAULT_FIGURE_WIDTH_IN)
+  );
   const [graphicCaption, setGraphicCaption] = useState("");
   const [graphicError, setGraphicError] = useState<string | null>(null);
   const [checkingGraphic, setCheckingGraphic] = useState(false);
@@ -214,6 +243,25 @@ export default function AbstractSubmissionClient() {
   const visibleAbstractChars = useMemo(
     () => countVisibleChars(abstractText),
     [abstractText]
+  );
+
+  const splitAbstractPreview = useMemo(
+    () => splitAtFigureMarker(abstractText),
+    [abstractText]
+  );
+
+  const suggestedKeywords = useMemo(
+    () =>
+      extractSuggestedKeywords(
+        {
+          title,
+          synopsis: summary,
+          abstractText,
+          researchTrack,
+        },
+        8
+      ),
+    [title, summary, abstractText, researchTrack]
   );
 
   const parsedKeywordTags = useMemo(
@@ -434,8 +482,8 @@ export default function AbstractSubmissionClient() {
     );
   };
 
-  // Stage 3: Author Handlers
-  const handleAddAuthor = (isPresenter: boolean) => {
+  // Stage 3: Single-Presenter & Unlimited Co-Author Handlers
+  const handleAddCoAuthor = () => {
     const defaultAffId = affiliations[0]?.id || "aff-1";
     setAuthors((prev) => [
       ...prev,
@@ -443,7 +491,7 @@ export default function AbstractSubmissionClient() {
         id: nextId("auth"),
         name: "",
         affiliationId: defaultAffId,
-        isPresenter,
+        isPresenter: prev.length === 0,
       },
     ]);
   };
@@ -460,20 +508,11 @@ export default function AbstractSubmissionClient() {
     );
   };
 
-  const handleToggleAuthorPresenter = (id: string) => {
-    setAuthors((prev) => {
-      const target = prev.find((a) => a.id === id);
-      if (!target) return prev;
-      const presenterCount = prev.filter((a) => a.isPresenter).length;
-      if (target.isPresenter && presenterCount <= 1) {
-        setStageError("At least one author must be designated as Presenter.");
-        return prev;
-      }
-      setStageError(null);
-      return prev.map((a) =>
-        a.id === id ? { ...a, isPresenter: !a.isPresenter } : a
-      );
-    });
+  const handleSelectSinglePresenter = (id: string) => {
+    setStageError(null);
+    setAuthors((prev) =>
+      prev.map((a) => ({ ...a, isPresenter: a.id === id }))
+    );
   };
 
   const handleRemoveAuthor = (id: string) => {
@@ -571,6 +610,117 @@ export default function AbstractSubmissionClient() {
         textarea.setSelectionRange(nextCursor, nextCursor);
       });
     }
+  };
+
+  const insertOrMoveFigureMarker = () => {
+    const textarea = abstractTextareaRef.current;
+    const rawStart = textarea?.selectionStart ?? abstractText.length;
+    const rawEnd = textarea?.selectionEnd ?? abstractText.length;
+
+    const markerRegex = /[ \t]*\[FIGURE\][ \t]*/gi;
+    const existingMatch = markerRegex.exec(abstractText);
+
+    let baseText = abstractText;
+    let start = rawStart;
+    let end = rawEnd;
+
+    if (existingMatch) {
+      const matchStart = existingMatch.index;
+      const matchLen = existingMatch[0].length;
+      baseText =
+        abstractText.slice(0, matchStart) +
+        abstractText.slice(matchStart + matchLen);
+      baseText = baseText.replace(/\n{3,}/g, "\n\n");
+      if (rawStart > matchStart) {
+        start = Math.max(0, rawStart - matchLen);
+      }
+      if (rawEnd > matchStart) {
+        end = Math.max(start, rawEnd - matchLen);
+      }
+    }
+
+    const before = baseText.slice(0, start).replace(/\n+$/g, "");
+    const after = baseText.slice(end).replace(/^\n+/g, "");
+    const prefix = before ? `${before}\n\n` : "";
+    const suffix = after ? `\n\n${after}` : "";
+    const nextText = `${prefix}${FIGURE_MARKER_TOKEN}${suffix}`;
+
+    setAbstractText(nextText);
+    setPasteNotice(
+      existingMatch
+        ? "Moved the [FIGURE] placement marker to the new cursor position."
+        : "Inserted [FIGURE] placement marker. Your figure will render at this position in the live & final previews."
+    );
+
+    const nextCursor = prefix.length + FIGURE_MARKER_TOKEN.length;
+    if (typeof window !== "undefined") {
+      window.requestAnimationFrame(() => {
+        if (!textarea) return;
+        textarea.focus();
+        textarea.setSelectionRange(nextCursor, nextCursor);
+      });
+    }
+  };
+
+  const removeFigureMarker = () => {
+    const cleaned = abstractText
+      .replace(/[ \t]*\n*\[FIGURE\]\n*[ \t]*/gi, "\n\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+    setAbstractText(cleaned);
+    setPasteNotice(null);
+  };
+
+  const handleSetFigureWidth = (nextWidth: number) => {
+    const clamped = clampFigureWidthInches(nextWidth);
+    setFigureWidthInches(clamped);
+    setFigureWidthInput(String(clamped));
+  };
+
+  const handleFigureWidthInputChange = (rawVal: string) => {
+    setFigureWidthInput(rawVal);
+    const parsed = Number.parseFloat(rawVal);
+    if (!Number.isNaN(parsed)) {
+      if (parsed >= MIN_FIGURE_WIDTH_IN && parsed <= MAX_FIGURE_WIDTH_IN) {
+        setFigureWidthInches(Math.round(parsed * 100) / 100);
+      }
+    }
+  };
+
+  const handleFigureWidthInputBlur = () => {
+    const parsed = Number.parseFloat(figureWidthInput);
+    const clamped = clampFigureWidthInches(
+      Number.isNaN(parsed) ? figureWidthInches : parsed
+    );
+    setFigureWidthInches(clamped);
+    setFigureWidthInput(String(clamped));
+  };
+
+  const handleToggleSuggestedKeyword = (phrase: string) => {
+    const targetLower = phrase.trim().toLowerCase();
+    const existing = keywords
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean);
+    const existingIdx = existing.findIndex((k) => k.toLowerCase() === targetLower);
+
+    if (existingIdx >= 0) {
+      const updated = existing.filter((_, idx) => idx !== existingIdx).join(", ");
+      setKeywords(updated);
+      setPasteNotice(null);
+      return;
+    }
+
+    const candidate =
+      existing.length > 0 ? `${existing.join(", ")}, ${phrase}` : phrase;
+    if (candidate.length > KEYWORDS_MAX_CHARS) {
+      setPasteNotice(
+        `Cannot add "${phrase}": keywords cannot exceed ${KEYWORDS_MAX_CHARS} characters.`
+      );
+      return;
+    }
+    setPasteNotice(null);
+    setKeywords(candidate);
   };
 
   const handleLoadAbstractTxt = async (
@@ -682,8 +832,9 @@ export default function AbstractSubmissionClient() {
       if (validAuthors.length === 0) {
         return "Please enter at least one presenter or co-author name.";
       }
-      if (!validAuthors.some((a) => a.isPresenter)) {
-        return "Please check Presenter on at least one author.";
+      const selectedPresenters = validAuthors.filter((a) => a.isPresenter);
+      if (selectedPresenters.length !== 1) {
+        return "Exactly 1 author with a filled-in name must be selected as the Presenter.";
       }
       const validAffIds = new Set(
         affiliations
@@ -699,7 +850,7 @@ export default function AbstractSubmissionClient() {
 
     if (stage === 4) {
       if (summary.trim().length < 15) {
-        return "Please enter a concise synopsis (at least 15 characters, max 200).";
+        return `Please enter a concise synopsis (at least 15 characters, max ${SYNOPSIS_MAX_CHARS}).`;
       }
       if (summary.length > SYNOPSIS_MAX_CHARS) {
         return `Synopsis cannot exceed ${SYNOPSIS_MAX_CHARS} characters.`;
@@ -718,6 +869,12 @@ export default function AbstractSubmissionClient() {
     }
 
     if (stage === 6) {
+      if (
+        figureWidthInches < MIN_FIGURE_WIDTH_IN ||
+        figureWidthInches > MAX_FIGURE_WIDTH_IN
+      ) {
+        return `Desired figure width must be between ${MIN_FIGURE_WIDTH_IN} and ${MAX_FIGURE_WIDTH_IN} inches.`;
+      }
       if (graphicFile && !graphicCaption.trim()) {
         return "Figure caption is required (non-optional) whenever a graphic is uploaded.";
       }
@@ -818,6 +975,7 @@ export default function AbstractSubmissionClient() {
           keywords,
           presenterBio,
           graphicCaption: graphicFile ? graphicCaption : "",
+          figureWidthInches: graphicFile ? clampFigureWidthInches(figureWidthInches) : undefined,
           studentTravelAwardApplicant,
           deadline: workshop.cfp_abstract_deadline,
           submittedByUid: user.uid,
@@ -825,7 +983,12 @@ export default function AbstractSubmissionClient() {
         },
         {
           graphicFile,
-          graphicMeta,
+          graphicMeta: graphicMeta
+            ? {
+                ...graphicMeta,
+                widthInches: clampFigureWidthInches(figureWidthInches),
+              }
+            : null,
         }
       );
 
@@ -850,6 +1013,7 @@ export default function AbstractSubmissionClient() {
       setPresenterBio("");
       setStudentTravelAwardApplicant(false);
       setPasteNotice(null);
+      handleSetFigureWidth(DEFAULT_FIGURE_WIDTH_IN);
       handleRemoveGraphic();
       scrollToWorkspaceTop();
 
@@ -933,14 +1097,107 @@ export default function AbstractSubmissionClient() {
         graphicUrl={graphicUrl}
         graphicMeta={sub.graphic || null}
         graphicCaption={sub.graphic?.caption}
-        modeLabel={`Submitted Abstract ${sub.id} — 1-Page Preview`}
+        figureWidthInches={sub.graphic?.widthInches}
+        modeLabel={`Submitted Abstract ${sub.id} — Formatted Preview`}
         onClose={() => setSavedPreviewItem(null)}
       />
     );
   }
 
+  const figurePctOfTextCol = Math.min(
+    100,
+    Math.max(46.15, (figureWidthInches / PRINTABLE_TEXT_WIDTH_IN) * 100)
+  );
+  const effectiveDpiAtWidth =
+    graphicMeta && graphicMeta.dpiSource !== "vector" && figureWidthInches > 0
+      ? Math.round(graphicMeta.widthPx / figureWidthInches)
+      : null;
+
+  const renderFigureWidthControl = (idPrefix: string) => (
+    <div className="bg-white border-2 border-slate-300 rounded-xl p-4 space-y-3 shadow-2xs">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <label
+          htmlFor={`${idPrefix}-fig-width-number`}
+          className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5"
+        >
+          <Ruler size={14} className="text-primary" />
+          Desired Figure Width ({MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN} inches)
+        </label>
+        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-700 tabular-nums">
+          <span className="bg-sky-50 text-sky-900 border border-sky-200 px-2.5 py-0.5 rounded-full">
+            {figureWidthInches.toFixed(2)}&quot; ({Math.round(figurePctOfTextCol)}% of 6.5&quot; margin width)
+          </span>
+          {effectiveDpiAtWidth !== null && (
+            <span
+              className={`px-2.5 py-0.5 rounded-full border ${
+                effectiveDpiAtWidth >= MIN_GRAPHIC_DPI
+                  ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+                  : "bg-amber-50 border-amber-200 text-amber-800"
+              }`}
+            >
+              Effective print res: ~{effectiveDpiAtWidth} DPI
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <input
+          id={`${idPrefix}-fig-width-range`}
+          type="range"
+          min={MIN_FIGURE_WIDTH_IN}
+          max={MAX_FIGURE_WIDTH_IN}
+          step={0.1}
+          value={figureWidthInches}
+          onChange={(e) => handleSetFigureWidth(Number.parseFloat(e.target.value))}
+          aria-label="Desired figure width slider in inches"
+          className="flex-1 accent-sky-700 cursor-pointer"
+        />
+        <div className="flex items-center gap-2 shrink-0">
+          <input
+            id={`${idPrefix}-fig-width-number`}
+            type="number"
+            min={MIN_FIGURE_WIDTH_IN}
+            max={MAX_FIGURE_WIDTH_IN}
+            step={0.1}
+            value={figureWidthInput}
+            onChange={(e) => handleFigureWidthInputChange(e.target.value)}
+            onBlur={handleFigureWidthInputBlur}
+            className="w-24 bg-white border-2 border-slate-300 rounded-lg px-2.5 py-1.5 text-sm font-bold text-slate-950 tabular-nums text-right focus:outline-none focus:border-primary"
+          />
+          <span className="text-xs font-bold text-slate-700">in</span>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-1.5">
+        <span className="text-[11px] font-semibold text-slate-500 mr-1">
+          Presets:
+        </span>
+        {[
+          { label: '3.25" Half-Column', value: 3.25 },
+          { label: '4.50" Standard', value: 4.5 },
+          { label: '5.50" Wide', value: 5.5 },
+          { label: '6.50" Full 1"-Margin Width', value: 6.5 },
+        ].map((preset) => (
+          <button
+            key={preset.value}
+            type="button"
+            onClick={() => handleSetFigureWidth(preset.value)}
+            className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition-colors cursor-pointer ${
+              Math.abs(figureWidthInches - preset.value) < 0.06
+                ? "bg-primary text-white border-primary"
+                : "bg-slate-50 text-slate-800 border-slate-300 hover:border-primary hover:text-primary"
+            }`}
+          >
+            {preset.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
-    <div className="space-y-6 w-full min-w-0">
+    <div className="space-y-6 w-full max-w-[8.5in] mx-auto min-w-0 print:max-w-none">
       {/* Page Header */}
       <header className="print:hidden border-b border-slate-200 pb-5 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
         <div>
@@ -982,7 +1239,7 @@ export default function AbstractSubmissionClient() {
                 Formatting Rules, Input Parameters &amp; Submission Limits
               </h2>
               <p className="text-xs text-slate-500 tabular-nums">
-                Deadline: <strong className="text-slate-700">{workshop.cfp_abstract_deadline}</strong> • All submissions compile into a 1-page formatted US-Letter abstract
+                Deadline: <strong className="text-slate-700">{workshop.cfp_abstract_deadline}</strong> • Formatted to 8.5&quot; × 11&quot; with 1&quot; margins (6.5&quot; text width; 1–2 pages)
               </p>
             </div>
           </div>
@@ -1020,16 +1277,16 @@ export default function AbstractSubmissionClient() {
         </div>
 
         {infoExpanded && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-2.5 pt-2 border-t border-slate-100 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 pt-2 border-t border-slate-100 text-xs">
             <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
               <span className="block text-[10px] font-bold uppercase tracking-wider text-primary">
                 Stages 1–3
               </span>
               <span className="block font-semibold text-slate-800 mt-0.5">
-                Unlimited Institutes &amp; Authors
+                1 Presenter &amp; Unlimited Authors
               </span>
               <span className="block text-[11px] text-slate-500">
-                Includes institute locations &amp; author affiliation dropdowns
+                Unlimited institutes w/ locations &amp; single presenter selection
               </span>
             </div>
             <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
@@ -1051,51 +1308,18 @@ export default function AbstractSubmissionClient() {
                 Max {ABSTRACT_MAX_CHARS.toLocaleString()} chars (w/ spaces)
               </span>
               <span className="block text-[11px] text-slate-500">
-                Bold, italic, underline, sub/sup, Word equations &amp; live preview
+                Italic <em>m/z</em>, [FIGURE] placement marker &amp; 6.5&quot; live preview
               </span>
             </div>
             <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
               <span className="block text-[10px] font-bold uppercase tracking-wider text-primary">
-                Stage 6 Graphic
+                Stages 6–8 Output
               </span>
               <span className="block font-semibold text-slate-800 mt-0.5 tabular-nums">
-                {MIN_GRAPHIC_DPI} DPI Min
+                {MIN_GRAPHIC_DPI} DPI • {MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN}&quot; Width
               </span>
               <span className="block text-[11px] text-slate-500">
-                PNG, JPEG, WebP ≥900 px wide, or vector SVG
-              </span>
-            </div>
-            <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-primary">
-                Stage 6 Caption
-              </span>
-              <span className="block font-semibold text-slate-800 mt-0.5 tabular-nums">
-                Required • ≤{CAPTION_MAX_CHARS} chars
-              </span>
-              <span className="block text-[11px] text-slate-500">
-                Non-optional when graphic is uploaded
-              </span>
-            </div>
-            <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-primary">
-                Stage 7 Keywords
-              </span>
-              <span className="block font-semibold text-slate-800 mt-0.5 tabular-nums">
-                Comma-sep • &lt;{KEYWORDS_MAX_CHARS} chars
-              </span>
-              <span className="block text-[11px] text-slate-500">
-                Indexing terms for symposium proceedings
-              </span>
-            </div>
-            <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
-              <span className="block text-[10px] font-bold uppercase tracking-wider text-primary">
-                Stage 7 Bio
-              </span>
-              <span className="block font-semibold text-slate-800 mt-0.5 tabular-nums">
-                Presenter • &lt;{BIO_MAX_CHARS} chars
-              </span>
-              <span className="block text-[11px] text-slate-500">
-                Short speaker introduction bio
+                Caption ≤{CAPTION_MAX_CHARS}, Keywords &lt;{KEYWORDS_MAX_CHARS}, Bio &lt;{BIO_MAX_CHARS}
               </span>
             </div>
           </div>
@@ -1131,7 +1355,7 @@ export default function AbstractSubmissionClient() {
               onClick={() => void handleOpenSavedPreview(submittedConfirmation)}
               className="inline-flex items-center gap-1.5 bg-white border border-emerald-300 hover:border-emerald-500 text-emerald-900 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer"
             >
-              <Eye size={13} /> Show 1-Page Preview
+              <Eye size={13} /> Show Formatted Preview
             </button>
             {hasReviewerRole(user.roles) && (
               <Link
@@ -1183,29 +1407,39 @@ export default function AbstractSubmissionClient() {
         </ol>
       </nav>
 
-      {/* Main Full-Width Stage Card */}
-      <section className="w-full bg-white border border-slate-200/95 rounded-2xl p-5 sm:p-8 shadow-2xs space-y-6 print:border-0 print:shadow-none print:p-0 print:bg-transparent">
-        <div className="print:hidden border-b border-slate-100 pb-4 flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-primary tabular-nums">
-              Stage {currentStage} of {WORKFLOW_STAGES.length}
+      {/* Main 1-Inch Margin Calibrated Stage Sheet (8.5" outer container -> 6.5" printable column) */}
+      <section className="w-full bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-[0.75in] py-6 sm:py-8 shadow-xs space-y-6 print:border-0 print:shadow-none print:p-0 print:bg-transparent">
+        <div className="print:hidden space-y-3 border-b border-slate-200 pb-4">
+          {/* Pro-tip directly above Stage Titles */}
+          <div className="bg-sky-50 border border-sky-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-[13px] text-sky-950 flex items-center gap-2 shadow-2xs">
+            <Sparkles size={15} className="text-primary shrink-0" />
+            <span>
+              <strong className="font-bold text-primary">Pro-tip:</strong> Copy paste from Word to include special characters, super/subscripts, and equations.
             </span>
-            <h2 className="font-serif text-xl sm:text-2xl font-semibold text-slate-900 mt-0.5">
-              {WORKFLOW_STAGES[currentStage - 1]?.title}
-            </h2>
           </div>
-          {currentStage === 8 && (
-            <button
-              type="button"
-              onClick={() => {
-                if (typeof window !== "undefined") window.print();
-              }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-300 bg-white hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
-            >
-              <Printer size={14} className="text-primary" />
-              <span>Print / Save 1-Page PDF</span>
-            </button>
-          )}
+
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-primary tabular-nums">
+                Stage {currentStage} of {WORKFLOW_STAGES.length} • 1&quot;-Margin Sheet Width Calibration (6.5&quot; Text Measure)
+              </span>
+              <h2 className="font-serif text-xl sm:text-2xl font-semibold text-slate-900 mt-0.5">
+                {WORKFLOW_STAGES[currentStage - 1]?.title}
+              </h2>
+            </div>
+            {currentStage === 8 && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined") window.print();
+                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border-2 border-slate-300 bg-white hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
+              >
+                <Printer size={14} className="text-primary" />
+                <span>Print / Save Formatted PDF</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {stageError && (
@@ -1233,11 +1467,8 @@ export default function AbstractSubmissionClient() {
         {currentStage === 1 && (
           <div className="space-y-5">
             <div>
-              <label
-                htmlFor="abs-title"
-                className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5"
-              >
-                Presentation Title <span className="text-red-500">*</span>
+              <label htmlFor="abs-title" className={LABEL_CLASS}>
+                Presentation Title <span className="text-red-600">*</span>
               </label>
               <input
                 id="abs-title"
@@ -1248,17 +1479,14 @@ export default function AbstractSubmissionClient() {
                   applyWordPasteToField(e, title, setTitle, { multiline: false })
                 }
                 placeholder="e.g., Subsea Membrane-Inlet Mass Spectrometry of Dissolved CO₂ & C₁–C₇ Hydrocarbons"
-                className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                className={INPUT_CLASS}
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label
-                  htmlFor="abs-email"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5"
-                >
-                  Presenter&apos;s Corresponding Email <span className="text-red-500">*</span>
+                <label htmlFor="abs-email" className={LABEL_CLASS}>
+                  Presenter&apos;s Corresponding Email <span className="text-red-600">*</span>
                 </label>
                 <input
                   id="abs-email"
@@ -1271,15 +1499,12 @@ export default function AbstractSubmissionClient() {
                     })
                   }
                   placeholder="presenter@institution.edu"
-                  className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                  className={INPUT_CLASS}
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="abs-secondary-email"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5"
-                >
+                <label htmlFor="abs-secondary-email" className={LABEL_CLASS}>
                   Secondary Email (Optional)
                 </label>
                 <input
@@ -1293,16 +1518,13 @@ export default function AbstractSubmissionClient() {
                     })
                   }
                   placeholder="backup.contact@institution.edu"
-                  className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                  className={INPUT_CLASS}
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="abs-format"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5"
-                >
-                  Preferred Format <span className="text-red-500">*</span>
+                <label htmlFor="abs-format" className={LABEL_CLASS}>
+                  Preferred Format <span className="text-red-600">*</span>
                 </label>
                 <select
                   id="abs-format"
@@ -1310,7 +1532,7 @@ export default function AbstractSubmissionClient() {
                   onChange={(e) =>
                     setPresentationFormat(e.target.value as PresentationFormat)
                   }
-                  className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                  className={INPUT_CLASS}
                 >
                   {PRESENTATION_FORMAT_OPTIONS.map((opt) => (
                     <option key={opt} value={opt}>
@@ -1323,7 +1545,7 @@ export default function AbstractSubmissionClient() {
 
             {/* Interactive Student Opt-In Button */}
             <div className="pt-2">
-              <span className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">
+              <span className={LABEL_CLASS}>
                 Graduate Student Travel Award Consideration ({workshop.student_award_amount})
               </span>
               <button
@@ -1332,8 +1554,8 @@ export default function AbstractSubmissionClient() {
                 onClick={() => setStudentTravelAwardApplicant((prev) => !prev)}
                 className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                   studentTravelAwardApplicant
-                    ? "bg-teal-50/80 border-secondary text-slate-900 shadow-2xs"
-                    : "bg-[#FAFBFD] border-slate-200 hover:border-primary/50 text-slate-700"
+                    ? "bg-teal-50 border-secondary text-slate-900 shadow-2xs"
+                    : "bg-white border-slate-300 hover:border-primary text-slate-800"
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -1341,13 +1563,13 @@ export default function AbstractSubmissionClient() {
                     className={`p-2.5 rounded-xl shrink-0 ${
                       studentTravelAwardApplicant
                         ? "bg-secondary text-white"
-                        : "bg-slate-200/70 text-slate-600"
+                        : "bg-slate-200/80 text-slate-700"
                     }`}
                   >
                     <GraduationCap size={20} />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900">
+                    <p className="text-sm font-bold text-slate-950">
                       {studentTravelAwardApplicant
                         ? "Opted In: Applying for Student Travel Award"
                         : "Opt In for Graduate Student Travel Award (Click to Enable)"}
@@ -1370,7 +1592,7 @@ export default function AbstractSubmissionClient() {
                   className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider shrink-0 self-start sm:self-center ${
                     studentTravelAwardApplicant
                       ? "bg-secondary text-white"
-                      : "bg-white border border-slate-300 text-slate-700"
+                      : "bg-slate-100 border border-slate-300 text-slate-800"
                   }`}
                 >
                   {studentTravelAwardApplicant ? "Opted In ✓" : "Opt In"}
@@ -1384,7 +1606,7 @@ export default function AbstractSubmissionClient() {
         {currentStage === 2 && (
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-700">
                 Add every participating institution along with its city/state/country location. You will assign authors to these affiliations in Stage 3.
               </p>
               <button
@@ -1401,17 +1623,17 @@ export default function AbstractSubmissionClient() {
               {affiliations.map((aff, index) => (
                 <div
                   key={aff.id}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center bg-[#FAFBFD] border border-slate-200 rounded-xl p-3 sm:p-4"
+                  className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-white border-2 border-slate-200 rounded-xl p-3.5 sm:p-4"
                 >
-                  <div className="md:col-span-1 flex items-center gap-2">
+                  <div className="md:col-span-1 flex items-center gap-2 pb-1.5">
                     <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary text-xs font-bold flex items-center justify-center tabular-nums">
                       #{index + 1}
                     </span>
                   </div>
 
                   <div className="md:col-span-6">
-                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">
-                      Institute / Organization <span className="text-red-500">*</span>
+                    <label className={LABEL_CLASS}>
+                      Institute / Organization <span className="text-red-600">*</span>
                     </label>
                     <input
                       type="text"
@@ -1428,13 +1650,13 @@ export default function AbstractSubmissionClient() {
                         )
                       }
                       placeholder={`Institution #${index + 1} (e.g., Woods Hole Oceanographic Institution)`}
-                      className="w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                      className={INPUT_CLASS}
                     />
                   </div>
 
                   <div className="md:col-span-4">
-                    <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">
-                      Institute Location <span className="text-red-500">*</span>
+                    <label className={LABEL_CLASS}>
+                      Institute Location <span className="text-red-600">*</span>
                     </label>
                     <input
                       type="text"
@@ -1451,11 +1673,11 @@ export default function AbstractSubmissionClient() {
                         )
                       }
                       placeholder="City, State/Province, Country"
-                      className="w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                      className={INPUT_CLASS}
                     />
                   </div>
 
-                  <div className="md:col-span-1 flex justify-end">
+                  <div className="md:col-span-1 flex justify-end pb-1">
                     {affiliations.length > 1 && (
                       <button
                         type="button"
@@ -1473,71 +1695,73 @@ export default function AbstractSubmissionClient() {
           </div>
         )}
 
-        {/* STAGE 3: Unlimited Presenters & Co-Authors with Affiliation Dropdown */}
+        {/* STAGE 3: Single Presenter & Unlimited Co-Authors with Affiliation Dropdown */}
         {currentStage === 3 && (
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm text-slate-600">
-                Add presenters and co-authors in presentation order and choose each author&apos;s affiliation from the drop box. Presenters appear underlined on the formatted page.
+              <p className="text-sm text-slate-700">
+                Select <strong>1 Presenter</strong> using the radio selector and add any co-authors in presentation order. Only 1 presenter is permitted per abstract (underlined on the formatted sheet).
               </p>
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleAddAuthor(true)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white hover:bg-sky-800 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
-                >
-                  <UserPlus size={14} />
-                  <span>Add Presenter</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleAddAuthor(false)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer shadow-2xs"
-                >
-                  <Plus size={14} className="text-primary" />
-                  <span>Add Co-Author</span>
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={handleAddCoAuthor}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white hover:bg-sky-800 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
+              >
+                <UserPlus size={14} />
+                <span>Add Co-Author</span>
+              </button>
             </div>
 
             <div className="space-y-3">
               {authors.map((author, index) => (
                 <div
                   key={author.id}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center bg-[#FAFBFD] border border-slate-200 rounded-xl p-3 sm:p-4"
+                  className={`grid grid-cols-1 md:grid-cols-12 gap-3 items-center rounded-xl p-3.5 sm:p-4 border-2 transition-colors ${
+                    author.isPresenter
+                      ? "bg-sky-50/70 border-primary/50"
+                      : "bg-white border-slate-200"
+                  }`}
                 >
                   <div className="md:col-span-5 flex items-center gap-2.5 min-w-0">
-                    <span className="text-xs font-bold text-slate-400 w-6 text-center shrink-0 tabular-nums">
+                    <span className="text-xs font-bold text-slate-500 w-6 text-center shrink-0 tabular-nums">
                       #{index + 1}
                     </span>
-                    <input
-                      type="text"
-                      value={author.name}
-                      aria-label={`Author ${index + 1} name`}
-                      onChange={(e) => handleUpdateAuthorName(author.id, e.target.value)}
-                      onPaste={(e) =>
-                        applyWordPasteToField(
-                          e,
-                          author.name,
-                          (val) => handleUpdateAuthorName(author.id, val),
-                          { multiline: false }
-                        )
-                      }
-                      placeholder={
-                        author.isPresenter ? "Presenter Full Name" : "Co-Author Full Name"
-                      }
-                      className="flex-1 min-w-0 bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-primary"
-                    />
+                    <div className="flex-1 min-w-0">
+                      <label className="block text-[10px] font-extrabold uppercase tracking-[0.08em] text-sky-950 mb-1">
+                        {author.isPresenter ? "Presenter Name *" : `Co-Author #${index + 1}`}
+                      </label>
+                      <input
+                        type="text"
+                        value={author.name}
+                        aria-label={`Author ${index + 1} name`}
+                        onChange={(e) => handleUpdateAuthorName(author.id, e.target.value)}
+                        onPaste={(e) =>
+                          applyWordPasteToField(
+                            e,
+                            author.name,
+                            (val) => handleUpdateAuthorName(author.id, val),
+                            { multiline: false }
+                          )
+                        }
+                        placeholder={
+                          author.isPresenter ? "Presenter Full Name" : "Co-Author Full Name"
+                        }
+                        className={INPUT_CLASS}
+                      />
+                    </div>
                   </div>
 
                   <div className="md:col-span-5 min-w-0">
+                    <label className="block text-[10px] font-extrabold uppercase tracking-[0.08em] text-sky-950 mb-1">
+                      Institutional Affiliation
+                    </label>
                     <select
                       value={author.affiliationId}
                       aria-label={`Affiliation for author ${index + 1}`}
                       onChange={(e) =>
                         handleUpdateAuthorAffiliation(author.id, e.target.value)
                       }
-                      className="w-full bg-white border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-primary"
+                      className={INPUT_CLASS}
                     >
                       {affiliations.map((aff, affIdx) => (
                         <option key={aff.id} value={aff.id}>
@@ -1552,13 +1776,14 @@ export default function AbstractSubmissionClient() {
                     </select>
                   </div>
 
-                  <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-3">
-                    <label className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 cursor-pointer select-none">
+                  <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-3 pt-4 md:pt-5">
+                    <label className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-950 cursor-pointer select-none">
                       <input
-                        type="checkbox"
+                        type="radio"
+                        name="hems-single-presenter"
                         checked={author.isPresenter}
-                        onChange={() => handleToggleAuthorPresenter(author.id)}
-                        className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"
+                        onChange={() => handleSelectSinglePresenter(author.id)}
+                        className="h-4 w-4 border-slate-400 text-primary focus:ring-primary"
                       />
                       <span>Presenter</span>
                     </label>
@@ -1579,21 +1804,18 @@ export default function AbstractSubmissionClient() {
           </div>
         )}
 
-        {/* STAGE 4: Technical Track & 200-Char Synopsis */}
+        {/* STAGE 4: Technical Track & 300-Char Synopsis */}
         {currentStage === 4 && (
           <div className="space-y-5">
             <div>
-              <label
-                htmlFor="abs-track"
-                className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5"
-              >
-                Technical Research Track <span className="text-red-500">*</span>
+              <label htmlFor="abs-track" className={LABEL_CLASS}>
+                Technical Research Track <span className="text-red-600">*</span>
               </label>
               <select
                 id="abs-track"
                 value={researchTrack}
                 onChange={(e) => setResearchTrack(e.target.value as ResearchTrack)}
-                className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                className={INPUT_CLASS}
               >
                 {RESEARCH_TRACK_OPTIONS.map((track) => (
                   <option key={track} value={track}>
@@ -1607,15 +1829,16 @@ export default function AbstractSubmissionClient() {
               <div className="flex items-center justify-between gap-2 mb-1.5">
                 <label
                   htmlFor="abs-summary"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600"
+                  className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
                 >
-                  Short Synopsis (200 Chars Max) <span className="text-red-500">*</span>
+                  Short Synopsis ({SYNOPSIS_MAX_CHARS} Chars Max){" "}
+                  <span className="text-red-600">*</span>
                 </label>
                 <span
-                  className={`text-xs font-semibold tabular-nums ${
+                  className={`text-xs font-bold tabular-nums ${
                     summary.length >= SYNOPSIS_MAX_CHARS
                       ? "text-amber-600"
-                      : "text-slate-500"
+                      : "text-slate-600"
                   }`}
                 >
                   {summary.length} / {SYNOPSIS_MAX_CHARS} chars
@@ -1623,7 +1846,7 @@ export default function AbstractSubmissionClient() {
               </div>
               <textarea
                 id="abs-summary"
-                rows={3}
+                rows={4}
                 maxLength={SYNOPSIS_MAX_CHARS}
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
@@ -1642,26 +1865,27 @@ export default function AbstractSubmissionClient() {
                     }
                   )
                 }
-                placeholder="Write a concise 1-sentence synopsis (maximum 200 characters including spaces)..."
-                className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary leading-relaxed"
+                placeholder={`Write a concise headline synopsis (maximum ${SYNOPSIS_MAX_CHARS} characters including spaces)...`}
+                className={`${INPUT_CLASS} leading-relaxed`}
               />
             </div>
           </div>
         )}
 
-        {/* STAGE 5: 3,000-Char Abstract Body + Formatting Insert Toolbar + Real-Time Preview Text Box */}
+        {/* STAGE 5: 3,000-Char Abstract Body + Formatting & [FIGURE] Toolbar + 6.5"-Calibrated Live Preview */}
         {currentStage === 5 && (
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <label
                   htmlFor="abs-body"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600"
+                  className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
                 >
-                  Raw Abstract Input Text (Up to {ABSTRACT_MAX_CHARS.toLocaleString()} Chars With Spaces) <span className="text-red-500">*</span>
+                  Raw Abstract Input Text (Up to {ABSTRACT_MAX_CHARS.toLocaleString()} Chars With Spaces){" "}
+                  <span className="text-red-600">*</span>
                 </label>
-                <p className="text-[11px] text-slate-500 mt-0.5">
-                  Inline tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) do not count toward your 3,000-character budget.
+                <p className="text-[11px] text-slate-600 mt-0.5">
+                  Inline tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) and <code>[FIGURE]</code> do not count toward your 3,000-character budget.
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -1684,7 +1908,7 @@ export default function AbstractSubmissionClient() {
                   className={`text-xs font-bold tabular-nums px-2.5 py-1 rounded-full border ${
                     visibleAbstractChars >= ABSTRACT_MAX_CHARS
                       ? "bg-amber-50 border-amber-200 text-amber-700"
-                      : "bg-slate-50 border-slate-200 text-slate-700"
+                      : "bg-white border-slate-300 text-slate-800"
                   }`}
                 >
                   {visibleAbstractChars.toLocaleString()} / {ABSTRACT_MAX_CHARS.toLocaleString()} chars (with spaces)
@@ -1692,8 +1916,8 @@ export default function AbstractSubmissionClient() {
               </div>
             </div>
 
-            {/* Generalized Text Formatting & Scientific Symbol Toolbar */}
-            <div className="flex flex-wrap items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl p-2.5">
+            {/* Generalized Text Formatting, Scientific Symbol & Inline Figure Placement Toolbar */}
+            <div className="flex flex-wrap items-center gap-1.5 bg-white border-2 border-slate-200 rounded-xl p-2.5 shadow-2xs">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
                 Format:
               </span>
@@ -1701,7 +1925,7 @@ export default function AbstractSubmissionClient() {
                 type="button"
                 title="Wrap selected text as Bold (<b>...</b>)"
                 onClick={() => wrapSelectionWithFormatTag("b")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-bold text-slate-800 cursor-pointer shadow-2xs"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-bold text-slate-800 cursor-pointer shadow-2xs"
               >
                 <Bold size={13} /> Bold
               </button>
@@ -1709,7 +1933,7 @@ export default function AbstractSubmissionClient() {
                 type="button"
                 title="Wrap selected text as Italic (<i>...</i>)"
                 onClick={() => wrapSelectionWithFormatTag("i")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold italic text-slate-800 cursor-pointer shadow-2xs"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold italic text-slate-800 cursor-pointer shadow-2xs"
               >
                 <Italic size={13} /> Italic
               </button>
@@ -1717,7 +1941,7 @@ export default function AbstractSubmissionClient() {
                 type="button"
                 title="Wrap selected text as Underlined (<u>...</u>)"
                 onClick={() => wrapSelectionWithFormatTag("u")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold underline text-slate-800 cursor-pointer shadow-2xs"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold underline text-slate-800 cursor-pointer shadow-2xs"
               >
                 <Underline size={13} /> Underline
               </button>
@@ -1725,7 +1949,7 @@ export default function AbstractSubmissionClient() {
                 type="button"
                 title="Wrap selected text as Subscript (<sub>...</sub>)"
                 onClick={() => wrapSelectionWithFormatTag("sub")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
               >
                 <Subscript size={13} /> Subscript
               </button>
@@ -1733,10 +1957,34 @@ export default function AbstractSubmissionClient() {
                 type="button"
                 title="Wrap selected text as Superscript (<sup>...</sup>)"
                 onClick={() => wrapSelectionWithFormatTag("sup")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
               >
                 <Superscript size={13} /> Superscript
               </button>
+
+              <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
+
+              <button
+                type="button"
+                title="Insert [FIGURE] marker at cursor (or move existing marker here) so the figure renders inline in previews"
+                onClick={insertOrMoveFigureMarker}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 border border-primary/40 hover:bg-primary hover:text-white text-xs font-bold text-primary transition-colors cursor-pointer shadow-2xs"
+              >
+                <ImageIcon size={13} />
+                <span>
+                  {splitAbstractPreview.hasMarker ? "Move [FIGURE] Here" : "Insert Figure Here"}
+                </span>
+              </button>
+              {splitAbstractPreview.hasMarker && (
+                <button
+                  type="button"
+                  title="Remove the inline [FIGURE] marker"
+                  onClick={removeFigureMarker}
+                  className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-red-400 hover:text-red-600 text-[11px] font-semibold text-slate-600 cursor-pointer"
+                >
+                  <X size={12} /> Clear Marker
+                </button>
+              )}
 
               <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
 
@@ -1749,18 +1997,21 @@ export default function AbstractSubmissionClient() {
                   type="button"
                   title={item.title}
                   onClick={() => insertTokenIntoAbstract(item.token)}
-                  className="px-2 py-1 rounded bg-white border border-slate-200 hover:border-primary hover:text-primary text-[11px] font-medium text-slate-700 transition-colors cursor-pointer"
+                  className={`px-2 py-1 rounded bg-slate-50 border border-slate-200 hover:border-primary hover:text-primary text-[11px] font-medium text-slate-800 transition-colors cursor-pointer ${
+                    item.italic ? "italic font-serif font-semibold" : ""
+                  }`}
                 >
                   {item.label}
                 </button>
               ))}
             </div>
 
-            {/* Raw Abstract Textarea */}
+            {/* Raw Abstract Textarea (Calibrated to 6.5" text column width & natural soft wrapping) */}
             <textarea
               id="abs-body"
               ref={abstractTextareaRef}
-              rows={9}
+              rows={10}
+              wrap="soft"
               value={abstractText}
               onChange={(e) => handleAbstractTextChange(e.target.value)}
               onPaste={(e) =>
@@ -1783,26 +2034,68 @@ export default function AbstractSubmissionClient() {
                   }
                 )
               }
-              placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Select text and click Bold, Italic, Underline, Subscript, or Superscript above to insert raw tags..."
-              className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 font-mono text-[13px] text-slate-900 focus:outline-none focus:border-primary leading-relaxed"
+              placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Word line-wraps are unwrapped automatically so text fills the 6.5&quot; column width naturally..."
+              className="w-full bg-white border-2 border-slate-300 hover:border-slate-400 rounded-xl px-3.5 sm:px-[0.25in] py-3.5 font-serif text-[11pt] text-slate-950 placeholder:text-slate-400 placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-2xs"
             />
 
-            {/* Real-Time Formatted Preview Text Box Directly Below Input */}
-            <div className="border border-primary/25 bg-[#FAFBFD] rounded-2xl p-4 sm:p-5 space-y-2">
-              <div className="flex items-center justify-between gap-2 border-b border-slate-200/80 pb-2">
+            {/* Real-Time Formatted Preview Text Box (6.5" column width matching 8.5"×11" w/ 1" margins) */}
+            <div className="border-2 border-primary/30 bg-sky-50/35 rounded-2xl p-3 sm:p-4 space-y-2.5">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
-                  <Sparkles size={13} /> Live Formatted Text Preview (Pre-PDF Appearance)
+                  <Sparkles size={13} /> Live Formatted Text Preview (1&quot;-Margin Sheet Width)
                 </span>
-                <span className="text-[11px] text-slate-500">
-                  Updates live as you edit raw text &amp; tags above
+                <span className="text-[11px] font-medium text-slate-600">
+                  Matches ~6.5&quot; printable column width &amp; inline [FIGURE] placement
                 </span>
               </div>
-              <div className="bg-white border border-slate-200/90 rounded-xl p-4 sm:p-5 min-h-[120px] font-serif text-sm text-slate-900 leading-relaxed text-justify">
+              <div className="bg-white border border-slate-300 rounded-xl px-3.5 sm:px-[0.25in] py-4 sm:py-5 min-h-[140px] font-serif text-[11pt] text-slate-950 leading-[1.45] text-justify shadow-2xs">
                 {abstractText.trim() ? (
-                  <ScientificText text={abstractText} multiline />
+                  splitAbstractPreview.hasMarker ? (
+                    <div className="space-y-3">
+                      {splitAbstractPreview.beforeText && (
+                        <ScientificText text={splitAbstractPreview.beforeText} multiline />
+                      )}
+                      {graphicPreviewUrl ? (
+                        <figure
+                          style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                          className="mx-auto my-3 border border-slate-200 rounded-lg p-2 bg-white space-y-1 max-w-full"
+                        >
+                          <img
+                            src={graphicPreviewUrl}
+                            alt={graphicCaption || "Uploaded figure preview"}
+                            className="w-full h-auto object-contain mx-auto rounded"
+                          />
+                          {graphicCaption.trim() && (
+                            <figcaption className="text-[10pt] text-slate-700 leading-snug text-center font-serif">
+                              <strong className="text-slate-900">Figure 1.</strong>{" "}
+                              <ScientificText text={graphicCaption.trim()} />
+                            </figcaption>
+                          )}
+                        </figure>
+                      ) : (
+                        <div
+                          style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                          className="mx-auto my-3 border-2 border-dashed border-sky-300 bg-sky-50/70 rounded-xl p-4 text-center font-sans max-w-full"
+                        >
+                          <ImageIcon size={20} className="text-primary mx-auto mb-1" />
+                          <p className="text-xs font-bold text-sky-950">
+                            Figure 1 Placement Marker ([FIGURE]) — {figureWidthInches.toFixed(2)}&quot; Width
+                          </p>
+                          <p className="text-[11px] text-slate-600 mt-0.5">
+                            Upload your 300-DPI figure in Stage 6 and it will appear right here.
+                          </p>
+                        </div>
+                      )}
+                      {splitAbstractPreview.afterText && (
+                        <ScientificText text={splitAbstractPreview.afterText} multiline />
+                      )}
+                    </div>
+                  ) : (
+                    <ScientificText text={abstractText} multiline />
+                  )
                 ) : (
                   <p className="text-slate-400 italic font-sans text-xs">
-                    Your formatted abstract text (with bold, italics, underlines, subscripts, superscripts, Greek symbols, and Word equations) will render live here...
+                    Your formatted abstract text (with bold, italics, underlines, subscripts, superscripts, Greek symbols, Word equations, and inline [FIGURE] placement) will render live here...
                   </p>
                 )}
               </div>
@@ -1810,7 +2103,7 @@ export default function AbstractSubmissionClient() {
           </div>
         )}
 
-        {/* STAGE 6: Figure Upload (300 DPI Min) + Non-Optional Caption (<= 300 chars) */}
+        {/* STAGE 6: Figure Upload (300 DPI Min) + Desired Width (3-6.5 in) + Non-Optional Caption */}
         {currentStage === 6 && (
           <div className="space-y-5">
             {graphicError && (
@@ -1820,7 +2113,7 @@ export default function AbstractSubmissionClient() {
               </div>
             )}
 
-            <div className="border-2 border-dashed border-slate-300 hover:border-primary/60 rounded-2xl p-5 sm:p-6 bg-[#FAFBFD] transition-colors space-y-4">
+            <div className="border-2 border-dashed border-slate-300 hover:border-primary/70 rounded-2xl p-5 sm:p-6 bg-white transition-colors space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-3 min-w-0">
                   <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
@@ -1845,10 +2138,10 @@ export default function AbstractSubmissionClient() {
                       </>
                     ) : (
                       <>
-                        <p className="text-sm font-semibold text-slate-800">
+                        <p className="text-sm font-semibold text-slate-900">
                           Upload Scientific Figure ({MIN_GRAPHIC_DPI} DPI Minimum — Optional)
                         </p>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-slate-600 mt-0.5">
                           Accepted: PNG, JPEG, WebP (≥{MIN_GRAPHIC_DPI} DPI metadata at ≥600×300 px, or ≥900 px wide) or clean vector SVG.
                         </p>
                       </>
@@ -1868,7 +2161,7 @@ export default function AbstractSubmissionClient() {
                   )}
                   <label
                     htmlFor="abs-graphic-upload"
-                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
                   >
                     <Upload size={14} />
                     <span>{graphicFile ? "Replace Graphic" : "Choose Graphic"}</span>
@@ -1885,39 +2178,43 @@ export default function AbstractSubmissionClient() {
               </div>
 
               {graphicPreviewUrl && graphicFile && (
-                <div className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-center">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-center justify-center">
                   <img
                     src={graphicPreviewUrl}
                     alt="Uploaded 300-DPI abstract figure preview"
-                    className="max-h-72 w-auto object-contain rounded"
+                    style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                    className="max-h-72 object-contain rounded mx-auto transition-all"
                   />
                 </div>
               )}
             </div>
+
+            {/* Desired Figure Width Input (3.0 to 6.5 inches) */}
+            {renderFigureWidthControl("stage6")}
 
             {/* Non-Optional Caption Input (<= 300 chars) */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between gap-2">
                 <label
                   htmlFor="abs-graphic-caption"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600"
+                  className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
                 >
                   Figure Caption{" "}
                   {graphicFile ? (
-                    <span className="text-red-500">
+                    <span className="text-red-600">
                       * (Required whenever a graphic is attached)
                     </span>
                   ) : (
-                    <span className="text-slate-400">
+                    <span className="text-slate-500 font-semibold">
                       (Required if uploading a figure above)
                     </span>
                   )}
                 </label>
                 <span
-                  className={`text-xs font-semibold tabular-nums ${
+                  className={`text-xs font-bold tabular-nums ${
                     graphicCaption.length >= CAPTION_MAX_CHARS
                       ? "text-amber-600"
-                      : "text-slate-500"
+                      : "text-slate-600"
                   }`}
                 >
                   {graphicCaption.length} / {CAPTION_MAX_CHARS} chars
@@ -1945,30 +2242,30 @@ export default function AbstractSubmissionClient() {
                   )
                 }
                 placeholder="Describe your mass spectrum, instrument layout, or field calibration plot (300 characters max)..."
-                className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary leading-relaxed"
+                className={`${INPUT_CLASS} leading-relaxed`}
               />
             </div>
           </div>
         )}
 
-        {/* STAGE 7: Comma-Separated Keywords (< 150 chars) & Presenter Bio (< 500 chars) */}
+        {/* STAGE 7: Keywords + 7–8 Extracted Suggestions & Presenter Bio */}
         {currentStage === 7 && (
           <div className="space-y-6">
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between gap-2">
                 <label
                   htmlFor="abs-keywords"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600 flex items-center gap-1.5"
+                  className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5"
                 >
                   <Tag size={13} className="text-primary" />
                   Keywords (Comma-Separated, Max {KEYWORDS_MAX_CHARS} Chars){" "}
-                  <span className="text-red-500">*</span>
+                  <span className="text-red-600">*</span>
                 </label>
                 <span
-                  className={`text-xs font-semibold tabular-nums ${
+                  className={`text-xs font-bold tabular-nums ${
                     keywords.length >= KEYWORDS_MAX_CHARS
                       ? "text-amber-600"
-                      : "text-slate-500"
+                      : "text-slate-600"
                   }`}
                 >
                   {keywords.length} / {KEYWORDS_MAX_CHARS} chars
@@ -1996,14 +2293,50 @@ export default function AbstractSubmissionClient() {
                   )
                 }
                 placeholder="e.g., membrane-inlet MS, subsea hydrothermal plume, AUV, quadrupole, C1-C7 hydrocarbons"
-                className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                className={INPUT_CLASS}
               />
+
+              {/* Suggested 7–8 Keyword Phrases Extracted From Draft */}
+              <div className="bg-white border border-slate-200 rounded-xl p-3.5 space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-sky-950">
+                    <Sparkles size={13} className="text-primary" />
+                    Suggested Keyword Phrases (Click to Add)
+                  </span>
+                  <span className="text-[11px] text-slate-500">
+                    Extracted from your title, synopsis, abstract &amp; track
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {suggestedKeywords.map((phrase) => {
+                    const isAdded = parsedKeywordTags.some(
+                      (k) => k.toLowerCase() === phrase.toLowerCase()
+                    );
+                    return (
+                      <button
+                        key={phrase}
+                        type="button"
+                        onClick={() => handleToggleSuggestedKeyword(phrase)}
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${
+                          isAdded
+                            ? "bg-emerald-50 border-emerald-300 text-emerald-800 hover:bg-emerald-100"
+                            : "bg-sky-50/70 border-sky-200 text-sky-900 hover:bg-primary hover:text-white hover:border-primary"
+                        }`}
+                      >
+                        <span>{isAdded ? "✓" : "+"}</span>
+                        <span>{phrase}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               {parsedKeywordTags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {parsedKeywordTags.map((tag, idx) => (
                     <span
                       key={`${tag}-${idx}`}
-                      className="text-[11px] font-medium bg-sky-50 text-sky-800 border border-sky-200 px-2.5 py-0.5 rounded-full"
+                      className="text-[11px] font-semibold bg-sky-50 text-sky-900 border border-sky-200 px-2.5 py-0.5 rounded-full"
                     >
                       {tag}
                     </span>
@@ -2016,17 +2349,17 @@ export default function AbstractSubmissionClient() {
               <div className="flex items-center justify-between gap-2">
                 <label
                   htmlFor="abs-bio"
-                  className="block text-xs font-semibold uppercase tracking-wider text-slate-600 flex items-center gap-1.5"
+                  className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5"
                 >
                   <User size={13} className="text-primary" />
                   Presenter Biography (Max {BIO_MAX_CHARS} Chars){" "}
-                  <span className="text-red-500">*</span>
+                  <span className="text-red-600">*</span>
                 </label>
                 <span
-                  className={`text-xs font-semibold tabular-nums ${
+                  className={`text-xs font-bold tabular-nums ${
                     presenterBio.length >= BIO_MAX_CHARS
                       ? "text-amber-600"
-                      : "text-slate-500"
+                      : "text-slate-600"
                   }`}
                 >
                   {presenterBio.length} / {BIO_MAX_CHARS} chars
@@ -2054,17 +2387,17 @@ export default function AbstractSubmissionClient() {
                   )
                 }
                 placeholder="Brief biographical sketch for session chairs and program reviewers (up to 500 characters)..."
-                className="w-full bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:outline-none focus:border-primary leading-relaxed"
+                className={`${INPUT_CLASS} leading-relaxed`}
               />
             </div>
           </div>
         )}
 
-        {/* STAGE 8: Full 1-Page Preview & Submit */}
+        {/* STAGE 8: 8.5" × 11" (1" Margin, 1–2 Page) Preview, Desired Figure Width & Submit */}
         {currentStage === 8 && (
           <div className="space-y-5">
-            <div className="print:hidden flex flex-wrap items-center justify-between gap-2 bg-[#FAFBFD] border border-slate-200 rounded-xl px-4 py-2.5 text-xs">
-              <span className="text-slate-600 font-medium">
+            <div className="print:hidden flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs">
+              <span className="text-slate-700 font-semibold">
                 Jump back to edit any section before submitting:
               </span>
               <div className="flex flex-wrap gap-1.5">
@@ -2073,13 +2406,16 @@ export default function AbstractSubmissionClient() {
                     key={st.id}
                     type="button"
                     onClick={() => handleJumpToStage(st.id)}
-                    className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-[11px] font-semibold text-slate-700 cursor-pointer"
+                    className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-[11px] font-semibold text-slate-800 cursor-pointer"
                   >
                     {st.id}. {st.shortLabel}
                   </button>
                 ))}
               </div>
             </div>
+
+            {/* Desired Figure Width Control Also Available Directly on Stage 8 */}
+            <div className="print:hidden">{renderFigureWidthControl("stage8")}</div>
 
             <AbstractOnePagePreview
               workshopOrdinal={workshop.workshop_ordinal}
@@ -2102,11 +2438,13 @@ export default function AbstractSubmissionClient() {
                 graphicMeta
                   ? {
                       ...graphicMeta,
+                      widthInches: figureWidthInches,
                       caption: graphicCaption.trim() || undefined,
                     }
                   : null
               }
               graphicCaption={graphicCaption}
+              figureWidthInches={figureWidthInches}
               hideTopToolbar
             />
           </div>
@@ -2221,7 +2559,7 @@ export default function AbstractSubmissionClient() {
                     onClick={() => void handleOpenSavedPreview(sub)}
                     className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
                   >
-                    <Eye size={13} /> Show 1-Page Preview
+                    <Eye size={13} /> Show Formatted Preview
                   </button>
                   {sub.status === "Pending" && (
                     <button
