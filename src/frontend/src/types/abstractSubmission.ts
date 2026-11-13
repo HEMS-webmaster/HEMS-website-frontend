@@ -158,3 +158,36 @@ export interface SaveAbstractReviewInput {
   reviewerComments: string;
   reviewedBy: string;
 }
+
+export type DraftGraphicMetaSnapshot = Omit<
+  GraphicMetadata,
+  "storageUrl" | "hasLocalBlob"
+>;
+
+export interface AbstractDraftFormValues {
+  currentStage: number;
+  title: string;
+  correspondingEmail: string;
+  secondaryEmail: string;
+  presentationFormat: PresentationFormat;
+  studentTravelAwardApplicant: boolean;
+  affiliations: AffiliationEntry[];
+  authors: AuthorEntry[];
+  researchTrack: ResearchTrack;
+  summary: string;
+  abstractText: string;
+  figureWidthInches: number;
+  graphicCaption: string;
+  figurePanelHidden: boolean;
+  graphicMeta: DraftGraphicMetaSnapshot | null;
+  keywords: string;
+  presenterBio: string;
+}
+
+export interface AbstractDraftRecord extends AbstractDraftFormValues {
+  draftKey: string;
+  uid: string;
+  userEmail: string;
+  workshopYear: number;
+  updatedAt: string;
+}

@@ -35,12 +35,17 @@ import {
   Tag,
   User,
   Ruler,
+  Cloud,
+  RotateCcw,
+  Save,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import { useAbstractSubmissions } from "@/hooks/useAbstractSubmissions";
+import { HydratedDraftPayload, useAbstractDraft } from "@/hooks/useAbstractDraft";
 import {
   ABSTRACT_MAX_CHARS,
+  AbstractDraftFormValues,
   AbstractSubmissionRecord,
   AffiliationEntry,
   AuthorEntry,
@@ -124,6 +129,13 @@ const INPUT_CLASS =
 
 function nextId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+}
+
+function formatDraftTime(iso: string | null): string {
+  if (!iso) return "";
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
 function formatFileSize(bytes: number): string {
@@ -276,6 +288,109 @@ export default function AbstractSubmissionClient() {
         .filter(Boolean),
     [keywords]
   );
+
+  const draftValues = useMemo<AbstractDraftFormValues>(
+    () => ({
+      currentStage,
+      title,
+      correspondingEmail,
+      secondaryEmail,
+      presentationFormat,
+      studentTravelAwardApplicant,
+      affiliations,
+      authors,
+      researchTrack,
+      summary,
+      abstractText,
+      figureWidthInches,
+      graphicCaption,
+      figurePanelHidden,
+      graphicMeta,
+      keywords,
+      presenterBio,
+    }),
+    [
+      currentStage,
+      title,
+      correspondingEmail,
+      secondaryEmail,
+      presentationFormat,
+      studentTravelAwardApplicant,
+      affiliations,
+      authors,
+      researchTrack,
+      summary,
+      abstractText,
+      figureWidthInches,
+      graphicCaption,
+      figurePanelHidden,
+      graphicMeta,
+      keywords,
+      presenterBio,
+    ]
+  );
+
+  const handleHydrateDraft = useCallback((payload: HydratedDraftPayload) => {
+    const r = payload.record;
+    const clampedWidth = clampFigureWidthInches(r.figureWidthInches);
+    setCurrentStage(r.currentStage);
+    setTitle(r.title);
+    if (r.correspondingEmail) {
+      setCorrespondingEmail(r.correspondingEmail);
+    }
+    setSecondaryEmail(r.secondaryEmail);
+    setPresentationFormat(r.presentationFormat);
+    setStudentTravelAwardApplicant(r.studentTravelAwardApplicant);
+    setAffiliations(
+      r.affiliations.length > 0
+        ? r.affiliations
+        : [{ id: "aff-1", institution: "", location: "" }]
+    );
+    setAuthors(
+      r.authors.length > 0
+        ? r.authors
+        : [{ id: "auth-1", name: "", affiliationId: "aff-1", isPresenter: true }]
+    );
+    setResearchTrack(r.researchTrack);
+    setSummary(r.summary);
+    setAbstractText(r.abstractText);
+    setFigureWidthInches(clampedWidth);
+    setFigureWidthInput(String(clampedWidth));
+    setGraphicCaption(r.graphicCaption);
+    setFigurePanelHidden(r.figurePanelHidden);
+    setKeywords(r.keywords);
+    setPresenterBio(r.presenterBio);
+    setGraphicFile(payload.restoredGraphicFile);
+    setGraphicPreviewUrl(payload.restoredGraphicPreviewUrl);
+    setGraphicMeta(
+      payload.restoredGraphicFile ? r.graphicMeta : null
+    );
+    setGraphicError(null);
+    setStageError(null);
+    if (payload.missingCrossDeviceGraphicName) {
+      setPasteNotice(
+        `Restored cloud draft from another device. Re-attach "${payload.missingCrossDeviceGraphicName}" in Stage 5 if you want to include that figure.`
+      );
+    }
+  }, []);
+
+  const {
+    hasDraftContent,
+    draftStatus,
+    restoredBanner,
+    dismissRestoredBanner,
+    saveDraftNow,
+    clearDraftStorage,
+  } = useAbstractDraft({
+    uid: user?.uid,
+    userEmail: user?.email,
+    workshopYear: Number(workshop.workshop_year) || 2027,
+    enabled: Boolean(user && hasAttendeeRole(user.roles)),
+    values: draftValues,
+    graphicFile,
+    suppressSaving: submitting,
+    onHydrate: handleHydrateDraft,
+  });
 
   const isDirty = useMemo(() => {
     if (submittedConfirmation) return false;
@@ -1028,29 +1143,11 @@ export default function AbstractSubmissionClient() {
         }
       );
 
+      await clearDraftStorage();
       bypassUnloadGuardRef.current = true;
       guardPushedRef.current = false;
       setSubmittedConfirmation(created);
-      setCurrentStage(1);
-      setTitle("");
-      setSecondaryEmail("");
-      setAffiliations([{ id: "aff-1", institution: "", location: "" }]);
-      setAuthors([
-        {
-          id: "auth-1",
-          name: user.name || "",
-          affiliationId: "aff-1",
-          isPresenter: true,
-        },
-      ]);
-      setSummary("");
-      setAbstractText("");
-      setKeywords("");
-      setPresenterBio("");
-      setStudentTravelAwardApplicant(false);
-      setPasteNotice(null);
-      handleSetFigureWidth(DEFAULT_FIGURE_WIDTH_IN);
-      handleRemoveGraphic();
+      resetDraftFormFields();
       scrollToWorkspaceTop();
 
       window.setTimeout(() => {
@@ -1063,6 +1160,57 @@ export default function AbstractSubmissionClient() {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  function resetDraftFormFields() {
+    setCurrentStage(1);
+    setTitle("");
+    setCorrespondingEmail(user?.email || "");
+    setSecondaryEmail("");
+    setPresentationFormat("Oral Presentation");
+    setAffiliations([{ id: "aff-1", institution: "", location: "" }]);
+    setAuthors([
+      {
+        id: "auth-1",
+        name: user?.name || "",
+        affiliationId: "aff-1",
+        isPresenter: true,
+      },
+    ]);
+    setResearchTrack("Miniature & Ruggedized Hardware / Vacuum");
+    setSummary("");
+    setAbstractText("");
+    setKeywords("");
+    setPresenterBio("");
+    setStudentTravelAwardApplicant(false);
+    setFigurePanelHidden(false);
+    setStageError(null);
+    setPasteNotice(null);
+    handleSetFigureWidth(DEFAULT_FIGURE_WIDTH_IN);
+    handleRemoveGraphic();
+  }
+
+  const handleManualSaveDraft = async () => {
+    await saveDraftNow();
+    setPasteNotice("Draft saved locally and synced for cross-device resume.");
+  };
+
+  const handleResetDraft = async () => {
+    if (
+      !window.confirm(
+        "Clear your saved in-progress abstract draft? This cannot be undone."
+      )
+    ) {
+      return;
+    }
+    await clearDraftStorage();
+    bypassUnloadGuardRef.current = true;
+    guardPushedRef.current = false;
+    resetDraftFormFields();
+    scrollToWorkspaceTop();
+    window.setTimeout(() => {
+      bypassUnloadGuardRef.current = false;
+    }, 300);
   };
 
   const handleOpenSavedPreview = async (sub: AbstractSubmissionRecord) => {
@@ -1263,8 +1411,50 @@ export default function AbstractSubmissionClient() {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-          {isDirty && (
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          {draftStatus.state === "saving" && (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-900">
+              <Loader2 size={12} className="animate-spin text-primary" />
+              Saving draft...
+            </span>
+          )}
+          {draftStatus.state === "synced_cloud" && (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 tabular-nums">
+              <Cloud size={13} className="text-emerald-600" />
+              Draft saved &amp; synced
+              {draftStatus.savedAt ? ` • ${formatDraftTime(draftStatus.savedAt)}` : ""}
+            </span>
+          )}
+          {draftStatus.state === "saved_local" && (
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 tabular-nums">
+              <CheckCircle2 size={13} className="text-emerald-600" />
+              Draft auto-saved
+              {draftStatus.savedAt ? ` • ${formatDraftTime(draftStatus.savedAt)}` : ""}
+            </span>
+          )}
+          {hasDraftContent && (
+            <>
+              <button
+                type="button"
+                disabled={draftStatus.state === "saving" || submitting}
+                onClick={() => void handleManualSaveDraft()}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary disabled:opacity-50 text-xs font-semibold text-slate-800 transition-colors cursor-pointer shadow-2xs"
+              >
+                <Save size={13} className="text-primary" />
+                <span>Save Draft</span>
+              </button>
+              <button
+                type="button"
+                disabled={submitting}
+                onClick={() => void handleResetDraft()}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-red-400 hover:text-red-600 disabled:opacity-50 text-xs font-semibold text-slate-700 transition-colors cursor-pointer shadow-2xs"
+              >
+                <RotateCcw size={12} />
+                <span>Clear Draft</span>
+              </button>
+            </>
+          )}
+          {isDirty && draftStatus.state === "idle" && (
             <span className="text-[11px] font-semibold px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800">
               Unsaved draft in progress (Back-navigation guarded)
             </span>
@@ -1413,6 +1603,44 @@ export default function AbstractSubmissionClient() {
                 <ClipboardCheck size={14} /> Reviewer Panel <ArrowRight size={13} />
               </Link>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Restored In-Progress Draft Notice */}
+      {restoredBanner && (
+        <div
+          role="status"
+          className="print:hidden bg-sky-50 border border-sky-200 rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-sky-950 shadow-2xs"
+        >
+          <div className="flex items-start sm:items-center gap-2">
+            <Cloud size={15} className="text-primary shrink-0 mt-0.5 sm:mt-0" />
+            <span>
+              <strong>Welcome back</strong> — restored your{" "}
+              {restoredBanner.source === "cloud" ? "cloud-synced" : "auto-saved"} draft
+              {" "}(Stage {restoredBanner.stage} of {WORKFLOW_STAGES.length}, saved at{" "}
+              <span className="tabular-nums font-semibold">
+                {formatDraftTime(restoredBanner.savedAt) || "earlier"}
+              </span>
+              ).
+            </span>
+          </div>
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+            <button
+              type="button"
+              onClick={() => void handleResetDraft()}
+              className="px-2.5 py-1 rounded-lg bg-white border border-sky-300 hover:border-red-400 hover:text-red-600 text-[11px] font-semibold text-slate-700 transition-colors cursor-pointer"
+            >
+              Reset Draft
+            </button>
+            <button
+              type="button"
+              onClick={dismissRestoredBanner}
+              aria-label="Dismiss restored draft notice"
+              className="p-1 rounded-lg text-sky-700 hover:text-sky-950 hover:bg-sky-100 cursor-pointer"
+            >
+              <X size={14} />
+            </button>
           </div>
         </div>
       )}
@@ -2665,7 +2893,7 @@ export default function AbstractSubmissionClient() {
           </button>
 
           <span className="text-xs text-slate-500 text-center tabular-nums">
-            Step {currentStage} of {WORKFLOW_STAGES.length} • Progress stays saved in your browser while advancing stages
+            Step {currentStage} of {WORKFLOW_STAGES.length} • Auto-saved locally as you type &amp; synced on stage changes
           </span>
 
           {currentStage < 7 ? (

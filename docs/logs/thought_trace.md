@@ -1638,3 +1638,15 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Phrasing-content `<span>` (`role="figure"`, `float-right clear-right ml-[1em] mb-2.5 mt-0.5 block`) inside `<p>` with `flow-root` container preserves valid HTML5 and continuous justified paragraphs around right-floated graphics. `ml-[1em]` preserves `Width / FontSize` parity across `16px` screen / `9.6pt` print.
   - `insertOrMoveFigureMarker` inserts `[FIGURE]` inline (not `\n\n...\n\n`) so it marks the first broken row cleanly; `removeFigureMarker` collapses horizontal spaces cleanly.
   - Stage 5 renders Figure Input Card first (with `Hide`/`Show Figure Input` toggle, amber website usage warning, auto-unhide on Stage 5 figure validation error), Raw Abstract Input second, and Live Formatted Text Preview third.
+
+
+---
+### [2026-11-13] Option B: Hybrid Local (`localStorage` + `IndexedDB`) & Throttled Firestore Cloud Abstract Draft Autosave
+- **Trigger:** `@bo` -> `@web` & `@dev`: *"go on option B please"* for saving author abstract drafts at `$0` free-tier cost.
+- **Architectural Decisions:**
+  - Strict types `DraftGraphicMetaSnapshot`, `AbstractDraftFormValues`, `AbstractDraftRecord` in `src/frontend/src/types/abstractSubmission.ts`.
+  - Custom hook `src/frontend/src/hooks/useAbstractDraft.ts`:
+    - Tier 1 (`localStorage` key `hems_abstract_draft_v1:<uid>_<year>`, `400 ms` debounce + synchronous `beforeunload`/`pagehide` flush) + `IndexedDB` (`hems_abstract_files_idb`, store `abstract_pdfs`, key `draft_graphic:<draftKey>`) for the uploaded 300-DPI graphic `Blob`.
+    - Tier 2 (Firestore `abstract_drafts/<draftKey>`): max 1 `getDoc` on session mount (`cloudTime > localTime + 1000` and user hasn't edited since mount), and throttled `setDoc` only when `hasDraftContent && hash !== lastCloudHash` on stage transitions, 45s idle pause, or explicit `saveDraftNow()`. Zero `undefined` values in Firestore payload.
+    - Never uploads draft graphics to Cloud Storage before final submit (`missingCrossDeviceGraphicName` alerts author cleanly if resuming from another device).
+  - Wired into `AbstractSubmissionClient.tsx` with header status pill, `Save Draft` + `Clear Draft` buttons, dismissible `Welcome back` restored-draft banner, and automatic `clearDraftStorage()` after successful final submit.
