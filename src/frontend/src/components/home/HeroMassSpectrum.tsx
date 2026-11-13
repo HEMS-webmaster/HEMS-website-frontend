@@ -154,12 +154,135 @@ const PURE_EI_70EV: Record<string, Record<number, number>> = {
   HCN: { 27: 100.0, 26: 16.8, 28: 1.5, 12: 4.2 },
   C2H4: { 28: 100.0, 27: 62.3, 26: 55.4, 25: 10.2, 14: 4.1 },
   C2H6: { 28: 100.0, 27: 33.2, 30: 26.2, 29: 21.5, 26: 23.0, 15: 4.6 },
+  C3H8: {
+    29: 100.0,
+    28: 58.8,
+    27: 41.9,
+    44: 27.5,
+    43: 23.2,
+    39: 18.6,
+    41: 12.9,
+    26: 9.1,
+    15: 6.8,
+    42: 5.8,
+    30: 2.2,
+  },
+  nC4H10: {
+    43: 100.0,
+    29: 44.2,
+    27: 37.1,
+    28: 32.6,
+    41: 27.8,
+    39: 12.5,
+    58: 12.3,
+    42: 12.2,
+    26: 6.2,
+    15: 5.3,
+    44: 3.3,
+    57: 2.4,
+  },
+  nC5H12: {
+    43: 100.0,
+    42: 57.9,
+    41: 39.5,
+    27: 33.6,
+    29: 24.4,
+    39: 14.2,
+    57: 12.6,
+    72: 8.8,
+    15: 4.8,
+    56: 2.8,
+  },
+  nC6H14: {
+    57: 100.0,
+    43: 81.3,
+    41: 70.3,
+    29: 60.5,
+    56: 45.4,
+    27: 41.5,
+    42: 37.0,
+    39: 19.5,
+    86: 14.8,
+    71: 5.2,
+    87: 1.0,
+  },
+  nC7H16: {
+    43: 100.0,
+    41: 51.5,
+    57: 48.2,
+    29: 44.8,
+    71: 44.5,
+    27: 29.8,
+    56: 26.8,
+    42: 24.2,
+    70: 19.2,
+    39: 16.5,
+    100: 13.8,
+    85: 3.6,
+  },
+  cC5H10: {
+    42: 100.0,
+    70: 30.2,
+    41: 29.5,
+    55: 28.6,
+    39: 21.8,
+    27: 16.5,
+    69: 9.8,
+    40: 6.8,
+  },
+  cC6H12: {
+    56: 100.0,
+    84: 76.5,
+    41: 58.6,
+    69: 31.8,
+    42: 26.4,
+    55: 25.8,
+    39: 20.5,
+    27: 18.2,
+    43: 11.5,
+    85: 5.1,
+  },
   CH3CN: { 41: 100.0, 40: 52.0, 39: 18.5, 38: 10.4, 14: 8.5 },
   C4H2: { 50: 100.0, 49: 39.0, 48: 9.5, 51: 4.4, 25: 11.0 },
   HC3N: { 51: 100.0, 52: 3.7, 50: 22.0, 25: 7.5 },
   C2N2: { 52: 100.0, 26: 19.0, 53: 2.9 },
   Kr: { 84: 100.0, 86: 30.3, 83: 20.2, 82: 20.3, 80: 4.0, 42: 11.5 },
 };
+
+// 70 eV Electron Ionization relative total sensitivity factors (R_EI vs. N2 = 1.00)
+const R_EI_70EV: Record<string, number> = {
+  H2O: 0.90,
+  N2: 1.00,
+  O2: 0.86,
+  Ar: 1.20,
+  CO2: 1.40,
+  CH4: 1.60,
+  C2H6: 2.60,
+  C3H8: 3.50,
+  nC4H10: 4.40,
+  nC5H12: 5.30,
+  nC6H14: 6.20,
+  nC7H16: 7.10,
+  cC5H10: 4.90,
+  cC6H12: 5.80,
+  C6H6: 5.90,
+  C7H8: 6.80,
+};
+
+function mixtureFromIonSourceMolPct(
+  molPctMap: Record<string, number>
+): Record<string, number> {
+  const weights: Record<string, number> = {};
+  for (const [species, molPct] of Object.entries(molPctMap)) {
+    const pattern = PURE_EI_70EV[species];
+    const rEi = R_EI_70EV[species];
+    if (!pattern || !rEi || molPct <= 0) continue;
+    const totalYield =
+      Object.values(pattern).reduce((acc, v) => acc + v, 0) / 100;
+    weights[species] = Number(((molPct * rEi) / totalYield).toFixed(3));
+  }
+  return weights;
+}
 
 // Token helpers for crisp <tspan> chemical formulas
 const f = (
@@ -204,10 +327,11 @@ const DEFAULT_ION_CATALOG: Record<number, IonCatalogEntry> = {
   36: { exactMass: "35.9761", plain: "H³⁵Cl•⁺ / H₂³⁴S•⁺", parts: f("H", ["35", "sup"], "Cl", ["•+", "sup"]), note: "Hydrogen chloride (³⁵Cl, 75.8% natural abundance) + H₂³⁴S•⁺", accent: "secondary" },
   37: { exactMass: "36.9654", plain: "³⁷Cl⁺", parts: f(["37", "sup"], "Cl", ["+", "sup"]), note: "Atomic chlorine-37 EI fragment (³⁷Cl/³⁵Cl = 0.320)" },
   38: { exactMass: "37.9732", plain: "H³⁷Cl•⁺", parts: f("H", ["37", "sup"], "Cl", ["•+", "sup"]), note: "Volcanic H³⁷Cl•⁺ isotopologue (exact 1:3 doublet with m/z 36)" },
-  39: { exactMass: "39.0229", plain: "C₃H₃⁺", parts: f("C", ["3", "sub"], "H", ["3", "sub"], ["+", "sup"]), note: "Cyclopropenylium ring-cleavage fragment of aromatic VOCs" },
+  39: { exactMass: "39.0229", plain: "C₃H₃⁺", parts: f("C", ["3", "sub"], "H", ["3", "sub"], ["+", "sup"]), note: "Cyclopropenylium EI fragment of alkanes, cycloalkanes & BTEX" },
   40: { exactMass: "39.9618", plain: "⁴⁰Ar•⁺", parts: f("Ar", ["•+", "sup"]), note: "Argon-40 — conservative dissolved-gas MIMS internal standard", accent: "primary" },
   41: { exactMass: "41.0260", plain: "CH₃CN•⁺", parts: f("CH", ["3", "sub"], "CN", ["•+", "sup"]), note: "Acetonitrile photochemical nitrile molecular ion", accent: "secondary" },
   42: { exactMass: "41.9552", plain: "⁸⁴Kr²⁺", parts: f(["84", "sup"], "Kr", ["2+", "sup"]), note: "Doubly charged krypton-84 ion (z = 2)" },
+  43: { exactMass: "43.0542", plain: "C₃H₇⁺", parts: f("C", ["3", "sub"], "H", ["7", "sub"], ["+", "sup"]), note: "Propyl cation — paraffinic base peak of n-C₄, n-C₅ & n-C₇ alkanes", accent: "secondary" },
   44: { exactMass: "43.9893", plain: "CO₂•⁺", parts: f("CO", ["2", "sub"], ["•+", "sup"]), note: "Carbon dioxide molecular radical cation", accent: "secondary" },
   45: { exactMass: "44.9926", plain: "¹³CO₂•⁺", parts: f(["13", "sup"], "CO", ["2", "sub"], ["•+", "sup"]), note: "Natural ¹³C + ¹⁷O carbon dioxide isotopologue (1.19% of m/z 44)" },
   46: { exactMass: "45.9935", plain: "C¹⁶O¹⁸O•⁺", parts: f("C", ["16", "sup"], "O", ["18", "sup"], "O", ["•+", "sup"]), note: "Natural ¹⁸O carbon dioxide isotopologue (0.41% of m/z 44)" },
@@ -217,14 +341,22 @@ const DEFAULT_ION_CATALOG: Record<number, IonCatalogEntry> = {
   51: { exactMass: "51.0103", plain: "HC₃N•⁺ / C₄H₃⁺", parts: f("HC", ["3", "sub"], "N", ["•+", "sup"]), note: "Cyanoacetylene nitrile / phenyl ring-cleavage ion", accent: "secondary" },
   52: { exactMass: "52.0056", plain: "C₂N₂•⁺ / C₄H₄•⁺", parts: f("C", ["4", "sub"], "H", ["4", "sub"], ["•+", "sup"]), note: "Benzene C₄H₄•⁺ ring fragment / cyanogen (C₂N₂•⁺)" },
   53: { exactMass: "53.0089", plain: "¹³CCNH₂⁺", parts: f(["13", "sup"], "CC", ["2", "sub"], "N", ["2", "sub"], ["•+", "sup"]), note: "Heavy cyanogen isotopologue" },
+  55: { exactMass: "55.0542", plain: "C₄H₇⁺", parts: f("C", ["4", "sub"], "H", ["7", "sub"], ["+", "sup"]), note: "Naphthenic cycloalkane fragment ion of cyclo-C₅ & cyclo-C₆" },
+  56: { exactMass: "56.0621", plain: "C₄H₈•⁺", parts: f("C", ["4", "sub"], "H", ["8", "sub"], ["•+", "sup"]), note: "Cyclohexane (cyclo-C₆) [M−C₂H₄]•⁺ base peak & alkene fragment", accent: "secondary" },
+  57: { exactMass: "57.0699", plain: "C₄H₉⁺", parts: f("C", ["4", "sub"], "H", ["9", "sub"], ["+", "sup"]), note: "Butyl cation — base peak of n-hexane (n-C₆) & C₅–C₇ paraffin picket", accent: "secondary" },
+  58: { exactMass: "58.0777", plain: "n-C₄H₁₀•⁺", parts: f("C", ["4", "sub"], "H", ["10", "sub"], ["•+", "sup"]), note: "n-Butane (n-C₄) molecular radical cation" },
   60: { exactMass: "59.9664", plain: "OCS•⁺", parts: f("OCS", ["•+", "sup"]), note: "Carbonyl sulfide volcanic gas molecular ion", accent: "secondary" },
   62: { exactMass: "61.9622", plain: "OC³⁴S•⁺", parts: f("OC", ["34", "sup"], "S", ["•+", "sup"]), note: "Sulfur-34 carbonyl sulfide isotopologue" },
   63: { exactMass: "63.0229", plain: "C₅H₃⁺", parts: f("C", ["5", "sub"], "H", ["3", "sub"], ["+", "sup"]), note: "Aromatic hydrocarbon ring-contraction fragment" },
   64: { exactMass: "63.9614", plain: "SO₂•⁺", parts: f("SO", ["2", "sub"], ["•+", "sup"]), note: "Sulfur dioxide molecular radical cation", accent: "secondary" },
   65: { exactMass: "65.0386", plain: "C₅H₅⁺", parts: f("C", ["5", "sub"], "H", ["5", "sub"], ["+", "sup"]), note: "Cyclopentadienyl cation (loss of C₂H₂ from tropylium m/z 91)" },
   66: { exactMass: "65.9572", plain: "³⁴SO₂•⁺", parts: f(["34", "sup"], "SO", ["2", "sub"], ["•+", "sup"]), note: "Natural ³⁴S + ¹⁸O sulfur dioxide isotopologue (4.84% of m/z 64)" },
+  69: { exactMass: "69.0699", plain: "C₅H₉⁺", parts: f("C", ["5", "sub"], "H", ["9", "sub"], ["+", "sup"]), note: "Cyclohexane [M−CH₃]⁺ & cyclopentane [M−H]⁺ naphthene fragment" },
+  70: { exactMass: "70.0777", plain: "c-C₅H₁₀•⁺", parts: f("C", ["5", "sub"], "H", ["10", "sub"], ["•+", "sup"]), note: "Cyclopentane (cyclo-C₅) molecular radical cation", accent: "secondary" },
+  71: { exactMass: "71.0855", plain: "C₅H₁₁⁺", parts: f("C", ["5", "sub"], "H", ["11", "sub"], ["+", "sup"]), note: "Pentyl cation — n-C₆ & n-C₇ paraffinic picket-fence fragment" },
+  72: { exactMass: "72.0934", plain: "n-C₅H₁₂•⁺", parts: f("C", ["5", "sub"], "H", ["12", "sub"], ["•+", "sup"]), note: "n-Pentane (n-C₅) molecular radical cation" },
   77: { exactMass: "77.0386", plain: "C₆H₅⁺", parts: f("C", ["6", "sub"], "H", ["5", "sub"], ["+", "sup"]), note: "Phenyl cation (H• loss from benzene, 23.8% of m/z 78)" },
-  78: { exactMass: "78.0464", plain: "C₆H₆•⁺", parts: f("C", ["6", "sub"], "H", ["6", "sub"], ["•+", "sup"]), note: "Benzene molecular ion — thermogenic seep / photochemical aromatic", accent: "secondary" },
+  78: { exactMass: "78.0464", plain: "C₆H₆•⁺", parts: f("C", ["6", "sub"], "H", ["6", "sub"], ["•+", "sup"]), note: "Benzene molecular ion — PDMS-enriched live crude oil aromatic", accent: "secondary" },
   79: { exactMass: "79.0498", plain: "¹³CC₅H₆•⁺", parts: f(["13", "sup"], "CC", ["5", "sub"], "H", ["6", "sub"], ["•+", "sup"]), note: "Natural ¹³C benzene isotopologue (6 × 1.07% = 6.5% of m/z 78)" },
   80: { exactMass: "79.9158", plain: "⁸⁰Kr•⁺", parts: f(["80", "sup"], "Kr", ["•+", "sup"]), note: "Krypton-80 noble gas isotope (2.29% natural abundance)" },
   82: { exactMass: "81.9129", plain: "⁸²Kr•⁺", parts: f(["82", "sup"], "Kr", ["•+", "sup"]), note: "Krypton-82 noble gas isotope (11.59% natural abundance)" },
@@ -234,6 +366,7 @@ const DEFAULT_ION_CATALOG: Record<number, IonCatalogEntry> = {
   91: { exactMass: "91.0542", plain: "C₇H₇⁺", parts: f("C", ["7", "sub"], "H", ["7", "sub"], ["+", "sup"]), note: "Tropylium cation — base-peak EI signature of toluene (BTEX)", accent: "secondary" },
   92: { exactMass: "92.0621", plain: "C₇H₈•⁺", parts: f("C", ["7", "sub"], "H", ["8", "sub"], ["•+", "sup"]), note: "Toluene molecular radical cation (NIST 68.4% of m/z 91)" },
   93: { exactMass: "93.0654", plain: "¹³CC₆H₈•⁺", parts: f(["13", "sup"], "CC", ["6", "sub"], "H", ["8", "sub"], ["•+", "sup"]), note: "Natural ¹³C toluene isotopologue" },
+  100: { exactMass: "100.1247", plain: "n-C₇H₁₆•⁺", parts: f("C", ["7", "sub"], "H", ["16", "sub"], ["•+", "sup"]), note: "n-Heptane (n-C₇) molecular radical cation" },
 };
 
 function buildPrecomputedRegime(config: {
@@ -244,7 +377,7 @@ function buildPrecomputedRegime(config: {
   pressureBadge: string;
   mixture: Record<string, number>;
   callouts: CalloutSpec[];
-  noteOverrides?: Record<number, { plain?: string; note?: string; accent?: PeakAccent }>;
+  noteOverrides?: Record<number, Partial<IonCatalogEntry>>;
   defaultFootnote: string;
 }): PrecomputedRegime {
   const composite: Record<number, number> = {};
@@ -273,9 +406,9 @@ function buildPrecomputedRegime(config: {
       return {
         mz,
         abundance,
-        exactMass: cat.exactMass,
+        exactMass: override?.exactMass ?? cat.exactMass,
         formulaPlain: override?.plain ?? cat.plain,
-        formulaParts: cat.parts,
+        formulaParts: override?.parts ?? cat.parts,
         assignment: override?.note ?? cat.note,
         accent: override?.accent ?? cat.accent ?? "neutral",
       };
@@ -325,42 +458,139 @@ function buildPrecomputedRegime(config: {
   };
 }
 
+// Calibrated PDMS ion-source permeate mole % (sums to 100.00%):
+// 95% air-equilibrated seawater (Robb 1968 PDMS selectivity: O2/N2 = 0.575, Ar/N2 = 0.0256; H2S = 0, SO2 = 0)
+// + ~5% fresh-from-reservoir live crude oil (CO2, n-C1..n-C7, cyclo-C5, cyclo-C6, benzene, toluene)
+const SUBSEA_SEEP_IONIZER_MOL_PCT: Record<string, number> = {
+  N2: 26.85,
+  H2O: 18.80,
+  O2: 15.44,
+  CH4: 13.40,
+  CO2: 10.10,
+  C2H6: 3.05,
+  C3H8: 2.25,
+  nC4H10: 1.65,
+  C6H6: 1.50,
+  C7H8: 1.45,
+  nC5H12: 1.15,
+  cC6H12: 1.12,
+  nC6H14: 0.95,
+  cC5H10: 0.85,
+  nC7H16: 0.75,
+  Ar: 0.69,
+};
+
 const REGIMES: Record<RegimesKey, PrecomputedRegime> = {
   hydrothermal: buildPrecomputedRegime({
     key: "hydrothermal",
-    shortTab: "Subsea Vent",
-    title: "Hydrothermal & Cold-Seep MIMS Scan",
-    inletSubtitle: "PDMS Membrane Inlet • 2,500 m Depth • EI 70 eV",
+    shortTab: "Subsea Seep",
+    title: "Subsea Crude-Oil Plume MIMS Scan",
+    inletSubtitle: "PDMS Membrane • Air-Equil. Seawater + 5% Live Oil • EI 70 eV",
     pressureBadge: "1.2 × 10⁻⁶ Torr",
-    mixture: {
-      H2: 14.0,
-      He: 5.5,
-      CH4: 33.0,
-      H2O: 52.0,
-      N2: 92.5,
-      O2: 22.0,
-      H2S: 24.0,
-      Ar: 26.0,
-      CO2: 76.0,
-      SO2: 14.0,
-      C6H6: 19.5,
-      C7H8: 13.5,
+    mixture: mixtureFromIonSourceMolPct(SUBSEA_SEEP_IONIZER_MOL_PCT),
+    noteOverrides: {
+      16: {
+        note: "Live-oil methane (n-C₁) radical cation + ¹⁶O•⁺ from O₂/CO₂/H₂O",
+        accent: "secondary",
+      },
+      18: {
+        note: "Pervaporated seawater H₂O•⁺ background across PDMS membrane",
+        accent: "primary",
+      },
+      26: {
+        exactMass: "26.0151",
+        plain: "C₂H₂•⁺",
+        parts: f("C", ["2", "sub"], "H", ["2", "sub"], ["•+", "sup"]),
+        note: "Vinylidene / acetylene EI fragment of C₂–C₄ reservoir alkanes",
+        accent: "neutral",
+      },
+      27: {
+        exactMass: "27.0229",
+        plain: "C₂H₃⁺",
+        parts: f("C", ["2", "sub"], "H", ["3", "sub"], ["+", "sup"]),
+        note: "Vinyl cation EI fragment of C₂–C₇ alkanes & cycloalkanes",
+        accent: "neutral",
+      },
+      28: {
+        plain: "N₂•⁺ / C₂H₄•⁺",
+        note: "Air-equilibrated seawater N₂ base peak + alkane C₂H₄•⁺ & CO•⁺",
+        accent: "primary",
+      },
+      29: {
+        exactMass: "29.0386",
+        plain: "C₂H₅⁺",
+        parts: f("C", ["2", "sub"], "H", ["5", "sub"], ["+", "sup"]),
+        note: "Ethyl cation — base peak of propane (n-C₃) & C₄–C₇ paraffin cracking",
+        accent: "secondary",
+      },
+      32: {
+        plain: "O₂•⁺",
+        note: "Air-equilibrated dissolved O₂ (PDMS 2.1× enriched vs N₂; zero H₂S/SO₂)",
+        accent: "primary",
+      },
+      41: {
+        exactMass: "41.0386",
+        plain: "C₃H₅⁺",
+        parts: f("C", ["3", "sub"], "H", ["5", "sub"], ["+", "sup"]),
+        note: "Allyl cation EI fragment of n-C₃–C₇ alkanes & cyclo-C₅/C₆",
+        accent: "neutral",
+      },
+      42: {
+        exactMass: "42.0464",
+        plain: "C₃H₆•⁺",
+        parts: f("C", ["3", "sub"], "H", ["6", "sub"], ["•+", "sup"]),
+        note: "Cyclopentane (cyclo-C₅) [M−C₂H₄]•⁺ base peak & alkene rearrangement",
+        accent: "secondary",
+      },
+      44: {
+        plain: "CO₂•⁺ / C₃H₈•⁺",
+        note: "Reservoir + seawater CO₂•⁺ + isobaric propane (n-C₃) molecular ion",
+        accent: "secondary",
+      },
+      51: {
+        exactMass: "51.0229",
+        plain: "C₄H₃⁺",
+        parts: f("C", ["4", "sub"], "H", ["3", "sub"], ["+", "sup"]),
+        note: "Aromatic ring-cleavage EI fragment of benzene & toluene",
+        accent: "neutral",
+      },
+      52: {
+        exactMass: "52.0308",
+        plain: "C₄H₄•⁺",
+        parts: f("C", ["4", "sub"], "H", ["4", "sub"], ["•+", "sup"]),
+        note: "Benzene [M−C₂H₂]•⁺ aromatic ring-cleavage fragment",
+      },
+      84: {
+        exactMass: "84.0934",
+        plain: "c-C₆H₁₂•⁺",
+        parts: f("C", ["6", "sub"], "H", ["12", "sub"], ["•+", "sup"]),
+        note: "Cyclohexane (cyclo-C₆) naphthene molecular radical cation",
+        accent: "secondary",
+      },
+      86: {
+        exactMass: "86.1090",
+        plain: "n-C₆H₁₄•⁺",
+        parts: f("C", ["6", "sub"], "H", ["14", "sub"], ["•+", "sup"]),
+        note: "n-Hexane (n-C₆) molecular radical cation",
+        accent: "secondary",
+      },
     },
     callouts: [
-      { mz: 2, dx: 8, labelY: 136, accent: "primary", parts: f("2 H", ["2", "sub"], ["•+", "sup"]) },
-      { mz: 15, dx: -22, labelY: 102, accent: "secondary", parts: f("15 CH", ["3", "sub"], ["+", "sup"]) },
-      { mz: 18, dx: 4, labelY: 84, accent: "primary", parts: f("18 H", ["2", "sub"], "O", ["•+", "sup"]) },
+      { mz: 15, dx: -26, labelY: 102, accent: "secondary", parts: f("15 CH", ["3", "sub"], ["+", "sup"]) },
+      { mz: 18, dx: 4, labelY: 94, accent: "primary", parts: f("18 H", ["2", "sub"], "O", ["•+", "sup"]) },
       { mz: 28, dx: 0, labelY: 23, accent: "primary", parts: f("28 N", ["2", "sub"], ["•+", "sup"]) },
-      { mz: 32, dx: 2, labelY: 108, accent: "primary", parts: f("32 O", ["2", "sub"], ["•+", "sup"]) },
-      { mz: 34, dx: 14, labelY: 88, accent: "secondary", parts: f("34 H", ["2", "sub"], "S", ["•+", "sup"]) },
-      { mz: 40, dx: -4, labelY: 125, accent: "primary", parts: f("40 Ar", ["•+", "sup"]) },
-      { mz: 44, dx: 4, labelY: 55, accent: "secondary", parts: f("44 CO", ["2", "sub"], ["•+", "sup"]) },
-      { mz: 64, dx: 0, labelY: 140, accent: "secondary", parts: f("64 SO", ["2", "sub"], ["•+", "sup"]) },
-      { mz: 78, dx: 0, labelY: 133, accent: "secondary", parts: f("78 C", ["6", "sub"], "H", ["6", "sub"], ["•+", "sup"]) },
-      { mz: 91, dx: 0, labelY: 141, accent: "secondary", parts: f("91 C", ["7", "sub"], "H", ["7", "sub"], ["+", "sup"]) },
+      { mz: 32, dx: 12, labelY: 103, accent: "primary", parts: f("32 O", ["2", "sub"], ["•+", "sup"]) },
+      { mz: 43, dx: -20, labelY: 124, accent: "secondary", parts: f("43 C", ["3", "sub"], "H", ["7", "sub"], ["+", "sup"]) },
+      { mz: 44, dx: 10, labelY: 103, accent: "secondary", parts: f("44 CO", ["2", "sub"], ["•+", "sup"]) },
+      { mz: 56, dx: -10, labelY: 138, accent: "secondary", parts: f("56 C", ["4", "sub"], "H", ["8", "sub"], ["•+", "sup"]) },
+      { mz: 57, dx: 20, labelY: 151, accent: "secondary", parts: f("57 C", ["4", "sub"], "H", ["9", "sub"], ["+", "sup"]) },
+      { mz: 70, dx: -2, labelY: 134, accent: "secondary", parts: f("70 C", ["5", "sub"], "H", ["10", "sub"], ["•+", "sup"]) },
+      { mz: 78, dx: -2, labelY: 116, accent: "secondary", parts: f("78 C", ["6", "sub"], "H", ["6", "sub"], ["•+", "sup"]) },
+      { mz: 84, dx: 2, labelY: 142, accent: "secondary", parts: f("84 C", ["6", "sub"], "H", ["12", "sub"], ["•+", "sup"]) },
+      { mz: 91, dx: 10, labelY: 126, accent: "secondary", parts: f("91 C", ["7", "sub"], "H", ["7", "sub"], ["+", "sup"]) },
     ],
     defaultFootnote:
-      "Quadrupole scan (Δm = 0.42 Da FWHM, NIST 70 eV EI) — hover or tap any peak to inspect ion assignment.",
+      "Air-equilibrated seawater (N₂, O₂, Ar) + 5% live crude oil (CO₂, C₁–C₇, c-C₅/C₆, BTEX) via PDMS — hover or tap any peak.",
   }),
 
   volcanic: buildPrecomputedRegime({
