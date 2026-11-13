@@ -1623,3 +1623,8 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 - **Architectural Boundaries**:
   - Domain locks honored: SCoT append-only, plan archived in `docs/plans/`, implementation strictly in `src/frontend/src/`.
   - Default `@page` print margins (`0.38in 0.45in`) preserved for 1-page flyers (`StudentAwardsClient`, `CorporateSponsorshipClient`, `PrintableFormattingGuidelines`), while `.hems-abstract-print-sheet` uses named `@page hems-abstract { size: letter portrait; margin: 1in; }` for exact 1" abstract print margins across 1–2 pages.
+
+---
+### [2026-11-13] @arch — SCoT: Typographic Width/Font-Size Calibration (12–15 Words/Line, 1,020px Sheet) & 7-Stage Consolidation
+- **Math Diagnosis**: CSS `96 px/in` made `8.5in` = `816px` (`6.5in` = `624px`), plus double-nesting paddings inside `<section>` shrank Stage 5 Live Preview to `582px` and Stage 8 `<AbstractOnePagePreview>` to `476px`. Meanwhile `Source Serif 4` (`c_avg ≈ 0.50 em`) at `14.67px` inside `582px` yielded only ~9–10 words/line.
+- **Calibration**: Scale on-screen US-Letter sheet by `1.25×` (`120 px/in`: `1,020px × 1,320px`, `119px` side padding + `1px` border = exact `780px` printable column across Stage 5 `<textarea>`, Stage 5 Live Preview, and Stage 7 Preview Sheet). Use `16px` screen / `9.6pt` print (`Width / FontSize = 48.75`, ~97.5 chars/line = 12–15 words/line) and move Stage 6 (Figure upload, Desired Width, Mandatory Caption) directly into Stage 5, consolidating the wizard to 7 stages.

@@ -79,10 +79,9 @@ const WORKFLOW_STAGES: Array<{ id: number; shortLabel: string; title: string }> 
   { id: 2, shortLabel: "Affiliations", title: "2. Institutional Affiliations & Locations" },
   { id: 3, shortLabel: "Authors", title: "3. Presenter & Co-Authors" },
   { id: 4, shortLabel: "Track & Synopsis", title: "4. Technical Research Track & Synopsis" },
-  { id: 5, shortLabel: "Abstract Text", title: "5. Structured Abstract & Live Formatted Preview" },
-  { id: 6, shortLabel: "Figure & Width", title: "6. High-Resolution Figure (300 DPI), Width & Caption" },
-  { id: 7, shortLabel: "Keywords & Bio", title: "7. Keywords & Presenter Biography" },
-  { id: 8, shortLabel: "Preview & Submit", title: "8. Formatted Preview (8.5\" × 11\", 1\" Margins) & Submit" },
+  { id: 5, shortLabel: "Abstract & Figure", title: "5. Abstract, Figure Upload & Live Formatted Preview" },
+  { id: 6, shortLabel: "Keywords & Bio", title: "6. Keywords & Presenter Biography" },
+  { id: 7, shortLabel: "Preview & Submit", title: "7. Formatted Preview (8.5\" × 11\", 1\" Margins) & Submit" },
 ];
 
 const QUICK_MATH_TOKENS: Array<{
@@ -865,10 +864,6 @@ export default function AbstractSubmissionClient() {
       if (visibleAbstractChars > ABSTRACT_MAX_CHARS) {
         return `Abstract body cannot exceed ${ABSTRACT_MAX_CHARS.toLocaleString()} visible characters.`;
       }
-      return null;
-    }
-
-    if (stage === 6) {
       if (
         figureWidthInches < MIN_FIGURE_WIDTH_IN ||
         figureWidthInches > MAX_FIGURE_WIDTH_IN
@@ -884,7 +879,7 @@ export default function AbstractSubmissionClient() {
       return null;
     }
 
-    if (stage === 7) {
+    if (stage === 6) {
       if (parsedKeywordTags.length === 0) {
         return "Please enter at least one keyword (comma-separated, up to 150 characters).";
       }
@@ -910,7 +905,7 @@ export default function AbstractSubmissionClient() {
       return;
     }
     setStageError(null);
-    setCurrentStage((prev) => Math.min(8, prev + 1));
+    setCurrentStage((prev) => Math.min(7, prev + 1));
     scrollToWorkspaceTop();
   };
 
@@ -942,7 +937,7 @@ export default function AbstractSubmissionClient() {
   };
 
   const handleFinalSubmit = async () => {
-    for (let s = 1; s <= 7; s++) {
+    for (let s = 1; s <= 6; s++) {
       const err = validateStage(s);
       if (err) {
         setCurrentStage(s);
@@ -1197,7 +1192,7 @@ export default function AbstractSubmissionClient() {
   );
 
   return (
-    <div className="space-y-6 w-full max-w-[8.5in] mx-auto min-w-0 print:max-w-none">
+    <div className="space-y-6 w-full max-w-[1020px] mx-auto min-w-0 print:max-w-none">
       {/* Page Header */}
       <header className="print:hidden border-b border-slate-200 pb-5 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
         <div>
@@ -1211,7 +1206,7 @@ export default function AbstractSubmissionClient() {
             Abstract <span className="text-primary italic font-normal">Submission</span>
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-3xl">
-            Complete the 8-stage submission wizard below using <strong>Next</strong> / <strong>Back</strong> navigation. Word copy-paste (equations &amp; formatting) is supported in every field.
+            Complete the 7-stage submission wizard below using <strong>Next</strong> / <strong>Back</strong> navigation. Word copy-paste (equations &amp; formatting) is supported in every field.
           </p>
         </div>
 
@@ -1302,24 +1297,24 @@ export default function AbstractSubmissionClient() {
             </div>
             <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
               <span className="block text-[10px] font-bold uppercase tracking-wider text-primary">
-                Stage 5 Abstract
+                Stage 5 Abstract &amp; Figure
               </span>
               <span className="block font-semibold text-slate-800 mt-0.5 tabular-nums">
-                Max {ABSTRACT_MAX_CHARS.toLocaleString()} chars (w/ spaces)
+                Max {ABSTRACT_MAX_CHARS.toLocaleString()} chars • {MIN_GRAPHIC_DPI} DPI
               </span>
               <span className="block text-[11px] text-slate-500">
-                Italic <em>m/z</em>, [FIGURE] placement marker &amp; 6.5&quot; live preview
+                Italic <em>m/z</em>, [FIGURE] marker, {MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN}&quot; width &amp; caption (≤{CAPTION_MAX_CHARS})
               </span>
             </div>
             <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
               <span className="block text-[10px] font-bold uppercase tracking-wider text-primary">
-                Stages 6–8 Output
+                Stages 6–7 Output
               </span>
               <span className="block font-semibold text-slate-800 mt-0.5 tabular-nums">
-                {MIN_GRAPHIC_DPI} DPI • {MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN}&quot; Width
+                Keywords &lt;{KEYWORDS_MAX_CHARS} • Bio &lt;{BIO_MAX_CHARS}
               </span>
               <span className="block text-[11px] text-slate-500">
-                Caption ≤{CAPTION_MAX_CHARS}, Keywords &lt;{KEYWORDS_MAX_CHARS}, Bio &lt;{BIO_MAX_CHARS}
+                Suggested keywords + 8.5&quot;×11&quot; (1&quot; margin, 1–2 page) preview
               </span>
             </div>
           </div>
@@ -1369,9 +1364,9 @@ export default function AbstractSubmissionClient() {
         </div>
       )}
 
-      {/* Full-Width 8-Stage Progress Stepper */}
+      {/* Full-Width 7-Stage Progress Stepper */}
       <nav aria-label="Abstract submission stages" className="print:hidden">
-        <ol className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-2">
+        <ol className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
           {WORKFLOW_STAGES.map((st) => {
             const isActive = st.id === currentStage;
             const isCompleted = st.id < currentStage;
@@ -1407,61 +1402,75 @@ export default function AbstractSubmissionClient() {
         </ol>
       </nav>
 
-      {/* Main 1-Inch Margin Calibrated Stage Sheet (8.5" outer container -> 6.5" printable column) */}
-      <section className="w-full bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-[0.75in] py-6 sm:py-8 shadow-xs space-y-6 print:border-0 print:shadow-none print:p-0 print:bg-transparent">
-        <div className="print:hidden space-y-3 border-b border-slate-200 pb-4">
-          {/* Pro-tip directly above Stage Titles */}
-          <div className="bg-sky-50 border border-sky-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-[13px] text-sky-950 flex items-center gap-2 shadow-2xs">
-            <Sparkles size={15} className="text-primary shrink-0" />
-            <span>
-              <strong className="font-bold text-primary">Pro-tip:</strong> Copy paste from Word to include special characters, super/subscripts, and equations.
-            </span>
+      {/* Main 1-Inch Margin Calibrated Stage Sheet (1,020px outer = 8.5" @ 120 px/in; Stages 1-6 use 828px interior -> 780px = 6.5" text col; Stage 7 renders full 1,020px sheet directly) */}
+      <section
+        className={
+          currentStage === 7
+            ? "w-full space-y-6"
+            : "w-full bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-8 lg:px-[94px] py-6 sm:py-8 shadow-xs space-y-6 print:hidden"
+        }
+      >
+        <div
+          className={
+            currentStage === 7
+              ? "print:hidden bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-8 py-6 shadow-xs space-y-4"
+              : "print:hidden space-y-4"
+          }
+        >
+          <div className="space-y-3 border-b border-slate-200 pb-4">
+            {/* Pro-tip directly above Stage Titles */}
+            <div className="bg-sky-50 border border-sky-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-[13px] text-sky-950 flex items-center gap-2 shadow-2xs">
+              <Sparkles size={15} className="text-primary shrink-0" />
+              <span>
+                <strong className="font-bold text-primary">Pro-tip:</strong> Copy paste from Word to include special characters, super/subscripts, and equations.
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-primary tabular-nums">
+                  Stage {currentStage} of {WORKFLOW_STAGES.length} • 1&quot;-Margin Sheet Calibration (1,020px Page / 780px Measure)
+                </span>
+                <h2 className="font-serif text-xl sm:text-2xl font-semibold text-slate-900 mt-0.5">
+                  {WORKFLOW_STAGES[currentStage - 1]?.title}
+                </h2>
+              </div>
+              {currentStage === 7 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (typeof window !== "undefined") window.print();
+                  }}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border-2 border-slate-300 bg-white hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
+                >
+                  <Printer size={14} className="text-primary" />
+                  <span>Print / Save Formatted PDF</span>
+                </button>
+              )}
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-primary tabular-nums">
-                Stage {currentStage} of {WORKFLOW_STAGES.length} • 1&quot;-Margin Sheet Width Calibration (6.5&quot; Text Measure)
-              </span>
-              <h2 className="font-serif text-xl sm:text-2xl font-semibold text-slate-900 mt-0.5">
-                {WORKFLOW_STAGES[currentStage - 1]?.title}
-              </h2>
+          {stageError && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2.5">
+              <AlertCircle size={17} className="shrink-0 mt-0.5" />
+              <span>{stageError}</span>
             </div>
-            {currentStage === 8 && (
+          )}
+
+          {pasteNotice && (
+            <div className="bg-amber-50 border border-amber-200 text-amber-900 px-4 py-2.5 rounded-xl text-xs flex items-center justify-between gap-2">
+              <span>{pasteNotice}</span>
               <button
                 type="button"
-                onClick={() => {
-                  if (typeof window !== "undefined") window.print();
-                }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border-2 border-slate-300 bg-white hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
+                onClick={() => setPasteNotice(null)}
+                className="text-amber-700 hover:text-amber-950 font-semibold cursor-pointer"
+                aria-label="Dismiss paste notice"
               >
-                <Printer size={14} className="text-primary" />
-                <span>Print / Save Formatted PDF</span>
+                <X size={14} />
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-
-        {stageError && (
-          <div className="print:hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2.5">
-            <AlertCircle size={17} className="shrink-0 mt-0.5" />
-            <span>{stageError}</span>
-          </div>
-        )}
-
-        {pasteNotice && (
-          <div className="print:hidden bg-amber-50 border border-amber-200 text-amber-900 px-4 py-2.5 rounded-xl text-xs flex items-center justify-between gap-2">
-            <span>{pasteNotice}</span>
-            <button
-              type="button"
-              onClick={() => setPasteNotice(null)}
-              className="text-amber-700 hover:text-amber-950 font-semibold cursor-pointer"
-              aria-label="Dismiss paste notice"
-            >
-              <X size={14} />
-            </button>
-          </div>
-        )}
 
         {/* STAGE 1: Title, Emails, Format & Student Opt-In */}
         {currentStage === 1 && (
@@ -2006,7 +2015,7 @@ export default function AbstractSubmissionClient() {
               ))}
             </div>
 
-            {/* Raw Abstract Textarea (Calibrated to 6.5" text column width & natural soft wrapping) */}
+            {/* Raw Abstract Textarea (Calibrated to 780px = 6.5" printable column at 120 px/in & 16px serif -> 12-15 words/line) */}
             <textarea
               id="abs-body"
               ref={abstractTextareaRef}
@@ -2034,21 +2043,174 @@ export default function AbstractSubmissionClient() {
                   }
                 )
               }
-              placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Word line-wraps are unwrapped automatically so text fills the 6.5&quot; column width naturally..."
-              className="w-full bg-white border-2 border-slate-300 hover:border-slate-400 rounded-xl px-3.5 sm:px-[0.25in] py-3.5 font-serif text-[11pt] text-slate-950 placeholder:text-slate-400 placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-2xs"
+              placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Word line-wraps are unwrapped automatically so text fills the 6.5&quot; column width naturally (12-15 words/line)..."
+              className="w-full bg-white border-2 border-slate-300 hover:border-slate-400 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-3.5 font-serif text-[16px] text-slate-950 placeholder:text-slate-400 placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-2xs"
             />
 
-            {/* Real-Time Formatted Preview Text Box (6.5" column width matching 8.5"×11" w/ 1" margins) */}
-            <div className="border-2 border-primary/30 bg-sky-50/35 rounded-2xl p-3 sm:p-4 space-y-2.5">
-              <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
-                  <Sparkles size={13} /> Live Formatted Text Preview (1&quot;-Margin Sheet Width)
-                </span>
-                <span className="text-[11px] font-medium text-slate-600">
-                  Matches ~6.5&quot; printable column width &amp; inline [FIGURE] placement
+            {/* Integrated Stage 5 Figure Upload (300 DPI Min) + Desired Width (3-6.5 in) + Non-Optional Caption */}
+            <div className="pt-2 border-t border-slate-200/90 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5">
+                  <ImageIcon size={14} className="text-primary" />
+                  Optional High-Resolution Figure ({MIN_GRAPHIC_DPI} DPI Min) &amp; Width Control
+                </h3>
+                <span className="text-[11px] text-slate-600 font-medium">
+                  Use <strong className="font-mono text-primary">[FIGURE]</strong> above to position inline, or leave omitted to append below text
                 </span>
               </div>
-              <div className="bg-white border border-slate-300 rounded-xl px-3.5 sm:px-[0.25in] py-4 sm:py-5 min-h-[140px] font-serif text-[11pt] text-slate-950 leading-[1.45] text-justify shadow-2xs">
+
+              {graphicError && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2">
+                  <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                  <span>{graphicError}</span>
+                </div>
+              )}
+
+              <div className="border-2 border-dashed border-slate-300 hover:border-primary/70 rounded-2xl p-5 sm:p-6 bg-white transition-colors space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3 min-w-0">
+                    <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                      <ImageIcon size={22} />
+                    </div>
+                    <div className="min-w-0">
+                      {checkingGraphic ? (
+                        <p className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                          <Loader2 size={15} className="animate-spin text-primary" />
+                          Checking graphic resolution ({MIN_GRAPHIC_DPI} DPI minimum)...
+                        </p>
+                      ) : graphicFile && graphicMeta ? (
+                        <>
+                          <p className="text-sm font-semibold text-slate-900 truncate">
+                            {graphicFile.name}
+                          </p>
+                          <p className="text-xs text-emerald-700 font-semibold tabular-nums mt-0.5">
+                            Verified {graphicMeta.detectedDpi} DPI ({graphicMeta.dpiSource}) •{" "}
+                            {graphicMeta.widthPx}×{graphicMeta.heightPx} px •{" "}
+                            {formatFileSize(graphicFile.size)}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-sm font-semibold text-slate-900">
+                            Upload Scientific Figure ({MIN_GRAPHIC_DPI} DPI Minimum — Optional)
+                          </p>
+                          <p className="text-xs text-slate-600 mt-0.5">
+                            Accepted: PNG, JPEG, WebP (≥{MIN_GRAPHIC_DPI} DPI metadata at ≥600×300 px, or ≥900 px wide) or clean vector SVG.
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 shrink-0">
+                    {graphicFile && (
+                      <button
+                        type="button"
+                        onClick={handleRemoveGraphic}
+                        className="px-3.5 py-2 rounded-lg border border-red-200 bg-white text-xs font-semibold text-red-600 hover:bg-red-50 cursor-pointer"
+                      >
+                        Remove Graphic
+                      </button>
+                    )}
+                    <label
+                      htmlFor="abs-graphic-upload"
+                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
+                    >
+                      <Upload size={14} />
+                      <span>{graphicFile ? "Replace Graphic" : "Choose Graphic"}</span>
+                    </label>
+                    <input
+                      id="abs-graphic-upload"
+                      ref={graphicInputRef}
+                      type="file"
+                      accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml"
+                      onChange={(e) => void handleGraphicChange(e)}
+                      className="sr-only"
+                    />
+                  </div>
+                </div>
+
+                {graphicPreviewUrl && graphicFile && (
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-center justify-center">
+                    <img
+                      src={graphicPreviewUrl}
+                      alt="Uploaded 300-DPI abstract figure preview"
+                      style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                      className="max-h-72 object-contain rounded mx-auto transition-all"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Desired Figure Width Input (3.0 to 6.5 inches) */}
+              {renderFigureWidthControl("stage5")}
+
+              {/* Non-Optional Caption Input (<= 300 chars whenever figure is attached) */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <label
+                    htmlFor="abs-graphic-caption"
+                    className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
+                  >
+                    Figure Caption{" "}
+                    {graphicFile ? (
+                      <span className="text-red-600">
+                        * (Required whenever a graphic is attached)
+                      </span>
+                    ) : (
+                      <span className="text-slate-500 font-semibold">
+                        (Required if uploading a figure above)
+                      </span>
+                    )}
+                  </label>
+                  <span
+                    className={`text-xs font-bold tabular-nums ${
+                      graphicCaption.length >= CAPTION_MAX_CHARS
+                        ? "text-amber-600"
+                        : "text-slate-600"
+                    }`}
+                  >
+                    {graphicCaption.length} / {CAPTION_MAX_CHARS} chars
+                  </span>
+                </div>
+                <textarea
+                  id="abs-graphic-caption"
+                  rows={3}
+                  maxLength={CAPTION_MAX_CHARS}
+                  value={graphicCaption}
+                  onChange={(e) => setGraphicCaption(e.target.value)}
+                  onPaste={(e) =>
+                    applyWordPasteToField(
+                      e,
+                      graphicCaption,
+                      setGraphicCaption,
+                      { multiline: false, maxChars: CAPTION_MAX_CHARS },
+                      (trimmed) => {
+                        if (trimmed > 0) {
+                          setPasteNotice(
+                            `Word paste trimmed ${trimmed} characters to fit the ${CAPTION_MAX_CHARS}-character caption limit.`
+                          );
+                        }
+                      }
+                    )
+                  }
+                  placeholder="Describe your mass spectrum, instrument layout, or field calibration plot (300 characters max)..."
+                  className={`${INPUT_CLASS} leading-relaxed`}
+                />
+              </div>
+            </div>
+
+            {/* Real-Time Formatted Preview Text Box (Zero extra outer padding so text column stays exactly 780px) */}
+            <div className="space-y-2 pt-1">
+              <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
+                  <Sparkles size={13} /> Live Formatted Text Preview (780px = 6.5&quot; Measure @ 16px Serif)
+                </span>
+                <span className="text-[11px] font-medium text-slate-600">
+                  Matches ~12–15 words/line sheet density &amp; inline [FIGURE] placement
+                </span>
+              </div>
+              <div className="bg-white border-2 border-primary/35 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-4 sm:py-5 min-h-[140px] font-serif text-[16px] text-slate-950 leading-[1.45] text-justify shadow-2xs">
                 {abstractText.trim() ? (
                   splitAbstractPreview.hasMarker ? (
                     <div className="space-y-3">
@@ -2066,7 +2228,7 @@ export default function AbstractSubmissionClient() {
                             className="w-full h-auto object-contain mx-auto rounded"
                           />
                           {graphicCaption.trim() && (
-                            <figcaption className="text-[10pt] text-slate-700 leading-snug text-center font-serif">
+                            <figcaption className="text-[13.5px] text-slate-700 leading-snug text-center font-serif">
                               <strong className="text-slate-900">Figure 1.</strong>{" "}
                               <ScientificText text={graphicCaption.trim()} />
                             </figcaption>
@@ -2082,7 +2244,7 @@ export default function AbstractSubmissionClient() {
                             Figure 1 Placement Marker ([FIGURE]) — {figureWidthInches.toFixed(2)}&quot; Width
                           </p>
                           <p className="text-[11px] text-slate-600 mt-0.5">
-                            Upload your 300-DPI figure in Stage 6 and it will appear right here.
+                            Upload your 300-DPI figure above and it will appear right here.
                           </p>
                         </div>
                       )}
@@ -2091,7 +2253,27 @@ export default function AbstractSubmissionClient() {
                       )}
                     </div>
                   ) : (
-                    <ScientificText text={abstractText} multiline />
+                    <div className="space-y-3">
+                      <ScientificText text={abstractText} multiline />
+                      {graphicPreviewUrl && (
+                        <figure
+                          style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                          className="mx-auto my-3 border border-slate-200 rounded-lg p-2 bg-white space-y-1 max-w-full"
+                        >
+                          <img
+                            src={graphicPreviewUrl}
+                            alt={graphicCaption || "Uploaded figure preview"}
+                            className="w-full h-auto object-contain mx-auto rounded"
+                          />
+                          {graphicCaption.trim() && (
+                            <figcaption className="text-[13.5px] text-slate-700 leading-snug text-center font-serif">
+                              <strong className="text-slate-900">Figure 1.</strong>{" "}
+                              <ScientificText text={graphicCaption.trim()} />
+                            </figcaption>
+                          )}
+                        </figure>
+                      )}
+                    </div>
                   )
                 ) : (
                   <p className="text-slate-400 italic font-sans text-xs">
@@ -2103,153 +2285,8 @@ export default function AbstractSubmissionClient() {
           </div>
         )}
 
-        {/* STAGE 6: Figure Upload (300 DPI Min) + Desired Width (3-6.5 in) + Non-Optional Caption */}
+        {/* STAGE 6: Keywords + 7–8 Extracted Suggestions & Presenter Bio */}
         {currentStage === 6 && (
-          <div className="space-y-5">
-            {graphicError && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2">
-                <AlertCircle size={16} className="shrink-0 mt-0.5" />
-                <span>{graphicError}</span>
-              </div>
-            )}
-
-            <div className="border-2 border-dashed border-slate-300 hover:border-primary/70 rounded-2xl p-5 sm:p-6 bg-white transition-colors space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-start gap-3 min-w-0">
-                  <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                    <ImageIcon size={22} />
-                  </div>
-                  <div className="min-w-0">
-                    {checkingGraphic ? (
-                      <p className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                        <Loader2 size={15} className="animate-spin text-primary" />
-                        Checking graphic resolution ({MIN_GRAPHIC_DPI} DPI minimum)...
-                      </p>
-                    ) : graphicFile && graphicMeta ? (
-                      <>
-                        <p className="text-sm font-semibold text-slate-900 truncate">
-                          {graphicFile.name}
-                        </p>
-                        <p className="text-xs text-emerald-700 font-semibold tabular-nums mt-0.5">
-                          Verified {graphicMeta.detectedDpi} DPI ({graphicMeta.dpiSource}) •{" "}
-                          {graphicMeta.widthPx}×{graphicMeta.heightPx} px •{" "}
-                          {formatFileSize(graphicFile.size)}
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-sm font-semibold text-slate-900">
-                          Upload Scientific Figure ({MIN_GRAPHIC_DPI} DPI Minimum — Optional)
-                        </p>
-                        <p className="text-xs text-slate-600 mt-0.5">
-                          Accepted: PNG, JPEG, WebP (≥{MIN_GRAPHIC_DPI} DPI metadata at ≥600×300 px, or ≥900 px wide) or clean vector SVG.
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  {graphicFile && (
-                    <button
-                      type="button"
-                      onClick={handleRemoveGraphic}
-                      className="px-3.5 py-2 rounded-lg border border-red-200 bg-white text-xs font-semibold text-red-600 hover:bg-red-50 cursor-pointer"
-                    >
-                      Remove Graphic
-                    </button>
-                  )}
-                  <label
-                    htmlFor="abs-graphic-upload"
-                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
-                  >
-                    <Upload size={14} />
-                    <span>{graphicFile ? "Replace Graphic" : "Choose Graphic"}</span>
-                  </label>
-                  <input
-                    id="abs-graphic-upload"
-                    ref={graphicInputRef}
-                    type="file"
-                    accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml"
-                    onChange={(e) => void handleGraphicChange(e)}
-                    className="sr-only"
-                  />
-                </div>
-              </div>
-
-              {graphicPreviewUrl && graphicFile && (
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-center justify-center">
-                  <img
-                    src={graphicPreviewUrl}
-                    alt="Uploaded 300-DPI abstract figure preview"
-                    style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
-                    className="max-h-72 object-contain rounded mx-auto transition-all"
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Desired Figure Width Input (3.0 to 6.5 inches) */}
-            {renderFigureWidthControl("stage6")}
-
-            {/* Non-Optional Caption Input (<= 300 chars) */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between gap-2">
-                <label
-                  htmlFor="abs-graphic-caption"
-                  className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
-                >
-                  Figure Caption{" "}
-                  {graphicFile ? (
-                    <span className="text-red-600">
-                      * (Required whenever a graphic is attached)
-                    </span>
-                  ) : (
-                    <span className="text-slate-500 font-semibold">
-                      (Required if uploading a figure above)
-                    </span>
-                  )}
-                </label>
-                <span
-                  className={`text-xs font-bold tabular-nums ${
-                    graphicCaption.length >= CAPTION_MAX_CHARS
-                      ? "text-amber-600"
-                      : "text-slate-600"
-                  }`}
-                >
-                  {graphicCaption.length} / {CAPTION_MAX_CHARS} chars
-                </span>
-              </div>
-              <textarea
-                id="abs-graphic-caption"
-                rows={3}
-                maxLength={CAPTION_MAX_CHARS}
-                value={graphicCaption}
-                onChange={(e) => setGraphicCaption(e.target.value)}
-                onPaste={(e) =>
-                  applyWordPasteToField(
-                    e,
-                    graphicCaption,
-                    setGraphicCaption,
-                    { multiline: false, maxChars: CAPTION_MAX_CHARS },
-                    (trimmed) => {
-                      if (trimmed > 0) {
-                        setPasteNotice(
-                          `Word paste trimmed ${trimmed} characters to fit the ${CAPTION_MAX_CHARS}-character caption limit.`
-                        );
-                      }
-                    }
-                  )
-                }
-                placeholder="Describe your mass spectrum, instrument layout, or field calibration plot (300 characters max)..."
-                className={`${INPUT_CLASS} leading-relaxed`}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* STAGE 7: Keywords + 7–8 Extracted Suggestions & Presenter Bio */}
-        {currentStage === 7 && (
           <div className="space-y-6">
             <div className="space-y-2.5">
               <div className="flex items-center justify-between gap-2">
@@ -2393,29 +2430,31 @@ export default function AbstractSubmissionClient() {
           </div>
         )}
 
-        {/* STAGE 8: 8.5" × 11" (1" Margin, 1–2 Page) Preview, Desired Figure Width & Submit */}
-        {currentStage === 8 && (
+        {/* STAGE 7: 8.5" × 11" (1" Margin, 1–2 Page) Preview, Desired Figure Width & Submit */}
+        {currentStage === 7 && (
           <div className="space-y-5">
-            <div className="print:hidden flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs">
-              <span className="text-slate-700 font-semibold">
-                Jump back to edit any section before submitting:
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {WORKFLOW_STAGES.slice(0, 7).map((st) => (
-                  <button
-                    key={st.id}
-                    type="button"
-                    onClick={() => handleJumpToStage(st.id)}
-                    className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-[11px] font-semibold text-slate-800 cursor-pointer"
-                  >
-                    {st.id}. {st.shortLabel}
-                  </button>
-                ))}
+            <div className="print:hidden bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-8 py-5 shadow-xs space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs">
+                <span className="text-slate-700 font-semibold">
+                  Jump back to edit any section before submitting:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {WORKFLOW_STAGES.slice(0, 6).map((st) => (
+                    <button
+                      key={st.id}
+                      type="button"
+                      onClick={() => handleJumpToStage(st.id)}
+                      className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-[11px] font-semibold text-slate-800 cursor-pointer"
+                    >
+                      {st.id}. {st.shortLabel}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Desired Figure Width Control Also Available Directly on Stage 8 */}
-            <div className="print:hidden">{renderFigureWidthControl("stage8")}</div>
+              {/* Desired Figure Width Control Also Available Directly on Stage 7 */}
+              <div>{renderFigureWidthControl("stage7")}</div>
+            </div>
 
             <AbstractOnePagePreview
               workshopOrdinal={workshop.workshop_ordinal}
@@ -2451,7 +2490,13 @@ export default function AbstractSubmissionClient() {
         )}
 
         {/* Stage Footer: Back / Next / Submit */}
-        <div className="print:hidden pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div
+          className={
+            currentStage === 7
+              ? "print:hidden bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-8 py-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              : "print:hidden pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+          }
+        >
           <button
             type="button"
             disabled={currentStage === 1}
@@ -2466,7 +2511,7 @@ export default function AbstractSubmissionClient() {
             Step {currentStage} of {WORKFLOW_STAGES.length} • Progress stays saved in your browser while advancing stages
           </span>
 
-          {currentStage < 8 ? (
+          {currentStage < 7 ? (
             <button
               type="button"
               onClick={handleNextStage}
@@ -2518,7 +2563,7 @@ export default function AbstractSubmissionClient() {
           <p className="text-xs text-slate-500">Loading your submissions...</p>
         ) : mySubmissions.length === 0 ? (
           <p className="text-xs text-slate-500 leading-relaxed">
-            You have not submitted an abstract yet for the {workshop.workshop_ordinal} HEMS Workshop. Advance through Stages 1–8 above to preview and submit.
+            You have not submitted an abstract yet for the {workshop.workshop_ordinal} HEMS Workshop. Advance through Stages 1–7 above to preview and submit.
           </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

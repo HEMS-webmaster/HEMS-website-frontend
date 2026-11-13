@@ -48,21 +48,16 @@ const SUBMISSION_STAGES_GUIDE = [
   },
   {
     stage: "05",
-    title: "Abstract Body, Rich Formatting, Inline Figure Marker & Live Preview",
-    details: `Compose or paste up to ${ABSTRACT_MAX_CHARS.toLocaleString()} visible characters (with spaces). Word line-wrapping is automatically unwrapped to fill the 6.5" column cleanly. Use italic m/z, Bold/Italic/Underline/Sub/Sup, or Insert Figure Here ([FIGURE]) while verifying real-time line breaks in the 1"-margin calibrated Live Preview.`,
+    title: "Abstract Body, Figure Upload, Width & Live Preview",
+    details: `Compose or paste up to ${ABSTRACT_MAX_CHARS.toLocaleString()} visible characters (with spaces) calibrated to a 780px (6.5") measure at 16px serif (~12–15 words/line). Use Bold/Italic/Underline/Sub/Sup, italic m/z, or Insert Figure Here ([FIGURE]), optionally upload a ${MIN_GRAPHIC_DPI}-DPI figure with Desired Width (${MIN_FIGURE_WIDTH_IN}–${MAX_FIGURE_WIDTH_IN} in) & mandatory caption (up to ${CAPTION_MAX_CHARS} chars), and inspect live wraps + inline figure placement.`,
   },
   {
     stage: "06",
-    title: "Figure Upload, Desired Width (3.0–6.5 in) & Mandatory Caption",
-    details: `Optionally upload a high-resolution scientific figure (${MIN_GRAPHIC_DPI} DPI minimum: PNG, JPEG, WebP ≥900 px wide, or clean SVG), choose its desired width (${MIN_FIGURE_WIDTH_IN}–${MAX_FIGURE_WIDTH_IN} in), and provide a required descriptive caption (up to ${CAPTION_MAX_CHARS} characters).`,
-  },
-  {
-    stage: "07",
     title: "Keywords (w/ Suggestions) & Presenter Biography",
     details: `Select from automatically extracted keyword phrase suggestions or type comma-separated keywords (< ${KEYWORDS_MAX_CHARS} characters) plus a brief presenter biography (< ${BIO_MAX_CHARS} characters).`,
   },
   {
-    stage: "08",
+    stage: "07",
     title: "8.5\" × 11\" Preview (1\" Margins, 1–2 Pages) & Submit",
     details:
       "Inspect the complete 8.5\" × 11\" US-Letter preview with 1-inch margins (extending naturally onto Page 2 if needed), fine-tune Desired Figure Width (3.0–6.5 in), print/save a formatted PDF copy, and submit to the Reviewer Panel.",
@@ -86,7 +81,7 @@ export default function PrintableFormattingGuidelines({
   return (
     <div className="space-y-4 w-full min-w-0 print:space-y-0">
       {/* Screen Control Bar */}
-      <div className="print:hidden bg-white border border-slate-200 rounded-2xl p-3.5 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs max-w-[8.5in] mx-auto">
+      <div className="print:hidden bg-white border border-slate-200 rounded-2xl p-3.5 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs max-w-[1020px] mx-auto">
         <button
           type="button"
           onClick={onClose}
@@ -109,7 +104,7 @@ export default function PrintableFormattingGuidelines({
       {/* Printable 1-Page Guidelines Sheet */}
       <article
         aria-label="Printable HEMS Abstract Formatting & Submission Guidelines"
-        className="max-w-[8.5in] mx-auto bg-white text-slate-900 border border-slate-200/95 rounded-2xl shadow-sm p-6 sm:p-9 print:max-w-none print:mx-0 print:border-0 print:rounded-none print:shadow-none print:p-0 space-y-4 print:space-y-2.5"
+        className="max-w-[1020px] mx-auto bg-white text-slate-900 border border-slate-200/95 rounded-2xl shadow-sm p-6 sm:p-9 print:max-w-none print:mx-0 print:border-0 print:rounded-none print:shadow-none print:p-0 space-y-4 print:space-y-2.5"
       >
         <header className="flex flex-col sm:flex-row print:flex-row sm:items-center print:items-center justify-between gap-4 pb-3 print:pb-2 border-b-2 border-slate-900">
           <div className="flex items-center gap-3.5">
@@ -195,10 +190,10 @@ export default function PrintableFormattingGuidelines({
           </div>
         </section>
 
-        {/* 8-Stage Staged Workflow Breakdown */}
+        {/* 7-Stage Staged Workflow Breakdown */}
         <section className="space-y-2 print:space-y-1.5 break-inside-avoid">
           <h2 className="text-[10.5px] print:text-[9pt] font-bold uppercase tracking-[0.1em] text-primary">
-            Eight-Stage Online Submission Workflow
+            Seven-Stage Online Submission Workflow
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-2.5 print:gap-2">
             {SUBMISSION_STAGES_GUIDE.map((item) => (
