@@ -10,7 +10,6 @@ import {
   Building2,
   ShieldCheck,
 } from "lucide-react";
-import UpcomingHeroBadge from "@/components/workshop/UpcomingHeroBadge";
 import UpcomingWorkshopSpotlight from "@/components/workshop/UpcomingWorkshopSpotlight";
 import HeroMassSpectrum from "@/components/home/HeroMassSpectrum";
 import { getStaticUpcomingWorkshop } from "@/utils/upcomingWorkshop";
@@ -119,52 +118,44 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(upcomingJsonLd) }}
       />
-      {/* SECTION 1: EDITORIAL SPLIT HERO */}
-      <section className="relative border-b border-slate-200/85 bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] py-10 sm:py-18 lg:py-24">
+      {/* SECTION 1: EDITORIAL MASTHEAD & SPLIT HERO */}
+      <section className="relative border-b border-slate-200/85 bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] pt-5 pb-12 sm:pt-7 sm:pb-16 lg:pt-8 lg:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-12 lg:gap-10 items-center">
-            {/* Left Editorial Narrative (7 Columns) */}
-            <div className="lg:col-span-7 space-y-4 sm:space-y-6">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3.5 sm:gap-4">
-                  <div className="w-24 sm:w-32 lg:w-36 rounded-xl bg-white border border-slate-200/95 p-1.5 sm:p-2 shadow-2xs shrink-0">
-                    <img
-                      src="/hemslogo.jpg"
-                      alt="Harsh-Environment Mass Spectrometry Society Official Emblem"
-                      width={3756}
-                      height={2594}
-                      decoding="async"
-                      className="w-full h-auto object-contain mix-blend-multiply block"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="font-serif text-xl sm:text-2xl lg:text-3xl font-semibold text-primary tracking-tight leading-snug">
-                      Harsh-Environment Mass Spectrometry Society
-                    </p>
-                    <p className="text-xs sm:text-[13px] font-medium text-slate-500 mt-0.5 tabular-nums">
-                      All-Volunteer 501(c)(3) Scientific Forum • Est. 1999
-                    </p>
-                  </div>
-                </div>
-                <div className="hidden md:block pt-1">
-                  <UpcomingHeroBadge />
-                </div>
-              </div>
+          {/* Top Society Masthead — Prominent Emblem & Society Title */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 pb-6 sm:pb-7 lg:pb-8 border-b border-slate-200/80 mb-7 sm:mb-9 lg:mb-10">
+            <div className="w-28 sm:w-40 lg:w-48 rounded-2xl bg-white border border-slate-200/90 p-2 sm:p-2.5 shadow-2xs shrink-0">
+              <img
+                src="/hemslogo.jpg"
+                alt="Harsh-Environment Mass Spectrometry Society Official Emblem"
+                width={3756}
+                height={2594}
+                decoding="async"
+                className="w-full h-auto object-contain mix-blend-multiply block"
+              />
+            </div>
+            <div className="min-w-0">
+              <h1 className="font-serif text-2xl sm:text-4xl lg:text-[2.65rem] xl:text-5xl font-semibold text-primary tracking-tight leading-[1.1]">
+                Harsh-Environment Mass Spectrometry Society
+              </h1>
+              <p className="text-xs sm:text-sm font-medium text-slate-500 mt-1.5 sm:mt-2 tabular-nums">
+                All-Volunteer 501(c)(3) Scientific Forum • Biennial Symposium &amp; Open Proceedings Since 1999
+              </p>
+            </div>
+          </div>
 
-              <h1 className="font-serif text-3xl sm:text-5xl lg:text-[3.35rem] font-semibold text-slate-900 tracking-tight leading-[1.12] sm:leading-[1.1]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Editorial Narrative (6 Columns) */}
+            <div className="lg:col-span-6 space-y-5 sm:space-y-6">
+              <h2 className="font-serif text-2xl sm:text-4xl lg:text-[2.5rem] font-semibold text-slate-900 tracking-tight leading-[1.14]">
                 Mass Spectrometry{" "}
                 <span className="text-primary italic font-normal">Beyond</span> the Controlled Laboratory.
-              </h1>
+              </h2>
 
-              <p className="text-[15px] sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
-                Since 1999, the biennial HEMS Workshop has convened academic, government, and industrial investigators to solve the engineering and analytical challenges of operating mass spectrometers in the field.
+              <p className="text-[15px] sm:text-[17px] text-slate-600 leading-relaxed max-w-xl">
+                Every two years, the HEMS Workshop brings together academic, government, and industrial investigators in an open, single-track forum—sharing real-world instrumentation breakthroughs, field setbacks, and deployment lessons across oceans, atmospheres, and planetary missions.
               </p>
 
-              <blockquote className="hidden md:block border-l-2 border-primary/50 pl-4 py-0.5 text-sm sm:text-[15px] font-serif italic text-slate-700 max-w-2xl">
-                &ldquo;Providing an open, collaborative forum where instrument builders and field scientists share breakthroughs, setbacks, and real-world deployment lessons.&rdquo;
-              </blockquote>
-
-              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 pt-1">
                 <Link
                   href="/archive"
                   className="inline-flex items-center justify-center gap-2 bg-primary text-white px-5 py-3 min-h-[44px] rounded-lg text-sm font-semibold hover:bg-sky-800 transition-colors shadow-xs"
@@ -178,24 +169,14 @@ export default function Home() {
                 >
                   <span>2027 Workshop Overview</span>
                 </Link>
-                <Link
-                  href="/history"
-                  className="hidden md:inline-flex items-center justify-start gap-1.5 px-3 py-2.5 min-h-[44px] text-sm font-medium text-slate-600 hover:text-primary transition-colors"
-                >
-                  <span>Society History (1999–2025)</span>
-                </Link>
               </div>
             </div>
 
-            {/* Right Analytical Specimen & 2027 Dossier Card (5 Columns) */}
-            <div className="lg:col-span-5">
-              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
+            {/* Right Analytical Specimen & Compact 2027 Strip (6 Columns) */}
+            <div className="lg:col-span-6">
+              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5">
                 <HeroMassSpectrum />
-
-                {/* Live-Hydrated 16th Workshop Dossier */}
-                <div className="pt-3.5 border-t border-slate-100 md:pt-0 md:border-t-0">
-                  <UpcomingWorkshopSpotlight />
-                </div>
+                <UpcomingWorkshopSpotlight />
               </div>
             </div>
           </div>
@@ -203,9 +184,9 @@ export default function Home() {
       </section>
 
       {/* SECTION 2: TECHNICAL CHARTER PILLARS */}
-      <section className="py-12 sm:py-18 lg:py-22 bg-[#FAFBFD] border-b border-slate-200/80">
+      <section className="py-12 sm:py-16 lg:py-20 bg-[#FAFBFD] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-12">
+          <div className="max-w-2xl mb-10 sm:mb-12">
             <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
               01 — Technical Charter
             </span>
@@ -221,49 +202,31 @@ export default function Home() {
             {CHARTER_PILLARS.map((pillar) => (
               <article
                 key={pillar.index}
-                className="bg-white border border-slate-200/90 rounded-xl overflow-hidden hover:border-primary/40 transition-colors shadow-2xs flex flex-col justify-between"
+                className="bg-white border border-slate-200/90 rounded-xl overflow-hidden hover:border-primary/40 transition-colors shadow-2xs flex flex-col"
               >
-                <div>
-                  <div className="relative h-44 bg-white border-b border-slate-100 overflow-hidden">
-                    <img
-                      src={pillar.image}
-                      alt={pillar.imageAlt}
-                      width={pillar.imageWidth}
-                      height={pillar.imageHeight}
-                      decoding="async"
-                      className={`w-full h-full ${
-                        pillar.imageFit === "contain"
-                          ? "object-contain p-3 bg-white"
-                          : "object-cover"
-                      }`}
-                      loading="lazy"
-                    />
-                    <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-slate-900/75 backdrop-blur-xs text-[10px] font-medium tracking-wide text-white">
-                      {pillar.credit}
-                    </span>
-                  </div>
-                  <div className="p-6 pb-0">
-                    <span className="tabular-nums text-xs font-semibold text-secondary tracking-widest block mb-2.5">
-                      {pillar.index} / DOMAIN
-                    </span>
-                    <h3 className="font-serif text-xl font-semibold text-slate-900 leading-snug mb-2.5">
-                      {pillar.title}
-                    </h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">{pillar.description}</p>
-                  </div>
+                <div className="relative h-44 bg-white border-b border-slate-100 overflow-hidden">
+                  <img
+                    src={pillar.image}
+                    alt={pillar.imageAlt}
+                    width={pillar.imageWidth}
+                    height={pillar.imageHeight}
+                    decoding="async"
+                    className={`w-full h-full ${
+                      pillar.imageFit === "contain"
+                        ? "object-contain p-3 bg-white"
+                        : "object-cover"
+                    }`}
+                    loading="lazy"
+                  />
+                  <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-slate-900/75 backdrop-blur-xs text-[10px] font-medium tracking-wide text-white">
+                    {pillar.credit}
+                  </span>
                 </div>
-
-                <div className="px-6 pb-6">
-                  <div className="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-slate-100">
-                    {pillar.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[10.5px] font-medium px-2.5 py-1 rounded-md bg-slate-50 text-slate-600 border border-slate-200/70"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                <div className="p-6">
+                  <h3 className="font-serif text-xl font-semibold text-slate-900 leading-snug mb-2">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">{pillar.description}</p>
                 </div>
               </article>
             ))}
@@ -361,16 +324,11 @@ export default function Home() {
                     loading="lazy"
                   />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-2">
-                        <Compass size={17} className="text-primary shrink-0" />
-                        <h3 className="font-semibold text-base text-slate-900">
-                          Planetary &amp; Spaceflight Mass Spectrometry
-                        </h3>
-                      </div>
-                      <span className="tabular-nums text-[10.5px] font-medium text-slate-400 shrink-0">
-                        13th–15th WS
-                      </span>
+                    <div className="flex items-center gap-2">
+                      <Compass size={17} className="text-primary shrink-0" />
+                      <h3 className="font-semibold text-base text-slate-900">
+                        Planetary &amp; Spaceflight Mass Spectrometry
+                      </h3>
                     </div>
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       Next-generation analyzers for Titan rotorcraft missions, lunar volatiles, Europa/ocean-world plumes, and laser desorption spaceflight instrumentation.
@@ -392,16 +350,11 @@ export default function Home() {
                     loading="lazy"
                   />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-2">
-                        <Anchor size={17} className="text-secondary shrink-0" />
-                        <h3 className="font-semibold text-base text-slate-900">
-                          Underwater &amp; Marine Biogeochemistry
-                        </h3>
-                      </div>
-                      <span className="tabular-nums text-[10.5px] font-medium text-slate-400 shrink-0">
-                        14th–15th WS
-                      </span>
+                    <div className="flex items-center gap-2">
+                      <Anchor size={17} className="text-secondary shrink-0" />
+                      <h3 className="font-semibold text-base text-slate-900">
+                        Underwater &amp; Marine Biogeochemistry
+                      </h3>
                     </div>
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       In-situ Membrane Introduction Mass Spectrometry (MIMS), benthic subsea landers, autonomous underwater vehicle (AUV) mapping, and deep-sea profiling.
@@ -423,16 +376,11 @@ export default function Home() {
                     loading="lazy"
                   />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-center gap-2">
-                        <Cpu size={17} className="text-primary shrink-0" />
-                        <h3 className="font-semibold text-base text-slate-900">
-                          Field-Portable &amp; Autonomous Instrumentation
-                        </h3>
-                      </div>
-                      <span className="tabular-nums text-[10.5px] font-medium text-slate-400 shrink-0">
-                        13th–15th WS
-                      </span>
+                    <div className="flex items-center gap-2">
+                      <Cpu size={17} className="text-primary shrink-0" />
+                      <h3 className="font-semibold text-base text-slate-900">
+                        Field-Portable &amp; Autonomous Instrumentation
+                      </h3>
                     </div>
                     <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
                       UAV-borne and mobile-vehicle MS platforms, person-portable TOF and tandem MS/MS systems, and rapid-response chemical plume detection.
@@ -485,23 +433,10 @@ export default function Home() {
               </div>
 
               {/* Industry Partnership & Non-Profit Charter Card */}
-              <div className="p-6 rounded-2xl bg-slate-900 text-slate-100 space-y-4">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-1.5 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sky-300">
-                    <ShieldCheck size={14} className="shrink-0" /> All-Volunteer 501(c)(3) Society
-                  </span>
-                  <div className="w-16 sm:w-20 rounded-lg bg-white p-1 shadow-xs shrink-0">
-                    <img
-                      src="/hemslogo.jpg"
-                      alt="HEMS Society Official Emblem"
-                      width={3756}
-                      height={2594}
-                      decoding="async"
-                      loading="lazy"
-                      className="w-full h-auto object-contain mix-blend-multiply block"
-                    />
-                  </div>
-                </div>
+              <div className="p-6 rounded-2xl bg-slate-900 text-slate-100 space-y-3.5">
+                <span className="inline-flex items-center gap-1.5 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sky-300">
+                  <ShieldCheck size={14} className="shrink-0" /> All-Volunteer 501(c)(3) Society
+                </span>
                 <h3 className="font-serif text-xl font-semibold text-white">
                   Sustained by Community &amp; Industry Partners
                 </h3>
