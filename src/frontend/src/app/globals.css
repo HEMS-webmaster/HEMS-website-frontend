@@ -23,8 +23,8 @@
   --color-muted: var(--muted);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
-  --font-sans: var(--font-noto-sans), system-ui, -apple-system, sans-serif;
-  --font-serif: var(--font-source-serif), Georgia, Cambria, "Times New Roman", serif;
+  --font-sans: var(--font-noto-sans), system-ui, -apple-system, "Cambria Math", "Segoe UI Symbol", "Apple Symbols", sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, Cambria, "Times New Roman", "Cambria Math", "Segoe UI Symbol", "Apple Symbols", serif;
   /* v3.1.0 retires IBM Plex Mono; map --font-mono to Noto Sans so locked /archive/[year] routes render in clean sans */
   --font-mono: var(--font-noto-sans), system-ui, -apple-system, sans-serif;
 }
@@ -66,4 +66,43 @@ body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+}
+
+/* Inline scientific math & Word equation styling */
+.sci-math {
+  font-family: "Cambria Math", "STIX Two Math", Georgia, "Times New Roman", serif;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.sci-frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1.05;
+  margin: 0 0.15em;
+  font-size: 0.86em;
+}
+
+.sci-frac-num {
+  padding: 0 0.18em 1px;
+  border-bottom: 1px solid currentColor;
+}
+
+.sci-frac-den {
+  padding: 1px 0.18em 0;
+}
+
+.sci-sqrt {
+  display: inline-flex;
+  align-items: baseline;
+  vertical-align: baseline;
+}
+
+.sci-sqrt-body {
+  border-top: 1px solid currentColor;
+  padding: 0 0.12em;
+  line-height: 1.1;
 }

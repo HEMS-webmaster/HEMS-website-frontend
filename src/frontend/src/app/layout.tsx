@@ -15,14 +15,14 @@ import {
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "greek"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "greek"],
   weight: ["400", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",

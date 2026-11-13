@@ -20,6 +20,10 @@ export type ReviewDecision =
   | "Revision Requested"
   | "Decline";
 
+export const SYNOPSIS_MAX_CHARS = 200;
+export const ABSTRACT_MAX_CHARS = 1500;
+export const MIN_GRAPHIC_DPI = 300;
+
 export const PRESENTATION_FORMAT_OPTIONS: readonly PresentationFormat[] = [
   "Oral Presentation",
   "Poster Presentation",
@@ -35,6 +39,33 @@ export const RESEARCH_TRACK_OPTIONS: readonly ResearchTrack[] = [
   "Onboard Data Processing & Deconvolution",
 ];
 
+export interface AffiliationEntry {
+  id: string;
+  institution: string;
+}
+
+export interface AuthorEntry {
+  id: string;
+  name: string;
+  affiliationId: string;
+  isPresenter: boolean;
+}
+
+export type DpiDetectionSource = "metadata" | "effective" | "vector";
+
+export interface GraphicMetadata {
+  fileName: string;
+  fileSizeBytes: number;
+  mimeType: string;
+  widthPx: number;
+  heightPx: number;
+  detectedDpi: number;
+  dpiSource: DpiDetectionSource;
+  caption?: string;
+  storageUrl?: string;
+  hasLocalBlob?: boolean;
+}
+
 export interface AbstractSubmissionRecord {
   id: string;
   workshopYear: number;
@@ -43,13 +74,17 @@ export interface AbstractSubmissionRecord {
   correspondingEmail: string;
   affiliation: string;
   coAuthors: string;
+  affiliations?: AffiliationEntry[];
+  authors?: AuthorEntry[];
   presentationFormat: PresentationFormat;
   researchTrack: ResearchTrack;
   summary: string;
+  abstractText?: string;
+  graphic?: GraphicMetadata;
   studentTravelAwardApplicant: boolean;
-  fileName: string;
-  fileSizeBytes: number;
-  fileMimeType: string;
+  fileName?: string;
+  fileSizeBytes?: number;
+  fileMimeType?: string;
   fileStorageUrl?: string;
   hasLocalFileBlob?: boolean;
   submittedByUid: string;
@@ -69,13 +104,17 @@ export interface AbstractSubmissionRecord {
 export interface CreateAbstractSubmissionInput {
   workshopYear: number;
   title: string;
-  presentingAuthor: string;
+  presentingAuthor?: string;
   correspondingEmail: string;
-  affiliation: string;
-  coAuthors: string;
+  affiliation?: string;
+  coAuthors?: string;
+  affiliations: AffiliationEntry[];
+  authors: AuthorEntry[];
   presentationFormat: PresentationFormat;
   researchTrack: ResearchTrack;
   summary: string;
+  abstractText: string;
+  graphicCaption?: string;
   studentTravelAwardApplicant: boolean;
   deadline: string;
   submittedByUid: string;

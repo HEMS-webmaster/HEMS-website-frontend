@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ClipboardCheck,
@@ -15,14 +15,18 @@ import {
   AlertCircle,
   Loader2,
   Upload,
+  Image as ImageIcon,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import { useAbstractSubmissions } from "@/hooks/useAbstractSubmissions";
 import {
   AbstractSubmissionRecord,
   ReviewDecision,
 } from "@/types/abstractSubmission";
 import { hasAttendeeRole, hasReviewerRole } from "@/utils/telemetryClient";
+import ScientificText from "@/components/workshop/ScientificText";
+import AbstractOnePagePreview from "@/components/workshop/AbstractOnePagePreview";
 
 type ReviewerFilter = "all" | "pending" | "reviewed" | "student_award";
 
@@ -44,13 +48,58 @@ function formatShortDate(iso: string): string {
   });
 }
 
+function renderAuthorLine(sub: AbstractSubmissionRecord): React.ReactNode {
+  if (sub.authors && sub.authors.length > 0 && sub.affiliations && sub.affiliations.length > 0) {
+    const affIndexMap = new Map<string, number>();
+    sub.affiliations.forEach((a, idx) => affIndexMap.set(a.id, idx + 1));
+    return (
+      <span className="text-xs text-foreground/75">
+        {sub.authors.map((a, idx) => {
+          const num = affIndexMap.get(a.affiliationId);
+          return (
+            <React.Fragment key={a.id || idx}>
+              {idx > 0 && ", "}
+              <span className={a.isPresenter ? "font-semibold underline underline-offset-2 text-foreground" : undefined}>
+                <ScientificText text={a.name} />
+              </span>
+              {num && (
+                <sup className="text-[10px] text-primary font-semibold ml-0.5">
+                  {num}
+                  {a.isPresenter ? "*" : ""}
+                </sup>
+              )}
+            </React.Fragment>
+          );
+        })}
+        {" • "}
+        <span className="text-slate-500">
+          {sub.affiliations.map((aff, idx) => `${idx + 1}: ${aff.institution}`).join(" ; ")}
+        </span>
+        {" • "}
+        <span className="text-primary">{sub.correspondingEmail}</span>
+      </span>
+    );
+  }
+
+  return (
+    <span className="text-xs text-foreground/70">
+      <strong className="font-semibold text-foreground/85">{sub.presentingAuthor}</strong>{" "}
+      ({sub.affiliation})
+      {sub.coAuthors ? ` • Co-authors: ${sub.coAuthors}` : ""} •{" "}
+      <span className="text-primary">{sub.correspondingEmail}</span>
+    </span>
+  );
+}
+
 export default function ReviewerPage() {
   const { user, loading: authLoading } = useAuth();
+  const { workshop } = useUpcomingWorkshop();
   const {
     submissions,
     loading: listLoading,
     refresh,
     saveReview,
+    getGraphicPreviewUrl,
     openSubmissionPdf,
   } = useAbstractSubmissions();
 
@@ -62,10 +111,24 @@ export default function ReviewerPage() {
     useState<ReviewDecision>("Accept (Oral)");
   const [commentsInput, setCommentsInput] = useState<string>("");
   const [savingReview, setSavingReview] = useState<boolean>(false);
-  const [pdfNotice, setPdfNotice] = useState<{ id: string; text: string } | null>(
-    null
-  );
+  const [previewNotice, setPreviewNotice] = useState<{
+    id: string;
+    text: string;
+  } | null>(null);
   const [reviewError, setReviewError] = useState<string | null>(null);
+  const [activePreview, setActivePreview] = useState<{
+    sub: AbstractSubmissionRecord;
+    graphicUrl: string | null;
+  } | null>(null);
+
+  useEffect(() => {
+    const url = activePreview?.graphicUrl;
+    return () => {
+      if (url && url.startsWith("blob:")) {
+        URL.revokeObjectURL(url);
+      }
+    };
+  }, [activePreview]);
 
   const reviewedCount = useMemo(
     () => submissions.filter((s) => s.status === "Reviewed").length,
@@ -86,14 +149,19 @@ export default function ReviewerPage() {
         return false;
       }
       if (!q) return true;
+      const authorNames = (sub.authors || []).map((a) => a.name).join(" ");
+      const affNames = (sub.affiliations || []).map((a) => a.institution).join(" ");
       const haystack = [
         sub.id,
         sub.title,
         sub.presentingAuthor,
         sub.affiliation,
         sub.coAuthors,
+        authorNames,
+        affNames,
         sub.researchTrack,
         sub.summary,
+        sub.abstractText || "",
       ]
         .join(" ")
         .toLowerCase();
@@ -110,7 +178,6 @@ export default function ReviewerPage() {
     );
   }
 
-  // Access Control check
   if (!user || !hasReviewerRole(user.roles)) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-8 bg-surface border border-red-500/10 rounded-2xl max-w-lg mx-auto">
@@ -174,13 +241,51 @@ export default function ReviewerPage() {
     }
   };
 
-  const handleViewPdf = async (sub: AbstractSubmissionRecord) => {
-    setPdfNotice(null);
+  const handleInspectAbstract = async (sub: AbstractSubmissionRecord) => {
+    setPreviewNotice(null);
+    if (sub.abstractText || (sub.authors && sub.authors.length > 0)) {
+      const graphicUrl = await getGraphicPreviewUrl(sub);
+      setActivePreview({ sub, graphicUrl });
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      return;
+    }
+
     const res = await openSubmissionPdf(sub);
     if (!res.ok && res.reason) {
-      setPdfNotice({ id: sub.id, text: res.reason });
+      setPreviewNotice({ id: sub.id, text: res.reason });
     }
   };
+
+  if (activePreview) {
+    const { sub, graphicUrl } = activePreview;
+    return (
+      <AbstractOnePagePreview
+        submissionId={sub.id}
+        workshopOrdinal={workshop.workshop_ordinal}
+        workshopWindow={workshop.target_window}
+        workshopYear={sub.workshopYear}
+        title={sub.title}
+        authors={sub.authors || []}
+        affiliations={sub.affiliations || []}
+        presentingAuthorFallback={sub.presentingAuthor}
+        affiliationFallback={sub.affiliation}
+        coAuthorsFallback={sub.coAuthors}
+        correspondingEmail={sub.correspondingEmail}
+        presentationFormat={sub.presentationFormat}
+        researchTrack={sub.researchTrack}
+        studentTravelAwardApplicant={sub.studentTravelAwardApplicant}
+        synopsis={sub.summary}
+        abstractText={sub.abstractText || sub.summary}
+        graphicUrl={graphicUrl}
+        graphicMeta={sub.graphic || null}
+        graphicCaption={sub.graphic?.caption}
+        modeLabel={`Reviewer Inspection — ${sub.id}`}
+        onClose={() => setActivePreview(null)}
+      />
+    );
+  }
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto w-full min-w-0">
@@ -190,7 +295,7 @@ export default function ReviewerPage() {
             <ClipboardCheck className="text-primary shrink-0" /> Reviewer Portal
           </h2>
           <p className="text-xs text-foreground/60 mt-1">
-            Inspect uploaded attendee PDF abstracts, evaluate technical merit, and assign format recommendations.
+            Inspect full 1-page attendee abstracts, equations, 300-DPI figures, and assign format recommendations.
           </p>
         </div>
 
@@ -352,6 +457,11 @@ export default function ReviewerPage() {
                         <span className="text-[11px] font-medium bg-sky-50 text-sky-800 border border-sky-200 px-2 py-0.5 rounded">
                           {sub.researchTrack}
                         </span>
+                        {sub.graphic && (
+                          <span className="inline-flex items-center gap-1 text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded tabular-nums">
+                            <ImageIcon size={11} /> Figure ({sub.graphic.detectedDpi} DPI)
+                          </span>
+                        )}
                         {sub.studentTravelAwardApplicant && (
                           <span className="inline-flex items-center gap-1 text-[11px] font-semibold bg-teal-50 text-teal-800 border border-teal-200 px-2 py-0.5 rounded">
                             <GraduationCap size={12} /> Student Award Applicant
@@ -363,22 +473,23 @@ export default function ReviewerPage() {
                       </div>
 
                       <h4 className="font-bold text-base text-foreground leading-snug">
-                        {sub.title}
+                        <ScientificText text={sub.title} />
                       </h4>
 
-                      <p className="text-xs text-foreground/70">
-                        <strong className="font-semibold text-foreground/85">
-                          {sub.presentingAuthor}
-                        </strong>{" "}
-                        ({sub.affiliation})
-                        {sub.coAuthors ? ` • Co-authors: ${sub.coAuthors}` : ""} •{" "}
-                        <span className="text-primary">{sub.correspondingEmail}</span>
-                      </p>
+                      <p>{renderAuthorLine(sub)}</p>
 
                       {sub.summary && (
-                        <p className="text-xs text-slate-600 leading-relaxed bg-white/80 border border-slate-200/80 rounded-lg p-3 mt-1">
-                          {sub.summary}
-                        </p>
+                        <div className="text-xs text-slate-600 leading-relaxed bg-white/80 border border-slate-200/80 rounded-lg p-3 mt-1 space-y-1">
+                          <div>
+                            <strong className="text-slate-800">Synopsis:</strong>{" "}
+                            <ScientificText text={sub.summary} />
+                          </div>
+                          {sub.abstractText && (
+                            <p className="text-[11px] text-slate-400 tabular-nums">
+                              Full abstract body: {sub.abstractText.length.toLocaleString()} characters
+                            </p>
+                          )}
+                        </div>
                       )}
 
                       {sub.status === "Reviewed" && sub.reviewerComments && !isEditing && (
@@ -409,12 +520,11 @@ export default function ReviewerPage() {
 
                       <button
                         type="button"
-                        onClick={() => void handleViewPdf(sub)}
+                        onClick={() => void handleInspectAbstract(sub)}
                         className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold bg-white border border-slate-300 text-slate-700 hover:border-primary hover:text-primary transition-colors cursor-pointer"
-                        title={sub.fileName}
                       >
                         <Eye size={13} />
-                        <span>View Abstract PDF</span>
+                        <span>View 1-Page Abstract</span>
                       </button>
 
                       <button
@@ -439,10 +549,10 @@ export default function ReviewerPage() {
                     </div>
                   </div>
 
-                  {pdfNotice && pdfNotice.id === sub.id && (
+                  {previewNotice && previewNotice.id === sub.id && (
                     <div className="bg-amber-50 border border-amber-200 text-amber-900 rounded-xl px-4 py-2.5 text-xs flex items-center gap-2">
                       <AlertCircle size={14} className="shrink-0" />
-                      <span>{pdfNotice.text}</span>
+                      <span>{previewNotice.text}</span>
                     </div>
                   )}
 
@@ -453,7 +563,7 @@ export default function ReviewerPage() {
                     >
                       <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
                         <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                          Evaluate {sub.id} — {sub.fileName}
+                          Evaluate {sub.id} — {sub.presentingAuthor}
                         </span>
                       </div>
 
