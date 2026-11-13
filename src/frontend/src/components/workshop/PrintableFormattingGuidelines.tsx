@@ -48,8 +48,8 @@ const SUBMISSION_STAGES_GUIDE = [
   },
   {
     stage: "05",
-    title: "Abstract Body, Figure Upload, Width & Live Preview",
-    details: `Compose or paste up to ${ABSTRACT_MAX_CHARS.toLocaleString()} visible characters (with spaces) calibrated to a 780px (6.5") measure at 16px serif (~12–15 words/line). Use Bold/Italic/Underline/Sub/Sup, italic m/z, or Insert Figure Here ([FIGURE]), optionally upload a ${MIN_GRAPHIC_DPI}-DPI figure with Desired Width (${MIN_FIGURE_WIDTH_IN}–${MAX_FIGURE_WIDTH_IN} in) & mandatory caption (up to ${CAPTION_MAX_CHARS} chars), and inspect live wraps + inline figure placement.`,
+    title: "Figure Upload, Abstract Body & Live Preview",
+    details: `Optionally upload a ${MIN_GRAPHIC_DPI}-DPI figure (may be used on the HEMS website) with Desired Width (${MIN_FIGURE_WIDTH_IN}–${MAX_FIGURE_WIDTH_IN} in) and mandatory caption (up to ${CAPTION_MAX_CHARS} chars). Widths < 3.5 in float right with squared text wrapping where [FIGURE] marks the first broken row; ≥ 3.5 in render centered. Compose or paste up to ${ABSTRACT_MAX_CHARS.toLocaleString()} visible characters (780px / 6.5" measure @ 16px serif, ~12–15 words/line).`,
   },
   {
     stage: "06",
@@ -230,7 +230,7 @@ export default function PrintableFormattingGuidelines({
               <strong>Inline Formatting &amp; Figure Marker:</strong> Raw tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) and <code>[FIGURE]</code> placement markers do not count against your {ABSTRACT_MAX_CHARS.toLocaleString()}-character abstract limit.
             </li>
             <li>
-              <strong>High-Resolution Graphics ({MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN} in):</strong> Raster figures require embedded {MIN_GRAPHIC_DPI} DPI metadata (≥600×300 px) or ≥900 px width; clean vector SVGs are accepted automatically. Captions are mandatory when uploading a figure, and outputs may flow onto Page 2 with 1&quot; margins.
+              <strong>High-Resolution Graphics ({MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN} in) &amp; Website Usage:</strong> Raster figures require embedded {MIN_GRAPHIC_DPI} DPI metadata (≥600×300 px) or ≥900 px width; clean vector SVGs are accepted automatically. Figures &lt; 3.5&quot; float right with squared justified text wrapping where <code>[FIGURE]</code> marks the first broken row (≥ 3.5&quot; render centered). Captions are mandatory when uploading a figure, outputs may flow onto Page 2 with 1&quot; margins, and submitted figures may be used on the HEMS website.
             </li>
           </ul>
         </footer>

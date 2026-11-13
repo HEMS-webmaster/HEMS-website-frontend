@@ -14,6 +14,7 @@ import {
   AuthorEntry,
   clampFigureWidthInches,
   GraphicMetadata,
+  isRightWrappedFigureWidth,
   PresentationFormat,
   PRINTABLE_TEXT_WIDTH_IN,
   ResearchTrack,
@@ -153,6 +154,7 @@ export default function AbstractOnePagePreview({
   const resolvedWidthInches = clampFigureWidthInches(
     figureWidthInches ?? graphicMeta?.widthInches
   );
+  const isRightWrapped = isRightWrappedFigureWidth(resolvedWidthInches);
   const figureWidthPct = Math.min(
     100,
     Math.max(46.15, (resolvedWidthInches / PRINTABLE_TEXT_WIDTH_IN) * 100)
@@ -188,6 +190,30 @@ export default function AbstractOnePagePreview({
   };
 
   const resolvedCaption = graphicCaption?.trim() || graphicMeta?.caption?.trim() || "";
+
+  const renderInlineRightFigureSpan = () => {
+    if (!graphicUrl) return null;
+    return (
+      <span
+        role="figure"
+        aria-label={resolvedCaption ? `Figure 1: ${resolvedCaption}` : "Submitted scientific figure"}
+        style={{ width: `${figureWidthPct.toFixed(2)}%` }}
+        className="float-right clear-right ml-[1em] mb-2.5 mt-0.5 border border-slate-200 rounded-lg p-2 bg-white block max-w-full break-inside-avoid text-center font-normal not-italic"
+      >
+        <img
+          src={graphicUrl}
+          alt={resolvedCaption || "Submitted scientific figure"}
+          className="w-full h-auto object-contain mx-auto rounded block"
+        />
+        {resolvedCaption && (
+          <span className="block mt-1.5 text-[13.5px] print:text-[8.6pt] text-slate-700 leading-snug text-center font-serif">
+            <strong className="text-slate-900">Figure 1.</strong>{" "}
+            <ScientificText text={resolvedCaption} />
+          </span>
+        )}
+      </span>
+    );
+  };
 
   const renderFigureBlock = () => {
     if (!graphicUrl) return null;
@@ -414,7 +440,13 @@ export default function AbstractOnePagePreview({
 
           {/* 4. Abstract Body (Width / FontSize = 48.75 -> 16px on 780px screen / 9.6pt on 6.5in print = 12–15 words/line) */}
           <section className="pt-1 font-serif text-[16px] print:text-[9.6pt] text-slate-900 leading-[1.45] text-justify">
-            {splitAbstract.hasMarker ? (
+            {isRightWrapped && graphicUrl ? (
+              <ScientificText
+                text={abstractText.trim() || "Abstract body text not yet entered."}
+                multiline
+                inlineRightFigure={renderInlineRightFigureSpan()}
+              />
+            ) : splitAbstract.hasMarker ? (
               <div className="space-y-3">
                 {splitAbstract.beforeText && (
                   <ScientificText text={splitAbstract.beforeText} multiline />
@@ -446,7 +478,7 @@ export default function AbstractOnePagePreview({
               <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold">
                 <ImageIcon size={12} />
                 Figure: {graphicMeta.detectedDpi} DPI ({graphicMeta.widthPx}×{graphicMeta.heightPx} px •{" "}
-                {resolvedWidthInches.toFixed(2)}&quot; width)
+                {resolvedWidthInches.toFixed(2)}&quot; width{isRightWrapped ? " • right-wrap" : ""})
               </span>
             )}
             {studentTravelAwardApplicant && (

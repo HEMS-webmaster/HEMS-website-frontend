@@ -31,6 +31,11 @@ export const MIN_FIGURE_WIDTH_IN = 3;
 export const MAX_FIGURE_WIDTH_IN = 6.5;
 export const DEFAULT_FIGURE_WIDTH_IN = 4.5;
 export const PRINTABLE_TEXT_WIDTH_IN = 6.5;
+export const RIGHT_WRAP_THRESHOLD_IN = 3.5;
+
+export function isRightWrappedFigureWidth(widthInches: number): boolean {
+  return widthInches < RIGHT_WRAP_THRESHOLD_IN;
+}
 
 export function clampFigureWidthInches(raw?: number): number {
   if (typeof raw !== "number" || Number.isNaN(raw)) {

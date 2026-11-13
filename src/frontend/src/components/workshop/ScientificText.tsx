@@ -6,6 +6,7 @@ interface ScientificTextProps {
   text: string;
   multiline?: boolean;
   className?: string;
+  inlineRightFigure?: React.ReactNode;
 }
 
 export interface FigureSplitResult {
@@ -379,8 +380,14 @@ export default function ScientificText({
   text,
   multiline = false,
   className = "",
+  inlineRightFigure,
 }: ScientificTextProps) {
-  if (!text) return null;
+  if (!text) {
+    if (multiline && inlineRightFigure) {
+      return <div className={`flow-root ${className}`.trim()}>{inlineRightFigure}</div>;
+    }
+    return null;
+  }
 
   if (!multiline) {
     return (
@@ -390,27 +397,124 @@ export default function ScientificText({
     );
   }
 
-  const paragraphs = text
+  const rawParagraphs = text
     .replace(/\r\n?/g, "\n")
     .split(/\n{2,}/)
     .map((p) => p.trim())
     .filter(Boolean);
 
+  if (!inlineRightFigure) {
+    return (
+      <div className={className}>
+        {rawParagraphs.map((para, pIdx) => {
+          const lines = para.split("\n");
+          return (
+            <p key={`para-${pIdx}`} className={pIdx > 0 ? "mt-2 print:mt-1.5" : undefined}>
+              {lines.map((line, lIdx) => (
+                <React.Fragment key={`line-${pIdx}-${lIdx}`}>
+                  {lIdx > 0 && <br />}
+                  {renderFormattedAndMath(line, `p${pIdx}-l${lIdx}`)}
+                </React.Fragment>
+              ))}
+            </p>
+          );
+        })}
+      </div>
+    );
+  }
+
+  if (rawParagraphs.length === 0) {
+    return <div className={`flow-root ${className}`.trim()}>{inlineRightFigure}</div>;
+  }
+
+  const hasMarker = /\[FIGURE\]/i.test(text);
+  if (!hasMarker) {
+    return (
+      <div className={`flow-root ${className}`.trim()}>
+        {rawParagraphs.map((para, pIdx) => {
+          const lines = para.split("\n");
+          return (
+            <p key={`para-${pIdx}`} className={pIdx > 0 ? "mt-2 print:mt-1.5" : undefined}>
+              {pIdx === 0 && inlineRightFigure}
+              {lines.map((line, lIdx) => (
+                <React.Fragment key={`line-${pIdx}-${lIdx}`}>
+                  {lIdx > 0 && <br />}
+                  {renderFormattedAndMath(line, `p${pIdx}-l${lIdx}`)}
+                </React.Fragment>
+              ))}
+            </p>
+          );
+        })}
+      </div>
+    );
+  }
+
+  const mergedParagraphs: string[] = [];
+  let pendingMarker = false;
+  let renderTrailingFloat = false;
+  for (const para of rawParagraphs) {
+    if (/^\s*\[FIGURE\]\s*$/i.test(para)) {
+      pendingMarker = true;
+      continue;
+    }
+    if (pendingMarker) {
+      mergedParagraphs.push(`[FIGURE] ${para.replace(/\[FIGURE\]/gi, "").trim()}`);
+      pendingMarker = false;
+    } else {
+      mergedParagraphs.push(para);
+    }
+  }
+  if (pendingMarker) {
+    renderTrailingFloat = true;
+  }
+
+  let figurePlaced = false;
+
   return (
-    <div className={className}>
-      {paragraphs.map((para, pIdx) => {
+    <div className={`flow-root ${className}`.trim()}>
+      {mergedParagraphs.map((para, pIdx) => {
         const lines = para.split("\n");
         return (
           <p key={`para-${pIdx}`} className={pIdx > 0 ? "mt-2 print:mt-1.5" : undefined}>
-            {lines.map((line, lIdx) => (
-              <React.Fragment key={`line-${pIdx}-${lIdx}`}>
-                {lIdx > 0 && <br />}
-                {renderFormattedAndMath(line, `p${pIdx}-l${lIdx}`)}
-              </React.Fragment>
-            ))}
+            {lines.map((line, lIdx) => {
+              const markerMatch = !figurePlaced ? /\[FIGURE\]/i.exec(line) : null;
+              if (markerMatch) {
+                figurePlaced = true;
+                const beforeClean = line.slice(0, markerMatch.index).replace(/[ \t]+$/, "");
+                const afterClean = line
+                  .slice(markerMatch.index + markerMatch[0].length)
+                  .replace(/\[FIGURE\]/gi, "")
+                  .replace(/^[ \t]+/, "");
+                return (
+                  <React.Fragment key={`line-${pIdx}-${lIdx}`}>
+                    {lIdx > 0 && <br />}
+                    {beforeClean ? (
+                      <>
+                        {renderFormattedAndMath(beforeClean, `p${pIdx}-l${lIdx}-b`)}
+                        {afterClean ? " " : ""}
+                      </>
+                    ) : null}
+                    {inlineRightFigure}
+                    {afterClean
+                      ? renderFormattedAndMath(afterClean, `p${pIdx}-l${lIdx}-a`)
+                      : null}
+                  </React.Fragment>
+                );
+              }
+              const cleanedLine = line.replace(/[ \t]*\[FIGURE\][ \t]*/gi, " ").trimEnd();
+              return (
+                <React.Fragment key={`line-${pIdx}-${lIdx}`}>
+                  {lIdx > 0 && <br />}
+                  {renderFormattedAndMath(cleanedLine, `p${pIdx}-l${lIdx}`)}
+                </React.Fragment>
+              );
+            })}
           </p>
         );
       })}
+      {renderTrailingFloat && !figurePlaced && (
+        <div className="mt-2">{inlineRightFigure}</div>
+      )}
     </div>
   );
 }

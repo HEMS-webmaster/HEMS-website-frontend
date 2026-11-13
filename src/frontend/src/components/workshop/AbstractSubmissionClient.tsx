@@ -10,7 +10,9 @@ import {
   Calendar,
   Trash2,
   Eye,
+  EyeOff,
   AlertCircle,
+  AlertTriangle,
   Loader2,
   ArrowRight,
   ArrowLeft,
@@ -48,6 +50,7 @@ import {
   DEFAULT_FIGURE_WIDTH_IN,
   FIGURE_MARKER_TOKEN,
   GraphicMetadata,
+  isRightWrappedFigureWidth,
   KEYWORDS_MAX_CHARS,
   MAX_FIGURE_WIDTH_IN,
   MIN_FIGURE_WIDTH_IN,
@@ -57,6 +60,7 @@ import {
   PRINTABLE_TEXT_WIDTH_IN,
   RESEARCH_TRACK_OPTIONS,
   ResearchTrack,
+  RIGHT_WRAP_THRESHOLD_IN,
   SYNOPSIS_MAX_CHARS,
 } from "@/types/abstractSubmission";
 import {
@@ -195,6 +199,7 @@ export default function AbstractSubmissionClient() {
   const [graphicCaption, setGraphicCaption] = useState("");
   const [graphicError, setGraphicError] = useState<string | null>(null);
   const [checkingGraphic, setCheckingGraphic] = useState(false);
+  const [figurePanelHidden, setFigurePanelHidden] = useState(false);
 
   // Stage 7
   const [keywords, setKeywords] = useState("");
@@ -616,42 +621,59 @@ export default function AbstractSubmissionClient() {
     const rawStart = textarea?.selectionStart ?? abstractText.length;
     const rawEnd = textarea?.selectionEnd ?? abstractText.length;
 
-    const markerRegex = /[ \t]*\[FIGURE\][ \t]*/gi;
-    const existingMatch = markerRegex.exec(abstractText);
+    const existingMatch = /\[FIGURE\]/i.exec(abstractText);
 
     let baseText = abstractText;
     let start = rawStart;
     let end = rawEnd;
 
     if (existingMatch) {
-      const matchStart = existingMatch.index;
-      const matchLen = existingMatch[0].length;
-      baseText =
-        abstractText.slice(0, matchStart) +
-        abstractText.slice(matchStart + matchLen);
-      baseText = baseText.replace(/\n{3,}/g, "\n\n");
-      if (rawStart > matchStart) {
-        start = Math.max(0, rawStart - matchLen);
+      const mStart = existingMatch.index;
+      const mEnd = mStart + existingMatch[0].length;
+      const hasLeadingSpaces = mStart > 0 && /[ \t]/.test(abstractText[mStart - 1]);
+      const hasTrailingSpaces = mEnd < abstractText.length && /[ \t]/.test(abstractText[mEnd]);
+      const charBefore = mStart > 0 ? abstractText[mStart - 1] : "";
+      const charAfter = mEnd < abstractText.length ? abstractText[mEnd] : "";
+      let sliceFrom = mStart;
+      let sliceTo = mEnd;
+      if (hasLeadingSpaces && hasTrailingSpaces) {
+        sliceTo += 1;
+      } else if (hasLeadingSpaces && (mEnd === abstractText.length || charAfter === "\n")) {
+        sliceFrom -= 1;
+      } else if (hasTrailingSpaces && (mStart === 0 || charBefore === "\n")) {
+        sliceTo += 1;
       }
-      if (rawEnd > matchStart) {
-        end = Math.max(start, rawEnd - matchLen);
+      baseText = abstractText.slice(0, sliceFrom) + abstractText.slice(sliceTo);
+      const removedLen = sliceTo - sliceFrom;
+      if (rawStart > sliceFrom) {
+        start = Math.max(sliceFrom, rawStart - Math.min(removedLen, rawStart - sliceFrom));
+      }
+      if (rawEnd > sliceFrom) {
+        end = Math.max(start, rawEnd - Math.min(removedLen, rawEnd - sliceFrom));
       }
     }
 
-    const before = baseText.slice(0, start).replace(/\n+$/g, "");
-    const after = baseText.slice(end).replace(/^\n+/g, "");
-    const prefix = before ? `${before}\n\n` : "";
-    const suffix = after ? `\n\n${after}` : "";
-    const nextText = `${prefix}${FIGURE_MARKER_TOKEN}${suffix}`;
+    const before = baseText.slice(0, start);
+    const after = baseText.slice(end);
+    const needsLeadingSpace = before.length > 0 && !/\s$/.test(before);
+    const needsTrailingSpace = after.length > 0 && !/^\s/.test(after);
+    const leading = needsLeadingSpace ? " " : "";
+    const trailing = needsTrailingSpace ? " " : "";
+    const nextText = `${before}${leading}${FIGURE_MARKER_TOKEN}${trailing}${after}`;
 
     setAbstractText(nextText);
+    const isRightWrapped = isRightWrappedFigureWidth(figureWidthInches);
     setPasteNotice(
       existingMatch
-        ? "Moved the [FIGURE] placement marker to the new cursor position."
+        ? isRightWrapped
+          ? "Moved [FIGURE] inline. Because width < 3.5\", this row is now the first row broken by the right-aligned figure."
+          : "Moved the [FIGURE] placement marker to the new cursor position."
+        : isRightWrapped
+        ? "Inserted [FIGURE] inline. Because width < 3.5\", place it at the start of the row where right-aligned text wrapping should begin."
         : "Inserted [FIGURE] placement marker. Your figure will render at this position in the live & final previews."
     );
 
-    const nextCursor = prefix.length + FIGURE_MARKER_TOKEN.length;
+    const nextCursor = before.length + leading.length + FIGURE_MARKER_TOKEN.length;
     if (typeof window !== "undefined") {
       window.requestAnimationFrame(() => {
         if (!textarea) return;
@@ -663,7 +685,11 @@ export default function AbstractSubmissionClient() {
 
   const removeFigureMarker = () => {
     const cleaned = abstractText
-      .replace(/[ \t]*\n*\[FIGURE\]\n*[ \t]*/gi, "\n\n")
+      .replace(/\n[ \t]*\[FIGURE\][ \t]*\n/gi, "\n\n")
+      .replace(/[ \t]*\[FIGURE\][ \t]*/gi, " ")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n[ \t]+/g, "\n")
+      .replace(/[ \t]{2,}/g, " ")
       .replace(/\n{3,}/g, "\n\n")
       .trim();
     setAbstractText(cleaned);
@@ -898,9 +924,18 @@ export default function AbstractSubmissionClient() {
     return null;
   };
 
+  const isStage5FigureValidationError = () =>
+    figureWidthInches < MIN_FIGURE_WIDTH_IN ||
+    figureWidthInches > MAX_FIGURE_WIDTH_IN ||
+    Boolean(graphicFile && !graphicCaption.trim()) ||
+    graphicCaption.length > CAPTION_MAX_CHARS;
+
   const handleNextStage = () => {
     const err = validateStage(currentStage);
     if (err) {
+      if (currentStage === 5 && isStage5FigureValidationError()) {
+        setFigurePanelHidden(false);
+      }
       setStageError(err);
       return;
     }
@@ -925,6 +960,9 @@ export default function AbstractSubmissionClient() {
     for (let s = 1; s < targetStage; s++) {
       const err = validateStage(s);
       if (err) {
+        if (s === 5 && isStage5FigureValidationError()) {
+          setFigurePanelHidden(false);
+        }
         setCurrentStage(s);
         setStageError(err);
         scrollToWorkspaceTop();
@@ -940,6 +978,9 @@ export default function AbstractSubmissionClient() {
     for (let s = 1; s <= 6; s++) {
       const err = validateStage(s);
       if (err) {
+        if (s === 5 && isStage5FigureValidationError()) {
+          setFigurePanelHidden(false);
+        }
         setCurrentStage(s);
         setStageError(err);
         scrollToWorkspaceTop();
@@ -1099,6 +1140,7 @@ export default function AbstractSubmissionClient() {
     );
   }
 
+  const isRightWrappedWidth = isRightWrappedFigureWidth(figureWidthInches);
   const figurePctOfTextCol = Math.min(
     100,
     Math.max(46.15, (figureWidthInches / PRINTABLE_TEXT_WIDTH_IN) * 100)
@@ -1119,6 +1161,17 @@ export default function AbstractSubmissionClient() {
           Desired Figure Width ({MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN} inches)
         </label>
         <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-700 tabular-nums">
+          <span
+            className={`px-2.5 py-0.5 rounded-full border ${
+              isRightWrappedWidth
+                ? "bg-indigo-50 text-indigo-900 border-indigo-200"
+                : "bg-slate-100 text-slate-800 border-slate-300"
+            }`}
+          >
+            {isRightWrappedWidth
+              ? `Right of Text • Squared Wrap (<${RIGHT_WRAP_THRESHOLD_IN}")`
+              : `Centered Block (≥${RIGHT_WRAP_THRESHOLD_IN}")`}
+          </span>
           <span className="bg-sky-50 text-sky-900 border border-sky-200 px-2.5 py-0.5 rounded-full">
             {figureWidthInches.toFixed(2)}&quot; ({Math.round(figurePctOfTextCol)}% of 6.5&quot; margin width)
           </span>
@@ -1169,9 +1222,9 @@ export default function AbstractSubmissionClient() {
           Presets:
         </span>
         {[
-          { label: '3.25" Half-Column', value: 3.25 },
+          { label: '3.25" Right-Wrap (<3.5")', value: 3.25 },
+          { label: '3.50" Centered Block', value: 3.5 },
           { label: '4.50" Standard', value: 4.5 },
-          { label: '5.50" Wide', value: 5.5 },
           { label: '6.50" Full 1"-Margin Width', value: 6.5 },
         ].map((preset) => (
           <button
@@ -1303,7 +1356,7 @@ export default function AbstractSubmissionClient() {
                 Max {ABSTRACT_MAX_CHARS.toLocaleString()} chars • {MIN_GRAPHIC_DPI} DPI
               </span>
               <span className="block text-[11px] text-slate-500">
-                Italic <em>m/z</em>, [FIGURE] marker, {MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN}&quot; width &amp; caption (≤{CAPTION_MAX_CHARS})
+                Italic <em>m/z</em>, [FIGURE] marker (&lt;3.5&quot; right-wrap / ≥3.5&quot; centered) &amp; caption (≤{CAPTION_MAX_CHARS}); figure may be used on website
               </span>
             </div>
             <div className="bg-[#FAFBFD] border border-slate-200/80 rounded-xl p-2.5">
@@ -1881,338 +1934,442 @@ export default function AbstractSubmissionClient() {
           </div>
         )}
 
-        {/* STAGE 5: 3,000-Char Abstract Body + Formatting & [FIGURE] Toolbar + 6.5"-Calibrated Live Preview */}
+        {/* STAGE 5: Collapsible Figure Input (Top w/ Website Warning) + 3,000-Char Raw Input + Live Preview */}
         {currentStage === 5 && (
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <label
-                  htmlFor="abs-body"
-                  className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
-                >
-                  Raw Abstract Input Text (Up to {ABSTRACT_MAX_CHARS.toLocaleString()} Chars With Spaces){" "}
-                  <span className="text-red-600">*</span>
-                </label>
-                <p className="text-[11px] text-slate-600 mt-0.5">
-                  Inline tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) and <code>[FIGURE]</code> do not count toward your 3,000-character budget.
-                </p>
-              </div>
-              <div className="flex items-center gap-3">
-                <label
-                  htmlFor="abs-txt-loader"
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
-                >
-                  <FileUp size={13} />
-                  <span>Load .txt file</span>
-                </label>
-                <input
-                  id="abs-txt-loader"
-                  ref={abstractTxtInputRef}
-                  type="file"
-                  accept=".txt,text/plain"
-                  onChange={(e) => void handleLoadAbstractTxt(e)}
-                  className="sr-only"
-                />
-                <span
-                  className={`text-xs font-bold tabular-nums px-2.5 py-1 rounded-full border ${
-                    visibleAbstractChars >= ABSTRACT_MAX_CHARS
-                      ? "bg-amber-50 border-amber-200 text-amber-700"
-                      : "bg-white border-slate-300 text-slate-800"
-                  }`}
-                >
-                  {visibleAbstractChars.toLocaleString()} / {ABSTRACT_MAX_CHARS.toLocaleString()} chars (with spaces)
-                </span>
-              </div>
-            </div>
-
-            {/* Generalized Text Formatting, Scientific Symbol & Inline Figure Placement Toolbar */}
-            <div className="flex flex-wrap items-center gap-1.5 bg-white border-2 border-slate-200 rounded-xl p-2.5 shadow-2xs">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
-                Format:
-              </span>
-              <button
-                type="button"
-                title="Wrap selected text as Bold (<b>...</b>)"
-                onClick={() => wrapSelectionWithFormatTag("b")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-bold text-slate-800 cursor-pointer shadow-2xs"
-              >
-                <Bold size={13} /> Bold
-              </button>
-              <button
-                type="button"
-                title="Wrap selected text as Italic (<i>...</i>)"
-                onClick={() => wrapSelectionWithFormatTag("i")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold italic text-slate-800 cursor-pointer shadow-2xs"
-              >
-                <Italic size={13} /> Italic
-              </button>
-              <button
-                type="button"
-                title="Wrap selected text as Underlined (<u>...</u>)"
-                onClick={() => wrapSelectionWithFormatTag("u")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold underline text-slate-800 cursor-pointer shadow-2xs"
-              >
-                <Underline size={13} /> Underline
-              </button>
-              <button
-                type="button"
-                title="Wrap selected text as Subscript (<sub>...</sub>)"
-                onClick={() => wrapSelectionWithFormatTag("sub")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
-              >
-                <Subscript size={13} /> Subscript
-              </button>
-              <button
-                type="button"
-                title="Wrap selected text as Superscript (<sup>...</sup>)"
-                onClick={() => wrapSelectionWithFormatTag("sup")}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
-              >
-                <Superscript size={13} /> Superscript
-              </button>
-
-              <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
-
-              <button
-                type="button"
-                title="Insert [FIGURE] marker at cursor (or move existing marker here) so the figure renders inline in previews"
-                onClick={insertOrMoveFigureMarker}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 border border-primary/40 hover:bg-primary hover:text-white text-xs font-bold text-primary transition-colors cursor-pointer shadow-2xs"
-              >
-                <ImageIcon size={13} />
-                <span>
-                  {splitAbstractPreview.hasMarker ? "Move [FIGURE] Here" : "Insert Figure Here"}
-                </span>
-              </button>
-              {splitAbstractPreview.hasMarker && (
-                <button
-                  type="button"
-                  title="Remove the inline [FIGURE] marker"
-                  onClick={removeFigureMarker}
-                  className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-red-400 hover:text-red-600 text-[11px] font-semibold text-slate-600 cursor-pointer"
-                >
-                  <X size={12} /> Clear Marker
-                </button>
-              )}
-
-              <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
-
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
-                Symbols:
-              </span>
-              {QUICK_MATH_TOKENS.map((item) => (
-                <button
-                  key={item.label}
-                  type="button"
-                  title={item.title}
-                  onClick={() => insertTokenIntoAbstract(item.token)}
-                  className={`px-2 py-1 rounded bg-slate-50 border border-slate-200 hover:border-primary hover:text-primary text-[11px] font-medium text-slate-800 transition-colors cursor-pointer ${
-                    item.italic ? "italic font-serif font-semibold" : ""
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Raw Abstract Textarea (Calibrated to 780px = 6.5" printable column at 120 px/in & 16px serif -> 12-15 words/line) */}
-            <textarea
-              id="abs-body"
-              ref={abstractTextareaRef}
-              rows={10}
-              wrap="soft"
-              value={abstractText}
-              onChange={(e) => handleAbstractTextChange(e.target.value)}
-              onPaste={(e) =>
-                applyWordPasteToField(
-                  e,
-                  abstractText,
-                  setAbstractText,
-                  {
-                    multiline: true,
-                    maxChars: ABSTRACT_MAX_CHARS,
-                    preserveInlineFormatting: true,
-                    countVisibleOnly: true,
-                  },
-                  (trimmed) => {
-                    if (trimmed > 0) {
-                      setPasteNotice(
-                        `Word paste converted formatting & equations and trimmed ${trimmed} visible characters to fit the ${ABSTRACT_MAX_CHARS.toLocaleString()}-character limit.`
-                      );
-                    }
-                  }
-                )
-              }
-              placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Word line-wraps are unwrapped automatically so text fills the 6.5&quot; column width naturally (12-15 words/line)..."
-              className="w-full bg-white border-2 border-slate-300 hover:border-slate-400 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-3.5 font-serif text-[16px] text-slate-950 placeholder:text-slate-400 placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-2xs"
-            />
-
-            {/* Integrated Stage 5 Figure Upload (300 DPI Min) + Desired Width (3-6.5 in) + Non-Optional Caption */}
-            <div className="pt-2 border-t border-slate-200/90 space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5">
-                  <ImageIcon size={14} className="text-primary" />
-                  Optional High-Resolution Figure ({MIN_GRAPHIC_DPI} DPI Min) &amp; Width Control
-                </h3>
-                <span className="text-[11px] text-slate-600 font-medium">
-                  Use <strong className="font-mono text-primary">[FIGURE]</strong> above to position inline, or leave omitted to append below text
-                </span>
-              </div>
-
-              {graphicError && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2">
-                  <AlertCircle size={16} className="shrink-0 mt-0.5" />
-                  <span>{graphicError}</span>
+          <div className="space-y-5">
+            {/* 1. Figure Upload & Width Interface Card (Above Raw Text Input + Hide Toggle + Website Warning) */}
+            <div className="bg-white border-2 border-slate-300/90 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5">
+                    <ImageIcon size={14} className="text-primary" />
+                    Optional High-Resolution Figure ({MIN_GRAPHIC_DPI} DPI Min) &amp; Width Control
+                  </h3>
+                  {figurePanelHidden ? (
+                    <p className="text-[11px] text-slate-600 mt-0.5 truncate">
+                      {graphicFile
+                        ? `${graphicFile.name} • ${figureWidthInches.toFixed(2)}" (${
+                            isRightWrappedWidth ? "Right-wrap <3.5\"" : "Centered ≥3.5\""
+                          }) • Note: Figure may be used on the HEMS website`
+                        : `Hidden • Optional figure (${figureWidthInches.toFixed(2)}" ${
+                            isRightWrappedWidth ? "right-wrap" : "centered"
+                          }) • Note: Submitted figures may be used on the HEMS website`}
+                    </p>
+                  ) : (
+                    <p className="text-[11px] text-slate-600 mt-0.5">
+                      Widths &lt; {RIGHT_WRAP_THRESHOLD_IN}&quot; float to the right of text with squared wrapping; ≥ {RIGHT_WRAP_THRESHOLD_IN}&quot; render centered.
+                    </p>
+                  )}
                 </div>
-              )}
 
-              <div className="border-2 border-dashed border-slate-300 hover:border-primary/70 rounded-2xl p-5 sm:p-6 bg-white transition-colors space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-start gap-3 min-w-0">
-                    <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                      <ImageIcon size={22} />
-                    </div>
-                    <div className="min-w-0">
-                      {checkingGraphic ? (
-                        <p className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                          <Loader2 size={15} className="animate-spin text-primary" />
-                          Checking graphic resolution ({MIN_GRAPHIC_DPI} DPI minimum)...
-                        </p>
-                      ) : graphicFile && graphicMeta ? (
-                        <>
-                          <p className="text-sm font-semibold text-slate-900 truncate">
-                            {graphicFile.name}
-                          </p>
-                          <p className="text-xs text-emerald-700 font-semibold tabular-nums mt-0.5">
-                            Verified {graphicMeta.detectedDpi} DPI ({graphicMeta.dpiSource}) •{" "}
-                            {graphicMeta.widthPx}×{graphicMeta.heightPx} px •{" "}
-                            {formatFileSize(graphicFile.size)}
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="text-sm font-semibold text-slate-900">
-                            Upload Scientific Figure ({MIN_GRAPHIC_DPI} DPI Minimum — Optional)
-                          </p>
-                          <p className="text-xs text-slate-600 mt-0.5">
-                            Accepted: PNG, JPEG, WebP (≥{MIN_GRAPHIC_DPI} DPI metadata at ≥600×300 px, or ≥900 px wide) or clean vector SVG.
-                          </p>
-                        </>
-                      )}
-                    </div>
+                <button
+                  type="button"
+                  onClick={() => setFigurePanelHidden((prev) => !prev)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-700 transition-colors cursor-pointer shrink-0"
+                >
+                  {figurePanelHidden ? (
+                    <>
+                      <Eye size={14} />
+                      <span>Show Figure Input</span>
+                    </>
+                  ) : (
+                    <>
+                      <EyeOff size={14} />
+                      <span>Hide</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {!figurePanelHidden && (
+                <div className="space-y-4 pt-2 border-t border-slate-200">
+                  {/* Website Usage Warning */}
+                  <div
+                    role="note"
+                    className="bg-amber-50 border border-amber-300 text-amber-950 px-3.5 py-2.5 rounded-xl text-xs flex items-start gap-2.5"
+                  >
+                    <AlertTriangle size={16} className="text-amber-700 shrink-0 mt-0.5" />
+                    <span>
+                      <strong className="font-bold">Website Usage Warning:</strong> Uploaded figures and captions may be used on the HEMS website (such as workshop highlights, technical program pages, or online proceedings). Please only upload graphics cleared for public web display.
+                    </span>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
-                    {graphicFile && (
-                      <button
-                        type="button"
-                        onClick={handleRemoveGraphic}
-                        className="px-3.5 py-2 rounded-lg border border-red-200 bg-white text-xs font-semibold text-red-600 hover:bg-red-50 cursor-pointer"
-                      >
-                        Remove Graphic
-                      </button>
+                  {graphicError && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2">
+                      <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                      <span>{graphicError}</span>
+                    </div>
+                  )}
+
+                  <div className="border-2 border-dashed border-slate-300 hover:border-primary/70 rounded-2xl p-5 sm:p-6 bg-slate-50/40 transition-colors space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex items-start gap-3 min-w-0">
+                        <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                          <ImageIcon size={22} />
+                        </div>
+                        <div className="min-w-0">
+                          {checkingGraphic ? (
+                            <p className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                              <Loader2 size={15} className="animate-spin text-primary" />
+                              Checking graphic resolution ({MIN_GRAPHIC_DPI} DPI minimum)...
+                            </p>
+                          ) : graphicFile && graphicMeta ? (
+                            <>
+                              <p className="text-sm font-semibold text-slate-900 truncate">
+                                {graphicFile.name}
+                              </p>
+                              <p className="text-xs text-emerald-700 font-semibold tabular-nums mt-0.5">
+                                Verified {graphicMeta.detectedDpi} DPI ({graphicMeta.dpiSource}) •{" "}
+                                {graphicMeta.widthPx}×{graphicMeta.heightPx} px •{" "}
+                                {formatFileSize(graphicFile.size)}
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <p className="text-sm font-semibold text-slate-900">
+                                Upload Scientific Figure ({MIN_GRAPHIC_DPI} DPI Minimum — Optional)
+                              </p>
+                              <p className="text-xs text-slate-600 mt-0.5">
+                                Accepted: PNG, JPEG, WebP (≥{MIN_GRAPHIC_DPI} DPI metadata at ≥600×300 px, or ≥900 px wide) or clean vector SVG.
+                              </p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        {graphicFile && (
+                          <button
+                            type="button"
+                            onClick={handleRemoveGraphic}
+                            className="px-3.5 py-2 rounded-lg border border-red-200 bg-white text-xs font-semibold text-red-600 hover:bg-red-50 cursor-pointer"
+                          >
+                            Remove Graphic
+                          </button>
+                        )}
+                        <label
+                          htmlFor="abs-graphic-upload"
+                          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
+                        >
+                          <Upload size={14} />
+                          <span>{graphicFile ? "Replace Graphic" : "Choose Graphic"}</span>
+                        </label>
+                        <input
+                          id="abs-graphic-upload"
+                          ref={graphicInputRef}
+                          type="file"
+                          accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml"
+                          onChange={(e) => void handleGraphicChange(e)}
+                          className="sr-only"
+                        />
+                      </div>
+                    </div>
+
+                    {graphicPreviewUrl && graphicFile && (
+                      <div className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-center">
+                        <img
+                          src={graphicPreviewUrl}
+                          alt="Uploaded 300-DPI abstract figure preview"
+                          style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                          className="max-h-72 object-contain rounded mx-auto transition-all"
+                        />
+                      </div>
                     )}
-                    <label
-                      htmlFor="abs-graphic-upload"
-                      className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
-                    >
-                      <Upload size={14} />
-                      <span>{graphicFile ? "Replace Graphic" : "Choose Graphic"}</span>
-                    </label>
-                    <input
-                      id="abs-graphic-upload"
-                      ref={graphicInputRef}
-                      type="file"
-                      accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml"
-                      onChange={(e) => void handleGraphicChange(e)}
-                      className="sr-only"
+                  </div>
+
+                  {/* Desired Figure Width Input (3.0 to 6.5 inches) */}
+                  {renderFigureWidthControl("stage5")}
+
+                  {/* Non-Optional Caption Input (<= 300 chars whenever figure is attached) */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <label
+                        htmlFor="abs-graphic-caption"
+                        className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
+                      >
+                        Figure Caption{" "}
+                        {graphicFile ? (
+                          <span className="text-red-600">
+                            * (Required whenever a graphic is attached)
+                          </span>
+                        ) : (
+                          <span className="text-slate-500 font-semibold">
+                            (Required if uploading a figure above)
+                          </span>
+                        )}
+                      </label>
+                      <span
+                        className={`text-xs font-bold tabular-nums ${
+                          graphicCaption.length >= CAPTION_MAX_CHARS
+                            ? "text-amber-600"
+                            : "text-slate-600"
+                        }`}
+                      >
+                        {graphicCaption.length} / {CAPTION_MAX_CHARS} chars
+                      </span>
+                    </div>
+                    <textarea
+                      id="abs-graphic-caption"
+                      rows={3}
+                      maxLength={CAPTION_MAX_CHARS}
+                      value={graphicCaption}
+                      onChange={(e) => setGraphicCaption(e.target.value)}
+                      onPaste={(e) =>
+                        applyWordPasteToField(
+                          e,
+                          graphicCaption,
+                          setGraphicCaption,
+                          { multiline: false, maxChars: CAPTION_MAX_CHARS },
+                          (trimmed) => {
+                            if (trimmed > 0) {
+                              setPasteNotice(
+                                `Word paste trimmed ${trimmed} characters to fit the ${CAPTION_MAX_CHARS}-character caption limit.`
+                              );
+                            }
+                          }
+                        )
+                      }
+                      placeholder="Describe your mass spectrum, instrument layout, or field calibration plot (300 characters max)..."
+                      className={`${INPUT_CLASS} leading-relaxed`}
                     />
                   </div>
                 </div>
+              )}
+            </div>
 
-                {graphicPreviewUrl && graphicFile && (
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-center justify-center">
-                    <img
-                      src={graphicPreviewUrl}
-                      alt="Uploaded 300-DPI abstract figure preview"
-                      style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
-                      className="max-h-72 object-contain rounded mx-auto transition-all"
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Desired Figure Width Input (3.0 to 6.5 inches) */}
-              {renderFigureWidthControl("stage5")}
-
-              {/* Non-Optional Caption Input (<= 300 chars whenever figure is attached) */}
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between gap-2">
+            {/* 2. Raw Abstract Input Text & Formatting / [FIGURE] Marker Toolbar */}
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
                   <label
-                    htmlFor="abs-graphic-caption"
+                    htmlFor="abs-body"
                     className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
                   >
-                    Figure Caption{" "}
-                    {graphicFile ? (
-                      <span className="text-red-600">
-                        * (Required whenever a graphic is attached)
-                      </span>
-                    ) : (
-                      <span className="text-slate-500 font-semibold">
-                        (Required if uploading a figure above)
-                      </span>
-                    )}
+                    Raw Abstract Input Text (Up to {ABSTRACT_MAX_CHARS.toLocaleString()} Chars With Spaces){" "}
+                    <span className="text-red-600">*</span>
                   </label>
+                  <p className="text-[11px] text-slate-600 mt-0.5">
+                    Inline tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) and <code>[FIGURE]</code> do not count toward your 3,000-character budget.{" "}
+                    {isRightWrappedWidth
+                      ? `Because width is < ${RIGHT_WRAP_THRESHOLD_IN}", [FIGURE] marks the first row broken by the right-aligned figure (place at the start of that row).`
+                      : `Because width is ≥ ${RIGHT_WRAP_THRESHOLD_IN}", [FIGURE] places a centered figure block.`}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <label
+                    htmlFor="abs-txt-loader"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
+                  >
+                    <FileUp size={13} />
+                    <span>Load .txt file</span>
+                  </label>
+                  <input
+                    id="abs-txt-loader"
+                    ref={abstractTxtInputRef}
+                    type="file"
+                    accept=".txt,text/plain"
+                    onChange={(e) => void handleLoadAbstractTxt(e)}
+                    className="sr-only"
+                  />
                   <span
-                    className={`text-xs font-bold tabular-nums ${
-                      graphicCaption.length >= CAPTION_MAX_CHARS
-                        ? "text-amber-600"
-                        : "text-slate-600"
+                    className={`text-xs font-bold tabular-nums px-2.5 py-1 rounded-full border ${
+                      visibleAbstractChars >= ABSTRACT_MAX_CHARS
+                        ? "bg-amber-50 border-amber-200 text-amber-700"
+                        : "bg-white border-slate-300 text-slate-800"
                     }`}
                   >
-                    {graphicCaption.length} / {CAPTION_MAX_CHARS} chars
+                    {visibleAbstractChars.toLocaleString()} / {ABSTRACT_MAX_CHARS.toLocaleString()} chars (with spaces)
                   </span>
                 </div>
-                <textarea
-                  id="abs-graphic-caption"
-                  rows={3}
-                  maxLength={CAPTION_MAX_CHARS}
-                  value={graphicCaption}
-                  onChange={(e) => setGraphicCaption(e.target.value)}
-                  onPaste={(e) =>
-                    applyWordPasteToField(
-                      e,
-                      graphicCaption,
-                      setGraphicCaption,
-                      { multiline: false, maxChars: CAPTION_MAX_CHARS },
-                      (trimmed) => {
-                        if (trimmed > 0) {
-                          setPasteNotice(
-                            `Word paste trimmed ${trimmed} characters to fit the ${CAPTION_MAX_CHARS}-character caption limit.`
-                          );
-                        }
-                      }
-                    )
-                  }
-                  placeholder="Describe your mass spectrum, instrument layout, or field calibration plot (300 characters max)..."
-                  className={`${INPUT_CLASS} leading-relaxed`}
-                />
               </div>
+
+              {/* Generalized Text Formatting, Scientific Symbol & Inline Figure Placement Toolbar */}
+              <div className="flex flex-wrap items-center gap-1.5 bg-white border-2 border-slate-200 rounded-xl p-2.5 shadow-2xs">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
+                  Format:
+                </span>
+                <button
+                  type="button"
+                  title="Wrap selected text as Bold (<b>...</b>)"
+                  onClick={() => wrapSelectionWithFormatTag("b")}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-bold text-slate-800 cursor-pointer shadow-2xs"
+                >
+                  <Bold size={13} /> Bold
+                </button>
+                <button
+                  type="button"
+                  title="Wrap selected text as Italic (<i>...</i>)"
+                  onClick={() => wrapSelectionWithFormatTag("i")}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold italic text-slate-800 cursor-pointer shadow-2xs"
+                >
+                  <Italic size={13} /> Italic
+                </button>
+                <button
+                  type="button"
+                  title="Wrap selected text as Underlined (<u>...</u>)"
+                  onClick={() => wrapSelectionWithFormatTag("u")}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold underline text-slate-800 cursor-pointer shadow-2xs"
+                >
+                  <Underline size={13} /> Underline
+                </button>
+                <button
+                  type="button"
+                  title="Wrap selected text as Subscript (<sub>...</sub>)"
+                  onClick={() => wrapSelectionWithFormatTag("sub")}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
+                >
+                  <Subscript size={13} /> Subscript
+                </button>
+                <button
+                  type="button"
+                  title="Wrap selected text as Superscript (<sup>...</sup>)"
+                  onClick={() => wrapSelectionWithFormatTag("sup")}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
+                >
+                  <Superscript size={13} /> Superscript
+                </button>
+
+                <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
+
+                <button
+                  type="button"
+                  title={
+                    isRightWrappedWidth
+                      ? "Insert [FIGURE] marker inline to indicate the first row broken by the right-aligned figure"
+                      : "Insert [FIGURE] marker at cursor (or move existing marker here) so the figure renders inline in previews"
+                  }
+                  onClick={insertOrMoveFigureMarker}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 border border-primary/40 hover:bg-primary hover:text-white text-xs font-bold text-primary transition-colors cursor-pointer shadow-2xs"
+                >
+                  <ImageIcon size={13} />
+                  <span>
+                    {splitAbstractPreview.hasMarker ? "Move [FIGURE] Here" : "Insert Figure Here"}
+                  </span>
+                </button>
+                {splitAbstractPreview.hasMarker && (
+                  <button
+                    type="button"
+                    title="Remove the inline [FIGURE] marker"
+                    onClick={removeFigureMarker}
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-red-400 hover:text-red-600 text-[11px] font-semibold text-slate-600 cursor-pointer"
+                  >
+                    <X size={12} /> Clear Marker
+                  </button>
+                )}
+
+                <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
+
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
+                  Symbols:
+                </span>
+                {QUICK_MATH_TOKENS.map((item) => (
+                  <button
+                    key={item.label}
+                    type="button"
+                    title={item.title}
+                    onClick={() => insertTokenIntoAbstract(item.token)}
+                    className={`px-2 py-1 rounded bg-slate-50 border border-slate-200 hover:border-primary hover:text-primary text-[11px] font-medium text-slate-800 transition-colors cursor-pointer ${
+                      item.italic ? "italic font-serif font-semibold" : ""
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Raw Abstract Textarea (Calibrated to 780px = 6.5" printable column at 120 px/in & 16px serif -> 12-15 words/line) */}
+              <textarea
+                id="abs-body"
+                ref={abstractTextareaRef}
+                rows={10}
+                wrap="soft"
+                value={abstractText}
+                onChange={(e) => handleAbstractTextChange(e.target.value)}
+                onPaste={(e) =>
+                  applyWordPasteToField(
+                    e,
+                    abstractText,
+                    setAbstractText,
+                    {
+                      multiline: true,
+                      maxChars: ABSTRACT_MAX_CHARS,
+                      preserveInlineFormatting: true,
+                      countVisibleOnly: true,
+                    },
+                    (trimmed) => {
+                      if (trimmed > 0) {
+                        setPasteNotice(
+                          `Word paste converted formatting & equations and trimmed ${trimmed} visible characters to fit the ${ABSTRACT_MAX_CHARS.toLocaleString()}-character limit.`
+                        );
+                      }
+                    }
+                  )
+                }
+                placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Word line-wraps are unwrapped automatically so text fills the 6.5&quot; column width naturally (12-15 words/line)..."
+                className="w-full bg-white border-2 border-slate-300 hover:border-slate-400 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-3.5 font-serif text-[16px] text-slate-950 placeholder:text-slate-400 placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-2xs"
+              />
             </div>
 
-            {/* Real-Time Formatted Preview Text Box (Zero extra outer padding so text column stays exactly 780px) */}
+            {/* 3. Real-Time Formatted Preview Text Box (Zero extra outer padding so text column stays exactly 780px) */}
             <div className="space-y-2 pt-1">
               <div className="flex flex-wrap items-center justify-between gap-2 px-1">
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
                   <Sparkles size={13} /> Live Formatted Text Preview (780px = 6.5&quot; Measure @ 16px Serif)
                 </span>
                 <span className="text-[11px] font-medium text-slate-600">
-                  Matches ~12–15 words/line sheet density &amp; inline [FIGURE] placement
+                  {isRightWrappedWidth
+                    ? `Right-aligned squared wrap (<${RIGHT_WRAP_THRESHOLD_IN}") • [FIGURE] marks first broken row`
+                    : `Centered figure mode (≥${RIGHT_WRAP_THRESHOLD_IN}") • ~12–15 words/line density`}
                 </span>
               </div>
               <div className="bg-white border-2 border-primary/35 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-4 sm:py-5 min-h-[140px] font-serif text-[16px] text-slate-950 leading-[1.45] text-justify shadow-2xs">
                 {abstractText.trim() ? (
-                  splitAbstractPreview.hasMarker ? (
+                  isRightWrappedWidth && (graphicPreviewUrl || splitAbstractPreview.hasMarker) ? (
+                    <ScientificText
+                      text={abstractText}
+                      multiline
+                      inlineRightFigure={
+                        graphicPreviewUrl ? (
+                          <span
+                            role="figure"
+                            aria-label={
+                              graphicCaption.trim()
+                                ? `Figure 1: ${graphicCaption.trim()}`
+                                : "Uploaded figure preview"
+                            }
+                            style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                            className="float-right clear-right ml-[1em] mb-2.5 mt-0.5 border border-slate-200 rounded-lg p-2 bg-white block max-w-full text-center font-normal not-italic"
+                          >
+                            <img
+                              src={graphicPreviewUrl}
+                              alt={graphicCaption || "Uploaded figure preview"}
+                              className="w-full h-auto object-contain mx-auto rounded block"
+                            />
+                            {graphicCaption.trim() && (
+                              <span className="block mt-1.5 text-[13.5px] text-slate-700 leading-snug text-center font-serif">
+                                <strong className="text-slate-900">Figure 1.</strong>{" "}
+                                <ScientificText text={graphicCaption.trim()} />
+                              </span>
+                            )}
+                          </span>
+                        ) : (
+                          <span
+                            role="note"
+                            style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                            className="float-right clear-right ml-[1em] mb-2.5 mt-0.5 border-2 border-dashed border-sky-300 bg-sky-50/70 rounded-xl p-3.5 text-center font-sans block max-w-full"
+                          >
+                            <ImageIcon size={18} className="text-primary mx-auto mb-1" />
+                            <span className="block text-xs font-bold text-sky-950">
+                              Right-Wrap Marker ([FIGURE])
+                            </span>
+                            <span className="block text-[11px] text-slate-600 mt-0.5">
+                              {figureWidthInches.toFixed(2)}&quot; width • First broken row; upload above to preview graphic here.
+                            </span>
+                          </span>
+                        )
+                      }
+                    />
+                  ) : splitAbstractPreview.hasMarker ? (
                     <div className="space-y-3">
                       {splitAbstractPreview.beforeText && (
                         <ScientificText text={splitAbstractPreview.beforeText} multiline />
