@@ -29,7 +29,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-slate-600 text-sm leading-relaxed max-w-md pt-1">
-              An all-volunteer international forum uniting academic, government, and industrial scientists deploying mass spectrometry from the deep ocean to planetary surfaces.
+              An international forum uniting academic, government, and industrial scientists deploying mass spectrometry from the deep ocean to planetary surfaces.
             </p>
           </div>
 

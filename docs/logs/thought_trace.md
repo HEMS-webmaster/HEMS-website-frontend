@@ -1552,3 +1552,9 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Promoted `'Harsh-Environment Mass Spectrometry Society'` (`<h1>`, `text-2xl sm:text-4xl lg:text-[2.65rem] xl:text-5xl`) + enlarged `/hemslogo.jpg` (`w-28 sm:w-40 lg:w-48`) into a full-width top Hero Masthead (`pt-5 sm:pt-7 lg:pt-8`), reclaiming the top-most whitespace cleanly.
   3. De-cluttered the 2-column Hero body (`6 / 6` split): removed duplicate `UpcomingHeroBadge`, folded the redundant `blockquote` into a single crisp narrative paragraph, trimmed CTAs to 2 buttons, and condensed `UpcomingWorkshopSpotlight.tsx` from a multi-box sub-card into a compact 2-line footer strip beneath `HeroMassSpectrum`.
   4. De-cluttered Sections 2 & 4: removed `01 / DOMAIN` kickers and 9 bottom tag pills from Charter Pillar cards, removed `13th–15th WS` micro-labels on Section 4 cards, and removed the duplicate corner logo from the bottom governance card.
+
+
+### [2026-11-12T21:07:15-07:00] @dev — Footer Society Description Copy Update
+- **Context:** `@bo` requested changing `'An all-volunteer international forum uniting academic, government, and industrial scientists deploying mass spectrometry from the deep ocean to planetary surfaces.'` to `'An international forum uniting academic, government, and industrial scientists deploying mass spectrometry from the deep ocean to planetary surfaces.'`.
+- **Target:** Located exact match at `src/frontend/src/components/layout/Footer.tsx:32`.
+- **Action:** Replace exact string in `Footer.tsx` and commit cleanly while keeping the live dev server running.
