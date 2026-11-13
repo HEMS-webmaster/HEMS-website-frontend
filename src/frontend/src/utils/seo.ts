@@ -4,6 +4,7 @@ import type { UpcomingWorkshopConfig } from "@/utils/upcomingWorkshop";
 export const SITE_URL = "https://www.hems-workshop.org";
 export const SITE_NAME = "HEMS Society";
 export const SITE_LEGAL_NAME = "Harsh-Environment Mass Spectrometry Society, Inc.";
+export const HEMS_LINKEDIN_GROUP_URL = "https://www.linkedin.com/groups/4385091/";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-hems-social.png`;
 export const DEFAULT_OG_ALT =
   "Harsh-Environment Mass Spectrometry Society (HEMS) — Chemical Measurement Beyond the Laboratory. Biennial international symposium and 25+ year open-access proceedings archive.";
@@ -148,6 +149,7 @@ export function buildGlobalKnowledgeGraphJsonLd() {
           "Workshop on Harsh-Environment Mass Spectrometry",
         ],
         url: `${SITE_URL}/`,
+        sameAs: [HEMS_LINKEDIN_GROUP_URL],
         logo: {
           "@type": "ImageObject",
           url: `${SITE_URL}/hemslogo.jpg`,

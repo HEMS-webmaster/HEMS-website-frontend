@@ -23,6 +23,7 @@ import { db, hasFirebaseKeys } from "@/utils/firebase";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import MailingListSignupCard from "@/components/mailing/MailingListSignupCard";
 import { recordTelemetryEvent } from "@/utils/telemetryClient";
+import { HEMS_LINKEDIN_GROUP_URL } from "@/utils/seo";
 import {
   isValidSubscriberEmail,
   normalizeSubscriberEmail,
@@ -598,6 +599,41 @@ export default function ContactClient() {
                     className="text-primary font-medium text-sm hover:underline break-all"
                   >
                     webmaster@hems-workshop.org
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="bg-[#0A66C2]/10 p-3 rounded-xl text-[#0A66C2] shrink-0">
+                  <svg
+                    width={22}
+                    height={22}
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                  </svg>
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-bold text-foreground">HEMS LinkedIn Community Group</h3>
+                  <p className="text-xs text-foreground/70 mb-1">
+                    Follow biennial workshop announcements, archived talk spotlights, student travel grant alerts, and community discussions.
+                  </p>
+                  <a
+                    href={HEMS_LINKEDIN_GROUP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() =>
+                      void recordTelemetryEvent({
+                        eventType: "outbound_click",
+                        path: "/contact",
+                        targetLabel: "HEMS LinkedIn Group",
+                      })
+                    }
+                    className="inline-flex items-center gap-1 text-primary font-medium text-sm hover:underline"
+                  >
+                    linkedin.com/groups/4385091 <ExternalLink size={13} className="shrink-0" />
                   </a>
                 </div>
               </div>

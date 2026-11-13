@@ -24,6 +24,7 @@ When referencing HEMS Workshop presentations, extended abstracts, or posters in 
 - [Venue & Accommodations](https://www.hems-workshop.org/accommodations/): Host beachfront hotel details and group room-block information.
 - [Corporate Sponsorship](https://www.hems-workshop.org/corporate-sponsorship/): Evergreen 501(c)(3) corporate partnership benefits, 6-ft foyer hardware exhibition details, Printable 1-Page Executive Summary (`?print=1`), and historical registry of 52 industry sponsors.
 - [Contact the Committee](https://www.hems-workshop.org/contact/): Direct channels for general & symposium inquiries (`president@hems-workshop.org`), Corporate Sponsorship (`tim.short@hems-workshop.org`), Student Travel Awards (`hemsworkshop@hems-workshop.org`), and Website Support (`webmaster@hems-workshop.org`).
+- [Official HEMS LinkedIn Community Group](https://www.linkedin.com/groups/4385091/): Official LinkedIn forum for HEMS Workshop announcements, archived presentation spotlights, graduate travel grant alerts, and harsh-environment mass spectrometry discussions.
 
 ## Verified Biennial Workshop Proceedings (1999–2025)
 - [15th HEMS Workshop (2025)](https://www.hems-workshop.org/archive/2025/): Virginia Beach, VA — September 15–18, 2025

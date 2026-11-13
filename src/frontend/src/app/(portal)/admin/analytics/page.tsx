@@ -35,6 +35,7 @@ import {
 } from "@/hooks/useSiteAnalytics";
 import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
 import { GA_MEASUREMENT_ID } from "@/utils/firebase";
+import { HEMS_LINKEDIN_GROUP_URL, SITE_URL } from "@/utils/seo";
 import { TelemetryEventType } from "@/types/telemetry";
 
 type AnalyticsTab = "pages" | "campaigns" | "stream" | "users" | "files";
@@ -44,11 +45,65 @@ const LINK_BUILDER_DESTINATIONS = [
   { label: "16th Workshop Hub (/layout-portal)", path: "/layout-portal" },
   { label: "Call for Papers (/call-for-papers)", path: "/call-for-papers" },
   { label: "Corporate Sponsorship (/corporate-sponsorship)", path: "/corporate-sponsorship" },
+  { label: "Printable Sponsorship Summary (/corporate-sponsorship/?print=1)", path: "/corporate-sponsorship/?print=1" },
   { label: "Student Travel Awards (/student-awards)", path: "/student-awards" },
+  { label: "Printable Student Award Flyer (/student-awards/?print=1)", path: "/student-awards/?print=1" },
   { label: "Proceedings Archive (/archive)", path: "/archive" },
   { label: "2025 Proceedings (/archive/2025)", path: "/archive/2025" },
   { label: "Accommodations (/accommodations)", path: "/accommodations" },
   { label: "Contact & Mailing List (/contact)", path: "/contact" },
+];
+
+interface SocialAdPreset {
+  id: string;
+  label: string;
+  path: string;
+  campaign: string;
+  utmSource?: string;
+  utmMedium?: string;
+}
+
+const SOCIAL_AD_PRESETS: SocialAdPreset[] = [
+  {
+    id: "li-group",
+    label: "LinkedIn Group Post",
+    path: "/layout-portal",
+    campaign: "linkedin-group-post",
+    utmSource: "linkedin",
+    utmMedium: "organic-social",
+  },
+  {
+    id: "li-cfp",
+    label: "LinkedIn Ad: Call for Papers",
+    path: "/call-for-papers",
+    campaign: "li-ad-cfp-2027",
+    utmSource: "linkedin",
+    utmMedium: "paid-social",
+  },
+  {
+    id: "li-grants",
+    label: "LinkedIn Ad: Student Grants",
+    path: "/student-awards/?print=1",
+    campaign: "li-ad-student-grants-2027",
+    utmSource: "linkedin",
+    utmMedium: "paid-social",
+  },
+  {
+    id: "google-grant",
+    label: "Google Ad Grant (501c3 Search)",
+    path: "/archive",
+    campaign: "google-ad-grant-2027",
+    utmSource: "google",
+    utmMedium: "cpc",
+  },
+  {
+    id: "sponsor-kit",
+    label: "Sponsor / Speaker Promo Kit",
+    path: "/corporate-sponsorship",
+    campaign: "sponsor-partner-kit-2027",
+    utmSource: "sponsor",
+    utmMedium: "partner-referral",
+  },
 ];
 
 function formatTimestampShort(iso: string): string {
@@ -115,9 +170,12 @@ export default function AdminAnalyticsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [streamFilter, setStreamFilter] = useState<StreamFilter>("all");
 
-  // Quick First-Party ?src= Link Builder state (for 1-off officer emails / flyers)
+  // Quick First-Party ?src= & UTM Link Builder state (for officer emails, LinkedIn, & ads)
   const [builderPath, setBuilderPath] = useState("/corporate-sponsorship");
   const [builderTag, setBuilderTag] = useState("2027-sponsor-outreach");
+  const [builderUtmSource, setBuilderUtmSource] = useState("");
+  const [builderUtmMedium, setBuilderUtmMedium] = useState("");
+  const [activePresetId, setActivePresetId] = useState<string>("");
   const [copiedUrl, setCopiedUrl] = useState(false);
 
   // Column sorting states
@@ -334,13 +392,33 @@ export default function AdminAnalyticsPage() {
       .replace(/-{2,}/g, "-")
       .replace(/^-+|-+$/g, "")
       .slice(0, 72);
-    return cleanSlug
-      ? `https://hems-workshop.org${builderPath}/?src=${cleanSlug}`.replace(
-          "//?src=",
-          "/?src="
-        )
-      : `https://hems-workshop.org${builderPath}/`.replace("///", "/");
-  }, [builderPath, builderTag]);
+
+    const [rawPathname, existingQuery = ""] = builderPath.split("?");
+    const normalizedPath =
+      rawPathname === "/" || !rawPathname
+        ? "/"
+        : `${rawPathname.startsWith("/") ? rawPathname : `/${rawPathname}`}`.replace(/\/+$/, "") + "/";
+
+    const params = new URLSearchParams(existingQuery);
+    if (builderUtmSource && builderUtmMedium && cleanSlug) {
+      params.set("utm_source", builderUtmSource);
+      params.set("utm_medium", builderUtmMedium);
+      params.set("utm_campaign", cleanSlug);
+    } else if (cleanSlug) {
+      params.set("src", cleanSlug);
+    }
+
+    const qs = params.toString();
+    return `${SITE_URL}${normalizedPath}${qs ? `?${qs}` : ""}`;
+  }, [builderPath, builderTag, builderUtmSource, builderUtmMedium]);
+
+  const applySocialPreset = (preset: SocialAdPreset) => {
+    setActivePresetId(preset.id);
+    setBuilderPath(preset.path);
+    setBuilderTag(preset.campaign);
+    setBuilderUtmSource(preset.utmSource || "");
+    setBuilderUtmMedium(preset.utmMedium || "");
+  };
 
   const handleCopyTaggedUrl = async () => {
     try {
@@ -613,8 +691,8 @@ export default function AdminAnalyticsPage() {
         </div>
       )}
 
-      {/* External Analytics, Search Console & Domain Authority Quick-Launch Bar */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      {/* External Analytics, Search Console, Authority & LinkedIn Quick-Launch Bar */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <a
           href="https://analytics.google.com/"
           target="_blank"
@@ -689,6 +767,32 @@ export default function AdminAnalyticsPage() {
           <div className="pt-1">
             <span className="inline-flex items-center gap-1.5 bg-slate-900 text-white group-hover:bg-slate-800 px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
               Check Authority <ExternalLink size={13} />
+            </span>
+          </div>
+        </a>
+
+        <a
+          href={HEMS_LINKEDIN_GROUP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group bg-white border border-slate-200/95 hover:border-[#0A66C2]/50 rounded-2xl p-4 sm:p-5 shadow-2xs hover:shadow-xs transition-all flex flex-col justify-between gap-3.5"
+        >
+          <div className="space-y-1.5 min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-sm font-semibold text-slate-900 group-hover:text-[#0A66C2] transition-colors">
+                HEMS LinkedIn Group
+              </span>
+              <span className="text-[10.5px] font-semibold tabular-nums bg-sky-50 text-[#0A66C2] border border-sky-200 px-2 py-0.5 rounded-full">
+                Group #4385091
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Post workshop milestones, schedule monthly archive throwbacks, and manage LinkedIn ad bursts.
+            </p>
+          </div>
+          <div className="pt-1">
+            <span className="inline-flex items-center gap-1.5 bg-[#0A66C2] text-white group-hover:bg-[#09539E] px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors shadow-2xs">
+              Open LinkedIn Group <ExternalLink size={13} />
             </span>
           </div>
         </a>
@@ -1057,25 +1161,67 @@ export default function AdminAnalyticsPage() {
           ) : activeTab === "campaigns" ? (
             /* TAB 2: EMAIL CAMPAIGNS (?src=) & TRAFFIC SOURCES */
             <div className="space-y-6">
-              {/* 1-Click First-Party Tagged Link Builder for Officer Emails / Flyers */}
-              <div className="bg-white border border-slate-200/95 rounded-2xl p-5 shadow-2xs space-y-3">
+              {/* 1-Click First-Party ?src= & UTM Social/Ad Campaign Link Builder */}
+              <div className="bg-white border border-slate-200/95 rounded-2xl p-5 shadow-2xs space-y-3.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <Link2 size={17} className="text-primary shrink-0" />
                     <h3 className="font-serif text-base font-semibold text-slate-900">
-                      First-Party <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">?src=</code> Link Builder
+                      Campaign &amp; Ad Attribution Link Builder (<code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">?src=</code> / <code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">UTM</code>)
                     </h3>
                   </div>
                   <span className="text-[11px] text-slate-500">
-                     Announcements in <Link href="/board/announcements" className="text-primary font-semibold hover:underline">/board/announcements</Link> auto-tag links automatically; use this for 1-on-1 emails or PDF flyers.
+                    Trackable in both Google Analytics 4 and first-party campaign telemetry.
                   </span>
+                </div>
+
+                {/* 1-Click 2027 Ad & Social Campaign Presets */}
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mr-1">
+                    2027 Presets:
+                  </span>
+                  {SOCIAL_AD_PRESETS.map((preset) => {
+                    const isSelected = activePresetId === preset.id;
+                    return (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => applySocialPreset(preset)}
+                        className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-colors cursor-pointer ${
+                          isSelected
+                            ? "bg-primary text-white border-primary"
+                            : "bg-slate-50 text-slate-700 border-slate-200 hover:border-primary/40 hover:text-primary"
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    );
+                  })}
+                  {(builderUtmSource || activePresetId) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActivePresetId("");
+                        setBuilderUtmSource("");
+                        setBuilderUtmMedium("");
+                        setBuilderTag("2027-sponsor-outreach");
+                        setBuilderPath("/corporate-sponsorship");
+                      }}
+                      className="px-2 py-1 rounded-full text-[11px] font-medium text-slate-500 hover:text-slate-800 underline cursor-pointer"
+                    >
+                      Reset to ?src=
+                    </button>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
                   <div className="sm:col-span-5">
                     <select
                       value={builderPath}
-                      onChange={(e) => setBuilderPath(e.target.value)}
+                      onChange={(e) => {
+                        setActivePresetId("");
+                        setBuilderPath(e.target.value);
+                      }}
                       aria-label="Select destination page"
                       className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-primary"
                     >
@@ -1090,9 +1236,12 @@ export default function AdminAnalyticsPage() {
                     <input
                       type="text"
                       value={builderTag}
-                      onChange={(e) => setBuilderTag(e.target.value)}
+                      onChange={(e) => {
+                        setActivePresetId("");
+                        setBuilderTag(e.target.value);
+                      }}
                       placeholder="e.g. 2027-sponsor-outreach"
-                      aria-label="Campaign ?src= tag"
+                      aria-label="Campaign slug or utm_campaign"
                       className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono text-slate-800 focus:outline-none focus:border-primary"
                     />
                   </div>

@@ -1588,3 +1588,13 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   1. **Tweak 1 (`Navbar.tsx`):** Hide the small boxed `/hemslogo.jpg` thumbnail in the sticky Navbar when `cleanPathname === "/"` (retaining it on all subpages) so the large frontpage Society Masthead emblem never stacks underneath an identical small logo.
   2. **Tweak 2 (`page.tsx` + `UpcomingWorkshopSpotlight.tsx`):** Move `<UpcomingWorkshopSpotlight />` from under the right-hand mass spectrum into a crisp Save-the-Date card below the CTA buttons in the left Hero column, stepping `<h2>` slightly below the Society `<h1>` (`lg:text-[2.2rem]`) so both Hero columns match in vertical height (`~365px` each) and `<HeroMassSpectrum />` stands cleanly on the right.
   3. **Tweak 3 (`page.tsx`):** Replace the duplicate 3 domain photo blurbs in Section 4 (`Planetary`, `Underwater`, `Field-Portable UAV` — already covered in Section 2) with a clean, scannable `2×3` direct-jump grid into the Open-Access Proceedings Archive (`2025 Virginia Beach`, `2022 Cocoa Beach`, `2019 Myrtle Beach`, `2018 Cologne`, `2017 Oxnard`, and `1999–2015 1st–10th Workshops`) paired with the Student Travel Awards & Corporate Sponsorship cards.
+
+
+### [2026-11-12T21:44:15-07:00] @web / @arch / @dev — Official HEMS LinkedIn Group Hookup, Archive 1-Click Share & Social/Ad UTM Kit
+- **Context:** `@bo` approved the LinkedIn & social/ad quick hookup with official group URL `https://www.linkedin.com/groups/4385091/`. (`@web` specifies SEO, Schema.org, social sharing, and UTM attribution; `@arch` records the plan; `@dev` implements in `src/`).
+- **Execution Plan:**
+  1. Export `HEMS_LINKEDIN_GROUP_URL` in `src/frontend/src/utils/seo.ts` and add `sameAs: [HEMS_LINKEDIN_GROUP_URL]` to `Organization` JSON-LD; add LinkedIn Group reference to `src/frontend/public/llms.txt`.
+  2. Add LinkedIn Group pill & footer link in `src/frontend/src/components/layout/Footer.tsx` using a crisp inline LinkedIn SVG icon.
+  3. Add LinkedIn Community channel row with telemetry tracking to `src/frontend/src/components/workshop/ContactClient.tsx`.
+  4. Upgrade `CitationButton.tsx` and `CitationModal.tsx` (`Cite / Share`) with trailing-slash canonical permalink, `?src=linkedin-archive-share` tracked share link, 1-click ready-to-post LinkedIn blurb copy, LinkedIn Feed share link, and HEMS LinkedIn Group link—zero modifications to locked `src/frontend/src/app/archive/**`.
+  5. Add 4th Quick-Launch card for the HEMS LinkedIn Group and 5 1-click 2027 Ad & Social Campaign UTM presets in `src/frontend/src/app/(portal)/admin/analytics/page.tsx`.
