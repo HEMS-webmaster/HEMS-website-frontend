@@ -138,7 +138,7 @@ export default function Home() {
                 Harsh-Environment Mass Spectrometry Society
               </h1>
               <p className="text-xs sm:text-sm font-medium text-slate-500 mt-1.5 sm:mt-2 tabular-nums">
-                All-Volunteer 501(c)(3) Scientific Forum • Biennial Symposium &amp; Open Proceedings Since 1999
+                501(c)(3) Scientific Forum • Biennial Symposium &amp; Open Proceedings Since 1999
               </p>
             </div>
           </div>
@@ -435,7 +435,7 @@ export default function Home() {
               {/* Industry Partnership & Non-Profit Charter Card */}
               <div className="p-6 rounded-2xl bg-slate-900 text-slate-100 space-y-3.5">
                 <span className="inline-flex items-center gap-1.5 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sky-300">
-                  <ShieldCheck size={14} className="shrink-0" /> All-Volunteer 501(c)(3) Society
+                  <ShieldCheck size={14} className="shrink-0" /> 501(c)(3) Scientific Society
                 </span>
                 <h3 className="font-serif text-xl font-semibold text-white">
                   Sustained by Community &amp; Industry Partners

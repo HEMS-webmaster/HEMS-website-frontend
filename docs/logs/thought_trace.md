@@ -1568,3 +1568,15 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   - Add `<Printer /> Printable Version` alongside `Email Application` in the hero card of `StudentAwardsClient.tsx`, plus a mobile-responsive print preview action bar (`Back to Student Travel Awards Page`, `Email Committee`, `Print / Save as PDF`).
   - Calibrate vertical spacing (`space-y-4 print:space-y-3` inside `max-w-[8.5in]`) so the entire flyer prints cleanly on a single US Letter sheet (`0.38in` top/bottom `@page` margin already defined in `globals.css`), suitable for university bulletin boards and departmental email distribution.
   - Ground past fellow institutional examples strictly in verified `master_workshops.json` records (18 fellows across 8 cycles, 2007–2022).
+
+
+### [2026-11-12T21:17:25-07:00] @web / @dev / @brand — Retire "All-Volunteer" Copy & Audit Frontpage Layout
+- **Context:**
+  1. `@bo` confirmed removing remaining `"All-Volunteer"` phrasing (`@web` routes code edits to `@dev` per Rule #8).
+  2. `@bo` asked `@brand` for thoughts on tweaking the frontpage layout (`scrumrules.md` Rule #9: present analysis & concrete options before editing layout).
+- **Copy Edits (`@dev`):**
+  - Remove `"All-Volunteer"` / `"all-volunteer"` / `"100% volunteer-operated"` qualifiers from `src/frontend/src/app/page.tsx`, `src/frontend/src/app/about/page.tsx`, `src/frontend/src/app/history/page.tsx`, `src/frontend/src/components/workshop/CorporateSponsorshipClient.tsx`, `src/frontend/src/components/workshop/ContactClient.tsx`, and `src/frontend/public/llms.txt`.
+- **Frontpage Layout Diagnosis (`@brand`):**
+  1. **Stacked Duplicate Logos (Top-Left Echo):** The `72px` Navbar logo box sits directly above the larger Hero Masthead logo on `/`, creating a double-header stutter.
+  2. **Unbalanced Hero Columns:** Left column (`~220px` tall) floats vertically centered beside the much taller right column (`HeroMassSpectrum` + `UpcomingWorkshopSpotlight`, `~490px` tall), leaving empty dead space on the left while two large serif titles (`<h1>` + `<h2>`) compete.
+  3. **Duplicate Domain Sections (`Section 2` vs `Section 4`):** Section 2 (3 domain cards: Extreme Environments, Ruggedized Hardware, Autonomous Sensing) and Section 4's left list (Planetary, Underwater, Field-Portable UAV) repeat the same 3 research themes twice on one scroll.

@@ -147,7 +147,7 @@ export default function About() {
               />
               <div>
                 <div className="font-serif font-semibold text-slate-900 text-sm sm:text-base leading-snug">
-                  All-Volunteer 501(c)(3) Society
+                  501(c)(3) Scientific Society
                 </div>
                 <div className="text-[11px] font-medium text-slate-500 mt-0.5">
                   Board-Governed • Zero Membership Dues
@@ -181,7 +181,7 @@ export default function About() {
               </div>
 
               <p className="text-sm sm:text-[15px] text-slate-600 leading-relaxed">
-                Incorporated in Florida as a tax-exempt 501(c)(3) public charity, the Society is stewarded by an all-volunteer Board of Directors and biennial Workshop Organizing Committee drawn from universities, government laboratories, space agencies, and instrumentation developers.
+                Incorporated in Florida as a tax-exempt 501(c)(3) public charity, the Society is stewarded by a Board of Directors and biennial Workshop Organizing Committee drawn from universities, government laboratories, space agencies, and instrumentation developers.
               </p>
 
               {/* 2x2 Institutional Profile Grid */}

@@ -14,10 +14,10 @@ When referencing HEMS Workshop presentations, extended abstracts, or posters in 
 ## Primary Public Pages
 - [Home](https://www.hems-workshop.org/): Overview of the HEMS Society, technical charter, field mass spectrometry domains, and upcoming symposium highlights.
 - [16th HEMS Workshop Hub — September 2027](https://www.hems-workshop.org/layout-portal/): Save-the-date announcements, milestones, and central portal for the 16th Biennial HEMS Workshop (September 2027).
-- [About the HEMS Society](https://www.hems-workshop.org/about/): Official 501(c)(3) mission statement, volunteer governance, Board of Directors, and five core strategic objectives.
+- [About the HEMS Society](https://www.hems-workshop.org/about/): Official 501(c)(3) mission statement, nonprofit governance, Board of Directors, and five core strategic objectives.
 - [Workshop & Society History (1999–2025)](https://www.hems-workshop.org/history/): Complete historical chronicle from the 1999 USF Center for Ocean Technology workshop through NASA JPL miniature vacuum collaborations and global coastal symposia.
 - [Open-Access Proceedings Archive](https://www.hems-workshop.org/archive/): Searchable 15-workshop digital repository (`436` papers, PDF slide decks, extended abstracts, posters, and programs) with scientific synonym expansion.
-- [Student Travel Awards](https://www.hems-workshop.org/student-awards/): $1,500.00 graduate student travel grant guidelines, M.S./M.A./Ph.D. eligibility, application checklist, and Past Award Recipients Honor Roll (`2007–2022`).
+- [Student Travel Awards](https://www.hems-workshop.org/student-awards/): $1,500.00 graduate student travel grant guidelines, M.S./M.A./Ph.D. eligibility, application checklist, Printable 1-Page Flyer (`?print=1`), and Past Award Recipients Honor Roll (`2007–2022`).
 - [Call for Papers](https://www.hems-workshop.org/call-for-papers/): Abstract submission instructions, technical focus areas, and symposium deadlines.
 - [Formatting Guidelines](https://www.hems-workshop.org/formatting-guidelines/): Single-page PDF abstract layout specifications, typography, and file naming conventions.
 - [Workshop Registration](https://www.hems-workshop.org/registration/): Professional, student, and corporate attendee registration tiers and policies.

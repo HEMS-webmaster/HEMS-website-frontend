@@ -682,7 +682,7 @@ export default function ContactClient() {
               HEMS Society, Inc.
             </h3>
             <p className="text-sm text-foreground/80 leading-relaxed mb-4">
-              Incorporated in the State of Florida since 2008 as a tax-exempt <strong>501(c)(3) Public Charity</strong>, the Harsh-Environment Mass Spectrometry Society is governed by a rotating volunteer committee of academic, government, and industry scientists.
+              Incorporated in the State of Florida since 2008 as a tax-exempt <strong>501(c)(3) Public Charity</strong>, the Harsh-Environment Mass Spectrometry Society is governed by a rotating organizing committee of academic, government, and industry scientists.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-foreground/10 text-xs text-foreground/70">
               <div>
