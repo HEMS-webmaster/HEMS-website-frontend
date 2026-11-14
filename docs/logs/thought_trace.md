@@ -1676,3 +1676,15 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   3. Document both RFC-4180 comma delimitation (`"..."` quoting for literal commas, `""` for escaped quotes) and `Sublists` multi-tag parsing (`/[,;]/` in `parseMailchimpCsvExport`: recommending `Tag A; Tag B` or double-quoted `"Tag A, Tag B"`).
   4. In `board/mailing-list/page.tsx`, move `CSV Import & Sublist Tagging` above `Sublists & Cohort Tags`, delete `SUGGESTED_SUBLIST_PRESETS`, `unusedPresets`, and the `Quick-add preset` UI bar, and drive `<datalist id="hems-sublist-suggestions">` exclusively from live `availableSublists`.
 - **Verification Plan:** Case-insensitive grep check for user-facing Mailchimp copy on mailing list UI/modals, `npx tsc --noEmit` exit `0`, HTTP `200` check on `http://localhost:3000/board/mailing-list/`, and selective `git add --` commit on `main`.
+
+
+---
+
+## 2026-11-14 — Modal Body Collapse Fix & Google Sheets Paste Table Importer (@arch / @dev / @web)
+- **Trigger:** `@bo` reported that the informational button modal opened with no information displayed, and requested a second import option to paste a list copied from Google Sheets into a popup editable table accepting First Name, Last Name, Institution (optional), and Email, with a Tag dropdown available to tag the pasted list.
+- **Root-Cause & Architecture Decisions:**
+  1. Replace `flex flex-col max-h-[88dvh]` modal cards (where an auto-height flex column collapses an `overflow-y-auto` child lacking `flex-1 min-h-0`) with React `createPortal(..., document.body)` at `z-[100]` and pure CSS 2.1 block layout (`display: block` card and `style={{ maxHeight: "70vh" }}` / `"72vh"` `overflow-y-auto` body) across `CsvImportFormatModal`, `MailingSystemInfoModal`, and the new `GoogleSheetsPasteModal`.
+  2. Replace `Columns` (`columns-2`) icon in `CsvImportFormatModal` with `Table2`.
+  3. Build `src/utils/spreadsheetPaste.ts` (zero `any` types) to parse TSV/CSV/single-column clipboard text copied from Google Sheets or Excel—supporting header-row auto-mapping, multi-column positional mapping (2/3/4+ cols), single-column vertical paste into any column, deduplication, email validation, and sublist/interest construction (`buildParsedRowsFromPasteTable`).
+  4. Build `GoogleSheetsPasteModal.tsx` with a Tag `<select>` dropdown (`availableSublists` + optional inline new tag creation), clipboard paste button (`try/catch`), interactive cell-level `onPaste` handling across First Name / Last Name / Institution (optional) / Email columns, row validation highlights, and safe batch import via `importMailchimpRows`.
+- **Verification Plan:** Unit assertions on `spreadsheetPaste.ts` covering TSV with/without headers, 3-column omission of institution, and single-column pastes; `npx tsc --noEmit` exit `0`; HTTP `200` and bundle verification on `http://localhost:3000/board/mailing-list/`; selective git commit on `main`.

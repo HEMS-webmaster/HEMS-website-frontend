@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   X,
   Copy,
   Check,
   FileSpreadsheet,
   Tags,
-  Columns,
+  Table2,
   ShieldCheck,
 } from "lucide-react";
 
@@ -102,7 +103,7 @@ export default function CsvImportFormatModal({
     };
   }, []);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
   const markCopied = () => {
     setCopyFailed(false);
@@ -156,43 +157,47 @@ export default function CsvImportFormatModal({
     setCopyFailed(true);
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 bg-slate-900/55 backdrop-blur-xs flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] overflow-y-auto bg-slate-900/60 backdrop-blur-xs p-4 sm:p-6"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-labelledby="csv-format-dialog-title"
     >
-      <div
-        className="bg-white border border-slate-200 rounded-2xl max-w-3xl w-full shadow-2xl max-h-[88dvh] flex flex-col overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-200 flex items-start justify-between gap-4 bg-slate-50/70">
-          <div>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-0.5">
-              Subscriber Roster Upload Specification
-            </span>
-            <h2
-              id="csv-format-dialog-title"
-              className="font-serif text-xl sm:text-2xl font-semibold text-slate-900"
+      <div className="min-h-full flex items-center justify-center">
+        <div
+          className="bg-white border border-slate-200 rounded-2xl max-w-3xl w-full shadow-2xl overflow-hidden text-left"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="px-6 py-4 border-b border-slate-200 flex items-start justify-between gap-4 bg-slate-50">
+            <div>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-0.5">
+                Subscriber Roster Upload Specification
+              </span>
+              <h2
+                id="csv-format-dialog-title"
+                className="font-serif text-xl sm:text-2xl font-semibold text-slate-900"
+              >
+                CSV Format, Delimitation &amp; Multi-Tag Guide
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close CSV format guide"
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors cursor-pointer shrink-0"
             >
-              CSV Format, Delimitation &amp; Multi-Tag Guide
-            </h2>
+              <X size={18} />
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close CSV format guide"
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors cursor-pointer shrink-0"
-          >
-            <X size={18} />
-          </button>
-        </div>
 
-        {/* Body */}
-        <div className="p-6 overflow-y-auto space-y-6 text-xs sm:text-sm text-slate-600 leading-relaxed">
+          {/* Body */}
+          <div
+            style={{ maxHeight: "70vh" }}
+            className="block overflow-y-auto p-6 space-y-6 text-xs sm:text-sm text-slate-700 leading-relaxed bg-white"
+          >
           {/* Example Heading Row & Copy Action */}
           <section className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -255,7 +260,7 @@ export default function CsvImportFormatModal({
           {/* Column Delimitation Rules */}
           <section className="space-y-2 pt-1">
             <h3 className="font-serif text-base sm:text-lg font-semibold text-slate-900 flex items-center gap-2">
-              <Columns size={17} className="text-primary shrink-0" />
+              <Table2 size={17} className="text-primary shrink-0" />
               2. How Columns Are Delimited
             </h3>
             <ul className="space-y-2 list-disc pl-5">
@@ -406,17 +411,20 @@ export default function CsvImportFormatModal({
           </section>
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-3.5 border-t border-slate-200 bg-slate-50/70 flex items-center justify-end">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-colors cursor-pointer"
-          >
-            Done
-          </button>
+          {/* Footer */}
+          <div className="px-6 py-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 transition-colors cursor-pointer"
+            >
+              Done
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
+

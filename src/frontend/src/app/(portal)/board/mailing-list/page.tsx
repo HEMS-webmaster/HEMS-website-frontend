@@ -24,10 +24,12 @@ import {
   ArrowUpDown,
   Inbox,
   ExternalLink,
+  ClipboardPaste,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useMailingAdmin } from "@/hooks/useMailingAdmin";
 import {
+  MailchimpParsedRow,
   MailingInterest,
   MailingSubscriber,
   SubscriberStatus,
@@ -39,6 +41,7 @@ import {
 import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
 import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
 import CsvImportFormatModal from "@/components/mailing/CsvImportFormatModal";
+import GoogleSheetsPasteModal from "@/components/mailing/GoogleSheetsPasteModal";
 
 const STATUS_BADGE: Record<
   SubscriberStatus,
@@ -140,6 +143,7 @@ export default function BoardMailingListPage() {
 
   const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [csvFormatModalOpen, setCsvFormatModalOpen] = useState(false);
+  const [pasteModalOpen, setPasteModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | SubscriberStatus>("all");
   const [cohortFilter, setCohortFilter] = useState<CohortViewFilter>("all_records");
@@ -436,6 +440,30 @@ export default function BoardMailingListPage() {
     } finally {
       setImporting(false);
       e.target.value = "";
+    }
+  };
+
+  const handleImportPastedRows = async (
+    rows: MailchimpParsedRow[],
+    assignedTag: string
+  ) => {
+    setFeedbackBanner("");
+    setActionError("");
+    setImporting(true);
+    try {
+      const summary = await importMailchimpRows(rows);
+      const cleanTag = normalizeSublistTag(assignedTag);
+      const tagNote = cleanTag ? ` Assigned sublist "${cleanTag}".` : "";
+      setFeedbackBanner(
+        `Pasted list imported (${summary.totalParsed} rows): ${summary.importedActive} active, ${summary.skippedProtected} protected opt-outs preserved.${tagNote}`
+      );
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error ? err.message : "Failed to import pasted list.";
+      setActionError(msg);
+      throw err;
+    } finally {
+      setImporting(false);
     }
   };
 
@@ -775,7 +803,7 @@ export default function BoardMailingListPage() {
               </button>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Upload subscriber CSV rosters (e.g., 2025 Attendees, Presenters, Sponsors) or suppression exports (<em>Unsubscribed</em>, <em>Bounced</em>). Re-uploading an existing email merges your chosen sublist tags while <strong>permanently protecting</strong> unsubscribes and bounces.
+              Upload subscriber CSV rosters (e.g., 2025 Attendees, Presenters, Sponsors) or suppression exports (<em>Unsubscribed</em>, <em>Bounced</em>), or <strong>paste directly from Google Sheets</strong>. Re-uploading an existing email merges your chosen sublist tags while <strong>permanently protecting</strong> unsubscribes and bounces.
             </p>
           </div>
 
@@ -820,6 +848,16 @@ export default function BoardMailingListPage() {
                 className="hidden"
               />
             </label>
+
+            <button
+              type="button"
+              onClick={() => setPasteModalOpen(true)}
+              disabled={importing}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 disabled:opacity-50 transition-colors cursor-pointer"
+            >
+              <ClipboardPaste size={14} />
+              <span>Paste from Google Sheets</span>
+            </button>
           </div>
         </div>
       </section>
@@ -1366,6 +1404,15 @@ export default function BoardMailingListPage() {
       <CsvImportFormatModal
         open={csvFormatModalOpen}
         onClose={() => setCsvFormatModalOpen(false)}
+      />
+
+      {/* Google Sheets Copy/Paste Importer Modal */}
+      <GoogleSheetsPasteModal
+        open={pasteModalOpen}
+        onClose={() => setPasteModalOpen(false)}
+        availableSublists={availableSublists}
+        initialSublistTag={importSublistTag}
+        onImportRows={handleImportPastedRows}
       />
     </div>
   );
