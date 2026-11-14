@@ -42,6 +42,7 @@ import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
 import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
 import CsvImportFormatModal from "@/components/mailing/CsvImportFormatModal";
 import GoogleSheetsPasteModal from "@/components/mailing/GoogleSheetsPasteModal";
+import MailingExportModal from "@/components/mailing/MailingExportModal";
 
 const STATUS_BADGE: Record<
   SubscriberStatus,
@@ -144,6 +145,7 @@ export default function BoardMailingListPage() {
   const [infoModalOpen, setInfoModalOpen] = useState(false);
   const [csvFormatModalOpen, setCsvFormatModalOpen] = useState(false);
   const [pasteModalOpen, setPasteModalOpen] = useState(false);
+  const [exportModalOpen, setExportModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | SubscriberStatus>("all");
   const [cohortFilter, setCohortFilter] = useState<CohortViewFilter>("all_records");
@@ -467,53 +469,6 @@ export default function BoardMailingListPage() {
     }
   };
 
-  const handleExportCsv = () => {
-    const exportSource = filteredSubscribers;
-
-    const header = [
-      "Email Address",
-      "First Name",
-      "Last Name",
-      "Affiliation",
-      "Status",
-      "Sublists",
-      "Topics",
-      "Source",
-      "Date Added",
-      "Updated At",
-    ];
-    const escapeCell = (v: string) => `"${v.replace(/"/g, '""')}"`;
-    const lines = [
-      header.join(","),
-      ...exportSource.map((s) =>
-        [
-          escapeCell(s.email),
-          escapeCell(s.firstName),
-          escapeCell(s.lastName),
-          escapeCell(s.affiliation),
-          escapeCell(s.status),
-          escapeCell(s.sublists.join("; ")),
-          escapeCell(s.interests.join("; ")),
-          escapeCell(s.source),
-          escapeCell(s.createdAt),
-          escapeCell(s.updatedAt),
-        ].join(",")
-      ),
-    ];
-    const blob = new Blob([lines.join("\r\n")], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    const slug = cohortFilter.startsWith("sublist:")
-      ? `-${cohortFilter.slice("sublist:".length).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
-      : cohortFilter === "all_active"
-      ? "-active"
-      : "";
-    a.download = `hems-mailing-list${slug}-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   const handleManualAdd = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setActionError("");
@@ -608,10 +563,10 @@ export default function BoardMailingListPage() {
           </button>
           <button
             type="button"
-            onClick={handleExportCsv}
+            onClick={() => setExportModalOpen(true)}
             className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold hover:border-primary/40 hover:text-primary transition-colors cursor-pointer"
           >
-            <Download size={14} /> Export CSV
+            <Download size={14} /> Export List
           </button>
           <Link
             href={composeHref}
@@ -1413,6 +1368,15 @@ export default function BoardMailingListPage() {
         availableSublists={availableSublists}
         initialSublistTag={importSublistTag}
         onImportRows={handleImportPastedRows}
+      />
+
+      {/* Flexible Mailing List Exporter Modal */}
+      <MailingExportModal
+        open={exportModalOpen}
+        onClose={() => setExportModalOpen(false)}
+        subscribers={subscribers}
+        availableSublists={availableSublists}
+        initialCohortSegment={cohortFilter}
       />
     </div>
   );
