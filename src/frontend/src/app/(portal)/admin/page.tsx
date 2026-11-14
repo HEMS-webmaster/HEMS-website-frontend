@@ -1,6 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, FormEvent, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import {
   AlertTriangle,
   ArrowDown,
@@ -256,10 +257,29 @@ export default function AdminPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-8 bg-surface border border-red-500/10 rounded-2xl max-w-lg mx-auto">
         <ShieldAlert className="text-red-500 mb-4" size={48} />
-        <h2 className="text-2xl font-black text-foreground">Access Denied</h2>
+        <h2 className="text-2xl font-black text-foreground">Admin Access Required</h2>
         <p className="text-sm text-foreground/60 mt-2 leading-relaxed">
-          You must be an <strong>Admin</strong> to access this control panel.
+          You must be signed in with the{" "}
+          <strong className="font-semibold text-foreground">
+            Administrator (&lsquo;admin&rsquo;)
+          </strong>{" "}
+          role to access the Admin Portal.
         </p>
+        {!user ? (
+          <Link
+            href="/auth"
+            className="mt-6 bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+          >
+            Admin Sign In
+          </Link>
+        ) : (
+          <Link
+            href="/layout-portal"
+            className="mt-6 bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+          >
+            Return to Workshop Overview
+          </Link>
+        )}
       </div>
     );
   }

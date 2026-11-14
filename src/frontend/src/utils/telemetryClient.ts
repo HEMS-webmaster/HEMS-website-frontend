@@ -40,7 +40,14 @@ const PAGE_TITLES: Record<string, string> = {
 
 export function hasAdminRole(roles?: string[] | null): boolean {
   if (!Array.isArray(roles)) return false;
-  return roles.some((r) => String(r || "").trim().toLowerCase() === "admin");
+  return roles.some((r) => {
+    const clean = String(r || "").trim().toLowerCase();
+    return (
+      clean === "admin" ||
+      clean === "administrator" ||
+      clean === "administrators"
+    );
+  });
 }
 
 export function hasReviewerRole(roles?: string[] | null): boolean {
@@ -67,18 +74,22 @@ export function hasAttendeeRole(roles?: string[] | null): boolean {
   });
 }
 
-export function hasBoardOrAdminRole(roles?: string[] | null): boolean {
+export function hasBoardRole(roles?: string[] | null): boolean {
   if (!Array.isArray(roles)) return false;
   return roles.some((r) => {
     const clean = String(r || "").trim().toLowerCase();
     return (
-      clean === "admin" ||
       clean === "board" ||
+      clean === "executive board" ||
       clean === "board_member" ||
       clean === "board member" ||
       clean === "board members"
     );
   });
+}
+
+export function hasBoardOrAdminRole(roles?: string[] | null): boolean {
+  return hasBoardRole(roles) || hasAdminRole(roles);
 }
 
 export function normalizeTelemetryPath(rawPath: string | null | undefined): string {

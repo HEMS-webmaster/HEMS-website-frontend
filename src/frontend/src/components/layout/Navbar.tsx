@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import {
   hasAdminRole,
   hasAttendeeRole,
-  hasBoardOrAdminRole,
+  hasBoardRole,
   hasReviewerRole,
 } from "@/utils/telemetryClient";
 import { ROLE_DISPLAY_META } from "@/utils/whitelistCsv";
@@ -332,8 +332,8 @@ export default function Navbar() {
                         </div>
 
                         {(hasAttendeeRole(user.roles) ||
-                          hasBoardOrAdminRole(user.roles) ||
                           hasReviewerRole(user.roles) ||
+                          hasBoardRole(user.roles) ||
                           hasAdminRole(user.roles)) && (
                           <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap gap-x-3 gap-y-1.5">
                             {hasAttendeeRole(user.roles) && (
@@ -345,7 +345,16 @@ export default function Navbar() {
                                 Abstract Submission →
                               </Link>
                             )}
-                            {hasBoardOrAdminRole(user.roles) && (
+                            {hasReviewerRole(user.roles) && (
+                              <Link
+                                href="/reviewer"
+                                onClick={() => setProfileOpen(false)}
+                                className="text-xs font-semibold text-primary hover:underline"
+                              >
+                                Reviewer Panel →
+                              </Link>
+                            )}
+                            {hasBoardRole(user.roles) && (
                               <>
                                 <Link
                                   href="/board/mailing-list"
@@ -369,15 +378,6 @@ export default function Navbar() {
                                   Analytics →
                                 </Link>
                               </>
-                            )}
-                            {hasReviewerRole(user.roles) && (
-                              <Link
-                                href="/reviewer"
-                                onClick={() => setProfileOpen(false)}
-                                className="text-xs font-semibold text-primary hover:underline"
-                              >
-                                Reviewer Panel →
-                              </Link>
                             )}
                             {hasAdminRole(user.roles) && (
                               <Link
@@ -619,8 +619,8 @@ export default function Navbar() {
                 </div>
 
                 {(hasAttendeeRole(user.roles) ||
-                  hasBoardOrAdminRole(user.roles) ||
                   hasReviewerRole(user.roles) ||
+                  hasBoardRole(user.roles) ||
                   hasAdminRole(user.roles)) && (
                   <div className="flex flex-wrap gap-2 px-2">
                     {hasAttendeeRole(user.roles) && (
@@ -632,7 +632,16 @@ export default function Navbar() {
                         Abstract Submission
                       </Link>
                     )}
-                    {hasBoardOrAdminRole(user.roles) && (
+                    {hasReviewerRole(user.roles) && (
+                      <Link
+                        href="/reviewer"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                      >
+                        Reviewer Panel
+                      </Link>
+                    )}
+                    {hasBoardRole(user.roles) && (
                       <>
                         <Link
                           href="/board/mailing-list"
@@ -656,15 +665,6 @@ export default function Navbar() {
                           Website Analytics
                         </Link>
                       </>
-                    )}
-                    {hasReviewerRole(user.roles) && (
-                      <Link
-                        href="/reviewer"
-                        onClick={() => setMobileOpen(false)}
-                        className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
-                      >
-                        Reviewer Panel
-                      </Link>
                     )}
                     {hasAdminRole(user.roles) && (
                       <Link

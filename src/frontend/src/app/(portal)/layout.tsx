@@ -20,7 +20,7 @@ import { useAuth } from "@/context/AuthContext";
 import {
   hasAdminRole,
   hasAttendeeRole,
-  hasBoardOrAdminRole,
+  hasBoardRole,
   hasReviewerRole,
 } from "@/utils/telemetryClient";
 
@@ -32,17 +32,18 @@ const MOCK_ROLE_PRESETS: readonly { value: string; label: string; shortLabel?: s
   { value: "attendee,oral presenter", label: "Attendee + Oral Presenter" },
   { value: "attendee,poster presenter", label: "Attendee + Poster Presenter" },
   { value: "corporate sponsor", label: "Corporate Sponsor" },
+  { value: "reviewer", label: "Reviewer Only" },
   { value: "attendee,reviewer", label: "Attendee + Reviewer" },
   { value: "board", label: "Board Member" },
+  { value: "admin", label: "Admin Only" },
   { value: "board,reviewer", label: "Board + Reviewer" },
   { value: "board,admin", label: "Board + Admin" },
   { value: "board,reviewer,admin", label: "Board + Reviewer + Admin" },
   {
     value: "attendee,board,reviewer,admin",
-    label: "All Roles (Attendee + Board + Reviewer + Admin)",
-    shortLabel: "All Roles",
+    label: "All Portals (Attendee + Reviewer + Board + Admin)",
+    shortLabel: "All Portals",
   },
-  { value: "reviewer", label: "Reviewer Only" },
 ];
 
 interface PortalLinkItem {
@@ -83,13 +84,23 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     },
   ];
 
-  const attendeesPortalLinks: PortalLinkItem[] = [
+  const attendeePortalLinks: PortalLinkItem[] = [
     {
       name: "Abstract Submission",
       shortName: "Submit Abstract",
       path: "/abstract-submission",
       icon: Upload,
       requiredRole: "attendee",
+    },
+  ];
+
+  const reviewerPortalLinks: PortalLinkItem[] = [
+    {
+      name: "Reviewer Panel",
+      shortName: "Reviewer Panel",
+      path: "/reviewer",
+      icon: ClipboardCheck,
+      requiredRole: "reviewer",
     },
   ];
 
@@ -115,13 +126,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
       icon: BarChart2,
       requiredRole: "board",
     },
-    {
-      name: "Reviewer Panel",
-      shortName: "Reviewer Panel",
-      path: "/reviewer",
-      icon: ClipboardCheck,
-      requiredRole: "reviewer",
-    },
+  ];
+
+  const adminPortalLinks: PortalLinkItem[] = [
     {
       name: "Admin",
       shortName: "Admin",
@@ -135,36 +142,54 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     if (!role) return true;
     if (!user) return false;
     if (role === "attendee") return hasAttendeeRole(user.roles);
-    if (role === "board") return hasBoardOrAdminRole(user.roles);
     if (role === "reviewer") return hasReviewerRole(user.roles);
+    if (role === "board") return hasBoardRole(user.roles);
     if (role === "admin") return hasAdminRole(user.roles);
     return false;
   };
 
-  const showAttendeesPortal = Boolean(user && hasAttendeeRole(user.roles));
-  const showBoardPortal = Boolean(
-    user && (hasBoardOrAdminRole(user.roles) || hasReviewerRole(user.roles))
-  );
+  const showAttendeePortal = Boolean(user && hasAttendeeRole(user.roles));
+  const showReviewerPortal = Boolean(user && hasReviewerRole(user.roles));
+  const showBoardPortal = Boolean(user && hasBoardRole(user.roles));
+  const showAdminPortal = Boolean(user && hasAdminRole(user.roles));
 
-  const mockRoleValue = (user?.roles || [])
-    .filter((r) => String(r || "").trim().toLowerCase() !== "general")
+  const nonGeneralRoles = (user?.roles || [])
+    .map((r) => String(r || "").trim().toLowerCase())
+    .filter((r) => Boolean(r) && r !== "general");
+  const normalizedUserSignature = Array.from(new Set(nonGeneralRoles))
+    .sort()
     .join(",");
+  const matchedPreset = MOCK_ROLE_PRESETS.find((preset) => {
+    const presetSignature = Array.from(
+      new Set(
+        preset.value
+          .split(",")
+          .map((t) => t.trim().toLowerCase())
+          .filter(Boolean)
+      )
+    )
+      .sort()
+      .join(",");
+    return presetSignature === normalizedUserSignature;
+  });
+  const mockRoleValue = matchedPreset ? matchedPreset.value : nonGeneralRoles.join(",");
   const handleMockRoleSelect = (val: string) => {
     setMockRoles(val.split(",").filter(Boolean));
   };
 
-  const renderNavSection = (title: string, links: PortalLinkItem[]) => (
-    <div className="mb-8">
-      <h3 className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-3.5 px-3">
-        {title}
-      </h3>
-      <nav aria-label={title} className="space-y-1">
-        {links.map((link) => {
-          const Icon = link.icon;
-          const isActive = currentPath === normalizePath(link.path);
-          const authorized = hasRole(link.requiredRole);
+  const renderNavSection = (title: string, links: PortalLinkItem[]) => {
+    const visibleLinks = links.filter((link) => hasRole(link.requiredRole));
+    if (visibleLinks.length === 0) return null;
 
-          if (authorized) {
+    return (
+      <div className="mb-8">
+        <h3 className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-3.5 px-3">
+          {title}
+        </h3>
+        <nav aria-label={title} className="space-y-1">
+          {visibleLinks.map((link) => {
+            const Icon = link.icon;
+            const isActive = currentPath === normalizePath(link.path);
             return (
               <Link
                 key={link.path}
@@ -182,23 +207,43 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                 <span>{link.name}</span>
               </Link>
             );
-          }
+          })}
+        </nav>
+      </div>
+    );
+  };
 
+  const renderMobilePortalGroup = (links: PortalLinkItem[]) => {
+    const visibleLinks = links.filter((link) => hasRole(link.requiredRole));
+    if (visibleLinks.length === 0) return null;
+
+    return (
+      <>
+        <span
+          aria-hidden="true"
+          className="h-5 w-px bg-slate-200 mx-1 shrink-0"
+        />
+        {visibleLinks.map((link) => {
+          const Icon = link.icon;
+          const isActive = currentPath === normalizePath(link.path);
           return (
-            <div
+            <Link
               key={link.path}
-              aria-disabled="true"
-              className="flex items-center gap-3 text-sm px-3 py-2.5 rounded-lg text-foreground/30 cursor-not-allowed select-none"
-              title={`Requires '${link.requiredRole}' role assigned in whitelist`}
+              href={link.path}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-colors border ${
+                isActive
+                  ? "bg-primary text-white border-primary shadow-2xs"
+                  : "bg-slate-50/90 text-slate-700 border-slate-200/90 hover:border-primary/40 hover:text-primary"
+              }`}
             >
-              <Icon size={16} className="text-foreground/20 shrink-0" />
-              <span>{link.name}</span>
-            </div>
+              <Icon size={14} className={isActive ? "text-white" : "text-primary/80"} />
+              <span>{link.shortName || link.name}</span>
+            </Link>
           );
         })}
-      </nav>
-    </div>
-  );
+      </>
+    );
+  };
 
   return (
     <div className="flex flex-col flex-grow bg-surface border-t border-foreground/5 print:bg-white print:border-0 print:block">
@@ -227,75 +272,10 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             );
           })}
 
-          {showAttendeesPortal && (
-            <>
-              <span
-                aria-hidden="true"
-                className="h-5 w-px bg-slate-200 mx-1 shrink-0"
-              />
-              {attendeesPortalLinks.map((link) => {
-                const Icon = link.icon;
-                const isActive = currentPath === normalizePath(link.path);
-                return (
-                  <Link
-                    key={link.path}
-                    href={link.path}
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-colors border ${
-                      isActive
-                        ? "bg-primary text-white border-primary shadow-2xs"
-                        : "bg-slate-50/90 text-slate-700 border-slate-200/90 hover:border-primary/40 hover:text-primary"
-                    }`}
-                  >
-                    <Icon size={14} className={isActive ? "text-white" : "text-primary/80"} />
-                    <span>{link.shortName || link.name}</span>
-                  </Link>
-                );
-              })}
-            </>
-          )}
-
-          {showBoardPortal && (
-            <>
-              <span
-                aria-hidden="true"
-                className="h-5 w-px bg-slate-200 mx-1 shrink-0"
-              />
-              {boardPortalLinks.map((link) => {
-                const Icon = link.icon;
-                const isActive = currentPath === normalizePath(link.path);
-                const authorized = hasRole(link.requiredRole);
-
-                if (authorized) {
-                  return (
-                    <Link
-                      key={link.path}
-                      href={link.path}
-                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-full text-xs font-semibold whitespace-nowrap shrink-0 transition-colors border ${
-                        isActive
-                          ? "bg-primary text-white border-primary shadow-2xs"
-                          : "bg-slate-50/90 text-slate-700 border-slate-200/90 hover:border-primary/40 hover:text-primary"
-                      }`}
-                    >
-                      <Icon size={14} className={isActive ? "text-white" : "text-primary/80"} />
-                      <span>{link.shortName || link.name}</span>
-                    </Link>
-                  );
-                }
-
-                return (
-                  <span
-                    key={link.path}
-                    aria-disabled="true"
-                    title={`Requires '${link.requiredRole}' role assigned in whitelist`}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[38px] rounded-full text-xs font-semibold whitespace-nowrap shrink-0 border border-slate-200/60 bg-slate-50/40 text-slate-300 cursor-not-allowed select-none"
-                  >
-                    <Icon size={14} className="text-slate-300" />
-                    <span>{link.shortName || link.name}</span>
-                  </span>
-                );
-              })}
-            </>
-          )}
+          {showAttendeePortal && renderMobilePortalGroup(attendeePortalLinks)}
+          {showReviewerPortal && renderMobilePortalGroup(reviewerPortalLinks)}
+          {showBoardPortal && renderMobilePortalGroup(boardPortalLinks)}
+          {showAdminPortal && renderMobilePortalGroup(adminPortalLinks)}
         </nav>
 
         {isMock && user && (
@@ -352,8 +332,10 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             </Link>
 
             {renderNavSection("Workshop Portal", workshopPortalLinks)}
-            {showAttendeesPortal && renderNavSection("Attendees", attendeesPortalLinks)}
+            {showAttendeePortal && renderNavSection("Attendee Portal", attendeePortalLinks)}
+            {showReviewerPortal && renderNavSection("Reviewer Portal", reviewerPortalLinks)}
             {showBoardPortal && renderNavSection("Board Portal", boardPortalLinks)}
+            {showAdminPortal && renderNavSection("Admin Portal", adminPortalLinks)}
           </div>
 
           {/* Dev Mode Role Switcher */}

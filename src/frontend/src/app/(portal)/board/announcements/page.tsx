@@ -31,7 +31,7 @@ import {
   formatSegmentDisplayName,
   renderAcademicEmailParts,
 } from "@/utils/mailingTemplate";
-import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
+import { hasBoardRole } from "@/utils/telemetryClient";
 import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
 
 const TEMPLATES: Array<{
@@ -83,7 +83,7 @@ HEMS Workshop Organizing Committee`,
 
 export default function BoardAnnouncementsPage() {
   const { user, loading, isMock } = useAuth();
-  const isAuthorized = Boolean(user && hasBoardOrAdminRole(user.roles));
+  const isAuthorized = Boolean(user && hasBoardRole(user.roles));
 
   const {
     subscribers,
@@ -196,14 +196,27 @@ export default function BoardAnnouncementsPage() {
           Board Access Required
         </h2>
         <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-          Sign in with an authorized HEMS Board Member or Admin account to compose and dispatch society announcements.
+          Sign in with an authorized HEMS{" "}
+          <strong className="font-semibold text-slate-900">
+            Executive Board (&lsquo;board&rsquo;)
+          </strong>{" "}
+          account to compose and dispatch society announcements.
         </p>
-        <Link
-          href="/auth"
-          className="mt-6 bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors"
-        >
-          Committee Sign In
-        </Link>
+        {!user ? (
+          <Link
+            href="/auth"
+            className="mt-6 bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+          >
+            Committee Sign In
+          </Link>
+        ) : (
+          <Link
+            href="/layout-portal"
+            className="mt-6 bg-primary text-white hover:bg-primary/90 px-6 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+          >
+            Return to Workshop Overview
+          </Link>
+        )}
       </div>
     );
   }

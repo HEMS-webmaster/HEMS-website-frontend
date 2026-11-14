@@ -33,7 +33,7 @@ import {
   AnalyticsWindowPreset,
   useSiteAnalytics,
 } from "@/hooks/useSiteAnalytics";
-import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
+import { hasBoardRole } from "@/utils/telemetryClient";
 import { GA_MEASUREMENT_ID } from "@/utils/firebase";
 import { HEMS_LINKEDIN_GROUP_URL, SITE_URL } from "@/utils/seo";
 import { TelemetryEventType } from "@/types/telemetry";
@@ -160,7 +160,7 @@ export default function AdminAnalyticsPage() {
   const { user, loading: authLoading, isMock } = useAuth();
 
   const isAuthorized = useMemo(
-    () => Boolean(user && hasBoardOrAdminRole(user.roles)),
+    () => Boolean(user && hasBoardRole(user.roles)),
     [user]
   );
 
@@ -567,7 +567,7 @@ export default function AdminAnalyticsPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-3">
         <RefreshCw className="animate-spin text-primary" size={30} />
-        <p className="text-slate-500 text-sm">Verifying Board / Admin session...</p>
+        <p className="text-slate-500 text-sm">Verifying Board credentials...</p>
       </div>
     );
   }
@@ -577,17 +577,30 @@ export default function AdminAnalyticsPage() {
       <div className="max-w-md mx-auto my-12 text-center p-8 bg-white border border-red-200 rounded-2xl shadow-sm">
         <ShieldAlert className="text-red-500 mx-auto mb-4" size={44} />
         <h2 className="font-serif text-2xl font-semibold text-slate-900 mb-2">
-          Board or Admin Access Required
+          Board Access Required
         </h2>
         <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-          Sign in with an authorized HEMS Board Member or Administrator account to view website traffic and email campaign attribution.
+          Sign in with an authorized HEMS{" "}
+          <strong className="font-semibold text-slate-900">
+            Executive Board (&lsquo;board&rsquo;)
+          </strong>{" "}
+          account to view website traffic and email campaign attribution.
         </p>
-        <Link
-          href="/auth"
-          className="inline-block bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
-        >
-          Committee Sign In
-        </Link>
+        {!user ? (
+          <Link
+            href="/auth"
+            className="inline-block bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
+          >
+            Committee Sign In
+          </Link>
+        ) : (
+          <Link
+            href="/layout-portal"
+            className="inline-block bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
+          >
+            Return to Workshop Overview
+          </Link>
+        )}
       </div>
     );
   }

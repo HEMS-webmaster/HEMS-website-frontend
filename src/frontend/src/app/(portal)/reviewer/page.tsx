@@ -207,12 +207,21 @@ export default function ReviewerPage() {
           <strong className="font-semibold text-foreground">Abstract Reviewer</strong>{" "}
           to view this panel.
         </p>
-        <Link
-          href="/auth"
-          className="mt-6 bg-foreground text-background hover:bg-foreground/90 px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-md"
-        >
-          Sign In
-        </Link>
+        {!user ? (
+          <Link
+            href="/auth"
+            className="mt-6 bg-foreground text-background hover:bg-foreground/90 px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-md"
+          >
+            Sign In
+          </Link>
+        ) : (
+          <Link
+            href="/layout-portal"
+            className="mt-6 bg-foreground text-background hover:bg-foreground/90 px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-md"
+          >
+            Return to Workshop Overview
+          </Link>
+        )}
       </div>
     );
   }
