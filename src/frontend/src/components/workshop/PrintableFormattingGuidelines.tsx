@@ -24,6 +24,12 @@ interface PrintableFormattingGuidelinesProps {
 
 const SUBMISSION_STAGES_GUIDE = [
   {
+    stage: "00",
+    title: "Presenter Overview Hub (Create, Drafts & Edits)",
+    details:
+      "Start new abstract submissions, edit/copy/delete multiple saved drafts across sessions, or edit/copy/delete submitted abstracts up to the published Date, Time & Timezone cutoff.",
+  },
+  {
     stage: "01",
     title: "Title, Contact Emails, Format & Student Award",
     details:
@@ -130,7 +136,7 @@ export default function PrintableFormattingGuidelines({
 
           <div className="sm:text-right print:text-right shrink-0">
             <span className="block text-[10px] print:text-[8.5px] font-bold uppercase tracking-wider text-primary">
-              Submission Deadline
+              Submission Deadline (Date, Time &amp; Timezone)
             </span>
             <p className="text-xs print:text-[10.5px] font-bold text-slate-900 tabular-nums">
               {deadline}
@@ -190,10 +196,10 @@ export default function PrintableFormattingGuidelines({
           </div>
         </section>
 
-        {/* 7-Stage Staged Workflow Breakdown */}
+        {/* Staged Workflow Breakdown (Presenter Overview + Stages 1-7) */}
         <section className="space-y-2 print:space-y-1.5 break-inside-avoid">
           <h2 className="text-[10.5px] print:text-[9pt] font-bold uppercase tracking-[0.1em] text-primary">
-            Seven-Stage Online Submission Workflow
+            Presenter Overview &amp; Seven-Stage Submission Workflow
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 gap-2.5 print:gap-2">
             {SUBMISSION_STAGES_GUIDE.map((item) => (

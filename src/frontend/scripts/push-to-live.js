@@ -72,8 +72,8 @@ try {
 
 // 4. Deploy to Firebase Hosting
 try {
-  console.log('🔥 Deploying static export to Firebase Hosting...');
-  execSync('npx firebase deploy --only hosting', { cwd: repoRoot, stdio: 'inherit' });
+  console.log('🔥 Deploying static export and Firestore security rules...');
+  execSync('npx firebase deploy --only hosting,firestore:rules', { cwd: repoRoot, stdio: 'inherit' });
   console.log('\n🎉 SUCCESS! HEMS website has been pushed to live and is globally accessible!');
 } catch (e) {
   console.error('❌ Firebase deploy failed:', e.message);

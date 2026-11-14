@@ -1,9 +1,19 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
+import { useAuth } from "@/context/AuthContext";
 import { db, hasFirebaseKeys, storage } from "@/utils/firebase";
+import { hasBoardOrAdminRole, hasReviewerRole } from "@/utils/telemetryClient";
 import {
   AbstractSubmissionRecord,
   AffiliationEntry,
@@ -327,16 +337,19 @@ function mergeByIdNewestWins(
     const existingTs = Date.parse(existing.updatedAt || existing.submittedAt || "") || 0;
     const remoteTs = Date.parse(remote.updatedAt || remote.submittedAt || "") || 0;
     if (remoteTs >= existingTs) {
-      byId.set(remote.id, {
-        ...remote,
-        hasLocalFileBlob: remote.hasLocalFileBlob ?? existing.hasLocalFileBlob,
-        graphic: remote.graphic
-          ? {
+      const nextGraphic = remote.graphic
+        ? {
             ...remote.graphic,
             hasLocalBlob:
               remote.graphic.hasLocalBlob ?? existing.graphic?.hasLocalBlob,
           }
-          : existing.graphic,
+        : remoteTs === existingTs
+        ? existing.graphic
+        : undefined;
+      byId.set(remote.id, {
+        ...remote,
+        hasLocalFileBlob: remote.hasLocalFileBlob ?? existing.hasLocalFileBlob,
+        ...(nextGraphic ? { graphic: nextGraphic } : {}),
       });
     }
   }
@@ -412,6 +425,7 @@ function deriveLegacyAuthorFields(
 }
 
 export function useAbstractSubmissions() {
+  const { user, loading: authLoading } = useAuth();
   const [submissions, setSubmissions] = useState<AbstractSubmissionRecord[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -421,9 +435,17 @@ export function useAbstractSubmissions() {
     setError(null);
     try {
       const localItems = readLocalSubmissions();
-      if (hasFirebaseKeys && db) {
+      if (hasFirebaseKeys && db && user) {
         try {
-          const snap = await getDocs(collection(db, "abstract_submissions"));
+          const canListAll =
+            hasReviewerRole(user.roles) || hasBoardOrAdminRole(user.roles);
+          const submissionsQuery = canListAll
+            ? collection(db, "abstract_submissions")
+            : query(
+                collection(db, "abstract_submissions"),
+                where("submittedByUid", "==", user.uid)
+              );
+          const snap = await getDocs(submissionsQuery);
           const remoteItems: AbstractSubmissionRecord[] = [];
           snap.forEach((docSnap) => {
             const data = docSnap.data() as AbstractSubmissionRecord;
@@ -450,10 +472,12 @@ export function useAbstractSubmissions() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
-    void refresh();
+    if (!authLoading) {
+      void refresh();
+    }
     if (typeof window === "undefined") return;
 
     const handleSync = () => {
@@ -471,7 +495,7 @@ export function useAbstractSubmissions() {
       window.removeEventListener(SUBMISSIONS_SYNC_EVENT, handleSync);
       window.removeEventListener("storage", handleStorage);
     };
-  }, [refresh]);
+  }, [authLoading, refresh]);
 
   const createSubmission = useCallback(
     async (
@@ -632,6 +656,164 @@ export function useAbstractSubmissions() {
     []
   );
 
+  const updateSubmission = useCallback(
+    async (
+      id: string,
+      input: CreateAbstractSubmissionInput,
+      assets?: SubmissionUploadAssets & { keepExistingGraphic?: boolean }
+    ): Promise<AbstractSubmissionRecord> => {
+      try {
+        const current = readLocalSubmissions();
+        const existing = current.find((item) => item.id === id);
+        if (!existing) {
+          throw new Error(`Abstract submission ${id} not found.`);
+        }
+
+        const nowIso = new Date().toISOString();
+        const cleanAffiliations: AffiliationEntry[] = input.affiliations
+          .map((a) => ({
+            id: a.id,
+            institution: a.institution.trim(),
+            location: (a.location || "").trim(),
+          }))
+          .filter((a) => a.institution.length > 0);
+
+        const cleanAuthors: AuthorEntry[] = input.authors
+          .map((a) => ({
+            id: a.id,
+            name: a.name.trim(),
+            affiliationId: a.affiliationId,
+            isPresenter: a.isPresenter,
+          }))
+          .filter((a) => a.name.length > 0);
+
+        const derived = deriveLegacyAuthorFields(cleanAuthors, cleanAffiliations);
+
+        let graphicRecord: GraphicMetadata | undefined;
+        if (assets?.graphicFile && assets.graphicMeta) {
+          const storedGraphicLocally = await putBlob(
+            graphicBlobKey(id),
+            assets.graphicFile
+          );
+          let graphicStorageUrl: string | undefined;
+          if (hasFirebaseKeys && storage) {
+            try {
+              const safeImgName = assets.graphicFile.name.replace(
+                /[^a-zA-Z0-9._-]+/g,
+                "_"
+              );
+              const imgRef = storageRef(
+                storage,
+                `abstracts/${input.workshopYear}/${id}/graphic_${safeImgName}`
+              );
+              await uploadBytes(imgRef, assets.graphicFile, {
+                contentType: assets.graphicFile.type || "image/png",
+              });
+              graphicStorageUrl = await getDownloadURL(imgRef);
+            } catch (storageErr) {
+              console.warn(
+                "Firebase Storage graphic upload skipped/blocked; using IndexedDB cache:",
+                storageErr
+              );
+            }
+          }
+
+          graphicRecord = {
+            ...assets.graphicMeta,
+            widthInches: clampFigureWidthInches(
+              input.figureWidthInches ?? assets.graphicMeta.widthInches
+            ),
+            ...(input.graphicCaption?.trim()
+              ? { caption: input.graphicCaption.trim() }
+              : {}),
+            ...(graphicStorageUrl ? { storageUrl: graphicStorageUrl } : {}),
+            hasLocalBlob: storedGraphicLocally,
+          };
+        } else if (assets?.keepExistingGraphic && existing.graphic) {
+          graphicRecord = {
+            ...existing.graphic,
+            widthInches: clampFigureWidthInches(
+              input.figureWidthInches ?? existing.graphic.widthInches
+            ),
+            ...(input.graphicCaption?.trim()
+              ? { caption: input.graphicCaption.trim() }
+              : {}),
+          };
+        } else {
+          await deleteBlob(graphicBlobKey(id));
+        }
+
+        const updatedRecord: AbstractSubmissionRecord = {
+          id: existing.id,
+          workshopYear: input.workshopYear,
+          title: input.title.trim(),
+          presentingAuthor: (input.presentingAuthor || derived.presentingAuthor).trim(),
+          correspondingEmail: input.correspondingEmail.trim(),
+          ...(input.secondaryEmail?.trim()
+            ? { secondaryEmail: input.secondaryEmail.trim() }
+            : {}),
+          affiliation: (input.affiliation || derived.affiliation).trim(),
+          coAuthors: (input.coAuthors ?? derived.coAuthors).trim(),
+          affiliations: cleanAffiliations,
+          authors: cleanAuthors,
+          presentationFormat: input.presentationFormat,
+          researchTrack: input.researchTrack,
+          summary: input.summary.trim(),
+          abstractText: input.abstractText.trim(),
+          keywords: input.keywords.trim(),
+          presenterBio: input.presenterBio.trim(),
+          ...(graphicRecord ? { graphic: graphicRecord } : {}),
+          studentTravelAwardApplicant: input.studentTravelAwardApplicant,
+          ...(existing.fileName
+            ? {
+                fileName: existing.fileName,
+                fileSizeBytes: existing.fileSizeBytes,
+                fileMimeType: existing.fileMimeType,
+                ...(existing.fileStorageUrl
+                  ? { fileStorageUrl: existing.fileStorageUrl }
+                  : {}),
+                ...(existing.hasLocalFileBlob !== undefined
+                  ? { hasLocalFileBlob: existing.hasLocalFileBlob }
+                  : {}),
+              }
+            : {}),
+          submittedByUid: existing.submittedByUid,
+          submittedByEmail: existing.submittedByEmail,
+          submittedAt: existing.submittedAt,
+          updatedAt: nowIso,
+          deadline: input.deadline,
+          status: "Pending",
+          decision: "Pending",
+          ...(existing.isSampleSeed ? { isSampleSeed: true } : {}),
+        };
+
+        if (hasFirebaseKeys && db) {
+          try {
+            await setDoc(doc(db, "abstract_submissions", id), updatedRecord);
+          } catch (firestoreErr) {
+            console.warn(
+              "Firestore abstract_submissions update skipped/blocked; persisted locally:",
+              firestoreErr
+            );
+          }
+        }
+
+        const next = sortNewestFirst(
+          current.map((item) => (item.id === id ? updatedRecord : item))
+        );
+        writeLocalSubmissions(next);
+        setSubmissions(next);
+        return updatedRecord;
+      } catch (err) {
+        console.error("Failed to update abstract submission:", err);
+        throw err instanceof Error
+          ? err
+          : new Error("Unexpected error while updating abstract submission.");
+      }
+    },
+    []
+  );
+
   const saveReview = useCallback(async (input: SaveAbstractReviewInput): Promise<void> => {
     try {
       const nowIso = new Date().toISOString();
@@ -753,15 +935,83 @@ export function useAbstractSubmissions() {
     []
   );
 
+  const getSubmissionGraphicAsset = useCallback(
+    async (
+      sub: AbstractSubmissionRecord
+    ): Promise<{
+      file: File | null;
+      previewUrl: string;
+      retainedMeta: GraphicMetadata | null;
+    }> => {
+      if (!sub.graphic) {
+        return { file: null, previewUrl: "", retainedMeta: null };
+      }
+      try {
+        const localBlob = await getBlob(graphicBlobKey(sub.id));
+        if (localBlob) {
+          const restoredFile = new File(
+            [localBlob],
+            sub.graphic.fileName || "figure.png",
+            { type: sub.graphic.mimeType || localBlob.type || "image/png" }
+          );
+          return {
+            file: restoredFile,
+            previewUrl: URL.createObjectURL(restoredFile),
+            retainedMeta: sub.graphic,
+          };
+        }
+
+        if (sub.graphic.storageUrl) {
+          try {
+            const response = await fetch(sub.graphic.storageUrl);
+            if (response.ok) {
+              const fetchedBlob = await response.blob();
+              const restoredFile = new File(
+                [fetchedBlob],
+                sub.graphic.fileName || "figure.png",
+                {
+                  type:
+                    sub.graphic.mimeType || fetchedBlob.type || "image/png",
+                }
+              );
+              return {
+                file: restoredFile,
+                previewUrl: URL.createObjectURL(restoredFile),
+                retainedMeta: sub.graphic,
+              };
+            }
+          } catch (fetchErr) {
+            console.warn(
+              "Unable to fetch remote submission graphic blob; using storage URL fallback:",
+              fetchErr
+            );
+          }
+
+          return {
+            file: null,
+            previewUrl: sub.graphic.storageUrl,
+            retainedMeta: sub.graphic,
+          };
+        }
+      } catch (err) {
+        console.warn("Unable to resolve submission graphic asset:", err);
+      }
+      return { file: null, previewUrl: "", retainedMeta: null };
+    },
+    []
+  );
+
   return {
     submissions,
     loading,
     error,
     refresh,
     createSubmission,
+    updateSubmission,
     saveReview,
     withdrawSubmission,
     getGraphicPreviewUrl,
+    getSubmissionGraphicAsset,
     openSubmissionPdf,
   };
 }

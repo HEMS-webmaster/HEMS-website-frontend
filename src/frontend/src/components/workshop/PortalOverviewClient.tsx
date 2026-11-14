@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FileText, Bell, Clock, ArrowRight, ExternalLink, History } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
+import { formatAbstractDeadlineDisplay } from "@/utils/upcomingWorkshop";
 
 interface FeaturedPaper {
   session: string;
@@ -193,7 +194,7 @@ export default function PortalOverviewClient() {
               <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">
                 <span className="text-foreground/60 font-semibold uppercase tracking-wider text-[10.5px]">Abstracts Due</span>
                 <span className="font-bold text-foreground text-right">
-                  {workshop.cfp_abstract_deadline}
+                  {formatAbstractDeadlineDisplay(workshop)}
                 </span>
               </li>
               <li className="flex justify-between items-start gap-3 border-t border-foreground/10 pt-3">

@@ -1,20 +1,31 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { db, hasFirebaseKeys } from "@/utils/firebase";
 import {
   AbstractDraftFormValues,
   AbstractDraftRecord,
+  AbstractSubmissionRecord,
   AffiliationEntry,
   AuthorEntry,
   clampFigureWidthInches,
+  DEFAULT_FIGURE_WIDTH_IN,
   DraftGraphicMetaSnapshot,
   PRESENTATION_FORMAT_OPTIONS,
   RESEARCH_TRACK_OPTIONS,
 } from "@/types/abstractSubmission";
 
-const DRAFT_STORAGE_PREFIX = "hems_abstract_draft_v1:";
+const LEGACY_DRAFT_STORAGE_PREFIX = "hems_abstract_draft_v1:";
+const DRAFTS_LIST_STORAGE_PREFIX = "hems_abstract_drafts_v2:";
 const FIRESTORE_DRAFTS_COLLECTION = "abstract_drafts";
 const IDB_NAME = "hems_abstract_files_idb";
 const IDB_VERSION = 1;
@@ -29,23 +40,21 @@ export interface DraftStatusInfo {
   savedAt: string | null;
 }
 
-export interface RestoredDraftBannerInfo {
-  savedAt: string;
-  stage: number;
-  source: "local" | "cloud";
-  missingCrossDeviceGraphicName?: string;
-}
-
 export interface HydratedDraftPayload {
   record: AbstractDraftRecord;
   restoredGraphicFile: File | null;
   restoredGraphicPreviewUrl: string;
-  source: "local" | "cloud";
   missingCrossDeviceGraphicName?: string;
 }
 
-function draftGraphicBlobKey(draftKey: string): string {
-  return `draft_graphic:${draftKey}`;
+function draftGraphicBlobKey(draftId: string): string {
+  return `draft_graphic:${draftId}`;
+}
+
+function generateDraftId(scopeKey: string): string {
+  return `${scopeKey}_drf_${Date.now().toString(36)}_${Math.random()
+    .toString(36)
+    .slice(2, 6)}`;
 }
 
 function openBlobDatabase(): Promise<IDBDatabase> {
@@ -178,7 +187,7 @@ function normalizeAuthors(raw: AuthorEntry[] | undefined): AuthorEntry[] {
   return normalized;
 }
 
-function sanitizeDraftFormValues(
+export function sanitizeDraftFormValues(
   values: AbstractDraftFormValues
 ): AbstractDraftFormValues {
   const safeStage = Math.min(
@@ -240,30 +249,44 @@ function computeDraftHash(values: AbstractDraftFormValues): string {
 function buildDraftRecord(
   values: AbstractDraftFormValues,
   meta: {
-    draftKey: string;
+    draftId: string;
     uid: string;
     userEmail: string;
     workshopYear: number;
+    createdAt: string;
     updatedAt: string;
   }
 ): AbstractDraftRecord {
   return {
     ...sanitizeDraftFormValues(values),
-    draftKey: meta.draftKey,
+    draftId: meta.draftId,
+    draftKey: meta.draftId,
     uid: meta.uid,
     userEmail: meta.userEmail,
     workshopYear: meta.workshopYear,
+    createdAt: meta.createdAt,
     updatedAt: meta.updatedAt,
   };
 }
 
 function parseDraftRecord(
   raw: unknown,
-  fallbackMeta: { draftKey: string; uid: string; userEmail: string; workshopYear: number }
+  fallbackMeta: {
+    draftId: string;
+    uid: string;
+    userEmail: string;
+    workshopYear: number;
+  }
 ): AbstractDraftRecord | null {
   if (!raw || typeof raw !== "object") return null;
   const candidate = raw as Partial<AbstractDraftRecord>;
   if (typeof candidate.updatedAt !== "string") return null;
+
+  const resolvedId =
+    (typeof candidate.draftId === "string" && candidate.draftId.trim()) ||
+    (typeof candidate.draftKey === "string" && candidate.draftKey.trim()) ||
+    fallbackMeta.draftId;
+
   const sanitized = sanitizeDraftFormValues({
     currentStage: candidate.currentStage ?? 1,
     title: candidate.title ?? "",
@@ -273,7 +296,8 @@ function parseDraftRecord(
     studentTravelAwardApplicant: Boolean(candidate.studentTravelAwardApplicant),
     affiliations: candidate.affiliations ?? [],
     authors: candidate.authors ?? [],
-    researchTrack: candidate.researchTrack ?? "Miniature & Ruggedized Hardware / Vacuum",
+    researchTrack:
+      candidate.researchTrack ?? "Miniature & Ruggedized Hardware / Vacuum",
     summary: candidate.summary ?? "",
     abstractText: candidate.abstractText ?? "",
     figureWidthInches: clampFigureWidthInches(candidate.figureWidthInches),
@@ -286,47 +310,120 @@ function parseDraftRecord(
 
   return {
     ...sanitized,
-    draftKey: candidate.draftKey || fallbackMeta.draftKey,
+    draftId: resolvedId,
+    draftKey: resolvedId,
     uid: candidate.uid || fallbackMeta.uid,
     userEmail: candidate.userEmail || fallbackMeta.userEmail,
     workshopYear: Number(candidate.workshopYear) || fallbackMeta.workshopYear,
+    createdAt:
+      typeof candidate.createdAt === "string" && candidate.createdAt
+        ? candidate.createdAt
+        : candidate.updatedAt,
     updatedAt: candidate.updatedAt,
   };
 }
 
-function readLocalDraft(
-  draftKey: string,
-  meta: { uid: string; userEmail: string; workshopYear: number }
-): AbstractDraftRecord | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = window.localStorage.getItem(`${DRAFT_STORAGE_PREFIX}${draftKey}`);
-    if (!raw) return null;
-    return parseDraftRecord(JSON.parse(raw), { draftKey, ...meta });
-  } catch (err) {
-    console.warn("Unable to read local abstract draft:", err);
-    return null;
-  }
+function sortDraftsNewestFirst(items: AbstractDraftRecord[]): AbstractDraftRecord[] {
+  return [...items].sort((a, b) => {
+    const tA = Date.parse(a.updatedAt || a.createdAt || "") || 0;
+    const tB = Date.parse(b.updatedAt || b.createdAt || "") || 0;
+    return tB - tA;
+  });
 }
 
-function writeLocalDraft(draftKey: string, record: AbstractDraftRecord): void {
-  if (typeof window === "undefined") return;
+function mergeDraftLists(
+  localItems: AbstractDraftRecord[],
+  remoteItems: AbstractDraftRecord[]
+): AbstractDraftRecord[] {
+  const byId = new Map<string, AbstractDraftRecord>();
+  for (const item of localItems) {
+    if (item?.draftId && hasMeaningfulDraftContent(item)) {
+      byId.set(item.draftId, item);
+    }
+  }
+  for (const remote of remoteItems) {
+    if (!remote?.draftId || !hasMeaningfulDraftContent(remote)) continue;
+    const existing = byId.get(remote.draftId);
+    if (!existing) {
+      byId.set(remote.draftId, remote);
+      continue;
+    }
+    const localTs = Date.parse(existing.updatedAt || "") || 0;
+    const remoteTs = Date.parse(remote.updatedAt || "") || 0;
+    if (remoteTs >= localTs) {
+      byId.set(remote.draftId, remote);
+    }
+  }
+  return sortDraftsNewestFirst(Array.from(byId.values()));
+}
+
+function readLocalDraftsWithMigration(
+  scopeKey: string,
+  meta: { uid: string; userEmail: string; workshopYear: number }
+): AbstractDraftRecord[] {
+  if (typeof window === "undefined" || !scopeKey) return [];
+  const listKey = `${DRAFTS_LIST_STORAGE_PREFIX}${scopeKey}`;
+  const legacyKey = `${LEGACY_DRAFT_STORAGE_PREFIX}${scopeKey}`;
+  const items: AbstractDraftRecord[] = [];
+  let migratedLegacy = false;
+
+  try {
+    const rawList = window.localStorage.getItem(listKey);
+    if (rawList) {
+      const parsedList = JSON.parse(rawList) as unknown;
+      if (Array.isArray(parsedList)) {
+        for (const entry of parsedList) {
+          const parsed = parseDraftRecord(entry, {
+            draftId: scopeKey,
+            ...meta,
+          });
+          if (parsed && hasMeaningfulDraftContent(parsed)) {
+            items.push(parsed);
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Unable to read multi-draft list from localStorage:", err);
+  }
+
+  try {
+    const rawLegacy = window.localStorage.getItem(legacyKey);
+    if (rawLegacy) {
+      const legacyRecord = parseDraftRecord(JSON.parse(rawLegacy), {
+        draftId: scopeKey,
+        ...meta,
+      });
+      if (
+        legacyRecord &&
+        hasMeaningfulDraftContent(legacyRecord) &&
+        !items.some((d) => d.draftId === legacyRecord.draftId)
+      ) {
+        items.push(legacyRecord);
+      }
+      window.localStorage.removeItem(legacyKey);
+      migratedLegacy = true;
+    }
+  } catch (err) {
+    console.warn("Unable to migrate legacy abstract draft:", err);
+  }
+
+  const sorted = sortDraftsNewestFirst(items);
+  if (migratedLegacy) {
+    writeLocalDrafts(scopeKey, sorted);
+  }
+  return sorted;
+}
+
+function writeLocalDrafts(scopeKey: string, records: AbstractDraftRecord[]): void {
+  if (typeof window === "undefined" || !scopeKey) return;
   try {
     window.localStorage.setItem(
-      `${DRAFT_STORAGE_PREFIX}${draftKey}`,
-      JSON.stringify(record)
+      `${DRAFTS_LIST_STORAGE_PREFIX}${scopeKey}`,
+      JSON.stringify(sortDraftsNewestFirst(records))
     );
   } catch (err) {
-    console.warn("Unable to persist local abstract draft:", err);
-  }
-}
-
-function removeLocalDraft(draftKey: string): void {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.removeItem(`${DRAFT_STORAGE_PREFIX}${draftKey}`);
-  } catch (err) {
-    console.warn("Unable to remove local abstract draft:", err);
+    console.warn("Unable to persist multi-draft list in localStorage:", err);
   }
 }
 
@@ -338,7 +435,6 @@ export function useAbstractDraft(params: {
   values: AbstractDraftFormValues;
   graphicFile: File | null;
   suppressSaving: boolean;
-  onHydrate: (payload: HydratedDraftPayload) => void;
 }) {
   const {
     uid,
@@ -348,26 +444,32 @@ export function useAbstractDraft(params: {
     values,
     graphicFile,
     suppressSaving,
-    onHydrate,
   } = params;
 
-  const draftKey = useMemo(() => {
+  const scopeKey = useMemo(() => {
     if (!enabled || !uid) return "";
     const safeUid = uid.replace(/[^a-zA-Z0-9_-]/g, "_");
     return `${safeUid}_${workshopYear}`;
   }, [enabled, uid, workshopYear]);
 
+  const [drafts, setDrafts] = useState<AbstractDraftRecord[]>([]);
+  const [loadingDrafts, setLoadingDrafts] = useState<boolean>(false);
+  const [activeDraftId, setActiveDraftId] = useState<string | null>(null);
   const [draftStatus, setDraftStatus] = useState<DraftStatusInfo>({
     state: "idle",
     savedAt: null,
   });
-  const [restoredBanner, setRestoredBanner] =
-    useState<RestoredDraftBannerInfo | null>(null);
 
-  const hydratedKeyRef = useRef<string>("");
+  const draftsRef = useRef<AbstractDraftRecord[]>([]);
+  draftsRef.current = drafts;
+
+  const activeDraftIdRef = useRef<string | null>(null);
+  activeDraftIdRef.current = activeDraftId;
+
+  const activeCreatedAtRef = useRef<string>("");
+  const loadedScopeRef = useRef<string>("");
   const hydratingTickRef = useRef<boolean>(false);
   const lastHydratedHashRef = useRef<string>("");
-  const userEditedAfterMountRef = useRef<boolean>(false);
   const pendingLocalFlushRef = useRef<boolean>(false);
   const lastCloudHashRef = useRef<string>("");
   const prevStageRef = useRef<number>(values.currentStage);
@@ -387,7 +489,6 @@ export function useAbstractDraft(params: {
     [values]
   );
 
-  // Clear pending timers helper
   const clearTimers = useCallback(() => {
     if (typeof window === "undefined") return;
     if (localTimerRef.current !== null) {
@@ -400,10 +501,9 @@ export function useAbstractDraft(params: {
     }
   }, []);
 
-  // Reconstruct local File + preview URL from IndexedDB when available
   const restoreGraphicAssetFromIdb = useCallback(
     async (
-      targetDraftKey: string,
+      targetDraftId: string,
       expectedMeta: DraftGraphicMetaSnapshot | null
     ): Promise<{
       file: File | null;
@@ -413,7 +513,7 @@ export function useAbstractDraft(params: {
       if (!expectedMeta) {
         return { file: null, previewUrl: "" };
       }
-      const blob = await getDraftBlob(draftGraphicBlobKey(targetDraftKey));
+      const blob = await getDraftBlob(draftGraphicBlobKey(targetDraftId));
       if (!blob) {
         return {
           file: null,
@@ -440,185 +540,148 @@ export function useAbstractDraft(params: {
     []
   );
 
-  // Hydration Effect (Local immediate + max 1 Firestore getDoc check for newer cross-device draft)
+  const upsertDraftInList = useCallback(
+    (record: AbstractDraftRecord): AbstractDraftRecord[] => {
+      if (!scopeKey) return draftsRef.current;
+      const filtered = draftsRef.current.filter(
+        (item) => item.draftId !== record.draftId
+      );
+      const next = sortDraftsNewestFirst([record, ...filtered]);
+      draftsRef.current = next;
+      writeLocalDrafts(scopeKey, next);
+      setDrafts(next);
+      return next;
+    },
+    [scopeKey]
+  );
+
+  const removeDraftFromList = useCallback(
+    (draftId: string): AbstractDraftRecord[] => {
+      if (!scopeKey) return draftsRef.current;
+      const next = draftsRef.current.filter((item) => item.draftId !== draftId);
+      draftsRef.current = next;
+      writeLocalDrafts(scopeKey, next);
+      setDrafts(next);
+      return next;
+    },
+    [scopeKey]
+  );
+
+  // Load multi-draft list on mount / user / year change
   useEffect(() => {
-    if (!draftKey || !uid) {
-      hydratedKeyRef.current = "";
+    if (!scopeKey || !uid) {
+      loadedScopeRef.current = "";
+      setDrafts([]);
+      setLoadingDrafts(false);
       return;
     }
-    if (hydratedKeyRef.current === draftKey) return;
+    if (loadedScopeRef.current === scopeKey) return;
 
     let cancelled = false;
-    lastHydratedHashRef.current = "";
-    userEditedAfterMountRef.current = false;
-    pendingLocalFlushRef.current = false;
-    lastCloudHashRef.current = "";
-
-    const fallbackMeta = {
+    const meta = {
       uid,
       userEmail: userEmail || "",
       workshopYear,
     };
 
-    const runHydration = async () => {
-      const localRecord = readLocalDraft(draftKey, fallbackMeta);
-      let appliedLocalTime = 0;
-
-      if (localRecord && hasMeaningfulDraftContent(localRecord)) {
-        appliedLocalTime = Date.parse(localRecord.updatedAt) || 0;
-        const asset = await restoreGraphicAssetFromIdb(
-          draftKey,
-          localRecord.graphicMeta
-        );
-        if (cancelled) {
-          if (asset.previewUrl) URL.revokeObjectURL(asset.previewUrl);
-          return;
-        }
-        const hydratedRecord: AbstractDraftRecord = asset.missingName
-          ? { ...localRecord, graphicMeta: null }
-          : localRecord;
-
-        lastHydratedHashRef.current = computeDraftHash(hydratedRecord);
-        hydratingTickRef.current = true;
-        onHydrate({
-          record: hydratedRecord,
-          restoredGraphicFile: asset.file,
-          restoredGraphicPreviewUrl: asset.previewUrl,
-          source: "local",
-          missingCrossDeviceGraphicName: asset.missingName,
-        });
-        prevStageRef.current = hydratedRecord.currentStage;
-        setDraftStatus({
-          state: "saved_local",
-          savedAt: localRecord.updatedAt,
-        });
-        setRestoredBanner({
-          savedAt: localRecord.updatedAt,
-          stage: hydratedRecord.currentStage,
-          source: "local",
-          missingCrossDeviceGraphicName: asset.missingName,
-        });
-        window.setTimeout(() => {
-          hydratingTickRef.current = false;
-        }, 0);
+    const loadDrafts = async () => {
+      setLoadingDrafts(true);
+      const localList = readLocalDraftsWithMigration(scopeKey, meta);
+      if (!cancelled) {
+        draftsRef.current = localList;
+        setDrafts(localList);
       }
 
-      hydratedKeyRef.current = draftKey;
-
-      if (!hasFirebaseKeys || !db) return;
+      if (!hasFirebaseKeys || !db) {
+        loadedScopeRef.current = scopeKey;
+        if (!cancelled) setLoadingDrafts(false);
+        return;
+      }
 
       try {
-        const snap = await getDoc(
-          doc(db, FIRESTORE_DRAFTS_COLLECTION, draftKey)
+        const snap = await getDocs(
+          query(collection(db, FIRESTORE_DRAFTS_COLLECTION), where("uid", "==", uid))
         );
-        if (cancelled || !snap.exists() || userEditedAfterMountRef.current) {
-          return;
-        }
-        const cloudRecord = parseDraftRecord(snap.data(), {
-          draftKey,
-          ...fallbackMeta,
-        });
-        if (!cloudRecord || !hasMeaningfulDraftContent(cloudRecord)) {
-          return;
-        }
+        if (cancelled) return;
 
-        const cloudTime = Date.parse(cloudRecord.updatedAt) || 0;
-        if (cloudTime > appliedLocalTime + 1000) {
-          const asset = await restoreGraphicAssetFromIdb(
-            draftKey,
-            cloudRecord.graphicMeta
-          );
-          if (cancelled || userEditedAfterMountRef.current) {
-            if (asset.previewUrl) URL.revokeObjectURL(asset.previewUrl);
-            return;
+        const remoteList: AbstractDraftRecord[] = [];
+        snap.forEach((docSnap) => {
+          const data = docSnap.data();
+          const docYear = Number(data?.workshopYear) || workshopYear;
+          if (docYear !== workshopYear) return;
+          const parsed = parseDraftRecord(data, {
+            draftId: docSnap.id,
+            ...meta,
+          });
+          if (parsed && hasMeaningfulDraftContent(parsed)) {
+            remoteList.push(parsed);
           }
-          const hydratedRecord: AbstractDraftRecord = asset.missingName
-            ? { ...cloudRecord, graphicMeta: null }
-            : cloudRecord;
+        });
 
-          lastHydratedHashRef.current = computeDraftHash(hydratedRecord);
-          hydratingTickRef.current = true;
-          writeLocalDraft(draftKey, hydratedRecord);
-          lastCloudHashRef.current = computeDraftHash(cloudRecord);
-          onHydrate({
-            record: hydratedRecord,
-            restoredGraphicFile: asset.file,
-            restoredGraphicPreviewUrl: asset.previewUrl,
-            source: "cloud",
-            missingCrossDeviceGraphicName: asset.missingName,
-          });
-          prevStageRef.current = hydratedRecord.currentStage;
-          setDraftStatus({
-            state: "synced_cloud",
-            savedAt: cloudRecord.updatedAt,
-          });
-          setRestoredBanner({
-            savedAt: cloudRecord.updatedAt,
-            stage: hydratedRecord.currentStage,
-            source: "cloud",
-            missingCrossDeviceGraphicName: asset.missingName,
-          });
-          window.setTimeout(() => {
-            hydratingTickRef.current = false;
-          }, 0);
-        } else if (
-          localRecord &&
-          Math.abs(cloudTime - appliedLocalTime) <= 1000
-        ) {
-          lastCloudHashRef.current = computeDraftHash(localRecord);
-          setDraftStatus({
-            state: "synced_cloud",
-            savedAt: localRecord.updatedAt,
-          });
-        }
+        const merged = mergeDraftLists(localList, remoteList);
+        draftsRef.current = merged;
+        writeLocalDrafts(scopeKey, merged);
+        setDrafts(merged);
+        loadedScopeRef.current = scopeKey;
       } catch (err) {
-        console.warn("Firestore abstract draft check skipped/blocked:", err);
+        console.warn("Firestore multi-draft fetch skipped/blocked:", err);
+        loadedScopeRef.current = scopeKey;
+      } finally {
+        if (!cancelled) setLoadingDrafts(false);
       }
     };
 
-    void runHydration();
+    void loadDrafts();
 
     return () => {
       cancelled = true;
     };
-  }, [draftKey, uid, userEmail, workshopYear, onHydrate, restoreGraphicAssetFromIdb]);
+  }, [scopeKey, uid, userEmail, workshopYear]);
 
-  // Graphic Blob Sync in IndexedDB
+  // Graphic Blob Sync in IndexedDB for active draft
   useEffect(() => {
-    if (!draftKey || hydratedKeyRef.current !== draftKey || suppressSaving) {
+    if (!activeDraftId || suppressSaving || hydratingTickRef.current) {
       return;
     }
-    if (hydratingTickRef.current) return;
 
     if (graphicFile) {
-      void putDraftBlob(draftGraphicBlobKey(draftKey), graphicFile);
+      void putDraftBlob(draftGraphicBlobKey(activeDraftId), graphicFile);
     } else if (latestValuesRef.current.graphicMeta === null) {
-      void deleteDraftBlob(draftGraphicBlobKey(draftKey));
+      void deleteDraftBlob(draftGraphicBlobKey(activeDraftId));
     }
-  }, [draftKey, graphicFile, suppressSaving]);
+  }, [activeDraftId, graphicFile, suppressSaving]);
 
-  // Tier 2: Throttled Firestore Cloud Sync
+  // Tier 2: Throttled Firestore Cloud Sync for active draft
   const syncToCloud = useCallback(
-    async (valuesToSync: AbstractDraftFormValues, forceLocalTimestamp = false) => {
-      if (!draftKey || !uid || suppressSaving) return;
+    async (
+      valuesToSync: AbstractDraftFormValues,
+      targetDraftId?: string,
+      forceLocalTimestamp = false
+    ) => {
+      const idToSync = targetDraftId || activeDraftIdRef.current;
+      if (!scopeKey || !idToSync || !uid || suppressSaving) return;
       if (!hasMeaningfulDraftContent(valuesToSync)) return;
 
       const hash = computeDraftHash(valuesToSync);
       const nowIso = new Date().toISOString();
+      const createdAt = activeCreatedAtRef.current || nowIso;
+      activeCreatedAtRef.current = createdAt;
+
       const record = buildDraftRecord(valuesToSync, {
-        draftKey,
+        draftId: idToSync,
         uid,
         userEmail: userEmail || "",
         workshopYear,
+        createdAt,
         updatedAt: nowIso,
       });
 
-      writeLocalDraft(draftKey, record);
+      upsertDraftInList(record);
       pendingLocalFlushRef.current = false;
 
       if (latestGraphicFileRef.current) {
         void putDraftBlob(
-          draftGraphicBlobKey(draftKey),
+          draftGraphicBlobKey(idToSync),
           latestGraphicFileRef.current
         );
       }
@@ -635,23 +698,26 @@ export function useAbstractDraft(params: {
 
       setDraftStatus((prev) => ({ ...prev, state: "saving" }));
       try {
-        await setDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, draftKey), record);
+        await setDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, idToSync), record);
         lastCloudHashRef.current = hash;
         setDraftStatus({ state: "synced_cloud", savedAt: record.updatedAt });
       } catch (err) {
-        console.warn("Firestore abstract draft sync skipped/blocked; retained locally:", err);
+        console.warn(
+          "Firestore abstract draft sync skipped/blocked; retained locally:",
+          err
+        );
         setDraftStatus({ state: "saved_local", savedAt: record.updatedAt });
       }
     },
-    [draftKey, uid, userEmail, workshopYear, suppressSaving]
+    [scopeKey, uid, userEmail, workshopYear, suppressSaving, upsertDraftInList]
   );
 
   // Tier 1: Debounced Local Autosave (400 ms) + Tier 2 Idle Cloud Sync (45 s)
   useEffect(() => {
     if (
-      !draftKey ||
+      !scopeKey ||
+      !activeDraftId ||
       !uid ||
-      hydratedKeyRef.current !== draftKey ||
       hydratingTickRef.current ||
       suppressSaving
     ) {
@@ -663,12 +729,10 @@ export function useAbstractDraft(params: {
     }
     lastHydratedHashRef.current = "";
 
-    userEditedAfterMountRef.current = true;
-
     if (!hasDraftContent) {
       clearTimers();
       pendingLocalFlushRef.current = false;
-      removeLocalDraft(draftKey);
+      removeDraftFromList(activeDraftId);
       lastCloudHashRef.current = "";
       setDraftStatus({ state: "idle", savedAt: null });
       return;
@@ -682,15 +746,18 @@ export function useAbstractDraft(params: {
     }
     localTimerRef.current = window.setTimeout(() => {
       const nowIso = new Date().toISOString();
+      const createdAt = activeCreatedAtRef.current || nowIso;
+      activeCreatedAtRef.current = createdAt;
       const currentSnapshot = latestValuesRef.current;
       const record = buildDraftRecord(currentSnapshot, {
-        draftKey,
+        draftId: activeDraftId,
         uid,
         userEmail: userEmail || "",
         workshopYear,
+        createdAt,
         updatedAt: nowIso,
       });
-      writeLocalDraft(draftKey, record);
+      upsertDraftInList(record);
       pendingLocalFlushRef.current = false;
       const currentHash = computeDraftHash(currentSnapshot);
       setDraftStatus({
@@ -707,7 +774,7 @@ export function useAbstractDraft(params: {
     }
     if (hasFirebaseKeys && db && contentHash !== lastCloudHashRef.current) {
       cloudTimerRef.current = window.setTimeout(() => {
-        void syncToCloud(latestValuesRef.current);
+        void syncToCloud(latestValuesRef.current, activeDraftId);
       }, CLOUD_IDLE_MS);
     }
 
@@ -720,7 +787,8 @@ export function useAbstractDraft(params: {
       }
     };
   }, [
-    draftKey,
+    scopeKey,
+    activeDraftId,
     uid,
     userEmail,
     workshopYear,
@@ -728,14 +796,15 @@ export function useAbstractDraft(params: {
     hasDraftContent,
     suppressSaving,
     clearTimers,
+    upsertDraftInList,
+    removeDraftFromList,
     syncToCloud,
   ]);
 
   // Trigger Cloud Sync immediately on Stage Change (Next / Back / Stepper Jump)
   useEffect(() => {
     if (
-      !draftKey ||
-      hydratedKeyRef.current !== draftKey ||
+      !activeDraftId ||
       hydratingTickRef.current ||
       suppressSaving
     ) {
@@ -746,26 +815,31 @@ export function useAbstractDraft(params: {
     if (values.currentStage !== prevStageRef.current) {
       prevStageRef.current = values.currentStage;
       if (hasMeaningfulDraftContent(latestValuesRef.current)) {
-        void syncToCloud(latestValuesRef.current);
+        void syncToCloud(latestValuesRef.current, activeDraftId);
       }
     }
-  }, [draftKey, values.currentStage, suppressSaving, syncToCloud]);
+  }, [activeDraftId, values.currentStage, suppressSaving, syncToCloud]);
 
   // Synchronous localStorage flush on tab close / hide if a 400 ms save is pending
   useEffect(() => {
-    if (typeof window === "undefined" || !draftKey || !uid) return;
+    if (typeof window === "undefined" || !scopeKey || !activeDraftId || !uid) {
+      return;
+    }
 
     const flushSync = () => {
       if (suppressSaving || !pendingLocalFlushRef.current) return;
       if (!hasMeaningfulDraftContent(latestValuesRef.current)) return;
+      const nowIso = new Date().toISOString();
+      const createdAt = activeCreatedAtRef.current || nowIso;
       const record = buildDraftRecord(latestValuesRef.current, {
-        draftKey,
+        draftId: activeDraftId,
         uid,
         userEmail: userEmail || "",
         workshopYear,
-        updatedAt: new Date().toISOString(),
+        createdAt,
+        updatedAt: nowIso,
       });
-      writeLocalDraft(draftKey, record);
+      upsertDraftInList(record);
       pendingLocalFlushRef.current = false;
     };
 
@@ -775,44 +849,313 @@ export function useAbstractDraft(params: {
       window.removeEventListener("beforeunload", flushSync);
       window.removeEventListener("pagehide", flushSync);
     };
-  }, [draftKey, uid, userEmail, workshopYear, suppressSaving]);
+  }, [
+    scopeKey,
+    activeDraftId,
+    uid,
+    userEmail,
+    workshopYear,
+    suppressSaving,
+    upsertDraftInList,
+  ]);
+
+  const startNewDraft = useCallback((): string => {
+    clearTimers();
+    const baseScope = scopeKey || `local_${workshopYear}`;
+    const newId = generateDraftId(baseScope);
+    hydratingTickRef.current = true;
+    activeDraftIdRef.current = newId;
+    activeCreatedAtRef.current = new Date().toISOString();
+    lastHydratedHashRef.current = "";
+    lastCloudHashRef.current = "";
+    pendingLocalFlushRef.current = false;
+    prevStageRef.current = 1;
+    setActiveDraftId(newId);
+    setDraftStatus({ state: "idle", savedAt: null });
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        hydratingTickRef.current = false;
+      }, 0);
+    } else {
+      hydratingTickRef.current = false;
+    }
+    return newId;
+  }, [clearTimers, scopeKey, workshopYear]);
+
+  const openDraft = useCallback(
+    async (draftId: string): Promise<HydratedDraftPayload | null> => {
+      const target = draftsRef.current.find((d) => d.draftId === draftId);
+      if (!target) return null;
+
+      clearTimers();
+      hydratingTickRef.current = true;
+
+      const asset = await restoreGraphicAssetFromIdb(draftId, target.graphicMeta);
+      const hydratedRecord: AbstractDraftRecord = asset.missingName
+        ? { ...target, graphicMeta: null }
+        : target;
+
+      const hydratedHash = computeDraftHash(hydratedRecord);
+      activeDraftIdRef.current = draftId;
+      activeCreatedAtRef.current = hydratedRecord.createdAt;
+      lastHydratedHashRef.current = hydratedHash;
+      lastCloudHashRef.current = hydratedHash;
+      pendingLocalFlushRef.current = false;
+      prevStageRef.current = hydratedRecord.currentStage;
+      setActiveDraftId(draftId);
+      setDraftStatus({
+        state: hasFirebaseKeys && db ? "synced_cloud" : "saved_local",
+        savedAt: hydratedRecord.updatedAt,
+      });
+
+      if (typeof window !== "undefined") {
+        window.setTimeout(() => {
+          hydratingTickRef.current = false;
+        }, 0);
+      } else {
+        hydratingTickRef.current = false;
+      }
+
+      return {
+        record: hydratedRecord,
+        restoredGraphicFile: asset.file,
+        restoredGraphicPreviewUrl: asset.previewUrl,
+        missingCrossDeviceGraphicName: asset.missingName,
+      };
+    },
+    [clearTimers, restoreGraphicAssetFromIdb]
+  );
+
+  const duplicateDraft = useCallback(
+    async (draftId: string): Promise<AbstractDraftRecord | null> => {
+      if (!scopeKey || !uid) return null;
+      const source = draftsRef.current.find((d) => d.draftId === draftId);
+      if (!source) return null;
+
+      const newId = generateDraftId(scopeKey);
+      const nowIso = new Date().toISOString();
+      const baseTitle = source.title.trim();
+      const copyTitle = baseTitle
+        ? baseTitle.startsWith("Copy of ")
+          ? baseTitle
+          : `Copy of ${baseTitle}`
+        : "Untitled Draft (Copy)";
+
+      let copiedGraphicMeta: DraftGraphicMetaSnapshot | null = null;
+      if (source.graphicMeta) {
+        const blob = await getDraftBlob(draftGraphicBlobKey(source.draftId));
+        if (blob) {
+          const ok = await putDraftBlob(draftGraphicBlobKey(newId), blob);
+          if (ok) copiedGraphicMeta = source.graphicMeta;
+        }
+      }
+
+      const cloned = buildDraftRecord(
+        {
+          ...source,
+          title: copyTitle,
+          graphicMeta: copiedGraphicMeta,
+          graphicCaption: copiedGraphicMeta ? source.graphicCaption : "",
+        },
+        {
+          draftId: newId,
+          uid,
+          userEmail: userEmail || source.userEmail || "",
+          workshopYear,
+          createdAt: nowIso,
+          updatedAt: nowIso,
+        }
+      );
+
+      upsertDraftInList(cloned);
+      if (hasFirebaseKeys && db) {
+        try {
+          await setDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, newId), cloned);
+        } catch (err) {
+          console.warn(
+            "Firestore duplicate draft sync skipped/blocked; saved locally:",
+            err
+          );
+        }
+      }
+      return cloned;
+    },
+    [scopeKey, uid, userEmail, workshopYear, upsertDraftInList]
+  );
+
+  const createDraftFromSubmission = useCallback(
+    async (
+      sub: AbstractSubmissionRecord,
+      graphicFileToCopy: File | null
+    ): Promise<AbstractDraftRecord | null> => {
+      if (!scopeKey || !uid) return null;
+
+      const newId = generateDraftId(scopeKey);
+      const nowIso = new Date().toISOString();
+
+      const copiedAffiliations: AffiliationEntry[] =
+        sub.affiliations && sub.affiliations.length > 0
+          ? sub.affiliations.map((a) => ({ ...a }))
+          : [{ id: "aff-1", institution: sub.affiliation || "", location: "" }];
+
+      const copiedAuthors: AuthorEntry[] =
+        sub.authors && sub.authors.length > 0
+          ? sub.authors.map((a) => ({ ...a }))
+          : [
+              {
+                id: "auth-1",
+                name: sub.presentingAuthor || "",
+                affiliationId: copiedAffiliations[0]?.id || "aff-1",
+                isPresenter: true,
+              },
+            ];
+
+      let copiedGraphicMeta: DraftGraphicMetaSnapshot | null = null;
+      if (graphicFileToCopy && sub.graphic) {
+        const ok = await putDraftBlob(
+          draftGraphicBlobKey(newId),
+          graphicFileToCopy
+        );
+        if (ok) {
+          copiedGraphicMeta = {
+            fileName: sub.graphic.fileName || graphicFileToCopy.name,
+            fileSizeBytes:
+              sub.graphic.fileSizeBytes || graphicFileToCopy.size,
+            mimeType:
+              sub.graphic.mimeType ||
+              graphicFileToCopy.type ||
+              "image/png",
+            widthPx: sub.graphic.widthPx || 0,
+            heightPx: sub.graphic.heightPx || 0,
+            detectedDpi: sub.graphic.detectedDpi || 300,
+            dpiSource: sub.graphic.dpiSource || "effective",
+          };
+        }
+      }
+
+      const baseTitle = sub.title.trim();
+      const copyTitle = baseTitle
+        ? baseTitle.startsWith("Copy of ")
+          ? baseTitle
+          : `Copy of ${baseTitle}`
+        : "Copied Abstract Draft";
+
+      const cloned = buildDraftRecord(
+        {
+          currentStage: 1,
+          title: copyTitle,
+          correspondingEmail: sub.correspondingEmail || userEmail || "",
+          secondaryEmail: sub.secondaryEmail || "",
+          presentationFormat: sub.presentationFormat || "Oral Presentation",
+          studentTravelAwardApplicant: Boolean(sub.studentTravelAwardApplicant),
+          affiliations: copiedAffiliations,
+          authors: copiedAuthors,
+          researchTrack:
+            sub.researchTrack || "Miniature & Ruggedized Hardware / Vacuum",
+          summary: sub.summary || "",
+          abstractText: sub.abstractText || sub.summary || "",
+          figureWidthInches: clampFigureWidthInches(
+            sub.graphic?.widthInches ?? DEFAULT_FIGURE_WIDTH_IN
+          ),
+          graphicCaption: copiedGraphicMeta ? sub.graphic?.caption || "" : "",
+          figurePanelHidden: false,
+          graphicMeta: copiedGraphicMeta,
+          keywords: sub.keywords || "",
+          presenterBio: sub.presenterBio || "",
+        },
+        {
+          draftId: newId,
+          uid,
+          userEmail: userEmail || "",
+          workshopYear,
+          createdAt: nowIso,
+          updatedAt: nowIso,
+        }
+      );
+
+      upsertDraftInList(cloned);
+      if (hasFirebaseKeys && db) {
+        try {
+          await setDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, newId), cloned);
+        } catch (err) {
+          console.warn(
+            "Firestore submission-to-draft copy sync skipped/blocked; saved locally:",
+            err
+          );
+        }
+      }
+      return cloned;
+    },
+    [scopeKey, uid, userEmail, workshopYear, upsertDraftInList]
+  );
+
+  const deleteDraftById = useCallback(
+    async (draftId: string): Promise<void> => {
+      if (activeDraftIdRef.current === draftId) {
+        clearTimers();
+        lastHydratedHashRef.current = "";
+        pendingLocalFlushRef.current = false;
+        lastCloudHashRef.current = "";
+        activeDraftIdRef.current = null;
+        activeCreatedAtRef.current = "";
+        setActiveDraftId(null);
+        setDraftStatus({ state: "idle", savedAt: null });
+      }
+
+      removeDraftFromList(draftId);
+      await deleteDraftBlob(draftGraphicBlobKey(draftId));
+
+      if (hasFirebaseKeys && db) {
+        try {
+          await deleteDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, draftId));
+        } catch (err) {
+          console.warn("Firestore abstract draft deletion skipped/blocked:", err);
+        }
+      }
+    },
+    [clearTimers, removeDraftFromList]
+  );
+
+  const closeActiveDraft = useCallback(async () => {
+    const idToFlush = activeDraftIdRef.current;
+    clearTimers();
+    if (
+      idToFlush &&
+      uid &&
+      !suppressSaving &&
+      hasMeaningfulDraftContent(latestValuesRef.current)
+    ) {
+      const currentHash = computeDraftHash(latestValuesRef.current);
+      if (pendingLocalFlushRef.current || currentHash !== lastCloudHashRef.current) {
+        await syncToCloud(latestValuesRef.current, idToFlush);
+      }
+    }
+    activeDraftIdRef.current = null;
+    activeCreatedAtRef.current = "";
+    lastHydratedHashRef.current = "";
+    lastCloudHashRef.current = "";
+    pendingLocalFlushRef.current = false;
+    setActiveDraftId(null);
+    setDraftStatus({ state: "idle", savedAt: null });
+  }, [clearTimers, uid, suppressSaving, syncToCloud]);
 
   const saveDraftNow = useCallback(async () => {
     clearTimers();
-    await syncToCloud(latestValuesRef.current, true);
+    await syncToCloud(latestValuesRef.current, undefined, true);
   }, [clearTimers, syncToCloud]);
 
-  const clearDraftStorage = useCallback(async () => {
-    clearTimers();
-    lastHydratedHashRef.current = "";
-    pendingLocalFlushRef.current = false;
-    lastCloudHashRef.current = "";
-    setRestoredBanner(null);
-    setDraftStatus({ state: "idle", savedAt: null });
-
-    if (!draftKey) return;
-    removeLocalDraft(draftKey);
-    await deleteDraftBlob(draftGraphicBlobKey(draftKey));
-
-    if (hasFirebaseKeys && db) {
-      try {
-        await deleteDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, draftKey));
-      } catch (err) {
-        console.warn("Firestore abstract draft deletion skipped/blocked:", err);
-      }
-    }
-  }, [clearTimers, draftKey]);
-
-  const dismissRestoredBanner = useCallback(() => {
-    setRestoredBanner(null);
-  }, []);
-
   return {
+    drafts,
+    loadingDrafts,
+    activeDraftId,
     hasDraftContent,
     draftStatus,
-    restoredBanner,
-    dismissRestoredBanner,
+    startNewDraft,
+    openDraft,
+    duplicateDraft,
+    createDraftFromSubmission,
+    deleteDraftById,
+    closeActiveDraft,
     saveDraftNow,
-    clearDraftStorage,
   };
 }

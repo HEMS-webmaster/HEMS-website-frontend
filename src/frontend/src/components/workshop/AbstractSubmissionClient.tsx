@@ -18,7 +18,6 @@ import {
   ArrowLeft,
   ClipboardCheck,
   Plus,
-  Building2,
   UserPlus,
   Image as ImageIcon,
   FileUp,
@@ -36,16 +35,22 @@ import {
   User,
   Ruler,
   Cloud,
-  RotateCcw,
   Save,
+  Copy,
+  Edit3,
+  FilePlus2,
+  Lock,
+  Clock,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import { useAbstractSubmissions } from "@/hooks/useAbstractSubmissions";
 import { HydratedDraftPayload, useAbstractDraft } from "@/hooks/useAbstractDraft";
+import { evaluateAbstractDeadline } from "@/utils/upcomingWorkshop";
 import {
   ABSTRACT_MAX_CHARS,
   AbstractDraftFormValues,
+  AbstractDraftRecord,
   AbstractSubmissionRecord,
   AffiliationEntry,
   AuthorEntry,
@@ -138,6 +143,17 @@ function formatDraftTime(iso: string | null): string {
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
+function formatTimestampBadge(iso?: string | null): string {
+  if (!iso) return "";
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return `${date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })} • ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+}
+
 function formatFileSize(bytes: number): string {
   if (!bytes || bytes <= 0) return "";
   if (bytes < 1024) return `${bytes} B`;
@@ -153,8 +169,10 @@ export default function AbstractSubmissionClient() {
     submissions,
     loading: listLoading,
     createSubmission,
+    updateSubmission,
     withdrawSubmission,
     getGraphicPreviewUrl,
+    getSubmissionGraphicAsset,
   } = useAbstractSubmissions();
 
   const abstractTextareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -163,9 +181,14 @@ export default function AbstractSubmissionClient() {
   const guardPushedRef = useRef<boolean>(false);
   const bypassUnloadGuardRef = useRef<boolean>(false);
 
+  const [viewMode, setViewMode] = useState<"overview" | "editor">("overview");
   const [currentStage, setCurrentStage] = useState<number>(1);
-  const [infoExpanded, setInfoExpanded] = useState<boolean>(true);
+  const [editingSubmissionId, setEditingSubmissionId] = useState<string | null>(null);
+  const [retainedSubmittedGraphic, setRetainedSubmittedGraphic] =
+    useState<GraphicMetadata | null>(null);
+  const [infoExpanded, setInfoExpanded] = useState<boolean>(false);
   const [showPrintableGuidelines, setShowPrintableGuidelines] = useState<boolean>(false);
+  const [nowMs, setNowMs] = useState<number>(() => Date.now());
 
   // Stage 1
   const [title, setTitle] = useState("");
@@ -221,12 +244,31 @@ export default function AbstractSubmissionClient() {
   const [pasteNotice, setPasteNotice] = useState<string | null>(null);
   const [stageError, setStageError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [submittedConfirmation, setSubmittedConfirmation] =
-    useState<AbstractSubmissionRecord | null>(null);
+  const [submittedConfirmation, setSubmittedConfirmation] = useState<{
+    record: AbstractSubmissionRecord;
+    isUpdate: boolean;
+  } | null>(null);
+  const [overviewNotice, setOverviewNotice] = useState<{
+    tone: "emerald" | "sky" | "amber";
+    message: string;
+    actionDraftId?: string;
+  } | null>(null);
   const [savedPreviewItem, setSavedPreviewItem] = useState<{
     sub: AbstractSubmissionRecord;
     graphicUrl: string | null;
   } | null>(null);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setNowMs(Date.now());
+    }, 30_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const deadlineInfo = useMemo(
+    () => evaluateAbstractDeadline(workshop, nowMs),
+    [workshop, nowMs]
+  );
 
   useEffect(() => {
     if (!user) return;
@@ -330,9 +372,10 @@ export default function AbstractSubmissionClient() {
     ]
   );
 
-  const handleHydrateDraft = useCallback((payload: HydratedDraftPayload) => {
+  const applyHydratedDraft = useCallback((payload: HydratedDraftPayload) => {
     const r = payload.record;
     const clampedWidth = clampFigureWidthInches(r.figureWidthInches);
+    setRetainedSubmittedGraphic(null);
     setCurrentStage(r.currentStage);
     setTitle(r.title);
     if (r.correspondingEmail) {
@@ -371,16 +414,24 @@ export default function AbstractSubmissionClient() {
       setPasteNotice(
         `Restored cloud draft from another device. Re-attach "${payload.missingCrossDeviceGraphicName}" in Stage 5 if you want to include that figure.`
       );
+    } else {
+      setPasteNotice(null);
     }
   }, []);
 
   const {
+    drafts,
+    loadingDrafts,
+    activeDraftId,
     hasDraftContent,
     draftStatus,
-    restoredBanner,
-    dismissRestoredBanner,
+    startNewDraft,
+    openDraft,
+    duplicateDraft,
+    createDraftFromSubmission,
+    deleteDraftById,
+    closeActiveDraft,
     saveDraftNow,
-    clearDraftStorage,
   } = useAbstractDraft({
     uid: user?.uid,
     userEmail: user?.email,
@@ -388,12 +439,13 @@ export default function AbstractSubmissionClient() {
     enabled: Boolean(user && hasAttendeeRole(user.roles)),
     values: draftValues,
     graphicFile,
-    suppressSaving: submitting,
-    onHydrate: handleHydrateDraft,
+    suppressSaving:
+      submitting || viewMode !== "editor" || editingSubmissionId !== null,
   });
 
   const isDirty = useMemo(() => {
-    if (submittedConfirmation) return false;
+    if (viewMode !== "editor" || submittedConfirmation) return false;
+    if (editingSubmissionId) return true;
     const hasAffData = affiliations.some(
       (a) => a.institution.trim().length > 0 || (a.location || "").trim().length > 0
     );
@@ -411,6 +463,8 @@ export default function AbstractSubmissionClient() {
         studentTravelAwardApplicant
     );
   }, [
+    viewMode,
+    editingSubmissionId,
     submittedConfirmation,
     currentStage,
     title,
@@ -913,6 +967,7 @@ export default function AbstractSubmissionClient() {
       }
 
       setGraphicFile(file);
+      setRetainedSubmittedGraphic(null);
       setGraphicPreviewUrl(result.previewUrl);
       setGraphicMeta({
         fileName: file.name,
@@ -933,12 +988,16 @@ export default function AbstractSubmissionClient() {
       URL.revokeObjectURL(graphicPreviewUrl);
     }
     setGraphicFile(null);
+    setRetainedSubmittedGraphic(null);
     setGraphicMeta(null);
     setGraphicPreviewUrl("");
     setGraphicCaption("");
     setGraphicError(null);
     if (graphicInputRef.current) graphicInputRef.current.value = "";
   };
+
+  const hasAttachedGraphic = Boolean(graphicFile || retainedSubmittedGraphic);
+  const displayGraphicMeta = graphicMeta || retainedSubmittedGraphic;
 
   // Stage Validation & Navigation
   const validateStage = (stage: number): string | null => {
@@ -1011,8 +1070,8 @@ export default function AbstractSubmissionClient() {
       ) {
         return `Desired figure width must be between ${MIN_FIGURE_WIDTH_IN} and ${MAX_FIGURE_WIDTH_IN} inches.`;
       }
-      if (graphicFile && !graphicCaption.trim()) {
-        return "Figure caption is required (non-optional) whenever a graphic is uploaded.";
+      if (hasAttachedGraphic && !graphicCaption.trim()) {
+        return "Figure caption is required (non-optional) whenever a graphic is attached.";
       }
       if (graphicCaption.length > CAPTION_MAX_CHARS) {
         return `Figure caption cannot exceed ${CAPTION_MAX_CHARS} characters.`;
@@ -1042,7 +1101,7 @@ export default function AbstractSubmissionClient() {
   const isStage5FigureValidationError = () =>
     figureWidthInches < MIN_FIGURE_WIDTH_IN ||
     figureWidthInches > MAX_FIGURE_WIDTH_IN ||
-    Boolean(graphicFile && !graphicCaption.trim()) ||
+    Boolean(hasAttachedGraphic && !graphicCaption.trim()) ||
     graphicCaption.length > CAPTION_MAX_CHARS;
 
   const handleNextStage = () => {
@@ -1090,6 +1149,15 @@ export default function AbstractSubmissionClient() {
   };
 
   const handleFinalSubmit = async () => {
+    const freshDeadline = evaluateAbstractDeadline(workshop, Date.now());
+    if (freshDeadline.isPastDeadline) {
+      setStageError(
+        `The abstract submission deadline (${freshDeadline.formattedDeadline}) has passed. New submissions and edits to submitted abstracts are now closed.`
+      );
+      scrollToWorkspaceTop();
+      return;
+    }
+
     for (let s = 1; s <= 6; s++) {
       const err = validateStage(s);
       if (err) {
@@ -1110,52 +1178,74 @@ export default function AbstractSubmissionClient() {
         (a) => a.institution.trim().length > 0
       );
       const validAuthors = authors.filter((a) => a.name.trim().length > 0);
+      const payload = {
+        workshopYear: Number(workshop.workshop_year) || 2027,
+        title,
+        correspondingEmail,
+        secondaryEmail: secondaryEmail.trim() || undefined,
+        affiliations: validAffiliations,
+        authors: validAuthors,
+        presentationFormat,
+        researchTrack,
+        summary,
+        abstractText,
+        keywords,
+        presenterBio,
+        graphicCaption: hasAttachedGraphic ? graphicCaption : "",
+        figureWidthInches: hasAttachedGraphic
+          ? clampFigureWidthInches(figureWidthInches)
+          : undefined,
+        studentTravelAwardApplicant,
+        deadline: freshDeadline.formattedDeadline,
+        submittedByUid: user.uid,
+        submittedByEmail: user.email,
+      };
+      const assetsPayload = {
+        graphicFile,
+        graphicMeta: graphicMeta
+          ? {
+              ...graphicMeta,
+              widthInches: clampFigureWidthInches(figureWidthInches),
+            }
+          : null,
+        keepExistingGraphic: !graphicFile && Boolean(retainedSubmittedGraphic),
+      };
 
-      const created = await createSubmission(
-        {
-          workshopYear: Number(workshop.workshop_year) || 2027,
-          title,
-          correspondingEmail,
-          secondaryEmail: secondaryEmail.trim() || undefined,
-          affiliations: validAffiliations,
-          authors: validAuthors,
-          presentationFormat,
-          researchTrack,
-          summary,
-          abstractText,
-          keywords,
-          presenterBio,
-          graphicCaption: graphicFile ? graphicCaption : "",
-          figureWidthInches: graphicFile ? clampFigureWidthInches(figureWidthInches) : undefined,
-          studentTravelAwardApplicant,
-          deadline: workshop.cfp_abstract_deadline,
-          submittedByUid: user.uid,
-          submittedByEmail: user.email,
-        },
-        {
-          graphicFile,
-          graphicMeta: graphicMeta
-            ? {
-                ...graphicMeta,
-                widthInches: clampFigureWidthInches(figureWidthInches),
-              }
-            : null,
+      if (editingSubmissionId) {
+        const updated = await updateSubmission(
+          editingSubmissionId,
+          payload,
+          assetsPayload
+        );
+        bypassUnloadGuardRef.current = true;
+        guardPushedRef.current = false;
+        setEditingSubmissionId(null);
+        setRetainedSubmittedGraphic(null);
+        setSubmittedConfirmation({ record: updated, isUpdate: true });
+        setOverviewNotice(null);
+        resetDraftFormFields();
+        setViewMode("overview");
+        scrollToWorkspaceTop();
+      } else {
+        const created = await createSubmission(payload, assetsPayload);
+        if (activeDraftId) {
+          await deleteDraftById(activeDraftId);
         }
-      );
-
-      await clearDraftStorage();
-      bypassUnloadGuardRef.current = true;
-      guardPushedRef.current = false;
-      setSubmittedConfirmation(created);
-      resetDraftFormFields();
-      scrollToWorkspaceTop();
+        bypassUnloadGuardRef.current = true;
+        guardPushedRef.current = false;
+        setSubmittedConfirmation({ record: created, isUpdate: false });
+        setOverviewNotice(null);
+        resetDraftFormFields();
+        setViewMode("overview");
+        scrollToWorkspaceTop();
+      }
 
       window.setTimeout(() => {
         bypassUnloadGuardRef.current = false;
       }, 300);
     } catch (err) {
       setStageError(
-        err instanceof Error ? err.message : "Failed to submit abstract."
+        err instanceof Error ? err.message : "Failed to save abstract submission."
       );
     } finally {
       setSubmitting(false);
@@ -1192,25 +1282,228 @@ export default function AbstractSubmissionClient() {
 
   const handleManualSaveDraft = async () => {
     await saveDraftNow();
-    setPasteNotice("Draft saved locally and synced for cross-device resume.");
+    setPasteNotice("Draft saved locally and synced to your Presenter Overview.");
   };
 
-  const handleResetDraft = async () => {
+  const handleDeleteActiveDraft = async () => {
+    if (editingSubmissionId) return;
     if (
       !window.confirm(
-        "Clear your saved in-progress abstract draft? This cannot be undone."
+        "Delete this abstract draft? This cannot be undone."
       )
     ) {
       return;
     }
-    await clearDraftStorage();
+    if (activeDraftId) {
+      await deleteDraftById(activeDraftId);
+    }
     bypassUnloadGuardRef.current = true;
     guardPushedRef.current = false;
     resetDraftFormFields();
+    setViewMode("overview");
     scrollToWorkspaceTop();
     window.setTimeout(() => {
       bypassUnloadGuardRef.current = false;
     }, 300);
+  };
+
+  const handleReturnToOverview = async () => {
+    if (editingSubmissionId) {
+      if (
+        !window.confirm(
+          `Return to Presenter Overview without saving changes to ${editingSubmissionId}? Unsaved edits will be discarded.`
+        )
+      ) {
+        return;
+      }
+      bypassUnloadGuardRef.current = true;
+      guardPushedRef.current = false;
+      setEditingSubmissionId(null);
+      setRetainedSubmittedGraphic(null);
+      resetDraftFormFields();
+      setViewMode("overview");
+      scrollToWorkspaceTop();
+      window.setTimeout(() => {
+        bypassUnloadGuardRef.current = false;
+      }, 300);
+      return;
+    }
+
+    await closeActiveDraft();
+    bypassUnloadGuardRef.current = true;
+    guardPushedRef.current = false;
+    resetDraftFormFields();
+    setViewMode("overview");
+    scrollToWorkspaceTop();
+    window.setTimeout(() => {
+      bypassUnloadGuardRef.current = false;
+    }, 300);
+  };
+
+  const handleCreateNewSubmission = () => {
+    const fresh = evaluateAbstractDeadline(workshop, Date.now());
+    if (fresh.isPastDeadline) {
+      setOverviewNotice({
+        tone: "amber",
+        message: `Submission cutoff (${fresh.formattedDeadline}) has passed. Creating new submissions is closed.`,
+      });
+      return;
+    }
+    setOverviewNotice(null);
+    setSubmittedConfirmation(null);
+    setEditingSubmissionId(null);
+    setRetainedSubmittedGraphic(null);
+    resetDraftFormFields();
+    startNewDraft();
+    setViewMode("editor");
+    scrollToWorkspaceTop();
+  };
+
+  const handleOpenDraftInEditor = async (draftId: string) => {
+    if (graphicPreviewUrl && graphicPreviewUrl.startsWith("blob:")) {
+      URL.revokeObjectURL(graphicPreviewUrl);
+    }
+    const hydrated = await openDraft(draftId);
+    if (!hydrated) return;
+    setOverviewNotice(null);
+    setSubmittedConfirmation(null);
+    setEditingSubmissionId(null);
+    applyHydratedDraft(hydrated);
+    setViewMode("editor");
+    scrollToWorkspaceTop();
+  };
+
+  const handleCopyDraft = async (draftId: string) => {
+    const cloned = await duplicateDraft(draftId);
+    if (cloned) {
+      setOverviewNotice({
+        tone: "sky",
+        message: `Created draft copy "${cloned.title}".`,
+        actionDraftId: cloned.draftId,
+      });
+    }
+  };
+
+  const handleDeleteDraftFromOverview = async (draft: AbstractDraftRecord) => {
+    const label = draft.title.trim() || "Untitled Abstract Draft";
+    if (
+      !window.confirm(
+        `Delete draft "${label}"? This removes it permanently from your drafts list.`
+      )
+    ) {
+      return;
+    }
+    await deleteDraftById(draft.draftId);
+    setOverviewNotice({
+      tone: "amber",
+      message: `Deleted draft "${label}".`,
+    });
+  };
+
+  const handleEditSubmission = async (sub: AbstractSubmissionRecord) => {
+    const fresh = evaluateAbstractDeadline(workshop, Date.now());
+    if (fresh.isPastDeadline) {
+      setOverviewNotice({
+        tone: "amber",
+        message: `Editing submitted abstracts closed at ${fresh.formattedDeadline}.`,
+      });
+      return;
+    }
+
+    if (graphicPreviewUrl && graphicPreviewUrl.startsWith("blob:")) {
+      URL.revokeObjectURL(graphicPreviewUrl);
+    }
+    await closeActiveDraft();
+    const asset = await getSubmissionGraphicAsset(sub);
+
+    const hydratedAffiliations: AffiliationEntry[] =
+      sub.affiliations && sub.affiliations.length > 0
+        ? sub.affiliations.map((a) => ({ ...a }))
+        : [{ id: "aff-1", institution: sub.affiliation || "", location: "" }];
+
+    const hydratedAuthors: AuthorEntry[] =
+      sub.authors && sub.authors.length > 0
+        ? sub.authors.map((a) => ({ ...a }))
+        : [
+            {
+              id: "auth-1",
+              name: sub.presentingAuthor || "",
+              affiliationId: hydratedAffiliations[0]?.id || "aff-1",
+              isPresenter: true,
+            },
+          ];
+
+    const widthInches = clampFigureWidthInches(
+      sub.graphic?.widthInches ?? DEFAULT_FIGURE_WIDTH_IN
+    );
+
+    setSubmittedConfirmation(null);
+    setOverviewNotice(null);
+    setEditingSubmissionId(sub.id);
+    setCurrentStage(1);
+    setTitle(sub.title || "");
+    setCorrespondingEmail(sub.correspondingEmail || user.email || "");
+    setSecondaryEmail(sub.secondaryEmail || "");
+    setPresentationFormat(sub.presentationFormat || "Oral Presentation");
+    setStudentTravelAwardApplicant(Boolean(sub.studentTravelAwardApplicant));
+    setAffiliations(hydratedAffiliations);
+    setAuthors(hydratedAuthors);
+    setResearchTrack(
+      sub.researchTrack || "Miniature & Ruggedized Hardware / Vacuum"
+    );
+    setSummary(sub.summary || "");
+    setAbstractText(sub.abstractText || sub.summary || "");
+    setFigureWidthInches(widthInches);
+    setFigureWidthInput(String(widthInches));
+    setGraphicCaption(sub.graphic?.caption || "");
+    setFigurePanelHidden(false);
+    setKeywords(sub.keywords || "");
+    setPresenterBio(sub.presenterBio || "");
+    setGraphicFile(asset.file);
+    setGraphicPreviewUrl(asset.previewUrl);
+    setRetainedSubmittedGraphic(asset.retainedMeta);
+    setGraphicMeta(
+      asset.retainedMeta
+        ? {
+            fileName: asset.retainedMeta.fileName,
+            fileSizeBytes: asset.retainedMeta.fileSizeBytes,
+            mimeType: asset.retainedMeta.mimeType,
+            widthPx: asset.retainedMeta.widthPx,
+            heightPx: asset.retainedMeta.heightPx,
+            detectedDpi: asset.retainedMeta.detectedDpi,
+            dpiSource: asset.retainedMeta.dpiSource,
+          }
+        : null
+    );
+    setGraphicError(null);
+    setStageError(null);
+    setPasteNotice(null);
+    setViewMode("editor");
+    scrollToWorkspaceTop();
+  };
+
+  const handleCopySubmissionToDraft = async (sub: AbstractSubmissionRecord) => {
+    const fresh = evaluateAbstractDeadline(workshop, Date.now());
+    if (fresh.isPastDeadline) {
+      setOverviewNotice({
+        tone: "amber",
+        message: `Copying submitted abstracts closed at ${fresh.formattedDeadline}.`,
+      });
+      return;
+    }
+
+    const asset = await getSubmissionGraphicAsset(sub);
+    const clonedDraft = await createDraftFromSubmission(sub, asset.file);
+    if (asset.previewUrl && asset.previewUrl.startsWith("blob:")) {
+      URL.revokeObjectURL(asset.previewUrl);
+    }
+    if (clonedDraft) {
+      setOverviewNotice({
+        tone: "emerald",
+        message: `Copied ${sub.id} into Submission Drafts as "${clonedDraft.title}".`,
+        actionDraftId: clonedDraft.draftId,
+      });
+    }
   };
 
   const handleOpenSavedPreview = async (sub: AbstractSubmissionRecord) => {
@@ -1220,9 +1513,17 @@ export default function AbstractSubmissionClient() {
   };
 
   const handleWithdraw = async (sub: AbstractSubmissionRecord) => {
+    const fresh = evaluateAbstractDeadline(workshop, Date.now());
+    if (fresh.isPastDeadline) {
+      setOverviewNotice({
+        tone: "amber",
+        message: `Deleting submitted abstracts closed at ${fresh.formattedDeadline}.`,
+      });
+      return;
+    }
     if (
       !window.confirm(
-        `Withdraw abstract ${sub.id} ("${sub.title}")? This will remove it from the Reviewer Panel.`
+        `Delete submitted abstract ${sub.id} ("${sub.title}")? This will remove it permanently from your account and the Reviewer Panel.`
       )
     ) {
       return;
@@ -1232,10 +1533,16 @@ export default function AbstractSubmissionClient() {
       if (savedPreviewItem?.sub.id === sub.id) {
         setSavedPreviewItem(null);
       }
+      setOverviewNotice({
+        tone: "amber",
+        message: `Deleted submitted abstract ${sub.id}.`,
+      });
     } catch (err) {
-      setStageError(
-        err instanceof Error ? err.message : "Unable to withdraw submission."
-      );
+      setOverviewNotice({
+        tone: "amber",
+        message:
+          err instanceof Error ? err.message : "Unable to delete submission.",
+      });
     }
   };
 
@@ -1245,7 +1552,7 @@ export default function AbstractSubmissionClient() {
         workshopOrdinal={workshop.workshop_ordinal}
         workshopWindow={workshop.target_window}
         workshopYear={Number(workshop.workshop_year) || 2027}
-        deadline={workshop.cfp_abstract_deadline}
+        deadline={deadlineInfo.formattedDeadline}
         studentAwardAmount={workshop.student_award_amount}
         onClose={() => {
           setShowPrintableGuidelines(false);
@@ -1407,57 +1714,77 @@ export default function AbstractSubmissionClient() {
             Abstract <span className="text-primary italic font-normal">Submission</span>
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-3xl">
-            Complete the 7-stage submission wizard below using <strong>Next</strong> / <strong>Back</strong> navigation. Word copy-paste (equations &amp; formatting) is supported in every field.
+            {viewMode === "overview" ? (
+              <>
+                Presenter Overview: start a new submission, manage auto-saved drafts, or preview, edit, copy, and delete submitted abstracts before the submission deadline.
+              </>
+            ) : (
+              <>
+                Complete the 7-stage submission wizard below using <strong>Next</strong> / <strong>Back</strong> navigation. Word copy-paste (equations &amp; formatting) is supported in every field.
+              </>
+            )}
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 shrink-0">
-          {draftStatus.state === "saving" && (
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-900">
-              <Loader2 size={12} className="animate-spin text-primary" />
-              Saving draft...
-            </span>
-          )}
-          {draftStatus.state === "synced_cloud" && (
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 tabular-nums">
-              <Cloud size={13} className="text-emerald-600" />
-              Draft saved &amp; synced
-              {draftStatus.savedAt ? ` • ${formatDraftTime(draftStatus.savedAt)}` : ""}
-            </span>
-          )}
-          {draftStatus.state === "saved_local" && (
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 tabular-nums">
-              <CheckCircle2 size={13} className="text-emerald-600" />
-              Draft auto-saved
-              {draftStatus.savedAt ? ` • ${formatDraftTime(draftStatus.savedAt)}` : ""}
-            </span>
-          )}
-          {hasDraftContent && (
+          {viewMode === "editor" && (
             <>
               <button
                 type="button"
-                disabled={draftStatus.state === "saving" || submitting}
-                onClick={() => void handleManualSaveDraft()}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary disabled:opacity-50 text-xs font-semibold text-slate-800 transition-colors cursor-pointer shadow-2xs"
+                onClick={() => void handleReturnToOverview()}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer shadow-2xs"
               >
-                <Save size={13} className="text-primary" />
-                <span>Save Draft</span>
+                <ArrowLeft size={13} />
+                <span>Presenter Overview</span>
               </button>
-              <button
-                type="button"
-                disabled={submitting}
-                onClick={() => void handleResetDraft()}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-red-400 hover:text-red-600 disabled:opacity-50 text-xs font-semibold text-slate-700 transition-colors cursor-pointer shadow-2xs"
-              >
-                <RotateCcw size={12} />
-                <span>Clear Draft</span>
-              </button>
+              {draftStatus.state === "saving" && (
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-900">
+                  <Loader2 size={12} className="animate-spin text-primary" />
+                  Saving draft...
+                </span>
+              )}
+              {draftStatus.state === "synced_cloud" && (
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 tabular-nums">
+                  <Cloud size={13} className="text-emerald-600" />
+                  Draft saved &amp; synced
+                  {draftStatus.savedAt ? ` • ${formatDraftTime(draftStatus.savedAt)}` : ""}
+                </span>
+              )}
+              {draftStatus.state === "saved_local" && (
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 tabular-nums">
+                  <CheckCircle2 size={13} className="text-emerald-600" />
+                  Draft auto-saved
+                  {draftStatus.savedAt ? ` • ${formatDraftTime(draftStatus.savedAt)}` : ""}
+                </span>
+              )}
+              {!editingSubmissionId && (hasDraftContent || activeDraftId) && (
+                <>
+                  <button
+                    type="button"
+                    disabled={draftStatus.state === "saving" || submitting}
+                    onClick={() => void handleManualSaveDraft()}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary disabled:opacity-50 text-xs font-semibold text-slate-800 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <Save size={13} className="text-primary" />
+                    <span>Save Draft</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={submitting}
+                    onClick={() => void handleDeleteActiveDraft()}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-red-400 hover:text-red-600 disabled:opacity-50 text-xs font-semibold text-slate-700 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <Trash2 size={12} />
+                    <span>Delete Draft</span>
+                  </button>
+                </>
+              )}
+              {isDirty && draftStatus.state === "idle" && (
+                <span className="text-[11px] font-semibold px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800">
+                  Unsaved changes (Back-navigation guarded)
+                </span>
+              )}
             </>
-          )}
-          {isDirty && draftStatus.state === "idle" && (
-            <span className="text-[11px] font-semibold px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800">
-              Unsaved draft in progress (Back-navigation guarded)
-            </span>
           )}
           <div className="bg-primary/10 border border-primary/20 px-4 py-2 rounded-xl text-xs font-semibold text-primary break-all">
             Attendee: {user.email}
@@ -1473,11 +1800,24 @@ export default function AbstractSubmissionClient() {
               <Calendar size={18} />
             </div>
             <div>
-              <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 leading-tight">
-                Formatting Rules, Input Parameters &amp; Submission Limits
-              </h2>
-              <p className="text-xs text-slate-500 tabular-nums">
-                Deadline: <strong className="text-slate-700">{workshop.cfp_abstract_deadline}</strong> • Formatted to 8.5&quot; × 11&quot; with 1&quot; margins (6.5&quot; text width; 1–2 pages)
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 leading-tight">
+                  Formatting Rules, Input Parameters &amp; Submission Limits
+                </h2>
+                {deadlineInfo.isPastDeadline ? (
+                  <span className="inline-flex items-center gap-1 text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-red-50 border border-red-200 text-red-700">
+                    <Lock size={11} />
+                    Submission Window Closed
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700">
+                    <Clock size={11} />
+                    Open Until Deadline
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-slate-500 tabular-nums mt-0.5">
+                Deadline: <strong className="text-slate-800">{deadlineInfo.formattedDeadline}</strong> • Formatted to 8.5&quot; × 11&quot; with 1&quot; margins (6.5&quot; text width; 1–2 pages)
               </p>
             </div>
           </div>
@@ -1575,14 +1915,19 @@ export default function AbstractSubmissionClient() {
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider bg-emerald-600 text-white px-2 py-0.5 rounded tabular-nums">
-                  {submittedConfirmation.id}
+                  {submittedConfirmation.record.id}
                 </span>
                 <span className="text-sm font-bold text-emerald-950">
-                  Abstract Submitted &amp; Routed to Reviewer Panel
+                  {submittedConfirmation.isUpdate
+                    ? "Submitted Abstract Updated & Synced to Reviewer Panel"
+                    : "Abstract Submitted & Routed to Reviewer Panel"}
                 </span>
               </div>
               <p className="text-xs text-emerald-900/80 leading-relaxed">
-                <strong>{submittedConfirmation.title}</strong> is now saved and ready for review.
+                <strong>
+                  <ScientificText text={submittedConfirmation.record.title} />
+                </strong>{" "}
+                is now saved and ready for review.
               </p>
             </div>
           </div>
@@ -1590,7 +1935,7 @@ export default function AbstractSubmissionClient() {
           <div className="flex flex-wrap items-center gap-2 shrink-0 self-start sm:self-center">
             <button
               type="button"
-              onClick={() => void handleOpenSavedPreview(submittedConfirmation)}
+              onClick={() => void handleOpenSavedPreview(submittedConfirmation.record)}
               className="inline-flex items-center gap-1.5 bg-white border border-emerald-300 hover:border-emerald-500 text-emerald-900 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer"
             >
               <Eye size={13} /> Show Formatted Preview
@@ -1603,41 +1948,11 @@ export default function AbstractSubmissionClient() {
                 <ClipboardCheck size={14} /> Reviewer Panel <ArrowRight size={13} />
               </Link>
             )}
-          </div>
-        </div>
-      )}
-
-      {/* Restored In-Progress Draft Notice */}
-      {restoredBanner && (
-        <div
-          role="status"
-          className="print:hidden bg-sky-50 border border-sky-200 rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-sky-950 shadow-2xs"
-        >
-          <div className="flex items-start sm:items-center gap-2">
-            <Cloud size={15} className="text-primary shrink-0 mt-0.5 sm:mt-0" />
-            <span>
-              <strong>Welcome back</strong> — restored your{" "}
-              {restoredBanner.source === "cloud" ? "cloud-synced" : "auto-saved"} draft
-              {" "}(Stage {restoredBanner.stage} of {WORKFLOW_STAGES.length}, saved at{" "}
-              <span className="tabular-nums font-semibold">
-                {formatDraftTime(restoredBanner.savedAt) || "earlier"}
-              </span>
-              ).
-            </span>
-          </div>
-          <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
             <button
               type="button"
-              onClick={() => void handleResetDraft()}
-              className="px-2.5 py-1 rounded-lg bg-white border border-sky-300 hover:border-red-400 hover:text-red-600 text-[11px] font-semibold text-slate-700 transition-colors cursor-pointer"
-            >
-              Reset Draft
-            </button>
-            <button
-              type="button"
-              onClick={dismissRestoredBanner}
-              aria-label="Dismiss restored draft notice"
-              className="p-1 rounded-lg text-sky-700 hover:text-sky-950 hover:bg-sky-100 cursor-pointer"
+              onClick={() => setSubmittedConfirmation(null)}
+              aria-label="Dismiss submission confirmation"
+              className="p-1.5 rounded-lg text-emerald-800 hover:bg-emerald-100 cursor-pointer"
             >
               <X size={14} />
             </button>
@@ -1645,23 +1960,96 @@ export default function AbstractSubmissionClient() {
         </div>
       )}
 
-      {/* Full-Width 7-Stage Progress Stepper */}
+      {/* Presenter Overview / Draft Action Notice */}
+      {overviewNotice && (
+        <div
+          role="status"
+          className={`print:hidden rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs shadow-2xs border ${
+            overviewNotice.tone === "emerald"
+              ? "bg-emerald-50 border-emerald-200 text-emerald-950"
+              : overviewNotice.tone === "amber"
+              ? "bg-amber-50 border-amber-200 text-amber-950"
+              : "bg-sky-50 border-sky-200 text-sky-950"
+          }`}
+        >
+          <div className="flex items-start sm:items-center gap-2">
+            <Cloud size={15} className="text-primary shrink-0 mt-0.5 sm:mt-0" />
+            <span>{overviewNotice.message}</span>
+          </div>
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+            {overviewNotice.actionDraftId && viewMode === "overview" && (
+              <button
+                type="button"
+                onClick={() => void handleOpenDraftInEditor(overviewNotice.actionDraftId!)}
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-[11px] font-semibold text-slate-800 transition-colors cursor-pointer"
+              >
+                <span>Open Draft in Editor</span>
+                <ArrowRight size={12} />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setOverviewNotice(null)}
+              aria-label="Dismiss notice"
+              className="p-1 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-black/5 cursor-pointer"
+            >
+              <X size={14} />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Full-Width Presenter Overview + 7-Stage Progress Stepper */}
       <nav aria-label="Abstract submission stages" className="print:hidden">
-        <ol className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+        <ol className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+          <li>
+            <button
+              type="button"
+              onClick={() => {
+                if (viewMode === "editor") {
+                  void handleReturnToOverview();
+                }
+              }}
+              className={`w-full text-left px-3 py-2.5 rounded-xl border transition-colors cursor-pointer flex items-center gap-2 ${
+                viewMode === "overview"
+                  ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                  : "bg-white text-slate-700 border-slate-200 hover:border-primary/40 hover:text-primary"
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full text-[11px] font-bold tabular-nums flex items-center justify-center shrink-0 ${
+                  viewMode === "overview"
+                    ? "bg-white text-slate-900"
+                    : "bg-slate-100 text-slate-600"
+                }`}
+              >
+                0
+              </span>
+              <span className="text-xs font-semibold truncate">Overview</span>
+            </button>
+          </li>
           {WORKFLOW_STAGES.map((st) => {
-            const isActive = st.id === currentStage;
-            const isCompleted = st.id < currentStage;
+            const isActive = viewMode === "editor" && st.id === currentStage;
+            const isCompleted = viewMode === "editor" && st.id < currentStage;
             return (
               <li key={st.id}>
                 <button
                   type="button"
+                  disabled={viewMode === "overview"}
+                  title={
+                    viewMode === "overview"
+                      ? "Click Create New Submission or open a draft to enter Stages 1–7"
+                      : `Jump to Stage ${st.id}: ${st.title}`
+                  }
                   onClick={() => handleJumpToStage(st.id)}
-                  className={`w-full text-left px-3 py-2.5 rounded-xl border transition-colors cursor-pointer flex items-center gap-2 ${
-                    isActive
-                      ? "bg-primary text-white border-primary shadow-xs"
+                  className={`w-full text-left px-3 py-2.5 rounded-xl border transition-colors flex items-center gap-2 ${
+                    viewMode === "overview"
+                      ? "bg-slate-50 text-slate-400 border-slate-200/80 cursor-not-allowed opacity-75"
+                      : isActive
+                      ? "bg-primary text-white border-primary shadow-xs cursor-pointer"
                       : isCompleted
-                      ? "bg-emerald-50 text-emerald-900 border-emerald-200 hover:border-emerald-400"
-                      : "bg-white text-slate-600 border-slate-200 hover:border-primary/40 hover:text-primary"
+                      ? "bg-emerald-50 text-emerald-900 border-emerald-200 hover:border-emerald-400 cursor-pointer"
+                      : "bg-white text-slate-600 border-slate-200 hover:border-primary/40 hover:text-primary cursor-pointer"
                   }`}
                 >
                   <span
@@ -1670,7 +2058,7 @@ export default function AbstractSubmissionClient() {
                         ? "bg-white text-primary"
                         : isCompleted
                         ? "bg-emerald-600 text-white"
-                        : "bg-slate-100 text-slate-600"
+                        : "bg-slate-100 text-slate-500"
                     }`}
                   >
                     {isCompleted ? "✓" : st.id}
@@ -1683,7 +2071,316 @@ export default function AbstractSubmissionClient() {
         </ol>
       </nav>
 
-      {/* Main 1-Inch Margin Calibrated Stage Sheet (1,020px outer = 8.5" @ 120 px/in; Stages 1-6 use 828px interior -> 780px = 6.5" text col; Stage 7 renders full 1,020px sheet directly) */}
+      {/* STAGE 0: PRESENTER OVERVIEW HUB */}
+      {viewMode === "overview" && (
+        <div className="print:hidden space-y-6">
+          {/* Submission Deadline & Create New Submission Hero */}
+          <section className="bg-white border-2 border-slate-200/95 rounded-2xl p-5 sm:p-7 shadow-2xs space-y-5">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+              <div className="space-y-2 max-w-2xl">
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-primary">
+                  <Calendar size={13} />
+                  Presenter Overview Hub • Stage 0
+                </span>
+                <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900">
+                  Manage Your Submissions &amp; Drafts
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Start a new submission, resume or duplicate saved drafts anytime, and edit, copy, or delete submitted abstracts up until the published submission cutoff.
+                </p>
+              </div>
+
+              <div className="shrink-0">
+                <button
+                  type="button"
+                  disabled={deadlineInfo.isPastDeadline}
+                  onClick={handleCreateNewSubmission}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-primary hover:bg-sky-800 disabled:bg-slate-300 disabled:text-slate-600 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors shadow-xs cursor-pointer w-full sm:w-auto"
+                >
+                  {deadlineInfo.isPastDeadline ? (
+                    <>
+                      <Lock size={16} />
+                      <span>Submission Window Closed</span>
+                    </>
+                  ) : (
+                    <>
+                      <FilePlus2 size={17} />
+                      <span>Create New Submission</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Structured Date, Time & Timezone Breakdown */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-200/80">
+              <div className="rounded-xl bg-[#FAFBFD] border border-slate-200 px-4 py-3">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  Submission Deadline Date
+                </span>
+                <span className="block text-sm font-bold text-slate-900 mt-0.5 tabular-nums">
+                  {deadlineInfo.dateLabel}
+                </span>
+              </div>
+              <div className="rounded-xl bg-[#FAFBFD] border border-slate-200 px-4 py-3">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  Exact Cutoff Time
+                </span>
+                <span className="block text-sm font-bold text-slate-900 mt-0.5 tabular-nums">
+                  {deadlineInfo.timeLabel}
+                </span>
+              </div>
+              <div className="rounded-xl bg-[#FAFBFD] border border-slate-200 px-4 py-3">
+                <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  Official Timezone
+                </span>
+                <span className="block text-sm font-bold text-slate-900 mt-0.5">
+                  {deadlineInfo.timezoneLabel}
+                </span>
+              </div>
+            </div>
+
+            {deadlineInfo.isPastDeadline && (
+              <div
+                role="alert"
+                className="bg-red-50 border border-red-200 text-red-900 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2.5"
+              >
+                <Lock size={16} className="text-red-700 shrink-0 mt-0.5" />
+                <span>
+                  The abstract submission cutoff (<strong>{deadlineInfo.formattedDeadline}</strong>) has passed. Formatted previews of your submitted abstracts remain available below, while creating, editing, copying, and deleting submissions are locked.
+                </span>
+              </div>
+            )}
+          </section>
+
+          {/* Drafts Drawer */}
+          <section className="bg-white border border-slate-200/95 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div>
+                <h3 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
+                  <Edit3 size={18} className="text-primary" />
+                  <span>Submission Drafts</span>
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  In-progress abstracts auto-saved locally and synced to your Firestore attendee account.
+                </p>
+              </div>
+              <span className="tabular-nums text-xs font-semibold px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-900">
+                {drafts.length} {drafts.length === 1 ? "draft" : "drafts"}
+              </span>
+            </div>
+
+            {loadingDrafts ? (
+              <div className="flex items-center gap-2 text-xs text-slate-500 py-4">
+                <Loader2 size={14} className="animate-spin text-primary" />
+                <span>Loading your saved drafts...</span>
+              </div>
+            ) : drafts.length === 0 ? (
+              <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50/60 px-4 py-6 text-center space-y-2">
+                <p className="text-xs sm:text-sm text-slate-600">
+                  No saved drafts yet. Start a new abstract or copy an existing submission into a draft.
+                </p>
+                {!deadlineInfo.isPastDeadline && (
+                  <button
+                    type="button"
+                    onClick={handleCreateNewSubmission}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline cursor-pointer"
+                  >
+                    <FilePlus2 size={13} />
+                    <span>Create your first draft</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {drafts.map((draft) => {
+                  const cleanTitle = draft.title?.trim() || "Untitled Draft Abstract";
+                  const stageInfo = WORKFLOW_STAGES[Math.max(0, Math.min(WORKFLOW_STAGES.length - 1, (draft.currentStage || 1) - 1))];
+                  return (
+                    <div
+                      key={draft.draftId}
+                      className="p-4 rounded-xl bg-[#FAFBFD] border border-slate-200/95 flex flex-col justify-between gap-3 shadow-2xs"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[10.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-100 text-sky-900 border border-sky-200 tabular-nums">
+                            Stage {draft.currentStage || 1} of {WORKFLOW_STAGES.length} • {stageInfo?.shortLabel}
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 tabular-nums">
+                            <Clock size={11} />
+                            {formatTimestampBadge(draft.updatedAt || draft.createdAt)}
+                          </span>
+                        </div>
+
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug line-clamp-2">
+                          <ScientificText text={cleanTitle} />
+                        </h4>
+
+                        <p className="text-[11px] text-slate-500 truncate">
+                          {draft.presentationFormat || "Format pending"}
+                          {draft.graphicMeta ? ` • Graphic (${draft.graphicMeta.detectedDpi} DPI)` : ""}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2 pt-2.5 border-t border-slate-200/80">
+                        <button
+                          type="button"
+                          onClick={() => void handleOpenDraftInEditor(draft.draftId)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-primary text-white hover:bg-sky-800 text-xs font-semibold transition-colors cursor-pointer"
+                        >
+                          <Edit3 size={12} />
+                          <span>Edit Draft</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => void handleCopyDraft(draft.draftId)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-700 transition-colors cursor-pointer"
+                        >
+                          <Copy size={12} />
+                          <span>Copy</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => void handleDeleteDraftFromOverview(draft)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-red-200 hover:bg-red-50 text-xs font-semibold text-red-600 transition-colors cursor-pointer ml-auto"
+                        >
+                          <Trash2 size={12} />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+
+          {/* Submitted Abstracts Drawer */}
+          <section className="bg-white border border-slate-200/95 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div>
+                <h3 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
+                  <ClipboardCheck size={18} className="text-emerald-700" />
+                  <span>Submitted Abstracts</span>
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Live in the Reviewer Panel. Edit, copy, or delete submitted abstracts up until{" "}
+                  <strong className="text-slate-700">{deadlineInfo.formattedDeadline}</strong>.
+                </p>
+              </div>
+              <span className="tabular-nums text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+                {mySubmissions.length} submitted
+              </span>
+            </div>
+
+            {listLoading ? (
+              <div className="flex items-center gap-2 text-xs text-slate-500 py-4">
+                <Loader2 size={14} className="animate-spin text-primary" />
+                <span>Loading your submitted abstracts...</span>
+              </div>
+            ) : mySubmissions.length === 0 ? (
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed py-2">
+                You have not submitted an abstract yet for the {workshop.workshop_ordinal} HEMS Workshop. Click{" "}
+                <strong>Create New Submission</strong> above to begin Stage 1.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {mySubmissions.map((sub) => {
+                  const locked = deadlineInfo.isPastDeadline;
+                  return (
+                    <div
+                      key={sub.id}
+                      className="p-4 rounded-xl bg-[#FAFBFD] border border-slate-200/95 flex flex-col justify-between gap-3 shadow-2xs"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="tabular-nums text-[11px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">
+                            {sub.id}
+                          </span>
+                          <span
+                            className={`text-[10.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                              sub.status === "Reviewed"
+                                ? "text-emerald-700 bg-emerald-50 border-emerald-200"
+                                : "text-amber-700 bg-amber-50 border-amber-200"
+                            }`}
+                          >
+                            {sub.status === "Reviewed" ? sub.decision : "Pending Review"}
+                          </span>
+                        </div>
+
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug line-clamp-2">
+                          <ScientificText text={sub.title} />
+                        </h4>
+
+                        <p className="text-[11px] text-slate-500 truncate">
+                          {sub.presentationFormat}
+                          {sub.graphic ? ` • Figure (${sub.graphic.detectedDpi} DPI)` : ""}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-1.5 pt-2.5 border-t border-slate-200/80">
+                        <button
+                          type="button"
+                          onClick={() => void handleOpenSavedPreview(sub)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
+                        >
+                          <Eye size={12} />
+                          <span>Preview</span>
+                        </button>
+                        <button
+                          type="button"
+                          disabled={locked}
+                          title={
+                            locked
+                              ? `Editing locked after ${deadlineInfo.formattedDeadline}`
+                              : "Edit this submitted abstract"
+                          }
+                          onClick={() => void handleEditSubmission(sub)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary disabled:opacity-45 disabled:cursor-not-allowed text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
+                        >
+                          {locked ? <Lock size={11} /> : <Edit3 size={12} />}
+                          <span>Edit</span>
+                        </button>
+                        <button
+                          type="button"
+                          disabled={locked}
+                          title={
+                            locked
+                              ? `Copying locked after ${deadlineInfo.formattedDeadline}`
+                              : "Copy into a new editable draft"
+                          }
+                          onClick={() => void handleCopySubmissionToDraft(sub)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary disabled:opacity-45 disabled:cursor-not-allowed text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
+                        >
+                          {locked ? <Lock size={11} /> : <Copy size={12} />}
+                          <span>Copy</span>
+                        </button>
+                        <button
+                          type="button"
+                          disabled={locked}
+                          title={
+                            locked
+                              ? `Deletion locked after ${deadlineInfo.formattedDeadline}`
+                              : "Delete submitted abstract"
+                          }
+                          onClick={() => void handleWithdraw(sub)}
+                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white border border-red-200 hover:bg-red-50 disabled:opacity-45 disabled:cursor-not-allowed text-xs font-semibold text-red-600 transition-colors cursor-pointer ml-auto"
+                        >
+                          {locked ? <Lock size={11} /> : <Trash2 size={12} />}
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+        </div>
+      )}
+
+      {/* STAGES 1–7: 1-Inch Margin Calibrated Stage Sheet (1,020px outer = 8.5" @ 120 px/in; Stages 1-6 use 828px interior -> 780px = 6.5" text col; Stage 7 renders full 1,020px sheet directly) */}
+      {viewMode === "editor" && (
       <section
         className={
           currentStage === 7
@@ -1698,6 +2395,37 @@ export default function AbstractSubmissionClient() {
               : "print:hidden space-y-4"
           }
         >
+          {/* Active Editor Mode & Deadline Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
+            {editingSubmissionId ? (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-950 text-xs font-semibold">
+                <Edit3 size={12} className="text-amber-700" />
+                Editing Submitted Abstract ({editingSubmissionId})
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-900 text-xs font-semibold">
+                <FilePlus2 size={12} className="text-primary" />
+                New Draft Session
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-600 tabular-nums">
+              <Clock size={12} className="text-primary" />
+              Cutoff: <strong className="text-slate-800">{deadlineInfo.formattedDeadline}</strong>
+            </span>
+          </div>
+
+          {deadlineInfo.isPastDeadline && (
+            <div
+              role="alert"
+              className="bg-red-50 border border-red-200 text-red-800 px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
+            >
+              <Lock size={14} className="shrink-0" />
+              <span>
+                The submission cutoff ({deadlineInfo.formattedDeadline}) has passed; final submission is locked.
+              </span>
+            </div>
+          )}
+
           <div className="space-y-3 border-b border-slate-200 pb-4">
             {/* Pro-tip directly above Stage Titles */}
             <div className="bg-sky-50 border border-sky-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-[13px] text-sky-950 flex items-center gap-2 shadow-2xs">
@@ -2175,8 +2903,8 @@ export default function AbstractSubmissionClient() {
                   </h3>
                   {figurePanelHidden ? (
                     <p className="text-[11px] text-slate-600 mt-0.5 truncate">
-                      {graphicFile
-                        ? `${graphicFile.name} • ${figureWidthInches.toFixed(2)}" (${
+                      {hasAttachedGraphic
+                        ? `${graphicFile?.name || "Attached submission figure"} • ${figureWidthInches.toFixed(2)}" (${
                             isRightWrappedWidth ? "Right-wrap <3.5\"" : "Centered ≥3.5\""
                           }) • Note: Figure may be used on the HEMS website`
                         : `Hidden • Optional figure (${figureWidthInches.toFixed(2)}" ${
@@ -2241,15 +2969,15 @@ export default function AbstractSubmissionClient() {
                               <Loader2 size={15} className="animate-spin text-primary" />
                               Checking graphic resolution ({MIN_GRAPHIC_DPI} DPI minimum)...
                             </p>
-                          ) : graphicFile && graphicMeta ? (
+                          ) : hasAttachedGraphic && displayGraphicMeta ? (
                             <>
                               <p className="text-sm font-semibold text-slate-900 truncate">
-                                {graphicFile.name}
+                                {graphicFile?.name || "Existing Submitted Figure (Retained)"}
                               </p>
                               <p className="text-xs text-emerald-700 font-semibold tabular-nums mt-0.5">
-                                Verified {graphicMeta.detectedDpi} DPI ({graphicMeta.dpiSource}) •{" "}
-                                {graphicMeta.widthPx}×{graphicMeta.heightPx} px •{" "}
-                                {formatFileSize(graphicFile.size)}
+                                Verified {displayGraphicMeta.detectedDpi} DPI ({displayGraphicMeta.dpiSource}) •{" "}
+                                {displayGraphicMeta.widthPx}×{displayGraphicMeta.heightPx} px
+                                {graphicFile ? ` • ${formatFileSize(graphicFile.size)}` : " • Retained from submission"}
                               </p>
                             </>
                           ) : (
@@ -2266,7 +2994,7 @@ export default function AbstractSubmissionClient() {
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0">
-                        {graphicFile && (
+                        {hasAttachedGraphic && (
                           <button
                             type="button"
                             onClick={handleRemoveGraphic}
@@ -2280,7 +3008,7 @@ export default function AbstractSubmissionClient() {
                           className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
                         >
                           <Upload size={14} />
-                          <span>{graphicFile ? "Replace Graphic" : "Choose Graphic"}</span>
+                          <span>{hasAttachedGraphic ? "Replace Graphic" : "Choose Graphic"}</span>
                         </label>
                         <input
                           id="abs-graphic-upload"
@@ -2293,7 +3021,7 @@ export default function AbstractSubmissionClient() {
                       </div>
                     </div>
 
-                    {graphicPreviewUrl && graphicFile && (
+                    {graphicPreviewUrl && hasAttachedGraphic && (
                       <div className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-center">
                         <img
                           src={graphicPreviewUrl}
@@ -2316,7 +3044,7 @@ export default function AbstractSubmissionClient() {
                         className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
                       >
                         Figure Caption{" "}
-                        {graphicFile ? (
+                        {hasAttachedGraphic ? (
                           <span className="text-red-600">
                             * (Required whenever a graphic is attached)
                           </span>
@@ -2859,9 +3587,9 @@ export default function AbstractSubmissionClient() {
               presenterBio={presenterBio}
               graphicUrl={graphicPreviewUrl || null}
               graphicMeta={
-                graphicMeta
+                displayGraphicMeta
                   ? {
-                      ...graphicMeta,
+                      ...displayGraphicMeta,
                       widthInches: figureWidthInches,
                       caption: graphicCaption.trim() || undefined,
                     }
@@ -2893,7 +3621,10 @@ export default function AbstractSubmissionClient() {
           </button>
 
           <span className="text-xs text-slate-500 text-center tabular-nums">
-            Step {currentStage} of {WORKFLOW_STAGES.length} • Auto-saved locally as you type &amp; synced on stage changes
+            Step {currentStage} of {WORKFLOW_STAGES.length} •{" "}
+            {editingSubmissionId
+              ? `Editing ${editingSubmissionId} (updates live upon save)`
+              : "Auto-saved locally & synced to cloud on stage changes"}
           </span>
 
           {currentStage < 7 ? (
@@ -2908,104 +3639,33 @@ export default function AbstractSubmissionClient() {
           ) : (
             <button
               type="button"
-              disabled={submitting}
+              disabled={submitting || deadlineInfo.isPastDeadline}
               onClick={() => void handleFinalSubmit()}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 text-white text-sm font-semibold transition-colors shadow-xs cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors shadow-xs cursor-pointer"
             >
               {submitting ? (
                 <>
                   <Loader2 size={16} className="animate-spin" />
-                  <span>Submitting Abstract...</span>
+                  <span>{editingSubmissionId ? "Saving Updates..." : "Submitting Abstract..."}</span>
+                </>
+              ) : deadlineInfo.isPastDeadline ? (
+                <>
+                  <Lock size={16} />
+                  <span>Submission Cutoff Passed</span>
                 </>
               ) : (
                 <>
                   <Upload size={16} />
-                  <span>Submit Abstract for Review</span>
+                  <span>
+                    {editingSubmissionId ? "Save Updated Submission" : "Submit Abstract for Review"}
+                  </span>
                 </>
               )}
             </button>
           )}
         </div>
       </section>
-
-      {/* Full-Width Submitted Abstracts Drawer Below Builder */}
-      <section className="print:hidden bg-white border border-slate-200/95 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
-        <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
-          <div>
-            <h3 className="font-serif text-lg sm:text-xl font-semibold text-slate-900">
-              My Submitted Abstracts
-            </h3>
-            <p className="text-xs text-slate-500">
-              Submissions shown below are live in the Reviewer Panel.
-            </p>
-          </div>
-          <span className="tabular-nums text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
-            {mySubmissions.length} submitted
-          </span>
-        </div>
-
-        {listLoading ? (
-          <p className="text-xs text-slate-500">Loading your submissions...</p>
-        ) : mySubmissions.length === 0 ? (
-          <p className="text-xs text-slate-500 leading-relaxed">
-            You have not submitted an abstract yet for the {workshop.workshop_ordinal} HEMS Workshop. Advance through Stages 1–7 above to preview and submit.
-          </p>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {mySubmissions.map((sub) => (
-              <div
-                key={sub.id}
-                className="p-4 rounded-xl bg-[#FAFBFD] border border-slate-200/90 flex flex-col justify-between gap-3"
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="tabular-nums text-[11px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">
-                      {sub.id}
-                    </span>
-                    <span
-                      className={`text-[10.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
-                        sub.status === "Reviewed"
-                          ? "text-emerald-700 bg-emerald-50 border-emerald-200"
-                          : "text-amber-700 bg-amber-50 border-amber-200"
-                      }`}
-                    >
-                      {sub.status === "Reviewed" ? sub.decision : "Pending Review"}
-                    </span>
-                  </div>
-
-                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
-                    <ScientificText text={sub.title} />
-                  </h4>
-
-                  <p className="text-[11px] text-slate-500 truncate">
-                    {sub.presentationFormat}
-                    {sub.graphic ? ` • Figure (${sub.graphic.detectedDpi} DPI)` : ""}
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200/70">
-                  <button
-                    type="button"
-                    onClick={() => void handleOpenSavedPreview(sub)}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
-                  >
-                    <Eye size={13} /> Show Formatted Preview
-                  </button>
-                  {sub.status === "Pending" && (
-                    <button
-                      type="button"
-                      onClick={() => void handleWithdraw(sub)}
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-red-600 hover:underline cursor-pointer ml-auto"
-                    >
-                      <Trash2 size={13} /> Withdraw
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+      )}
     </div>
   );
 }

@@ -11,6 +11,7 @@ import {
   History,
 } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
+import { formatAbstractDeadlineDisplay } from "@/utils/upcomingWorkshop";
 
 export default function CallForPapersClient() {
   const { workshop } = useUpcomingWorkshop();
@@ -109,7 +110,7 @@ export default function CallForPapersClient() {
                   Abstracts Due
                 </span>
                 <span className="font-bold text-foreground text-sm block">
-                  {workshop.cfp_abstract_deadline}
+                  {formatAbstractDeadlineDisplay(workshop)}
                 </span>
                 <span
                   className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded mt-1 tabular-nums uppercase tracking-wider ${

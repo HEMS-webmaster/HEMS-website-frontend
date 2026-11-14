@@ -29,6 +29,8 @@ export interface UpcomingWorkshopConfig {
   hotel_booking_url: string;
   cfp_open: boolean;
   cfp_abstract_deadline: string;
+  cfp_abstract_deadline_time: string;
+  cfp_abstract_deadline_timezone: string;
   cfp_notification_date: string;
   cfp_submission_url: string;
   registration_open: boolean;
@@ -209,6 +211,8 @@ export function parseWorkshopSheetCsv(
       ? parseBooleanCell(kv.get("cfp_open") ?? "", baseConfig.cfp_open)
       : baseConfig.cfp_open,
     cfp_abstract_deadline: getNonEmptyStr("cfp_abstract_deadline"),
+    cfp_abstract_deadline_time: getNonEmptyStr("cfp_abstract_deadline_time"),
+    cfp_abstract_deadline_timezone: getNonEmptyStr("cfp_abstract_deadline_timezone"),
     cfp_notification_date: getNonEmptyStr("cfp_notification_date"),
     cfp_submission_url: getStr("cfp_submission_url"),
     registration_open: kv.has("registration_open")
@@ -245,5 +249,335 @@ export function parseWorkshopSheetCsv(
 
 export function getStaticUpcomingWorkshop(): UpcomingWorkshopConfig {
   return DEFAULT_UPCOMING_WORKSHOP;
+}
+
+export interface AbstractDeadlineEvaluation {
+  dateLabel: string;
+  timeLabel: string;
+  timezoneLabel: string;
+  formattedDeadline: string;
+  deadlineEpochMs: number | null;
+  deadlineIsoUtc: string | null;
+  hasConcreteDate: boolean;
+  isPastDeadline: boolean;
+}
+
+const MONTH_INDEX_MAP: Record<string, number> = {
+  jan: 1,
+  january: 1,
+  feb: 2,
+  february: 2,
+  mar: 3,
+  march: 3,
+  apr: 4,
+  april: 4,
+  may: 5,
+  jun: 6,
+  june: 6,
+  jul: 7,
+  july: 7,
+  aug: 8,
+  august: 8,
+  sep: 9,
+  sept: 9,
+  september: 9,
+  oct: 10,
+  october: 10,
+  nov: 11,
+  november: 11,
+  dec: 12,
+  december: 12,
+};
+
+const TZ_ABBREV_OFFSET_MINUTES: Record<string, number> = {
+  AOE: -720,
+  HST: -600,
+  AKST: -540,
+  AKDT: -480,
+  PST: -480,
+  PDT: -420,
+  MST: -420,
+  MDT: -360,
+  CST: -360,
+  CDT: -300,
+  EST: -300,
+  EDT: -240,
+  AST: -240,
+  ADT: -180,
+  UTC: 0,
+  GMT: 0,
+  BST: 60,
+  CET: 60,
+  CEST: 120,
+  JST: 540,
+};
+
+const GENERIC_US_IANA_MAP: Record<string, string> = {
+  ET: "America/New_York",
+  CT: "America/Chicago",
+  MT: "America/Denver",
+  PT: "America/Los_Angeles",
+};
+
+function isValidCalendarDate(year: number, month: number, day: number): boolean {
+  if (month < 1 || month > 12 || day < 1 || day > 31) return false;
+  const check = new Date(Date.UTC(year, month - 1, day));
+  return (
+    check.getUTCFullYear() === year &&
+    check.getUTCMonth() === month - 1 &&
+    check.getUTCDate() === day
+  );
+}
+
+function parseDeadlineCalendarDate(
+  rawDate: string
+): { year: number; month: number; day: number } | null {
+  const cleaned = rawDate.trim();
+  if (!cleaned || /\b(tba|tbd|to be announced|to be determined)\b/i.test(cleaned)) {
+    return null;
+  }
+
+  const isoMatch = /\b(20\d{2})-(\d{1,2})-(\d{1,2})\b/.exec(cleaned);
+  if (isoMatch) {
+    const year = Number.parseInt(isoMatch[1], 10);
+    const month = Number.parseInt(isoMatch[2], 10);
+    const day = Number.parseInt(isoMatch[3], 10);
+    if (isValidCalendarDate(year, month, day)) {
+      return { year, month, day };
+    }
+  }
+
+  const slashMatch = /\b(\d{1,2})\/(\d{1,2})\/(20\d{2})\b/.exec(cleaned);
+  if (slashMatch) {
+    const month = Number.parseInt(slashMatch[1], 10);
+    const day = Number.parseInt(slashMatch[2], 10);
+    const year = Number.parseInt(slashMatch[3], 10);
+    if (isValidCalendarDate(year, month, day)) {
+      return { year, month, day };
+    }
+  }
+
+  const monthFirstMatch =
+    /\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+(\d{1,2})(?:st|nd|rd|th)?(?:,)?\s+(20\d{2})\b/i.exec(
+      cleaned
+    );
+  if (monthFirstMatch) {
+    const month = MONTH_INDEX_MAP[monthFirstMatch[1].toLowerCase()];
+    const day = Number.parseInt(monthFirstMatch[2], 10);
+    const year = Number.parseInt(monthFirstMatch[3], 10);
+    if (month && isValidCalendarDate(year, month, day)) {
+      return { year, month, day };
+    }
+  }
+
+  const dayFirstMatch =
+    /\b(\d{1,2})(?:st|nd|rd|th)?\s+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?\s+(20\d{2})\b/i.exec(
+      cleaned
+    );
+  if (dayFirstMatch) {
+    const day = Number.parseInt(dayFirstMatch[1], 10);
+    const month = MONTH_INDEX_MAP[dayFirstMatch[2].toLowerCase()];
+    const year = Number.parseInt(dayFirstMatch[3], 10);
+    if (month && isValidCalendarDate(year, month, day)) {
+      return { year, month, day };
+    }
+  }
+
+  return null;
+}
+
+function parseDeadlineClockTime(rawTime: string): {
+  hour: number;
+  minute: number;
+  second: number;
+  ms: number;
+} {
+  const cleaned = rawTime.trim().toLowerCase();
+  if (cleaned === "noon") {
+    return { hour: 12, minute: 0, second: 59, ms: 999 };
+  }
+  if (cleaned === "midnight") {
+    return { hour: 23, minute: 59, second: 59, ms: 999 };
+  }
+
+  const match = /\b(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(am|pm)?\b/i.exec(rawTime);
+  if (!match) {
+    return { hour: 23, minute: 59, second: 59, ms: 999 };
+  }
+
+  let hour = Number.parseInt(match[1], 10);
+  const minute = Math.min(59, Math.max(0, Number.parseInt(match[2], 10)));
+  const hasExplicitSeconds = Boolean(match[3]);
+  const second = hasExplicitSeconds
+    ? Math.min(59, Math.max(0, Number.parseInt(match[3], 10)))
+    : 59;
+  const meridiem = match[4]?.toLowerCase();
+
+  if (meridiem === "am") {
+    if (hour === 12) hour = 0;
+  } else if (meridiem === "pm") {
+    if (hour < 12) hour += 12;
+  }
+
+  if (hour < 0 || hour > 23) {
+    return { hour: 23, minute: 59, second: 59, ms: 999 };
+  }
+
+  return { hour, minute, second, ms: 999 };
+}
+
+function resolveIanaOffsetMinutes(ianaZone: string, refUtcMs: number): number | null {
+  try {
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: ianaZone,
+      timeZoneName: "shortOffset",
+    });
+    const parts = formatter.formatToParts(new Date(refUtcMs));
+    const tzPart = parts.find((p) => p.type === "timeZoneName")?.value || "";
+    if (tzPart === "GMT" || tzPart === "UTC") return 0;
+    const m = /(?:GMT|UTC)\s*([+-])\s*(\d{1,2})(?::(\d{2}))?/i.exec(tzPart);
+    if (!m) return null;
+    const sign = m[1] === "-" ? -1 : 1;
+    const hrs = Number.parseInt(m[2], 10);
+    const mins = m[3] ? Number.parseInt(m[3], 10) : 0;
+    return sign * (hrs * 60 + mins);
+  } catch {
+    return null;
+  }
+}
+
+function parseTimezoneOffsetMinutes(
+  rawTz: string,
+  refUtcMs: number
+): number {
+  const cleaned = rawTz.trim();
+  if (!cleaned) return 0;
+
+  const explicitUtcMatch =
+    /(?:UTC|GMT)\s*([+-])\s*(\d{1,2})(?::?(\d{2}))?|\(([+-])(\d{2}):?(\d{2})\)|([+-])(\d{2}):(\d{2})$/i.exec(
+      cleaned
+    );
+  if (explicitUtcMatch) {
+    const signChar =
+      explicitUtcMatch[1] || explicitUtcMatch[4] || explicitUtcMatch[7];
+    const hourStr =
+      explicitUtcMatch[2] || explicitUtcMatch[5] || explicitUtcMatch[8];
+    const minStr =
+      explicitUtcMatch[3] || explicitUtcMatch[6] || explicitUtcMatch[9];
+    const sign = signChar === "-" ? -1 : 1;
+    const hrs = Number.parseInt(hourStr, 10);
+    const mins = minStr ? Number.parseInt(minStr, 10) : 0;
+    return sign * (hrs * 60 + mins);
+  }
+
+  const tokens = cleaned.toUpperCase().split(/[\s,()[\]/]+/).filter(Boolean);
+  for (const tok of tokens) {
+    if (tok in TZ_ABBREV_OFFSET_MINUTES) {
+      return TZ_ABBREV_OFFSET_MINUTES[tok];
+    }
+    if (tok in GENERIC_US_IANA_MAP) {
+      const ianaOffset = resolveIanaOffsetMinutes(GENERIC_US_IANA_MAP[tok], refUtcMs);
+      if (ianaOffset !== null) return ianaOffset;
+    }
+  }
+
+  const directIanaMatch = /[A-Za-z_]+\/[A-Za-z0-9_+-]+/.exec(cleaned);
+  if (directIanaMatch) {
+    const ianaOffset = resolveIanaOffsetMinutes(directIanaMatch[0], refUtcMs);
+    if (ianaOffset !== null) return ianaOffset;
+  }
+
+  return 0;
+}
+
+export function formatAbstractDeadlineDisplay(
+  workshop: Pick<
+    UpcomingWorkshopConfig,
+    | "cfp_abstract_deadline"
+    | "cfp_abstract_deadline_time"
+    | "cfp_abstract_deadline_timezone"
+  >
+): string {
+  const dateLabel = (workshop.cfp_abstract_deadline || "").trim() || "Summer 2027 (TBA)";
+  const timeLabel = (workshop.cfp_abstract_deadline_time || "").trim() || "11:59 PM";
+  const timezoneLabel =
+    (workshop.cfp_abstract_deadline_timezone || "").trim() || "EDT (UTC-04:00)";
+
+  const alreadyHasClock = /\b\d{1,2}:\d{2}\b/.test(dateLabel);
+  if (alreadyHasClock) {
+    const hasTz =
+      /\b(UTC|GMT|EDT|EST|CDT|CST|MDT|MST|PDT|PST|AOE|ET|CT|MT|PT)\b/i.test(
+        dateLabel
+      ) || /[A-Za-z_]+\/[A-Za-z_]+/.test(dateLabel);
+    return hasTz ? dateLabel : `${dateLabel} ${timezoneLabel}`;
+  }
+
+  const hasConcreteDate = parseDeadlineCalendarDate(dateLabel) !== null;
+  return hasConcreteDate
+    ? `${dateLabel} at ${timeLabel} ${timezoneLabel}`
+    : `${dateLabel} • ${timeLabel} ${timezoneLabel}`;
+}
+
+export function evaluateAbstractDeadline(
+  workshop: Pick<
+    UpcomingWorkshopConfig,
+    | "cfp_abstract_deadline"
+    | "cfp_abstract_deadline_time"
+    | "cfp_abstract_deadline_timezone"
+  >,
+  nowMs: number = Date.now()
+): AbstractDeadlineEvaluation {
+  const dateLabel = (workshop.cfp_abstract_deadline || "").trim() || "Summer 2027 (TBA)";
+  const timeLabel = (workshop.cfp_abstract_deadline_time || "").trim() || "11:59 PM";
+  const timezoneLabel =
+    (workshop.cfp_abstract_deadline_timezone || "").trim() || "EDT (UTC-04:00)";
+  const formattedDeadline = formatAbstractDeadlineDisplay({
+    cfp_abstract_deadline: dateLabel,
+    cfp_abstract_deadline_time: timeLabel,
+    cfp_abstract_deadline_timezone: timezoneLabel,
+  });
+
+  const parsedDate = parseDeadlineCalendarDate(dateLabel);
+  if (!parsedDate) {
+    return {
+      dateLabel,
+      timeLabel,
+      timezoneLabel,
+      formattedDeadline,
+      deadlineEpochMs: null,
+      deadlineIsoUtc: null,
+      hasConcreteDate: false,
+      isPastDeadline: false,
+    };
+  }
+
+  const inlineTimeMatch = /\b\d{1,2}:\d{2}(?::\d{2})?\s*(?:am|pm)?\b/i.exec(dateLabel);
+  const parsedTime = parseDeadlineClockTime(
+    inlineTimeMatch ? inlineTimeMatch[0] : timeLabel
+  );
+
+  const wallClockUtcMs = Date.UTC(
+    parsedDate.year,
+    parsedDate.month - 1,
+    parsedDate.day,
+    parsedTime.hour,
+    parsedTime.minute,
+    parsedTime.second,
+    parsedTime.ms
+  );
+
+  const offsetMinutes = parseTimezoneOffsetMinutes(timezoneLabel, wallClockUtcMs);
+  const deadlineEpochMs = wallClockUtcMs - offsetMinutes * 60_000;
+
+  return {
+    dateLabel,
+    timeLabel,
+    timezoneLabel,
+    formattedDeadline,
+    deadlineEpochMs,
+    deadlineIsoUtc: new Date(deadlineEpochMs).toISOString(),
+    hasConcreteDate: true,
+    isPastDeadline: nowMs > deadlineEpochMs,
+  };
 }
 

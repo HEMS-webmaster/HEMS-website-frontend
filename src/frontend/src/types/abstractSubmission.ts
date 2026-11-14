@@ -185,9 +185,11 @@ export interface AbstractDraftFormValues {
 }
 
 export interface AbstractDraftRecord extends AbstractDraftFormValues {
+  draftId: string;
   draftKey: string;
   uid: string;
   userEmail: string;
   workshopYear: number;
+  createdAt: string;
   updatedAt: string;
 }

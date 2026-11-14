@@ -44,6 +44,44 @@ service cloud.firestore {
         || 'Board Members' in wRoles;
     }
 
+    // Helper function to check if the user has Reviewer, Board, or Admin roles
+    function isReviewerOrAdmin(userId) {
+      let uRoles = getUserRoles(userId);
+      let wRoles = getWhitelistRoles();
+      return isBoardOrAdmin(userId)
+        || 'reviewer' in uRoles
+        || 'Reviewer' in uRoles
+        || 'abstract reviewer' in uRoles
+        || 'Abstract Reviewer' in uRoles
+        || 'reviewers' in uRoles
+        || 'Reviewers' in uRoles
+        || 'reviewer' in wRoles
+        || 'Reviewer' in wRoles
+        || 'abstract reviewer' in wRoles
+        || 'Abstract Reviewer' in wRoles
+        || 'reviewers' in wRoles
+        || 'Reviewers' in wRoles;
+    }
+
+    // Helper function to check if the user has Attendee or Admin roles
+    function isAttendee(userId) {
+      let uRoles = getUserRoles(userId);
+      let wRoles = getWhitelistRoles();
+      return isAdmin(userId)
+        || 'attendee' in uRoles
+        || 'Attendee' in uRoles
+        || 'registered attendee' in uRoles
+        || 'Registered Attendee' in uRoles
+        || 'attendees' in uRoles
+        || 'Attendees' in uRoles
+        || 'attendee' in wRoles
+        || 'Attendee' in wRoles
+        || 'registered attendee' in wRoles
+        || 'Registered Attendee' in wRoles
+        || 'attendees' in wRoles
+        || 'Attendees' in wRoles;
+    }
+
     // User profiles rules
     match /users/{userId} {
       // Authenticated users can read their own profile; board & admins can read/list profiles for analytics
@@ -84,7 +122,59 @@ service cloud.firestore {
 
     // Reviewer-only documents (grading sheets, review comments)
     match /reviews/{document} {
-      allow read, write: if request.auth != null && ('reviewer' in getUserRoles(request.auth.uid) || isAdmin(request.auth.uid));
+      allow read, write: if request.auth != null && isReviewerOrAdmin(request.auth.uid);
+    }
+
+    // Attendee in-progress abstract drafts (owner-only multi-draft storage & sync)
+    match /abstract_drafts/{draftId} {
+      allow get: if request.auth != null && (resource == null || resource.data.uid == request.auth.uid || isAdmin(request.auth.uid));
+      allow list: if request.auth != null && (resource.data.uid == request.auth.uid || isAdmin(request.auth.uid));
+      allow create: if request.auth != null
+        && (request.resource.data.uid == request.auth.uid || isAdmin(request.auth.uid))
+        && request.resource.data.uid is string
+        && request.resource.data.updatedAt is string;
+      allow update: if request.auth != null
+        && ((resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid) || isAdmin(request.auth.uid))
+        && request.resource.data.updatedAt is string;
+      allow delete: if request.auth != null && (resource.data.uid == request.auth.uid || isAdmin(request.auth.uid));
+    }
+
+    // Submitted workshop abstracts (attendee owner create/read/edit/withdraw up to deadline; reviewer/admin evaluate)
+    match /abstract_submissions/{submissionId} {
+      allow get: if request.auth != null && (
+        resource == null
+        || resource.data.submittedByUid == request.auth.uid
+        || (request.auth.token.email != null && resource.data.get('submittedByEmail', '').lower() == request.auth.token.email.lower())
+        || isReviewerOrAdmin(request.auth.uid)
+      );
+      allow list: if request.auth != null && (resource.data.submittedByUid == request.auth.uid || isReviewerOrAdmin(request.auth.uid));
+      allow create: if request.auth != null
+        && (isAttendee(request.auth.uid) || isReviewerOrAdmin(request.auth.uid))
+        && request.resource.data.submittedByUid == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.status == 'Pending'
+        && request.resource.data.decision == 'Pending'
+        && !('score' in request.resource.data);
+      allow update: if request.auth != null && (
+        isReviewerOrAdmin(request.auth.uid)
+        || (
+          resource.data.submittedByUid == request.auth.uid
+          && request.resource.data.submittedByUid == request.auth.uid
+          && (
+            (
+              request.resource.data.get('status', 'Pending') == resource.data.get('status', 'Pending')
+              && request.resource.data.get('decision', 'Pending') == resource.data.get('decision', 'Pending')
+              && request.resource.data.get('score', null) == resource.data.get('score', null)
+            )
+            || (
+              request.resource.data.status == 'Pending'
+              && request.resource.data.decision == 'Pending'
+              && !('score' in request.resource.data)
+            )
+          )
+        )
+      );
+      allow delete: if request.auth != null && (resource.data.submittedByUid == request.auth.uid || isAdmin(request.auth.uid));
     }
 
     // Board-only documents (meeting minutes, annual budgets)
