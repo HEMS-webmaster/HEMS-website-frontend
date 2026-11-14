@@ -1664,3 +1664,15 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 - Added CSV parser (`parseWhitelistCsv`) supporting headered and headerless `.csv` exports (`email`, `name` / `first name` + `last name`, `role`/`roles` + optional fallback role), accepting `'corporate sponsor'` / `'corperate sponsor'` and common presenter/role variants.
 - Implemented `computeWhitelistCsvPlan` for post-upload **Append** vs **Overwrite** role control: Append adds missing email & name entries and merges CSV roles; Overwrite adds missing email & name entries, assigns CSV roles, and strips selected CSV role(s) from previous holders omitted from the CSV while preserving unrelated roles and `email`/`name` records.
 - Added instant filter (search + role filter pills including `No Special Roles`) and multi-column sort (`Name`, `Email`, `Role Count`) to `/admin`, and synchronized role definitions across `Navbar.tsx`, `(portal)/layout.tsx`, and `AuthContext.tsx` while preserving `firestore.rules` `users/{uid}` create invariants.
+
+
+---
+
+## 2026-11-14 — Mailing List CSV Format Guide Popup, Mailchimp Removal & Layout Reorder (@arch / @dev / @web)
+- **Trigger:** `@bo` requested removing Mailchimp branding from the mailing list CSV importer, adding an informational popup with a "Copy Example Heading Row" button explaining column delimitation and multi-tag cell formatting, moving the `CSV Import & Sublist Tagging` card above `Sublists & Cohort Tags`, and removing the `Quick-add preset` buttons.
+- **Architectural & Backwards-Compatibility Decisions:**
+  1. Preserve internal enum `"mailchimp_import"` (`SubscriberSource` in `src/types/mailing.ts`) and exported symbol names (`parseMailchimpCsvExport`, `importMailchimpRows`) to prevent Firestore document compatibility regressions or external caller breakage, while updating all UI copy, aria labels, modals, and sample bounce notes to be CSV-centric and Mailchimp-free.
+  2. Create a standalone accessible modal component `CsvImportFormatModal.tsx` mirroring `MailingSystemInfoModal.tsx` (`Escape` key handler, backdrop click, `role="dialog"`, `aria-modal="true"`), featuring one-click clipboard copy (with fallback `<textarea>` + `execCommand("copy")` inside `try/catch`) for `Email Address,First Name,Last Name,Affiliation,Sublists,Status,Date Added`.
+  3. Document both RFC-4180 comma delimitation (`"..."` quoting for literal commas, `""` for escaped quotes) and `Sublists` multi-tag parsing (`/[,;]/` in `parseMailchimpCsvExport`: recommending `Tag A; Tag B` or double-quoted `"Tag A, Tag B"`).
+  4. In `board/mailing-list/page.tsx`, move `CSV Import & Sublist Tagging` above `Sublists & Cohort Tags`, delete `SUGGESTED_SUBLIST_PRESETS`, `unusedPresets`, and the `Quick-add preset` UI bar, and drive `<datalist id="hems-sublist-suggestions">` exclusively from live `availableSublists`.
+- **Verification Plan:** Case-insensitive grep check for user-facing Mailchimp copy on mailing list UI/modals, `npx tsc --noEmit` exit `0`, HTTP `200` check on `http://localhost:3000/board/mailing-list/`, and selective `git add --` commit on `main`.

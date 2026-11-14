@@ -38,16 +38,7 @@ import {
 } from "@/utils/mailingTemplate";
 import { hasBoardOrAdminRole } from "@/utils/telemetryClient";
 import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
-
-const SUGGESTED_SUBLIST_PRESETS = [
-  "Board Members",
-  "2025 Attendees",
-  "2025 Presenters",
-  "2025 Corporate Sponsors",
-  "2027 Attendees",
-  "2027 Presenters",
-  "2027 Corporate Sponsors",
-];
+import CsvImportFormatModal from "@/components/mailing/CsvImportFormatModal";
 
 const STATUS_BADGE: Record<
   SubscriberStatus,
@@ -95,7 +86,7 @@ const STATUS_SORT_ORDER: Record<SubscriberStatus, number> = {
 };
 
 const SOURCE_LABEL: Record<MailingSubscriber["source"], string> = {
-  mailchimp_import: "Mailchimp / CSV Import",
+  mailchimp_import: "CSV Import",
   website: "Website Opt-In",
   board_manual: "Board Manual Entry",
 };
@@ -148,6 +139,7 @@ export default function BoardMailingListPage() {
   } = useMailingAdmin(isAuthorized);
 
   const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [csvFormatModalOpen, setCsvFormatModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | SubscriberStatus>("all");
   const [cohortFilter, setCohortFilter] = useState<CohortViewFilter>("all_records");
@@ -219,13 +211,6 @@ export default function BoardMailingListPage() {
     }
     return stats;
   }, [availableSublists, subscribers]);
-
-  const unusedPresets = useMemo(() => {
-    const existingLower = new Set(availableSublists.map((t) => t.toLowerCase()));
-    return SUGGESTED_SUBLIST_PRESETS.filter(
-      (p) => !existingLower.has(p.toLowerCase())
-    );
-  }, [availableSublists]);
 
   const filteredSubscribers = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -773,6 +758,72 @@ export default function BoardMailingListPage() {
         </div>
       )}
 
+      {/* CSV Import & Sublist Tagging */}
+      <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-4">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          <div className="max-w-xl space-y-2">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
+                <Upload size={18} className="text-primary shrink-0" /> CSV Import &amp; Sublist Tagging
+              </h2>
+              <button
+                type="button"
+                onClick={() => setCsvFormatModalOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary/5 border border-primary/25 text-primary text-xs font-semibold hover:bg-primary/10 transition-colors cursor-pointer"
+              >
+                <Info size={13} /> CSV Format &amp; Example Heading
+              </button>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Upload subscriber CSV rosters (e.g., 2025 Attendees, Presenters, Sponsors) or suppression exports (<em>Unsubscribed</em>, <em>Bounced</em>). Re-uploading an existing email merges your chosen sublist tags while <strong>permanently protecting</strong> unsubscribes and bounces.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 shrink-0">
+            <input
+              type="text"
+              list="hems-sublist-suggestions"
+              value={importSublistTag}
+              onChange={(e) => setImportSublistTag(e.target.value)}
+              placeholder="Tag uploaded rows (optional)"
+              aria-label="Optional sublist tag to assign to all rows in uploaded CSV"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-xs font-medium text-slate-800 focus:outline-none focus:border-primary sm:w-52"
+            />
+            <datalist id="hems-sublist-suggestions">
+              {availableSublists.map((tag) => (
+                <option key={tag} value={tag} />
+              ))}
+            </datalist>
+
+            <select
+              aria-label="CSV import status mapping"
+              value={importMode}
+              onChange={(e) =>
+                setImportMode(e.target.value as "auto" | SubscriberStatus)
+              }
+              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-xs font-medium text-slate-800 focus:outline-none focus:border-primary"
+            >
+              <option value="auto">Auto-detect status from CSV</option>
+              <option value="active">Import file as Active (Subscribed)</option>
+              <option value="unsubscribed">Import file as Unsubscribed</option>
+              <option value="bounced">Import file as Bounced / Cleaned</option>
+            </select>
+
+            <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer">
+              <Upload size={14} />
+              <span>{importing ? "Importing..." : "Upload CSV"}</span>
+              <input
+                type="file"
+                accept=".csv,text/csv"
+                disabled={importing}
+                onChange={(e) => void handleCsvUpload(e)}
+                className="hidden"
+              />
+            </label>
+          </div>
+        </div>
+      </section>
+
       {/* Sublists & Cohort Tags Manager */}
       <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-4">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -874,82 +925,6 @@ export default function BoardMailingListPage() {
               </div>
             );
           })}
-        </div>
-
-        {/* One-Click Suggested Presets */}
-        {unusedPresets.length > 0 && (
-          <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-100 text-[11px] text-slate-500">
-            <span className="font-semibold text-slate-600 mr-1">Quick-add preset:</span>
-            {unusedPresets.map((preset) => (
-              <button
-                key={preset}
-                type="button"
-                onClick={() => void handleCreateSublist(preset)}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-50 hover:bg-primary/5 border border-dashed border-slate-300 hover:border-primary/40 text-slate-600 hover:text-primary font-medium transition-colors cursor-pointer"
-              >
-                <Plus size={11} /> {preset}
-              </button>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Mailchimp / Committee CSV Importer */}
-      <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-4">
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-          <div className="max-w-xl">
-            <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
-              <Upload size={18} className="text-primary shrink-0" /> CSV Import &amp; Sublist Tagging
-            </h2>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-              Upload Mailchimp CSVs (<em>Subscribed</em>, <em>Unsubscribed</em>, <em>Cleaned</em>) or workshop rosters (e.g. 2025 Attendees/Presenters). Re-uploading an existing email merges your chosen sublist tag while <strong>permanently protecting</strong> unsubscribes and bounces.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 shrink-0">
-            <input
-              type="text"
-              list="hems-sublist-suggestions"
-              value={importSublistTag}
-              onChange={(e) => setImportSublistTag(e.target.value)}
-              placeholder="Tag uploaded rows (optional)"
-              aria-label="Optional sublist tag to assign to all rows in uploaded CSV"
-              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-xs font-medium text-slate-800 focus:outline-none focus:border-primary sm:w-52"
-            />
-            <datalist id="hems-sublist-suggestions">
-              {Array.from(
-                new Set([...availableSublists, ...SUGGESTED_SUBLIST_PRESETS])
-              ).map((tag) => (
-                <option key={tag} value={tag} />
-              ))}
-            </datalist>
-
-            <select
-              aria-label="Mailchimp CSV import status mapping"
-              value={importMode}
-              onChange={(e) =>
-                setImportMode(e.target.value as "auto" | SubscriberStatus)
-              }
-              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-xs font-medium text-slate-800 focus:outline-none focus:border-primary"
-            >
-              <option value="auto">Auto-detect status from CSV</option>
-              <option value="active">Import file as Active (Subscribed)</option>
-              <option value="unsubscribed">Import file as Unsubscribed</option>
-              <option value="bounced">Import file as Bounced / Cleaned</option>
-            </select>
-
-            <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer">
-              <Upload size={14} />
-              <span>{importing ? "Importing..." : "Upload CSV"}</span>
-              <input
-                type="file"
-                accept=".csv,text/csv"
-                disabled={importing}
-                onChange={(e) => void handleCsvUpload(e)}
-                className="hidden"
-              />
-            </label>
-          </div>
         </div>
       </section>
 
@@ -1385,6 +1360,12 @@ export default function BoardMailingListPage() {
         open={infoModalOpen}
         onClose={() => setInfoModalOpen(false)}
         isLiveFirestore={isLiveFirestore}
+      />
+
+      {/* CSV Importer Format & Heading Guide Modal */}
+      <CsvImportFormatModal
+        open={csvFormatModalOpen}
+        onClose={() => setCsvFormatModalOpen(false)}
       />
     </div>
   );

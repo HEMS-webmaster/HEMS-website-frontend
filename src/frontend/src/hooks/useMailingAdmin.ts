@@ -106,7 +106,7 @@ const INITIAL_SAMPLE_SUBSCRIBERS: MailingSubscriber[] = [
     optInToken: "sample-optin-bounced-003",
     createdAt: "2019-09-16T12:00:00.000Z",
     updatedAt: "2025-04-10T09:15:00.000Z",
-    bounceReason: "Mailchimp Cleaned Export (550 5.1.1 User unknown)",
+    bounceReason: "CSV Cleaned/Bounced Import (550 5.1.1 User unknown)",
   },
 ];
 
@@ -788,7 +788,7 @@ export function useMailingAdmin(enabled: boolean) {
   );
 
   /**
-   * Imports Mailchimp / Committee CSV rows while strictly protecting historical unsubscribes,
+   * Imports subscriber / suppression CSV rows while strictly protecting historical unsubscribes,
    * hard bounces, and spam complaints from ever being accidentally re-activated,
    * AND merging any existing or newly assigned Sublists/Tags!
    */
@@ -897,7 +897,7 @@ export function useMailingAdmin(enabled: boolean) {
             ? {
                 bounceReason:
                   current?.bounceReason ||
-                  "Imported from Mailchimp Cleaned/Bounced CSV",
+                  "Imported from Cleaned/Bounced CSV",
               }
             : {}),
         };

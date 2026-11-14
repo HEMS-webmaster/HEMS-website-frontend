@@ -97,7 +97,7 @@ export default function MailingSystemInfoModal({
               1. Where Subscriber Emails Are Stored
             </h3>
             <p>
-              Unlike Mailchimp, <strong>Postmark does not hold or own your subscriber list</strong>—Postmark is strictly a high-reputation delivery pipe. Your master audience lives inside HEMS&apos;s own Google Cloud / Firebase project (<code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">hems-workshop</code>):
+              Unlike traditional newsletter platforms, <strong>Postmark does not hold or own your subscriber list</strong>—Postmark is strictly a high-reputation delivery pipe. Your master audience lives inside HEMS&apos;s own Google Cloud / Firebase project (<code className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">hems-workshop</code>):
             </p>
             <ul className="space-y-1.5 pl-1">
               <li className="flex items-start gap-2">
