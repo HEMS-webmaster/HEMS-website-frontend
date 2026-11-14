@@ -71,6 +71,7 @@ const STATUS_BADGE: Record<
 };
 
 type CohortViewFilter = "all_records" | "all_active" | `sublist:${string}`;
+type DirectoryStatusFilter = "all" | SubscriberStatus | "suppressed";
 
 type SortField =
   | "subscriber"
@@ -147,7 +148,7 @@ export default function BoardMailingListPage() {
   const [pasteModalOpen, setPasteModalOpen] = useState(false);
   const [exportModalOpen, setExportModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | SubscriberStatus>("all");
+  const [statusFilter, setStatusFilter] = useState<DirectoryStatusFilter>("all");
   const [cohortFilter, setCohortFilter] = useState<CohortViewFilter>("all_records");
   const [sortField, setSortField] = useState<SortField>("subscriber");
   const [sortDir, setSortDir] = useState<SortDirection>("asc");
@@ -226,7 +227,11 @@ export default function BoardMailingListPage() {
         const target = cohortFilter.slice("sublist:".length).toLowerCase();
         if (!s.sublists.some((t) => t.toLowerCase() === target)) return false;
       }
-      if (statusFilter !== "all" && s.status !== statusFilter) return false;
+      if (statusFilter === "suppressed") {
+        if (s.status !== "bounced" && s.status !== "complained") return false;
+      } else if (statusFilter !== "all" && s.status !== statusFilter) {
+        return false;
+      }
       if (!q) return true;
       return (
         s.email.toLowerCase().includes(q) ||
@@ -548,8 +553,8 @@ export default function BoardMailingListPage() {
           <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 flex items-center gap-2.5">
             <Users className="text-primary shrink-0" size={26} /> Mailing List &amp; Sublists
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1">
-            Manage master subscribers in Google Cloud Firestore (<code className="text-xs bg-slate-100 px-1 py-0.5 rounded">hems-workshop</code>), organize cohort sublists, and protect <code className="text-xs bg-slate-100 px-1 py-0.5 rounded">hems-workshop.org</code> sender reputation.
+          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
+            Manage the master subscriber directory, organize cohort sublists, and maintain Postmark opt-out and bounce protections.
           </p>
         </div>
 
@@ -564,13 +569,13 @@ export default function BoardMailingListPage() {
           <button
             type="button"
             onClick={() => setExportModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs sm:text-sm font-semibold hover:border-primary/40 hover:text-primary transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs sm:text-sm font-semibold hover:border-primary/50 hover:text-primary transition-colors cursor-pointer shadow-2xs"
           >
             <Download size={14} /> Export List
           </button>
           <Link
             href={composeHref}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-white text-xs sm:text-sm font-semibold hover:bg-primary/90 transition-colors shadow-2xs"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-white text-xs sm:text-sm font-semibold hover:bg-sky-800 transition-colors shadow-2xs"
           >
             <Send size={14} /> Compose Announcement
           </Link>
@@ -579,77 +584,136 @@ export default function BoardMailingListPage() {
 
       {/* Metrics Bar */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <button
-          type="button"
-          onClick={() => {
-            setCohortFilter("all_active");
-            setStatusFilter("all");
-          }}
-          className={`text-left bg-white border rounded-xl p-4 shadow-2xs transition-colors cursor-pointer ${
-            cohortFilter === "all_active"
-              ? "border-emerald-500 ring-2 ring-emerald-500/15"
-              : "border-slate-200/95 hover:border-emerald-300"
-          }`}
-        >
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
-            All Active Subscribed
-          </span>
-          <span className="text-2xl sm:text-3xl font-bold text-emerald-700 tabular-nums mt-1 block">
-            {counts.active}
-          </span>
-          <span className="text-[11px] text-slate-500">Eligible for Postmark Broadcast</span>
-        </button>
+        {(() => {
+          const isAllActiveMetric =
+            cohortFilter === "all_active" && statusFilter === "all";
+          const isPendingMetric =
+            cohortFilter === "all_records" && statusFilter === "pending_opt_in";
+          const isUnsubscribedMetric =
+            cohortFilter === "all_records" && statusFilter === "unsubscribed";
+          const isSuppressedMetric =
+            cohortFilter === "all_records" && statusFilter === "suppressed";
 
-        <button
-          type="button"
-          onClick={() => {
-            setCohortFilter("all_records");
-            setStatusFilter("pending_opt_in");
-          }}
-          className="text-left bg-white border border-slate-200/95 hover:border-amber-300 rounded-xl p-4 shadow-2xs transition-colors cursor-pointer"
-        >
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
-            Pending Opt-In
-          </span>
-          <span className="text-2xl sm:text-3xl font-bold text-amber-700 tabular-nums mt-1 block">
-            {counts.pending}
-          </span>
-          <span className="text-[11px] text-slate-500">Awaiting inbox confirmation</span>
-        </button>
+          return (
+            <>
+              <button
+                type="button"
+                aria-pressed={isAllActiveMetric}
+                onClick={() => {
+                  if (isAllActiveMetric) {
+                    setCohortFilter("all_records");
+                    setStatusFilter("all");
+                  } else {
+                    setCohortFilter("all_active");
+                    setStatusFilter("all");
+                  }
+                }}
+                className={`text-left bg-white border rounded-xl p-4 shadow-2xs transition-colors cursor-pointer ${
+                  isAllActiveMetric
+                    ? "border-emerald-600 ring-2 ring-emerald-500/20"
+                    : "border-slate-200/95 hover:border-emerald-400"
+                }`}
+              >
+                <span className="text-xs font-semibold text-[#1E3A5F] block">
+                  All Active Subscribed
+                </span>
+                <span className="text-2xl sm:text-3xl font-bold text-emerald-700 tabular-nums mt-1 block">
+                  {counts.active}
+                </span>
+                <span className="text-xs text-slate-600">
+                  Eligible for Postmark broadcast
+                </span>
+              </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setCohortFilter("all_records");
-            setStatusFilter("unsubscribed");
-          }}
-          className="text-left bg-white border border-slate-200/95 hover:border-slate-300 rounded-xl p-4 shadow-2xs transition-colors cursor-pointer"
-        >
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
-            Unsubscribed
-          </span>
-          <span className="text-2xl sm:text-3xl font-bold text-slate-700 tabular-nums mt-1 block">
-            {counts.unsubscribed}
-          </span>
-          <span className="text-[11px] text-slate-500">Protected opt-out suppression</span>
-        </button>
+              <button
+                type="button"
+                aria-pressed={isPendingMetric}
+                onClick={() => {
+                  if (isPendingMetric) {
+                    setCohortFilter("all_records");
+                    setStatusFilter("all");
+                  } else {
+                    setCohortFilter("all_records");
+                    setStatusFilter("pending_opt_in");
+                  }
+                }}
+                className={`text-left bg-white border rounded-xl p-4 shadow-2xs transition-colors cursor-pointer ${
+                  isPendingMetric
+                    ? "border-amber-600 ring-2 ring-amber-500/20"
+                    : "border-slate-200/95 hover:border-amber-400"
+                }`}
+              >
+                <span className="text-xs font-semibold text-[#1E3A5F] block">
+                  Pending Opt-In
+                </span>
+                <span className="text-2xl sm:text-3xl font-bold text-amber-700 tabular-nums mt-1 block">
+                  {counts.pending}
+                </span>
+                <span className="text-xs text-slate-600">
+                  Awaiting inbox confirmation
+                </span>
+              </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setCohortFilter("all_records");
-            setStatusFilter("bounced");
-          }}
-          className="text-left bg-white border border-slate-200/95 hover:border-red-300 rounded-xl p-4 shadow-2xs transition-colors cursor-pointer"
-        >
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 block">
-            Bounced / Complained
-          </span>
-          <span className="text-2xl sm:text-3xl font-bold text-red-700 tabular-nums mt-1 block">
-            {counts.bounced}
-          </span>
-          <span className="text-[11px] text-slate-500">Auto-suppressed dead addresses</span>
-        </button>
+              <button
+                type="button"
+                aria-pressed={isUnsubscribedMetric}
+                onClick={() => {
+                  if (isUnsubscribedMetric) {
+                    setCohortFilter("all_records");
+                    setStatusFilter("all");
+                  } else {
+                    setCohortFilter("all_records");
+                    setStatusFilter("unsubscribed");
+                  }
+                }}
+                className={`text-left bg-white border rounded-xl p-4 shadow-2xs transition-colors cursor-pointer ${
+                  isUnsubscribedMetric
+                    ? "border-slate-700 ring-2 ring-slate-500/20"
+                    : "border-slate-200/95 hover:border-slate-400"
+                }`}
+              >
+                <span className="text-xs font-semibold text-[#1E3A5F] block">
+                  Unsubscribed
+                </span>
+                <span className="text-2xl sm:text-3xl font-bold text-slate-800 tabular-nums mt-1 block">
+                  {counts.unsubscribed}
+                </span>
+                <span className="text-xs text-slate-600">
+                  Protected opt-out suppression
+                </span>
+              </button>
+
+              <button
+                type="button"
+                aria-pressed={isSuppressedMetric}
+                onClick={() => {
+                  if (isSuppressedMetric) {
+                    setCohortFilter("all_records");
+                    setStatusFilter("all");
+                  } else {
+                    setCohortFilter("all_records");
+                    setStatusFilter("suppressed");
+                  }
+                }}
+                className={`text-left bg-white border rounded-xl p-4 shadow-2xs transition-colors cursor-pointer ${
+                  isSuppressedMetric
+                    ? "border-red-600 ring-2 ring-red-500/20"
+                    : "border-slate-200/95 hover:border-red-400"
+                }`}
+              >
+                <span className="text-xs font-semibold text-[#1E3A5F] block">
+                  Bounced / Complained
+                </span>
+                <span className="text-2xl sm:text-3xl font-bold text-red-700 tabular-nums mt-1 block">
+                  {counts.bounced}
+                </span>
+                <span className="text-xs text-slate-600">
+                  Auto-suppressed dead addresses
+                </span>
+              </button>
+            </>
+          );
+        })()}
       </div>
 
       {/* Pending Web Requests Notice (Preview / Static Fallback Sync) */}
@@ -742,57 +806,69 @@ export default function BoardMailingListPage() {
       )}
 
       {/* CSV Import & Sublist Tagging */}
-      <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-4">
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-          <div className="max-w-xl space-y-2">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
-                <Upload size={18} className="text-primary shrink-0" /> CSV Import &amp; Sublist Tagging
-              </h2>
-              <button
-                type="button"
-                onClick={() => setCsvFormatModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary/5 border border-primary/25 text-primary text-xs font-semibold hover:bg-primary/10 transition-colors cursor-pointer"
-              >
-                <Info size={13} /> CSV Format &amp; Example Heading
-              </button>
-            </div>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Upload subscriber CSV rosters (e.g., 2025 Attendees, Presenters, Sponsors) or suppression exports (<em>Unsubscribed</em>, <em>Bounced</em>), or <strong>paste directly from Google Sheets</strong>. Re-uploading an existing email merges your chosen sublist tags while <strong>permanently protecting</strong> unsubscribes and bounces.
+      <section className="bg-white border border-slate-200/95 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+          <div className="max-w-2xl">
+            <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
+              <Upload size={18} className="text-primary shrink-0" /> CSV Import &amp; Sublist Tagging
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+              Upload subscriber CSV rosters or suppression lists, or paste rows directly from Google Sheets. Existing opt-outs and bounces remain protected.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 shrink-0">
+          <button
+            type="button"
+            onClick={() => setCsvFormatModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-primary/5 border border-primary/25 text-primary text-xs font-semibold hover:bg-primary/10 transition-colors cursor-pointer shrink-0 self-start"
+          >
+            <Info size={14} /> CSV Format &amp; Example Heading
+          </button>
+        </div>
+
+        <div className="bg-[#F3F6FA] border border-slate-200/95 rounded-xl p-4 grid grid-cols-1 md:grid-cols-12 gap-3.5 items-end">
+          <div className="md:col-span-4">
+            <label htmlFor="csv-import-sublist-tag" className="hems-label">
+              Assign Cohort Tag{" "}
+              <span className="hems-label-hint">(Optional)</span>
+            </label>
             <input
+              id="csv-import-sublist-tag"
               type="text"
               list="hems-sublist-suggestions"
               value={importSublistTag}
               onChange={(e) => setImportSublistTag(e.target.value)}
-              placeholder="Tag uploaded rows (optional)"
-              aria-label="Optional sublist tag to assign to all rows in uploaded CSV"
-              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-xs font-medium text-slate-800 focus:outline-none focus:border-primary sm:w-52"
+              placeholder="e.g., 2025 Attendees"
+              className="hems-control w-full"
             />
             <datalist id="hems-sublist-suggestions">
               {availableSublists.map((tag) => (
                 <option key={tag} value={tag} />
               ))}
             </datalist>
+          </div>
 
+          <div className="md:col-span-4">
+            <label htmlFor="csv-import-status-mode" className="hems-label">
+              CSV Status Mapping
+            </label>
             <select
-              aria-label="CSV import status mapping"
+              id="csv-import-status-mode"
               value={importMode}
               onChange={(e) =>
                 setImportMode(e.target.value as "auto" | SubscriberStatus)
               }
-              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-base sm:text-xs font-medium text-slate-800 focus:outline-none focus:border-primary"
+              className="hems-control w-full"
             >
               <option value="auto">Auto-detect status from CSV</option>
               <option value="active">Import file as Active (Subscribed)</option>
               <option value="unsubscribed">Import file as Unsubscribed</option>
               <option value="bounced">Import file as Bounced / Cleaned</option>
             </select>
+          </div>
 
-            <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer">
+          <div className="md:col-span-4 flex flex-wrap sm:flex-nowrap gap-2">
+            <label className="inline-flex flex-1 items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-primary text-white text-xs font-semibold hover:bg-sky-800 transition-colors cursor-pointer whitespace-nowrap shadow-2xs">
               <Upload size={14} />
               <span>{importing ? "Importing..." : "Upload CSV"}</span>
               <input
@@ -808,24 +884,24 @@ export default function BoardMailingListPage() {
               type="button"
               onClick={() => setPasteModalOpen(true)}
               disabled={importing}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 disabled:opacity-50 transition-colors cursor-pointer"
+              className="inline-flex flex-1 items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white border border-slate-400/90 text-slate-800 text-xs font-semibold hover:border-primary hover:text-primary disabled:opacity-50 transition-colors cursor-pointer whitespace-nowrap shadow-2xs"
             >
               <ClipboardPaste size={14} />
-              <span>Paste from Google Sheets</span>
+              <span>Paste from Sheets</span>
             </button>
           </div>
         </div>
       </section>
 
       {/* Sublists & Cohort Tags Manager */}
-      <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div>
+      <section className="bg-white border border-slate-200/95 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+          <div className="max-w-xl">
             <h2 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
               <Tags size={18} className="text-primary shrink-0" /> Sublists &amp; Cohort Tags
             </h2>
-            <p className="text-xs text-slate-600 mt-0.5">
-              Click any sublist below to view its members, or create new cohorts (e.g., <em>Board Members</em>, <em>2025 Attendees</em>, <em>2025 Presenters</em>, <em>2025 Corporate Sponsors</em>) for targeted announcements.
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">
+              Select a pill below to filter the directory to that cohort, or create new tags for targeted announcements.
             </p>
           </div>
 
@@ -834,33 +910,39 @@ export default function BoardMailingListPage() {
               e.preventDefault();
               void handleCreateSublist(newSublistInput);
             }}
-            className="flex items-center gap-2 shrink-0"
+            className="shrink-0"
           >
-            <input
-              type="text"
-              value={newSublistInput}
-              onChange={(e) => setNewSublistInput(e.target.value)}
-              placeholder="New sublist (e.g. 2025 Presenters)"
-              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-primary w-56 sm:w-60"
-            />
-            <button
-              type="submit"
-              className="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
-            >
-              <Plus size={14} /> Create Sublist
-            </button>
+            <label htmlFor="new-sublist-input" className="hems-label">
+              Create New Cohort Tag
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                id="new-sublist-input"
+                type="text"
+                value={newSublistInput}
+                onChange={(e) => setNewSublistInput(e.target.value)}
+                placeholder="e.g., 2025 Presenters"
+                className="hems-control w-52 sm:w-60"
+              />
+              <button
+                type="submit"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors cursor-pointer shrink-0 shadow-2xs"
+              >
+                <Plus size={14} /> Create
+              </button>
+            </div>
           </form>
         </div>
 
         {/* Active Sublist Filter Pills */}
-        <div className="flex flex-wrap items-center gap-2 pt-1">
+        <div className="bg-[#F3F6FA] border border-slate-200/95 rounded-xl p-3.5 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => setCohortFilter("all_records")}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer tabular-nums ${
               cohortFilter === "all_records"
-                ? "bg-slate-900 text-white border-slate-900"
-                : "bg-slate-50 text-slate-700 border-slate-200 hover:border-primary/40"
+                ? "bg-slate-900 text-white border-slate-900 shadow-2xs"
+                : "bg-white text-slate-800 border-slate-300/90 hover:border-primary/50"
             }`}
           >
             All Directory ({counts.total})
@@ -871,123 +953,219 @@ export default function BoardMailingListPage() {
             onClick={() => setCohortFilter("all_active")}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer tabular-nums ${
               cohortFilter === "all_active"
-                ? "bg-emerald-700 text-white border-emerald-700"
-                : "bg-emerald-50/70 text-emerald-800 border-emerald-200 hover:border-emerald-400"
+                ? "bg-emerald-700 text-white border-emerald-700 shadow-2xs"
+                : "bg-emerald-50 text-emerald-900 border-emerald-300/90 hover:border-emerald-500"
             }`}
           >
-            All Active Subscribed ({counts.active})
+            Active Subscribed ({counts.active})
           </button>
 
-          {availableSublists.map((tag) => {
-            const stat = sublistStats.get(tag) || { total: 0, active: 0 };
-            const key: CohortViewFilter = `sublist:${tag}`;
-            const isSelected = cohortFilter === key;
-            return (
-              <div
-                key={tag}
-                className={`inline-flex items-center rounded-full border text-xs font-semibold transition-colors ${
-                  isSelected
-                    ? "bg-primary text-white border-primary"
-                    : "bg-white text-slate-700 border-slate-200 hover:border-primary/45"
-                }`}
-              >
-                <button
-                  type="button"
-                  onClick={() => setCohortFilter(isSelected ? "all_records" : key)}
-                  className="pl-3 pr-2 py-1.5 cursor-pointer tabular-nums"
-                  title={`${stat.active} active / ${stat.total} total in "${tag}"`}
-                >
-                  {tag}{" "}
-                  <span className={isSelected ? "text-white/85" : "text-slate-400"}>
-                    ({stat.active})
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => void handleDeleteSublist(tag)}
-                  aria-label={`Delete sublist ${tag}`}
-                  title={`Remove sublist "${tag}"`}
-                  className={`pr-2.5 pl-1 py-1.5 cursor-pointer transition-colors ${
+          <span
+            aria-hidden="true"
+            className="hidden sm:inline-block h-5 w-px bg-slate-300 mx-1"
+          />
+
+          {availableSublists.length === 0 ? (
+            <span className="text-xs text-slate-500 italic">
+              No custom cohort tags created yet.
+            </span>
+          ) : (
+            availableSublists.map((tag) => {
+              const stat = sublistStats.get(tag) || { total: 0, active: 0 };
+              const key: CohortViewFilter = `sublist:${tag}`;
+              const isSelected = cohortFilter === key;
+              return (
+                <div
+                  key={tag}
+                  className={`inline-flex items-center rounded-full border text-xs font-semibold transition-colors ${
                     isSelected
-                      ? "text-white/75 hover:text-white"
-                      : "text-slate-300 hover:text-red-600"
+                      ? "bg-primary text-white border-primary shadow-2xs"
+                      : "bg-white text-slate-800 border-slate-300/90 hover:border-primary/50"
                   }`}
                 >
-                  <X size={12} />
-                </button>
-              </div>
-            );
-          })}
+                  <button
+                    type="button"
+                    onClick={() => setCohortFilter(isSelected ? "all_records" : key)}
+                    className="inline-flex items-center gap-1.5 pl-3 pr-2 py-1 cursor-pointer tabular-nums"
+                    title={`${stat.active} active / ${stat.total} total in "${tag}"`}
+                  >
+                    <span>{tag}</span>
+                    <span
+                      className={`px-1.5 py-0.5 rounded-full text-[11px] font-semibold ${
+                        isSelected
+                          ? "bg-white/20 text-white"
+                          : "bg-slate-100 text-slate-700"
+                      }`}
+                    >
+                      {stat.active}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void handleDeleteSublist(tag)}
+                    aria-label={`Delete sublist ${tag}`}
+                    title={`Remove sublist "${tag}"`}
+                    className={`pr-2.5 pl-1.5 py-1.5 border-l cursor-pointer transition-colors ${
+                      isSelected
+                        ? "border-white/25 text-white/80 hover:text-white"
+                        : "border-slate-200 text-slate-500 hover:text-red-600"
+                    }`}
+                  >
+                    <X size={12} />
+                  </button>
+                </div>
+              );
+            })
+          )}
         </div>
       </section>
 
       {/* Directory Controls + Bulk Tagging + Table */}
-      <section className="bg-white border border-slate-200/95 rounded-2xl p-6 shadow-2xs space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex flex-col sm:flex-row gap-3 flex-grow">
-            <div className="relative flex-grow max-w-md">
-              <Search
-                size={15}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
-              />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search email, name, institution, or sublist..."
-                className="w-full pl-9 pr-3.5 py-2 bg-slate-50/70 border border-slate-200 rounded-lg text-base sm:text-xs text-slate-900 focus:outline-none focus:border-primary"
-              />
-            </div>
-
-            <select
-              aria-label="Filter subscribers by status"
-              value={statusFilter}
-              onChange={(e) =>
-                setStatusFilter(e.target.value as "all" | SubscriberStatus)
-              }
-              className="bg-slate-50/70 border border-slate-200 rounded-lg px-3 py-2 text-base sm:text-xs font-medium text-slate-700 focus:outline-none focus:border-primary"
-            >
-              <option value="all">All Statuses ({counts.total})</option>
-              <option value="active">Active ({counts.active})</option>
-              <option value="pending_opt_in">Pending Opt-In ({counts.pending})</option>
-              <option value="unsubscribed">Unsubscribed ({counts.unsubscribed})</option>
-              <option value="bounced">Hard Bounced ({counts.bounced})</option>
-            </select>
+      <section className="bg-white border border-slate-300/85 rounded-2xl p-6 shadow-xs space-y-5">
+        {/* Card Header Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <h2 className="text-base font-bold text-slate-900">
+              Subscriber Directory
+            </h2>
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200 tabular-nums">
+              Showing {filteredSubscribers.length} of {counts.total}
+            </span>
+            {(cohortFilter !== "all_records" ||
+              statusFilter !== "all" ||
+              searchQuery.trim().length > 0) && (
+              <div className="inline-flex items-center gap-2 pl-2.5 pr-1.5 py-0.5 rounded-full bg-sky-50 border border-sky-200 text-[11px] font-semibold text-sky-900">
+                <span>
+                  {[
+                    cohortFilter === "all_active"
+                      ? "Cohort: Active"
+                      : cohortFilter.startsWith("sublist:")
+                        ? `Cohort: ${cohortFilter.slice("sublist:".length)}`
+                        : null,
+                    statusFilter !== "all"
+                      ? `Status: ${
+                          statusFilter === "suppressed"
+                            ? "Bounced / Complained"
+                            : statusFilter.replace(/_/g, " ")
+                        }`
+                      : null,
+                    searchQuery.trim() ? `Query: "${searchQuery.trim()}"` : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setStatusFilter("all");
+                    setCohortFilter("all_records");
+                  }}
+                  className="px-1.5 py-0.5 rounded-full bg-white border border-sky-300 text-sky-900 hover:bg-sky-100 text-[10px] font-bold cursor-pointer"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
           </div>
 
           <button
             type="button"
             onClick={() => setShowAddForm((prev) => !prev)}
-            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg border border-primary/35 text-primary text-xs font-semibold hover:bg-primary/5 transition-colors cursor-pointer shrink-0"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg border border-primary/40 text-primary text-xs font-semibold hover:bg-primary/5 transition-colors cursor-pointer shrink-0"
           >
             <UserPlus size={14} /> {showAddForm ? "Close Form" : "Add Subscriber"}
           </button>
         </div>
 
+        {/* Search & Status Filter Well */}
+        <div className="bg-[#F3F6FA] border border-slate-200/90 rounded-xl p-4 grid grid-cols-1 md:grid-cols-12 gap-3.5 items-end">
+          <div className="md:col-span-8">
+            <label htmlFor="directory-search-input" className="hems-label">
+              Search Directory
+            </label>
+            <div className="relative">
+              <Search
+                size={15}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
+              />
+              <input
+                id="directory-search-input"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search email, name, institution, or sublist..."
+                className="hems-control w-full pl-9 pr-9 py-2"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  aria-label="Clear search query"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900 p-0.5 rounded cursor-pointer"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="md:col-span-4">
+            <label htmlFor="directory-status-filter" className="hems-label">
+              Filter by Status
+            </label>
+            <select
+              id="directory-status-filter"
+              value={statusFilter}
+              onChange={(e) =>
+                setStatusFilter(e.target.value as DirectoryStatusFilter)
+              }
+              className="hems-control w-full py-2 font-medium"
+            >
+              <option value="all">All Statuses ({counts.total})</option>
+              <option value="active">Active ({counts.active})</option>
+              <option value="pending_opt_in">Pending Opt-In ({counts.pending})</option>
+              <option value="unsubscribed">Unsubscribed ({counts.unsubscribed})</option>
+              <option value="suppressed">
+                Bounced / Complained ({counts.bounced})
+              </option>
+              <option value="bounced">Hard Bounced Only</option>
+              <option value="complained">Complained Only</option>
+            </select>
+          </div>
+        </div>
+
         {/* Bulk Sublist Assignment Action Bar (Appears when >= 1 rows selected) */}
         {selectedIds.size > 0 && (
-          <div className="p-3.5 rounded-xl bg-primary/5 border border-primary/25 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div className="p-3.5 rounded-xl bg-sky-50/75 border border-primary/35 flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div className="flex items-center gap-3 text-xs">
-              <span className="font-semibold text-primary tabular-nums">
+              <span className="font-bold text-primary tabular-nums">
                 {selectedIds.size} subscriber(s) selected
               </span>
               <button
                 type="button"
                 onClick={() => setSelectedIds(new Set())}
-                className="text-slate-500 hover:text-slate-800 underline cursor-pointer"
+                className="text-slate-700 hover:text-slate-950 font-medium underline cursor-pointer"
               >
                 Clear selection
               </button>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
+              <label
+                htmlFor="bulk-sublist-input"
+                className="hems-label mb-0 whitespace-nowrap"
+              >
+                Cohort Tag:
+              </label>
               <input
+                id="bulk-sublist-input"
                 type="text"
                 list="hems-sublist-suggestions"
                 value={bulkTagInput}
                 onChange={(e) => setBulkTagInput(e.target.value)}
                 placeholder="Choose or type sublist..."
-                className="bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-base sm:text-xs text-slate-900 focus:outline-none focus:border-primary w-52"
+                className="hems-control py-1.5 w-52"
               />
               <button
                 type="button"
@@ -1001,7 +1179,7 @@ export default function BoardMailingListPage() {
                 type="button"
                 disabled={bulkBusy}
                 onClick={() => void handleBulkTagAction("remove")}
-                className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-100 disabled:opacity-50 cursor-pointer"
+                className="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-slate-800 text-xs font-semibold hover:bg-slate-100 disabled:opacity-50 cursor-pointer"
               >
                 &minus; Remove Sublist
               </button>
@@ -1012,46 +1190,77 @@ export default function BoardMailingListPage() {
         {showAddForm && (
           <form
             onSubmit={(e) => void handleManualAdd(e)}
-            className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-4"
+            className="p-4 sm:p-5 rounded-xl bg-[#F3F6FA] border border-slate-300/85 space-y-4"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
-              <input
-                type="email"
-                required
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-                placeholder="Email address *"
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-base sm:text-xs"
-              />
-              <input
-                type="text"
-                value={newFirst}
-                onChange={(e) => setNewFirst(e.target.value)}
-                placeholder="First name"
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-base sm:text-xs"
-              />
-              <input
-                type="text"
-                value={newLast}
-                onChange={(e) => setNewLast(e.target.value)}
-                placeholder="Last name"
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-base sm:text-xs"
-              />
-              <input
-                type="text"
-                value={newAffiliation}
-                onChange={(e) => setNewAffiliation(e.target.value)}
-                placeholder="Institution / Lab"
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-base sm:text-xs"
-              />
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-300/70 pb-2.5">
+              <h3 className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#1E3A5F]">
+                Add or Update Active Subscriber
+              </h3>
+              <span className="text-[11px] font-medium text-slate-600">
+                Adds or refreshes an active mailing record
+              </span>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="space-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              <div>
+                <label htmlFor="new-sub-email" className="hems-label">
+                  Email Address <span className="text-red-600">*</span>
+                </label>
+                <input
+                  id="new-sub-email"
+                  type="email"
+                  required
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  placeholder="researcher@university.edu"
+                  className="hems-control w-full py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="new-sub-first" className="hems-label">
+                  First Name
+                </label>
+                <input
+                  id="new-sub-first"
+                  type="text"
+                  value={newFirst}
+                  onChange={(e) => setNewFirst(e.target.value)}
+                  placeholder="First name"
+                  className="hems-control w-full py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="new-sub-last" className="hems-label">
+                  Last Name
+                </label>
+                <input
+                  id="new-sub-last"
+                  type="text"
+                  value={newLast}
+                  onChange={(e) => setNewLast(e.target.value)}
+                  placeholder="Last name"
+                  className="hems-control w-full py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor="new-sub-affiliation" className="hems-label">
+                  Institution / Lab
+                </label>
+                <input
+                  id="new-sub-affiliation"
+                  type="text"
+                  value={newAffiliation}
+                  onChange={(e) => setNewAffiliation(e.target.value)}
+                  placeholder="Institution / Lab"
+                  className="hems-control w-full py-2"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-1">
+              <div className="space-y-2.5">
                 <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-[11px] font-semibold text-slate-500 mr-1">
-                    Topics:
-                  </span>
+                  <span className="hems-label mb-0 mr-1.5">Topics:</span>
                   {(
                     [
                       ["workshop", "Workshop"],
@@ -1063,10 +1272,10 @@ export default function BoardMailingListPage() {
                       key={id}
                       type="button"
                       onClick={() => toggleNewInterest(id)}
-                      className={`px-2.5 py-1 rounded-full text-[11px] font-medium border cursor-pointer ${
+                      className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-colors cursor-pointer ${
                         newInterests.includes(id)
                           ? "bg-primary text-white border-primary"
-                          : "bg-white text-slate-600 border-slate-200"
+                          : "bg-white text-slate-700 border-slate-300 hover:border-slate-400"
                       }`}
                     >
                       {label}
@@ -1076,18 +1285,16 @@ export default function BoardMailingListPage() {
 
                 {availableSublists.length > 0 && (
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="text-[11px] font-semibold text-slate-500 mr-1">
-                      Sublists:
-                    </span>
+                    <span className="hems-label mb-0 mr-1.5">Sublists:</span>
                     {availableSublists.map((tag) => (
                       <button
                         key={tag}
                         type="button"
                         onClick={() => toggleNewSublistChoice(tag)}
-                        className={`px-2.5 py-1 rounded-full text-[11px] font-medium border cursor-pointer ${
+                        className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border transition-colors cursor-pointer ${
                           newSublists.includes(tag)
                             ? "bg-slate-900 text-white border-slate-900"
-                            : "bg-white text-slate-600 border-slate-200"
+                            : "bg-white text-slate-700 border-slate-300 hover:border-slate-400"
                         }`}
                       >
                         {tag}
@@ -1097,12 +1304,21 @@ export default function BoardMailingListPage() {
                 )}
               </div>
 
-              <button
-                type="submit"
-                className="px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 cursor-pointer self-start sm:self-end shrink-0"
-              >
-                Save Active Subscriber
-              </button>
+              <div className="flex items-center gap-2 shrink-0 self-start sm:self-end">
+                <button
+                  type="button"
+                  onClick={() => setShowAddForm(false)}
+                  className="px-3.5 py-2 rounded-lg bg-white border border-slate-300 text-slate-700 text-xs font-semibold hover:bg-slate-100 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-lg bg-primary text-white text-xs font-semibold hover:bg-primary/90 cursor-pointer shadow-2xs"
+                >
+                  Save Active Subscriber
+                </button>
+              </div>
             </div>
           </form>
         )}
@@ -1120,14 +1336,14 @@ export default function BoardMailingListPage() {
           <div className="overflow-x-auto -mx-6 px-6">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-slate-200 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                  <th className="py-2.5 pr-3 w-8">
+                <tr className="bg-slate-100/95 border-y border-slate-300/85 text-[11px] font-bold uppercase tracking-[0.06em] text-slate-700">
+                  <th className="py-3 px-3 w-9">
                     <input
                       type="checkbox"
                       checked={allFilteredSelected}
                       onChange={toggleSelectAllFiltered}
                       aria-label={`Select all ${filteredSubscribers.length} matching subscribers`}
-                      className="rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
+                      className="rounded border-slate-400 text-primary focus:ring-primary cursor-pointer"
                     />
                   </th>
                   {(
@@ -1150,15 +1366,15 @@ export default function BoardMailingListPage() {
                               : "descending"
                             : "none"
                         }
-                        className="py-2.5 pr-4 whitespace-nowrap select-none"
+                        className="py-3 pr-4 whitespace-nowrap select-none"
                       >
                         <button
                           type="button"
                           onClick={() => handleSortColumn(field)}
-                          className={`inline-flex items-center gap-1 uppercase tracking-wider transition-colors cursor-pointer ${
+                          className={`inline-flex items-center gap-1 uppercase tracking-[0.06em] transition-colors cursor-pointer ${
                             isActiveSort
                               ? "text-primary font-bold"
-                              : "text-slate-500 hover:text-slate-800 font-semibold"
+                              : "text-slate-700 hover:text-slate-950 font-bold"
                           }`}
                         >
                           <span>{label}</span>
@@ -1171,17 +1387,17 @@ export default function BoardMailingListPage() {
                           ) : (
                             <ArrowUpDown
                               size={12}
-                              className="text-slate-300 shrink-0"
+                              className="text-slate-400 shrink-0"
                             />
                           )}
                         </button>
                       </th>
                     );
                   })}
-                  <th className="py-2.5 text-right whitespace-nowrap">Actions</th>
+                  <th className="py-3 pr-3 text-right whitespace-nowrap">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-200/85">
                 {visibleRows.map((sub) => {
                   const badge = STATUS_BADGE[sub.status] || STATUS_BADGE.active;
                   const fullName = `${sub.firstName} ${sub.lastName}`.trim();
@@ -1195,27 +1411,31 @@ export default function BoardMailingListPage() {
                     <tr
                       key={sub.id}
                       className={
-                        isChecked ? "bg-primary/[0.04]" : "hover:bg-slate-50/70"
+                        isChecked
+                          ? "bg-primary/[0.06]"
+                          : "hover:bg-sky-50/35 transition-colors"
                       }
                     >
-                      <td className="py-3 pr-3 align-top pt-3.5">
+                      <td className="py-3 px-3 align-top pt-3.5">
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => toggleSelectRow(sub.id)}
                           aria-label={`Select ${sub.email}`}
-                          className="rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
+                          className="rounded border-slate-400 text-primary focus:ring-primary cursor-pointer"
                         />
                       </td>
                       <td className="py-3 pr-4 align-top">
-                        <div className="font-semibold text-slate-900 break-all">
+                        <div className="font-semibold text-slate-950 break-all">
                           {sub.email}
                         </div>
                         {fullName && (
-                          <div className="text-[11px] text-slate-500">{fullName}</div>
+                          <div className="text-[11px] font-medium text-slate-600 mt-0.5">
+                            {fullName}
+                          </div>
                         )}
                       </td>
-                      <td className="py-3 pr-4 text-slate-600 align-top">
+                      <td className="py-3 pr-4 text-slate-800 align-top">
                         {sub.affiliation || <span className="text-slate-400">&mdash;</span>}
                       </td>
                       <td className="py-3 pr-4 align-top">
@@ -1223,14 +1443,14 @@ export default function BoardMailingListPage() {
                           {sub.sublists.map((tag) => (
                             <span
                               key={tag}
-                              className="inline-flex items-center gap-1 pl-2 pr-1.5 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/20 text-[10.5px] font-semibold"
+                              className="inline-flex items-center gap-1 pl-2 pr-1.5 py-0.5 rounded-md bg-sky-50 text-sky-900 border border-sky-300/80 text-[10.5px] font-semibold"
                             >
                               {tag}
                               <button
                                 type="button"
                                 onClick={() => void handleInlineRemoveTag(sub, tag)}
                                 aria-label={`Remove ${tag} from ${sub.email}`}
-                                className="hover:text-red-600 cursor-pointer"
+                                className="text-sky-700 hover:text-red-600 cursor-pointer"
                               >
                                 <X size={10} />
                               </button>
@@ -1240,7 +1460,7 @@ export default function BoardMailingListPage() {
                           {sub.interests.map((topic) => (
                             <span
                               key={topic}
-                              className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10.5px] font-medium"
+                              className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200/90 text-slate-700 text-[10.5px] font-medium"
                             >
                               {topic.replace("_", " ")}
                             </span>
@@ -1254,7 +1474,7 @@ export default function BoardMailingListPage() {
                                 const val = e.target.value;
                                 if (val) void handleInlineAddTag(sub, val);
                               }}
-                              className="px-1.5 py-0.5 rounded border border-dashed border-slate-300 text-[10.5px] text-slate-500 hover:border-primary hover:text-primary bg-white cursor-pointer focus:outline-none"
+                              className="px-1.5 py-0.5 rounded border border-dashed border-slate-300 text-[10.5px] font-medium text-slate-700 hover:border-primary hover:text-primary bg-white cursor-pointer focus:outline-none"
                             >
                               <option value="">+ Sublist</option>
                               {unassignedSublists.map((t) => (
@@ -1274,24 +1494,24 @@ export default function BoardMailingListPage() {
                         </span>
                         {sub.bounceReason && (
                           <div
-                            className="text-[10px] text-red-600 mt-0.5 max-w-[200px] truncate"
+                            className="text-[10.5px] text-red-700 mt-0.5 max-w-[200px] truncate"
                             title={sub.bounceReason}
                           >
                             {sub.bounceReason}
                           </div>
                         )}
                       </td>
-                      <td className="py-3 pr-4 align-top whitespace-nowrap tabular-nums text-slate-600">
+                      <td className="py-3 pr-4 align-top whitespace-nowrap tabular-nums text-slate-700">
                         {(() => {
                           const dateInfo = formatDateAdded(sub.createdAt);
                           const srcLabel =
                             SOURCE_LABEL[sub.source] || sub.source;
                           return (
                             <div title={`Added: ${dateInfo.tooltip} • Source: ${srcLabel}`}>
-                              <span className="font-medium text-slate-700 block">
+                              <span className="font-semibold text-slate-800 block">
                                 {dateInfo.short}
                               </span>
-                              <span className="text-[10px] text-slate-400 block">
+                              <span className="text-[10.5px] font-medium text-slate-500 block">
                                 {sub.source === "mailchimp_import"
                                   ? "CSV import"
                                   : sub.source === "board_manual"
@@ -1302,13 +1522,13 @@ export default function BoardMailingListPage() {
                           );
                         })()}
                       </td>
-                      <td className="py-3 text-right whitespace-nowrap align-top">
+                      <td className="py-3 pr-3 text-right whitespace-nowrap align-top">
                         <div className="inline-flex items-center gap-1.5">
                           {sub.status !== "active" ? (
                             <button
                               type="button"
                               onClick={() => void handleStatusChange(sub, "active")}
-                              className="px-2.5 py-1 rounded border border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-[11px] font-semibold cursor-pointer"
+                              className="px-2.5 py-1 rounded border border-emerald-300 text-emerald-800 hover:bg-emerald-50 text-[11px] font-semibold cursor-pointer"
                             >
                               Activate
                             </button>
@@ -1319,7 +1539,7 @@ export default function BoardMailingListPage() {
                                 void handleStatusChange(sub, "unsubscribed")
                               }
                               title="Suppress / Unsubscribe"
-                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded border border-slate-200 text-slate-600 hover:bg-slate-100 text-[11px] font-medium cursor-pointer"
+                              className="inline-flex items-center gap-1 px-2.5 py-1 rounded border border-slate-300 text-slate-700 hover:bg-slate-100 text-[11px] font-semibold cursor-pointer"
                             >
                               <MailX size={12} /> Suppress
                             </button>
@@ -1328,7 +1548,7 @@ export default function BoardMailingListPage() {
                             type="button"
                             onClick={() => void removeSubscriber(sub)}
                             aria-label={`Remove ${sub.email}`}
-                            className="p-1.5 rounded text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                            className="p-1.5 rounded text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
                           >
                             <Trash2 size={13} />
                           </button>
@@ -1340,7 +1560,7 @@ export default function BoardMailingListPage() {
               </tbody>
             </table>
             {filteredSubscribers.length > 250 && (
-              <p className="text-[11px] text-slate-500 pt-3">
+              <p className="text-xs font-medium text-slate-600 pt-3">
                 Showing first 250 of {filteredSubscribers.length} matching records (top-left checkbox selects all {filteredSubscribers.length} matching records for bulk sublist tagging).
               </p>
             )}

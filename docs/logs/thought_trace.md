@@ -1697,3 +1697,13 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   2. Modal `src/frontend/src/components/mailing/MailingExportModal.tsx` uses `createPortal(..., document.body)` at `z-[100]` with a block card layout and `style={{ maxHeight: "72vh" }}` scrollable body to avoid Chromium flex-height collapse, syncing initial cohort selection from `initialCohortSegment` whenever `open` transitions to `true`.
   3. Cleanly wire into `src/frontend/src/app/(portal)/board/mailing-list/page.tsx` by removing inline `handleExportCsv`, changing the header button to `Export List`, and mounting `MailingExportModal`.
 - **Verification Plan:** TypeScript compilation via `tsc --noEmit`, scratch Node unit test suite against compiled `mailingExport.js`, and live Next.js HTTP/chunk verification on `http://localhost:3000/board/mailing-list/`.
+
+
+## [2026-11-14] Brand v3.2.0 Data-UI Contrast & Mailing List Workspace Tidy (@brand / @arch / @dev)
+- **Objective:** Subtle refinement of the official HEMS brand guidelines (`v3.2.0`) to resolve low figure-ground and label-vs-value visual confusion on data-entry portals (`/abstract-submission`, `/board/mailing-list`, `/admin`, `/board/announcements`, `/reviewer`), paired with layout and readability cleanup on `/board/mailing-list`.
+- **Token & Component Architecture:**
+  1. Archive `v3.1.0` to `docs/design/archive/brand-guidelines-v3.1.0.md` and publish `v3.2.0` introducing `--surface-well` (`#F3F6FA`), `--field-label` (`#1E3A5F`), `--field-border` (`#94A3B8`), `--field-border-hover` (`#64748B`), and `--field-placeholder` (`#7C8BA1`).
+  2. Define `.hems-label`, `.hems-label-hint`, and `.hems-control` inside `@layer components` in `src/frontend/src/app/globals.css` so Tailwind v4 utility classes (`pl-9`, `w-24`, `font-serif text-[16px]`, etc.) override cleanly without specificity conflicts.
+  3. On `board/mailing-list/page.tsx`: keep `CSV Import & Sublist Tagging` above `Sublists & Cohort Tags`, fix the `suppressed` (`bounced` + `complained`) KPI filter mismatch and active ring styling across all 4 KPI cards, place import controls in a labeled `#F3F6FA` well, group directory/system vs. custom cohort pills, and add a structured `Subscriber Directory` header bar with active filter badge/reset and explicit field labels on Search, Status Filter, Bulk Tag, and Manual Add Subscriber forms.
+  4. Apply `.hems-label` / `.hems-control` and `#F3F6FA` grouping wells across `AbstractSubmissionClient.tsx` (preserving all `1020px`/`94px`/`22px`/`16px`/`1.45` calibration classes), `admin/page.tsx`, `board/announcements/page.tsx`, and `reviewer/page.tsx`.
+- **Verification Plan:** `npx tsc --noEmit` in `src/frontend` + live HTTP `200` and CSS/JS chunk inspection on `http://localhost:3000`.

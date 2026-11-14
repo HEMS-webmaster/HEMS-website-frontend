@@ -348,14 +348,17 @@ export default function AdminPage() {
   return (
     <div className="space-y-8 max-w-6xl mx-auto w-full min-w-0">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-foreground/10 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-black text-foreground flex items-center gap-3">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-1">
+            Access Control • Role &amp; Whitelist Governance
+          </span>
+          <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 flex items-center gap-3">
             <ShieldCheck className="text-primary shrink-0" /> Whitelist Manager
           </h2>
-          <p className="text-xs text-foreground/65 mt-1 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
             Manage attendee, presenter, corporate sponsor, reviewer, board, and admin permissions.{" "}
-            <span className="font-semibold text-foreground/80">
+            <span className="font-semibold text-slate-800">
               General member access is granted automatically to all signed-in users.
             </span>
           </p>
@@ -425,32 +428,44 @@ export default function AdminPage() {
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row gap-3">
-          <input
-            type="email"
-            value={newEmail}
-            onChange={(e) => setNewEmail(e.target.value)}
-            placeholder="Email address (e.g. researcher@university.edu)..."
-            aria-label="New user email address"
-            className="flex-1 bg-slate-50 border border-slate-300 px-3.5 py-2.5 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:bg-white transition-all"
-            required
-          />
-          <input
-            type="text"
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            placeholder="Full name (added if not already present)"
-            aria-label="New user full name"
-            className="flex-1 bg-slate-50 border border-slate-300 px-3.5 py-2.5 rounded-lg text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-primary focus:bg-white transition-all"
-          />
-          <button
-            type="submit"
-            disabled={savingBusy}
-            className="bg-primary text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:bg-sky-800 disabled:opacity-50 transition-colors cursor-pointer shrink-0 shadow-xs"
-          >
-            {savingBusy ? <Loader2 size={16} className="animate-spin" /> : <UserPlus size={16} />}
-            <span>Add / Merge User</span>
-          </button>
+        <div className="bg-[#F3F6FA] border border-slate-200/95 rounded-xl p-4 grid grid-cols-1 md:grid-cols-12 gap-3.5 items-end">
+          <div className="md:col-span-5">
+            <label htmlFor="admin-new-email" className="hems-label">
+              Email Address <span className="text-red-600">*</span>
+            </label>
+            <input
+              id="admin-new-email"
+              type="email"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              placeholder="researcher@university.edu"
+              className="hems-control w-full"
+              required
+            />
+          </div>
+          <div className="md:col-span-4">
+            <label htmlFor="admin-new-name" className="hems-label">
+              Full Name <span className="hems-label-hint">(Added if missing)</span>
+            </label>
+            <input
+              id="admin-new-name"
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="e.g., Dr. Ada Lovelace"
+              className="hems-control w-full"
+            />
+          </div>
+          <div className="md:col-span-3">
+            <button
+              type="submit"
+              disabled={savingBusy}
+              className="w-full bg-primary text-white px-5 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 hover:bg-sky-800 disabled:opacity-50 transition-colors cursor-pointer shadow-xs"
+            >
+              {savingBusy ? <Loader2 size={16} className="animate-spin" /> : <UserPlus size={16} />}
+              <span>Add / Merge User</span>
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-col gap-2 pt-2 border-t border-slate-100">
@@ -559,12 +574,10 @@ export default function AdminPage() {
             />
           </div>
 
-          <div className="space-y-1">
-            <label
-              htmlFor="csv-fallback-role"
-              className="block text-[11px] font-bold uppercase tracking-wider text-slate-600"
-            >
-              Fallback Role (If CSV omits role column)
+          <div>
+            <label htmlFor="csv-fallback-role" className="hems-label">
+              Fallback Role{" "}
+              <span className="hems-label-hint">(If CSV omits role)</span>
             </label>
             <select
               id="csv-fallback-role"
@@ -573,7 +586,7 @@ export default function AdminPage() {
                 const val = e.target.value;
                 setCsvFallbackRole(isAssignableRole(val) ? val : "");
               }}
-              className="w-full bg-slate-50 border border-slate-300 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-slate-900 focus:outline-none focus:border-primary focus:bg-white"
+              className="hems-control w-full"
             >
               <option value="">Use CSV Role column only</option>
               {ADMIN_ASSIGNABLE_ROLES.map((r) => (
@@ -862,13 +875,13 @@ export default function AdminPage() {
 
       {/* Whitelist Filter, Sort & Table Section */}
       <section className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-2xs">
-        <div className="px-4 sm:px-6 py-4 border-b border-slate-200 bg-slate-50/70 space-y-3">
+        <div className="px-4 sm:px-6 py-4 border-b border-slate-200 bg-[#F3F6FA] space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-              <Users size={16} className="text-primary" /> Whitelist Directory
+            <h3 className="font-serif font-semibold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+              <Users size={17} className="text-primary" /> Whitelist Directory
             </h3>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs bg-white border border-slate-200 text-slate-700 px-2.5 py-0.5 rounded-full font-semibold tabular-nums">
+              <span className="text-xs bg-white border border-slate-300/80 text-slate-800 px-2.5 py-0.5 rounded-full font-semibold tabular-nums">
                 Showing {filteredAndSortedWhitelist.length} of {whitelist.length} entries
               </span>
               {hasActiveFilters && (
@@ -887,44 +900,46 @@ export default function AdminPage() {
           </div>
 
           {/* Search & Sort Controls */}
-          <div className="flex flex-col md:flex-row gap-3">
-            <div className="relative flex-1">
-              <Search
-                size={15}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
-              />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Filter by name, email, or assigned role..."
-                aria-label="Filter whitelist entries"
-                className="w-full bg-white border border-slate-300 pl-9 pr-9 py-2 rounded-lg text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-primary"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  aria-label="Clear filter search"
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 cursor-pointer"
-                >
-                  <X size={14} />
-                </button>
-              )}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-end">
+            <div className="md:col-span-8">
+              <label htmlFor="whitelist-search-input" className="hems-label">
+                Filter by Name, Email, or Role
+              </label>
+              <div className="relative">
+                <Search
+                  size={15}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
+                />
+                <input
+                  id="whitelist-search-input"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Type a name, email address, or role..."
+                  className="hems-control w-full pl-9 pr-9"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    aria-label="Clear filter search"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800 p-1 cursor-pointer"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              <label
-                htmlFor="whitelist-sort-select"
-                className="text-xs font-semibold text-slate-600 whitespace-nowrap"
-              >
-                Sort by:
+            <div className="md:col-span-4">
+              <label htmlFor="whitelist-sort-select" className="hems-label">
+                Sort Order
               </label>
               <select
                 id="whitelist-sort-select"
                 value={`${sortField}:${sortDir}`}
                 onChange={(e) => handleSortDropdownChange(e.target.value)}
-                className="bg-white border border-slate-300 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:border-primary"
+                className="hems-control w-full"
               >
                 <option value="email:asc">Email (A → Z)</option>
                 <option value="email:desc">Email (Z → A)</option>
@@ -1010,12 +1025,12 @@ export default function AdminPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-sm">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 font-bold uppercase text-[10px] tracking-wider text-slate-500">
+                <tr className="bg-slate-100/95 border-b border-slate-300/85 font-bold uppercase text-[11px] tracking-[0.06em] text-slate-700">
                   <th className="p-3.5 pl-6 whitespace-nowrap">
                     <button
                       type="button"
                       onClick={() => handleSortHeader("name")}
-                      className="inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer uppercase"
+                      className="inline-flex items-center gap-1.5 text-slate-700 hover:text-slate-950 cursor-pointer uppercase"
                     >
                       <span>Name</span>
                       {renderSortIcon("name")}
@@ -1025,7 +1040,7 @@ export default function AdminPage() {
                     <button
                       type="button"
                       onClick={() => handleSortHeader("email")}
-                      className="inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer uppercase"
+                      className="inline-flex items-center gap-1.5 text-slate-700 hover:text-slate-950 cursor-pointer uppercase"
                     >
                       <span>Email</span>
                       {renderSortIcon("email")}
@@ -1035,16 +1050,16 @@ export default function AdminPage() {
                     <button
                       type="button"
                       onClick={() => handleSortHeader("roles")}
-                      className="inline-flex items-center gap-1.5 hover:text-slate-900 cursor-pointer uppercase"
+                      className="inline-flex items-center gap-1.5 text-slate-700 hover:text-slate-950 cursor-pointer uppercase"
                     >
                       <span>Assigned Roles</span>
                       {renderSortIcon("roles")}
                     </button>
                   </th>
-                  <th className="p-3.5 pr-6 text-right whitespace-nowrap">Actions</th>
+                  <th className="p-3.5 pr-6 text-right whitespace-nowrap text-slate-700">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 font-medium">
+              <tbody className="divide-y divide-slate-200/85 font-medium">
                 {filteredAndSortedWhitelist.map((entry) => {
                   const isEditingName = editingEmail === entry.email;
                   return (
@@ -1138,7 +1153,7 @@ export default function AdminPage() {
                                 className={`px-2 py-1 rounded text-[11px] font-bold border transition-colors cursor-pointer ${
                                   hasRole
                                     ? meta.badgeClass
-                                    : "bg-slate-50 border-slate-200 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                                    : "bg-slate-50 border-slate-300/80 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
                                 }`}
                               >
                                 {role}

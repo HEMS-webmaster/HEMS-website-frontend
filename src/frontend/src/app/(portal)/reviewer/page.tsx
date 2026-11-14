@@ -312,12 +312,15 @@ export default function ReviewerPage() {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto w-full min-w-0">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-foreground/10 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-black text-foreground flex items-center gap-3">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-primary block mb-1">
+            Program Committee • Scientific Evaluation
+          </span>
+          <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 flex items-center gap-3">
             <ClipboardCheck className="text-primary shrink-0" /> Reviewer Portal
           </h2>
-          <p className="text-xs text-foreground/60 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Inspect full 1-page attendee abstracts, equations, 300-DPI figures, keywords, presenter bios, and assign format recommendations.
           </p>
         </div>
@@ -424,10 +427,10 @@ export default function ReviewerPage() {
           })}
         </div>
 
-        <div className="relative w-full sm:w-72">
+        <div className="relative w-full sm:w-80">
           <Search
             size={14}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
           />
           <input
             type="search"
@@ -435,7 +438,7 @@ export default function ReviewerPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Filter by title, author, keyword, ID..."
             aria-label="Filter abstract queue"
-            className="w-full bg-white border border-slate-200 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-primary"
+            className="hems-control w-full rounded-xl pl-8 pr-3 py-2 text-xs sm:text-sm"
           />
         </div>
       </div>
@@ -594,9 +597,9 @@ export default function ReviewerPage() {
                   {isEditing && (
                     <form
                       onSubmit={(e) => void handleSaveEvaluation(e, sub.id)}
-                      className="bg-white border border-primary/25 rounded-xl p-4 sm:p-5 space-y-4 shadow-2xs"
+                      className="bg-[#F3F6FA] border border-primary/25 rounded-xl p-4 sm:p-5 space-y-4 shadow-2xs"
                     >
-                      <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+                      <div className="flex items-center justify-between gap-2 border-b border-slate-200/80 pb-2.5">
                         <span className="text-xs font-bold uppercase tracking-wider text-primary">
                           Evaluate {sub.id} — {sub.presentingAuthor}
                         </span>
@@ -612,9 +615,10 @@ export default function ReviewerPage() {
                         <div>
                           <label
                             htmlFor={`score-${sub.id}`}
-                            className="block text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-1"
+                            className="hems-label"
                           >
-                            Scientific Score (1.0 – 10.0)
+                            Scientific Score{" "}
+                            <span className="hems-label-hint">(1.0 – 10.0)</span>
                           </label>
                           <input
                             id={`score-${sub.id}`}
@@ -625,14 +629,14 @@ export default function ReviewerPage() {
                             required
                             value={scoreInput}
                             onChange={(e) => setScoreInput(e.target.value)}
-                            className="w-full bg-[#FAFBFD] border border-slate-200 rounded-lg px-3 py-2 text-sm tabular-nums text-slate-900 focus:outline-none focus:border-primary"
+                            className="hems-control w-full tabular-nums"
                           />
                         </div>
 
                         <div>
                           <label
                             htmlFor={`decision-${sub.id}`}
-                            className="block text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-1"
+                            className="hems-label"
                           >
                             Program Recommendation
                           </label>
@@ -642,7 +646,7 @@ export default function ReviewerPage() {
                             onChange={(e) =>
                               setDecisionInput(e.target.value as ReviewDecision)
                             }
-                            className="w-full bg-[#FAFBFD] border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-primary"
+                            className="hems-control w-full"
                           >
                             {REVIEW_DECISION_OPTIONS.map((opt) => (
                               <option key={opt} value={opt}>
@@ -656,7 +660,7 @@ export default function ReviewerPage() {
                       <div>
                         <label
                           htmlFor={`notes-${sub.id}`}
-                          className="block text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-1"
+                          className="hems-label"
                         >
                           Reviewer Notes / Committee Comments
                         </label>
@@ -666,7 +670,7 @@ export default function ReviewerPage() {
                           value={commentsInput}
                           onChange={(e) => setCommentsInput(e.target.value)}
                           placeholder="Technical merit, novelty, suitability for single-track oral vs. poster session..."
-                          className="w-full bg-[#FAFBFD] border border-slate-200 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-primary"
+                          className="hems-control w-full"
                         />
                       </div>
 

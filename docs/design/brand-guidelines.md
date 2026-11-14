@@ -2,8 +2,8 @@
 
 - **Custodian:** `@brand`
 - **Status:** ACTIVE
-- **Version:** `3.1.0` (*Scholarly Precision & Editorial Symposium — Dual-Font Refinement*)
-- **Previous Archives:** [`archive/brand-guidelines-v3.0.0.md`](./archive/brand-guidelines-v3.0.0.md) · [`archive/brand-guidelines-v2.0.0.md`](./archive/brand-guidelines-v2.0.0.md)
+- **Version:** `3.2.0` (*Scholarly Precision & Editorial Symposium — User-Data-Interface Readability Refinement*)
+- **Previous Archives:** [`archive/brand-guidelines-v3.1.0.md`](./archive/brand-guidelines-v3.1.0.md) · [`archive/brand-guidelines-v3.0.0.md`](./archive/brand-guidelines-v3.0.0.md) · [`archive/brand-guidelines-v2.0.0.md`](./archive/brand-guidelines-v2.0.0.md)
 
 This document is the single source of truth for the visual, typographic, structural, and editorial identity of the **Harsh-Environment Mass Spectrometry (HEMS) Society & Biennial Workshop** (`hems-workshop.org`).
 
@@ -23,17 +23,21 @@ This document is the single source of truth for the visual, typographic, structu
 
 ## 2. Color & Surface System ("Alabaster Paper & Oceanic Sapphire")
 
-Rather than placing heavy `slate-200` gray cards onto a pure white background, v3.1.0 uses a warm-cool **Alabaster Paper** canvas so pure **Specimen White** cards float naturally with `1px` hairline borders and whisper-soft elevation.
+Rather than placing heavy `slate-200` gray cards onto a pure white background, v3.2.0 uses a warm-cool **Alabaster Paper** canvas so pure **Specimen White** cards float naturally with `1px` hairline borders and whisper-soft elevation, while dedicated **User-Data-Interface** surface, label, and border tokens separate structural form labels from user-entered values.
 
 | Token Name | Hex | CSS / Tailwind Variable | Role & Usage |
 | :--- | :--- | :--- | :--- |
 | **Alabaster Paper** | `#FAFBFD` | `var(--background)` / `bg-background` | Primary page canvas; reduces glare while letting `#FFFFFF` cards stand out cleanly. |
-| **Specimen White** | `#FFFFFF` | `var(--card)` / `bg-white` | Primary elevated cards, specimen frames, and translucent (`bg-white/90`) sticky navigation. |
-| **Porcelain Mist** | `#F1F5F9` | `var(--surface)` / `bg-surface` | Soft secondary section bands, subtle inset wells, and table headers (`slate-100`). |
+| **Specimen White** | `#FFFFFF` | `var(--card)` / `bg-white` | Primary elevated cards, specimen frames, translucent sticky navigation, and active data-entry input wells. |
+| **Porcelain Mist** | `#F1F5F9` | `var(--surface)` / `bg-surface` | Soft secondary section bands and ledger table headers (`slate-100`). |
+| **Form Grouping Well** | `#F3F6FA` | `var(--surface-well)` / `bg-surface-well` | Cool-tinted inset container behind grouped form controls and repeating field rows so `#FFFFFF` input boxes never sit white-on-white. |
 | **Hairline Rule** | `#E2E8F0` | `var(--border-subtle)` / `border-slate-200` | Crisp `1px` structural dividers, card borders, and ledger grids. |
-| **Oxford Ink** | `#0F172A` | `var(--heading)` / `text-slate-900` | Display titles (`h1`–`h3`) and primary numerals for crisp scholarly contrast. |
+| **Oxford Ink** | `#0F172A` | `var(--heading)` / `text-slate-900` | Display titles (`h1`–`h3`), primary table numerals, and user-entered text-box values (`17.8:1` on `#FFFFFF`). |
+| **Field Label Navy** | `#1E3A5F` | `var(--field-label)` / `text-field-label` | Deep slate-navy (`~11.4:1` contrast) reserved for form field labels (`.hems-label`) so structural UI prompts are visually distinct from neutral `#0F172A` entered data. |
+| **Control Hairline** | `#94A3B8` | `var(--field-border)` | Authoritative `1px` input/select/textarea border (hover `#64748B`, focus `#0369A1` + `3px` halo) paired with subtle top inset depth. |
+| **Placeholder Slate** | `#7C8BA1` | `var(--field-placeholder)` | Muted normal-weight placeholder hint (`~3.5:1` on `#FFFFFF`), clearly lighter than entered `#0F172A` content. |
 | **Editorial Slate** | `#334155` | `var(--foreground)` / `text-foreground` | Long-form body prose (`4.5:1+` effortless reading contrast without pure-black harshness). |
-| **Caption Slate** | `#64748B` | `var(--muted)` / `text-slate-500` | Provenance notes, archival captions, and secondary metadata. |
+| **Caption Slate** | `#64748B` | `var(--muted)` / `text-slate-500` | Provenance notes, archival captions, `.hems-label-hint` qualifiers, and secondary metadata. |
 | **Oceanic Sapphire** | `#0369A1` | `var(--primary)` / `text-primary` | Primary brand action color (`sky-700`); high WCAG AA contrast for buttons, links, and active indicators. |
 | **Instrumentation Teal** | `#0F766E` | `var(--secondary)` / `text-secondary` | Secondary scientific accent (`teal-700`) for active highlights, grants, and verified milestones. |
 
@@ -75,6 +79,11 @@ All fonts MUST be self-hosted/optimized via Next.js `next/font/google` in `src/a
 2. **Two Complementary Page Modes:**
    - **Editorial Narrative Pages (`/`, `/about`, `/history`, `/student-awards`, `/contact`, `/corporate-sponsorship`):** Clean `Noto Sans` eyebrow kicker → Title-Case `Source Serif 4` headline → `max-w-2xl` lead summary → `1px` slate rule → Specimen White card grids.
    - **Workshop Cycle & Archive Portals (`/layout-portal`, `/archive`):** High-clarity utility layouts with persistent navigation and instant scannability. *(Note: `/archive/[year]` pages are governed by an explicit `@bo` immutability lock.)*
+3. **User-Data-Interface Ergonomics (Forms, Inputs, Labels & Data Ledgers — `/abstract-submission`, `/board/mailing-list`, `/admin`, `/board/announcements`, `/reviewer`):**
+   - **Mandatory Visible Field Labels:** Every form input, select, and textarea pairs with a visible `<label>` (single-field search inputs may rely on a leading search icon + `aria-label`, though labeled search toolbars are preferred in multi-control admin bars). Never leave bare placeholder-only controls inside multi-field forms or import toolbars.
+   - **Label vs. Text-Box Content Hierarchy:** Set form field labels (`.hems-label`) in **Title/Sentence Case** `Noto Sans` `13px` (`0.8125rem`) `font-semibold` (`600`) in **Field Label Navy** (`#1E3A5F`), placing secondary qualifiers such as `(Optional)` or `(Max 300 chars)` in `.hems-label-hint` (`12px font-normal text-slate-500`). Reserve all-caps micro-tracking solely for page eyebrows and badge pills. Set text-box values (`.hems-control`) inside pure `#FFFFFF` wells with `#94A3B8` borders, a subtle top inset shadow (`inset 0 1px 2px rgba(15, 23, 42, 0.06)`), `#0F172A` `font-normal` (`400`) input text (`14px–15px`), and `#7C8BA1` placeholders so entered data stands sharply apart from both placeholders and labels.
+   - **Figure-Ground Grouping:** Multi-field control toolbars, inline add forms, and repeating author/affiliation cards sit inside a cool **Form Grouping Well** (`#F3F6FA` / `--surface-well`) so `#FFFFFF` input boxes read immediately as interactive wells.
+   - **Ledger Table Readability:** Directory and whitelist tables use `bg-slate-100/95` headers with `border-y border-slate-300/85` and `11px` `font-bold uppercase tracking-[0.06em] text-slate-700`, `divide-slate-200/85` body rows, `text-slate-900 font-semibold` primary identifiers, and `text-slate-600` secondary metadata (`text-slate-400` reserved strictly for blank `—` cells).
 
 ---
 

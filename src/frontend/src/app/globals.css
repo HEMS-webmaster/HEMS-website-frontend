@@ -2,11 +2,16 @@
 
 :root,
 .theme-global {
-  /* v3.1.0 — Scholarly Precision & Editorial Symposium ("Alabaster Paper & Oceanic Sapphire" — Dual-Font Refinement) */
+  /* v3.2.0 — Scholarly Precision & Editorial Symposium ("Alabaster Paper & Oceanic Sapphire" — User-Data-Interface Readability Refinement) */
   --background: #FAFBFD;
   --card: #FFFFFF;
   --surface: #F1F5F9;
+  --surface-well: #F3F6FA;
   --border-subtle: #E2E8F0;
+  --field-label: #1E3A5F;
+  --field-border: #94A3B8;
+  --field-border-hover: #64748B;
+  --field-placeholder: #7C8BA1;
   --heading: #0F172A;
   --foreground: #334155;
   --muted: #64748B;
@@ -18,6 +23,8 @@
   --color-background: var(--background);
   --color-card: var(--card);
   --color-surface: var(--surface);
+  --color-surface-well: var(--surface-well);
+  --color-field-label: var(--field-label);
   --color-heading: var(--heading);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -27,6 +34,59 @@
   --font-serif: var(--font-source-serif), Georgia, Cambria, "Times New Roman", "Cambria Math", "Segoe UI Symbol", "Apple Symbols", serif;
   /* v3.1.0 retires IBM Plex Mono; map --font-mono to Noto Sans so locked /archive/[year] routes render in clean sans */
   --font-mono: var(--font-noto-sans), system-ui, -apple-system, sans-serif;
+}
+
+@layer components {
+  .hems-label {
+    display: block;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--field-label);
+    margin-bottom: 0.375rem;
+  }
+
+  .hems-label-hint {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  .hems-control {
+    background-color: #ffffff;
+    border: 1px solid var(--field-border);
+    border-radius: 0.625rem;
+    padding: 0.5625rem 0.8125rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    font-weight: 400;
+    color: var(--heading);
+    box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+    transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+  }
+
+  .hems-control::placeholder {
+    color: var(--field-placeholder);
+    font-weight: 400;
+  }
+
+  .hems-control:hover:not(:disabled) {
+    border-color: var(--field-border-hover);
+  }
+
+  .hems-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04), 0 0 0 3px rgba(3, 105, 161, 0.16);
+  }
+
+  .hems-control:disabled {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border-color: #cbd5e1;
+    cursor: not-allowed;
+  }
 }
 
 html,

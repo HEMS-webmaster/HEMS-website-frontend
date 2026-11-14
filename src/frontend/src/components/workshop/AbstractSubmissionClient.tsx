@@ -127,10 +127,8 @@ const QUICK_MATH_TOKENS: Array<{
   { label: "√x", token: "$\\sqrt{x}$", title: "Square root" },
 ];
 
-const LABEL_CLASS =
-  "block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 mb-1.5";
-const INPUT_CLASS =
-  "w-full bg-white border-2 border-slate-300 hover:border-slate-400 rounded-xl px-3.5 py-2.5 text-[15px] font-normal text-slate-950 placeholder:text-slate-400 shadow-2xs focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 transition-colors";
+const LABEL_CLASS = "hems-label";
+const INPUT_CLASS = "hems-control w-full px-3.5 py-2.5 text-[15px] rounded-xl";
 
 function nextId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
@@ -1606,11 +1604,11 @@ export default function AbstractSubmissionClient() {
       : null;
 
   const renderFigureWidthControl = (idPrefix: string) => (
-    <div className="bg-white border-2 border-slate-300 rounded-xl p-4 space-y-3 shadow-2xs">
+    <div className="bg-white border border-slate-300/90 rounded-xl p-4 space-y-3 shadow-2xs">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <label
           htmlFor={`${idPrefix}-fig-width-number`}
-          className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5"
+          className="hems-label mb-0 flex items-center gap-1.5"
         >
           <Ruler size={14} className="text-primary" />
           Desired Figure Width ({MIN_FIGURE_WIDTH_IN}&ndash;{MAX_FIGURE_WIDTH_IN} inches)
@@ -1666,7 +1664,7 @@ export default function AbstractSubmissionClient() {
             value={figureWidthInput}
             onChange={(e) => handleFigureWidthInputChange(e.target.value)}
             onBlur={handleFigureWidthInputBlur}
-            className="w-24 bg-white border-2 border-slate-300 rounded-lg px-2.5 py-1.5 text-sm font-bold text-slate-950 tabular-nums text-right focus:outline-none focus:border-primary"
+            className="hems-control w-24 px-2.5 py-1.5 text-sm font-semibold tabular-nums text-right"
           />
           <span className="text-xs font-bold text-slate-700">in</span>
         </div>
@@ -2385,13 +2383,13 @@ export default function AbstractSubmissionClient() {
         className={
           currentStage === 7
             ? "w-full space-y-6"
-            : "w-full bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-8 lg:px-[94px] py-6 sm:py-8 shadow-xs space-y-6 print:hidden"
+            : "w-full bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 lg:px-[94px] py-6 sm:py-8 shadow-xs space-y-6 print:hidden"
         }
       >
         <div
           className={
             currentStage === 7
-              ? "print:hidden bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-8 py-6 shadow-xs space-y-4"
+              ? "print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-6 shadow-xs space-y-4"
               : "print:hidden space-y-4"
           }
         >
@@ -2641,7 +2639,7 @@ export default function AbstractSubmissionClient() {
               {affiliations.map((aff, index) => (
                 <div
                   key={aff.id}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-white border-2 border-slate-200 rounded-xl p-3.5 sm:p-4"
+                  className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-[#FAFBFD] border border-slate-300/90 rounded-xl p-3.5 sm:p-4 shadow-2xs"
                 >
                   <div className="md:col-span-1 flex items-center gap-2 pb-1.5">
                     <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary text-xs font-bold flex items-center justify-center tabular-nums">
@@ -2734,10 +2732,10 @@ export default function AbstractSubmissionClient() {
               {authors.map((author, index) => (
                 <div
                   key={author.id}
-                  className={`grid grid-cols-1 md:grid-cols-12 gap-3 items-center rounded-xl p-3.5 sm:p-4 border-2 transition-colors ${
+                  className={`grid grid-cols-1 md:grid-cols-12 gap-3 items-center rounded-xl p-3.5 sm:p-4 border transition-colors ${
                     author.isPresenter
-                      ? "bg-sky-50/70 border-primary/50"
-                      : "bg-white border-slate-200"
+                      ? "bg-sky-50/75 border-primary/55 shadow-2xs"
+                      : "bg-[#FAFBFD] border-slate-300/90 shadow-2xs"
                   }`}
                 >
                   <div className="md:col-span-5 flex items-center gap-2.5 min-w-0">
@@ -2745,8 +2743,14 @@ export default function AbstractSubmissionClient() {
                       #{index + 1}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <label className="block text-[10px] font-extrabold uppercase tracking-[0.08em] text-sky-950 mb-1">
-                        {author.isPresenter ? "Presenter Name *" : `Co-Author #${index + 1}`}
+                      <label className="hems-label">
+                        {author.isPresenter ? (
+                          <>
+                            Presenter Name <span className="text-red-600">*</span>
+                          </>
+                        ) : (
+                          `Co-Author #${index + 1}`
+                        )}
                       </label>
                       <input
                         type="text"
@@ -2770,7 +2774,7 @@ export default function AbstractSubmissionClient() {
                   </div>
 
                   <div className="md:col-span-5 min-w-0">
-                    <label className="block text-[10px] font-extrabold uppercase tracking-[0.08em] text-sky-950 mb-1">
+                    <label className="hems-label">
                       Institutional Affiliation
                     </label>
                     <select
@@ -2847,9 +2851,10 @@ export default function AbstractSubmissionClient() {
               <div className="flex items-center justify-between gap-2 mb-1.5">
                 <label
                   htmlFor="abs-summary"
-                  className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
+                  className="hems-label mb-0"
                 >
-                  Short Synopsis ({SYNOPSIS_MAX_CHARS} Chars Max){" "}
+                  Short Synopsis{" "}
+                  <span className="hems-label-hint">({SYNOPSIS_MAX_CHARS} chars max)</span>{" "}
                   <span className="text-red-600">*</span>
                 </label>
                 <span
@@ -2897,7 +2902,7 @@ export default function AbstractSubmissionClient() {
             <div className="bg-white border-2 border-slate-300/90 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="min-w-0">
-                  <h3 className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5">
+                  <h3 className="hems-label mb-0 flex items-center gap-1.5">
                     <ImageIcon size={14} className="text-primary" />
                     Optional High-Resolution Figure ({MIN_GRAPHIC_DPI} DPI Min) &amp; Width Control
                   </h3>
@@ -3041,7 +3046,7 @@ export default function AbstractSubmissionClient() {
                     <div className="flex items-center justify-between gap-2">
                       <label
                         htmlFor="abs-graphic-caption"
-                        className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
+                        className="hems-label mb-0"
                       >
                         Figure Caption{" "}
                         {hasAttachedGraphic ? (
@@ -3099,7 +3104,7 @@ export default function AbstractSubmissionClient() {
                 <div>
                   <label
                     htmlFor="abs-body"
-                    className="block text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950"
+                    className="hems-label mb-0"
                   >
                     Raw Abstract Input Text (Up to {ABSTRACT_MAX_CHARS.toLocaleString()} Chars With Spaces){" "}
                     <span className="text-red-600">*</span>
@@ -3262,7 +3267,7 @@ export default function AbstractSubmissionClient() {
                   )
                 }
                 placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Word line-wraps are unwrapped automatically so text fills the 6.5&quot; column width naturally (12-15 words/line)..."
-                className="w-full bg-white border-2 border-slate-300 hover:border-slate-400 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-3.5 font-serif text-[16px] text-slate-950 placeholder:text-slate-400 placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-2xs"
+                className="w-full bg-white border-2 border-[#94A3B8] hover:border-slate-500 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-3.5 font-serif text-[16px] text-slate-950 placeholder:text-[#7C8BA1] placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-inner"
               />
             </div>
 
@@ -3405,7 +3410,7 @@ export default function AbstractSubmissionClient() {
               <div className="flex items-center justify-between gap-2">
                 <label
                   htmlFor="abs-keywords"
-                  className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5"
+                  className="hems-label mb-0 flex items-center gap-1.5"
                 >
                   <Tag size={13} className="text-primary" />
                   Keywords (Comma-Separated, Max {KEYWORDS_MAX_CHARS} Chars){" "}
@@ -3499,7 +3504,7 @@ export default function AbstractSubmissionClient() {
               <div className="flex items-center justify-between gap-2">
                 <label
                   htmlFor="abs-bio"
-                  className="text-xs font-extrabold uppercase tracking-[0.08em] text-sky-950 flex items-center gap-1.5"
+                  className="hems-label mb-0 flex items-center gap-1.5"
                 >
                   <User size={13} className="text-primary" />
                   Presenter Biography (Max {BIO_MAX_CHARS} Chars){" "}
@@ -3546,7 +3551,7 @@ export default function AbstractSubmissionClient() {
         {/* STAGE 7: 8.5" × 11" (1" Margin, 1–2 Page) Preview, Desired Figure Width & Submit */}
         {currentStage === 7 && (
           <div className="space-y-5">
-            <div className="print:hidden bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-8 py-5 shadow-xs space-y-4">
+            <div className="print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-5 shadow-xs space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs">
                 <span className="text-slate-700 font-semibold">
                   Jump back to edit any section before submitting:
@@ -3606,7 +3611,7 @@ export default function AbstractSubmissionClient() {
         <div
           className={
             currentStage === 7
-              ? "print:hidden bg-[#F8FAFC] border-2 border-slate-300/90 rounded-2xl px-4 sm:px-8 py-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              ? "print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               : "print:hidden pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
           }
         >
