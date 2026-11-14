@@ -12,6 +12,8 @@ import {
 import { db, hasFirebaseKeys } from "@/utils/firebase";
 import {
   AssignableRole,
+  composePersonFullName,
+  hydrateWhitelistPersonFields,
   sanitizeRoleList,
   WhitelistCsvApplyPlan,
   WhitelistEntry,
@@ -22,30 +24,49 @@ const MOCK_WHITELIST_STORAGE_KEY = "hems_mock_whitelist";
 const INITIAL_MOCK_WHITELIST: WhitelistEntry[] = [
   {
     email: "admin@example.com",
+    firstName: "Society",
+    lastName: "Admin",
+    affiliation: "HEMS Executive Office",
     name: "Society Admin",
     roles: ["admin", "reviewer", "board"],
   },
   {
     email: "reviewer@example.com",
+    firstName: "Dr. Jordan",
+    lastName: "Blake",
+    affiliation: "National High Magnetic Field Lab",
     name: "Dr. Jordan Blake",
     roles: ["reviewer"],
   },
   {
     email: "elena.vance@university.edu",
+    firstName: "Dr. Elena",
+    lastName: "Vance",
+    affiliation: "Dept. of Chemistry, USF",
     name: "Dr. Elena Vance",
     roles: ["attendee", "oral presenter"],
   },
   {
     email: "marcus.chen@lab.gov",
+    firstName: "Marcus",
+    lastName: "Chen",
+    affiliation: "Pacific Northwest National Lab",
     name: "Marcus Chen",
     roles: ["attendee", "poster presenter"],
   },
   {
     email: "sponsorship@instrumentcorp.com",
+    firstName: "Dana",
+    lastName: "Brooks",
+    affiliation: "InstrumentCorp Mass Spec",
     name: "Dana Brooks",
     roles: ["corporate sponsor"],
   },
 ];
+
+const INITIAL_MOCK_BY_EMAIL = new Map(
+  INITIAL_MOCK_WHITELIST.map((entry) => [entry.email.toLowerCase(), entry])
+);
 
 function extractErrorMessage(err: unknown, fallback: string): string {
   if (err instanceof Error && err.message) return err.message;
@@ -70,11 +91,27 @@ function readMockWhitelist(): WhitelistEntry[] {
     for (const item of parsed) {
       if (!item || typeof item !== "object") continue;
       const rec = item as Record<string, unknown>;
-      const email = typeof rec.email === "string" ? rec.email.trim().toLowerCase() : "";
+      const email =
+        typeof rec.email === "string" ? rec.email.trim().toLowerCase() : "";
       if (!email) continue;
+      const seed = INITIAL_MOCK_BY_EMAIL.get(email);
+      const person = hydrateWhitelistPersonFields({
+        firstName: rec.firstName,
+        lastName: rec.lastName,
+        affiliation:
+          typeof rec.affiliation === "string" && rec.affiliation.trim()
+            ? rec.affiliation
+            : typeof rec.institution === "string" && rec.institution.trim()
+              ? rec.institution
+              : seed?.affiliation,
+        name: rec.name,
+      });
       normalized.push({
         email,
-        name: typeof rec.name === "string" ? rec.name.trim() : "",
+        firstName: person.firstName,
+        lastName: person.lastName,
+        affiliation: person.affiliation,
+        name: person.name,
         roles: sanitizeRoleList(rec.roles),
         updatedAt: typeof rec.updatedAt === "string" ? rec.updatedAt : undefined,
       });
@@ -87,7 +124,10 @@ function readMockWhitelist(): WhitelistEntry[] {
 
 function writeMockWhitelist(entries: WhitelistEntry[]): void {
   if (typeof window === "undefined") return;
-  window.sessionStorage.setItem(MOCK_WHITELIST_STORAGE_KEY, JSON.stringify(entries));
+  window.sessionStorage.setItem(
+    MOCK_WHITELIST_STORAGE_KEY,
+    JSON.stringify(entries)
+  );
 }
 
 export function useWhitelistAdmin(isAuthorized: boolean) {
@@ -108,23 +148,31 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
         return;
       }
 
-      const [whitelistSnap, userNamesByEmail] = await Promise.all([
+      const [whitelistSnap, userFallbackByEmail] = await Promise.all([
         getDocs(collection(db, "whitelist")),
-        (async (): Promise<Map<string, string>> => {
-          const map = new Map<string, string>();
+        (async (): Promise<Map<string, { name: string; affiliation: string }>> => {
+          const map = new Map<string, { name: string; affiliation: string }>();
           try {
             const usersSnap = await getDocs(collection(db, "users"));
             usersSnap.forEach((userDoc) => {
               const data = userDoc.data();
               const rawEmail =
-                typeof data.email === "string" ? data.email.trim().toLowerCase() : "";
+                typeof data.email === "string"
+                  ? data.email.trim().toLowerCase()
+                  : "";
               const rawName = typeof data.name === "string" ? data.name.trim() : "";
-              if (rawEmail && rawName && !map.has(rawEmail)) {
-                map.set(rawEmail, rawName);
+              const rawAffil =
+                typeof data.affiliation === "string" && data.affiliation.trim()
+                  ? data.affiliation.trim()
+                  : typeof data.institution === "string"
+                    ? data.institution.trim()
+                    : "";
+              if (rawEmail && (rawName || rawAffil) && !map.has(rawEmail)) {
+                map.set(rawEmail, { name: rawName, affiliation: rawAffil });
               }
             });
           } catch {
-            // Best-effort fallback name hydration from registered user profiles
+            // Best-effort fallback profile hydration from registered user profiles
           }
           return map;
         })(),
@@ -135,10 +183,28 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
         const id = docSnap.id.toLowerCase().trim();
         if (!id) return;
         const d = docSnap.data();
+        const fallback = userFallbackByEmail.get(id);
         const storedName = typeof d.name === "string" ? d.name.trim() : "";
+        const storedAffil =
+          typeof d.affiliation === "string" && d.affiliation.trim()
+            ? d.affiliation.trim()
+            : typeof d.institution === "string" && d.institution.trim()
+              ? d.institution.trim()
+              : fallback?.affiliation || "";
+
+        const person = hydrateWhitelistPersonFields({
+          firstName: d.firstName,
+          lastName: d.lastName,
+          affiliation: storedAffil,
+          name: storedName || fallback?.name || "",
+        });
+
         entries.push({
           email: id,
-          name: storedName || userNamesByEmail.get(id) || "",
+          firstName: person.firstName,
+          lastName: person.lastName,
+          affiliation: person.affiliation,
+          name: person.name,
           roles: sanitizeRoleList(d.roles),
           updatedAt: typeof d.updatedAt === "string" ? d.updatedAt : undefined,
         });
@@ -147,7 +213,9 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
       entries.sort((a, b) => a.email.localeCompare(b.email));
       setWhitelist(entries);
     } catch (err: unknown) {
-      setErrorMsg("Failed to load whitelist: " + extractErrorMessage(err, "Unknown error"));
+      setErrorMsg(
+        "Failed to load whitelist: " + extractErrorMessage(err, "Unknown error")
+      );
     } finally {
       setLoadingList(false);
     }
@@ -162,12 +230,14 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
   }, [isAuthorized, loadWhitelist]);
 
   const addOrUpdateManualUser = useCallback(
-    async (
-      email: string,
-      name: string,
-      rolesToAdd: string[]
-    ): Promise<{ isNew: boolean; email: string }> => {
-      const targetEmail = email.trim().toLowerCase();
+    async (input: {
+      firstName: string;
+      lastName: string;
+      affiliation: string;
+      email: string;
+      rolesToAdd: string[];
+    }): Promise<{ isNew: boolean; email: string }> => {
+      const targetEmail = input.email.trim().toLowerCase();
       if (!targetEmail || !targetEmail.includes("@")) {
         throw new Error("Please enter a valid email address.");
       }
@@ -176,18 +246,37 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
       setErrorMsg("");
       try {
         const nowIso = new Date().toISOString();
-        const cleanIncomingRoles = sanitizeRoleList(rolesToAdd);
+        const cleanIncomingRoles = sanitizeRoleList(input.rolesToAdd);
         const existing = whitelist.find((w) => w.email === targetEmail);
         const isNew = !existing;
-        const finalName = existing
-          ? existing.name.trim() || name.trim()
-          : name.trim();
+
+        const incomingFirst = input.firstName.trim();
+        const incomingLast = input.lastName.trim();
+        const incomingAffil = input.affiliation.trim();
+
+        const finalFirst = existing
+          ? existing.firstName.trim() || incomingFirst
+          : incomingFirst;
+        const finalLast = existing
+          ? existing.lastName.trim() || incomingLast
+          : incomingLast;
+        const finalAffil = existing
+          ? existing.affiliation.trim() || incomingAffil
+          : incomingAffil;
+        const finalName = composePersonFullName(
+          finalFirst,
+          finalLast,
+          existing?.name || ""
+        );
         const finalRoles = existing
           ? sanitizeRoleList([...existing.roles, ...cleanIncomingRoles])
           : cleanIncomingRoles;
 
         const nextEntry: WhitelistEntry = {
           email: targetEmail,
+          firstName: finalFirst,
+          lastName: finalLast,
+          affiliation: finalAffil,
           name: finalName,
           roles: finalRoles,
           updatedAt: nowIso,
@@ -197,6 +286,9 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
           await setDoc(
             doc(db, "whitelist", targetEmail),
             {
+              firstName: finalFirst,
+              lastName: finalLast,
+              affiliation: finalAffil,
               name: finalName,
               roles: finalRoles,
               updatedAt: nowIso,
@@ -231,39 +323,67 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
     [whitelist]
   );
 
-  const updateEntryName = useCallback(async (email: string, name: string): Promise<void> => {
-    const targetEmail = email.trim().toLowerCase();
-    const cleanName = name.trim();
-    const nowIso = new Date().toISOString();
+  const updateEntryProfile = useCallback(
+    async (
+      email: string,
+      updates: { firstName: string; lastName: string; affiliation: string }
+    ): Promise<void> => {
+      const targetEmail = email.trim().toLowerCase();
+      const cleanFirst = updates.firstName.trim();
+      const cleanLast = updates.lastName.trim();
+      const cleanAffiliation = updates.affiliation.trim();
+      const cleanName = composePersonFullName(cleanFirst, cleanLast);
+      const nowIso = new Date().toISOString();
 
-    setErrorMsg("");
-    try {
-      if (hasFirebaseKeys) {
-        await setDoc(
-          doc(db, "whitelist", targetEmail),
-          { name: cleanName, updatedAt: nowIso },
-          { merge: true }
-        );
-      }
-
-      setWhitelist((prev) => {
-        const next = prev.map((w) =>
-          w.email === targetEmail ? { ...w, name: cleanName, updatedAt: nowIso } : w
-        );
-        if (!hasFirebaseKeys) {
-          writeMockWhitelist(next);
+      setErrorMsg("");
+      try {
+        if (hasFirebaseKeys) {
+          await setDoc(
+            doc(db, "whitelist", targetEmail),
+            {
+              firstName: cleanFirst,
+              lastName: cleanLast,
+              affiliation: cleanAffiliation,
+              name: cleanName,
+              updatedAt: nowIso,
+            },
+            { merge: true }
+          );
         }
-        return next;
-      });
-    } catch (err: unknown) {
-      const msg = extractErrorMessage(err, "Failed to update name.");
-      setErrorMsg(msg);
-      throw new Error(msg);
-    }
-  }, []);
+
+        setWhitelist((prev) => {
+          const next = prev.map((w) =>
+            w.email === targetEmail
+              ? {
+                  ...w,
+                  firstName: cleanFirst,
+                  lastName: cleanLast,
+                  affiliation: cleanAffiliation,
+                  name: cleanName,
+                  updatedAt: nowIso,
+                }
+              : w
+          );
+          if (!hasFirebaseKeys) {
+            writeMockWhitelist(next);
+          }
+          return next;
+        });
+      } catch (err: unknown) {
+        const msg = extractErrorMessage(err, "Failed to update whitelist profile.");
+        setErrorMsg(msg);
+        throw new Error(msg);
+      }
+    },
+    []
+  );
 
   const toggleRole = useCallback(
-    async (email: string, role: AssignableRole, currentRoles: string[]): Promise<void> => {
+    async (
+      email: string,
+      role: AssignableRole,
+      currentRoles: string[]
+    ): Promise<void> => {
       const targetEmail = email.trim().toLowerCase();
       const nowIso = new Date().toISOString();
       const baseRoles = sanitizeRoleList(currentRoles);
@@ -283,7 +403,9 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
 
         setWhitelist((prev) => {
           const next = prev.map((w) =>
-            w.email === targetEmail ? { ...w, roles: updatedRoles, updatedAt: nowIso } : w
+            w.email === targetEmail
+              ? { ...w, roles: updatedRoles, updatedAt: nowIso }
+              : w
           );
           if (!hasFirebaseKeys) {
             writeMockWhitelist(next);
@@ -297,6 +419,75 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
       }
     },
     []
+  );
+
+  const bulkUpdateRole = useCallback(
+    async (
+      emails: string[],
+      role: AssignableRole,
+      action: "add" | "remove"
+    ): Promise<number> => {
+      const targetSet = new Set(
+        emails.map((e) => e.trim().toLowerCase()).filter(Boolean)
+      );
+      if (targetSet.size === 0) return 0;
+
+      const nowIso = new Date().toISOString();
+      const changedEntries: WhitelistEntry[] = [];
+      const nextEntries = whitelist.map((entry) => {
+        if (!targetSet.has(entry.email)) return entry;
+        const baseRoles = sanitizeRoleList(entry.roles);
+        const hasRole = baseRoles.includes(role);
+        if ((action === "add" && hasRole) || (action === "remove" && !hasRole)) {
+          return entry;
+        }
+        const nextRoles =
+          action === "add"
+            ? sanitizeRoleList([...baseRoles, role])
+            : baseRoles.filter((r) => r !== role);
+        const updated: WhitelistEntry = {
+          ...entry,
+          roles: nextRoles,
+          updatedAt: nowIso,
+        };
+        changedEntries.push(updated);
+        return updated;
+      });
+
+      if (changedEntries.length === 0) return 0;
+
+      setSavingBusy(true);
+      setErrorMsg("");
+      try {
+        if (hasFirebaseKeys) {
+          const BATCH_LIMIT = 400;
+          for (let i = 0; i < changedEntries.length; i += BATCH_LIMIT) {
+            const chunk = changedEntries.slice(i, i + BATCH_LIMIT);
+            const batch = writeBatch(db);
+            for (const entry of chunk) {
+              batch.set(
+                doc(db, "whitelist", entry.email),
+                { roles: entry.roles, updatedAt: nowIso },
+                { merge: true }
+              );
+            }
+            await batch.commit();
+          }
+        } else {
+          writeMockWhitelist(nextEntries);
+        }
+
+        setWhitelist(nextEntries);
+        return changedEntries.length;
+      } catch (err: unknown) {
+        const msg = extractErrorMessage(err, "Failed to update roles in bulk.");
+        setErrorMsg(msg);
+        throw new Error(msg);
+      } finally {
+        setSavingBusy(false);
+      }
+    },
+    [whitelist]
   );
 
   const deleteEntry = useCallback(async (email: string): Promise<void> => {
@@ -321,42 +512,48 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
     }
   }, []);
 
-  const applyCsvPlan = useCallback(async (plan: WhitelistCsvApplyPlan): Promise<void> => {
-    setSavingBusy(true);
-    setErrorMsg("");
-    try {
-      const nowIso = new Date().toISOString();
-      if (hasFirebaseKeys) {
-        const BATCH_LIMIT = 400;
-        for (let i = 0; i < plan.mutations.length; i += BATCH_LIMIT) {
-          const chunk = plan.mutations.slice(i, i + BATCH_LIMIT);
-          const batch = writeBatch(db);
-          for (const mutation of chunk) {
-            batch.set(
-              doc(db, "whitelist", mutation.email),
-              {
-                name: mutation.name,
-                roles: mutation.roles,
-                updatedAt: mutation.updatedAt || nowIso,
-              },
-              { merge: true }
-            );
+  const applyCsvPlan = useCallback(
+    async (plan: WhitelistCsvApplyPlan): Promise<void> => {
+      setSavingBusy(true);
+      setErrorMsg("");
+      try {
+        const nowIso = new Date().toISOString();
+        if (hasFirebaseKeys) {
+          const BATCH_LIMIT = 400;
+          for (let i = 0; i < plan.mutations.length; i += BATCH_LIMIT) {
+            const chunk = plan.mutations.slice(i, i + BATCH_LIMIT);
+            const batch = writeBatch(db);
+            for (const mutation of chunk) {
+              batch.set(
+                doc(db, "whitelist", mutation.email),
+                {
+                  firstName: mutation.firstName,
+                  lastName: mutation.lastName,
+                  affiliation: mutation.affiliation,
+                  name: mutation.name,
+                  roles: mutation.roles,
+                  updatedAt: mutation.updatedAt || nowIso,
+                },
+                { merge: true }
+              );
+            }
+            await batch.commit();
           }
-          await batch.commit();
+        } else {
+          writeMockWhitelist(plan.nextEntries);
         }
-      } else {
-        writeMockWhitelist(plan.nextEntries);
-      }
 
-      setWhitelist(plan.nextEntries);
-    } catch (err: unknown) {
-      const msg = extractErrorMessage(err, "Failed to apply CSV import.");
-      setErrorMsg(msg);
-      throw new Error(msg);
-    } finally {
-      setSavingBusy(false);
-    }
-  }, []);
+        setWhitelist(plan.nextEntries);
+      } catch (err: unknown) {
+        const msg = extractErrorMessage(err, "Failed to apply CSV import.");
+        setErrorMsg(msg);
+        throw new Error(msg);
+      } finally {
+        setSavingBusy(false);
+      }
+    },
+    []
+  );
 
   return {
     whitelist,
@@ -365,8 +562,9 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
     errorMsg,
     loadWhitelist,
     addOrUpdateManualUser,
-    updateEntryName,
+    updateEntryProfile,
     toggleRole,
+    bulkUpdateRole,
     deleteEntry,
     applyCsvPlan,
   };

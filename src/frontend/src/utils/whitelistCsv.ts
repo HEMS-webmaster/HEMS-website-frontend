@@ -1,4 +1,5 @@
 import { parseCsvRows } from "@/utils/upcomingWorkshop";
+import type { PastedSubscriberRow } from "@/utils/spreadsheetPaste";
 
 export const ADMIN_ASSIGNABLE_ROLES = [
   "attendee",
@@ -15,6 +16,9 @@ export type AssignableRole = (typeof ADMIN_ASSIGNABLE_ROLES)[number];
 
 export interface WhitelistEntry {
   email: string;
+  firstName: string;
+  lastName: string;
+  affiliation: string;
   name: string;
   roles: string[];
   updatedAt?: string;
@@ -88,6 +92,8 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const ASSIGNABLE_ROLE_SET = new Set<string>(ADMIN_ASSIGNABLE_ROLES);
 
+const HONORIFIC_PREFIX_RE = /^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?|mx\.?)$/i;
+
 const ROLE_ALIAS_MAP: Record<string, AssignableRole | "general"> = {
   general: "general",
   "general user": "general",
@@ -136,6 +142,94 @@ const ROLE_ALIAS_MAP: Record<string, AssignableRole | "general"> = {
   administrator: "admin",
   administrators: "admin",
 };
+
+export function splitPersonFullName(rawFullName: string): {
+  firstName: string;
+  lastName: string;
+} {
+  const cleaned = rawFullName.trim().replace(/\s+/g, " ");
+  if (!cleaned) return { firstName: "", lastName: "" };
+
+  const tokens = cleaned.split(" ");
+  if (tokens.length === 1) {
+    return { firstName: tokens[0], lastName: "" };
+  }
+  if (tokens.length === 2) {
+    return { firstName: tokens[0], lastName: tokens[1] };
+  }
+  if (HONORIFIC_PREFIX_RE.test(tokens[0])) {
+    return {
+      firstName: tokens.slice(0, 2).join(" "),
+      lastName: tokens.slice(2).join(" "),
+    };
+  }
+  return {
+    firstName: tokens[0],
+    lastName: tokens.slice(1).join(" "),
+  };
+}
+
+export function composePersonFullName(
+  firstName: string,
+  lastName: string,
+  fallbackName = ""
+): string {
+  const combined = [firstName.trim(), lastName.trim()]
+    .filter(Boolean)
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return combined || fallbackName.trim();
+}
+
+export function hydrateWhitelistPersonFields(input: {
+  firstName?: unknown;
+  lastName?: unknown;
+  affiliation?: unknown;
+  institution?: unknown;
+  name?: unknown;
+}): {
+  firstName: string;
+  lastName: string;
+  affiliation: string;
+  name: string;
+} {
+  const rawFirst = typeof input.firstName === "string" ? input.firstName.trim() : "";
+  const rawLast = typeof input.lastName === "string" ? input.lastName.trim() : "";
+  const rawAffil =
+    typeof input.affiliation === "string" && input.affiliation.trim()
+      ? input.affiliation.trim()
+      : typeof input.institution === "string"
+        ? input.institution.trim()
+        : "";
+  const rawName = typeof input.name === "string" ? input.name.trim() : "";
+
+  if (rawFirst || rawLast) {
+    return {
+      firstName: rawFirst,
+      lastName: rawLast,
+      affiliation: rawAffil,
+      name: composePersonFullName(rawFirst, rawLast, rawName),
+    };
+  }
+
+  if (rawName) {
+    const split = splitPersonFullName(rawName);
+    return {
+      firstName: split.firstName,
+      lastName: split.lastName,
+      affiliation: rawAffil,
+      name: rawName,
+    };
+  }
+
+  return {
+    firstName: "",
+    lastName: "",
+    affiliation: rawAffil,
+    name: "",
+  };
+}
 
 export function isAssignableRole(value: string): value is AssignableRole {
   return ASSIGNABLE_ROLE_SET.has(value);
@@ -198,6 +292,9 @@ export function sanitizeRoleList(rawRoles: unknown): string[] {
 
 export interface WhitelistCsvParsedRow {
   email: string;
+  firstName: string;
+  lastName: string;
+  affiliation: string;
   name: string;
   roles: AssignableRole[];
 }
@@ -240,12 +337,13 @@ function splitRoleCellTokens(cell: string): string[] {
 }
 
 /**
- * Parses either headered (`email,name,role` / `first name` + `last name`) or headerless CSV rosters
- * into deduplicated email + name + normalized AssignableRole records.
+ * Parses either headered (`First Name,Last Name,Institution,Email Address,Assigned Roles` / `name`)
+ * or headerless CSV rosters into deduplicated person + normalized AssignableRole records.
+ * When `batchOrFallbackRole` is specified, it is merged onto every valid imported row.
  */
 export function parseWhitelistCsv(
   csvText: string,
-  fallbackRole: AssignableRole | "" = ""
+  batchOrFallbackRole: AssignableRole | "" = ""
 ): WhitelistCsvParseResult {
   const rawRows = parseCsvRows(csvText);
   if (rawRows.length === 0) {
@@ -263,60 +361,94 @@ export function parseWhitelistCsv(
   const hadHeaderRow = firstRowEmailCol === -1;
 
   let emailIdx = firstRowEmailCol;
-  let nameIdx = -1;
   let firstIdx = -1;
   let lastIdx = -1;
+  let affilIdx = -1;
   let roleIdx = -1;
+  let nameIdx = -1;
 
   if (hadHeaderRow) {
     const normalizedHeaders = rawRows[0].map((h) =>
-      h.trim().toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ")
+      h
+        .trim()
+        .toLowerCase()
+        .replace(/[*()]+/g, " ")
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
     );
-    emailIdx = findHeaderColumn(normalizedHeaders, [
-      "email address",
-      "email",
-      "e-mail",
-      "e mail",
-      "mail",
-      "user email",
-      "corresponding email",
-    ]);
+
+    const usedCols = new Set<number>();
+
+    emailIdx = findHeaderColumn(
+      normalizedHeaders,
+      [
+        "email address",
+        "email",
+        "e-mail",
+        "e mail",
+        "mail",
+        "user email",
+        "corresponding email",
+      ],
+      usedCols
+    );
     if (emailIdx === -1 && rawRows.length > 1) {
       emailIdx = rawRows[1].findIndex((cell) => isValidWhitelistEmail(cell));
     }
+    if (emailIdx >= 0) usedCols.add(emailIdx);
 
-    firstIdx = findHeaderColumn(normalizedHeaders, [
-      "first name",
-      "firstname",
-      "fname",
-      "given name",
-    ]);
-    lastIdx = findHeaderColumn(normalizedHeaders, [
-      "last name",
-      "lastname",
-      "lname",
-      "surname",
-      "family name",
-    ]);
-    roleIdx = findHeaderColumn(normalizedHeaders, [
-      "assigned roles",
-      "assigned role",
-      "portal role",
-      "user role",
-      "roles",
-      "role",
-      "presentation type",
-      "registration type",
-      "category",
-      "type",
-      "tier",
-    ]);
+    firstIdx = findHeaderColumn(
+      normalizedHeaders,
+      ["first name", "firstname", "first", "fname", "given name", "given"],
+      usedCols
+    );
+    if (firstIdx >= 0) usedCols.add(firstIdx);
 
-    const excludedForFullName = new Set<number>();
-    if (emailIdx >= 0) excludedForFullName.add(emailIdx);
-    if (firstIdx >= 0) excludedForFullName.add(firstIdx);
-    if (lastIdx >= 0) excludedForFullName.add(lastIdx);
-    if (roleIdx >= 0) excludedForFullName.add(roleIdx);
+    lastIdx = findHeaderColumn(
+      normalizedHeaders,
+      ["last name", "lastname", "last", "lname", "surname", "family name", "family"],
+      usedCols
+    );
+    if (lastIdx >= 0) usedCols.add(lastIdx);
+
+    affilIdx = findHeaderColumn(
+      normalizedHeaders,
+      [
+        "institution",
+        "affiliation",
+        "organization",
+        "org",
+        "company",
+        "university",
+        "institute",
+        "lab",
+        "laboratory",
+        "department",
+        "employer",
+      ],
+      usedCols
+    );
+    if (affilIdx >= 0) usedCols.add(affilIdx);
+
+    roleIdx = findHeaderColumn(
+      normalizedHeaders,
+      [
+        "assigned roles",
+        "assigned role",
+        "portal role",
+        "user role",
+        "roles",
+        "role",
+        "presentation type",
+        "registration type",
+        "category",
+        "type",
+        "tier",
+      ],
+      usedCols
+    );
+    if (roleIdx >= 0) usedCols.add(roleIdx);
 
     nameIdx = findHeaderColumn(
       normalizedHeaders,
@@ -332,7 +464,7 @@ export function parseWhitelistCsv(
         "contact",
         "display name",
       ],
-      excludedForFullName
+      usedCols
     );
   }
 
@@ -350,24 +482,35 @@ export function parseWhitelistCsv(
     if (resolvedEmailIdx < 0 || resolvedEmailIdx >= row.length) {
       resolvedEmailIdx = row.findIndex((cell) => isValidWhitelistEmail(cell));
     }
-    const rawEmail = resolvedEmailIdx >= 0 ? (row[resolvedEmailIdx] || "").trim().toLowerCase() : "";
+    const rawEmail =
+      resolvedEmailIdx >= 0 ? (row[resolvedEmailIdx] || "").trim().toLowerCase() : "";
     if (!isValidWhitelistEmail(rawEmail)) {
       skippedInvalidEmailCount += 1;
       continue;
     }
 
+    let firstName = "";
+    let lastName = "";
+    let affiliation = "";
     let extractedName = "";
     const parsedRoles = new Set<AssignableRole>();
 
     if (hadHeaderRow) {
-      if (nameIdx >= 0 && nameIdx < row.length) {
-        extractedName = (row[nameIdx] || "").trim();
+      firstName =
+        firstIdx >= 0 && firstIdx < row.length ? (row[firstIdx] || "").trim() : "";
+      lastName =
+        lastIdx >= 0 && lastIdx < row.length ? (row[lastIdx] || "").trim() : "";
+      affiliation =
+        affilIdx >= 0 && affilIdx < row.length ? (row[affilIdx] || "").trim() : "";
+      const rawFullName =
+        nameIdx >= 0 && nameIdx < row.length ? (row[nameIdx] || "").trim() : "";
+
+      if (!firstName && !lastName && rawFullName) {
+        const split = splitPersonFullName(rawFullName);
+        firstName = split.firstName;
+        lastName = split.lastName;
       }
-      if (!extractedName) {
-        const first = firstIdx >= 0 && firstIdx < row.length ? (row[firstIdx] || "").trim() : "";
-        const last = lastIdx >= 0 && lastIdx < row.length ? (row[lastIdx] || "").trim() : "";
-        extractedName = `${first} ${last}`.trim();
-      }
+      extractedName = composePersonFullName(firstName, lastName, rawFullName);
 
       if (roleIdx >= 0 && roleIdx < row.length) {
         const tokens = splitRoleCellTokens(row[roleIdx] || "");
@@ -384,7 +527,7 @@ export function parseWhitelistCsv(
         }
       }
     } else {
-      const nameParts: string[] = [];
+      const nonRoleCells: string[] = [];
       for (let c = 0; c < row.length; c += 1) {
         if (c === resolvedEmailIdx) continue;
         const cell = (row[c] || "").trim();
@@ -399,24 +542,43 @@ export function parseWhitelistCsv(
             }
           }
         } else {
-          nameParts.push(cell);
+          nonRoleCells.push(cell);
         }
       }
-      extractedName = nameParts.join(" ").trim();
+
+      if (nonRoleCells.length >= 3) {
+        firstName = nonRoleCells[0];
+        lastName = nonRoleCells[1];
+        affiliation = nonRoleCells.slice(2).join(", ");
+      } else if (nonRoleCells.length === 2) {
+        firstName = nonRoleCells[0];
+        lastName = nonRoleCells[1];
+      } else if (nonRoleCells.length === 1) {
+        const split = splitPersonFullName(nonRoleCells[0]);
+        firstName = split.firstName;
+        lastName = split.lastName;
+      }
+      extractedName = composePersonFullName(firstName, lastName);
     }
 
     if (parsedRoles.size === 0) {
       rowsMissingRoleCount += 1;
-      if (fallbackRole) {
-        parsedRoles.add(fallbackRole);
-      }
+    }
+
+    if (batchOrFallbackRole && isAssignableRole(batchOrFallbackRole)) {
+      parsedRoles.add(batchOrFallbackRole);
     }
 
     const existing = deduped.get(rawEmail);
     if (existing) {
-      if (!existing.name && extractedName) {
-        existing.name = extractedName;
-      }
+      if (!existing.firstName && firstName) existing.firstName = firstName;
+      if (!existing.lastName && lastName) existing.lastName = lastName;
+      if (!existing.affiliation && affiliation) existing.affiliation = affiliation;
+      existing.name = composePersonFullName(
+        existing.firstName,
+        existing.lastName,
+        existing.name || extractedName
+      );
       for (const role of parsedRoles) {
         if (!existing.roles.includes(role)) {
           existing.roles.push(role);
@@ -426,6 +588,9 @@ export function parseWhitelistCsv(
     } else {
       deduped.set(rawEmail, {
         email: rawEmail,
+        firstName,
+        lastName,
+        affiliation,
         name: extractedName,
         roles: sanitizeRoleList(Array.from(parsedRoles)).filter(isAssignableRole),
       });
@@ -448,6 +613,76 @@ export function parseWhitelistCsv(
     rowsMissingRoleCount,
     unrecognizedRoleTokens: Array.from(unrecognizedSet),
     hadHeaderRow,
+  };
+}
+
+/**
+ * Converts editable 4-column Google Sheets paste table rows into a `WhitelistCsvParseResult`
+ * ready for `computeWhitelistCsvPlan`.
+ */
+export function buildWhitelistParseResultFromPasteRows(
+  rows: readonly PastedSubscriberRow[],
+  assignedRoles: readonly AssignableRole[]
+): {
+  parsed: WhitelistCsvParseResult;
+  invalidRowNumbers: number[];
+  duplicateCount: number;
+} {
+  const cleanRoles = sanitizeRoleList([...assignedRoles]).filter(isAssignableRole);
+  const invalidRowNumbers: number[] = [];
+  const deduped = new Map<string, WhitelistCsvParsedRow>();
+  let duplicateCount = 0;
+
+  rows.forEach((row, idx) => {
+    const firstName = row.firstName.trim();
+    const lastName = row.lastName.trim();
+    const affiliation = row.affiliation.trim();
+    const email = row.email.trim().toLowerCase();
+
+    const hasAnyContent = Boolean(firstName || lastName || affiliation || email);
+    if (!hasAnyContent) return;
+
+    if (!isValidWhitelistEmail(email)) {
+      invalidRowNumbers.push(idx + 1);
+      return;
+    }
+
+    const existing = deduped.get(email);
+    if (existing) {
+      duplicateCount += 1;
+      if (!existing.firstName && firstName) existing.firstName = firstName;
+      if (!existing.lastName && lastName) existing.lastName = lastName;
+      if (!existing.affiliation && affiliation) existing.affiliation = affiliation;
+      existing.name = composePersonFullName(
+        existing.firstName,
+        existing.lastName,
+        existing.name
+      );
+      return;
+    }
+
+    deduped.set(email, {
+      email,
+      firstName,
+      lastName,
+      affiliation,
+      name: composePersonFullName(firstName, lastName),
+      roles: [...cleanRoles],
+    });
+  });
+
+  const validRows = Array.from(deduped.values());
+  return {
+    parsed: {
+      rows: validRows,
+      detectedRoles: [...cleanRoles],
+      skippedInvalidEmailCount: invalidRowNumbers.length,
+      rowsMissingRoleCount: cleanRoles.length === 0 ? validRows.length : 0,
+      unrecognizedRoleTokens: [],
+      hadHeaderRow: false,
+    },
+    invalidRowNumbers,
+    duplicateCount,
   };
 }
 
@@ -486,9 +721,13 @@ export function computeWhitelistCsvPlan(
   for (const entry of existingEntries) {
     const cleanEmail = entry.email.trim().toLowerCase();
     if (!cleanEmail) continue;
+    const person = hydrateWhitelistPersonFields(entry);
     const cleanEntry: WhitelistEntry = {
       email: cleanEmail,
-      name: (entry.name || "").trim(),
+      firstName: person.firstName,
+      lastName: person.lastName,
+      affiliation: person.affiliation,
+      name: person.name,
       roles: sanitizeRoleList(entry.roles),
       updatedAt: entry.updatedAt,
     };
@@ -545,11 +784,16 @@ export function computeWhitelistCsvPlan(
 
   for (const row of parsed.rows) {
     const existing = workingByEmail.get(row.email);
+    const incomingPerson = hydrateWhitelistPersonFields(row);
+
     if (!existing) {
       const cleanRoles = sanitizeRoleList(row.roles);
       workingByEmail.set(row.email, {
         email: row.email,
-        name: row.name.trim(),
+        firstName: incomingPerson.firstName,
+        lastName: incomingPerson.lastName,
+        affiliation: incomingPerson.affiliation,
+        name: incomingPerson.name,
         roles: cleanRoles,
         updatedAt: nowIso,
       });
@@ -560,9 +804,31 @@ export function computeWhitelistCsvPlan(
       continue;
     }
 
-    const incomingName = row.name.trim();
-    if (!existing.name.trim() && incomingName) {
-      existing.name = incomingName;
+    let profileFilled = false;
+    if (!existing.firstName && incomingPerson.firstName) {
+      existing.firstName = incomingPerson.firstName;
+      profileFilled = true;
+    }
+    if (!existing.lastName && incomingPerson.lastName) {
+      existing.lastName = incomingPerson.lastName;
+      profileFilled = true;
+    }
+    if (!existing.affiliation && incomingPerson.affiliation) {
+      existing.affiliation = incomingPerson.affiliation;
+      profileFilled = true;
+    }
+
+    const recomposedName = composePersonFullName(
+      existing.firstName,
+      existing.lastName,
+      existing.name || incomingPerson.name
+    );
+    if (!existing.name && recomposedName) {
+      profileFilled = true;
+    }
+    existing.name = recomposedName;
+
+    if (profileFilled) {
       namesFilledCount += 1;
     }
 
@@ -589,9 +855,13 @@ export function computeWhitelistCsvPlan(
       .find((e) => e.email.trim().toLowerCase() === next.email)
       ?.roles.some((r) => String(r || "").trim().toLowerCase() === "general");
 
-    const nameChanged = orig.name !== next.name;
+    const profileChanged =
+      orig.firstName !== next.firstName ||
+      orig.lastName !== next.lastName ||
+      orig.affiliation !== next.affiliation ||
+      orig.name !== next.name;
     const rolesChanged = !sameRolesSet(orig.roles, next.roles) || Boolean(rawHadGeneral);
-    if (nameChanged || rolesChanged) {
+    if (profileChanged || rolesChanged) {
       mutations.push({ ...next, updatedAt: nowIso });
     }
   }
@@ -607,10 +877,13 @@ export function computeWhitelistCsvPlan(
   };
 }
 
+export const WHITELIST_EXAMPLE_HEADING_ROW =
+  "First Name,Last Name,Institution,Email Address,Assigned Roles";
+
 export const SAMPLE_WHITELIST_CSV = [
-  "email,name,role",
-  "dr.elena.vance@university.edu,Dr. Elena Vance,oral presenter",
-  "marcus.chen@lab.gov,Marcus Chen,poster presenter",
-  "sponsors@mass-spec-corp.com,Dana Brooks,corporate sponsor",
-  "alex.rivera@institute.org,Alex Rivera,attendee",
+  WHITELIST_EXAMPLE_HEADING_ROW,
+  'Elena,Vance,"Dept. of Chemistry, USF",dr.elena.vance@university.edu,attendee; oral presenter',
+  "Marcus,Chen,Pacific Northwest National Lab,marcus.chen@lab.gov,attendee; poster presenter",
+  "Dana,Brooks,InstrumentCorp Mass Spec,sponsors@mass-spec-corp.com,corporate sponsor",
+  "Alex,Rivera,,alex.rivera@institute.org,attendee",
 ].join("\n");
