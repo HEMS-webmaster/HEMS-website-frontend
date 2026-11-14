@@ -22,6 +22,7 @@ import {
   setDoc, 
   updateDoc 
 } from "firebase/firestore";
+import { sanitizeRoleList } from "../utils/whitelistCsv";
 
 export interface UserProfile {
   uid: string;
@@ -89,16 +90,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Basic mock whitelist function
   const getRolesForEmail = (email: string): string[] => {
-    if (email.toLowerCase().includes("admin")) return ["admin", "reviewer", "board"];
-    if (email.toLowerCase().includes("reviewer")) return ["reviewer"];
-    if (email.toLowerCase().includes("board")) return ["board"];
-    if (email.toLowerCase().includes("attendee")) return ["attendee"];
-    return ["general"];
+    const lower = email.toLowerCase();
+    if (lower.includes("admin")) return ["admin", "reviewer", "board"];
+    if (lower.includes("reviewer")) return ["reviewer"];
+    if (lower.includes("board")) return ["board"];
+    if (lower.includes("attendee")) return ["attendee"];
+    return [];
   };
 
   const fetchWhitelistEntry = async (
     email: string
-  ): Promise<{ found: boolean; roles: string[] }> => {
+  ): Promise<{ found: boolean; roles: string[]; rawRoles?: string[]; name?: string }> => {
     if (!hasFirebaseKeys) {
       return { found: true, roles: getRolesForEmail(email) };
     }
@@ -107,19 +109,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         doc(db, "whitelist", email.toLowerCase().trim())
       );
       if (whitelistDoc.exists()) {
-        const rawRoles = whitelistDoc.data()?.roles;
-        const roles = Array.isArray(rawRoles) && rawRoles.length > 0 ? rawRoles : ["general"];
-        return { found: true, roles };
+        const data = whitelistDoc.data();
+        const rawRoles = Array.isArray(data?.roles)
+          ? data.roles.map((r) => String(r))
+          : [];
+        const storedName =
+          typeof data?.name === "string" && data.name.trim()
+            ? data.name.trim()
+            : undefined;
+        return {
+          found: true,
+          roles: sanitizeRoleList(rawRoles),
+          rawRoles,
+          name: storedName,
+        };
       }
     } catch (err) {
       console.error("Error fetching whitelist roles during initialization:", err);
     }
-    return { found: false, roles: ["general"] };
+    return { found: false, roles: [] };
   };
 
-  const fetchInitialRoles = async (email: string): Promise<string[]> => {
+  const fetchInitialProfileSeed = async (
+    email: string
+  ): Promise<{ firestoreRoles: string[]; effectiveRoles: string[]; name?: string }> => {
     const res = await fetchWhitelistEntry(email);
-    return res.roles;
+    if (res.found && Array.isArray(res.rawRoles)) {
+      return {
+        firestoreRoles: res.rawRoles,
+        effectiveRoles: res.roles,
+        name: res.name,
+      };
+    }
+    return {
+      firestoreRoles: ["general"],
+      effectiveRoles: [],
+      name: res.name,
+    };
   };
 
   useEffect(() => {
@@ -147,27 +173,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               const wl = await fetchWhitelistEntry(email);
               const resolvedRoles = wl.found
                 ? wl.roles
-                : Array.isArray(profile.roles) && profile.roles.length > 0
-                ? profile.roles
-                : ["general"];
-              setUser({ ...profile, roles: resolvedRoles });
+                : sanitizeRoleList(profile.roles);
+              const resolvedName = (profile.name && profile.name.trim()) || wl.name || "";
+              setUser({
+                ...profile,
+                name: resolvedName || profile.name,
+                roles: resolvedRoles,
+              });
             } else {
-              setUser(profile);
+              setUser({ ...profile, roles: sanitizeRoleList(profile.roles) });
             }
           } else {
             // Fallback profile if Firestore document is missing
             const email = firebaseUser.email || "";
-            const initialRoles = await fetchInitialRoles(email);
+            const seed = await fetchInitialProfileSeed(email);
             const fallbackProfile: UserProfile = {
               uid: firebaseUser.uid,
-              name: firebaseUser.displayName || email.split("@")[0] || "User",
+              name: firebaseUser.displayName || seed.name || email.split("@")[0] || "User",
               email: email,
-              roles: initialRoles,
+              roles: seed.firestoreRoles,
               createdAt: new Date().toISOString(),
               emailVerified: firebaseUser.emailVerified
             };
             await setDoc(userDocRef, fallbackProfile);
-            setUser(fallbackProfile);
+            setUser({ ...fallbackProfile, roles: seed.effectiveRoles });
           }
         } else {
           setUser(null);
@@ -220,29 +249,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
       await setDoc(userDocRef, updated);
       const emailLookup = (credential.user.email || data.email || "").toLowerCase().trim();
-      const wl = emailLookup ? await fetchWhitelistEntry(emailLookup) : { found: false, roles: ["general"] };
+      const wl = emailLookup ? await fetchWhitelistEntry(emailLookup) : { found: false, roles: [] };
       const effectiveRoles = wl.found
         ? wl.roles
-        : Array.isArray(data.roles) && data.roles.length > 0
-        ? data.roles
-        : ["general"];
-      setUser({ ...(updated as UserProfile), roles: effectiveRoles });
+        : sanitizeRoleList(data.roles);
+      const effectiveName = (typeof data.name === "string" && data.name.trim()) || wl.name || "";
+      setUser({
+        ...(updated as UserProfile),
+        name: effectiveName || (updated as UserProfile).name,
+        roles: effectiveRoles,
+      });
     } else {
       // New user from OAuth
       const email = credential.user.email || "";
-      const initialRoles = await fetchInitialRoles(email);
+      const seed = await fetchInitialProfileSeed(email);
       const profile: UserProfile = {
         uid: credential.user.uid,
-        name: credential.user.displayName || email.split("@")[0] || "User",
+        name: credential.user.displayName || seed.name || email.split("@")[0] || "User",
         email: email,
-        roles: initialRoles,
+        roles: seed.firestoreRoles,
         createdAt: new Date().toISOString(),
         loginCount: 1,
         lastLogin: new Date().toISOString(),
         emailVerified: credential.user.emailVerified
       };
       await setDoc(userDocRef, profile);
-      setUser(profile);
+      setUser({ ...profile, roles: seed.effectiveRoles });
     }
   };
 
@@ -280,13 +312,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
       await setDoc(userDocRef, updated);
       const emailLookup = (credential.user.email || data.email || email).toLowerCase().trim();
-      const wl = emailLookup ? await fetchWhitelistEntry(emailLookup) : { found: false, roles: ["general"] };
+      const wl = emailLookup ? await fetchWhitelistEntry(emailLookup) : { found: false, roles: [] };
       const effectiveRoles = wl.found
         ? wl.roles
-        : Array.isArray(data.roles) && data.roles.length > 0
-        ? data.roles
-        : ["general"];
-      setUser({ ...(updated as UserProfile), roles: effectiveRoles });
+        : sanitizeRoleList(data.roles);
+      const effectiveName = (typeof data.name === "string" && data.name.trim()) || wl.name || "";
+      setUser({
+        ...(updated as UserProfile),
+        name: effectiveName || (updated as UserProfile).name,
+        roles: effectiveRoles,
+      });
     }
   };
 
@@ -325,12 +360,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (verifErr) {
       console.error("Failed to send initial email verification:", verifErr);
     }
-    const initialRoles = await fetchInitialRoles(email);
+    const seed = await fetchInitialProfileSeed(email);
     const profile: UserProfile = {
       uid: credential.user.uid,
-      name,
+      name: name.trim() || seed.name || email.split("@")[0] || "User",
       email,
-      roles: initialRoles,
+      roles: seed.firestoreRoles,
       createdAt: new Date().toISOString(),
       loginCount: 1,
       lastLogin: new Date().toISOString(),
@@ -338,7 +373,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
     
     await setDoc(doc(db, "users", credential.user.uid), profile);
-    setUser(profile);
+    setUser({ ...profile, roles: seed.effectiveRoles });
     setFbEmailVerified(credential.user.emailVerified);
   };
 

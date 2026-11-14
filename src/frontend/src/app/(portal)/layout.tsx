@@ -26,6 +26,25 @@ import {
 
 type PortalRequiredRole = "attendee" | "board" | "reviewer" | "admin" | null;
 
+const MOCK_ROLE_PRESETS: readonly { value: string; label: string; shortLabel?: string }[] = [
+  { value: "", label: "General User (Automatic)" },
+  { value: "attendee", label: "Attendee" },
+  { value: "attendee,oral presenter", label: "Attendee + Oral Presenter" },
+  { value: "attendee,poster presenter", label: "Attendee + Poster Presenter" },
+  { value: "corporate sponsor", label: "Corporate Sponsor" },
+  { value: "attendee,reviewer", label: "Attendee + Reviewer" },
+  { value: "board", label: "Board Member" },
+  { value: "board,reviewer", label: "Board + Reviewer" },
+  { value: "board,admin", label: "Board + Admin" },
+  { value: "board,reviewer,admin", label: "Board + Reviewer + Admin" },
+  {
+    value: "attendee,board,reviewer,admin",
+    label: "All Roles (Attendee + Board + Reviewer + Admin)",
+    shortLabel: "All Roles",
+  },
+  { value: "reviewer", label: "Reviewer Only" },
+];
+
 interface PortalLinkItem {
   name: string;
   shortName?: string;
@@ -127,7 +146,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     user && (hasBoardOrAdminRole(user.roles) || hasReviewerRole(user.roles))
   );
 
-  const mockRoleValue = (user?.roles || ["general"]).join(",");
+  const mockRoleValue = (user?.roles || [])
+    .filter((r) => String(r || "").trim().toLowerCase() !== "general")
+    .join(",");
   const handleMockRoleSelect = (val: string) => {
     setMockRoles(val.split(",").filter(Boolean));
   };
@@ -288,15 +309,11 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               aria-label="Dev mode role switcher"
               className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-base sm:text-xs text-slate-800 focus:outline-none focus:border-primary font-medium"
             >
-              <option value="general">General User</option>
-              <option value="attendee">Attendee</option>
-              <option value="attendee,reviewer">Attendee + Reviewer</option>
-              <option value="board">Board Member</option>
-              <option value="board,reviewer">Board + Reviewer</option>
-              <option value="board,admin">Board + Admin</option>
-              <option value="board,reviewer,admin">Board + Reviewer + Admin</option>
-              <option value="attendee,board,reviewer,admin">All Roles (Attendee + Board + Reviewer + Admin)</option>
-              <option value="reviewer">Reviewer Only</option>
+              {MOCK_ROLE_PRESETS.map((preset) => (
+                <option key={preset.value || "general"} value={preset.value}>
+                  {preset.label}
+                </option>
+              ))}
             </select>
           </div>
         )}
@@ -351,15 +368,11 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
                 aria-label="Dev mode role switcher"
                 className="w-full bg-background border border-foreground/10 px-2.5 py-1.5 rounded-lg text-xs text-foreground focus:outline-none focus:border-primary font-medium"
               >
-                <option value="general">General User</option>
-                <option value="attendee">Attendee</option>
-                <option value="attendee,reviewer">Attendee + Reviewer</option>
-                <option value="board">Board Member</option>
-                <option value="board,reviewer">Board + Reviewer</option>
-                <option value="board,admin">Board + Admin</option>
-                <option value="board,reviewer,admin">Board + Reviewer + Admin</option>
-                <option value="attendee,board,reviewer,admin">All Roles</option>
-                <option value="reviewer">Reviewer Only</option>
+                {MOCK_ROLE_PRESETS.map((preset) => (
+                  <option key={preset.value || "general"} value={preset.value}>
+                    {preset.shortLabel || preset.label}
+                  </option>
+                ))}
               </select>
               <p className="text-[8px] text-foreground/40 mt-1.5 leading-tight">
                 Simulate whitelist role combinations locally.

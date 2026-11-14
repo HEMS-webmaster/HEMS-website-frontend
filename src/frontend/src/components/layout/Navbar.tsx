@@ -12,44 +12,12 @@ import {
   hasBoardOrAdminRole,
   hasReviewerRole,
 } from "@/utils/telemetryClient";
+import { ROLE_DISPLAY_META } from "@/utils/whitelistCsv";
 
 interface WorkshopNavEntry {
   year: number | string;
   number: number;
 }
-
-const ROLE_DEFINITIONS: Record<string, { label: string; desc: string; badgeClass: string }> = {
-  admin: {
-    label: "Administrator",
-    desc: "Full system control & configuration",
-    badgeClass: "text-emerald-700 bg-emerald-50 border-emerald-200",
-  },
-  board: {
-    label: "Executive Board",
-    desc: "Governance, executive minutes & voting",
-    badgeClass: "text-purple-700 bg-purple-50 border-purple-200",
-  },
-  reviewer: {
-    label: "Abstract Reviewer",
-    desc: "Blind scoring & submission rubric reviews",
-    badgeClass: "text-amber-700 bg-amber-50 border-amber-200",
-  },
-  submitter: {
-    label: "Author / Submitter",
-    desc: "Paper & abstract submission privileges",
-    badgeClass: "text-sky-700 bg-sky-50 border-sky-200",
-  },
-  attendee: {
-    label: "Registered Attendee",
-    desc: "Registered conference participant",
-    badgeClass: "text-teal-700 bg-teal-50 border-teal-200",
-  },
-  general: {
-    label: "General Member",
-    desc: "Public proceeding access & downloads",
-    badgeClass: "text-slate-700 bg-slate-100 border-slate-200",
-  },
-};
 
 const SORTED_WORKSHOPS: WorkshopNavEntry[] = [...(workshopsData as WorkshopNavEntry[])].sort(
   (a, b) => Number(b.year) - Number(a.year)
@@ -94,7 +62,10 @@ export default function Navbar() {
   const archivesRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
-  const userRoles = user?.roles && user.roles.length > 0 ? user.roles : ["general"];
+  const nonGeneralRoles = (user?.roles || []).filter(
+    (r) => String(r || "").trim().toLowerCase() !== "general"
+  );
+  const userRoles = nonGeneralRoles.length > 0 ? nonGeneralRoles : ["general"];
 
   const normalizePath = (p: string) => p.replace(/\/+$/, "") || "/";
   const cleanPathname = normalizePath(pathname);
@@ -339,7 +310,7 @@ export default function Navbar() {
 
                         <div className="space-y-1.5">
                           {userRoles.map((role) => {
-                            const meta = ROLE_DEFINITIONS[role] || {
+                            const meta = ROLE_DISPLAY_META[role] || {
                               label: role,
                               desc: "Administrative role",
                               badgeClass: "text-slate-700 bg-slate-100 border-slate-200",
