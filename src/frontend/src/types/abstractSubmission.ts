@@ -121,6 +121,7 @@ export interface AbstractSubmissionRecord {
   status: ReviewStatus;
   decision: ReviewDecision;
   score?: number;
+  hemsFitness?: number;
   reviewerComments?: string;
   reviewedBy?: string;
   reviewedAt?: string;
@@ -151,12 +152,30 @@ export interface CreateAbstractSubmissionInput {
   submittedByEmail: string;
 }
 
+export interface AbstractReviewRecord {
+  reviewId: string;
+  submissionId: string;
+  reviewerEmail: string;
+  reviewerName?: string;
+  score: number;
+  hemsFitness: number;
+  decision: ReviewDecision;
+  reviewerComments: string;
+  privateNotes: string;
+  createdAt: string;
+  updatedAt: string;
+  isSampleSeed?: boolean;
+}
+
 export interface SaveAbstractReviewInput {
   id: string;
   score: number;
+  hemsFitness: number;
   decision: ReviewDecision;
   reviewerComments: string;
+  privateNotes: string;
   reviewedBy: string;
+  reviewerName?: string;
 }
 
 export type DraftGraphicMetaSnapshot = Omit<

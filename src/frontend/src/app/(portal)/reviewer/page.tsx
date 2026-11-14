@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   ClipboardCheck,
@@ -16,6 +16,8 @@ import {
   Loader2,
   Upload,
   Image as ImageIcon,
+  Lock,
+  TableProperties,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
@@ -25,11 +27,21 @@ import {
   ReviewDecision,
 } from "@/types/abstractSubmission";
 import { hasAttendeeRole, hasReviewerRole } from "@/utils/telemetryClient";
+import {
+  formatMedianScore,
+  SubmissionReviewSummary,
+  summarizeSubmissionReviews,
+} from "@/utils/abstractReviewMetrics";
 import ScientificText from "@/components/workshop/ScientificText";
 import AbstractOnePagePreview from "@/components/workshop/AbstractOnePagePreview";
 import { countVisibleChars } from "@/utils/wordPasteNormalizer";
 
-type ReviewerFilter = "all" | "pending" | "reviewed" | "student_award";
+type ReviewerFilter =
+  | "all"
+  | "needs_my_review"
+  | "pending"
+  | "reviewed"
+  | "student_award";
 
 const REVIEW_DECISION_OPTIONS: readonly ReviewDecision[] = [
   "Accept (Oral)",
@@ -111,6 +123,7 @@ export default function ReviewerPage() {
   const { workshop } = useUpcomingWorkshop();
   const {
     submissions,
+    reviews,
     loading: listLoading,
     refresh,
     saveReview,
@@ -122,9 +135,11 @@ export default function ReviewerPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [scoreInput, setScoreInput] = useState<string>("8.5");
+  const [hemsFitnessInput, setHemsFitnessInput] = useState<string>("8.5");
   const [decisionInput, setDecisionInput] =
     useState<ReviewDecision>("Accept (Oral)");
   const [commentsInput, setCommentsInput] = useState<string>("");
+  const [privateNotesInput, setPrivateNotesInput] = useState<string>("");
   const [savingReview, setSavingReview] = useState<boolean>(false);
   const [previewNotice, setPreviewNotice] = useState<{
     id: string;
@@ -135,6 +150,9 @@ export default function ReviewerPage() {
     sub: AbstractSubmissionRecord;
     graphicUrl: string | null;
   } | null>(null);
+  const deepLinkedRef = useRef<boolean>(false);
+
+  const normalizedUserEmail = (user?.email || "").trim().toLowerCase();
 
   useEffect(() => {
     const url = activePreview?.graphicUrl;
@@ -145,11 +163,76 @@ export default function ReviewerPage() {
     };
   }, [activePreview]);
 
+  const summaryById = useMemo(() => {
+    const map = new Map<string, SubmissionReviewSummary>();
+    for (const sub of submissions) {
+      map.set(sub.id, summarizeSubmissionReviews(sub, reviews));
+    }
+    return map;
+  }, [submissions, reviews]);
+
+  useEffect(() => {
+    if (deepLinkedRef.current || listLoading || submissions.length === 0 || !user) {
+      return;
+    }
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const targetId = params.get("abstract")?.trim();
+    if (!targetId) {
+      deepLinkedRef.current = true;
+      return;
+    }
+    const matched = submissions.find((s) => s.id === targetId);
+    deepLinkedRef.current = true;
+    if (!matched) return;
+
+    const matchedSummary = summaryById.get(matched.id);
+    const existingMine = matchedSummary?.reviews.find(
+      (r) => r.reviewerEmail.toLowerCase() === normalizedUserEmail
+    );
+
+    const timerId = window.setTimeout(() => {
+      setReviewError(null);
+      setEditingId(matched.id);
+      setScoreInput(existingMine ? existingMine.score.toFixed(1) : "8.5");
+      setHemsFitnessInput(
+        existingMine ? existingMine.hemsFitness.toFixed(1) : "8.5"
+      );
+      setDecisionInput(
+        existingMine && existingMine.decision !== "Pending"
+          ? existingMine.decision
+          : "Accept (Oral)"
+      );
+      setCommentsInput(existingMine?.reviewerComments || "");
+      setPrivateNotesInput(existingMine?.privateNotes || "");
+
+      window.setTimeout(() => {
+        document
+          .getElementById(`review-card-${matched.id}`)
+          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 60);
+    }, 0);
+
+    return () => window.clearTimeout(timerId);
+  }, [listLoading, submissions, summaryById, user, normalizedUserEmail]);
+
   const reviewedCount = useMemo(
-    () => submissions.filter((s) => s.status === "Reviewed").length,
-    [submissions]
+    () =>
+      submissions.filter((s) => (summaryById.get(s.id)?.reviewCount || 0) > 0)
+        .length,
+    [submissions, summaryById]
   );
   const pendingCount = submissions.length - reviewedCount;
+  const needsMyReviewCount = useMemo(
+    () =>
+      submissions.filter((s) => {
+        const sum = summaryById.get(s.id);
+        return !sum?.reviews.some(
+          (r) => r.reviewerEmail.toLowerCase() === normalizedUserEmail
+        );
+      }).length,
+    [submissions, summaryById, normalizedUserEmail]
+  );
   const studentAwardCount = useMemo(
     () => submissions.filter((s) => s.studentTravelAwardApplicant).length,
     [submissions]
@@ -158,8 +241,17 @@ export default function ReviewerPage() {
   const filteredSubmissions = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return submissions.filter((sub) => {
-      if (activeFilter === "pending" && sub.status !== "Pending") return false;
-      if (activeFilter === "reviewed" && sub.status !== "Reviewed") return false;
+      const summary = summaryById.get(sub.id);
+      const reviewCount = summary?.reviewCount || 0;
+      const hasMyReview = Boolean(
+        summary?.reviews.some(
+          (r) => r.reviewerEmail.toLowerCase() === normalizedUserEmail
+        )
+      );
+
+      if (activeFilter === "needs_my_review" && hasMyReview) return false;
+      if (activeFilter === "pending" && reviewCount > 0) return false;
+      if (activeFilter === "reviewed" && reviewCount === 0) return false;
       if (activeFilter === "student_award" && !sub.studentTravelAwardApplicant) {
         return false;
       }
@@ -186,7 +278,7 @@ export default function ReviewerPage() {
         .toLowerCase();
       return haystack.includes(q);
     });
-  }, [submissions, activeFilter, searchQuery]);
+  }, [submissions, summaryById, activeFilter, searchQuery, normalizedUserEmail]);
 
   if (authLoading) {
     return (
@@ -227,15 +319,21 @@ export default function ReviewerPage() {
   }
 
   const handleOpenEvaluation = (sub: AbstractSubmissionRecord) => {
+    const summary = summaryById.get(sub.id);
+    const myReview = summary?.reviews.find(
+      (r) => r.reviewerEmail.toLowerCase() === normalizedUserEmail
+    );
     setReviewError(null);
     setEditingId(sub.id);
-    setScoreInput(
-      typeof sub.score === "number" ? sub.score.toFixed(1) : "8.5"
-    );
+    setScoreInput(myReview ? myReview.score.toFixed(1) : "8.5");
+    setHemsFitnessInput(myReview ? myReview.hemsFitness.toFixed(1) : "8.5");
     setDecisionInput(
-      sub.decision && sub.decision !== "Pending" ? sub.decision : "Accept (Oral)"
+      myReview && myReview.decision !== "Pending"
+        ? myReview.decision
+        : "Accept (Oral)"
     );
-    setCommentsInput(sub.reviewerComments || "");
+    setCommentsInput(myReview?.reviewerComments || "");
+    setPrivateNotesInput(myReview?.privateNotes || "");
   };
 
   const handleSaveEvaluation = async (
@@ -246,7 +344,13 @@ export default function ReviewerPage() {
     setReviewError(null);
     const parsedScore = Number.parseFloat(scoreInput);
     if (Number.isNaN(parsedScore) || parsedScore < 1 || parsedScore > 10) {
-      setReviewError("Score must be between 1.0 and 10.0.");
+      setReviewError("Scientific Score must be between 1.0 and 10.0.");
+      return;
+    }
+
+    const parsedFitness = Number.parseFloat(hemsFitnessInput);
+    if (Number.isNaN(parsedFitness) || parsedFitness < 1 || parsedFitness > 10) {
+      setReviewError("HEMS Fitness must be between 1.0 and 10.0.");
       return;
     }
 
@@ -255,9 +359,12 @@ export default function ReviewerPage() {
       await saveReview({
         id: subId,
         score: Number(parsedScore.toFixed(1)),
+        hemsFitness: Number(parsedFitness.toFixed(1)),
         decision: decisionInput,
         reviewerComments: commentsInput,
+        privateNotes: privateNotesInput,
         reviewedBy: user.email,
+        reviewerName: user.name,
       });
       setEditingId(null);
     } catch (err) {
@@ -327,14 +434,20 @@ export default function ReviewerPage() {
             Program Committee • Scientific Evaluation
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-slate-900 flex items-center gap-3">
-            <ClipboardCheck className="text-primary shrink-0" /> Reviewer Portal
+            <ClipboardCheck className="text-primary shrink-0" /> Reviewer Panel
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
-            Inspect full 1-page attendee abstracts, equations, 300-DPI figures, keywords, presenter bios, and assign format recommendations.
+            Inspect full 1-page attendee abstracts, assign Scientific Score and HEMS Fitness ratings, record confidential reviewer-only notes, and recommend presentation formats.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 self-start md:self-center">
+          <Link
+            href="/reviewer/overview"
+            className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/25 hover:bg-primary hover:text-white px-3 py-2 rounded-xl text-xs font-semibold text-primary transition-colors"
+          >
+            <TableProperties size={13} /> Abstract Overview
+          </Link>
           {hasAttendeeRole(user.roles) && (
             <Link
               href="/abstract-submission"
@@ -385,7 +498,7 @@ export default function ReviewerPage() {
               {reviewedCount}
             </div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-foreground/50">
-              Completed Reviews
+              Reviewed by Committee
             </div>
           </div>
         </div>
@@ -395,10 +508,10 @@ export default function ReviewerPage() {
           </div>
           <div>
             <div className="text-2xl tabular-nums font-black text-foreground">
-              {pendingCount}
+              {needsMyReviewCount}
             </div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-foreground/50">
-              Pending Review
+              Needs My Review
             </div>
           </div>
         </div>
@@ -410,6 +523,10 @@ export default function ReviewerPage() {
           {(
             [
               { id: "all", label: `All (${submissions.length})` },
+              {
+                id: "needs_my_review",
+                label: `Needs My Review (${needsMyReviewCount})`,
+              },
               { id: "pending", label: `Pending (${pendingCount})` },
               { id: "reviewed", label: `Reviewed (${reviewedCount})` },
               {
@@ -459,7 +576,7 @@ export default function ReviewerPage() {
             Abstracts Evaluation Queue ({filteredSubmissions.length})
           </h3>
           <span className="text-[11px] text-foreground/55">
-            Synced live with Attendees → Abstract Submission
+            Synced live with Attendees → Abstract Submission &amp; Abstract Overview
           </span>
         </div>
 
@@ -475,9 +592,16 @@ export default function ReviewerPage() {
           ) : (
             filteredSubmissions.map((sub) => {
               const isEditing = editingId === sub.id;
+              const summary = summaryById.get(sub.id);
+              const reviewCount = summary?.reviewCount || 0;
+              const myReview = summary?.reviews.find(
+                (r) => r.reviewerEmail.toLowerCase() === normalizedUserEmail
+              );
+
               return (
                 <div
                   key={sub.id}
+                  id={`review-card-${sub.id}`}
                   className="p-4 sm:p-6 hover:bg-surface/30 transition-all duration-200 space-y-4"
                 >
                   <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
@@ -539,25 +663,73 @@ export default function ReviewerPage() {
                         </p>
                       )}
 
-                      {sub.status === "Reviewed" && sub.reviewerComments && !isEditing && (
-                        <p className="text-xs text-emerald-900 bg-emerald-50/70 border border-emerald-200/80 rounded-lg px-3 py-2">
-                          <strong>Reviewer Note ({sub.decision}):</strong>{" "}
-                          {sub.reviewerComments}
-                        </p>
+                      {!isEditing && myReview && (
+                        <div className="space-y-2 rounded-xl border border-emerald-200/90 bg-emerald-50/60 p-3">
+                          <div className="flex flex-wrap items-center gap-2 text-xs text-emerald-950">
+                            <span className="font-bold">Your Evaluation:</span>
+                            <span className="tabular-nums font-semibold px-2 py-0.5 rounded bg-white border border-emerald-200 text-emerald-900">
+                              Sci: {myReview.score.toFixed(1)}/10
+                            </span>
+                            <span className="tabular-nums font-semibold px-2 py-0.5 rounded bg-white border border-emerald-200 text-emerald-900">
+                              HEMS Fitness: {myReview.hemsFitness.toFixed(1)}/10
+                            </span>
+                            <span className="font-semibold text-emerald-800">
+                              • {myReview.decision}
+                            </span>
+                          </div>
+                          {myReview.reviewerComments && (
+                            <p className="text-xs text-emerald-900">
+                              <strong>Comments:</strong> {myReview.reviewerComments}
+                            </p>
+                          )}
+                          {myReview.privateNotes && (
+                            <div className="flex items-start gap-2 rounded-lg bg-slate-900/5 border border-slate-300/80 px-2.5 py-2 text-xs text-slate-800">
+                              <Lock size={13} className="text-slate-600 shrink-0 mt-0.5" />
+                              <div>
+                                <strong className="text-slate-900">
+                                  Reviewer-Only Notes (Confidential):
+                                </strong>{" "}
+                                {myReview.privateNotes}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {!isEditing && reviewCount > 0 && (
+                        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-600 bg-slate-50 border border-slate-200/80 rounded-lg px-3 py-2">
+                          <span>
+                            Committee aggregate ({reviewCount}{" "}
+                            {reviewCount === 1 ? "review" : "reviews"}):{" "}
+                            <strong className="text-slate-800">
+                              {summary?.recommendationSummaryText}
+                            </strong>
+                          </span>
+                          <Link
+                            href="/reviewer/overview"
+                            className="font-semibold text-primary hover:underline"
+                          >
+                            View committee breakdown →
+                          </Link>
+                        </div>
                       )}
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-                      {sub.status === "Reviewed" ? (
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full uppercase tracking-wider">
-                            {sub.decision}
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
+                      {reviewCount > 0 ? (
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className="tabular-nums text-[11px] font-bold text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-full">
+                            {reviewCount} {reviewCount === 1 ? "Review" : "Reviews"}
                           </span>
-                          {typeof sub.score === "number" && (
-                            <span className="tabular-nums text-xs font-bold text-foreground bg-foreground/5 border border-foreground/10 px-2.5 py-1 rounded-full">
-                              {sub.score.toFixed(1)}/10
-                            </span>
-                          )}
+                          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                            {summary?.consensusDecision}
+                          </span>
+                          <span className="tabular-nums text-xs font-bold text-foreground bg-foreground/5 border border-foreground/10 px-2.5 py-1 rounded-full">
+                            Sci Med: {formatMedianScore(summary?.medianScore)}
+                          </span>
+                          <span className="tabular-nums text-xs font-bold text-sky-900 bg-sky-50 border border-sky-200 px-2.5 py-1 rounded-full">
+                            HEMS Med: {formatMedianScore(summary?.medianHemsFitness)}
+                          </span>
                         </div>
                       ) : (
                         <span className="text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full uppercase tracking-wider">
@@ -582,15 +754,15 @@ export default function ReviewerPage() {
                         className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-sm cursor-pointer ${
                           isEditing
                             ? "bg-slate-200 text-slate-800 hover:bg-slate-300"
-                            : sub.status === "Reviewed"
+                            : myReview
                             ? "bg-surface border border-foreground/15 text-foreground hover:bg-foreground/5"
                             : "bg-primary text-primary-foreground hover:bg-primary/95"
                         }`}
                       >
                         {isEditing
                           ? "Close Form"
-                          : sub.status === "Reviewed"
-                          ? "Edit Review"
+                          : myReview
+                          ? "Edit My Review"
                           : "Start Evaluation"}
                       </button>
                     </div>
@@ -608,9 +780,12 @@ export default function ReviewerPage() {
                       onSubmit={(e) => void handleSaveEvaluation(e, sub.id)}
                       className="bg-[#F3F6FA] border border-primary/25 rounded-xl p-4 sm:p-5 space-y-4 shadow-2xs"
                     >
-                      <div className="flex items-center justify-between gap-2 border-b border-slate-200/80 pb-2.5">
+                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 pb-2.5">
                         <span className="text-xs font-bold uppercase tracking-wider text-primary">
                           Evaluate {sub.id} — {sub.presentingAuthor}
+                        </span>
+                        <span className="text-[11px] font-medium text-slate-500">
+                          Submitting as {user.email}
                         </span>
                       </div>
 
@@ -620,7 +795,7 @@ export default function ReviewerPage() {
                         </div>
                       )}
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
                           <label
                             htmlFor={`score-${sub.id}`}
@@ -638,6 +813,27 @@ export default function ReviewerPage() {
                             required
                             value={scoreInput}
                             onChange={(e) => setScoreInput(e.target.value)}
+                            className="hems-control w-full tabular-nums"
+                          />
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor={`hems-fitness-${sub.id}`}
+                            className="hems-label"
+                          >
+                            HEMS Fitness{" "}
+                            <span className="hems-label-hint">(1.0 – 10.0)</span>
+                          </label>
+                          <input
+                            id={`hems-fitness-${sub.id}`}
+                            type="number"
+                            min="1"
+                            max="10"
+                            step="0.5"
+                            required
+                            value={hemsFitnessInput}
+                            onChange={(e) => setHemsFitnessInput(e.target.value)}
                             className="hems-control w-full tabular-nums"
                           />
                         </div>
@@ -666,21 +862,44 @@ export default function ReviewerPage() {
                         </div>
                       </div>
 
-                      <div>
-                        <label
-                          htmlFor={`notes-${sub.id}`}
-                          className="hems-label"
-                        >
-                          Reviewer Notes / Committee Comments
-                        </label>
-                        <textarea
-                          id={`notes-${sub.id}`}
-                          rows={3}
-                          value={commentsInput}
-                          onChange={(e) => setCommentsInput(e.target.value)}
-                          placeholder="Technical merit, novelty, suitability for single-track oral vs. poster session..."
-                          className="hems-control w-full"
-                        />
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div>
+                          <label
+                            htmlFor={`notes-${sub.id}`}
+                            className="hems-label"
+                          >
+                            Committee Review Comments
+                          </label>
+                          <textarea
+                            id={`notes-${sub.id}`}
+                            rows={3}
+                            value={commentsInput}
+                            onChange={(e) => setCommentsInput(e.target.value)}
+                            placeholder="Technical merit, novelty, suitability for single-track oral vs. poster session..."
+                            className="hems-control w-full"
+                          />
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor={`private-notes-${sub.id}`}
+                            className="hems-label flex items-center gap-1.5"
+                          >
+                            <Lock size={12} className="text-amber-700 shrink-0" />
+                            <span>Reviewer-Only Notes</span>
+                            <span className="hems-label-hint">
+                              (Seen strictly by reviewers)
+                            </span>
+                          </label>
+                          <textarea
+                            id={`private-notes-${sub.id}`}
+                            rows={3}
+                            value={privateNotesInput}
+                            onChange={(e) => setPrivateNotesInput(e.target.value)}
+                            placeholder="Confidential notes for the Program Committee only (never visible to abstract submitters)..."
+                            className="hems-control w-full border-amber-300/80 bg-amber-50/30 focus:border-amber-600"
+                          />
+                        </div>
                       </div>
 
                       <div className="flex flex-wrap items-center justify-end gap-2">

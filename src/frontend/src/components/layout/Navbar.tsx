@@ -346,13 +346,22 @@ export default function Navbar() {
                               </Link>
                             )}
                             {hasReviewerRole(user.roles) && (
-                              <Link
-                                href="/reviewer"
-                                onClick={() => setProfileOpen(false)}
-                                className="text-xs font-semibold text-primary hover:underline"
-                              >
-                                Reviewer Panel →
-                              </Link>
+                              <>
+                                <Link
+                                  href="/reviewer"
+                                  onClick={() => setProfileOpen(false)}
+                                  className="text-xs font-semibold text-primary hover:underline"
+                                >
+                                  Reviewer Panel →
+                                </Link>
+                                <Link
+                                  href="/reviewer/overview"
+                                  onClick={() => setProfileOpen(false)}
+                                  className="text-xs font-semibold text-primary hover:underline"
+                                >
+                                  Abstract Overview →
+                                </Link>
+                              </>
                             )}
                             {hasBoardRole(user.roles) && (
                               <>
@@ -633,13 +642,22 @@ export default function Navbar() {
                       </Link>
                     )}
                     {hasReviewerRole(user.roles) && (
-                      <Link
-                        href="/reviewer"
-                        onClick={() => setMobileOpen(false)}
-                        className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
-                      >
-                        Reviewer Panel
-                      </Link>
+                      <>
+                        <Link
+                          href="/reviewer"
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                        >
+                          Reviewer Panel
+                        </Link>
+                        <Link
+                          href="/reviewer/overview"
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                        >
+                          Abstract Overview
+                        </Link>
+                      </>
                     )}
                     {hasBoardRole(user.roles) && (
                       <>

@@ -15,6 +15,7 @@ import { useAuth } from "@/context/AuthContext";
 import { db, hasFirebaseKeys, storage } from "@/utils/firebase";
 import { hasBoardOrAdminRole, hasReviewerRole } from "@/utils/telemetryClient";
 import {
+  AbstractReviewRecord,
   AbstractSubmissionRecord,
   AffiliationEntry,
   AuthorEntry,
@@ -23,11 +24,17 @@ import {
   GraphicMetadata,
   SaveAbstractReviewInput,
 } from "@/types/abstractSubmission";
+import {
+  buildReviewId,
+  summarizeSubmissionReviews,
+} from "@/utils/abstractReviewMetrics";
 
 const LEGACY_V1_STORAGE_KEY = "hems_abstract_submissions_v1";
 const LEGACY_V2_STORAGE_KEY = "hems_abstract_submissions_v2";
 const SUBMISSIONS_STORAGE_KEY = "hems_abstract_submissions_v3";
 const SUBMISSIONS_SYNC_EVENT = "hems-abstracts-updated";
+const REVIEWS_STORAGE_KEY = "hems_abstract_reviews_v1";
+const REVIEWS_SYNC_EVENT = "hems-abstract-reviews-updated";
 const IDB_NAME = "hems_abstract_files_idb";
 const IDB_VERSION = 1;
 const IDB_STORE = "abstract_pdfs";
@@ -71,10 +78,14 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     submittedByUid: "sample-001",
     submittedByEmail: "avance@whoi.example.org",
     submittedAt: "2026-10-14T16:20:00.000Z",
-    updatedAt: "2026-10-14T16:20:00.000Z",
+    updatedAt: "2026-10-20T15:30:00.000Z",
     deadline: "August 2027 (TBD)",
-    status: "Pending",
-    decision: "Pending",
+    status: "Reviewed",
+    decision: "Accept (Oral)",
+    score: 8.8,
+    hemsFitness: 9.3,
+    reviewedBy: "ksato@hems-workshop.org",
+    reviewedAt: "2026-10-20T15:30:00.000Z",
     isSampleSeed: true,
   },
   {
@@ -120,6 +131,7 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     status: "Reviewed",
     decision: "Accept (Oral)",
     score: 8.5,
+    hemsFitness: 9.0,
     reviewerComments: "Strong field validation dataset under sub-zero operating conditions.",
     reviewedBy: "reviewer@hems-workshop.org",
     reviewedAt: "2026-10-22T14:40:00.000Z",
@@ -161,6 +173,89 @@ const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
     deadline: "August 2027 (TBD)",
     status: "Pending",
     decision: "Pending",
+    isSampleSeed: true,
+  },
+];
+
+const INITIAL_SAMPLE_REVIEWS: AbstractReviewRecord[] = [
+  {
+    reviewId: buildReviewId("ABS-2027-001", "ksato@hems-workshop.org"),
+    submissionId: "ABS-2027-001",
+    reviewerEmail: "ksato@hems-workshop.org",
+    reviewerName: "Dr. Kenji Sato",
+    score: 9.0,
+    hemsFitness: 9.5,
+    decision: "Accept (Oral)",
+    reviewerComments:
+      "14 W triple-filter quadrupole behind a reinforced 25 μm PDMS membrane directly addresses subsea 4,000 m endurance and δ13C precision goals.",
+    privateNotes:
+      "Strong opening-day marine MS anchor candidate; confirm whether AUV dive telemetry video is cleared for release.",
+    createdAt: "2026-10-20T15:30:00.000Z",
+    updatedAt: "2026-10-20T15:30:00.000Z",
+    isSampleSeed: true,
+  },
+  {
+    reviewId: buildReviewId("ABS-2027-001", "emorales@hems-workshop.org"),
+    submissionId: "ABS-2027-001",
+    reviewerEmail: "emorales@hems-workshop.org",
+    reviewerName: "Dr. Elena Morales",
+    score: 8.5,
+    hemsFitness: 9.0,
+    decision: "Accept (Oral)",
+    reviewerComments:
+      "Compelling 42-hour seabed validation in the Guaymas Basin with < 18 s permeation lag.",
+    privateNotes:
+      "Pairs cleanly alongside subsea lander instrumentation talks in the marine session.",
+    createdAt: "2026-10-21T09:15:00.000Z",
+    updatedAt: "2026-10-21T09:15:00.000Z",
+    isSampleSeed: true,
+  },
+  {
+    reviewId: buildReviewId("ABS-2027-002", "reviewer@hems-workshop.org"),
+    submissionId: "ABS-2027-002",
+    reviewerEmail: "reviewer@hems-workshop.org",
+    reviewerName: "Program Committee Reviewer",
+    score: 8.5,
+    hemsFitness: 9.0,
+    decision: "Accept (Oral)",
+    reviewerComments:
+      "Strong field validation dataset under sub-zero operating conditions.",
+    privateNotes:
+      "Strong anchor talk for the Atmospheric & Cryospheric session.",
+    createdAt: "2026-10-22T14:40:00.000Z",
+    updatedAt: "2026-10-22T14:40:00.000Z",
+    isSampleSeed: true,
+  },
+  {
+    reviewId: buildReviewId("ABS-2027-002", "ksato@hems-workshop.org"),
+    submissionId: "ABS-2027-002",
+    reviewerEmail: "ksato@hems-workshop.org",
+    reviewerName: "Dr. Kenji Sato",
+    score: 9.0,
+    hemsFitness: 9.5,
+    decision: "Accept (Oral)",
+    reviewerComments:
+      "Cryogen-free 12 W thermal desorption + CIT array directly targets polar deployment constraints.",
+    privateNotes:
+      "Ask authors if cold-soak startup telemetry can be included in slides.",
+    createdAt: "2026-10-23T11:20:00.000Z",
+    updatedAt: "2026-10-23T11:20:00.000Z",
+    isSampleSeed: true,
+  },
+  {
+    reviewId: buildReviewId("ABS-2027-002", "emorales@hems-workshop.org"),
+    submissionId: "ABS-2027-002",
+    reviewerEmail: "emorales@hems-workshop.org",
+    reviewerName: "Dr. Elena Morales",
+    score: 8.0,
+    hemsFitness: 8.5,
+    decision: "Accept (Poster)",
+    reviewerComments:
+      "Well-calibrated Mathieu stability curves; blank carryover plots would strengthen oral presentation.",
+    privateNotes:
+      "Backup headline poster if oral session exceeds 18 slots.",
+    createdAt: "2026-10-24T17:05:00.000Z",
+    updatedAt: "2026-10-24T17:05:00.000Z",
     isSampleSeed: true,
   },
 ];
@@ -356,6 +451,71 @@ function mergeByIdNewestWins(
   return sortNewestFirst(Array.from(byId.values()));
 }
 
+function sortReviewsNewestFirst(
+  items: AbstractReviewRecord[]
+): AbstractReviewRecord[] {
+  return [...items].sort((a, b) => {
+    const tA = Date.parse(a.updatedAt || a.createdAt || "") || 0;
+    const tB = Date.parse(b.updatedAt || b.createdAt || "") || 0;
+    return tB - tA;
+  });
+}
+
+function readLocalReviews(): AbstractReviewRecord[] {
+  if (typeof window === "undefined") return INITIAL_SAMPLE_REVIEWS;
+  try {
+    const raw = window.localStorage.getItem(REVIEWS_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw) as unknown;
+      if (Array.isArray(parsed)) {
+        return sortReviewsNewestFirst(parsed as AbstractReviewRecord[]);
+      }
+    }
+    const seeded = sortReviewsNewestFirst(INITIAL_SAMPLE_REVIEWS);
+    window.localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(seeded));
+    return seeded;
+  } catch (err) {
+    console.warn("Failed to parse local abstract reviews:", err);
+    return INITIAL_SAMPLE_REVIEWS;
+  }
+}
+
+function writeLocalReviews(records: AbstractReviewRecord[]): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(records));
+    window.dispatchEvent(new CustomEvent(REVIEWS_SYNC_EVENT));
+  } catch (err) {
+    console.warn("Failed to write abstract reviews to localStorage:", err);
+  }
+}
+
+function mergeReviewsByIdNewestWins(
+  localItems: AbstractReviewRecord[],
+  remoteItems: AbstractReviewRecord[]
+): AbstractReviewRecord[] {
+  const byId = new Map<string, AbstractReviewRecord>();
+  for (const item of localItems) {
+    if (item?.reviewId) byId.set(item.reviewId, item);
+  }
+  for (const remote of remoteItems) {
+    if (!remote?.reviewId) continue;
+    const existing = byId.get(remote.reviewId);
+    if (!existing) {
+      byId.set(remote.reviewId, remote);
+      continue;
+    }
+    const existingTs =
+      Date.parse(existing.updatedAt || existing.createdAt || "") || 0;
+    const remoteTs =
+      Date.parse(remote.updatedAt || remote.createdAt || "") || 0;
+    if (remoteTs >= existingTs) {
+      byId.set(remote.reviewId, remote);
+    }
+  }
+  return sortReviewsNewestFirst(Array.from(byId.values()));
+}
+
 function generateSubmissionId(
   workshopYear: number,
   existing: AbstractSubmissionRecord[]
@@ -427,14 +587,21 @@ function deriveLegacyAuthorFields(
 export function useAbstractSubmissions() {
   const { user, loading: authLoading } = useAuth();
   const [submissions, setSubmissions] = useState<AbstractSubmissionRecord[]>([]);
+  const [reviews, setReviews] = useState<AbstractReviewRecord[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const canAccessReviews = Boolean(
+    user && (hasReviewerRole(user.roles) || hasBoardOrAdminRole(user.roles))
+  );
 
   const refresh = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const localItems = readLocalSubmissions();
+      let resolvedSubmissions = localItems;
+
       if (hasFirebaseKeys && db && user) {
         try {
           const canListAll =
@@ -452,11 +619,10 @@ export function useAbstractSubmissions() {
             remoteItems.push({ ...data, id: data.id || docSnap.id });
           });
           const merged = mergeByIdNewestWins(localItems, remoteItems);
-          setSubmissions(merged);
+          resolvedSubmissions = merged;
           if (remoteItems.length > 0 && typeof window !== "undefined") {
             window.localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(merged));
           }
-          return;
         } catch (firestoreErr) {
           console.warn(
             "Firestore abstract_submissions unavailable or gated; using local cache:",
@@ -464,7 +630,46 @@ export function useAbstractSubmissions() {
           );
         }
       }
-      setSubmissions(localItems);
+      setSubmissions(resolvedSubmissions);
+
+      if (!canAccessReviews) {
+        setReviews([]);
+        return;
+      }
+
+      const localReviews = readLocalReviews();
+      let resolvedReviews = localReviews;
+
+      if (hasFirebaseKeys && db && user) {
+        try {
+          const reviewsSnap = await getDocs(collection(db, "reviews"));
+          const remoteReviews: AbstractReviewRecord[] = [];
+          reviewsSnap.forEach((docSnap) => {
+            const data = docSnap.data() as AbstractReviewRecord;
+            remoteReviews.push({
+              ...data,
+              reviewId: data.reviewId || docSnap.id,
+            });
+          });
+          const mergedReviews = mergeReviewsByIdNewestWins(
+            localReviews,
+            remoteReviews
+          );
+          resolvedReviews = mergedReviews;
+          if (remoteReviews.length > 0 && typeof window !== "undefined") {
+            window.localStorage.setItem(
+              REVIEWS_STORAGE_KEY,
+              JSON.stringify(mergedReviews)
+            );
+          }
+        } catch (reviewsErr) {
+          console.warn(
+            "Firestore reviews unavailable or gated; using local cache:",
+            reviewsErr
+          );
+        }
+      }
+      setReviews(resolvedReviews);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Failed to load abstract submissions.";
       console.error("Error loading abstract submissions:", err);
@@ -472,7 +677,7 @@ export function useAbstractSubmissions() {
     } finally {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, canAccessReviews]);
 
   useEffect(() => {
     if (!authLoading) {
@@ -480,22 +685,29 @@ export function useAbstractSubmissions() {
     }
     if (typeof window === "undefined") return;
 
-    const handleSync = () => {
+    const handleSubmissionsSync = () => {
       setSubmissions(readLocalSubmissions());
+    };
+    const handleReviewsSync = () => {
+      setReviews(canAccessReviews ? readLocalReviews() : []);
     };
     const handleStorage = (e: StorageEvent) => {
       if (e.key === SUBMISSIONS_STORAGE_KEY) {
-        handleSync();
+        handleSubmissionsSync();
+      } else if (e.key === REVIEWS_STORAGE_KEY) {
+        handleReviewsSync();
       }
     };
 
-    window.addEventListener(SUBMISSIONS_SYNC_EVENT, handleSync);
+    window.addEventListener(SUBMISSIONS_SYNC_EVENT, handleSubmissionsSync);
+    window.addEventListener(REVIEWS_SYNC_EVENT, handleReviewsSync);
     window.addEventListener("storage", handleStorage);
     return () => {
-      window.removeEventListener(SUBMISSIONS_SYNC_EVENT, handleSync);
+      window.removeEventListener(SUBMISSIONS_SYNC_EVENT, handleSubmissionsSync);
+      window.removeEventListener(REVIEWS_SYNC_EVENT, handleReviewsSync);
       window.removeEventListener("storage", handleStorage);
     };
-  }, [authLoading, refresh]);
+  }, [authLoading, refresh, canAccessReviews]);
 
   const createSubmission = useCallback(
     async (
@@ -823,13 +1035,63 @@ export function useAbstractSubmissions() {
         throw new Error(`Abstract submission ${input.id} not found.`);
       }
 
+      const normalizedReviewerEmail = input.reviewedBy.trim().toLowerCase();
+      const reviewId = buildReviewId(input.id, normalizedReviewerEmail);
+      const currentReviews = readLocalReviews();
+      const existingReview = currentReviews.find((r) => r.reviewId === reviewId);
+
+      const reviewRecord: AbstractReviewRecord = {
+        reviewId,
+        submissionId: input.id,
+        reviewerEmail: normalizedReviewerEmail,
+        ...(input.reviewerName?.trim()
+          ? { reviewerName: input.reviewerName.trim() }
+          : existingReview?.reviewerName
+          ? { reviewerName: existingReview.reviewerName }
+          : {}),
+        score: input.score,
+        hemsFitness: input.hemsFitness,
+        decision: input.decision,
+        reviewerComments: input.reviewerComments.trim(),
+        privateNotes: input.privateNotes.trim(),
+        createdAt: existingReview?.createdAt || nowIso,
+        updatedAt: nowIso,
+      };
+
+      if (hasFirebaseKeys && db) {
+        try {
+          await setDoc(doc(db, "reviews", reviewId), reviewRecord, {
+            merge: true,
+          });
+        } catch (firestoreErr) {
+          console.warn(
+            "Firestore review write skipped/blocked; persisted locally:",
+            firestoreErr
+          );
+        }
+      }
+
+      const nextReviews = sortReviewsNewestFirst([
+        reviewRecord,
+        ...currentReviews.filter((r) => r.reviewId !== reviewId),
+      ]);
+      writeLocalReviews(nextReviews);
+      setReviews(nextReviews);
+
+      const summary = summarizeSubmissionReviews(target, nextReviews);
+      const consensusDecision =
+        summary.consensusDecision !== "Pending"
+          ? summary.consensusDecision
+          : input.decision;
+
+      // IMPORTANT: Never write privateNotes (confidential reviewer-only text) onto abstract_submissions
       const updatedRecord: AbstractSubmissionRecord = {
         ...target,
         status: "Reviewed",
-        score: input.score,
-        decision: input.decision,
-        reviewerComments: input.reviewerComments.trim(),
-        reviewedBy: input.reviewedBy,
+        decision: consensusDecision,
+        score: summary.medianScore ?? input.score,
+        hemsFitness: summary.medianHemsFitness ?? input.hemsFitness,
+        reviewedBy: normalizedReviewerEmail,
         reviewedAt: nowIso,
         updatedAt: nowIso,
       };
@@ -841,7 +1103,7 @@ export function useAbstractSubmissions() {
           });
         } catch (firestoreErr) {
           console.warn(
-            "Firestore abstract review write skipped/blocked; persisted locally:",
+            "Firestore abstract review status update skipped/blocked; persisted locally:",
             firestoreErr
           );
         }
@@ -860,27 +1122,54 @@ export function useAbstractSubmissions() {
     }
   }, []);
 
-  const withdrawSubmission = useCallback(async (id: string): Promise<void> => {
-    try {
-      await deleteBlob(id);
-      await deleteBlob(graphicBlobKey(id));
-      if (hasFirebaseKeys && db) {
-        try {
-          await deleteDoc(doc(db, "abstract_submissions", id));
-        } catch (firestoreErr) {
-          console.warn("Firestore abstract deletion skipped/blocked:", firestoreErr);
+  const withdrawSubmission = useCallback(
+    async (id: string): Promise<void> => {
+      try {
+        await deleteBlob(id);
+        await deleteBlob(graphicBlobKey(id));
+        if (hasFirebaseKeys && db) {
+          try {
+            await deleteDoc(doc(db, "abstract_submissions", id));
+          } catch (firestoreErr) {
+            console.warn("Firestore abstract deletion skipped/blocked:", firestoreErr);
+          }
+
+          if (canAccessReviews) {
+            try {
+              const relatedSnap = await getDocs(
+                query(collection(db, "reviews"), where("submissionId", "==", id))
+              );
+              await Promise.all(
+                relatedSnap.docs.map((d) => deleteDoc(doc(db!, "reviews", d.id)))
+              );
+            } catch (reviewDeleteErr) {
+              console.warn(
+                "Firestore related review cleanup skipped/blocked:",
+                reviewDeleteErr
+              );
+            }
+          }
         }
+        const next = readLocalSubmissions().filter((item) => item.id !== id);
+        writeLocalSubmissions(next);
+        setSubmissions(next);
+
+        const remainingReviews = readLocalReviews().filter(
+          (r) => r.submissionId !== id
+        );
+        writeLocalReviews(remainingReviews);
+        if (canAccessReviews) {
+          setReviews(remainingReviews);
+        }
+      } catch (err) {
+        console.error("Failed to withdraw abstract submission:", err);
+        throw err instanceof Error
+          ? err
+          : new Error("Unexpected error while withdrawing submission.");
       }
-      const next = readLocalSubmissions().filter((item) => item.id !== id);
-      writeLocalSubmissions(next);
-      setSubmissions(next);
-    } catch (err) {
-      console.error("Failed to withdraw abstract submission:", err);
-      throw err instanceof Error
-        ? err
-        : new Error("Unexpected error while withdrawing submission.");
-    }
-  }, []);
+    },
+    [canAccessReviews]
+  );
 
   const getGraphicPreviewUrl = useCallback(
     async (sub: AbstractSubmissionRecord): Promise<string | null> => {
@@ -1003,6 +1292,7 @@ export function useAbstractSubmissions() {
 
   return {
     submissions,
+    reviews,
     loading,
     error,
     refresh,

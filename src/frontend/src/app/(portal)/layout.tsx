@@ -15,6 +15,7 @@ import {
   Users,
   Send,
   Upload,
+  TableProperties,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import {
@@ -100,6 +101,13 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
       shortName: "Reviewer Panel",
       path: "/reviewer",
       icon: ClipboardCheck,
+      requiredRole: "reviewer",
+    },
+    {
+      name: "Abstract Overview",
+      shortName: "Abstract Overview",
+      path: "/reviewer/overview",
+      icon: TableProperties,
       requiredRole: "reviewer",
     },
   ];
