@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { Calendar, MapPin, Users, FileText, Download, Building, ArrowLeft, Award } from "lucide-react";
+import { Calendar, MapPin, Users, FileText, Download, Building, ArrowLeft, Award, ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
 import path from "path";
 import { promises as fs } from "fs";
@@ -25,6 +25,13 @@ function summarizeArchiveLocation(venue?: string, address?: string): string {
     return cleanAddress;
   }
   return cleanVenue;
+}
+
+function normalizeExternalUrl(raw?: string): string {
+  if (!raw) return "";
+  const t = raw.trim();
+  if (!t || t === "#") return "";
+  return /^https?:\/\//i.test(t) ? t : `https://${t}`;
 }
 
 export async function generateStaticParams() {
@@ -445,95 +452,164 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
           </div>
         )}
 
-        {(data.host_corporation?.name || (data.sponsors && data.sponsors.length > 0)) && (
-          <div className="border-t border-foreground/10 pt-6">
-            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-              <p className="text-xs font-bold uppercase tracking-widest text-foreground/50 flex items-center gap-2 font-mono">
-                <Building size={14} className="text-secondary" /> Workshop Host & Corporate Sponsors
-              </p>
-              {data.sponsors?.length > 0 && (
-                <span className="text-[11px] font-mono text-foreground/50">
-                  {data.sponsors.length} Corporate {data.sponsors.length === 1 ? 'Partner' : 'Partners'}
-                </span>
+        {(data.host_corporation?.name || (data.sponsors && data.sponsors.length > 0)) && (() => {
+          const host = data.host_corporation;
+          const isAcademicHost = host?.host_category === 'academic';
+          const normalizedHostUrl = normalizeExternalUrl(host?.url);
+          const placeLabel = summarizeArchiveLocation(data.venue, data.address);
+          const fallbackHostSummary = placeLabel
+            ? `Provided local coordination and technical hospitality for the ${data.ordinal} HEMS Workshop in ${placeLabel}.`
+            : `Provided local coordination and technical hospitality for the ${data.ordinal} HEMS Workshop.`;
+          const hostHighlights: string[] = Array.isArray(host?.highlights)
+            ? host.highlights.filter((h: unknown): h is string => typeof h === 'string' && h.trim().length > 0)
+            : placeLabel
+              ? [placeLabel]
+              : [];
+
+          return (
+            <div className="border-t border-slate-200/90 pt-6">
+              <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-600 flex items-center gap-2">
+                  <Building size={14} className="text-secondary" /> Workshop Host &amp; Corporate Sponsors
+                </p>
+                {data.sponsors?.length > 0 && (
+                  <span className="text-xs font-medium text-slate-500 tabular-nums">
+                    {data.sponsors.length} Corporate {data.sponsors.length === 1 ? 'Partner' : 'Partners'}
+                  </span>
+                )}
+              </div>
+
+              {/* Permanent Workshop Host & Institutional Patron Showcase */}
+              {host && host.name && (
+                <div
+                  className={`bg-white rounded-xl border p-4 sm:p-5 shadow-xs mb-6 w-full border-l-4 transition-colors ${
+                    isAcademicHost
+                      ? 'border-teal-700/20 border-l-secondary'
+                      : 'border-slate-200/90 border-l-primary'
+                  }`}
+                >
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-5">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-1 min-w-0">
+                      {host.logo_file && (
+                        <div className="bg-white border border-slate-200/80 rounded-lg p-2.5 h-20 sm:h-[88px] w-full sm:w-[205px] flex items-center justify-center shrink-0 overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={host.logo_file_url || `/images/sponsors/${host.logo_file}`}
+                            alt={host.name}
+                            width={185}
+                            height={68}
+                            loading="lazy"
+                            decoding="async"
+                            style={{ maxHeight: '68px', maxWidth: '185px', width: 'auto', height: 'auto', objectFit: 'contain' }}
+                            className="mix-blend-multiply"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div
+                          className={`text-[11px] font-semibold uppercase tracking-[0.09em] tabular-nums ${
+                            isAcademicHost ? 'text-secondary' : 'text-primary'
+                          }`}
+                        >
+                          {host.kicker_label || 'Permanent Workshop Host & Institutional Patron'} &bull; {data.ordinal} HEMS ({data.year})
+                        </div>
+                        <h3 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 tracking-tight leading-snug mt-0.5">
+                          Hosted by {host.name}
+                        </h3>
+                        <p className="text-[13px] sm:text-[13.5px] text-slate-600 leading-relaxed mt-1">
+                          {host.patronage_summary || fallbackHostSummary}
+                        </p>
+                        <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
+                          <span
+                            className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
+                              isAcademicHost
+                                ? 'bg-teal-50/90 text-teal-800 border-teal-200'
+                                : 'bg-sky-50/90 text-sky-800 border-sky-200'
+                            }`}
+                          >
+                            {isAcademicHost ? 'Official Host Institution' : 'Official Host Patron'}
+                          </span>
+                          {hostHighlights.map((tag: string, tIdx: number) => (
+                            <span
+                              key={tIdx}
+                              className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200/90"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                          {host.historical_note && (
+                            <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-amber-50/70 text-slate-600 border border-amber-200/80">
+                              {host.historical_note}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {normalizedHostUrl && (
+                      <div className="md:pl-4 md:border-l md:border-slate-200/80 flex flex-row md:flex-col items-center md:items-end justify-between md:justify-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
+                        <span className="text-[11px] font-medium text-slate-500">Institutional Link</span>
+                        <a
+                          href={normalizedHostUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-[13px] font-semibold bg-surface hover:bg-primary hover:text-white text-primary border border-primary/25 hover:border-primary transition-colors whitespace-nowrap"
+                        >
+                          {host.cta_label || 'Visit Host Website'}
+                          <ExternalLink size={13} />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Corporate Sponsors Responsive Grid */}
+              {data.sponsors && data.sponsors.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {[...data.sponsors].sort((a, b) => (parseInt(a.year) || 9999) - (parseInt(b.year) || 9999)).map((sponsor: any, idx: number) => {
+                    const sponsorYear = parseInt(sponsor.year);
+                    const normalizedSponsorUrl = normalizeExternalUrl(sponsor.url);
+                    return (
+                      <a
+                        key={idx}
+                        href={normalizedSponsorUrl || '#'}
+                        target={normalizedSponsorUrl ? "_blank" : undefined}
+                        rel={normalizedSponsorUrl ? "noopener noreferrer" : undefined}
+                        title={`${sponsor.name}${sponsorYear ? ` (Partner since ${sponsorYear})` : ''}`}
+                        className="bg-surface border border-slate-200/90 p-2 rounded-lg flex items-center gap-2.5 hover:border-primary/60 hover:bg-primary/5 transition-all group shadow-xs overflow-hidden"
+                      >
+                        <div className="bg-white border border-slate-200/60 rounded-md p-1.5 h-16 w-[160px] sm:w-[165px] flex items-center justify-center shrink-0 overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={sponsor.image}
+                            alt={sponsor.name}
+                            width={150}
+                            height={50}
+                            loading="lazy"
+                            decoding="async"
+                            style={{ maxHeight: '50px', maxWidth: '150px', width: 'auto', height: 'auto', objectFit: 'contain' }}
+                            className="mix-blend-multiply transition-transform duration-200 group-hover:scale-105"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0 pr-1">
+                          <h4 className="font-semibold text-primary text-xs sm:text-[13px] leading-tight group-hover:underline transition-colors line-clamp-2" title={sponsor.name}>
+                            {sponsor.name}
+                          </h4>
+                          {sponsorYear ? (
+                            <div className="text-[10px] font-semibold text-secondary uppercase tracking-[0.06em] mt-1 whitespace-nowrap tabular-nums">
+                              Since {sponsorYear}
+                            </div>
+                          ) : null}
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
               )}
             </div>
-
-            {/* Official Host Badge */}
-            {data.host_corporation && data.host_corporation.name && (
-              <div className="flex justify-center mb-6 w-full">
-                <a 
-                  href={data.host_corporation.url || '#'} 
-                  target={data.host_corporation.url ? "_blank" : undefined}
-                  rel={data.host_corporation.url ? "noopener noreferrer" : undefined}
-                  className="inline-flex items-center gap-4 bg-background/80 border-2 border-primary/30 p-3 sm:p-3.5 rounded-xl hover:border-primary hover:bg-primary/5 transition-all group shadow-sm max-w-lg"
-                >
-                  {data.host_corporation.logo_file && (
-                    <div className="bg-white rounded-lg p-2 h-24 w-[245px] flex items-center justify-center flex-shrink-0 shadow-xs overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img 
-                        src={data.host_corporation.logo_file_url || `/images/sponsors/${data.host_corporation.logo_file}`}
-                        alt={data.host_corporation.name} 
-                        width={225}
-                        height={75}
-                        loading="lazy"
-                        decoding="async"
-                        style={{ maxHeight: '75px', maxWidth: '225px', width: 'auto', height: 'auto', objectFit: 'contain' }}
-                        className="transition-transform duration-200 group-hover:scale-105"
-                      />
-                    </div>
-                  )}
-                  <div className="min-w-0 pr-2">
-                    <div className="text-[11px] font-bold text-primary uppercase tracking-widest font-mono">Official Workshop Host</div>
-                    <h4 className="font-bold text-foreground text-base sm:text-lg leading-snug group-hover:text-primary transition-colors">{data.host_corporation.name}</h4>
-                  </div>
-                </a>
-              </div>
-            )}
-
-            {/* Corporate Sponsors Responsive Grid */}
-            {data.sponsors && data.sponsors.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {[...data.sponsors].sort((a, b) => (parseInt(a.year) || 9999) - (parseInt(b.year) || 9999)).map((sponsor: any, idx: number) => {
-                  const sponsorYear = parseInt(sponsor.year);
-                  return (
-                    <a 
-                      key={idx}
-                      href={sponsor.url || '#'}
-                      target={sponsor.url ? "_blank" : undefined}
-                      rel={sponsor.url ? "noopener noreferrer" : undefined}
-                      title={`${sponsor.name}${sponsorYear ? ` (Partner since ${sponsorYear})` : ''}`}
-                      className="bg-surface border border-foreground/15 p-2 rounded-lg flex items-center gap-2.5 hover:border-primary/60 hover:bg-primary/5 transition-all group shadow-xs overflow-hidden"
-                    >
-                      <div className="bg-white rounded-md p-1.5 h-16 w-[160px] sm:w-[165px] flex items-center justify-center flex-shrink-0 shadow-xs overflow-hidden">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img 
-                          src={sponsor.image} 
-                          alt={sponsor.name} 
-                          width={150}
-                          height={50}
-                          loading="lazy"
-                          decoding="async"
-                          style={{ maxHeight: '50px', maxWidth: '150px', width: 'auto', height: 'auto', objectFit: 'contain' }}
-                          className="transition-transform duration-200 group-hover:scale-105" 
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0 pr-1">
-                        <h4 className="font-bold text-primary text-xs sm:text-[13px] leading-tight group-hover:underline transition-colors line-clamp-2" title={sponsor.name}>
-                          {sponsor.name}
-                        </h4>
-                        {sponsorYear ? (
-                          <div className="text-[9.5px] font-bold text-secondary uppercase tracking-wider font-mono mt-1 whitespace-nowrap">
-                            SINCE {sponsorYear}
-                          </div>
-                        ) : null}
-                      </div>
-                    </a>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        )}
+          );
+        })()}
 
 
           {data.student_awards && data.student_awards.length > 0 && (

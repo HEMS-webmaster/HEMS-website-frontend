@@ -521,9 +521,19 @@
   ],
   "host_corporation": {
     "name": "Center for Ocean Technology, College of Marine Science, USF",
-    "url": "http://www.marine.usf.edu/COT/",
+    "url": "https://www.usf.edu/marine-science/",
     "logo_file": "Center_for_Ocean_Technology_College_of_Marine_Science_USF.png",
-    "logo_file_url": "/images/sponsors/Center_for_Ocean_Technology_College_of_Marine_Science_USF.png?v=1778696767962"
+    "logo_file_url": "/images/sponsors/Center_for_Ocean_Technology_College_of_Marine_Science_USF.png?v=1778696767962",
+    "host_category": "academic",
+    "kicker_label": "Founding Workshop Host & Research Patron",
+    "patronage_summary": "Convened the inaugural Harsh-Environment Mass Spectrometry Workshop in St. Petersburg, Florida • Pioneering underwater membrane-introduction mass spectrometry (MIMS) and autonomous ocean sensor systems.",
+    "highlights": [
+      "St. Petersburg, FL",
+      "Inaugural Founding Host",
+      "Subsea & Autonomous Ocean Sensing"
+    ],
+    "historical_note": "",
+    "cta_label": "Visit Host Institution"
   },
   "venue_address_url": "",
   "title": "1st HEMS Workshop",

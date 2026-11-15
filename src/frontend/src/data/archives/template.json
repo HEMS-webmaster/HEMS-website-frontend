@@ -14,7 +14,13 @@
   "host_corporation": {
     "name": "",
     "url": "",
-    "logo_file": ""
+    "logo_file": "",
+    "host_category": "corporate",
+    "kicker_label": "Permanent Workshop Host & Institutional Patron",
+    "patronage_summary": "",
+    "highlights": [],
+    "historical_note": "",
+    "cta_label": "Visit Host Website"
   },
   "sponsors": [],
   "schedule": [

@@ -1769,9 +1769,18 @@
   "venue_address_url": "",
   "host_corporation": {
     "name": "Jet Propulsion Laboratory/NASA",
-    "url": "http://www.jpl.nasa.gov/",
+    "url": "https://www.jpl.nasa.gov/",
     "logo_file": "Jet_Propulsion_Laboratory_NASA.png",
-    "logo_file_url": "/images/sponsors/Jet_Propulsion_Laboratory_NASA.png?v=1778869189758"
+    "logo_file_url": "/images/sponsors/Jet_Propulsion_Laboratory_NASA.png?v=1778869189758",
+    "host_category": "academic",
+    "kicker_label": "Permanent Workshop Host & Research Patron",
+    "patronage_summary": "Hosted the 3rd HEMS technical sessions and flight-instrumentation discussions in Pasadena, California • Advancing planetary mass analyzers, miniature vacuum inlets, and solar-system volatile sensing.",
+    "highlights": [
+      "Pasadena, CA",
+      "Planetary & Spaceflight Mass Spectrometry"
+    ],
+    "historical_note": "",
+    "cta_label": "Visit Host Lab"
   },
   "student_awards": [],
   "events": [

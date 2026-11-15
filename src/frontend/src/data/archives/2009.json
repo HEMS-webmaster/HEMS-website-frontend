@@ -1877,9 +1877,18 @@
   ],
   "host_corporation": {
     "name": "Hamilton Sundstrand",
-    "url": "www.hamiltonsundstrand.com",
+    "url": "https://www.rtx.com/collinsaerospace",
     "logo_file": "Hamilton_Sundstrand.png",
-    "logo_file_url": "/images/sponsors/Hamilton_Sundstrand.png?v=1778522783284"
+    "logo_file_url": "/images/sponsors/Hamilton_Sundstrand.png?v=1778522783284",
+    "host_category": "corporate",
+    "kicker_label": "Permanent Workshop Host & Institutional Patron",
+    "patronage_summary": "Underwrote local symposium coordination and technical hospitality in Santa Barbara, California • Advancing crewed-spacecraft cabin atmosphere monitors, submarine air-revitalization sensors, and ruggedized gas analyzers.",
+    "highlights": [
+      "Santa Barbara, CA",
+      "Spacecraft & Submarine Life-Support MS"
+    ],
+    "historical_note": "Historical host name preserved • Now Collins Aerospace (an RTX business)",
+    "cta_label": "Visit Successor Site"
   },
   "venue_address_url": "https://maps.app.goo.gl/Y9mpcimiRCHCFisJ9",
   "title": "7th HEMS Workshop",

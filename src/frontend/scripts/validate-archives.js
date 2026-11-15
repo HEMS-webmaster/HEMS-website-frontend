@@ -38,6 +38,24 @@ const SessionSchema = z.object({
   presentations: z.array(PresentationSchema).default([]),
 });
 
+const HostCorporationSchema = z.object({
+  name: z.string(),
+  url: z
+    .string()
+    .refine((v) => v === '' || /^https?:\/\//i.test(v), {
+      message: 'Host URL must be empty or begin with http:// or https://',
+    })
+    .optional(),
+  logo_file: z.string().optional(),
+  logo_file_url: z.string().optional(),
+  host_category: z.enum(['corporate', 'academic']).optional(),
+  kicker_label: z.string().optional(),
+  patronage_summary: z.string().optional(),
+  highlights: z.array(z.string()).optional(),
+  historical_note: z.string().optional(),
+  cta_label: z.string().optional(),
+});
+
 const WorkshopArchiveSchema = z.object({
   year: z.union([z.number(), z.string()]),
   ordinal: z.string(),
@@ -45,7 +63,7 @@ const WorkshopArchiveSchema = z.object({
   tagline: z.string().optional(),
   dates: z.string().optional(),
   resources: z.array(z.any()).default([]),
-  host_corporation: z.any().optional(),
+  host_corporation: HostCorporationSchema.optional(),
   sponsors: z.array(z.any()).default([]),
   student_awards: z.array(z.any()).default([]),
   posters: z.array(PosterSchema).default([]),

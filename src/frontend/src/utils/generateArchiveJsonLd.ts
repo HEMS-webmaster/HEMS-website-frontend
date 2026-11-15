@@ -45,6 +45,12 @@ export interface ArchiveSponsorInput {
   url?: string;
 }
 
+export interface ArchiveHostInput {
+  name?: string;
+  url?: string;
+  patronage_summary?: string;
+}
+
 export interface ArchiveResourceInput {
   label?: string;
   public_website_url?: string;
@@ -57,6 +63,7 @@ export interface ArchiveDataInput {
   dates?: string;
   venue?: string;
   address?: string;
+  host_corporation?: ArchiveHostInput;
   resources?: ArchiveResourceInput[];
   sponsors?: ArchiveSponsorInput[];
   schedule?: ArchiveDayInput[];
@@ -139,6 +146,7 @@ interface JsonLdEvent {
     address?: string;
   };
   organizer: JsonLdOrganization;
+  funder?: JsonLdOrganization;
   sponsor?: JsonLdOrganization[];
   recordedIn?: JsonLdMediaObject[];
   subEvent?: JsonLdSubEvent[];
@@ -307,6 +315,13 @@ function getLiveMediaUrl(urlStr: string | undefined): string {
   return "";
 }
 
+function normalizeExternalHttpUrl(rawUrl: string | undefined): string {
+  if (!rawUrl) return "";
+  const trimmed = rawUrl.trim();
+  if (!trimmed || trimmed === "#") return "";
+  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+}
+
 export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
   const yearStr = String(data.year);
   const { startDate, endDate } = parseDateRange(data.dates, data.year);
@@ -348,14 +363,41 @@ export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
     };
   }
 
+  const hostName = data.host_corporation?.name?.trim();
+  const hostUrl = normalizeExternalHttpUrl(data.host_corporation?.url);
+  if (hostName) {
+    jsonLd.funder = {
+      "@type": "Organization",
+      name: hostName,
+      ...(hostUrl ? { url: hostUrl } : {}),
+    };
+  }
+
+  const sponsorOrgs: JsonLdOrganization[] = [];
   if (data.sponsors && data.sponsors.length > 0) {
-    jsonLd.sponsor = data.sponsors
-      .filter((s): s is ArchiveSponsorInput & { name: string } => Boolean(s.name))
-      .map((s) => ({
-        "@type": "Organization" as const,
-        name: s.name,
-        ...(s.url ? { url: s.url } : {}),
-      }));
+    for (const s of data.sponsors) {
+      if (!s.name || !s.name.trim()) continue;
+      const cleanName = s.name.trim();
+      const sUrl = normalizeExternalHttpUrl(s.url);
+      sponsorOrgs.push({
+        "@type": "Organization",
+        name: cleanName,
+        ...(sUrl ? { url: sUrl } : {}),
+      });
+    }
+  }
+  if (
+    hostName &&
+    !sponsorOrgs.some((org) => org.name.toLowerCase() === hostName.toLowerCase())
+  ) {
+    sponsorOrgs.unshift({
+      "@type": "Organization",
+      name: hostName,
+      ...(hostUrl ? { url: hostUrl } : {}),
+    });
+  }
+  if (sponsorOrgs.length > 0) {
+    jsonLd.sponsor = sponsorOrgs;
   }
 
   if (data.resources && data.resources.length > 0) {

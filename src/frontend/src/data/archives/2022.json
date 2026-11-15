@@ -1201,7 +1201,16 @@
     "name": "Adaptas Solutions",
     "url": "https://lifescience.imiplc.com/",
     "logo_file": "Adaptas_Solutions.png",
-    "logo_file_url": "/images/sponsors/Adaptas_Solutions.png?v=1778097651855"
+    "logo_file_url": "/images/sponsors/Adaptas_Solutions.png?v=1778097651855",
+    "host_category": "corporate",
+    "kicker_label": "Permanent Workshop Host & Institutional Patron",
+    "patronage_summary": "Underwrote post-hiatus symposium coordination and Space Coast hospitality in Cocoa Beach, Florida • Advancing electron multipliers, ion detectors, high-voltage power supplies, and precision mass-analyzer components.",
+    "highlights": [
+      "Cocoa Beach, FL",
+      "Ion Detectors & Mass Analyzer Subsystems"
+    ],
+    "historical_note": "Historical host name preserved • Now part of IMI Life Science",
+    "cta_label": "Visit Successor Site"
   },
   "venue_address_url": "https://maps.app.goo.gl/3FnPjXT8wmFuc5S9A",
   "title": "14th HEMS Workshop",

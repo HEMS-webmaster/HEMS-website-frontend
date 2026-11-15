@@ -116,6 +116,12 @@ try {
     lines.push(`- **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/${yr}/`);
     if (arch.dates) lines.push(`- **Dates:** ${arch.dates}`);
     if (venueSummary) lines.push(`- **Venue:** ${venueSummary}`);
+    if (arch.host_corporation && arch.host_corporation.name) {
+      const h = arch.host_corporation;
+      const note = h.historical_note ? ` (${h.historical_note})` : '';
+      const hUrl = h.url ? ` — ${h.url}` : '';
+      lines.push(`- **Official Workshop Host:** ${cleanWhitespace(h.name)}${note}${hUrl}`);
+    }
 
     if (Array.isArray(arch.resources)) {
       arch.resources.forEach((res) => {

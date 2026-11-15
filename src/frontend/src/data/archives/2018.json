@@ -651,9 +651,19 @@
   ],
   "host_corporation": {
     "name": "Inficon",
-    "url": "http://www.inficon.com/",
+    "url": "https://www.inficon.com/",
     "logo_file": "Inficon.png",
-    "logo_file_url": "/images/sponsors/Inficon.png?v=1783254894321"
+    "logo_file_url": "/images/sponsors/Inficon.png?v=1783254894321",
+    "host_category": "corporate",
+    "kicker_label": "Permanent Workshop Host & Institutional Patron",
+    "patronage_summary": "Hosted the first European HEMS symposium and local instrumentation program in Cologne (Köln), Germany • Advancing field-portable GC/MS chemical identification, quadrupole residual gas analyzers, and high-vacuum metrology.",
+    "highlights": [
+      "Cologne, Germany",
+      "First European HEMS Host",
+      "Portable GC/MS & Vacuum Metrology"
+    ],
+    "historical_note": "",
+    "cta_label": "Visit Host Website"
   },
   "venue_address_url": "https://maps.app.goo.gl/6nUZT97axxE2cWfB8",
   "title": "12th HEMS Workshop",

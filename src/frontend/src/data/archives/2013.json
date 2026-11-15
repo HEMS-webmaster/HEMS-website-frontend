@@ -1372,9 +1372,18 @@
   ],
   "host_corporation": {
     "name": "University of North Texas",
-    "url": "http://www.unt.edu/",
+    "url": "https://www.unt.edu/",
     "logo_file": "University_of_North_Texas.png",
-    "logo_file_url": "/images/sponsors/University_of_North_Texas.png?v=1778083552010"
+    "logo_file_url": "/images/sponsors/University_of_North_Texas.png?v=1778083552010",
+    "host_category": "academic",
+    "kicker_label": "Permanent Workshop Host & Research Patron",
+    "patronage_summary": "Hosted the 9th HEMS technical program and student research forum in St. Pete Beach, Florida • Advancing portable ion-trap mass spectrometry, ambient ionization, and mobile atmospheric/forensic chemical sensing.",
+    "highlights": [
+      "St. Pete Beach, FL",
+      "Portable Ion Traps & Mobile Field MS"
+    ],
+    "historical_note": "",
+    "cta_label": "Visit Host University"
   },
   "venue_address_url": "https://maps.app.goo.gl/U2KZR19399wcNAcB8",
   "title": "9th HEMS Workshop",

@@ -1136,9 +1136,18 @@
   ],
   "host_corporation": {
     "name": "ASRC Aerospace Corporation",
-    "url": "http://www.akspace.com/",
+    "url": "https://www.asrcfederal.com/",
     "logo_file": "ASRC_Aerospace_Corporation.png",
-    "logo_file_url": "/images/sponsors/ASRC_Aerospace_Corporation.png?v=1778596033822"
+    "logo_file_url": "/images/sponsors/ASRC_Aerospace_Corporation.png?v=1778596033822",
+    "host_category": "corporate",
+    "kicker_label": "Permanent Workshop Host & Institutional Patron",
+    "patronage_summary": "Underwrote local symposium coordination and Space Coast technical hospitality in Cocoa Beach, Florida • Supporting launch-facility analytical engineering, cryogenics, and spaceport hazard monitoring.",
+    "highlights": [
+      "Cocoa Beach, FL",
+      "Spaceport & Aerospace Analytical Engineering"
+    ],
+    "historical_note": "Historical host name preserved • Now operating under ASRC Federal",
+    "cta_label": "Visit Successor Site"
   },
   "venue_address_url": "https://maps.app.goo.gl/4KRYzkofahj4K1Ln9",
   "title": "6th HEMS Workshop",

@@ -36,6 +36,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2025/
 - **Dates:** September 15-18, 2025
 - **Venue:** Sheraton Virginia Beach Oceanfront Hotel — 3501 Atlantic Ave, Virginia Beach, VA 23451
+- **Official Workshop Host:** Pfeiffer Vacuum — https://www.pfeiffervacuum.com/us/en/
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Administrative/15th_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/15th/Administrative/15th_Participant_List.pdf
 - **Indexed Works (23):**
@@ -181,6 +182,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2022/
 - **Dates:** September 26-29, 2022
 - **Venue:** Courtyard Cocoa Beach Cape Canaveral — 3435 North Atlantic Ave., Cocoa Beach, Florida, 32931
+- **Official Workshop Host:** Adaptas Solutions (Historical host name preserved • Now part of IMI Life Science) — https://lifescience.imiplc.com/
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Administrative/14th_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Administrative/14th_Participant_List.pdf
 - **Student Travel Award Recipients:** Thomas C. Sams, Purdue University
@@ -307,6 +309,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2019/
 - **Dates:** September 16-19, 2019
 - **Venue:** Myrtle Beach, South Carolina
+- **Official Workshop Host:** Collins Aerospace — https://www.rtx.com/collinsaerospace
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Administrative/13th_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Administrative/13th_Participant_List.pdf
 - **Student Travel Award Recipients:** Kathleen L. Horvath; Tanouir Aloui, Duke University; Camila Anguiano Virgen, University of North Texas
@@ -464,6 +467,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2018/
 - **Dates:** October 16-18, 2018
 - **Venue:** Maritim Hotel — Heumarkt 20, 50667 Köln, Germany
+- **Official Workshop Host:** Inficon — https://www.inficon.com/
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/12th/Administrative/12th_Program.pdf
 - **Indexed Works (18):**
   1. **[Oral] Anomalous Uses of Mass Spectrometers at NASA** — Kathleen B. Loftin (Ph.D., Deputy Center Chief Technologist, NASA Kennedy Space Center) | Session: Plenary Lecture
@@ -538,6 +542,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2017/
 - **Dates:** September 18-21, 2017
 - **Venue:** Oxnard, CA
+- **Official Workshop Host:** UTC Aerospace Systems (Historical host name preserved • Now Collins Aerospace (an RTX business)) — https://www.rtx.com/collinsaerospace
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/11th/Administrative/11th_Program.pdf
 - **Student Travel Award Recipients:** Patrick Fedick, Purdue University; Emily Chua, Boston University; Ernesto Corrales, Universidad de Costa Rica
 - **Indexed Works (26):**
@@ -701,6 +706,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2015/
 - **Dates:** September 13–16, 2015
 - **Venue:** University of Maryland School of Pharmacy — 20 N Pine St, Baltimore, MD 21201
+- **Official Workshop Host:** OI Analytical (A Xylem / YSI brand) — https://www.ysi.com/oi-analytical
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/10th/Administrative/10th_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/10th/Administrative/10th_Participant_List.pdf
 - **Student Travel Award Recipients:** Andrew Hampton, University of North Carolina - Chapel Hill
@@ -859,6 +865,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2013/
 - **Dates:** September 15–18, 2013
 - **Venue:** The Don CeSar — 3400 Gulf Blvd, St Pete Beach, FL 33706
+- **Official Workshop Host:** University of North Texas — https://www.unt.edu/
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/9th/Administrative/9th_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/9th/Administrative/9th_Participant_List.pdf
 - **Student Travel Award Recipients:** Kenion Blakeman, University of North Carolina - Chapel Hill — "High Pressure Nitrogen and Air Mass Spectrometry with Microscale Ion Traps"; Christopher Pulliam, Purdue University — "Comparative Household Chemical Analysis Using Ambient Ionization Coupled to Miniature Mass Spectrometry"; Zach Russell, Duke University — "A Coded Aperture Magnetic Sector Mass Spectrometer"
@@ -1092,6 +1099,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2011/
 - **Dates:** September 19–22, 2011
 - **Venue:** Don CeSar Hotel — 3400 Gulf Blvd, St Pete Beach, FL 33706
+- **Official Workshop Host:** Hamilton Sundstrand (Historical host name preserved • Now Collins Aerospace (an RTX business)) — https://www.rtx.com/collinsaerospace
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Administrative/8th_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/8th/Administrative/8th_Participant_List.pdf
 - **Student Travel Award Recipients:** Johannes Lang, Universität Giessen — "Mobile High-Resolution Multiple-Reflection Time-of-Flight Mass Spectrometer for in-Situ Analytics"; Josh S. Wiley, Purdue University — "A Completely Handheld Ambient Ionization Source for Mass Spectrometry Based on a Low Temperature Plasma (LTP)"; Simon Maher, University of Liverpool — "Performance Enhancement for Miniature QMS Through Application of a Magnetic Field"
@@ -1324,6 +1332,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2009/
 - **Dates:** September 21-24, 2009
 - **Venue:** Hotel Mar Monte — 1111 E Cabrillo Blvd, Santa Barbara, CA 93103
+- **Official Workshop Host:** Hamilton Sundstrand (Historical host name preserved • Now Collins Aerospace (an RTX business)) — https://www.rtx.com/collinsaerospace
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/7th/Administrative/7th_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/7th/Administrative/7th_Participant_List.pdf
 - **Student Travel Award Recipients:** Liang Gao, Purdue University — "Development and mathematical modeling of a Membrane Inlet Mass Spectrometer for environmental monitoring"; Farnoush Salarzaei, University of Liverpool — "Development and mathematical modeling of a Membrane Inlet Mass Spectrometer for environmental monitoring"
@@ -1551,6 +1560,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2007/
 - **Dates:** September 17-20, 2007
 - **Venue:** Holiday Inn Cocoa Beach — 5575 N Atlantic Ave, Cocoa Beach, FL 32931
+- **Official Workshop Host:** ASRC Aerospace Corporation (Historical host name preserved • Now operating under ASRC Federal) — https://www.asrcfederal.com/
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/6th/Administrative/6th_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/6th/Administrative/6th_Participant_List.pdf
 - **Student Travel Award Recipients:** Jan-Peter Hauschild, Technische Universität Hamburg-Harburg — "A Single Chip Mass Spectrometer in MEMS Technology"; Evan Neidholdt, California Institute of Technology — "Compact Ambient Pressure Pyroelectric Ion Source for Harsh Environment Mass Spectrometry"
@@ -1751,6 +1761,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2005/
 - **Dates:** September 20-23, 2005
 - **Venue:** Cirque St. Armands Beachside (formerly Holiday Inn) — 233 Benjamin Franklin Dr, Sarasota, FL 34236
+- **Official Workshop Host:** Center for Ocean Technology, College of Marine Science, USF — https://www.usf.edu/marine-science/
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/5th/Administrative/5th_Participant_List.pdf
 - **Indexed Works (32):**
   1. **[Oral] Applications of membrane inlet mass spectrometry for long term monitoring in the field** — Frants Lauritsen, Anders Feilberg (Copenhagen University; Danish Technological Institute, Aarhus, Denmark) | Session: Technical Session (Wednesday AM)
@@ -1923,6 +1934,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2003/
 - **Dates:** October 7–10 2003
 - **Venue:** Tradewinds Sirata Beach Resort — 5500 Gulf Blvd, St Pete Beach, FL 33706
+- **Official Workshop Host:** Center for Ocean Technology, College of Marine Science, USF — https://www.usf.edu/marine-science/
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/4th/Administrative/4th_Participant_List.pdf
 - **Indexed Works (30):**
   1. **[Oral] Detection of Gas Phase Chemical Warfare Agents using Field-Portable Gas Chromatography-Mass Spectrometry Systems: Instrument and Sampling Strategy Considerations** — Philip A. Smith, Carmela Jackson Lepage, David Kock, Haley Wyatt, Brian A. Eckenrode, Gary L. Hook, Geoffrey Betsinger (Uniformed Services University of the Health Sciences, Bethesda, MD; Defense Research and Development, Alberta, Canada; Federal Bureau of Investigation, Forensics Research Laboratory, Quantico, VA; U.S. Marine Corps Chemical and Biological Incident Response Force, Indian Head, MD) | Session: Technical Session: Field MS Systems
@@ -2011,6 +2023,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2002/
 - **Dates:** March 25-28, 2002
 - **Venue:** Courtyard Old Pasadena
+- **Official Workshop Host:** Jet Propulsion Laboratory/NASA — https://www.jpl.nasa.gov/
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/3rd/Administrative/3rd_Participant_List.pdf
 - **Indexed Works (45):**
   1. **[Oral] Novel Mass Spectrometric Approaches to the In situ Chemical Analysis of Galactic and Cometary Dust Particles** — Jack Beauchamp, Daniel E. Austin, Thomas J. Ahrens (California Institute of Technology) | Session: Technical Session I: Space Environments
@@ -2252,6 +2265,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/2001/
 - **Dates:** March 18–21
 - **Venue:** St. Petersburg, Florida
+- **Official Workshop Host:** Center for Ocean Technology, College of Marine Science, USF — https://www.usf.edu/marine-science/
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/2nd/Administrative/2nd_Program.pdf
 - **Participant List (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/2nd/Administrative/2nd_Participant_List.pdf
 - **Indexed Works (24):**
@@ -2380,6 +2394,7 @@
 - **Canonical Proceedings Page:** https://www.hems-workshop.org/archive/1999/
 - **Dates:** February 21–23
 - **Venue:** St. Petersburg, Florida
+- **Official Workshop Host:** Center for Ocean Technology, College of Marine Science, USF — https://www.usf.edu/marine-science/
 - **Program Download (PDF):** https://storage.googleapis.com/hems-workshop-archives/proceedings/1st/Administrative/1st_Program.pdf
 - **Indexed Works (16):**
   1. **[Oral] Mass Spectrometer on an Autonomous Underwater Vehicle (AUV)** — Tim Short (USF) | Session: Monday Presentations
