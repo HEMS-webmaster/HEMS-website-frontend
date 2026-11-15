@@ -511,7 +511,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                             isAcademicHost ? 'text-secondary' : 'text-primary'
                           }`}
                         >
-                          {host.kicker_label || 'Permanent Workshop Host & Institutional Patron'} &bull; {data.ordinal} HEMS ({data.year})
+                          {host.kicker_label || 'Workshop Host & Institutional Patron'} &bull; {data.ordinal} HEMS ({data.year})
                         </div>
                         <h3 className="font-serif text-lg sm:text-xl font-semibold text-slate-900 tracking-tight leading-snug mt-0.5">
                           Hosted by {host.name}
