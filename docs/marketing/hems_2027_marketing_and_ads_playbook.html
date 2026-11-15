@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HEMS Society — 16th Workshop Online Advertising &amp; Zero-Budget Growth Playbook (2026–2027)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #FAFBFD;
+      --surface: #FFFFFF;
+      --surface-mist: #F1F5F9;
+      --surface-well: #F3F6FA;
+      --border: #E2E8F0;
+      --control-border: #94A3B8;
+      --ink: #0F172A;
+      --field-label: #1E3A5F;
+      --prose: #334155;
+      --muted: #64748B;
+      --placeholder: #7C8BA1;
+      --primary: #0369A1;
+      --primary-dark: #075985;
+      --primary-soft: #F0F9FF;
+      --primary-border: #BAE6FD;
+      --teal: #0F766E;
+      --teal-soft: #F0FDFA;
+      --teal-border: #99F6E4;
+      --amber: #B45309;
+      --amber-soft: #FFFBEB;
+      --amber-border: #FDE68A;
+      --rose: #BE123C;
+      --rose-soft: #FFF1F2;
+      --rose-border: #FECDD3;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.04), 0 6px 20px rgba(15, 23, 42, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--prose);
+      font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      color: var(--ink);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    h3, h4 {
+      font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--ink);
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .tabular {
+      font-variant-numeric: tabular-nums;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Sticky Top Navigation & Checklist Progress Bar */
+    .sticky-bar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 20px;
+    }
+
+    .sticky-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--prose);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      transition: all 0.15s ease;
+    }
+
+    .nav-pill:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      text-decoration: none;
+      background: var(--primary-soft);
+    }
+
+    .sticky-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-box {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--surface-well);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--field-label);
+    }
+
+    .progress-track {
+      width: 96px;
+      height: 7px;
+      border-radius: 999px;
+      background: #CBD5E1;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--teal));
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+      color: #FFFFFF;
+    }
+
+    .btn-copy.copied {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #FFFFFF;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
+
+    /* Editorial Masthead */
+    .masthead {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 24px;
+    }
+
+    .masthead-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-width: 280px;
+      flex: 1;
+    }
+
+    .logo-frame {
+      width: 114px;
+      height: 76px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-frame img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    .logo-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Source Serif 4', serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    .kicker {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .kicker-teal {
+      color: var(--teal);
+    }
+
+    .masthead h1 {
+      font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+      margin-bottom: 6px;
+    }
+
+    .lead-copy {
+      margin: 0;
+      max-width: 68ch;
+      font-size: 14.5px;
+      color: var(--prose);
+    }
+
+    .meta-badges {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface-mist);
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .pill-blue {
+      background: var(--primary-soft);
+      border-color: var(--primary-border);
+      color: var(--primary-dark);
+    }
+
+    .pill-teal {
+      background: var(--teal-soft);
+      border-color: var(--teal-border);
+      color: var(--teal);
+    }
+
+    .pill-amber {
+      background: var(--amber-soft);
+      border-color: var(--amber-border);
+      color: var(--amber);
+    }
+
+    /* KPI Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .kpi-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .kpi-value {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .kpi-value.accent-blue { color: var(--primary); }
+    .kpi-value.accent-teal { color: var(--teal); }
+
+    .kpi-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--field-label);
+      margin-bottom: 2px;
+    }
+
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* Section Containers */
+    .section {
+      margin-top: 34px;
+      scroll-margin-top: 72px;
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    }
+
+    .section-subtitle {
+      margin: 4px 0 0;
+      max-width: 72ch;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* Cards & Grouping Wells */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 18px;
+    }
+
+    .card-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title-group h3 {
+      font-size: 17px;
+      color: var(--ink);
+    }
+
+    .card-title-group p {
+      margin: 3px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .well {
+      background: var(--surface-well);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+    }
+
+    .callout {
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: 13.5px;
+      border: 1px solid var(--border);
+      background: var(--surface-mist);
+      margin: 14px 0;
+    }
+
+    .callout-blue {
+      background: var(--primary-soft);
+      border-color: var(--primary-border);
+      color: var(--field-label);
+    }
+
+    .callout-teal {
+      background: var(--teal-soft);
+      border-color: var(--teal-border);
+      color: #115E59;
+    }
+
+    .callout-amber {
+      background: var(--amber-soft);
+      border-color: var(--amber-border);
+      color: #92400E;
+    }
+
+    .callout-rose {
+      background: var(--rose-soft);
+      border-color: var(--rose-border);
+      color: #9F1239;
+    }
+
+    /* Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    /* Form Controls (Brand v3.2.0) */
+    .field-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--field-label);
+      margin-bottom: 6px;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .range-slider {
+      width: 100%;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .sim-output-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .sim-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+
+    .sim-stat-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .sim-stat-lbl {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--field-label);
+      margin-top: 2px;
+    }
+
+    /* Copyable Snippet Boxes */
+    .copy-box {
+      background: var(--surface);
+      border: 1px solid var(--control-border);
+      border-radius: var(--radius-md);
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.05);
+      overflow: hidden;
+      margin: 10px 0 14px;
+    }
+
+    .copy-box-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: var(--surface-mist);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 12px;
+    }
+
+    .copy-box-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--field-label);
+    }
+
+    .copy-box-body {
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--ink);
+      white-space: pre-wrap;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .tab-btn {
+      padding: 7px 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--prose);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* Ledger Tables (Brand v3.2.0) */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    thead th {
+      background: var(--surface-mist);
+      border-bottom: 1px solid #CBD5E1;
+      padding: 10px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--prose);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      color: var(--prose);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #F8FAFC;
+    }
+
+    .td-primary {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .url-chip {
+      display: inline-block;
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-border);
+      color: var(--primary-dark);
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 12px;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    /* Social Card Mockups (Sponsor / Speaker 1-Click Cards) */
+    .social-mockup {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .social-mockup-banner {
+      padding: 18px 20px;
+      background: linear-gradient(135deg, #0F172A 0%, #075985 60%, #0F766E 100%);
+      color: #FFFFFF;
+    }
+
+    .social-mockup-banner .sm-eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #BAE6FD;
+      margin-bottom: 6px;
+    }
+
+    .social-mockup-banner .sm-title {
+      font-family: 'Source Serif 4', serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .social-mockup-banner .sm-meta {
+      font-size: 12px;
+      color: #E2E8F0;
+    }
+
+    .social-mockup-foot {
+      padding: 12px 16px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Checklists */
+    .checklist-group {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .check-item:hover {
+      background: #F8FAFC;
+      border-color: var(--control-border);
+    }
+
+    .check-item input[type="checkbox"] {
+      margin-top: 3px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .check-item.done {
+      background: var(--teal-soft);
+      border-color: var(--teal-border);
+    }
+
+    .check-item.done .check-title {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .check-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--ink);
+      display: block;
+    }
+
+    .check-desc {
+      font-size: 12px;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Ordered Steps */
+    .step-list {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    .step-list li {
+      margin-bottom: 8px;
+    }
+
+    .step-list li strong {
+      color: var(--ink);
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .kpi-grid,
+      .sim-output-grid,
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .kpi-grid,
+      .sim-output-grid,
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .meta-badges {
+        align-items: flex-start;
+      }
+
+      .masthead,
+      .card {
+        padding: 18px;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      .sticky-bar,
+      .btn-copy,
+      .tab-bar,
+      .no-print {
+        display: none !important;
+      }
+
+      .tab-panel {
+        display: block !important;
+        margin-bottom: 18px;
+        page-break-inside: avoid;
+      }
+
+      body {
+        background: #FFFFFF;
+        font-size: 11.5pt;
+      }
+
+      .card,
+      .masthead,
+      .well {
+        box-shadow: none;
+        border-color: #CBD5E1;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky Navigation & Progress Bar -->
+  <div class="sticky-bar">
+    <div class="sticky-inner">
+      <nav class="nav-pills" aria-label="Marketing Playbook Sections">
+        <a href="#roi-simulator" class="nav-pill">ROI &amp; Budget Simulator</a>
+        <a href="#section-1-ads" class="nav-pill">1. Ad Grants, LinkedIn &amp; Calendars</a>
+        <a href="#section-2-multipliers" class="nav-pill">2. Zero-Budget Multipliers</a>
+        <a href="#section-3-extended" class="nav-pill">3. Extended Growth Playbook</a>
+        <a href="#section-4-timeline" class="nav-pill">4. 12-Month Calendar</a>
+        <a href="#section-5-utm" class="nav-pill">5. UTM &amp; Analytics</a>
+        <a href="#section-6-checklist" class="nav-pill">Execution Checklist</a>
+      </nav>
+
+      <div class="sticky-tools">
+        <div class="progress-box tabular" aria-live="polite">
+          <span id="progress-label">0 / 18 Tasks Done</span>
+          <div class="progress-track">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+        <button type="button" class="btn" onclick="window.print()">Print / Save PDF</button>
+        <button type="button" class="btn" onclick="resetChecklist()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- Editorial Masthead -->
+    <header class="masthead">
+      <div class="masthead-top">
+        <div class="brand-lockup">
+          <div class="logo-frame">
+            <img
+              src="../../src/frontend/public/hemslogo.jpg"
+              alt="HEMS Society Official Emblem"
+              onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';"
+            />
+            <div id="logo-fallback" class="logo-fallback">HEMS</div>
+          </div>
+          <div>
+            <span class="kicker">501(c)(3) Nonprofit Growth Playbook &bull; Brand Spec v3.2.0</span>
+            <h1>16th HEMS Workshop Online Advertising &amp; Volunteer Multiplier Plan</h1>
+            <p class="lead-copy">
+              A complete, volunteer-friendly acquisition playbook pairing <strong>$10,000/month in free 501(c)(3) Google Ad Grants</strong>, three surgical <strong>3-week LinkedIn ad bursts</strong>, free scientific society calendars, and high-leverage organic multipliers built directly onto <strong>hems-workshop.org</strong> infrastructure.
+            </p>
+          </div>
+        </div>
+
+        <div class="meta-badges tabular">
+          <span class="pill pill-teal">IRS 501(c)(3) Public Charity &bull; Est. 1999</span>
+          <span class="pill pill-blue">Target Cycle: 16th Workshop &bull; September 2027</span>
+          <span class="pill">LinkedIn Group #4385091 &bull; 436+ Archive Talks</span>
+        </div>
+      </div>
+
+      <!-- Executive KPI Cards -->
+      <div class="kpi-grid tabular">
+        <div class="kpi-card">
+          <div class="kpi-label">Free Google Ad Grants</div>
+          <div class="kpi-value accent-teal">$10,000 / mo</div>
+          <div class="kpi-sub">Up to $120,000/yr in free Google Search ads via Google for Nonprofits (~2–3 hr one-time setup).</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Focused LinkedIn Ad Bursts</div>
+          <div class="kpi-value accent-blue">$900 – $2,250</div>
+          <div class="kpi-sub">Three concentrated 21-day windows ($300–$750 each) instead of expensive year-round feeds.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Cash Break-Even Threshold</div>
+          <div class="kpi-value">1 – 2 Sponsors</div>
+          <div class="kpi-sub">At $1,350 Sponsor / $500 Professional / $250 Student registration rates, one new corporate table pays for an entire year of LinkedIn ads.</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Committee Time Footprint</div>
+          <div class="kpi-value">&lt; 3 hrs / qtr</div>
+          <div class="kpi-sub">Batch-schedule 6 months of archive posts in 45 min; reuse ready emails, UTMs, and printable PDF flyers.</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Interactive ROI & Budget Simulator -->
+    <section id="roi-simulator" class="section">
+      <div class="section-header">
+        <div>
+          <span class="kicker kicker-teal">Executive Financial Planning</span>
+          <h2>Interactive Media Value &amp; Break-Even Simulator</h2>
+          <p class="section-subtitle">Adjust expected monthly Google Ad Grant capture and the three LinkedIn burst budgets to model search/social reach and sponsorship break-even economics.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="well">
+          <div class="grid-2">
+            <div>
+              <label class="field-label" for="sim-grant-monthly">
+                <span>Google Ad Grants Utilization <span class="field-hint">(501(c)(3) Free In-Kind Credit)</span></span>
+                <span id="sim-grant-monthly-val" class="tabular">$6,500 / mo</span>
+              </label>
+              <input id="sim-grant-monthly" class="range-slider" type="range" min="0" max="10000" step="500" value="6500" />
+            </div>
+
+            <div>
+              <label class="field-label" for="sim-grant-months">
+                <span>Active Grant Months Before Workshop <span class="field-hint">(Year-Round Autopilot)</span></span>
+                <span id="sim-grant-months-val" class="tabular">10 months</span>
+              </label>
+              <input id="sim-grant-months" class="range-slider" type="range" min="1" max="12" step="1" value="10" />
+            </div>
+
+            <div>
+              <label class="field-label" for="sim-burst-cfp">
+                <span>Burst 1: Call for Papers Launch <span class="field-hint">(3 Weeks &bull; Spring 2027)</span></span>
+                <span id="sim-burst-cfp-val" class="tabular">$500</span>
+              </label>
+              <input id="sim-burst-cfp" class="range-slider" type="range" min="0" max="1000" step="50" value="500" />
+            </div>
+
+            <div>
+              <label class="field-label" for="sim-burst-grants">
+                <span>Burst 2: $1,500 Student Travel Awards <span class="field-hint">(3 Weeks &bull; Late Spring 2027)</span></span>
+                <span id="sim-burst-grants-val" class="tabular">$500</span>
+              </label>
+              <input id="sim-burst-grants" class="range-slider" type="range" min="0" max="1000" step="50" value="500" />
+            </div>
+
+            <div>
+              <label class="field-label" for="sim-burst-reg">
+                <span>Burst 3: Early-Bird Reg &amp; Sponsors <span class="field-hint">(3 Weeks &bull; Summer 2027)</span></span>
+                <span id="sim-burst-reg-val" class="tabular">$500</span>
+              </label>
+              <input id="sim-burst-reg" class="range-slider" type="range" min="0" max="1000" step="50" value="500" />
+            </div>
+
+            <div class="callout callout-blue" style="margin: 0;">
+              <strong>Modeling Assumptions:</strong> Conservative niche scientific blended CPC of <strong>$1.85</strong> on Google Ad Grants search (~2.5% landing conversion to signup/CFP/PDF) and <strong>$5.25</strong> manual-bid CPC on hyper-targeted LinkedIn Matched &amp; Lookalike Audiences.
+            </div>
+          </div>
+
+          <div class="sim-output-grid tabular">
+            <div class="sim-stat">
+              <div id="out-cash-spend" class="sim-stat-val">$1,500</div>
+              <div class="sim-stat-lbl">Total Paid Cash Budget</div>
+            </div>
+            <div class="sim-stat">
+              <div id="out-total-media" class="sim-stat-val" style="color: var(--teal);">$66,500</div>
+              <div class="sim-stat-lbl">Total Media Value (Grant + Paid)</div>
+            </div>
+            <div class="sim-stat">
+              <div id="out-est-clicks" class="sim-stat-val" style="color: var(--primary);">~35,421</div>
+              <div class="sim-stat-lbl">Qualified Researcher Clicks</div>
+            </div>
+            <div class="sim-stat">
+              <div id="out-breakeven" class="sim-stat-val">2 Sponsors or 3 Regs</div>
+              <div class="sim-stat-lbl">Paid Cash Break-Even ($1,350 / $500)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: ONLINE ADS -->
+    <section id="section-1-ads" class="section">
+      <div class="section-header">
+        <div>
+          <span class="kicker">Pillar 1 &bull; Core Recommendation Implementation</span>
+          <h2>1. Where to Spend Ads (and Unlocking $10,000/Month Free)</h2>
+          <p class="section-subtitle">Combine year-round 501(c)(3) Google Search Grants, three tightly scoped 21-day LinkedIn bursts, and high-trust scientific society calendars.</p>
+        </div>
+      </div>
+
+      <!-- 1.1 Google Ad Grants -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3>1.1 Google for Nonprofits &rarr; Google Ad Grants ($10,000/month Free Search Ads)</h3>
+            <p>Runs year-round on autopilot bidding on high-intent scientific searches, routing researchers straight to <code>/archive</code>, <code>/call-for-papers</code>, and <code>/student-awards</code>.</p>
+          </div>
+          <span class="pill pill-teal tabular">Est. Setup: 2–3 Hours &bull; Cost: $0/mo</span>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <h4>Step-by-Step 501(c)(3) Activation Checklist</h4>
+            <ol class="step-list">
+              <li><strong>Verify Nonprofit Status:</strong> Enroll <em>Harsh-Environment Mass Spectrometry Society, Inc.</em> (Florida 501(c)(3) EIN) at <strong>google.com/nonprofits</strong> via Google's verification partner (Goodstack / Percent). Expect 2–5 business days for approval.</li>
+              <li><strong>Enable Google Analytics 4 Conversions First:</strong> Because `hems-workshop.org` already fires structured telemetry events (<code>mailing_signup</code>, <code>outbound_click</code>, <code>mailto_click</code>, abstract/PDF downloads), mark those key actions as Conversions inside GA4 and link GA4 to the Google Ad Grants account.</li>
+              <li><strong>Activate "Maximize Conversions" Bidding:</strong> Ad Grants normally caps manual bids at $2.00 CPC—often too low for competitive terms. Enabling conversion-based Smart Bidding automatically lifts the $2.00 cap so HEMS wins top scientific search placements for free.</li>
+              <li><strong>Maintain Ad Grants Compliance Automatically:</strong> Keep at least 2 active ad groups per campaign, 2 Responsive Search Ads per ad group, 2+ sitelink extensions (<code>/archive</code>, <code>/student-awards</code>, <code>/call-for-papers</code>, <code>/corporate-sponsorship</code>), geo-targeting across US/Canada/Europe/Japan/Australia research hubs, and a account-wide CTR &ge; 5.0% (enforced by our Negative Keyword Shield below).</li>
+            </ol>
+          </div>
+
+          <div>
+            <div class="callout callout-rose" style="margin-top: 0;">
+              <strong>Critical Warning — Protect CTR From "HEMS" Acronym Collisions:</strong><br />
+              In broader search traffic, <em>HEMS</em> also means <strong>Helicopter Emergency Medical Services</strong> and <strong>Home Energy Management Systems</strong>. Without strict negative keywords, irrelevant clicks will burn grant budget and drop CTR below Google's mandatory 5% rule. Always use Exact/Phrase match on multi-word instrumentation terms and apply the negative shield below at the Account Level.
+            </div>
+
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Account-Level Negative Keyword Shield (Paste Into Google Ads)</span>
+                <button type="button" class="btn btn-copy" data-copy-target="neg-keywords">Copy Shield</button>
+              </div>
+              <pre id="neg-keywords" class="copy-box-body">-helicopter
+-air ambulance
+-paramedic
+-flight nurse
+-medical transport
+-trauma
+-home energy management
+-smart meter
+-solar battery
+-body mass
+-salary
+-job
+-jobs
+-career
+-used ebay
+-repair manual</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Google Ad Grant Campaign Blueprints -->
+        <h4 style="margin: 18px 0 10px;">Four Ready-to-Launch Google Ad Grants Search Campaigns (With Exact RSA Ad Copy)</h4>
+        <div class="tab-bar" role="tablist" aria-label="Google Ad Grants Campaigns">
+          <button type="button" class="tab-btn active" data-tab-group="gag" data-tab="gag-cfp">Campaign A: CFP &amp; Symposium</button>
+          <button type="button" class="tab-btn" data-tab-group="gag" data-tab="gag-archive">Campaign B: Archive Evergreen Engine</button>
+          <button type="button" class="tab-btn" data-tab-group="gag" data-tab="gag-grants">Campaign C: $1,500 Student Awards</button>
+          <button type="button" class="tab-btn" data-tab-group="gag" data-tab="gag-sponsor">Campaign D: Corporate Exhibitors</button>
+        </div>
+
+        <div id="gag-cfp" class="tab-panel active" data-tab-panel="gag">
+          <div class="grid-2">
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Keywords (Phrase &amp; Exact Match) &bull; Route: /call-for-papers</span>
+                <button type="button" class="btn btn-copy" data-copy-target="kw-cfp">Copy Keywords</button>
+              </div>
+              <pre id="kw-cfp" class="copy-box-body">"portable mass spectrometry conference"
+"field deployable mass spectrometer"
+"harsh environment mass spectrometry"
+"in situ mass spectrometry workshop"
+"ruggedized mass spectrometer meeting"
+"mass spectrometry symposium 2027"
+"miniature mass analyzer conference"</pre>
+            </div>
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Responsive Search Ad Copy (Headlines &le; 30 chars, Desc &le; 90 chars)</span>
+                <button type="button" class="btn btn-copy" data-copy-target="ad-cfp">Copy Ad Copy</button>
+              </div>
+              <pre id="ad-cfp" class="copy-box-body">H1: 16th HEMS Workshop (Sep 2027)
+H2: Field-Portable Mass Spec Forum
+H3: Submit Your 1-Page Abstract
+H4: Single-Track Instrumentation
+D1: Join deep-ocean, planetary &amp; tactical MS scientists. Explore the Call for Papers today.
+D2: Academic, government &amp; OEM researchers. Browse 436+ open talks &amp; submit in 2027.
+Final URL: https://www.hems-workshop.org/call-for-papers/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=google-ad-grant-cfp-2027</pre>
+            </div>
+          </div>
+        </div>
+
+        <div id="gag-archive" class="tab-panel" data-tab-panel="gag">
+          <div class="grid-2">
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Keywords &bull; Route: /archive (Captures Daily Technical Search Volume Year-Round)</span>
+                <button type="button" class="btn btn-copy" data-copy-target="kw-archive">Copy Keywords</button>
+              </div>
+              <pre id="kw-archive" class="copy-box-body">"underwater mass spectrometry MIMS"
+"membrane inlet mass spectrometry"
+"planetary mass spectrometer talks"
+"miniature ion trap mass spectrometry"
+"volcanic fumarole gas mass spectrometry"
+"ROV AUV mass spectrometer payload"
+"field deployable mass spectrometer papers"
+"high pressure ionization mass spectrometry"</pre>
+            </div>
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Responsive Search Ad Copy &bull; 1999–2025 Open-Access Archive</span>
+                <button type="button" class="btn btn-copy" data-copy-target="ad-archive">Copy Ad Copy</button>
+              </div>
+              <pre id="ad-archive" class="copy-box-body">H1: 436+ Field Mass Spec Talks
+H2: Underwater &amp; Space MS Archive
+H3: 1999–2025 Open-Access PDFs
+H4: Search HEMS Society Proceedings
+D1: Free slides &amp; technical abstracts on MIMS, AUVs, DraMS, UAV plumes &amp; miniature vacuum MS.
+D2: Full-text search across 25+ years of Harsh-Environment Mass Spectrometry research.
+Final URL: https://www.hems-workshop.org/archive/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=google-ad-grant-2027</pre>
+            </div>
+          </div>
+        </div>
+
+        <div id="gag-grants" class="tab-panel" data-tab-panel="gag">
+          <div class="grid-2">
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Keywords &bull; Route: /student-awards ($1,500.00 Student Travel Grants)</span>
+                <button type="button" class="btn btn-copy" data-copy-target="kw-grants">Copy Keywords</button>
+              </div>
+              <pre id="kw-grants" class="copy-box-body">"mass spectrometry student travel award"
+"analytical chemistry travel grant 2027"
+"oceanography graduate student travel award"
+"planetary science instrumentation grant"
+"chemistry conference student fellowship"</pre>
+            </div>
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Responsive Search Ad Copy &bull; Student Travel Grant</span>
+                <button type="button" class="btn btn-copy" data-copy-target="ad-grants">Copy Ad Copy</button>
+              </div>
+              <pre id="ad-grants" class="copy-box-body">H1: $1,500 Student Travel Awards
+H2: 16th HEMS Workshop (Sep 2027)
+H3: For PhD &amp; MS Researchers
+H4: Only $250 Student Registration
+D1: Present harsh-environment MS research. $1,500 travel support + direct OEM &amp; NASA mentors.
+D2: Analytical chemistry, marine &amp; planetary grad students invited to apply for 2027 funding.
+Final URL: https://www.hems-workshop.org/student-awards/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=google-ad-grant-students-2027</pre>
+            </div>
+          </div>
+        </div>
+
+        <div id="gag-sponsor" class="tab-panel" data-tab-panel="gag">
+          <div class="grid-2">
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Keywords &bull; Route: /corporate-sponsorship ($1,350 Exhibitor Tier)</span>
+                <button type="button" class="btn btn-copy" data-copy-target="kw-sponsor">Copy Keywords</button>
+              </div>
+              <pre id="kw-sponsor" class="copy-box-body">"mass spectrometry conference sponsor"
+"analytical instrumentation exhibitor event"
+"field mass spectrometer vendor booth"
+"compact vacuum pump conference sponsor"</pre>
+            </div>
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Responsive Search Ad Copy &bull; Single-Track Sponsor Access</span>
+                <button type="button" class="btn btn-copy" data-copy-target="ad-sponsor">Copy Ad Copy</button>
+              </div>
+              <pre id="ad-sponsor" class="copy-box-body">H1: Sponsor the 16th HEMS Forum
+H2: Reach Field MS Buyers Directly
+H3: Single-Track Tabletop Access
+H4: $1,350 Full Sponsor Package
+D1: Put compact pumps, detectors &amp; field analyzers in front of NASA, NOAA, DOD &amp; WHOI buyers.
+D2: Zero parallel-track dilution. Direct meals &amp; tabletop networking for 52+ alumni OEMs.
+Final URL: https://www.hems-workshop.org/corporate-sponsorship/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=google-ad-grant-sponsors-2027</pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 1.2 LinkedIn 3-Week Ad Bursts -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3>1.2 Three Surgical 3-Week LinkedIn Ad Bursts ($300–$750 Each — Not Year-Round)</h3>
+            <p>Avoid $8–$12/click bleed by running concentrated 21-day single-image bursts exclusively at high-decision milestones.</p>
+          </div>
+          <span class="pill pill-blue tabular">3 Windows &bull; Total $900–$2,250</span>
+        </div>
+
+        <div class="callout callout-amber" style="margin-top: 0;">
+          <strong>Precision Targeting &amp; Bid-Control Checklist (Cuts LinkedIn CPC by 40–55%):</strong>
+          <ul style="margin: 6px 0 0; padding-left: 18px;">
+            <li><strong>Step 1 — Upload HEMS First-Party Seed List:</strong> Export emails from <strong>Board Portal &rarr; Mailing List</strong> (<code>/board/mailing-list</code>) and upload as a <strong>LinkedIn Matched Audience</strong>. Build both a direct Retargeting audience and a 1% <strong>Lookalike Audience</strong>.</li>
+            <li><strong>Step 2 — Layer Job Skills, Fields of Study &amp; Competitor Followers:</strong> Intersect <em>Skills / Interests</em> (<code>Mass Spectrometry</code>, <code>ASMS</code>, <code>Analytical Chemistry</code>, <code>Gas Chromatography-Mass Spectrometry</code>, <code>Oceanography</code>, <code>Spaceflight Instrumentation</code>) with <em>Followers of HEMS Corporate Sponsors</em> (vacuum/analyzer OEMs &amp; defense instrumentation firms).</li>
+            <li><strong>Step 3 — Mandatory Cost Guards Before Launching:</strong> Uncheck <strong>Audience Expansion</strong> and uncheck <strong>LinkedIn Audience Network</strong> (both burn budget on off-platform mobile apps). Choose <strong>Website Visits</strong> + <strong>Manual CPC Bid ($4.50–$6.00)</strong> with a daily cap of $20–$35/day for 21 days.</li>
+          </ul>
+        </div>
+
+        <div class="grid-3" style="margin-top: 14px;">
+          <div class="well">
+            <span class="pill pill-blue tabular" style="margin-bottom: 8px;">Burst 1 &bull; Spring 2027 (21 Days)</span>
+            <h4>Call for Papers Launch</h4>
+            <p style="font-size: 13px; margin: 6px 0 10px;">Target PIs, R&amp;D engineers, national labs, and defense/space payload leads.</p>
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Ad Text + UTM</span>
+                <button type="button" class="btn btn-copy" data-copy-target="li-burst-1">Copy</button>
+              </div>
+              <pre id="li-burst-1" class="copy-box-body">Intro: Deploying mass spectrometers outside the lab? Call for Papers is now open for the 16th Biennial HEMS Workshop (Sep 2027). Single-track technical program covering subsea MIMS, planetary flyby optics, volcanic UAV plumes &amp; miniature vacuum hardware. Submit a 1-page abstract or explore 25+ years of open talks:
+Headline: 16th HEMS Workshop — Submit Your 1-Page Abstract
+Image: Subsea ROV / UAV Plume Deployment Photo (1200x1200)
+URL: https://www.hems-workshop.org/call-for-papers/?utm_source=linkedin&amp;utm_medium=paid-social&amp;utm_campaign=li-ad-cfp-2027</pre>
+            </div>
+          </div>
+
+          <div class="well">
+            <span class="pill pill-teal tabular" style="margin-bottom: 8px;">Burst 2 &bull; Late Spring 2027 (21 Days)</span>
+            <h4>$1,500 Student Travel Awards</h4>
+            <p style="font-size: 13px; margin: 6px 0 10px;">Target PhD/M.S. candidates &amp; advisors in Analytical Chemistry, Oceanography &amp; Planetary Science.</p>
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Ad Text + UTM</span>
+                <button type="button" class="btn btn-copy" data-copy-target="li-burst-2">Copy</button>
+              </div>
+              <pre id="li-burst-2" class="copy-box-body">Intro: Grad students in Analytical Chemistry, Oceanography, Earth &amp; Planetary Science, or MS Instrumentation: apply for a $1,500.00 Student Travel Award to present at the 16th HEMS Workshop (Sep 2027). Student registration is just $250 with direct single-track mentorship from NASA, WHOI &amp; OEM leaders.
+Headline: Apply for a $1,500 HEMS Student Travel Award
+Image: Student / Researcher Field MS Hardware Card (1200x1200)
+URL: https://www.hems-workshop.org/student-awards/?print=1&amp;utm_source=linkedin&amp;utm_medium=paid-social&amp;utm_campaign=li-ad-student-grants-2027</pre>
+            </div>
+          </div>
+
+          <div class="well">
+            <span class="pill pill-amber tabular" style="margin-bottom: 8px;">Burst 3 &bull; Summer 2027 (21 Days)</span>
+            <h4>Early-Bird &amp; Sponsor Push</h4>
+            <p style="font-size: 13px; margin: 6px 0 10px;">Retarget site visitors + sponsor followers; promote $500 Early-Bird &amp; $1,350 Exhibitor tables.</p>
+            <div class="copy-box">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Ad Text + UTM</span>
+                <button type="button" class="btn btn-copy" data-copy-target="li-burst-3">Copy</button>
+              </div>
+              <pre id="li-burst-3" class="copy-box-body">Intro: Join 52+ corporate sponsors and leading harsh-environment MS groups at the 16th HEMS Workshop (Sep 2027). Every break, poster session, and meal puts your team face-to-face with hands-on instrumentation decision-makers. Reserve a $1,350 tabletop or lock in Early-Bird registration today.
+Headline: Exhibit &amp; Register — 16th HEMS Workshop (Sep 2027)
+Image: Single-Track Symposium Networking + Hardware (1200x1200)
+URL: https://www.hems-workshop.org/corporate-sponsorship/?utm_source=linkedin&amp;utm_medium=paid-social&amp;utm_campaign=li-ad-sponsors-reg-2027</pre>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 1.3 Free Scientific Society Calendars -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3>1.3 Free Scientific Society Calendars &amp; Interest Groups (Higher Trust Than Paid Ads)</h3>
+            <p>Submit event dates, CFP deadlines, and $1,500 student travel award notices once dates/venue lock in Spring 2027.</p>
+          </div>
+          <span class="pill pill-teal">Cost: $0 &bull; Highest Conversion Quality</span>
+        </div>
+
+        <div class="table-wrap" style="margin-bottom: 16px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Society / Publication</th>
+                <th>Exact Placement Channel</th>
+                <th>Target Researcher Segment</th>
+                <th>Best Trigger Moment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-primary">ASMS (American Society for Mass Spectrometry)</td>
+                <td>ASMS Upcoming Meetings Calendar + <strong>Field-Portable &amp; Harsh-Environment MS Interest Group</strong> forum/session</td>
+                <td>Portable MS, miniature ion traps, ToF, ambient &amp; field ionization engineers</td>
+                <td>Date lock + ASMS June annual meeting announcement</td>
+              </tr>
+              <tr>
+                <td class="td-primary">AGU (American Geophysical Union)</td>
+                <td>Section Newsletters: Ocean Sciences (OS), Volcanology/Geochemistry (VGP), Planetary Sciences (P), Atmospheric (A)</td>
+                <td>Seafloor plumes, volcano gas monitoring, planetary flybys, atmospheric VOCs</td>
+                <td>CFP Open + Student Award Open</td>
+              </tr>
+              <tr>
+                <td class="td-primary">MTS / IEEE OCEANS &amp; OCB</td>
+                <td>MTS Marine Technology Calendar, IEEE OES Event Board, Ocean Carbon &amp; Biogeochemistry (OCB) digest</td>
+                <td>AUV/ROV chemical sensor teams, subsea biogeochemistry labs</td>
+                <td>Save the Date + CFP Open</td>
+              </tr>
+              <tr>
+                <td class="td-primary">Spectroscopy Online / The Analytical Scientist / LCGC</td>
+                <td>Free online "Upcoming Events / Conferences" editorial directories</td>
+                <td>Industrial R&amp;D, pharmaceutical process MS, analytical instrumentation OEMs</td>
+                <td>Immediately after venue &amp; dates confirmed</td>
+              </tr>
+              <tr>
+                <td class="td-primary">Planetary Exploration Newsletter (PEN) &amp; LPI</td>
+                <td>Weekly PEN email bulletin &amp; Lunar and Planetary Institute Meeting Calendar</td>
+                <td>NASA JPL, GSFC, SwRI, APL flight instrument &amp; biosignature teams</td>
+                <td>CFP Open + 3-week reminder before Abstract Deadline</td>
+              </tr>
+              <tr>
+                <td class="td-primary">ACS Division of Analytical Chemistry (ANYL)</td>
+                <td>ANYL Member Newsletter &amp; Instrumentation Subdivision announcements</td>
+                <td>Analytical Chemistry PhD students ($1,500 Student Award applicants) &amp; faculty</td>
+                <td>Student Travel Award Launch</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-2">
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">65-Word Calendar Listing Blurp (ASMS / LPI / Trade Portals)</span>
+              <button type="button" class="btn btn-copy" data-copy-target="cal-short">Copy 65-Word Listing</button>
+            </div>
+            <pre id="cal-short" class="copy-box-body">16th Workshop on Harsh-Environment Mass Spectrometry (HEMS) — September 2027 ([Coastal Venue]). Sponsored by the 501(c)(3) HEMS Society, this intimate single-track symposium unites academic, government, and industrial engineers deploying mass spectrometers in deep-sea, spaceflight, volcanic, polar, and tactical environments. Call for 1-page abstracts and $1,500 Student Travel Awards open in 2027. Program details &amp; open-access 1999–2025 archive: https://www.hems-workshop.org/layout-portal/?utm_source=society-calendar&amp;utm_medium=referral&amp;utm_campaign=hems-2027-listings</pre>
+          </div>
+
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">140-Word Section Newsletter Announcement (AGU / PEN / OCB / ANYL)</span>
+              <button type="button" class="btn btn-copy" data-copy-target="cal-long">Copy Newsletter Post</button>
+            </div>
+            <pre id="cal-long" class="copy-box-body">Call for Abstracts &amp; $1,500 Student Travel Awards: 16th Biennial HEMS Workshop (September 2027)
+
+The Harsh-Environment Mass Spectrometry (HEMS) Society invites abstract submissions for its 16th Workshop (September 2027). Operating since 1999 as a collaborative single-track forum without parallel sessions, HEMS focuses on ruggedized, low-power, field-deployable mass spectrometry across:
+- Planetary &amp; Spaceflight MS (ocean worlds, landers, dust &amp; volatiles)
+- Underwater &amp; Marine Biogeochemistry (MIMS, AUV/ROV payloads)
+- Atmospheric, Volcanic &amp; Polar Plumes
+- Miniature Analyzers, Vacuum Hardware &amp; Onboard Deconvolution
+
+Multiple $1,500.00 Student Travel Awards (with $250 student registration) are available to graduate and postdoctoral presenters. Submit abstracts, apply for travel support, or browse 436+ open-access proceedings talks (1999–2025) at https://www.hems-workshop.org/call-for-papers/?utm_source=society-newsletter&amp;utm_medium=referral&amp;utm_campaign=hems-2027-listings</pre>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- SECTION 2: ZERO-BUDGET MULTIPLIERS -->
+    <section id="section-2-multipliers" class="section">
+      <div class="section-header">
+        <div>
+          <span class="kicker kicker-teal">Pillar 2 &bull; Minimum Committee Effort Multipliers</span>
+          <h2>2. Zero-Budget Organic Multipliers (Built Onto HEMS Site Tools)</h2>
+          <p class="section-subtitle">Turn HEMS's 436+ open-access archival talks, 52+ loyal corporate sponsors, and 40 graduate departments into self-reinforcing free reach.</p>
+        </div>
+      </div>
+
+      <!-- 2.1 Batch-Schedule From the HEMS Archive -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3>2.1 Batch-Schedule "From the HEMS Archive" Posts on LinkedIn (45 Minutes = 6 Months)</h3>
+            <p>Use the built-in <strong>Cite / Share</strong> button on any talk inside <code>hems-workshop.org/archive</code> plus LinkedIn's native clock scheduler to queue 1 post per month, tagging authors, labs, and instrument companies.</p>
+          </div>
+          <span class="pill pill-teal tabular">Time Required: 45 min / 6 mos &bull; Cost: $0</span>
+        </div>
+
+        <ol class="step-list" style="margin-bottom: 16px;">
+          <li>Open <a href="https://www.hems-workshop.org/archive" target="_blank" rel="noopener"><code>hems-workshop.org/archive</code></a> (or a year page such as <code>/archive/2025</code> or <code>/archive/2019</code>) and click <strong>Cite / Share</strong> on a standout talk.</li>
+          <li>Click <strong>Copy Post Draft</strong> (auto-appends <code>?src=linkedin-archive-share</code> for attribution in <code>/admin/analytics</code>) or customize one of the 6 pre-written spotlights below.</li>
+          <li>Post in the official <strong>HEMS LinkedIn Group</strong> (<code>linkedin.com/groups/4385091/</code>) AND on an officer's personal LinkedIn feed using LinkedIn's <strong>Schedule for later</strong> icon (once/month for 6 months). <strong>Always <code>@mention</code> the lead author, their institution, and any instrument OEM partner</strong>—tagged communications teams routinely repost for free.</li>
+        </ol>
+
+        <div class="tab-bar" role="tablist" aria-label="6 Monthly Archive Spotlight Drafts">
+          <button type="button" class="tab-btn active" data-tab-group="arch" data-tab="arch-m1">Month 1: Dragonfly / DraMS</button>
+          <button type="button" class="tab-btn" data-tab-group="arch" data-tab="arch-m2">Month 2: Icefin Under-Ice ROV</button>
+          <button type="button" class="tab-btn" data-tab-group="arch" data-tab="arch-m3">Month 3: Volcanic Fumarole MS</button>
+          <button type="button" class="tab-btn" data-tab-group="arch" data-tab="arch-m4">Month 4: Deep-Sea MIMS</button>
+          <button type="button" class="tab-btn" data-tab-group="arch" data-tab="arch-m5">Month 5: UAV Drone Plume MS</button>
+          <button type="button" class="tab-btn" data-tab-group="arch" data-tab="arch-m6">Month 6: 25-Yr Orbitrap &amp; Archive</button>
+        </div>
+
+        <div id="arch-m1" class="tab-panel active" data-tab-panel="arch">
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">Month 1 Spotlight — Planetary Exploration (Dragonfly / DraMS on Titan)</span>
+              <button type="button" class="btn btn-copy" data-copy-target="post-m1">Copy LinkedIn Post</button>
+            </div>
+            <pre id="post-m1" class="copy-box-body">From the HEMS Proceedings Archive: Before an ion trap ever samples organic haze on Saturn's moon Titan aboard @NASA's Dragonfly rotorcraft, flight mass analyzer prototypes and gas-handling trade studies are stress-tested among peers at the Harsh-Environment Mass Spectrometry (HEMS) Workshop.
+
+Read the open-access Dragonfly Mass Spectrometer (DraMS) slides from the 2019 HEMS Proceedings (free download, no login required):
+https://www.hems-workshop.org/archive/2019/?src=linkedin-archive-share
+
+@RyanDanell @NASA_Goddard @JHUAPL — Planning underway now for the 16th HEMS Workshop (Sep 2027). Join our community: https://www.linkedin.com/groups/4385091/
+#MassSpectrometry #PlanetaryScience #SpaceInstrumentation #DragonflyMission #HEMSWorkshop</pre>
+          </div>
+        </div>
+
+        <div id="arch-m2" class="tab-panel" data-tab-panel="arch">
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">Month 2 Spotlight — Cryosphere &amp; Subsea Robotics (Icefin Under-Ice ROV)</span>
+              <button type="button" class="btn btn-copy" data-copy-target="post-m2">Copy LinkedIn Post</button>
+            </div>
+            <pre id="post-m2" class="copy-box-body">From the HEMS Proceedings Archive: How do you deploy chemical sensing through boreholes beneath hundreds of meters of Antarctic shelf ice?
+
+Explore our open-access talks on Icefin under-ice ROV deployments and miniature subsea analyzers inside the HEMS Digital Archive (1999–2025):
+https://www.hems-workshop.org/archive/?src=linkedin-archive-share
+
+Tagging researchers pushing ocean-world analogs at @GeorgiaTech @CornellUniversity @WHOI — if your lab builds compact vacuum, inlet, or autonomous chemical payloads, save the date for the 16th HEMS Workshop in September 2027!
+#Oceanography #UnderIceROV #MarineBiogeochemistry #MassSpectrometry #FieldInstrumentation</pre>
+          </div>
+        </div>
+
+        <div id="arch-m3" class="tab-panel" data-tab-panel="arch">
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">Month 3 Spotlight — Volcanic Fumarole &amp; Extreme Corrosive Gas MS</span>
+              <button type="button" class="btn btn-copy" data-copy-target="post-m3">Copy LinkedIn Post</button>
+            </div>
+            <pre id="post-m3" class="copy-box-body">From the HEMS Proceedings Archive: Hot SO2, H2S, HF, and steam condensation will destroy standard benchtop filaments in minutes—yet real-time mass spectrometry at active volcanic fumaroles unlocks eruption forecasting.
+
+See how HEMS investigators engineered rugged field inlets and corrosive-gas vacuum stages in our free digital proceedings archive:
+https://www.hems-workshop.org/archive/?src=linkedin-archive-share
+
+Tagging colleagues in volcanology &amp; environmental analytical chemistry (@USGS @UniversityOfSouthFlorida). Join the 16th HEMS Workshop mailing list &amp; LinkedIn group ahead of our 2027 Call for Papers!
+#Volcanology #EnvironmentalChemistry #MassSpectrometry #FieldScience #HEMS</pre>
+          </div>
+        </div>
+
+        <div id="arch-m4" class="tab-panel" data-tab-panel="arch">
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">Month 4 Spotlight — Deep-Sea Hydrothermal Plume &amp; Subsea Lander MIMS</span>
+              <button type="button" class="btn btn-copy" data-copy-target="post-m4">Copy LinkedIn Post</button>
+            </div>
+            <pre id="post-m4" class="copy-box-body">From the HEMS Proceedings Archive: Operating a quadruple or ion trap mass spectrometer behind a PDMS membrane at 4,000 meters hydrostatic depth remains one of analytical chemistry's ultimate engineering challenges.
+
+Browse the latest 2025 HEMS subsea lander &amp; membrane-inlet mass spectrometry (MIMS) talks—including work by @WHOI @MBARI @SRIInternational:
+https://www.hems-workshop.org/archive/2025/?src=linkedin-archive-share
+
+Building dissolved-gas AUV or lander sensors? Watch hems-workshop.org/call-for-papers for our September 2027 abstract window.
+#MIMS #DeepSeaScience #SubseaRobotics #AUV #MassSpectrometry</pre>
+          </div>
+        </div>
+
+        <div id="arch-m5" class="tab-panel" data-tab-panel="arch">
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">Month 5 Spotlight — UAV Drone Plume &amp; Tactical Mobile MS</span>
+              <button type="button" class="btn btn-copy" data-copy-target="post-m5">Copy LinkedIn Post</button>
+            </div>
+            <pre id="post-m5" class="copy-box-body">From the HEMS Proceedings Archive: Putting low-SWaP (size, weight &amp; power) mass spectrometers onto multi-rotor UAVs and tactical vehicles turns atmospheric plumes into live 3D chemical heatmaps.
+
+Explore UAV-mounted and mobile emergency-response MS proceedings across our 1999–2025 archive:
+https://www.hems-workshop.org/archive/?src=linkedin-archive-share
+
+Shoutout to instrument teams &amp; vacuum OEMs making sub-15 W field MS possible (@UNT @Inficon @PfeifferVacuum @EdwardsVacuum). Student Travel Awards ($1,500) will open for the 16th HEMS Workshop in 2027!
+#UAV #DroneSensors #PortableMS #TacticalMS #AnalyticalChemistry</pre>
+          </div>
+        </div>
+
+        <div id="arch-m6" class="tab-panel" data-tab-panel="arch">
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">Month 6 Spotlight — Spaceflight Orbitrap, Cycloidal MS &amp; 25+ Years Open Access</span>
+              <button type="button" class="btn btn-copy" data-copy-target="post-m6">Copy LinkedIn Post</button>
+            </div>
+            <pre id="post-m6" class="copy-box-body">From 1999 to 2025, 15 workshops and 436+ open-access technical talks &amp; abstracts are now full-text searchable on the new HEMS Society portal—from spaceflight Orbitrap &amp; cycloidal trajectories to miniature turbopump vacuum engineering.
+
+Search every slide deck and PDF by m/z, instrument type, or deployment domain:
+https://www.hems-workshop.org/archive/?src=linkedin-archive-share
+
+Grad students &amp; postdocs: check out our $1,500 Student Travel Awards program for September 2027 &rarr; https://www.hems-workshop.org/student-awards/
+#MassSpectrometry #Orbitrap #AnalyticalChemistry #GraduateResearch #HEMSSociety</pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2.2 Sponsor & Speaker 1-Click LinkedIn Cards -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3>2.2 Give Confirmed Sponsors &amp; Speakers a "1-Click LinkedIn Promo Kit"</h3>
+            <p>Each confirmed corporate sponsor (with dedicated marketing teams) and accepted presenter gets a clean promo visual + 2-sentence copy + a tracked partner link—turning 20+ organizations into zero-cost distributors.</p>
+          </div>
+          <span class="pill pill-blue">Multiplies Reach Across 20–50+ Partner Feeds</span>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 16px;">
+          <div class="social-mockup">
+            <div class="social-mockup-banner">
+              <div class="sm-eyebrow">Official Corporate Sponsor &bull; 16th Biennial Workshop</div>
+              <div class="sm-title">We're Exhibiting at the 16th HEMS Workshop</div>
+              <div class="sm-meta">Harsh-Environment Mass Spectrometry Society &bull; September 2027 &bull; Single-Track Forum</div>
+            </div>
+            <div class="social-mockup-foot">
+              <span>Target Graphic Spec: 1200&times;627 px SVG/PNG w/ Partner Logo Badge</span>
+              <span class="pill pill-blue">?utm_source=sponsor</span>
+            </div>
+          </div>
+
+          <div class="social-mockup">
+            <div class="social-mockup-banner" style="background: linear-gradient(135deg, #0F172A 0%, #0F766E 70%, #0369A1 100%);">
+              <div class="sm-eyebrow">Accepted Technical Presentation &bull; Peer-Reviewed Program</div>
+              <div class="sm-title">Our Group Is Presenting at the 16th HEMS Workshop</div>
+              <div class="sm-meta">Field-Portable, Deep-Ocean, Planetary &amp; Atmospheric MS &bull; September 2027</div>
+            </div>
+            <div class="social-mockup-foot">
+              <span>Include Talk/Poster Title Card + Presenter Name</span>
+              <span class="pill pill-teal">?utm_source=speaker</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">Confirmed Sponsor Email (Send From tim.short@hems-workshop.org)</span>
+              <button type="button" class="btn btn-copy" data-copy-target="sponsor-kit-email">Copy Sponsor Kit Email</button>
+            </div>
+            <pre id="sponsor-kit-email" class="copy-box-body">Subject: Thank you for sponsoring the 16th HEMS Workshop — Quick 1-click social kit
+
+Hi [Marketing Contact / Technical Rep],
+
+Thank you again for partnering with the HEMS Society for the 16th Workshop on Harsh-Environment Mass Spectrometry (September 2027)! We've attached your "We're Exhibiting at HEMS 2027" social badge graphic.
+
+If your marketing team would like to share your participation on LinkedIn, here is ready-to-paste copy:
+
+---
+We're proud to sponsor and exhibit at the 16th Biennial Workshop on Harsh-Environment Mass Spectrometry (HEMS, September 2027)! Visit our tabletop in the single-track instrumentation hall to discuss rugged vacuum hardware, compact mass analyzers, and autonomous field deployments with scientists from NASA, NOAA, WHOI, and industry.
+
+Learn more &amp; join us: https://www.hems-workshop.org/corporate-sponsorship/?utm_source=sponsor&amp;utm_medium=partner-referral&amp;utm_campaign=sponsor-partner-kit-2027
+#HEMSWorkshop #MassSpectrometry #FieldInstrumentation #AnalyticalChemistry
+---
+
+Warm regards,
+Tim Short
+Corporate Sponsorship Coordinator, HEMS Society (501(c)(3))</pre>
+          </div>
+
+          <div class="copy-box">
+            <div class="copy-box-head">
+              <span class="copy-box-title">Accepted Speaker Email Insert (Add to Acceptance Notifications)</span>
+              <button type="button" class="btn btn-copy" data-copy-target="speaker-kit-email">Copy Speaker Snippet</button>
+            </div>
+            <pre id="speaker-kit-email" class="copy-box-body">Share Your Accepted Presentation (Ready-to-Post on LinkedIn / X / Lab Group Page):
+
+---
+Thrilled to share that our abstract "[Insert Talk Title]" has been accepted for the 16th Workshop on Harsh-Environment Mass Spectrometry (HEMS, September 2027)! Looking forward to discussing real-world field mass spectrometry without parallel session tracks—alongside colleagues from academia, NASA, oceanography, and industry.
+
+Program &amp; Registration: https://www.hems-workshop.org/layout-portal/?utm_source=speaker&amp;utm_medium=organic-social&amp;utm_campaign=speaker-card-2027
+#HEMSWorkshop #MassSpectrometry #FieldScience
+---</pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2.3 Email Printable Student Award Flyer to ~40 Grad Coordinators -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3>2.3 Email the Printable 1-Page Student Award Flyer to ~40 Graduate Program Coordinators</h3>
+            <p>Attaching or linking <code>hems-workshop.org/student-awards/?print=1</code> gives department administrators a 10-second forwardable flyer, consistently introducing new research groups to HEMS.</p>
+          </div>
+          <span class="pill pill-teal tabular">40 Departments &bull; Target: $1,500.00 Awards</span>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <h4>4-Cluster Target Roster (~40 Graduate Departments)</h4>
+            <div class="table-wrap" style="margin-top: 8px;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Discipline Cluster</th>
+                    <th>Count</th>
+                    <th>Representative Institutions to Target</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="td-primary">Analytical Chemistry &amp; MS Instrumentation</td>
+                    <td class="tabular">14 Depts</td>
+                    <td>Purdue (Aston), Indiana, UNC, Florida, Ohio State, Texas A&amp;M, Wisconsin, Colorado, Utah, Georgia Tech, Johns Hopkins, Washington, Michigan, NC State</td>
+                  </tr>
+                  <tr>
+                    <td class="td-primary">Chemical Oceanography &amp; Subsea Eng.</td>
+                    <td class="tabular">10 Depts</td>
+                    <td>WHOI / MIT Joint Program, Scripps (UCSD), USF Marine Science, MBARI/Moss Landing, UW Oceanography, Oregon State, URI GSO, Texas A&amp;M Oceanography, Hawaii (UH Manoa), Rosenstiel (Miami)</td>
+                  </tr>
+                  <tr>
+                    <td class="td-primary">Planetary Science &amp; Space Hardware</td>
+                    <td class="tabular">10 Depts</td>
+                    <td>Caltech, MIT EAPS, Arizona (LPL), CU Boulder (LASP), Maryland, Johns Hopkins, ASU (SESE), Stanford, Cornell, SwRI/UTSA</td>
+                  </tr>
+                  <tr>
+                    <td class="td-primary">Atmospheric, Volcanology &amp; Polar</td>
+                    <td class="tabular">6 Depts</td>
+                    <td>UC Irvine, Harvard EPS, Alaska Fairbanks, Penn State, UNM Earth &amp; Planetary, Montana State / Michigan Tech</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <div class="copy-box" style="margin-top: 0;">
+              <div class="copy-box-head">
+                <span class="copy-box-title">Graduate Coordinator Forwarding Email Template (With Print PDF Link)</span>
+                <button type="button" class="btn btn-copy" data-copy-target="grad-flyer-email">Copy Coordinator Email</button>
+              </div>
+              <pre id="grad-flyer-email" class="copy-box-body">Subject: Please share with graduate students: $1,500 Mass Spectrometry Travel Awards (HEMS 2027)
+
+Dear Graduate Program Coordinator,
+
+Could you please forward the attached 1-page announcement to graduate students and faculty working in analytical chemistry, mass spectrometry, chemical instrumentation, oceanography, planetary science, or atmospheric/environmental field sensing?
+
+The 501(c)(3) Harsh-Environment Mass Spectrometry (HEMS) Society is awarding multiple $1,500.00 Student Travel Awards (plus a discounted $250 student registration rate) for graduate and postdoctoral presenters at the 16th Biennial HEMS Workshop in September 2027.
+
+Why students love HEMS:
+- Single-track format (~100–140 attendees) with direct one-on-one mentoring from NASA, WHOI, national lab, and instrumentation industry leaders
+- Full 1-page printable details &amp; application info: https://www.hems-workshop.org/student-awards/?print=1&amp;utm_source=grad-coord&amp;utm_medium=email&amp;utm_campaign=student-flyer-blitz-2027
+- Open-access library of 436+ past talks: https://www.hems-workshop.org/archive/
+
+Thank you for helping us reach new research groups!
+
+Sincerely,
+[President / Student Award Committee]
+HEMS Society, Inc. (501(c)(3)) | president@hems-workshop.org</pre>
+            </div>
+            <div class="callout callout-teal" style="margin-bottom: 0;">
+              <strong>1-Minute PDF Generation Step:</strong> Visit <code>https://www.hems-workshop.org/student-awards/?print=1</code> in Chrome, press <strong>Ctrl+P &rarr; Save as PDF</strong> (Margins: None/Minimum), and attach <code>HEMS_2027_Student_Travel_Award_Flyer.pdf</code> to 4 batches of 10 BCC emails via Google Workspace.
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- SECTION 3: EXTENDED MARKETING PLAN -->
+    <section id="section-3-extended" class="section">
+      <div class="section-header">
+        <div>
+          <span class="kicker">Pillar 3 &bull; Extensive Strategy Building on Prior Notes</span>
+          <h2>3. High-Leverage Additions Built for HEMS's Portal &amp; Community</h2>
+          <p class="section-subtitle">Seven compounding extensions tailored specifically to an intimate single-track 501(c)(3) scientific symposium and HEMS's new Firestore/Google Workspace web platform.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- 3.1 Segmented Mailing List Campaigns -->
+        <article class="card" style="margin-bottom: 0;">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>3.1 Segmented Reactivation via Mailing List &amp; Announcements Portals</h3>
+              <p>Leverage Cohort Tags inside <code>/board/mailing-list</code> and <code>/board/announcements</code> instead of sending generic blasts.</p>
+            </div>
+            <span class="pill pill-blue">Board Portal Built-In</span>
+          </div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px;">
+            <li style="margin-bottom: 8px;"><strong>Cohort A — Lapsed Workshop Alumni (1999–2023):</strong> Tag attendees from earlier cycles who missed the 15th Workshop with a "15th Proceedings Are Now Free &amp; Online" note linking <code>/archive/2025</code> + Save the Date. Reconnecting alumni typically converts at 3&times; cold outreach rates.</li>
+            <li style="margin-bottom: 8px;"><strong>Cohort B — 52+ Historical Corporate Sponsors:</strong> Export sponsor contacts via <code>/board/mailing-list</code> Export Modal and invite prior exhibitors early via <code>tim.short@hems-workshop.org</code> using the printable <code>/corporate-sponsorship/?print=1</code> 1-pager.</li>
+            <li style="margin-bottom: 8px;"><strong>Cohort C — Past Student Travel Award Winners:</strong> Showcase alumni from the <strong>Student Travel Awards Honor Roll</strong> (<code>/student-awards</code>) who are now faculty, national-lab staff, or instrumentation startup founders—asking each to nominate 1 current PhD student.</li>
+            <li><strong>Cohort D — General Subscribers Never Attending Yet:</strong> Invite archive downloaders who signed up via <code>Contact</code>/<code>Archive</code> to make September 2027 their first in-person HEMS workshop.</li>
+          </ul>
+        </article>
+
+        <!-- 3.2 ASMS & AGU Zero-Booth Final-Slide QR Protocol -->
+        <article class="card" style="margin-bottom: 0;">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>3.2 "Zero-Booth" Conference Talk Final-Slide &amp; QR Strategy</h3>
+              <p>Turn committee members' own talks at ASMS, AGU, Pittcon, and Ocean Sciences into live recruitment funnels for $0 booth cost.</p>
+            </div>
+            <span class="pill pill-teal">$0 Exhibit Fee</span>
+          </div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px;">
+            <li style="margin-bottom: 8px;"><strong>Standardize 1 Final Acknowledgement Slide:</strong> Create one crisp Alabaster/Sapphire HEMS invitation slide (featuring a clean QR code pointing to <code>/call-for-papers/?utm_source=conf-slide&amp;utm_medium=qr&amp;utm_campaign=asms-2027</code>) that every Board Member and friendly PI includes on their talk/poster conclusion slide throughout 2026–2027.</li>
+            <li style="margin-bottom: 8px;"><strong>Co-Anchor the ASMS Harsh-Environment Interest Group Evening Session:</strong> Distribute physical 4&times;6 postcard handouts pointing straight to <code>/student-awards/?print=1</code> and <code>/archive</code>—historically HEMS's single highest-converting in-person funnel.</li>
+            <li><strong>Host a 30-Minute Virtual "Ask the Program Committee" Info Session:</strong> Once in Spring 2027 before abstract close for prospective first-time grad students (recorded &amp; embedded or linked from <code>/call-for-papers</code>).</li>
+          </ul>
+        </article>
+
+        <!-- 3.3 Organic Search & AI Answer Engine Dominance -->
+        <article class="card" style="margin-bottom: 0;">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>3.3 Technical SEO, PDF Scholar Indexing &amp; AI Answer Citations (llms.txt)</h3>
+              <p>Capture researchers asking Google, Google Scholar, ChatGPT, or Perplexity for field mass spectrometry priors.</p>
+            </div>
+            <span class="pill pill-blue">Compounding Moat</span>
+          </div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px;">
+            <li style="margin-bottom: 8px;"><strong>Leverage HEMS's Canonical Schema + <code>llms.txt</code>:</strong> Because the site already publishes Knowledge Graph JSON-LD and <code>/llms.txt</code> alongside 1,590 proceedings PDFs, submitting the XML sitemap in Google Search Console ensures every talk title, author, and instrumentation keyword ranks organically—lowering Google Ad Grant CPC and doubling organic search traffic.</li>
+            <li style="margin-bottom: 8px;"><strong>Publish 3 Curated "Topic Guides" Derived From Existing Talks:</strong> Without writing new papers, link curated talk collections on LinkedIn (e.g., <em>"Top 5 Deep-Ocean MIMS Talks in the HEMS Archive"</em>, <em>"How NASA &amp; University Teams Qualified Ion Traps for Ocean Worlds"</em>). Listicle posts earn 3–5&times; higher saves and shares among grad students.</li>
+            <li><strong>Add a "DOI / Cite This Talk" Prompt to Authors:</strong> Encourage past HEMS presenters to list their free HEMS archive talk URL on Google Scholar, ORCID, and lab publication pages—building authoritative `.edu` and `.gov` backlinks back to `hems-workshop.org`.</li>
+          </ul>
+        </article>
+
+        <!-- 3.4 Co-Author & Reviewer Network Multipliers -->
+        <article class="card" style="margin-bottom: 0;">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3>3.4 Abstract Co-Author Conversion &amp; Industry Demo Spotlight Loop</h3>
+              <p>Every submitted abstract averages 3–5 co-authors and often relies on specific OEM vacuum/electronics hardware.</p>
+            </div>
+            <span class="pill pill-amber">Program Leverage</span>
+          </div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 13.5px;">
+            <li style="margin-bottom: 8px;"><strong>Co-Author Invitation Loop:</strong> When an abstract is accepted in the <strong>Reviewer Panel &rarr; Abstract Overview</strong> workflow, prompt the submitting corresponding author to share registration + Student Award links with all listed co-authors and affiliated engineering labs.</li>
+            <li style="margin-bottom: 8px;"><strong>Corporate "Live Hardware Demo Hour" Promotion:</strong> Feature confirmed $1,350 sponsors in a single "What Hardware Will Be on the Floor in September 2027?" teaser post 4 weeks pre-workshop—giving engineering managers a concrete technical reason to approve travel budgets.</li>
+            <li><strong>Post-Workshop 48-Hour Photo &amp; Proceedings Loop:</strong> Capture group deployment/tabletop photos in September 2027 to seed Month 1 of the 2029 cycle (and tag every Student Travel Award recipient's institution immediately).</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECTION 4: MASTER 12-MONTH TIMELINE -->
+    <section id="section-4-timeline" class="section">
+      <div class="section-header">
+        <div>
+          <span class="kicker kicker-teal">Operational Cadence</span>
+          <h2>4. Master 12-Month Biennial Marketing Roadmap (Late 2026 – Oct 2027)</h2>
+          <p class="section-subtitle">Aligns directly with Google Sheet workshop configuration stages (<code>save_the_date</code> &rarr; <code>cfp_open</code> &rarr; <code>registration_open</code>).</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Phase &amp; Window</th>
+              <th>Website State</th>
+              <th>Primary Paid / Grant Actions</th>
+              <th>Zero-Budget / Organic Actions</th>
+              <th>Owner &amp; Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-primary">Phase 1: Foundation &amp; Evergreen Engine<br /><span class="field-hint">Nov 2026 – Feb 2027</span></td>
+              <td><code>save_the_date</code></td>
+              <td>Complete Google for Nonprofits 501(c)(3) verification; launch <strong>Archive Evergreen</strong> + <strong>Student Awards</strong> Google Ad Grant campaigns ($0 cash); link GA4 conversions.</td>
+              <td>First 45-min batch schedule of <strong>6 Monthly Archive LinkedIn Posts</strong>; verify Search Console XML sitemap indexing &amp; Knowledge Graph.</td>
+              <td>Webmaster + Board<br /><span class="field-hint">~3 hrs once</span></td>
+            </tr>
+            <tr>
+              <td class="td-primary">Phase 2: Dates/Venue Lock &amp; Calendars<br /><span class="field-hint">Spring 2027</span></td>
+              <td><code>save_the_date</code> (Dates Confirmed)</td>
+              <td>Update Google Ads sitelinks with confirmed Coastal Venue &amp; Sep 2027 dates; upload latest <code>/board/mailing-list</code> CSV into LinkedIn Matched Audiences.</td>
+              <td>Submit event listing to <strong>ASMS, AGU, MTS/IEEE OCEANS, PEN, Spectroscopy Online &amp; Analytical Scientist</strong> calendars; send sponsor early prospectus.</td>
+              <td>Board + Tim Short<br /><span class="field-hint">~2 hrs total</span></td>
+            </tr>
+            <tr>
+              <td class="td-primary">Phase 3: CFP &amp; Student Grant Blitz<br /><span class="field-hint">Late Spring 2027</span></td>
+              <td><code>cfp_open</code></td>
+              <td>Launch <strong>LinkedIn Burst 1 (CFP Launch, $300–$750, 21 days)</strong> + <strong>LinkedIn Burst 2 ($1,500 Student Awards, $300–$750, 21 days)</strong> + activate Google Ad Grant CFP campaign.</td>
+              <td>Send <strong><code>/student-awards/?print=1</code> PDF flyer to 40 Graduate Coordinators</strong>; deploy ASMS final-slide QR cards; send Alumni reactivation blast via <code>/board/announcements</code>.</td>
+              <td>President + Board<br /><span class="field-hint">~2.5 hrs total</span></td>
+            </tr>
+            <tr>
+              <td class="td-primary">Phase 4: Early-Bird &amp; Exhibitor Close<br /><span class="field-hint">Summer 2027</span></td>
+              <td><code>registration_open</code></td>
+              <td>Launch <strong>LinkedIn Burst 3 (Early-Bird $500 &amp; $1,350 Exhibitor Push, $300–$750, 21 days)</strong> retargeting warm site visitors &amp; co-authors; enable Exhibitor Google Ads.</td>
+              <td>Distribute <strong>1-Click LinkedIn Promo Kits</strong> to all confirmed sponsors &amp; accepted oral/poster speakers; batch-schedule second 6-month LinkedIn archive queue.</td>
+              <td>Tim Short + Reviewer Chair<br /><span class="field-hint">~1.5 hrs total</span></td>
+            </tr>
+            <tr>
+              <td class="td-primary">Phase 5: Final Countdown &amp; Post-Event<br /><span class="field-hint">Aug – Oct 2027</span></td>
+              <td>Active Workshop &amp; Proceedings</td>
+              <td>Pause LinkedIn Burst 3 at room-block/reg cutoff; keep evergreen Google Ad Grant focused on Proceedings &amp; Archive year-round.</td>
+              <td>Publish "Hardware Floor Preview" post; run post-workshop thank-you tagging Student Awardees &amp; 2027 Sponsors within 48 hrs of closing.</td>
+              <td>Board<br /><span class="field-hint">~1 hr total</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 5: UTM & ANALYTICS ATTRIBUTION -->
+    <section id="section-5-utm" class="section">
+      <div class="section-header">
+        <div>
+          <span class="kicker">Closed-Loop Measurement</span>
+          <h2>5. Pre-Built UTM Links &amp; HEMS Website Analytics Attribution</h2>
+          <p class="section-subtitle">Every link below matches the tracking schemas read natively by <strong>Board Portal &rarr; Website Analytics</strong> (<code>/admin/analytics</code>) and Google Analytics 4.</p>
+        </div>
+      </div>
+
+      <article class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Campaign Channel / Preset</th>
+                <th>Destination Route</th>
+                <th>Tracked URL (Matches <code>/admin/analytics</code>)</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-primary">Google Ad Grant (501c3 Evergreen)</td>
+                <td>Proceedings Archive</td>
+                <td><span id="utm-gag" class="url-chip">https://www.hems-workshop.org/archive/?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=google-ad-grant-2027</span></td>
+                <td><button type="button" class="btn btn-copy" data-copy-target="utm-gag">Copy URL</button></td>
+              </tr>
+              <tr>
+                <td class="td-primary">LinkedIn Burst 1: Call for Papers</td>
+                <td>Call for Papers</td>
+                <td><span id="utm-li-cfp" class="url-chip">https://www.hems-workshop.org/call-for-papers/?utm_source=linkedin&amp;utm_medium=paid-social&amp;utm_campaign=li-ad-cfp-2027</span></td>
+                <td><button type="button" class="btn btn-copy" data-copy-target="utm-li-cfp">Copy URL</button></td>
+              </tr>
+              <tr>
+                <td class="td-primary">LinkedIn Burst 2: Student Travel Grants</td>
+                <td>Printable Award Flyer</td>
+                <td><span id="utm-li-grants" class="url-chip">https://www.hems-workshop.org/student-awards/?print=1&amp;utm_source=linkedin&amp;utm_medium=paid-social&amp;utm_campaign=li-ad-student-grants-2027</span></td>
+                <td><button type="button" class="btn btn-copy" data-copy-target="utm-li-grants">Copy URL</button></td>
+              </tr>
+              <tr>
+                <td class="td-primary">LinkedIn Burst 3 / Sponsor Promo Kit</td>
+                <td>Corporate Sponsorship</td>
+                <td><span id="utm-sponsor" class="url-chip">https://www.hems-workshop.org/corporate-sponsorship/?utm_source=sponsor&amp;utm_medium=partner-referral&amp;utm_campaign=sponsor-partner-kit-2027</span></td>
+                <td><button type="button" class="btn btn-copy" data-copy-target="utm-sponsor">Copy URL</button></td>
+              </tr>
+              <tr>
+                <td class="td-primary">40 Grad Coordinator Flyer Blitz</td>
+                <td>Printable Award Flyer</td>
+                <td><span id="utm-grad" class="url-chip">https://www.hems-workshop.org/student-awards/?print=1&amp;utm_source=grad-coord&amp;utm_medium=email&amp;utm_campaign=student-flyer-blitz-2027</span></td>
+                <td><button type="button" class="btn btn-copy" data-copy-target="utm-grad">Copy URL</button></td>
+              </tr>
+              <tr>
+                <td class="td-primary">HEMS LinkedIn Group Organic Post</td>
+                <td>16th Workshop Hub</td>
+                <td><span id="utm-li-group" class="url-chip">https://www.hems-workshop.org/layout-portal/?utm_source=linkedin&amp;utm_medium=organic-social&amp;utm_campaign=linkedin-group-post</span></td>
+                <td><button type="button" class="btn btn-copy" data-copy-target="utm-li-group">Copy URL</button></td>
+              </tr>
+              <tr>
+                <td class="td-primary">ASMS / AGU Society Calendars</td>
+                <td>16th Workshop Hub</td>
+                <td><span id="utm-cal" class="url-chip">https://www.hems-workshop.org/layout-portal/?utm_source=society-calendar&amp;utm_medium=referral&amp;utm_campaign=hems-2027-listings</span></td>
+                <td><button type="button" class="btn btn-copy" data-copy-target="utm-cal">Copy URL</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-blue" style="margin-bottom: 0;">
+          <strong>How to Read Results Inside <code>/admin/analytics</code>:</strong> Open <strong>Board Portal &rarr; Website Analytics &rarr; Campaigns</strong> to compare real clicks, mailing-list signups (<code>mailing_signup</code>), and officer email inquiries (<code>mailto_click</code>) side by side across <code>google-ad-grant-2027</code>, <code>li-ad-cfp-2027</code>, <code>li-ad-student-grants-2027</code>, <code>linkedin-archive-share</code>, and <code>sponsor-partner-kit-2027</code>. Use the built-in UTM Builder at the bottom of Website Analytics to generate additional custom trackable links anytime.
+        </div>
+      </article>
+    </section>
+
+    <!-- SECTION 6: INTERACTIVE CHECKLIST -->
+    <section id="section-6-checklist" class="section">
+      <div class="section-header">
+        <div>
+          <span class="kicker kicker-teal">Committee Accountability &bull; Auto-Saved Locally</span>
+          <h2>6. Master Execution Checklist (18 Action Items)</h2>
+          <p class="section-subtitle">Check off steps as officers complete them; progress saves automatically in this browser for board reviews.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" style="margin-bottom: 0;">
+          <h4>Track A — Google Ad Grants &amp; Paid LinkedIn Setup</h4>
+          <div class="checklist-group">
+            <label class="check-item"><input type="checkbox" data-task-id="t1" /><span><span class="check-title">Verify 501(c)(3) status on Google for Nonprofits</span><span class="check-desc">Enroll HEMS Society EIN &amp; request Google Ad Grants ($10,000/mo free account).</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t2" /><span><span class="check-title">Link GA4 Conversions to Google Ad Grants</span><span class="check-desc">Enable <code>mailing_signup</code>, <code>outbound_click</code> &amp; <code>mailto_click</code> conversions + Maximize Conversions bidding.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t3" /><span><span class="check-title">Apply Account-Level HEMS Medical Negative Shield</span><span class="check-desc">Block helicopter, paramedic, EMS &amp; home-energy terms so CTR stays above 5%.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t4" /><span><span class="check-title">Launch Evergreen Archive + Student Award Search Campaigns</span><span class="check-desc">Capture technical search traffic to <code>/archive</code> &amp; <code>/student-awards</code> immediately.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t5" /><span><span class="check-title">Export Mailing List CSV &amp; Upload LinkedIn Matched Audience</span><span class="check-desc">Build retargeting + 1% Lookalike audience; disable Audience Network &amp; Expansion.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t6" /><span><span class="check-title">Schedule LinkedIn Burst 1 (CFP Launch — Spring 2027)</span><span class="check-desc">21 days, $300–$750 budget, Manual CPC $4.50–$6.00 routing to <code>/call-for-papers</code>.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t7" /><span><span class="check-title">Schedule LinkedIn Burst 2 ($1,500 Student Travel Grants)</span><span class="check-desc">21 days targeting Analytical Chem, Oceanography &amp; Planetary Science grad/faculty roles.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t8" /><span><span class="check-title">Schedule LinkedIn Burst 3 (Early-Bird Reg &amp; Sponsors)</span><span class="check-desc">21 days retargeting warm site visitors &amp; followers of HEMS's 52 corporate sponsors.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t9" /><span><span class="check-title">Verify Google Search Console Sitemap &amp; Campaign UTMs</span><span class="check-desc">Audit top performing UTMs monthly inside <code>Board Portal &rarr; Website Analytics</code>.</span></span></label>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 0;">
+          <h4>Track B — Zero-Budget Multipliers &amp; Society Calendars</h4>
+          <div class="checklist-group">
+            <label class="check-item"><input type="checkbox" data-task-id="t10" /><span><span class="check-title">Submit 16th Workshop to ASMS &amp; Field-Portable Interest Group</span><span class="check-desc">Post confirmed 2027 dates + link to <code>/layout-portal</code> in ASMS Upcoming Meetings Calendar.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t11" /><span><span class="check-title">Submit Free Listings to AGU, MTS/IEEE OCEANS, PEN &amp; Trade Portals</span><span class="check-desc">Send 65-word / 140-word copy to AGU OS/VGP/P, Spectroscopy Online &amp; Analytical Scientist.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t12" /><span><span class="check-title">Batch-Schedule 6 Months of Archive LinkedIn Posts (45 Mins)</span><span class="check-desc">Use <code>/archive</code> Cite/Share drafts for DraMS, Icefin, Volcanic MS, Deep-Sea MIMS &amp; tag OEMs.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t13" /><span><span class="check-title">Generate 1-Click LinkedIn Promo Cards (Sponsor + Speaker Editions)</span><span class="check-desc">Prepare PNG graphic badges paired with <code>?utm_source=sponsor</code> &amp; <code>?utm_source=speaker</code>.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t14" /><span><span class="check-title">Send Promo Kit to Confirmed Sponsors &amp; Accepted Speakers</span><span class="check-desc">Tim Short sends to sponsors; Reviewer Chair inserts snippet into speaker acceptance letters.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t15" /><span><span class="check-title">Export /student-awards/?print=1 1-Page Flyer PDF</span><span class="check-desc">Verify $1,500.00 award &amp; $250 student registration rate render cleanly onto 1 letter page.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t16" /><span><span class="check-title">Email Student Flyer to 40 Graduate Program Coordinators</span><span class="check-desc">Dispatch across Analytical Chem (14), Oceanography (10), Planetary (10) &amp; Polar/Volcano (6).</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t17" /><span><span class="check-title">Circulate Standard HEMS QR Conclusion Slide to Board</span><span class="check-desc">Include QR + CFP link on every committee member's ASMS, AGU &amp; university seminar deck.</span></span></label>
+            <label class="check-item"><input type="checkbox" data-task-id="t18" /><span><span class="check-title">Send Cohort-Segmented Reactivation via /board/announcements</span><span class="check-desc">Target lapsed 1999–2023 alumni, past sponsors &amp; past student awardees separately.</span></span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "hems_2027_marketing_checklist_v1";
+
+      // Copy-to-Clipboard with offline/file:// fallback
+      function copyTextToClipboard(text, btn) {
+        const done = () => {
+          const orig = btn.getAttribute("data-orig-label") || btn.textContent;
+          btn.setAttribute("data-orig-label", orig);
+          btn.textContent = "Copied \u2713";
+          btn.classList.add("copied");
+          window.setTimeout(() => {
+            btn.textContent = orig;
+            btn.classList.remove("copied");
+          }, 1800);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+        } else {
+          fallbackCopy(text, done);
+        }
+      }
+
+      function fallbackCopy(text, onSuccess) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand("copy");
+          onSuccess();
+        } catch (err) {
+          console.warn("Clipboard copy failed:", err);
+        } finally {
+          document.body.removeChild(ta);
+        }
+      }
+
+      document.querySelectorAll(".btn-copy").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-copy-target");
+          const el = targetId ? document.getElementById(targetId) : null;
+          if (!el) return;
+          copyTextToClipboard((el.textContent || "").trim(), btn);
+        });
+      });
+
+      // Tab Switchers (Google Ad Grants & Archive Monthly Spotlights)
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const group = btn.getAttribute("data-tab-group");
+          const tabId = btn.getAttribute("data-tab");
+          if (!group || !tabId) return;
+
+          document
+            .querySelectorAll('.tab-btn[data-tab-group="' + group + '"]')
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          document
+            .querySelectorAll('.tab-panel[data-tab-panel="' + group + '"]')
+            .forEach((panel) => {
+              panel.classList.toggle("active", panel.id === tabId);
+            });
+        });
+      });
+
+      // Interactive ROI & Break-Even Simulator
+      const sliderGrantMo = document.getElementById("sim-grant-monthly");
+      const sliderGrantMonths = document.getElementById("sim-grant-months");
+      const sliderCfp = document.getElementById("sim-burst-cfp");
+      const sliderGrants = document.getElementById("sim-burst-grants");
+      const sliderReg = document.getElementById("sim-burst-reg");
+
+      function formatUsd(n) {
+        return "$" + Math.round(n).toLocaleString("en-US");
+      }
+
+      function updateSimulator() {
+        const grantMo = Number(sliderGrantMo.value) || 0;
+        const grantMonths = Number(sliderGrantMonths.value) || 0;
+        const burst1 = Number(sliderCfp.value) || 0;
+        const burst2 = Number(sliderGrants.value) || 0;
+        const burst3 = Number(sliderReg.value) || 0;
+
+        document.getElementById("sim-grant-monthly-val").textContent =
+          formatUsd(grantMo) + " / mo";
+        document.getElementById("sim-grant-months-val").textContent =
+          grantMonths + (grantMonths === 1 ? " month" : " months");
+        document.getElementById("sim-burst-cfp-val").textContent = formatUsd(burst1);
+        document.getElementById("sim-burst-grants-val").textContent = formatUsd(burst2);
+        document.getElementById("sim-burst-reg-val").textContent = formatUsd(burst3);
+
+        const cashTotal = burst1 + burst2 + burst3;
+        const grantTotal = grantMo * grantMonths;
+        const totalMedia = cashTotal + grantTotal;
+        const estGoogleClicks = grantTotal / 1.85;
+        const estLinkedInClicks = cashTotal / 5.25;
+        const totalClicks = Math.round(estGoogleClicks + estLinkedInClicks);
+
+        const sponsorsNeeded = cashTotal === 0 ? 0 : Math.ceil(cashTotal / 1350);
+        const regsNeeded = cashTotal === 0 ? 0 : Math.ceil(cashTotal / 500);
+
+        document.getElementById("out-cash-spend").textContent = formatUsd(cashTotal);
+        document.getElementById("out-total-media").textContent = formatUsd(totalMedia);
+        document.getElementById("out-est-clicks").textContent =
+          "~" + totalClicks.toLocaleString("en-US");
+        document.getElementById("out-breakeven").textContent =
+          cashTotal === 0
+            ? "$0 Outlay (Free)"
+            : sponsorsNeeded +
+              (sponsorsNeeded === 1 ? " Sponsor" : " Sponsors") +
+              " or " +
+              regsNeeded +
+              (regsNeeded === 1 ? " Reg" : " Regs");
+      }
+
+      [sliderGrantMo, sliderGrantMonths, sliderCfp, sliderGrants, sliderReg].forEach(
+        (el) => {
+          if (el) el.addEventListener("input", updateSimulator);
+        }
+      );
+      updateSimulator();
+
+      // Persistent Execution Checklist
+      const checkboxes = Array.from(
+        document.querySelectorAll('#section-6-checklist input[type="checkbox"]')
+      );
+
+      function loadChecklistState() {
+        try {
+          const raw = window.localStorage.getItem(STORAGE_KEY);
+          if (!raw) return {};
+          const parsed = JSON.parse(raw);
+          return parsed && typeof parsed === "object" ? parsed : {};
+        } catch {
+          return {};
+        }
+      }
+
+      function saveChecklistState(state) {
+        try {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch {
+          // Ignore storage blocks on restricted file:// contexts
+        }
+      }
+
+      function syncChecklistUI() {
+        const total = checkboxes.length;
+        let done = 0;
+        const state = {};
+        checkboxes.forEach((cb) => {
+          const id = cb.getAttribute("data-task-id");
+          const item = cb.closest(".check-item");
+          if (cb.checked) {
+            done += 1;
+            if (item) item.classList.add("done");
+          } else if (item) {
+            item.classList.remove("done");
+          }
+          if (id) state[id] = cb.checked;
+        });
+
+        saveChecklistState(state);
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+        const label = document.getElementById("progress-label");
+        const fill = document.getElementById("progress-fill");
+        if (label) label.textContent = done + " / " + total + " Tasks Done";
+        if (fill) fill.style.width = pct + "%";
+      }
+
+      const initialState = loadChecklistState();
+      checkboxes.forEach((cb) => {
+        const id = cb.getAttribute("data-task-id");
+        if (id && initialState[id] === true) {
+          cb.checked = true;
+        }
+        cb.addEventListener("change", syncChecklistUI);
+      });
+      syncChecklistUI();
+
+      window.resetChecklist = function () {
+        checkboxes.forEach((cb) => {
+          cb.checked = false;
+        });
+        syncChecklistUI();
+      };
+    })();
+  </script>
+</body>
+</html>
