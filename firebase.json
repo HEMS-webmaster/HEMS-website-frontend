@@ -6,6 +6,128 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      {
+        "regex": "(?i)^/(?:15thws/)?15thcorp_sponsors\\.html?$",
+        "destination": "/corporate-sponsorship/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/(?:15thws/)?15thstudenttravel\\.html?$",
+        "destination": "/student-awards/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/(?:aboutus|about_us|about-us|about)\\.html?$",
+        "destination": "/about/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/(?:history|pastworkshops|past_workshops)\\.html?$",
+        "destination": "/history/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/(?:archives?|proceedings)\\.html?$",
+        "destination": "/archive/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/(?:contact|contactus|contact_us|contact-us)\\.html?$",
+        "destination": "/contact/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/(?:sponsors|sponsorship|corporate_sponsors)\\.html?$",
+        "destination": "/corporate-sponsorship/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/(?:student_?awards|studenttravel|travel_?awards)\\.html?$",
+        "destination": "/student-awards/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/logos/hemslogo3?\\.(?:jpg|jpeg|png|gif)$",
+        "destination": "/hemslogo.jpg",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/1stws(?:/.*)?$",
+        "destination": "/archive/1999/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/2ndws(?:/.*)?$",
+        "destination": "/archive/2001/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/3rdws(?:/.*)?$",
+        "destination": "/archive/2002/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/4thws(?:/.*)?$",
+        "destination": "/archive/2003/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/5thws(?:/.*)?$",
+        "destination": "/archive/2005/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/6thws(?:/.*)?$",
+        "destination": "/archive/2007/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/7thws(?:/.*)?$",
+        "destination": "/archive/2009/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/8thws(?:/.*)?$",
+        "destination": "/archive/2011/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/9thws(?:/.*)?$",
+        "destination": "/archive/2013/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/10thws(?:/.*)?$",
+        "destination": "/archive/2015/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/11thws(?:/.*)?$",
+        "destination": "/archive/2017/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/12thws(?:_eurohems)?(?:/.*)?$",
+        "destination": "/archive/2018/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/13thws(?:/.*)?$",
+        "destination": "/archive/2019/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/14thws(?:/.*)?$",
+        "destination": "/archive/2022/",
+        "type": 301
+      },
+      {
+        "regex": "(?i)^/15thws(?:/.*)?$",
+        "destination": "/archive/2025/",
+        "type": 301
+      }
+    ],
     "rewrites": [
       {
         "source": "/api/mailing/subscribe",
