@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -10,22 +11,48 @@ import {
   Building2,
   GraduationCap,
   ShieldCheck,
+  SlidersHorizontal,
   ClipboardCheck,
   BarChart2,
   Users,
   Send,
   Upload,
   TableProperties,
+  ClipboardList,
+  Landmark,
+  Megaphone,
+  ChevronDown,
+  ChevronRight,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import {
   hasAdminRole,
   hasAttendeeRole,
   hasBoardRole,
+  hasOperationsRole,
   hasReviewerRole,
+  hasTreasurerRole,
 } from "@/utils/telemetryClient";
 
-type PortalRequiredRole = "attendee" | "board" | "reviewer" | "admin" | null;
+type PortalRequiredRole =
+  | "attendee"
+  | "reviewer"
+  | "operations"
+  | "treasurer"
+  | "board"
+  | "admin"
+  | null;
+
+type CollapsiblePortalKey = "operations" | "treasurer" | "board" | "admin";
+
+const PORTAL_COLLAPSE_STORAGE_KEY = "hems_portal_sidebar_collapsed_v1";
+
+const DEFAULT_COLLAPSED_PORTALS: Record<CollapsiblePortalKey, boolean> = {
+  operations: false,
+  treasurer: false,
+  board: false,
+  admin: false,
+};
 
 const MOCK_ROLE_PRESETS: readonly { value: string; label: string; shortLabel?: string }[] = [
   { value: "", label: "General User (Automatic)" },
@@ -35,14 +62,17 @@ const MOCK_ROLE_PRESETS: readonly { value: string; label: string; shortLabel?: s
   { value: "corporate sponsor", label: "Corporate Sponsor" },
   { value: "reviewer", label: "Reviewer Only" },
   { value: "attendee,reviewer", label: "Attendee + Reviewer" },
+  { value: "operations", label: "Operations Officer" },
+  { value: "treasurer", label: "Society Treasurer" },
+  { value: "operations,treasurer", label: "Operations + Treasurer" },
   { value: "board", label: "Board Member" },
   { value: "admin", label: "Admin Only" },
   { value: "board,reviewer", label: "Board + Reviewer" },
   { value: "board,admin", label: "Board + Admin" },
   { value: "board,reviewer,admin", label: "Board + Reviewer + Admin" },
   {
-    value: "attendee,board,reviewer,admin",
-    label: "All Portals (Attendee + Reviewer + Board + Admin)",
+    value: "attendee,reviewer,operations,treasurer,board,admin",
+    label: "All Portals (Attendee + Reviewer + Operations + Treasurer + Board + Admin)",
     shortLabel: "All Portals",
   },
 ];
@@ -51,6 +81,7 @@ interface PortalLinkItem {
   name: string;
   shortName?: string;
   path: string;
+  aliases?: string[];
   icon: typeof LayoutDashboard;
   requiredRole: PortalRequiredRole;
 }
@@ -63,6 +94,43 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
   const pathname = usePathname();
   const currentPath = normalizePath(pathname);
   const { user, isMock, setMockRoles } = useAuth();
+  const [collapsedPortals, setCollapsedPortals] = useState<
+    Record<CollapsiblePortalKey, boolean>
+  >(DEFAULT_COLLAPSED_PORTALS);
+
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(PORTAL_COLLAPSE_STORAGE_KEY);
+      if (!saved) return;
+      const parsed = JSON.parse(saved) as Partial<
+        Record<CollapsiblePortalKey, unknown>
+      >;
+      if (!parsed || typeof parsed !== "object") return;
+      setCollapsedPortals({
+        operations: parsed.operations === true,
+        treasurer: parsed.treasurer === true,
+        board: parsed.board === true,
+        admin: parsed.admin === true,
+      });
+    } catch {
+      // Ignore malformed localStorage state or restricted storage
+    }
+  }, []);
+
+  const togglePortalSection = (key: CollapsiblePortalKey) => {
+    setCollapsedPortals((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      try {
+        window.localStorage.setItem(
+          PORTAL_COLLAPSE_STORAGE_KEY,
+          JSON.stringify(next)
+        );
+      } catch {
+        // Ignore storage write failures
+      }
+      return next;
+    });
+  };
 
   const workshopPortalLinks: PortalLinkItem[] = [
     { name: "Overview", path: "/layout-portal", icon: LayoutDashboard, requiredRole: null },
@@ -112,19 +180,56 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     },
   ];
 
-  const boardPortalLinks: PortalLinkItem[] = [
+  const operationsPortalLinks: PortalLinkItem[] = [
+    {
+      name: "Registrations Console",
+      shortName: "Registrations",
+      path: "/operations/registrations",
+      aliases: ["/board/registrations"],
+      icon: ClipboardList,
+      requiredRole: "operations",
+    },
     {
       name: "Mailing List",
       shortName: "Mailing List",
-      path: "/board/mailing-list",
+      path: "/operations/mailing-list",
+      aliases: ["/board/mailing-list"],
       icon: Users,
-      requiredRole: "board",
+      requiredRole: "operations",
     },
     {
       name: "Announcements",
       shortName: "Announcements",
-      path: "/board/announcements",
+      path: "/operations/announcements",
+      aliases: ["/board/announcements"],
       icon: Send,
+      requiredRole: "operations",
+    },
+    {
+      name: "Marketing Playbook",
+      shortName: "Playbook",
+      path: "/operations/marketing-playbook",
+      icon: Megaphone,
+      requiredRole: "operations",
+    },
+  ];
+
+  const treasurerPortalLinks: PortalLinkItem[] = [
+    {
+      name: "Finances & Stripe",
+      shortName: "Treasurer",
+      path: "/treasurer",
+      icon: Landmark,
+      requiredRole: "treasurer",
+    },
+  ];
+
+  const boardPortalLinks: PortalLinkItem[] = [
+    {
+      name: "Board Repository",
+      shortName: "Board Docs",
+      path: "/board",
+      icon: Building2,
       requiredRole: "board",
     },
     {
@@ -138,10 +243,17 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
   const adminPortalLinks: PortalLinkItem[] = [
     {
-      name: "Admin",
-      shortName: "Admin",
+      name: "Role Whitelist",
+      shortName: "Whitelist",
       path: "/admin",
       icon: ShieldCheck,
+      requiredRole: "admin",
+    },
+    {
+      name: "Workshop Settings",
+      shortName: "Settings",
+      path: "/admin/workshop-settings",
+      icon: SlidersHorizontal,
       requiredRole: "admin",
     },
   ];
@@ -151,13 +263,21 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     if (!user) return false;
     if (role === "attendee") return hasAttendeeRole(user.roles);
     if (role === "reviewer") return hasReviewerRole(user.roles);
+    if (role === "operations") return hasOperationsRole(user.roles);
+    if (role === "treasurer") return hasTreasurerRole(user.roles);
     if (role === "board") return hasBoardRole(user.roles);
     if (role === "admin") return hasAdminRole(user.roles);
     return false;
   };
 
+  const isLinkActive = (link: PortalLinkItem): boolean =>
+    currentPath === normalizePath(link.path) ||
+    Boolean(link.aliases?.some((alias) => currentPath === normalizePath(alias)));
+
   const showAttendeePortal = Boolean(user && hasAttendeeRole(user.roles));
   const showReviewerPortal = Boolean(user && hasReviewerRole(user.roles));
+  const showOperationsPortal = Boolean(user && hasOperationsRole(user.roles));
+  const showTreasurerPortal = Boolean(user && hasTreasurerRole(user.roles));
   const showBoardPortal = Boolean(user && hasBoardRole(user.roles));
   const showAdminPortal = Boolean(user && hasAdminRole(user.roles));
 
@@ -185,38 +305,86 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
     setMockRoles(val.split(",").filter(Boolean));
   };
 
-  const renderNavSection = (title: string, links: PortalLinkItem[]) => {
+  const renderNavSection = (
+    title: string,
+    links: PortalLinkItem[],
+    collapsibleKey?: CollapsiblePortalKey
+  ) => {
     const visibleLinks = links.filter((link) => hasRole(link.requiredRole));
     if (visibleLinks.length === 0) return null;
 
+    const isCollapsed = collapsibleKey
+      ? Boolean(collapsedPortals[collapsibleKey])
+      : false;
+    const hasActiveChild = visibleLinks.some((link) => isLinkActive(link));
+
+    const navLinksElement = (
+      <nav
+        id={collapsibleKey ? `portal-nav-${collapsibleKey}` : undefined}
+        aria-label={title}
+        className="space-y-1"
+      >
+        {visibleLinks.map((link) => {
+          const Icon = link.icon;
+          const isActive = isLinkActive(link);
+          return (
+            <Link
+              key={link.path}
+              href={link.path}
+              className={`flex items-center gap-3 text-sm px-3 py-2.5 rounded-lg transition-all ${
+                isActive
+                  ? "text-primary font-bold bg-primary/10 border-l-4 border-primary pl-[9px]"
+                  : "text-foreground/75 hover:text-primary hover:bg-foreground/5"
+              }`}
+            >
+              <Icon
+                size={16}
+                className={`shrink-0 ${isActive ? "text-primary" : "text-foreground/50"}`}
+              />
+              <span>{link.name}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    );
+
+    if (!collapsibleKey) {
+      return (
+        <div className="mb-8">
+          <h3 className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-3.5 px-3">
+            {title}
+          </h3>
+          {navLinksElement}
+        </div>
+      );
+    }
+
     return (
-      <div className="mb-8">
-        <h3 className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-3.5 px-3">
-          {title}
-        </h3>
-        <nav aria-label={title} className="space-y-1">
-          {visibleLinks.map((link) => {
-            const Icon = link.icon;
-            const isActive = currentPath === normalizePath(link.path);
-            return (
-              <Link
-                key={link.path}
-                href={link.path}
-                className={`flex items-center gap-3 text-sm px-3 py-2.5 rounded-lg transition-all ${
-                  isActive
-                    ? "text-primary font-bold bg-primary/10 border-l-4 border-primary pl-[9px]"
-                    : "text-foreground/75 hover:text-primary hover:bg-foreground/5"
-                }`}
-              >
-                <Icon
-                  size={16}
-                  className={`shrink-0 ${isActive ? "text-primary" : "text-foreground/50"}`}
-                />
-                <span>{link.name}</span>
-              </Link>
-            );
-          })}
-        </nav>
+      <div className={isCollapsed ? "mb-4" : "mb-8"}>
+        <button
+          type="button"
+          onClick={() => togglePortalSection(collapsibleKey)}
+          aria-expanded={!isCollapsed}
+          aria-controls={`portal-nav-${collapsibleKey}`}
+          aria-label={`${isCollapsed ? "Expand" : "Collapse"} ${title}`}
+          className={`w-full flex items-center justify-between gap-2 text-xs font-bold text-foreground/55 hover:text-primary uppercase tracking-widest px-3 py-1.5 rounded-lg hover:bg-foreground/5 transition-colors cursor-pointer group ${
+            isCollapsed ? "mb-0" : "mb-2.5"
+          }`}
+        >
+          <span className="flex items-center gap-1.5 min-w-0 truncate">
+            <span className="truncate">{title}</span>
+            {isCollapsed && hasActiveChild && (
+              <span
+                aria-hidden="true"
+                className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"
+              />
+            )}
+          </span>
+          <span className="w-5 h-5 inline-flex items-center justify-center rounded border border-foreground/15 bg-white/80 text-foreground/60 group-hover:border-primary/40 group-hover:text-primary shrink-0">
+            {isCollapsed ? <ChevronRight size={13} /> : <ChevronDown size={13} />}
+          </span>
+        </button>
+        {!isCollapsed && navLinksElement}
       </div>
     );
   };
@@ -233,7 +401,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         />
         {visibleLinks.map((link) => {
           const Icon = link.icon;
-          const isActive = currentPath === normalizePath(link.path);
+          const isActive = isLinkActive(link);
           return (
             <Link
               key={link.path}
@@ -282,6 +450,8 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
 
           {showAttendeePortal && renderMobilePortalGroup(attendeePortalLinks)}
           {showReviewerPortal && renderMobilePortalGroup(reviewerPortalLinks)}
+          {showOperationsPortal && renderMobilePortalGroup(operationsPortalLinks)}
+          {showTreasurerPortal && renderMobilePortalGroup(treasurerPortalLinks)}
           {showBoardPortal && renderMobilePortalGroup(boardPortalLinks)}
           {showAdminPortal && renderMobilePortalGroup(adminPortalLinks)}
         </nav>
@@ -342,8 +512,14 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
             {renderNavSection("Workshop Portal", workshopPortalLinks)}
             {showAttendeePortal && renderNavSection("Attendee Portal", attendeePortalLinks)}
             {showReviewerPortal && renderNavSection("Reviewer Portal", reviewerPortalLinks)}
-            {showBoardPortal && renderNavSection("Board Portal", boardPortalLinks)}
-            {showAdminPortal && renderNavSection("Admin Portal", adminPortalLinks)}
+            {showOperationsPortal &&
+              renderNavSection("Operations Portal", operationsPortalLinks, "operations")}
+            {showTreasurerPortal &&
+              renderNavSection("Treasurer Portal", treasurerPortalLinks, "treasurer")}
+            {showBoardPortal &&
+              renderNavSection("Board Portal", boardPortalLinks, "board")}
+            {showAdminPortal &&
+              renderNavSection("Admin Portal", adminPortalLinks, "admin")}
           </div>
 
           {/* Dev Mode Role Switcher */}

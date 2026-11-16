@@ -1,5 +1,10 @@
 import { onRequest } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
+import {
+  checkMemoryRateLimit,
+  extractHashedClientIp,
+  isVerifiedDecodedToken,
+} from "./rateLimit";
 
 type TelemetryEventType =
   | "page_view"
@@ -62,6 +67,9 @@ async function resolveOptionalUser(authHeader?: string): Promise<{
 
   try {
     const decoded = await admin.auth().verifyIdToken(idToken);
+    if (!isVerifiedDecodedToken(decoded)) {
+      return null;
+    }
     const userDoc = await getDb().collection("users").doc(decoded.uid).get();
     const profile = userDoc.exists ? userDoc.data() : undefined;
     return {
@@ -84,7 +92,13 @@ async function resolveOptionalUser(authHeader?: string): Promise<{
  * - Automated mail-gateway pre-fetch scanners & crawlers filtered out automatically.
  */
 export const telemetryEvent = onRequest(
-  { cors: true, region: "us-central1" },
+  {
+    cors: true,
+    region: "us-central1",
+    maxInstances: 5,
+    memory: "256MiB",
+    timeoutSeconds: 15,
+  },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).json({ ok: false, error: "Method not allowed" });
@@ -94,6 +108,17 @@ export const telemetryEvent = onRequest(
     const userAgent = String(req.headers["user-agent"] || "");
     if (BOT_USER_AGENT_REGEX.test(userAgent)) {
       res.status(202).json({ ok: true, skipped: "bot_filtered" });
+      return;
+    }
+
+    const rateCheck = checkMemoryRateLimit({
+      bucketKey: extractHashedClientIp(req, "telemetry"),
+      maxHits: 120,
+      windowMs: 60_000,
+    });
+    if (!rateCheck.allowed) {
+      res.setHeader("Retry-After", String(rateCheck.retryAfterSec));
+      res.status(429).json({ ok: false, error: "Rate limit exceeded." });
       return;
     }
 

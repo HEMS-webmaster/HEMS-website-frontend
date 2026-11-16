@@ -51,3 +51,6 @@ scratch_archive.zip
 firebase-key.json
 .firebase/
 .agents/
+
+# Raw Uncompressed Source Media (>1.5 GB; Web-optimized assets live in src/frontend/public/images/)
+docs/source-documents/pics/

@@ -7,6 +7,12 @@
     "build": "node scripts/build-prod.js",
     "sync:workshop": "node scripts/sync-workshop-sheet.js",
     "push-to-live": "node scripts/push-to-live.js",
+    "preview:deploy": "powershell -ExecutionPolicy Bypass -File ../../infrastructure/manage-board-preview.ps1 -Action deploy",
+    "preview:deploy:static-sheet": "powershell -ExecutionPolicy Bypass -File ../../infrastructure/manage-board-preview.ps1 -Action deploy -UseLocalWorkshopJson",
+    "preview:promote": "powershell -ExecutionPolicy Bypass -File ../../infrastructure/manage-board-preview.ps1 -Action promote",
+    "preview:rollback": "powershell -ExecutionPolicy Bypass -File ../../infrastructure/manage-board-preview.ps1 -Action rollback",
+    "preview:list": "powershell -ExecutionPolicy Bypass -File ../../infrastructure/manage-board-preview.ps1 -Action list",
+    "preview:delete": "powershell -ExecutionPolicy Bypass -File ../../infrastructure/manage-board-preview.ps1 -Action delete",
     "start": "next start",
     "lint": "eslint"
   },

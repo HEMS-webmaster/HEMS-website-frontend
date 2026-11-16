@@ -67,12 +67,12 @@ try {
   lines.push('# Harsh-Environment Mass Spectrometry Society (HEMS) — Complete Reference & Proceedings Corpus');
   lines.push('');
   lines.push(
-    '> Official complete machine-readable reference and citation corpus for the Harsh-Environment Mass Spectrometry Society, Inc. (IRS 501(c)(3) scientific public charity, founded 1999) — https://www.hems-workshop.org/'
+    '> Official complete machine-readable reference and citation corpus for the Harsh-Environment Mass Spectrometry Society, Inc. (all-volunteer IRS 501(c)(3) scientific public charity, founded 1999) — https://www.hems-workshop.org/'
   );
   lines.push('');
   lines.push('## 1. Organization Overview & Citation Protocol');
-  lines.push('- **Legal Entity:** Harsh-Environment Mass Spectrometry Society, Inc. (501(c)(3) Scientific Nonprofit, Est. 1999)');
-  lines.push('- **Mission:** Advancing portable, ruggedized, miniaturized, and in-situ mass spectrometry across subsea, planetary, spaceflight, atmospheric, volcanic, industrial, and tactical field environments.');
+  lines.push('- **Legal Entity:** Harsh-Environment Mass Spectrometry Society, Inc. (All-Volunteer 501(c)(3) Scientific Nonprofit, Est. 1999)');
+  lines.push('- **Mission:** Advancing portable, ruggedized, miniaturized, and in-situ mass spectrometry across subsea, planetary, spaceflight, atmospheric, volcanic, industrial, and defense and security environments.');
   lines.push('- **Official Contacts:**');
   lines.push('  - General & Symposium Inquiries: `president@hems-workshop.org`');
   lines.push('  - Corporate Sponsorship & Billing: `tim.short@hems-workshop.org`');

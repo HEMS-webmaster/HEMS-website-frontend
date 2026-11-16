@@ -37,3 +37,4 @@
 2. Verify CSV parser & Append/Overwrite diff behavior via read-only Node execution.
 3. Verify `/admin/` and `/layout-portal/` return HTTP `200` on local Next.js dev server.
 4. Stage and commit only touched files cleanly on `main`.
+

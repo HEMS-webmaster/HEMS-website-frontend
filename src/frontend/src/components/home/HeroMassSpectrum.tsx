@@ -749,12 +749,12 @@ export default function HeroMassSpectrum() {
             <span className="tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.1em] text-slate-500 block">
               {regime.inletSubtitle}
             </span>
-            <h2 className="text-xs sm:text-[13px] font-semibold text-slate-900 leading-snug mt-0.5">
+            <h3 className="text-xs sm:text-[13px] font-semibold text-slate-900 leading-snug mt-0.5">
               {regime.title}{" "}
               <span className="text-slate-500 font-normal tabular-nums">
                 (<em className="font-serif italic">m/z</em> 1–100)
               </span>
-            </h2>
+            </h3>
           </div>
           <span className="tabular-nums text-[10.5px] px-2 py-0.5 rounded-md bg-teal-50/90 text-secondary border border-teal-200/80 font-semibold shrink-0 whitespace-nowrap">
             {regime.pressureBadge}

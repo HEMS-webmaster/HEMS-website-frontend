@@ -13,22 +13,49 @@ import { db, hasFirebaseKeys } from "@/utils/firebase";
 import {
   AssignableRole,
   composePersonFullName,
+  ensureProtectedWhitelistEntries,
   hydrateWhitelistPersonFields,
+  PROTECTED_ADMIN_EMAIL,
   sanitizeRoleList,
   WhitelistCsvApplyPlan,
   WhitelistEntry,
 } from "@/utils/whitelistCsv";
 
 const MOCK_WHITELIST_STORAGE_KEY = "hems_mock_whitelist";
+const MOCK_WHITELIST_OFFICER_SEED_KEY = "hems_mock_whitelist_officers_v3";
 
 const INITIAL_MOCK_WHITELIST: WhitelistEntry[] = [
+  {
+    email: PROTECTED_ADMIN_EMAIL,
+    firstName: "HEMS",
+    lastName: "Webmaster",
+    affiliation: "HEMS Society",
+    name: "HEMS Webmaster",
+    roles: ["admin"],
+  },
   {
     email: "admin@example.com",
     firstName: "Society",
     lastName: "Admin",
     affiliation: "HEMS Executive Office",
     name: "Society Admin",
-    roles: ["admin", "reviewer", "board"],
+    roles: ["admin", "reviewer", "operations", "treasurer", "board"],
+  },
+  {
+    email: "operations@hems-workshop.org",
+    firstName: "Workshop",
+    lastName: "Operations",
+    affiliation: "HEMS Organizing Committee",
+    name: "Workshop Operations",
+    roles: ["operations"],
+  },
+  {
+    email: "treasurer@hems-workshop.org",
+    firstName: "Society",
+    lastName: "Treasurer",
+    affiliation: "HEMS Finance Committee",
+    name: "Society Treasurer",
+    roles: ["treasurer"],
   },
   {
     email: "reviewer@example.com",
@@ -79,11 +106,13 @@ function readMockWhitelist(): WhitelistEntry[] {
   try {
     const raw = window.sessionStorage.getItem(MOCK_WHITELIST_STORAGE_KEY);
     if (!raw) {
+      const seeded = ensureProtectedWhitelistEntries(INITIAL_MOCK_WHITELIST);
       window.sessionStorage.setItem(
         MOCK_WHITELIST_STORAGE_KEY,
-        JSON.stringify(INITIAL_MOCK_WHITELIST)
+        JSON.stringify(seeded)
       );
-      return INITIAL_MOCK_WHITELIST.map((e) => ({ ...e, roles: [...e.roles] }));
+      window.sessionStorage.setItem(MOCK_WHITELIST_OFFICER_SEED_KEY, "1");
+      return seeded.map((e) => ({ ...e, roles: [...e.roles] }));
     }
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return [];
@@ -116,7 +145,42 @@ function readMockWhitelist(): WhitelistEntry[] {
         updatedAt: typeof rec.updatedAt === "string" ? rec.updatedAt : undefined,
       });
     }
-    return normalized;
+    if (!window.sessionStorage.getItem(MOCK_WHITELIST_OFFICER_SEED_KEY)) {
+      const existingEmails = new Set(normalized.map((e) => e.email.toLowerCase()));
+      let added = false;
+      for (const seedEntry of INITIAL_MOCK_WHITELIST) {
+        const em = seedEntry.email.toLowerCase();
+        if (!existingEmails.has(em)) {
+          normalized.push({ ...seedEntry, roles: [...seedEntry.roles] });
+          existingEmails.add(em);
+          added = true;
+        }
+      }
+      const secured = ensureProtectedWhitelistEntries(normalized);
+      window.sessionStorage.setItem(MOCK_WHITELIST_OFFICER_SEED_KEY, "1");
+      if (added || secured.length !== normalized.length) {
+        window.sessionStorage.setItem(
+          MOCK_WHITELIST_STORAGE_KEY,
+          JSON.stringify(secured)
+        );
+      }
+      return secured;
+    }
+    const secured = ensureProtectedWhitelistEntries(normalized);
+    if (
+      secured.length !== normalized.length ||
+      secured.some(
+        (entry, idx) =>
+          entry.email !== normalized[idx]?.email ||
+          entry.roles.length !== normalized[idx]?.roles.length
+      )
+    ) {
+      window.sessionStorage.setItem(
+        MOCK_WHITELIST_STORAGE_KEY,
+        JSON.stringify(secured)
+      );
+    }
+    return secured;
   } catch {
     return [];
   }
@@ -210,8 +274,30 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
         });
       });
 
-      entries.sort((a, b) => a.email.localeCompare(b.email));
-      setWhitelist(entries);
+      const rawProtected = entries.find((e) => e.email === PROTECTED_ADMIN_EMAIL);
+      const securedEntries = ensureProtectedWhitelistEntries(entries);
+      if (!rawProtected || !rawProtected.roles.includes("admin")) {
+        const guaranteed = securedEntries.find((e) => e.email === PROTECTED_ADMIN_EMAIL);
+        if (guaranteed) {
+          try {
+            await setDoc(
+              doc(db, "whitelist", PROTECTED_ADMIN_EMAIL),
+              {
+                firstName: guaranteed.firstName,
+                lastName: guaranteed.lastName,
+                affiliation: guaranteed.affiliation,
+                name: guaranteed.name,
+                roles: guaranteed.roles,
+                updatedAt: guaranteed.updatedAt || new Date().toISOString(),
+              },
+              { merge: true }
+            );
+          } catch {
+            // Non-admin callers rely on backend sync and AuthContext fallback
+          }
+        }
+      }
+      setWhitelist(securedEntries);
     } catch (err: unknown) {
       setErrorMsg(
         "Failed to load whitelist: " + extractErrorMessage(err, "Unknown error")
@@ -387,6 +473,15 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
       const targetEmail = email.trim().toLowerCase();
       const nowIso = new Date().toISOString();
       const baseRoles = sanitizeRoleList(currentRoles);
+      if (
+        targetEmail === PROTECTED_ADMIN_EMAIL &&
+        role === "admin" &&
+        baseRoles.includes("admin")
+      ) {
+        const msg = `${PROTECTED_ADMIN_EMAIL} permanently retains the Administrator ('admin') role and cannot be demoted.`;
+        setErrorMsg(msg);
+        throw new Error(msg);
+      }
       const updatedRoles = baseRoles.includes(role)
         ? baseRoles.filter((r) => r !== role)
         : sanitizeRoleList([...baseRoles, role]);
@@ -436,6 +531,13 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
       const changedEntries: WhitelistEntry[] = [];
       const nextEntries = whitelist.map((entry) => {
         if (!targetSet.has(entry.email)) return entry;
+        if (
+          action === "remove" &&
+          role === "admin" &&
+          entry.email === PROTECTED_ADMIN_EMAIL
+        ) {
+          return entry;
+        }
         const baseRoles = sanitizeRoleList(entry.roles);
         const hasRole = baseRoles.includes(role);
         if ((action === "add" && hasRole) || (action === "remove" && !hasRole)) {
@@ -492,6 +594,11 @@ export function useWhitelistAdmin(isAuthorized: boolean) {
 
   const deleteEntry = useCallback(async (email: string): Promise<void> => {
     const targetEmail = email.trim().toLowerCase();
+    if (targetEmail === PROTECTED_ADMIN_EMAIL) {
+      const msg = `${PROTECTED_ADMIN_EMAIL} is the protected system webmaster and cannot be removed from the whitelist.`;
+      setErrorMsg(msg);
+      throw new Error(msg);
+    }
     setErrorMsg("");
     try {
       if (hasFirebaseKeys) {

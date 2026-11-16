@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.syncUserOnRegistrationV2 = exports.syncWhitelistToUserV2 = exports.telemetryEvent = exports.contactInquiry = exports.mailingSendCampaign = exports.mailingWebhookPostmark = exports.mailingUnsubscribe = exports.mailingConfirm = exports.mailingSubscribe = void 0;
+exports.syncUserOnRegistrationV2 = exports.syncWhitelistToUserV2 = exports.budgetCircuitBreaker = exports.registrationAdminAction = exports.registrationGetReceipt = exports.registrationWebhookStripe = exports.registrationCreateSession = exports.telemetryEvent = exports.contactInquiry = exports.mailingSendCampaign = exports.mailingWebhookPostmark = exports.mailingUnsubscribe = exports.mailingConfirm = exports.mailingSubscribe = void 0;
 const firestore_1 = require("firebase-functions/v2/firestore");
 const admin = __importStar(require("firebase-admin"));
 admin.initializeApp();
@@ -47,63 +47,109 @@ Object.defineProperty(exports, "mailingSendCampaign", { enumerable: true, get: f
 Object.defineProperty(exports, "contactInquiry", { enumerable: true, get: function () { return mailing_1.contactInquiry; } });
 var telemetry_1 = require("./telemetry");
 Object.defineProperty(exports, "telemetryEvent", { enumerable: true, get: function () { return telemetry_1.telemetryEvent; } });
+var registration_1 = require("./registration");
+Object.defineProperty(exports, "registrationCreateSession", { enumerable: true, get: function () { return registration_1.registrationCreateSession; } });
+Object.defineProperty(exports, "registrationWebhookStripe", { enumerable: true, get: function () { return registration_1.registrationWebhookStripe; } });
+Object.defineProperty(exports, "registrationGetReceipt", { enumerable: true, get: function () { return registration_1.registrationGetReceipt; } });
+Object.defineProperty(exports, "registrationAdminAction", { enumerable: true, get: function () { return registration_1.registrationAdminAction; } });
+var budgetCircuitBreaker_1 = require("./budgetCircuitBreaker");
+Object.defineProperty(exports, "budgetCircuitBreaker", { enumerable: true, get: function () { return budgetCircuitBreaker_1.budgetCircuitBreaker; } });
+const PROTECTED_ADMIN_EMAIL = "webmaster@hems-workshop.org";
+function isVerifiedUserRecord(userRecord) {
+    return Boolean(userRecord.emailVerified ||
+        userRecord.providerData.some((p) => p.providerId === "google.com" || p.providerId === "microsoft.com"));
+}
+function withProtectedWebmasterAdmin(email, roles) {
+    if (email.trim().toLowerCase() !== PROTECTED_ADMIN_EMAIL)
+        return roles;
+    const cleaned = roles.filter((r) => String(r || "").trim().toLowerCase() !== "general");
+    if (cleaned.some((r) => {
+        const norm = String(r || "").trim().toLowerCase();
+        return norm === "admin" || norm === "administration" || norm === "administrator";
+    })) {
+        return cleaned;
+    }
+    return Array.from(new Set([...cleaned, "admin"]));
+}
 // Trigger on any write (create, update, delete) to the 'whitelist/{email}' collection
-exports.syncWhitelistToUserV2 = (0, firestore_1.onDocumentWritten)("whitelist/{email}", async (event) => {
+exports.syncWhitelistToUserV2 = (0, firestore_1.onDocumentWritten)({ document: "whitelist/{email}", region: "us-central1", maxInstances: 5 }, async (event) => {
     const email = event.params.email.toLowerCase();
     const afterData = event.data?.after.exists ? event.data.after.data() : null;
     let rolesToAssign = ["general"];
     if (afterData && Array.isArray(afterData.roles)) {
         rolesToAssign = afterData.roles;
     }
-    // Try to find the user in Firebase Auth first (case-insensitive and most accurate)
-    let uid = null;
+    rolesToAssign = withProtectedWebmasterAdmin(email, rolesToAssign);
+    // Resolve strictly via Firebase Auth so unverified or spoofed users/{uid}.email fields are never promoted
+    let userRecord = null;
     try {
-        const userRecord = await admin.auth().getUserByEmail(email);
-        uid = userRecord.uid;
+        userRecord = await admin.auth().getUserByEmail(email);
     }
     catch (err) {
-        console.log(`User not found in Firebase Auth for email: ${email}. Error: ${err.message}`);
+        const msg = err instanceof Error ? err.message : String(err);
+        console.log(`User not found in Firebase Auth for email: ${email}. Skipping whitelist sync (${msg}).`);
+        return null;
     }
-    if (uid) {
-        // User exists in Firebase Auth. Write/merge roles in users/{uid}
-        await db.collection("users").doc(uid).set({
-            roles: rolesToAssign
-        }, { merge: true });
-        console.log(`Successfully synced roles for existing user in Firebase Auth. Email: ${email}, UID: ${uid}, Roles: ${rolesToAssign.join(", ")}`);
-    }
-    else {
-        // Fallback: search by email field in users collection (case-sensitive exact match)
-        const usersRef = db.collection("users");
-        const snapshot = await usersRef.where("email", "==", email).get();
-        if (snapshot.empty) {
-            console.log(`No registered user found in Auth or users collection for email: ${email}. Skipping sync.`);
-            return null;
-        }
-        const batch = db.batch();
-        snapshot.docs.forEach((doc) => {
-            batch.update(doc.ref, { roles: rolesToAssign });
-        });
-        await batch.commit();
-        console.log(`Successfully synced roles via email query for ${email}: ${rolesToAssign.join(", ")}`);
-    }
+    const effectiveRoles = isVerifiedUserRecord(userRecord) ? rolesToAssign : ["general"];
+    await db.collection("users").doc(userRecord.uid).set({
+        roles: effectiveRoles,
+    }, { merge: true });
+    console.log(`Synced whitelist roles for Auth user ${email} (uid=${userRecord.uid}, verified=${isVerifiedUserRecord(userRecord)}): ${effectiveRoles.join(", ")}`);
     return null;
 });
 // Trigger on new user profile creation
-exports.syncUserOnRegistrationV2 = (0, firestore_1.onDocumentCreated)("users/{uid}", async (event) => {
+exports.syncUserOnRegistrationV2 = (0, firestore_1.onDocumentCreated)({ document: "users/{uid}", region: "us-central1", maxInstances: 5 }, async (event) => {
     const snap = event.data;
     if (!snap)
         return null;
-    const user = snap.data();
-    if (!user || !user.email)
+    const user = snap.data() || {};
+    let authUser;
+    try {
+        authUser = await admin.auth().getUser(event.params.uid);
+    }
+    catch (err) {
+        console.warn(`[syncUserOnRegistrationV2] Unable to load Auth record for ${event.params.uid}:`, err);
+        await snap.ref.update({ roles: ["general"] });
         return null;
-    const email = user.email.toLowerCase();
-    const whitelistDoc = await db.collection("whitelist").doc(email).get();
+    }
+    const authEmail = (authUser.email || "").trim().toLowerCase();
+    if (!authEmail) {
+        await snap.ref.update({ roles: ["general"] });
+        return null;
+    }
+    const clientEmail = String(user.email || "").trim().toLowerCase();
+    const emailPatch = clientEmail !== authEmail ? { email: authEmail } : {};
+    if (!isVerifiedUserRecord(authUser)) {
+        // Never promote unverified Email+Password accounts before link verification
+        await snap.ref.update({ ...emailPatch, roles: ["general"], emailVerified: false });
+        return null;
+    }
+    const whitelistDoc = await db.collection("whitelist").doc(authEmail).get();
     if (whitelistDoc.exists) {
         const whitelistData = whitelistDoc.data();
         if (whitelistData && Array.isArray(whitelistData.roles)) {
-            await snap.ref.update({ roles: whitelistData.roles });
-            console.log(`Applied whitelist roles to new user ${email}: ${whitelistData.roles.join(", ")}`);
+            const syncedRoles = withProtectedWebmasterAdmin(authEmail, whitelistData.roles);
+            await snap.ref.update({ ...emailPatch, roles: syncedRoles, emailVerified: true });
+            console.log(`Applied verified whitelist roles to new user ${authEmail}: ${syncedRoles.join(", ")}`);
+            return null;
         }
+    }
+    else if (authEmail === PROTECTED_ADMIN_EMAIL) {
+        const syncedRoles = withProtectedWebmasterAdmin(authEmail, []);
+        await db.collection("whitelist").doc(authEmail).set({
+            email: authEmail,
+            firstName: "HEMS",
+            lastName: "Webmaster",
+            affiliation: "HEMS Society",
+            name: "HEMS Webmaster",
+            roles: syncedRoles,
+            updatedAt: new Date().toISOString(),
+        }, { merge: true });
+        await snap.ref.update({ ...emailPatch, roles: syncedRoles, emailVerified: true });
+        return null;
+    }
+    if (Object.keys(emailPatch).length > 0) {
+        await snap.ref.update(emailPatch);
     }
     return null;
 });

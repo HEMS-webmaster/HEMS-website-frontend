@@ -1,0 +1,39 @@
+rules_version = '2';
+
+// Reference Firebase Cloud Storage rules for HEMS Secure Board Repository.
+// Activate in Firebase Console -> Storage when provisioning the default bucket.
+service firebase.storage {
+  match /b/{bucket}/o {
+    function hasBoardWhitelistRole() {
+      return request.auth != null && (
+        (
+          firestore.exists(/databases/(default)/documents/users/$(request.auth.uid)) &&
+          (
+            'board' in firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.get('roles', []) ||
+            'Board' in firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.get('roles', []) ||
+            'board_member' in firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.get('roles', []) ||
+            'Board Member' in firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.get('roles', [])
+          )
+        ) || (
+          request.auth.token.email != null &&
+          firestore.exists(/databases/(default)/documents/whitelist/$(request.auth.token.email.lower())) &&
+          (
+            'board' in firestore.get(/databases/(default)/documents/whitelist/$(request.auth.token.email.lower())).data.get('roles', []) ||
+            'Board' in firestore.get(/databases/(default)/documents/whitelist/$(request.auth.token.email.lower())).data.get('roles', []) ||
+            'board_member' in firestore.get(/databases/(default)/documents/whitelist/$(request.auth.token.email.lower())).data.get('roles', []) ||
+            'Board Member' in firestore.get(/databases/(default)/documents/whitelist/$(request.auth.token.email.lower())).data.get('roles', [])
+          )
+        )
+      );
+    }
+
+    match /board_repository/{docId}/{fileName} {
+      allow read, delete: if hasBoardWhitelistRole();
+      allow create, update: if hasBoardWhitelistRole()
+        && request.resource != null
+        && request.resource.size > 0
+        && request.resource.size <= 10 * 1024 * 1024
+        && fileName.matches('^[^/]+\\.(pdf|doc|docx|odt|rtf|txt|md|xls|xlsx|ods|csv|ppt|pptx|png|jpg|jpeg|webp|svg|zip)$');
+    }
+  }
+}

@@ -104,28 +104,28 @@ const QUICK_MATH_TOKENS: Array<{
   title: string;
   italic?: boolean;
 }> = [
-  {
-    label: "m/z",
-    token: "<i>m/z</i>",
-    title: "Mass-to-charge ratio (italicized m/z)",
-    italic: true,
-  },
-  { label: "μ", token: "μ", title: "Micro (mu)" },
-  { label: "Δ", token: "Δ", title: "Delta" },
-  { label: "±", token: "±", title: "Plus-minus" },
-  { label: "×", token: "×", title: "Multiplication" },
-  { label: "°C", token: "°C", title: "Degrees Celsius" },
-  { label: "≤", token: "≤", title: "Less than or equal" },
-  { label: "≥", token: "≥", title: "Greater than or equal" },
-  { label: "≈", token: "≈", title: "Approximately equal" },
-  { label: "→", token: "→", title: "Reaction arrow" },
-  { label: "⇌", token: "⇌", title: "Equilibrium arrow" },
-  { label: "CO₂", token: "CO<sub>2</sub>", title: "Carbon dioxide (formatted subscript)" },
-  { label: "CH₄", token: "CH<sub>4</sub>", title: "Methane (formatted subscript)" },
-  { label: "[M+H]⁺", token: "[M+H]<sup>+</sup>", title: "Protonated ion" },
-  { label: "a/b", token: "$\\frac{a}{b}$", title: "Stacked fraction" },
-  { label: "√x", token: "$\\sqrt{x}$", title: "Square root" },
-];
+    {
+      label: "m/z",
+      token: "<i>m/z</i>",
+      title: "Mass-to-charge ratio (italicized m/z)",
+      italic: true,
+    },
+    { label: "μ", token: "μ", title: "Micro (mu)" },
+    { label: "Δ", token: "Δ", title: "Delta" },
+    { label: "±", token: "±", title: "Plus-minus" },
+    { label: "×", token: "×", title: "Multiplication" },
+    { label: "°C", token: "°C", title: "Degrees Celsius" },
+    { label: "≤", token: "≤", title: "Less than or equal" },
+    { label: "≥", token: "≥", title: "Greater than or equal" },
+    { label: "≈", token: "≈", title: "Approximately equal" },
+    { label: "→", token: "→", title: "Reaction arrow" },
+    { label: "⇌", token: "⇌", title: "Equilibrium arrow" },
+    { label: "CO₂", token: "CO<sub>2</sub>", title: "Carbon dioxide (formatted subscript)" },
+    { label: "CH₄", token: "CH<sub>4</sub>", title: "Methane (formatted subscript)" },
+    { label: "[M+H]⁺", token: "[M+H]<sup>+</sup>", title: "Protonated ion" },
+    { label: "a/b", token: "$\\frac{a}{b}$", title: "Stacked fraction" },
+    { label: "√x", token: "$\\sqrt{x}$", title: "Square root" },
+  ];
 
 const LABEL_CLASS = "hems-label";
 const INPUT_CLASS = "hems-control w-full px-3.5 py-2.5 text-[15px] rounded-xl";
@@ -449,16 +449,16 @@ export default function AbstractSubmissionClient() {
     );
     return Boolean(
       currentStage > 1 ||
-        title.trim() ||
-        secondaryEmail.trim() ||
-        hasAffData ||
-        summary.trim() ||
-        abstractText.trim() ||
-        graphicFile ||
-        graphicCaption.trim() ||
-        keywords.trim() ||
-        presenterBio.trim() ||
-        studentTravelAwardApplicant
+      title.trim() ||
+      secondaryEmail.trim() ||
+      hasAffData ||
+      summary.trim() ||
+      abstractText.trim() ||
+      graphicFile ||
+      graphicCaption.trim() ||
+      keywords.trim() ||
+      presenterBio.trim() ||
+      studentTravelAwardApplicant
     );
   }, [
     viewMode,
@@ -720,12 +720,12 @@ export default function AbstractSubmissionClient() {
       tag === "sub"
         ? "2"
         : tag === "sup"
-        ? "+"
-        : tag === "b"
-        ? "bold text"
-        : tag === "i"
-        ? "italic text"
-        : "underlined text";
+          ? "+"
+          : tag === "b"
+            ? "bold text"
+            : tag === "i"
+              ? "italic text"
+              : "underlined text";
     const inner = selected || placeholder;
     const wrapped = `<${tag}>${inner}</${tag}>`;
 
@@ -836,8 +836,8 @@ export default function AbstractSubmissionClient() {
           ? "Moved [FIGURE] inline. Because width < 3.5\", this row is now the first row broken by the right-aligned figure."
           : "Moved the [FIGURE] placement marker to the new cursor position."
         : isRightWrapped
-        ? "Inserted [FIGURE] inline. Because width < 3.5\", place it at the start of the row where right-aligned text wrapping should begin."
-        : "Inserted [FIGURE] placement marker. Your figure will render at this position in the live & final previews."
+          ? "Inserted [FIGURE] inline. Because width < 3.5\", place it at the start of the row where right-aligned text wrapping should begin."
+          : "Inserted [FIGURE] placement marker. Your figure will render at this position in the live & final previews."
     );
 
     const nextCursor = before.length + leading.length + FIGURE_MARKER_TOKEN.length;
@@ -1202,9 +1202,9 @@ export default function AbstractSubmissionClient() {
         graphicFile,
         graphicMeta: graphicMeta
           ? {
-              ...graphicMeta,
-              widthInches: clampFigureWidthInches(figureWidthInches),
-            }
+            ...graphicMeta,
+            widthInches: clampFigureWidthInches(figureWidthInches),
+          }
           : null,
         keepExistingGraphic: !graphicFile && Boolean(retainedSubmittedGraphic),
       };
@@ -1423,13 +1423,13 @@ export default function AbstractSubmissionClient() {
       sub.authors && sub.authors.length > 0
         ? sub.authors.map((a) => ({ ...a }))
         : [
-            {
-              id: "auth-1",
-              name: sub.presentingAuthor || "",
-              affiliationId: hydratedAffiliations[0]?.id || "aff-1",
-              isPresenter: true,
-            },
-          ];
+          {
+            id: "auth-1",
+            name: sub.presentingAuthor || "",
+            affiliationId: hydratedAffiliations[0]?.id || "aff-1",
+            isPresenter: true,
+          },
+        ];
 
     const widthInches = clampFigureWidthInches(
       sub.graphic?.widthInches ?? DEFAULT_FIGURE_WIDTH_IN
@@ -1463,14 +1463,14 @@ export default function AbstractSubmissionClient() {
     setGraphicMeta(
       asset.retainedMeta
         ? {
-            fileName: asset.retainedMeta.fileName,
-            fileSizeBytes: asset.retainedMeta.fileSizeBytes,
-            mimeType: asset.retainedMeta.mimeType,
-            widthPx: asset.retainedMeta.widthPx,
-            heightPx: asset.retainedMeta.heightPx,
-            detectedDpi: asset.retainedMeta.detectedDpi,
-            dpiSource: asset.retainedMeta.dpiSource,
-          }
+          fileName: asset.retainedMeta.fileName,
+          fileSizeBytes: asset.retainedMeta.fileSizeBytes,
+          mimeType: asset.retainedMeta.mimeType,
+          widthPx: asset.retainedMeta.widthPx,
+          heightPx: asset.retainedMeta.heightPx,
+          detectedDpi: asset.retainedMeta.detectedDpi,
+          dpiSource: asset.retainedMeta.dpiSource,
+        }
         : null
     );
     setGraphicError(null);
@@ -1615,11 +1615,10 @@ export default function AbstractSubmissionClient() {
         </label>
         <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-700 tabular-nums">
           <span
-            className={`px-2.5 py-0.5 rounded-full border ${
-              isRightWrappedWidth
+            className={`px-2.5 py-0.5 rounded-full border ${isRightWrappedWidth
                 ? "bg-indigo-50 text-indigo-900 border-indigo-200"
                 : "bg-slate-100 text-slate-800 border-slate-300"
-            }`}
+              }`}
           >
             {isRightWrappedWidth
               ? `Right of Text • Squared Wrap (<${RIGHT_WRAP_THRESHOLD_IN}")`
@@ -1630,11 +1629,10 @@ export default function AbstractSubmissionClient() {
           </span>
           {effectiveDpiAtWidth !== null && (
             <span
-              className={`px-2.5 py-0.5 rounded-full border ${
-                effectiveDpiAtWidth >= MIN_GRAPHIC_DPI
+              className={`px-2.5 py-0.5 rounded-full border ${effectiveDpiAtWidth >= MIN_GRAPHIC_DPI
                   ? "bg-emerald-50 border-emerald-200 text-emerald-800"
                   : "bg-amber-50 border-amber-200 text-amber-800"
-              }`}
+                }`}
             >
               Effective print res: ~{effectiveDpiAtWidth} DPI
             </span>
@@ -1684,11 +1682,10 @@ export default function AbstractSubmissionClient() {
             key={preset.value}
             type="button"
             onClick={() => handleSetFigureWidth(preset.value)}
-            className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition-colors cursor-pointer ${
-              Math.abs(figureWidthInches - preset.value) < 0.06
+            className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition-colors cursor-pointer ${Math.abs(figureWidthInches - preset.value) < 0.06
                 ? "bg-primary text-white border-primary"
                 : "bg-slate-50 text-slate-800 border-slate-300 hover:border-primary hover:text-primary"
-            }`}
+              }`}
           >
             {preset.label}
           </button>
@@ -1962,13 +1959,12 @@ export default function AbstractSubmissionClient() {
       {overviewNotice && (
         <div
           role="status"
-          className={`print:hidden rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs shadow-2xs border ${
-            overviewNotice.tone === "emerald"
+          className={`print:hidden rounded-2xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs shadow-2xs border ${overviewNotice.tone === "emerald"
               ? "bg-emerald-50 border-emerald-200 text-emerald-950"
               : overviewNotice.tone === "amber"
-              ? "bg-amber-50 border-amber-200 text-amber-950"
-              : "bg-sky-50 border-sky-200 text-sky-950"
-          }`}
+                ? "bg-amber-50 border-amber-200 text-amber-950"
+                : "bg-sky-50 border-sky-200 text-sky-950"
+            }`}
         >
           <div className="flex items-start sm:items-center gap-2">
             <Cloud size={15} className="text-primary shrink-0 mt-0.5 sm:mt-0" />
@@ -2008,18 +2004,16 @@ export default function AbstractSubmissionClient() {
                   void handleReturnToOverview();
                 }
               }}
-              className={`w-full text-left px-3 py-2.5 rounded-xl border transition-colors cursor-pointer flex items-center gap-2 ${
-                viewMode === "overview"
+              className={`w-full text-left px-3 py-2.5 rounded-xl border transition-colors cursor-pointer flex items-center gap-2 ${viewMode === "overview"
                   ? "bg-slate-900 text-white border-slate-900 shadow-xs"
                   : "bg-white text-slate-700 border-slate-200 hover:border-primary/40 hover:text-primary"
-              }`}
+                }`}
             >
               <span
-                className={`w-5 h-5 rounded-full text-[11px] font-bold tabular-nums flex items-center justify-center shrink-0 ${
-                  viewMode === "overview"
+                className={`w-5 h-5 rounded-full text-[11px] font-bold tabular-nums flex items-center justify-center shrink-0 ${viewMode === "overview"
                     ? "bg-white text-slate-900"
                     : "bg-slate-100 text-slate-600"
-                }`}
+                  }`}
               >
                 0
               </span>
@@ -2040,24 +2034,22 @@ export default function AbstractSubmissionClient() {
                       : `Jump to Stage ${st.id}: ${st.title}`
                   }
                   onClick={() => handleJumpToStage(st.id)}
-                  className={`w-full text-left px-3 py-2.5 rounded-xl border transition-colors flex items-center gap-2 ${
-                    viewMode === "overview"
+                  className={`w-full text-left px-3 py-2.5 rounded-xl border transition-colors flex items-center gap-2 ${viewMode === "overview"
                       ? "bg-slate-50 text-slate-400 border-slate-200/80 cursor-not-allowed opacity-75"
                       : isActive
-                      ? "bg-primary text-white border-primary shadow-xs cursor-pointer"
-                      : isCompleted
-                      ? "bg-emerald-50 text-emerald-900 border-emerald-200 hover:border-emerald-400 cursor-pointer"
-                      : "bg-white text-slate-600 border-slate-200 hover:border-primary/40 hover:text-primary cursor-pointer"
-                  }`}
+                        ? "bg-primary text-white border-primary shadow-xs cursor-pointer"
+                        : isCompleted
+                          ? "bg-emerald-50 text-emerald-900 border-emerald-200 hover:border-emerald-400 cursor-pointer"
+                          : "bg-white text-slate-600 border-slate-200 hover:border-primary/40 hover:text-primary cursor-pointer"
+                    }`}
                 >
                   <span
-                    className={`w-5 h-5 rounded-full text-[11px] font-bold tabular-nums flex items-center justify-center shrink-0 ${
-                      isActive
+                    className={`w-5 h-5 rounded-full text-[11px] font-bold tabular-nums flex items-center justify-center shrink-0 ${isActive
                         ? "bg-white text-primary"
                         : isCompleted
-                        ? "bg-emerald-600 text-white"
-                        : "bg-slate-100 text-slate-500"
-                    }`}
+                          ? "bg-emerald-600 text-white"
+                          : "bg-slate-100 text-slate-500"
+                      }`}
                   >
                     {isCompleted ? "✓" : st.id}
                   </span>
@@ -2296,11 +2288,10 @@ export default function AbstractSubmissionClient() {
                             {sub.id}
                           </span>
                           <span
-                            className={`text-[10.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
-                              sub.status === "Reviewed"
+                            className={`text-[10.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${sub.status === "Reviewed"
                                 ? "text-emerald-700 bg-emerald-50 border-emerald-200"
                                 : "text-amber-700 bg-amber-50 border-amber-200"
-                            }`}
+                              }`}
                           >
                             {sub.status === "Reviewed" ? sub.decision : "Pending Review"}
                           </span>
@@ -2379,1297 +2370,1283 @@ export default function AbstractSubmissionClient() {
 
       {/* STAGES 1–7: 1-Inch Margin Calibrated Stage Sheet (1,020px outer = 8.5" @ 120 px/in; Stages 1-6 use 828px interior -> 780px = 6.5" text col; Stage 7 renders full 1,020px sheet directly) */}
       {viewMode === "editor" && (
-      <section
-        className={
-          currentStage === 7
-            ? "w-full space-y-6"
-            : "w-full bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 lg:px-[94px] py-6 sm:py-8 shadow-xs space-y-6 print:hidden"
-        }
-      >
-        <div
+        <section
           className={
             currentStage === 7
-              ? "print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-6 shadow-xs space-y-4"
-              : "print:hidden space-y-4"
+              ? "w-full space-y-6"
+              : "w-full bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 lg:px-[94px] py-6 sm:py-8 shadow-xs space-y-6 print:hidden"
           }
         >
-          {/* Active Editor Mode & Deadline Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
-            {editingSubmissionId ? (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-950 text-xs font-semibold">
-                <Edit3 size={12} className="text-amber-700" />
-                Editing Submitted Abstract ({editingSubmissionId})
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-900 text-xs font-semibold">
-                <FilePlus2 size={12} className="text-primary" />
-                New Draft Session
-              </span>
-            )}
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-600 tabular-nums">
-              <Clock size={12} className="text-primary" />
-              Cutoff: <strong className="text-slate-800">{deadlineInfo.formattedDeadline}</strong>
-            </span>
-          </div>
-
-          {deadlineInfo.isPastDeadline && (
-            <div
-              role="alert"
-              className="bg-red-50 border border-red-200 text-red-800 px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
-            >
-              <Lock size={14} className="shrink-0" />
-              <span>
-                The submission cutoff ({deadlineInfo.formattedDeadline}) has passed; final submission is locked.
-              </span>
-            </div>
-          )}
-
-          <div className="space-y-3 border-b border-slate-200 pb-4">
-            {/* Pro-tip directly above Stage Titles */}
-            <div className="bg-sky-50 border border-sky-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-[13px] text-sky-950 flex items-center gap-2 shadow-2xs">
-              <Sparkles size={15} className="text-primary shrink-0" />
-              <span>
-                <strong className="font-bold text-primary">Pro-tip:</strong> Copy paste from Word to include special characters, super/subscripts, and equations.
-              </span>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-primary tabular-nums">
-                  Stage {currentStage} of {WORKFLOW_STAGES.length} • 1&quot;-Margin Sheet Calibration (1,020px Page / 780px Measure)
+          <div
+            className={
+              currentStage === 7
+                ? "print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-6 shadow-xs space-y-4"
+                : "print:hidden space-y-4"
+            }
+          >
+            {/* Active Editor Mode & Deadline Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
+              {editingSubmissionId ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-950 text-xs font-semibold">
+                  <Edit3 size={12} className="text-amber-700" />
+                  Editing Submitted Abstract ({editingSubmissionId})
                 </span>
-                <h2 className="font-serif text-xl sm:text-2xl font-semibold text-slate-900 mt-0.5">
-                  {WORKFLOW_STAGES[currentStage - 1]?.title}
-                </h2>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-900 text-xs font-semibold">
+                  <FilePlus2 size={12} className="text-primary" />
+                  New Draft Session
+                </span>
+              )}
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-600 tabular-nums">
+                <Clock size={12} className="text-primary" />
+                Cutoff: <strong className="text-slate-800">{deadlineInfo.formattedDeadline}</strong>
+              </span>
+            </div>
+
+            {deadlineInfo.isPastDeadline && (
+              <div
+                role="alert"
+                className="bg-red-50 border border-red-200 text-red-800 px-4 py-2.5 rounded-xl text-xs flex items-center gap-2"
+              >
+                <Lock size={14} className="shrink-0" />
+                <span>
+                  The submission cutoff ({deadlineInfo.formattedDeadline}) has passed; final submission is locked.
+                </span>
               </div>
-              {currentStage === 7 && (
+            )}
+
+            <div className="space-y-3 border-b border-slate-200 pb-4">
+              {/* Pro-tip directly above Stage Titles */}
+              <div className="bg-sky-50 border border-sky-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-[13px] text-sky-950 flex items-center gap-2 shadow-2xs">
+                <Sparkles size={15} className="text-primary shrink-0" />
+                <span>
+                  <strong className="font-bold text-primary">Pro-tip:</strong> Copy paste from Word to include special characters, super/subscripts, and equations.
+                </span>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-primary tabular-nums">
+                    Stage {currentStage} of {WORKFLOW_STAGES.length} • 1&quot;-Margin Sheet Calibration (1,020px Page / 780px Measure)
+                  </span>
+                  <h2 className="font-serif text-xl sm:text-2xl font-semibold text-slate-900 mt-0.5">
+                    {WORKFLOW_STAGES[currentStage - 1]?.title}
+                  </h2>
+                </div>
+                {currentStage === 7 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== "undefined") window.print();
+                    }}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border-2 border-slate-300 bg-white hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
+                  >
+                    <Printer size={14} className="text-primary" />
+                    <span>Print / Save Formatted PDF</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {stageError && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2.5">
+                <AlertCircle size={17} className="shrink-0 mt-0.5" />
+                <span>{stageError}</span>
+              </div>
+            )}
+
+            {pasteNotice && (
+              <div className="bg-amber-50 border border-amber-200 text-amber-900 px-4 py-2.5 rounded-xl text-xs flex items-center justify-between gap-2">
+                <span>{pasteNotice}</span>
                 <button
                   type="button"
-                  onClick={() => {
-                    if (typeof window !== "undefined") window.print();
-                  }}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border-2 border-slate-300 bg-white hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 transition-colors cursor-pointer"
+                  onClick={() => setPasteNotice(null)}
+                  className="text-amber-700 hover:text-amber-950 font-semibold cursor-pointer"
+                  aria-label="Dismiss paste notice"
                 >
-                  <Printer size={14} className="text-primary" />
-                  <span>Print / Save Formatted PDF</span>
+                  <X size={14} />
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
-          {stageError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2.5">
-              <AlertCircle size={17} className="shrink-0 mt-0.5" />
-              <span>{stageError}</span>
-            </div>
-          )}
-
-          {pasteNotice && (
-            <div className="bg-amber-50 border border-amber-200 text-amber-900 px-4 py-2.5 rounded-xl text-xs flex items-center justify-between gap-2">
-              <span>{pasteNotice}</span>
-              <button
-                type="button"
-                onClick={() => setPasteNotice(null)}
-                className="text-amber-700 hover:text-amber-950 font-semibold cursor-pointer"
-                aria-label="Dismiss paste notice"
-              >
-                <X size={14} />
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* STAGE 1: Title, Emails, Format & Student Opt-In */}
-        {currentStage === 1 && (
-          <div className="space-y-5">
-            <div>
-              <label htmlFor="abs-title" className={LABEL_CLASS}>
-                Presentation Title <span className="text-red-600">*</span>
-              </label>
-              <input
-                id="abs-title"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                onPaste={(e) =>
-                  applyWordPasteToField(e, title, setTitle, { multiline: false })
-                }
-                placeholder="e.g., Subsea Membrane-Inlet Mass Spectrometry of Dissolved CO₂ & C₁–C₇ Hydrocarbons"
-                className={INPUT_CLASS}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* STAGE 1: Title, Emails, Format & Student Opt-In */}
+          {currentStage === 1 && (
+            <div className="space-y-5">
               <div>
-                <label htmlFor="abs-email" className={LABEL_CLASS}>
-                  Presenter&apos;s Corresponding Email <span className="text-red-600">*</span>
+                <label htmlFor="abs-title" className={LABEL_CLASS}>
+                  Presentation Title <span className="text-red-600">*</span>
                 </label>
                 <input
-                  id="abs-email"
-                  type="email"
-                  value={correspondingEmail}
-                  onChange={(e) => setCorrespondingEmail(e.target.value)}
+                  id="abs-title"
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   onPaste={(e) =>
-                    applyWordPasteToField(e, correspondingEmail, setCorrespondingEmail, {
-                      multiline: false,
-                    })
+                    applyWordPasteToField(e, title, setTitle, { multiline: false })
                   }
-                  placeholder="presenter@institution.edu"
+                  placeholder="e.g., Subsea Membrane-Inlet Mass Spectrometry of Dissolved CO₂ & C₁–C₇ Hydrocarbons"
                   className={INPUT_CLASS}
                 />
               </div>
 
-              <div>
-                <label htmlFor="abs-secondary-email" className={LABEL_CLASS}>
-                  Secondary Email (Optional)
-                </label>
-                <input
-                  id="abs-secondary-email"
-                  type="email"
-                  value={secondaryEmail}
-                  onChange={(e) => setSecondaryEmail(e.target.value)}
-                  onPaste={(e) =>
-                    applyWordPasteToField(e, secondaryEmail, setSecondaryEmail, {
-                      multiline: false,
-                    })
-                  }
-                  placeholder="backup.contact@institution.edu"
-                  className={INPUT_CLASS}
-                />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label htmlFor="abs-email" className={LABEL_CLASS}>
+                    Presenter&apos;s Corresponding Email <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    id="abs-email"
+                    type="email"
+                    value={correspondingEmail}
+                    onChange={(e) => setCorrespondingEmail(e.target.value)}
+                    onPaste={(e) =>
+                      applyWordPasteToField(e, correspondingEmail, setCorrespondingEmail, {
+                        multiline: false,
+                      })
+                    }
+                    placeholder="presenter@institution.edu"
+                    className={INPUT_CLASS}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="abs-secondary-email" className={LABEL_CLASS}>
+                    Secondary Email (Optional)
+                  </label>
+                  <input
+                    id="abs-secondary-email"
+                    type="email"
+                    value={secondaryEmail}
+                    onChange={(e) => setSecondaryEmail(e.target.value)}
+                    onPaste={(e) =>
+                      applyWordPasteToField(e, secondaryEmail, setSecondaryEmail, {
+                        multiline: false,
+                      })
+                    }
+                    placeholder="backup.contact@institution.edu"
+                    className={INPUT_CLASS}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="abs-format" className={LABEL_CLASS}>
+                    Preferred Format <span className="text-red-600">*</span>
+                  </label>
+                  <select
+                    id="abs-format"
+                    value={presentationFormat}
+                    onChange={(e) =>
+                      setPresentationFormat(e.target.value as PresentationFormat)
+                    }
+                    className={INPUT_CLASS}
+                  >
+                    {PRESENTATION_FORMAT_OPTIONS.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
+              {/* Interactive Student Opt-In Button */}
+              <div className="pt-2">
+                <span className={LABEL_CLASS}>
+                  Graduate Student Travel Award Consideration ({workshop.student_award_amount})
+                </span>
+                <button
+                  type="button"
+                  aria-pressed={studentTravelAwardApplicant}
+                  onClick={() => setStudentTravelAwardApplicant((prev) => !prev)}
+                  className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${studentTravelAwardApplicant
+                      ? "bg-teal-50 border-secondary text-slate-900 shadow-2xs"
+                      : "bg-white border-slate-300 hover:border-primary text-slate-800"
+                    }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={`p-2.5 rounded-xl shrink-0 ${studentTravelAwardApplicant
+                          ? "bg-secondary text-white"
+                          : "bg-slate-200/80 text-slate-700"
+                        }`}
+                    >
+                      <GraduationCap size={20} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-slate-950">
+                        {studentTravelAwardApplicant
+                          ? "Opted In: Applying for Student Travel Award"
+                          : "Opt In for Graduate Student Travel Award (Click to Enable)"}
+                      </p>
+                      <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+                        Full-time M.S., M.A., or Ph.D. students presenting in person are eligible. Supporting student &amp; faculty advisor letters follow{" "}
+                        <Link
+                          href="/student-awards"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-primary font-semibold hover:underline"
+                        >
+                          Student Award Guidelines
+                        </Link>
+                        .
+                      </p>
+                    </div>
+                  </div>
+
+                  <span
+                    className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider shrink-0 self-start sm:self-center ${studentTravelAwardApplicant
+                        ? "bg-secondary text-white"
+                        : "bg-slate-100 border border-slate-300 text-slate-800"
+                      }`}
+                  >
+                    {studentTravelAwardApplicant ? "Opted In ✓" : "Opt In"}
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* STAGE 2: Unlimited Affiliations & Locations */}
+          {currentStage === 2 && (
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-slate-700">
+                  Add every participating institution along with its city/state/country location. You will assign authors to these affiliations in Stage 3.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleAddAffiliation}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white hover:bg-sky-800 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
+                >
+                  <Plus size={14} />
+                  <span>Add Affiliation</span>
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {affiliations.map((aff, index) => (
+                  <div
+                    key={aff.id}
+                    className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-[#FAFBFD] border border-slate-300/90 rounded-xl p-3.5 sm:p-4 shadow-2xs"
+                  >
+                    <div className="md:col-span-1 flex items-center gap-2 pb-1.5">
+                      <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary text-xs font-bold flex items-center justify-center tabular-nums">
+                        #{index + 1}
+                      </span>
+                    </div>
+
+                    <div className="md:col-span-6">
+                      <label className={LABEL_CLASS}>
+                        Institute / Organization <span className="text-red-600">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={aff.institution}
+                        onChange={(e) =>
+                          handleUpdateAffiliation(aff.id, "institution", e.target.value)
+                        }
+                        onPaste={(e) =>
+                          applyWordPasteToField(
+                            e,
+                            aff.institution,
+                            (val) => handleUpdateAffiliation(aff.id, "institution", val),
+                            { multiline: false }
+                          )
+                        }
+                        placeholder={`Institution #${index + 1} (e.g., Woods Hole Oceanographic Institution)`}
+                        className={INPUT_CLASS}
+                      />
+                    </div>
+
+                    <div className="md:col-span-4">
+                      <label className={LABEL_CLASS}>
+                        Institute Location <span className="text-red-600">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={aff.location || ""}
+                        onChange={(e) =>
+                          handleUpdateAffiliation(aff.id, "location", e.target.value)
+                        }
+                        onPaste={(e) =>
+                          applyWordPasteToField(
+                            e,
+                            aff.location || "",
+                            (val) => handleUpdateAffiliation(aff.id, "location", val),
+                            { multiline: false }
+                          )
+                        }
+                        placeholder="City, State/Province, Country"
+                        className={INPUT_CLASS}
+                      />
+                    </div>
+
+                    <div className="md:col-span-1 flex justify-end pb-1">
+                      {affiliations.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveAffiliation(aff.id)}
+                          aria-label={`Remove affiliation ${index + 1}`}
+                          className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* STAGE 3: Single Presenter & Unlimited Co-Authors with Affiliation Dropdown */}
+          {currentStage === 3 && (
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-slate-700">
+                  Select <strong>1 Presenter</strong> using the radio selector and add any co-authors in presentation order. Only 1 presenter is permitted per abstract (underlined on the formatted sheet).
+                </p>
+                <button
+                  type="button"
+                  onClick={handleAddCoAuthor}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white hover:bg-sky-800 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
+                >
+                  <UserPlus size={14} />
+                  <span>Add Co-Author</span>
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {authors.map((author, index) => (
+                  <div
+                    key={author.id}
+                    className={`grid grid-cols-1 md:grid-cols-12 gap-3 items-center rounded-xl p-3.5 sm:p-4 border transition-colors ${author.isPresenter
+                        ? "bg-sky-50/75 border-primary/55 shadow-2xs"
+                        : "bg-[#FAFBFD] border-slate-300/90 shadow-2xs"
+                      }`}
+                  >
+                    <div className="md:col-span-5 flex items-center gap-2.5 min-w-0">
+                      <span className="text-xs font-bold text-slate-500 w-6 text-center shrink-0 tabular-nums">
+                        #{index + 1}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <label className="hems-label">
+                          {author.isPresenter ? (
+                            <>
+                              Presenter Name <span className="text-red-600">*</span>
+                            </>
+                          ) : (
+                            `Co-Author #${index + 1}`
+                          )}
+                        </label>
+                        <input
+                          type="text"
+                          value={author.name}
+                          aria-label={`Author ${index + 1} name`}
+                          onChange={(e) => handleUpdateAuthorName(author.id, e.target.value)}
+                          onPaste={(e) =>
+                            applyWordPasteToField(
+                              e,
+                              author.name,
+                              (val) => handleUpdateAuthorName(author.id, val),
+                              { multiline: false }
+                            )
+                          }
+                          placeholder={
+                            author.isPresenter ? "Presenter Full Name" : "Co-Author Full Name"
+                          }
+                          className={INPUT_CLASS}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="md:col-span-5 min-w-0">
+                      <label className="hems-label">
+                        Institutional Affiliation
+                      </label>
+                      <select
+                        value={author.affiliationId}
+                        aria-label={`Affiliation for author ${index + 1}`}
+                        onChange={(e) =>
+                          handleUpdateAuthorAffiliation(author.id, e.target.value)
+                        }
+                        className={INPUT_CLASS}
+                      >
+                        {affiliations.map((aff, affIdx) => (
+                          <option key={aff.id} value={aff.id}>
+                            {affIdx + 1}.{" "}
+                            {aff.institution.trim()
+                              ? `${aff.institution.trim()}${aff.location?.trim() ? ` — ${aff.location.trim()}` : ""
+                              }`
+                              : `Affiliation #${affIdx + 1}`}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-3 pt-4 md:pt-5">
+                      <label className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-950 cursor-pointer select-none">
+                        <input
+                          type="radio"
+                          name="hems-single-presenter"
+                          checked={author.isPresenter}
+                          onChange={() => handleSelectSinglePresenter(author.id)}
+                          className="h-4 w-4 border-slate-400 text-primary focus:ring-primary"
+                        />
+                        <span>Presenter</span>
+                      </label>
+                      {authors.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveAuthor(author.id)}
+                          aria-label={`Remove author ${index + 1}`}
+                          className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* STAGE 4: Technical Track & 300-Char Synopsis */}
+          {currentStage === 4 && (
+            <div className="space-y-5">
               <div>
-                <label htmlFor="abs-format" className={LABEL_CLASS}>
-                  Preferred Format <span className="text-red-600">*</span>
+                <label htmlFor="abs-track" className={LABEL_CLASS}>
+                  Technical Research Track <span className="text-red-600">*</span>
                 </label>
                 <select
-                  id="abs-format"
-                  value={presentationFormat}
-                  onChange={(e) =>
-                    setPresentationFormat(e.target.value as PresentationFormat)
-                  }
+                  id="abs-track"
+                  value={researchTrack}
+                  onChange={(e) => setResearchTrack(e.target.value as ResearchTrack)}
                   className={INPUT_CLASS}
                 >
-                  {PRESENTATION_FORMAT_OPTIONS.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
+                  {RESEARCH_TRACK_OPTIONS.map((track) => (
+                    <option key={track} value={track}>
+                      {track}
                     </option>
                   ))}
                 </select>
               </div>
-            </div>
 
-            {/* Interactive Student Opt-In Button */}
-            <div className="pt-2">
-              <span className={LABEL_CLASS}>
-                Graduate Student Travel Award Consideration ({workshop.student_award_amount})
-              </span>
-              <button
-                type="button"
-                aria-pressed={studentTravelAwardApplicant}
-                onClick={() => setStudentTravelAwardApplicant((prev) => !prev)}
-                className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-                  studentTravelAwardApplicant
-                    ? "bg-teal-50 border-secondary text-slate-900 shadow-2xs"
-                    : "bg-white border-slate-300 hover:border-primary text-slate-800"
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <div
-                    className={`p-2.5 rounded-xl shrink-0 ${
-                      studentTravelAwardApplicant
-                        ? "bg-secondary text-white"
-                        : "bg-slate-200/80 text-slate-700"
-                    }`}
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <label
+                    htmlFor="abs-summary"
+                    className="hems-label mb-0"
                   >
-                    <GraduationCap size={20} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-950">
-                      {studentTravelAwardApplicant
-                        ? "Opted In: Applying for Student Travel Award"
-                        : "Opt In for Graduate Student Travel Award (Click to Enable)"}
-                    </p>
-                    <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                      Full-time M.S., M.A., or Ph.D. students presenting in person are eligible. Supporting student &amp; faculty advisor letters follow{" "}
-                      <Link
-                        href="/student-awards"
-                        onClick={(e) => e.stopPropagation()}
-                        className="text-primary font-semibold hover:underline"
-                      >
-                        Student Award Guidelines
-                      </Link>
-                      .
-                    </p>
-                  </div>
+                    Short Synopsis{" "}
+                    <span className="hems-label-hint">({SYNOPSIS_MAX_CHARS} chars max)</span>{" "}
+                    <span className="text-red-600">*</span>
+                  </label>
+                  <span
+                    className={`text-xs font-bold tabular-nums ${summary.length >= SYNOPSIS_MAX_CHARS
+                        ? "text-amber-600"
+                        : "text-slate-600"
+                      }`}
+                  >
+                    {summary.length} / {SYNOPSIS_MAX_CHARS} chars
+                  </span>
                 </div>
-
-                <span
-                  className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider shrink-0 self-start sm:self-center ${
-                    studentTravelAwardApplicant
-                      ? "bg-secondary text-white"
-                      : "bg-slate-100 border border-slate-300 text-slate-800"
-                  }`}
-                >
-                  {studentTravelAwardApplicant ? "Opted In ✓" : "Opt In"}
-                </span>
-              </button>
+                <textarea
+                  id="abs-summary"
+                  rows={4}
+                  maxLength={SYNOPSIS_MAX_CHARS}
+                  value={summary}
+                  onChange={(e) => setSummary(e.target.value)}
+                  onPaste={(e) =>
+                    applyWordPasteToField(
+                      e,
+                      summary,
+                      setSummary,
+                      { multiline: false, maxChars: SYNOPSIS_MAX_CHARS },
+                      (trimmed) => {
+                        if (trimmed > 0) {
+                          setPasteNotice(
+                            `Word paste normalized and trimmed ${trimmed} characters to fit the ${SYNOPSIS_MAX_CHARS}-character Synopsis limit.`
+                          );
+                        }
+                      }
+                    )
+                  }
+                  placeholder={`Write a concise headline synopsis (maximum ${SYNOPSIS_MAX_CHARS} characters including spaces)...`}
+                  className={`${INPUT_CLASS} leading-relaxed`}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* STAGE 2: Unlimited Affiliations & Locations */}
-        {currentStage === 2 && (
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm text-slate-700">
-                Add every participating institution along with its city/state/country location. You will assign authors to these affiliations in Stage 3.
-              </p>
-              <button
-                type="button"
-                onClick={handleAddAffiliation}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white hover:bg-sky-800 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
-              >
-                <Plus size={14} />
-                <span>Add Affiliation</span>
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              {affiliations.map((aff, index) => (
-                <div
-                  key={aff.id}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-[#FAFBFD] border border-slate-300/90 rounded-xl p-3.5 sm:p-4 shadow-2xs"
-                >
-                  <div className="md:col-span-1 flex items-center gap-2 pb-1.5">
-                    <span className="w-8 h-8 rounded-lg bg-primary/10 text-primary text-xs font-bold flex items-center justify-center tabular-nums">
-                      #{index + 1}
-                    </span>
-                  </div>
-
-                  <div className="md:col-span-6">
-                    <label className={LABEL_CLASS}>
-                      Institute / Organization <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={aff.institution}
-                      onChange={(e) =>
-                        handleUpdateAffiliation(aff.id, "institution", e.target.value)
-                      }
-                      onPaste={(e) =>
-                        applyWordPasteToField(
-                          e,
-                          aff.institution,
-                          (val) => handleUpdateAffiliation(aff.id, "institution", val),
-                          { multiline: false }
-                        )
-                      }
-                      placeholder={`Institution #${index + 1} (e.g., Woods Hole Oceanographic Institution)`}
-                      className={INPUT_CLASS}
-                    />
-                  </div>
-
-                  <div className="md:col-span-4">
-                    <label className={LABEL_CLASS}>
-                      Institute Location <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={aff.location || ""}
-                      onChange={(e) =>
-                        handleUpdateAffiliation(aff.id, "location", e.target.value)
-                      }
-                      onPaste={(e) =>
-                        applyWordPasteToField(
-                          e,
-                          aff.location || "",
-                          (val) => handleUpdateAffiliation(aff.id, "location", val),
-                          { multiline: false }
-                        )
-                      }
-                      placeholder="City, State/Province, Country"
-                      className={INPUT_CLASS}
-                    />
-                  </div>
-
-                  <div className="md:col-span-1 flex justify-end pb-1">
-                    {affiliations.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveAffiliation(aff.id)}
-                        aria-label={`Remove affiliation ${index + 1}`}
-                        className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+          {/* STAGE 5: Collapsible Figure Input (Top w/ Website Warning) + 3,000-Char Raw Input + Live Preview */}
+          {currentStage === 5 && (
+            <div className="space-y-5">
+              {/* 1. Figure Upload & Width Interface Card (Above Raw Text Input + Hide Toggle + Website Warning) */}
+              <div className="bg-white border-2 border-slate-300/90 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <h3 className="hems-label mb-0 flex items-center gap-1.5">
+                      <ImageIcon size={14} className="text-primary" />
+                      Optional High-Resolution Figure ({MIN_GRAPHIC_DPI} DPI Min) &amp; Width Control
+                    </h3>
+                    {figurePanelHidden ? (
+                      <p className="text-[11px] text-slate-600 mt-0.5 truncate">
+                        {hasAttachedGraphic
+                          ? `${graphicFile?.name || "Attached submission figure"} • ${figureWidthInches.toFixed(2)}" (${isRightWrappedWidth ? "Right-wrap <3.5\"" : "Centered ≥3.5\""
+                          }) • Note: Figure may be used on the HEMS website`
+                          : `Hidden • Optional figure (${figureWidthInches.toFixed(2)}" ${isRightWrappedWidth ? "right-wrap" : "centered"
+                          }) • Note: Submitted figures may be used on the HEMS website`}
+                      </p>
+                    ) : (
+                      <p className="text-[11px] text-slate-600 mt-0.5">
+                        Widths &lt; {RIGHT_WRAP_THRESHOLD_IN}&quot; float to the right of text with squared wrapping; ≥ {RIGHT_WRAP_THRESHOLD_IN}&quot; render centered.
+                      </p>
                     )}
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setFigurePanelHidden((prev) => !prev)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-700 transition-colors cursor-pointer shrink-0"
+                  >
+                    {figurePanelHidden ? (
+                      <>
+                        <Eye size={14} />
+                        <span>Show Figure Input</span>
+                      </>
+                    ) : (
+                      <>
+                        <EyeOff size={14} />
+                        <span>Hide</span>
+                      </>
+                    )}
+                  </button>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {/* STAGE 3: Single Presenter & Unlimited Co-Authors with Affiliation Dropdown */}
-        {currentStage === 3 && (
-          <div className="space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm text-slate-700">
-                Select <strong>1 Presenter</strong> using the radio selector and add any co-authors in presentation order. Only 1 presenter is permitted per abstract (underlined on the formatted sheet).
-              </p>
-              <button
-                type="button"
-                onClick={handleAddCoAuthor}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-white hover:bg-sky-800 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
-              >
-                <UserPlus size={14} />
-                <span>Add Co-Author</span>
-              </button>
-            </div>
+                {!figurePanelHidden && (
+                  <div className="space-y-4 pt-2 border-t border-slate-200">
+                    {/* Website Usage Warning */}
+                    <div
+                      role="note"
+                      className="bg-amber-50 border border-amber-300 text-amber-950 px-3.5 py-2.5 rounded-xl text-xs flex items-start gap-2.5"
+                    >
+                      <AlertTriangle size={16} className="text-amber-700 shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="font-bold">Website Usage Warning:</strong> Uploaded figures and captions may be used on the HEMS website (such as workshop highlights, technical program pages, or online proceedings). Please only upload graphics cleared for public web display.
+                      </span>
+                    </div>
 
-            <div className="space-y-3">
-              {authors.map((author, index) => (
-                <div
-                  key={author.id}
-                  className={`grid grid-cols-1 md:grid-cols-12 gap-3 items-center rounded-xl p-3.5 sm:p-4 border transition-colors ${
-                    author.isPresenter
-                      ? "bg-sky-50/75 border-primary/55 shadow-2xs"
-                      : "bg-[#FAFBFD] border-slate-300/90 shadow-2xs"
-                  }`}
-                >
-                  <div className="md:col-span-5 flex items-center gap-2.5 min-w-0">
-                    <span className="text-xs font-bold text-slate-500 w-6 text-center shrink-0 tabular-nums">
-                      #{index + 1}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <label className="hems-label">
-                        {author.isPresenter ? (
-                          <>
-                            Presenter Name <span className="text-red-600">*</span>
-                          </>
-                        ) : (
-                          `Co-Author #${index + 1}`
-                        )}
-                      </label>
-                      <input
-                        type="text"
-                        value={author.name}
-                        aria-label={`Author ${index + 1} name`}
-                        onChange={(e) => handleUpdateAuthorName(author.id, e.target.value)}
+                    {graphicError && (
+                      <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2">
+                        <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                        <span>{graphicError}</span>
+                      </div>
+                    )}
+
+                    <div className="border-2 border-dashed border-slate-300 hover:border-primary/70 rounded-2xl p-5 sm:p-6 bg-slate-50/40 transition-colors space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="flex items-start gap-3 min-w-0">
+                          <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
+                            <ImageIcon size={22} />
+                          </div>
+                          <div className="min-w-0">
+                            {checkingGraphic ? (
+                              <p className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                                <Loader2 size={15} className="animate-spin text-primary" />
+                                Checking graphic resolution ({MIN_GRAPHIC_DPI} DPI minimum)...
+                              </p>
+                            ) : hasAttachedGraphic && displayGraphicMeta ? (
+                              <>
+                                <p className="text-sm font-semibold text-slate-900 truncate">
+                                  {graphicFile?.name || "Existing Submitted Figure (Retained)"}
+                                </p>
+                                <p className="text-xs text-emerald-700 font-semibold tabular-nums mt-0.5">
+                                  Verified {displayGraphicMeta.detectedDpi} DPI ({displayGraphicMeta.dpiSource}) •{" "}
+                                  {displayGraphicMeta.widthPx}×{displayGraphicMeta.heightPx} px
+                                  {graphicFile ? ` • ${formatFileSize(graphicFile.size)}` : " • Retained from submission"}
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <p className="text-sm font-semibold text-slate-900">
+                                  Upload Scientific Figure ({MIN_GRAPHIC_DPI} DPI Minimum — Optional)
+                                </p>
+                                <p className="text-xs text-slate-600 mt-0.5">
+                                  Accepted: PNG, JPEG, WebP (≥{MIN_GRAPHIC_DPI} DPI metadata at ≥600×300 px, or ≥900 px wide) or clean vector SVG.
+                                </p>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          {hasAttachedGraphic && (
+                            <button
+                              type="button"
+                              onClick={handleRemoveGraphic}
+                              className="px-3.5 py-2 rounded-lg border border-red-200 bg-white text-xs font-semibold text-red-600 hover:bg-red-50 cursor-pointer"
+                            >
+                              Remove Graphic
+                            </button>
+                          )}
+                          <label
+                            htmlFor="abs-graphic-upload"
+                            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
+                          >
+                            <Upload size={14} />
+                            <span>{hasAttachedGraphic ? "Replace Graphic" : "Choose Graphic"}</span>
+                          </label>
+                          <input
+                            id="abs-graphic-upload"
+                            ref={graphicInputRef}
+                            type="file"
+                            accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml"
+                            onChange={(e) => void handleGraphicChange(e)}
+                            className="sr-only"
+                          />
+                        </div>
+                      </div>
+
+                      {graphicPreviewUrl && hasAttachedGraphic && (
+                        <div className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-center">
+                          <img
+                            src={graphicPreviewUrl}
+                            alt="Uploaded 300-DPI abstract figure preview"
+                            style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                            className="max-h-72 object-contain rounded mx-auto transition-all"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Desired Figure Width Input (3.0 to 6.5 inches) */}
+                    {renderFigureWidthControl("stage5")}
+
+                    {/* Non-Optional Caption Input (<= 300 chars whenever figure is attached) */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <label
+                          htmlFor="abs-graphic-caption"
+                          className="hems-label mb-0"
+                        >
+                          Figure Caption{" "}
+                          {hasAttachedGraphic ? (
+                            <span className="text-red-600">
+                              * (Required whenever a graphic is attached)
+                            </span>
+                          ) : (
+                            <span className="text-slate-500 font-semibold">
+                              (Required if uploading a figure above)
+                            </span>
+                          )}
+                        </label>
+                        <span
+                          className={`text-xs font-bold tabular-nums ${graphicCaption.length >= CAPTION_MAX_CHARS
+                              ? "text-amber-600"
+                              : "text-slate-600"
+                            }`}
+                        >
+                          {graphicCaption.length} / {CAPTION_MAX_CHARS} chars
+                        </span>
+                      </div>
+                      <textarea
+                        id="abs-graphic-caption"
+                        rows={3}
+                        maxLength={CAPTION_MAX_CHARS}
+                        value={graphicCaption}
+                        onChange={(e) => setGraphicCaption(e.target.value)}
                         onPaste={(e) =>
                           applyWordPasteToField(
                             e,
-                            author.name,
-                            (val) => handleUpdateAuthorName(author.id, val),
-                            { multiline: false }
+                            graphicCaption,
+                            setGraphicCaption,
+                            { multiline: false, maxChars: CAPTION_MAX_CHARS },
+                            (trimmed) => {
+                              if (trimmed > 0) {
+                                setPasteNotice(
+                                  `Word paste trimmed ${trimmed} characters to fit the ${CAPTION_MAX_CHARS}-character caption limit.`
+                                );
+                              }
+                            }
                           )
                         }
-                        placeholder={
-                          author.isPresenter ? "Presenter Full Name" : "Co-Author Full Name"
-                        }
-                        className={INPUT_CLASS}
+                        placeholder="Describe your mass spectrum, instrument layout, or field calibration plot (300 characters max)..."
+                        className={`${INPUT_CLASS} leading-relaxed`}
                       />
                     </div>
                   </div>
+                )}
+              </div>
 
-                  <div className="md:col-span-5 min-w-0">
-                    <label className="hems-label">
-                      Institutional Affiliation
-                    </label>
-                    <select
-                      value={author.affiliationId}
-                      aria-label={`Affiliation for author ${index + 1}`}
-                      onChange={(e) =>
-                        handleUpdateAuthorAffiliation(author.id, e.target.value)
-                      }
-                      className={INPUT_CLASS}
+              {/* 2. Raw Abstract Input Text & Formatting / [FIGURE] Marker Toolbar */}
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <label
+                      htmlFor="abs-body"
+                      className="hems-label mb-0"
                     >
-                      {affiliations.map((aff, affIdx) => (
-                        <option key={aff.id} value={aff.id}>
-                          {affIdx + 1}.{" "}
-                          {aff.institution.trim()
-                            ? `${aff.institution.trim()}${
-                                aff.location?.trim() ? ` — ${aff.location.trim()}` : ""
-                              }`
-                            : `Affiliation #${affIdx + 1}`}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="md:col-span-2 flex items-center justify-between md:justify-end gap-3 pt-4 md:pt-5">
-                    <label className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-950 cursor-pointer select-none">
-                      <input
-                        type="radio"
-                        name="hems-single-presenter"
-                        checked={author.isPresenter}
-                        onChange={() => handleSelectSinglePresenter(author.id)}
-                        className="h-4 w-4 border-slate-400 text-primary focus:ring-primary"
-                      />
-                      <span>Presenter</span>
+                      Raw Abstract Input Text (Up to {ABSTRACT_MAX_CHARS.toLocaleString()} Chars With Spaces){" "}
+                      <span className="text-red-600">*</span>
                     </label>
-                    {authors.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveAuthor(author.id)}
-                        aria-label={`Remove author ${index + 1}`}
-                        className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-                      >
-                        <Trash2 size={15} />
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* STAGE 4: Technical Track & 300-Char Synopsis */}
-        {currentStage === 4 && (
-          <div className="space-y-5">
-            <div>
-              <label htmlFor="abs-track" className={LABEL_CLASS}>
-                Technical Research Track <span className="text-red-600">*</span>
-              </label>
-              <select
-                id="abs-track"
-                value={researchTrack}
-                onChange={(e) => setResearchTrack(e.target.value as ResearchTrack)}
-                className={INPUT_CLASS}
-              >
-                {RESEARCH_TRACK_OPTIONS.map((track) => (
-                  <option key={track} value={track}>
-                    {track}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between gap-2 mb-1.5">
-                <label
-                  htmlFor="abs-summary"
-                  className="hems-label mb-0"
-                >
-                  Short Synopsis{" "}
-                  <span className="hems-label-hint">({SYNOPSIS_MAX_CHARS} chars max)</span>{" "}
-                  <span className="text-red-600">*</span>
-                </label>
-                <span
-                  className={`text-xs font-bold tabular-nums ${
-                    summary.length >= SYNOPSIS_MAX_CHARS
-                      ? "text-amber-600"
-                      : "text-slate-600"
-                  }`}
-                >
-                  {summary.length} / {SYNOPSIS_MAX_CHARS} chars
-                </span>
-              </div>
-              <textarea
-                id="abs-summary"
-                rows={4}
-                maxLength={SYNOPSIS_MAX_CHARS}
-                value={summary}
-                onChange={(e) => setSummary(e.target.value)}
-                onPaste={(e) =>
-                  applyWordPasteToField(
-                    e,
-                    summary,
-                    setSummary,
-                    { multiline: false, maxChars: SYNOPSIS_MAX_CHARS },
-                    (trimmed) => {
-                      if (trimmed > 0) {
-                        setPasteNotice(
-                          `Word paste normalized and trimmed ${trimmed} characters to fit the ${SYNOPSIS_MAX_CHARS}-character Synopsis limit.`
-                        );
-                      }
-                    }
-                  )
-                }
-                placeholder={`Write a concise headline synopsis (maximum ${SYNOPSIS_MAX_CHARS} characters including spaces)...`}
-                className={`${INPUT_CLASS} leading-relaxed`}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* STAGE 5: Collapsible Figure Input (Top w/ Website Warning) + 3,000-Char Raw Input + Live Preview */}
-        {currentStage === 5 && (
-          <div className="space-y-5">
-            {/* 1. Figure Upload & Width Interface Card (Above Raw Text Input + Hide Toggle + Website Warning) */}
-            <div className="bg-white border-2 border-slate-300/90 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <h3 className="hems-label mb-0 flex items-center gap-1.5">
-                    <ImageIcon size={14} className="text-primary" />
-                    Optional High-Resolution Figure ({MIN_GRAPHIC_DPI} DPI Min) &amp; Width Control
-                  </h3>
-                  {figurePanelHidden ? (
-                    <p className="text-[11px] text-slate-600 mt-0.5 truncate">
-                      {hasAttachedGraphic
-                        ? `${graphicFile?.name || "Attached submission figure"} • ${figureWidthInches.toFixed(2)}" (${
-                            isRightWrappedWidth ? "Right-wrap <3.5\"" : "Centered ≥3.5\""
-                          }) • Note: Figure may be used on the HEMS website`
-                        : `Hidden • Optional figure (${figureWidthInches.toFixed(2)}" ${
-                            isRightWrappedWidth ? "right-wrap" : "centered"
-                          }) • Note: Submitted figures may be used on the HEMS website`}
-                    </p>
-                  ) : (
                     <p className="text-[11px] text-slate-600 mt-0.5">
-                      Widths &lt; {RIGHT_WRAP_THRESHOLD_IN}&quot; float to the right of text with squared wrapping; ≥ {RIGHT_WRAP_THRESHOLD_IN}&quot; render centered.
+                      Inline tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) and <code>[FIGURE]</code> do not count toward your 3,000-character budget.{" "}
+                      {isRightWrappedWidth
+                        ? `Because width is < ${RIGHT_WRAP_THRESHOLD_IN}", [FIGURE] marks the first row broken by the right-aligned figure (place at the start of that row).`
+                        : `Because width is ≥ ${RIGHT_WRAP_THRESHOLD_IN}", [FIGURE] places a centered figure block.`}
                     </p>
-                  )}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setFigurePanelHidden((prev) => !prev)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-700 transition-colors cursor-pointer shrink-0"
-                >
-                  {figurePanelHidden ? (
-                    <>
-                      <Eye size={14} />
-                      <span>Show Figure Input</span>
-                    </>
-                  ) : (
-                    <>
-                      <EyeOff size={14} />
-                      <span>Hide</span>
-                    </>
-                  )}
-                </button>
-              </div>
-
-              {!figurePanelHidden && (
-                <div className="space-y-4 pt-2 border-t border-slate-200">
-                  {/* Website Usage Warning */}
-                  <div
-                    role="note"
-                    className="bg-amber-50 border border-amber-300 text-amber-950 px-3.5 py-2.5 rounded-xl text-xs flex items-start gap-2.5"
-                  >
-                    <AlertTriangle size={16} className="text-amber-700 shrink-0 mt-0.5" />
-                    <span>
-                      <strong className="font-bold">Website Usage Warning:</strong> Uploaded figures and captions may be used on the HEMS website (such as workshop highlights, technical program pages, or online proceedings). Please only upload graphics cleared for public web display.
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label
+                      htmlFor="abs-txt-loader"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
+                    >
+                      <FileUp size={13} />
+                      <span>Load .txt file</span>
+                    </label>
+                    <input
+                      id="abs-txt-loader"
+                      ref={abstractTxtInputRef}
+                      type="file"
+                      accept=".txt,text/plain"
+                      onChange={(e) => void handleLoadAbstractTxt(e)}
+                      className="sr-only"
+                    />
+                    <span
+                      className={`text-xs font-bold tabular-nums px-2.5 py-1 rounded-full border ${visibleAbstractChars >= ABSTRACT_MAX_CHARS
+                          ? "bg-amber-50 border-amber-200 text-amber-700"
+                          : "bg-white border-slate-300 text-slate-800"
+                        }`}
+                    >
+                      {visibleAbstractChars.toLocaleString()} / {ABSTRACT_MAX_CHARS.toLocaleString()} chars (with spaces)
                     </span>
                   </div>
+                </div>
 
-                  {graphicError && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2">
-                      <AlertCircle size={16} className="shrink-0 mt-0.5" />
-                      <span>{graphicError}</span>
-                    </div>
+                {/* Generalized Text Formatting, Scientific Symbol & Inline Figure Placement Toolbar */}
+                <div className="flex flex-wrap items-center gap-1.5 bg-white border-2 border-slate-200 rounded-xl p-2.5 shadow-2xs">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
+                    Format:
+                  </span>
+                  <button
+                    type="button"
+                    title="Wrap selected text as Bold (<b>...</b>)"
+                    onClick={() => wrapSelectionWithFormatTag("b")}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-bold text-slate-800 cursor-pointer shadow-2xs"
+                  >
+                    <Bold size={13} /> Bold
+                  </button>
+                  <button
+                    type="button"
+                    title="Wrap selected text as Italic (<i>...</i>)"
+                    onClick={() => wrapSelectionWithFormatTag("i")}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold italic text-slate-800 cursor-pointer shadow-2xs"
+                  >
+                    <Italic size={13} /> Italic
+                  </button>
+                  <button
+                    type="button"
+                    title="Wrap selected text as Underlined (<u>...</u>)"
+                    onClick={() => wrapSelectionWithFormatTag("u")}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold underline text-slate-800 cursor-pointer shadow-2xs"
+                  >
+                    <Underline size={13} /> Underline
+                  </button>
+                  <button
+                    type="button"
+                    title="Wrap selected text as Subscript (<sub>...</sub>)"
+                    onClick={() => wrapSelectionWithFormatTag("sub")}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
+                  >
+                    <Subscript size={13} /> Subscript
+                  </button>
+                  <button
+                    type="button"
+                    title="Wrap selected text as Superscript (<sup>...</sup>)"
+                    onClick={() => wrapSelectionWithFormatTag("sup")}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
+                  >
+                    <Superscript size={13} /> Superscript
+                  </button>
+
+                  <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
+
+                  <button
+                    type="button"
+                    title={
+                      isRightWrappedWidth
+                        ? "Insert [FIGURE] marker inline to indicate the first row broken by the right-aligned figure"
+                        : "Insert [FIGURE] marker at cursor (or move existing marker here) so the figure renders inline in previews"
+                    }
+                    onClick={insertOrMoveFigureMarker}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 border border-primary/40 hover:bg-primary hover:text-white text-xs font-bold text-primary transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <ImageIcon size={13} />
+                    <span>
+                      {splitAbstractPreview.hasMarker ? "Move [FIGURE] Here" : "Insert Figure Here"}
+                    </span>
+                  </button>
+                  {splitAbstractPreview.hasMarker && (
+                    <button
+                      type="button"
+                      title="Remove the inline [FIGURE] marker"
+                      onClick={removeFigureMarker}
+                      className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-red-400 hover:text-red-600 text-[11px] font-semibold text-slate-600 cursor-pointer"
+                    >
+                      <X size={12} /> Clear Marker
+                    </button>
                   )}
 
-                  <div className="border-2 border-dashed border-slate-300 hover:border-primary/70 rounded-2xl p-5 sm:p-6 bg-slate-50/40 transition-colors space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                      <div className="flex items-start gap-3 min-w-0">
-                        <div className="p-3 rounded-xl bg-primary/10 text-primary shrink-0">
-                          <ImageIcon size={22} />
-                        </div>
-                        <div className="min-w-0">
-                          {checkingGraphic ? (
-                            <p className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                              <Loader2 size={15} className="animate-spin text-primary" />
-                              Checking graphic resolution ({MIN_GRAPHIC_DPI} DPI minimum)...
-                            </p>
-                          ) : hasAttachedGraphic && displayGraphicMeta ? (
-                            <>
-                              <p className="text-sm font-semibold text-slate-900 truncate">
-                                {graphicFile?.name || "Existing Submitted Figure (Retained)"}
-                              </p>
-                              <p className="text-xs text-emerald-700 font-semibold tabular-nums mt-0.5">
-                                Verified {displayGraphicMeta.detectedDpi} DPI ({displayGraphicMeta.dpiSource}) •{" "}
-                                {displayGraphicMeta.widthPx}×{displayGraphicMeta.heightPx} px
-                                {graphicFile ? ` • ${formatFileSize(graphicFile.size)}` : " • Retained from submission"}
-                              </p>
-                            </>
-                          ) : (
-                            <>
-                              <p className="text-sm font-semibold text-slate-900">
-                                Upload Scientific Figure ({MIN_GRAPHIC_DPI} DPI Minimum — Optional)
-                              </p>
-                              <p className="text-xs text-slate-600 mt-0.5">
-                                Accepted: PNG, JPEG, WebP (≥{MIN_GRAPHIC_DPI} DPI metadata at ≥600×300 px, or ≥900 px wide) or clean vector SVG.
-                              </p>
-                            </>
-                          )}
-                        </div>
-                      </div>
+                  <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
 
-                      <div className="flex items-center gap-2 shrink-0">
-                        {hasAttachedGraphic && (
-                          <button
-                            type="button"
-                            onClick={handleRemoveGraphic}
-                            className="px-3.5 py-2 rounded-lg border border-red-200 bg-white text-xs font-semibold text-red-600 hover:bg-red-50 cursor-pointer"
-                          >
-                            Remove Graphic
-                          </button>
-                        )}
-                        <label
-                          htmlFor="abs-graphic-upload"
-                          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer transition-colors shadow-2xs"
-                        >
-                          <Upload size={14} />
-                          <span>{hasAttachedGraphic ? "Replace Graphic" : "Choose Graphic"}</span>
-                        </label>
-                        <input
-                          id="abs-graphic-upload"
-                          ref={graphicInputRef}
-                          type="file"
-                          accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml"
-                          onChange={(e) => void handleGraphicChange(e)}
-                          className="sr-only"
-                        />
-                      </div>
-                    </div>
-
-                    {graphicPreviewUrl && hasAttachedGraphic && (
-                      <div className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-center">
-                        <img
-                          src={graphicPreviewUrl}
-                          alt="Uploaded 300-DPI abstract figure preview"
-                          style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
-                          className="max-h-72 object-contain rounded mx-auto transition-all"
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Desired Figure Width Input (3.0 to 6.5 inches) */}
-                  {renderFigureWidthControl("stage5")}
-
-                  {/* Non-Optional Caption Input (<= 300 chars whenever figure is attached) */}
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between gap-2">
-                      <label
-                        htmlFor="abs-graphic-caption"
-                        className="hems-label mb-0"
-                      >
-                        Figure Caption{" "}
-                        {hasAttachedGraphic ? (
-                          <span className="text-red-600">
-                            * (Required whenever a graphic is attached)
-                          </span>
-                        ) : (
-                          <span className="text-slate-500 font-semibold">
-                            (Required if uploading a figure above)
-                          </span>
-                        )}
-                      </label>
-                      <span
-                        className={`text-xs font-bold tabular-nums ${
-                          graphicCaption.length >= CAPTION_MAX_CHARS
-                            ? "text-amber-600"
-                            : "text-slate-600"
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
+                    Symbols:
+                  </span>
+                  {QUICK_MATH_TOKENS.map((item) => (
+                    <button
+                      key={item.label}
+                      type="button"
+                      title={item.title}
+                      onClick={() => insertTokenIntoAbstract(item.token)}
+                      className={`px-2 py-1 rounded bg-slate-50 border border-slate-200 hover:border-primary hover:text-primary text-[11px] font-medium text-slate-800 transition-colors cursor-pointer ${item.italic ? "italic font-serif font-semibold" : ""
                         }`}
-                      >
-                        {graphicCaption.length} / {CAPTION_MAX_CHARS} chars
-                      </span>
-                    </div>
-                    <textarea
-                      id="abs-graphic-caption"
-                      rows={3}
-                      maxLength={CAPTION_MAX_CHARS}
-                      value={graphicCaption}
-                      onChange={(e) => setGraphicCaption(e.target.value)}
-                      onPaste={(e) =>
-                        applyWordPasteToField(
-                          e,
-                          graphicCaption,
-                          setGraphicCaption,
-                          { multiline: false, maxChars: CAPTION_MAX_CHARS },
-                          (trimmed) => {
-                            if (trimmed > 0) {
-                              setPasteNotice(
-                                `Word paste trimmed ${trimmed} characters to fit the ${CAPTION_MAX_CHARS}-character caption limit.`
-                              );
-                            }
-                          }
-                        )
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Raw Abstract Textarea (Calibrated to 780px = 6.5" printable column at 120 px/in & 16px serif -> 12-15 words/line) */}
+                <textarea
+                  id="abs-body"
+                  ref={abstractTextareaRef}
+                  rows={10}
+                  wrap="soft"
+                  value={abstractText}
+                  onChange={(e) => handleAbstractTextChange(e.target.value)}
+                  onPaste={(e) =>
+                    applyWordPasteToField(
+                      e,
+                      abstractText,
+                      setAbstractText,
+                      {
+                        multiline: true,
+                        maxChars: ABSTRACT_MAX_CHARS,
+                        preserveInlineFormatting: true,
+                        countVisibleOnly: true,
+                      },
+                      (trimmed) => {
+                        if (trimmed > 0) {
+                          setPasteNotice(
+                            `Word paste converted formatting & equations and trimmed ${trimmed} visible characters to fit the ${ABSTRACT_MAX_CHARS.toLocaleString()}-character limit.`
+                          );
+                        }
                       }
-                      placeholder="Describe your mass spectrum, instrument layout, or field calibration plot (300 characters max)..."
-                      className={`${INPUT_CLASS} leading-relaxed`}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* 2. Raw Abstract Input Text & Formatting / [FIGURE] Marker Toolbar */}
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <label
-                    htmlFor="abs-body"
-                    className="hems-label mb-0"
-                  >
-                    Raw Abstract Input Text (Up to {ABSTRACT_MAX_CHARS.toLocaleString()} Chars With Spaces){" "}
-                    <span className="text-red-600">*</span>
-                  </label>
-                  <p className="text-[11px] text-slate-600 mt-0.5">
-                    Inline tags (<code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;sup&gt;</code>) and <code>[FIGURE]</code> do not count toward your 3,000-character budget.{" "}
-                    {isRightWrappedWidth
-                      ? `Because width is < ${RIGHT_WRAP_THRESHOLD_IN}", [FIGURE] marks the first row broken by the right-aligned figure (place at the start of that row).`
-                      : `Because width is ≥ ${RIGHT_WRAP_THRESHOLD_IN}", [FIGURE] places a centered figure block.`}
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <label
-                    htmlFor="abs-txt-loader"
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer"
-                  >
-                    <FileUp size={13} />
-                    <span>Load .txt file</span>
-                  </label>
-                  <input
-                    id="abs-txt-loader"
-                    ref={abstractTxtInputRef}
-                    type="file"
-                    accept=".txt,text/plain"
-                    onChange={(e) => void handleLoadAbstractTxt(e)}
-                    className="sr-only"
-                  />
-                  <span
-                    className={`text-xs font-bold tabular-nums px-2.5 py-1 rounded-full border ${
-                      visibleAbstractChars >= ABSTRACT_MAX_CHARS
-                        ? "bg-amber-50 border-amber-200 text-amber-700"
-                        : "bg-white border-slate-300 text-slate-800"
-                    }`}
-                  >
-                    {visibleAbstractChars.toLocaleString()} / {ABSTRACT_MAX_CHARS.toLocaleString()} chars (with spaces)
-                  </span>
-                </div>
-              </div>
-
-              {/* Generalized Text Formatting, Scientific Symbol & Inline Figure Placement Toolbar */}
-              <div className="flex flex-wrap items-center gap-1.5 bg-white border-2 border-slate-200 rounded-xl p-2.5 shadow-2xs">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
-                  Format:
-                </span>
-                <button
-                  type="button"
-                  title="Wrap selected text as Bold (<b>...</b>)"
-                  onClick={() => wrapSelectionWithFormatTag("b")}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-bold text-slate-800 cursor-pointer shadow-2xs"
-                >
-                  <Bold size={13} /> Bold
-                </button>
-                <button
-                  type="button"
-                  title="Wrap selected text as Italic (<i>...</i>)"
-                  onClick={() => wrapSelectionWithFormatTag("i")}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold italic text-slate-800 cursor-pointer shadow-2xs"
-                >
-                  <Italic size={13} /> Italic
-                </button>
-                <button
-                  type="button"
-                  title="Wrap selected text as Underlined (<u>...</u>)"
-                  onClick={() => wrapSelectionWithFormatTag("u")}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold underline text-slate-800 cursor-pointer shadow-2xs"
-                >
-                  <Underline size={13} /> Underline
-                </button>
-                <button
-                  type="button"
-                  title="Wrap selected text as Subscript (<sub>...</sub>)"
-                  onClick={() => wrapSelectionWithFormatTag("sub")}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
-                >
-                  <Subscript size={13} /> Subscript
-                </button>
-                <button
-                  type="button"
-                  title="Wrap selected text as Superscript (<sup>...</sup>)"
-                  onClick={() => wrapSelectionWithFormatTag("sup")}
-                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-xs font-semibold text-slate-800 cursor-pointer shadow-2xs"
-                >
-                  <Superscript size={13} /> Superscript
-                </button>
-
-                <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
-
-                <button
-                  type="button"
-                  title={
-                    isRightWrappedWidth
-                      ? "Insert [FIGURE] marker inline to indicate the first row broken by the right-aligned figure"
-                      : "Insert [FIGURE] marker at cursor (or move existing marker here) so the figure renders inline in previews"
+                    )
                   }
-                  onClick={insertOrMoveFigureMarker}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-50 border border-primary/40 hover:bg-primary hover:text-white text-xs font-bold text-primary transition-colors cursor-pointer shadow-2xs"
-                >
-                  <ImageIcon size={13} />
-                  <span>
-                    {splitAbstractPreview.hasMarker ? "Move [FIGURE] Here" : "Insert Figure Here"}
+                  placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Word line-wraps are unwrapped automatically so text fills the 6.5&quot; column width naturally (12-15 words/line)..."
+                  className="w-full bg-white border-2 border-[#94A3B8] hover:border-slate-500 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-3.5 font-serif text-[16px] text-slate-950 placeholder:text-[#7C8BA1] placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-inner"
+                />
+              </div>
+
+              {/* 3. Real-Time Formatted Preview Text Box (Zero extra outer padding so text column stays exactly 780px) */}
+              <div className="space-y-2 pt-1">
+                <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
+                    <Sparkles size={13} /> Live Formatted Text Preview (780px = 6.5&quot; Measure @ 16px Serif)
                   </span>
-                </button>
-                {splitAbstractPreview.hasMarker && (
-                  <button
-                    type="button"
-                    title="Remove the inline [FIGURE] marker"
-                    onClick={removeFigureMarker}
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-slate-300 hover:border-red-400 hover:text-red-600 text-[11px] font-semibold text-slate-600 cursor-pointer"
-                  >
-                    <X size={12} /> Clear Marker
-                  </button>
-                )}
-
-                <span aria-hidden="true" className="h-5 w-px bg-slate-300 mx-1" />
-
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-1">
-                  Symbols:
-                </span>
-                {QUICK_MATH_TOKENS.map((item) => (
-                  <button
-                    key={item.label}
-                    type="button"
-                    title={item.title}
-                    onClick={() => insertTokenIntoAbstract(item.token)}
-                    className={`px-2 py-1 rounded bg-slate-50 border border-slate-200 hover:border-primary hover:text-primary text-[11px] font-medium text-slate-800 transition-colors cursor-pointer ${
-                      item.italic ? "italic font-serif font-semibold" : ""
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Raw Abstract Textarea (Calibrated to 780px = 6.5" printable column at 120 px/in & 16px serif -> 12-15 words/line) */}
-              <textarea
-                id="abs-body"
-                ref={abstractTextareaRef}
-                rows={10}
-                wrap="soft"
-                value={abstractText}
-                onChange={(e) => handleAbstractTextChange(e.target.value)}
-                onPaste={(e) =>
-                  applyWordPasteToField(
-                    e,
-                    abstractText,
-                    setAbstractText,
-                    {
-                      multiline: true,
-                      maxChars: ABSTRACT_MAX_CHARS,
-                      preserveInlineFormatting: true,
-                      countVisibleOnly: true,
-                    },
-                    (trimmed) => {
-                      if (trimmed > 0) {
-                        setPasteNotice(
-                          `Word paste converted formatting & equations and trimmed ${trimmed} visible characters to fit the ${ABSTRACT_MAX_CHARS.toLocaleString()}-character limit.`
-                        );
-                      }
-                    }
-                  )
-                }
-                placeholder="Paste directly from Microsoft Word or compose up to 3,000 characters (including spaces). Word line-wraps are unwrapped automatically so text fills the 6.5&quot; column width naturally (12-15 words/line)..."
-                className="w-full bg-white border-2 border-[#94A3B8] hover:border-slate-500 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-3.5 font-serif text-[16px] text-slate-950 placeholder:text-[#7C8BA1] placeholder:font-sans placeholder:text-sm focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/15 leading-[1.45] shadow-inner"
-              />
-            </div>
-
-            {/* 3. Real-Time Formatted Preview Text Box (Zero extra outer padding so text column stays exactly 780px) */}
-            <div className="space-y-2 pt-1">
-              <div className="flex flex-wrap items-center justify-between gap-2 px-1">
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
-                  <Sparkles size={13} /> Live Formatted Text Preview (780px = 6.5&quot; Measure @ 16px Serif)
-                </span>
-                <span className="text-[11px] font-medium text-slate-600">
-                  {isRightWrappedWidth
-                    ? `Right-aligned squared wrap (<${RIGHT_WRAP_THRESHOLD_IN}") • [FIGURE] marks first broken row`
-                    : `Centered figure mode (≥${RIGHT_WRAP_THRESHOLD_IN}") • ~12–15 words/line density`}
-                </span>
-              </div>
-              <div className="bg-white border-2 border-primary/35 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-4 sm:py-5 min-h-[140px] font-serif text-[16px] text-slate-950 leading-[1.45] text-justify shadow-2xs">
-                {abstractText.trim() ? (
-                  isRightWrappedWidth && (graphicPreviewUrl || splitAbstractPreview.hasMarker) ? (
-                    <ScientificText
-                      text={abstractText}
-                      multiline
-                      inlineRightFigure={
-                        graphicPreviewUrl ? (
-                          <span
-                            role="figure"
-                            aria-label={
-                              graphicCaption.trim()
-                                ? `Figure 1: ${graphicCaption.trim()}`
-                                : "Uploaded figure preview"
-                            }
+                  <span className="text-[11px] font-medium text-slate-600">
+                    {isRightWrappedWidth
+                      ? `Right-aligned squared wrap (<${RIGHT_WRAP_THRESHOLD_IN}") • [FIGURE] marks first broken row`
+                      : `Centered figure mode (≥${RIGHT_WRAP_THRESHOLD_IN}") • ~12–15 words/line density`}
+                  </span>
+                </div>
+                <div className="bg-white border-2 border-primary/35 rounded-xl px-3.5 sm:px-6 lg:px-[22px] py-4 sm:py-5 min-h-[140px] font-serif text-[16px] text-slate-950 leading-[1.45] text-justify shadow-2xs">
+                  {abstractText.trim() ? (
+                    isRightWrappedWidth && (graphicPreviewUrl || splitAbstractPreview.hasMarker) ? (
+                      <ScientificText
+                        text={abstractText}
+                        multiline
+                        inlineRightFigure={
+                          graphicPreviewUrl ? (
+                            <span
+                              role="figure"
+                              aria-label={
+                                graphicCaption.trim()
+                                  ? `Figure 1: ${graphicCaption.trim()}`
+                                  : "Uploaded figure preview"
+                              }
+                              style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                              className="float-right clear-right ml-[1em] mb-2.5 mt-0.5 border border-slate-200 rounded-lg p-2 bg-white block max-w-full text-center font-normal not-italic"
+                            >
+                              <img
+                                src={graphicPreviewUrl}
+                                alt={graphicCaption || "Uploaded figure preview"}
+                                className="w-full h-auto object-contain mx-auto rounded block"
+                              />
+                              {graphicCaption.trim() && (
+                                <span className="block mt-1.5 text-[13.5px] text-slate-700 leading-snug text-center font-serif">
+                                  <strong className="text-slate-900">Figure 1.</strong>{" "}
+                                  <ScientificText text={graphicCaption.trim()} />
+                                </span>
+                              )}
+                            </span>
+                          ) : (
+                            <span
+                              role="note"
+                              style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                              className="float-right clear-right ml-[1em] mb-2.5 mt-0.5 border-2 border-dashed border-sky-300 bg-sky-50/70 rounded-xl p-3.5 text-center font-sans block max-w-full"
+                            >
+                              <ImageIcon size={18} className="text-primary mx-auto mb-1" />
+                              <span className="block text-xs font-bold text-sky-950">
+                                Right-Wrap Marker ([FIGURE])
+                              </span>
+                              <span className="block text-[11px] text-slate-600 mt-0.5">
+                                {figureWidthInches.toFixed(2)}&quot; width • First broken row; upload above to preview graphic here.
+                              </span>
+                            </span>
+                          )
+                        }
+                      />
+                    ) : splitAbstractPreview.hasMarker ? (
+                      <div className="space-y-3">
+                        {splitAbstractPreview.beforeText && (
+                          <ScientificText text={splitAbstractPreview.beforeText} multiline />
+                        )}
+                        {graphicPreviewUrl ? (
+                          <figure
                             style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
-                            className="float-right clear-right ml-[1em] mb-2.5 mt-0.5 border border-slate-200 rounded-lg p-2 bg-white block max-w-full text-center font-normal not-italic"
+                            className="mx-auto my-3 border border-slate-200 rounded-lg p-2 bg-white space-y-1 max-w-full"
                           >
                             <img
                               src={graphicPreviewUrl}
                               alt={graphicCaption || "Uploaded figure preview"}
-                              className="w-full h-auto object-contain mx-auto rounded block"
+                              className="w-full h-auto object-contain mx-auto rounded"
                             />
                             {graphicCaption.trim() && (
-                              <span className="block mt-1.5 text-[13.5px] text-slate-700 leading-snug text-center font-serif">
+                              <figcaption className="text-[13.5px] text-slate-700 leading-snug text-center font-serif">
                                 <strong className="text-slate-900">Figure 1.</strong>{" "}
                                 <ScientificText text={graphicCaption.trim()} />
-                              </span>
+                              </figcaption>
                             )}
-                          </span>
+                          </figure>
                         ) : (
-                          <span
-                            role="note"
+                          <div
                             style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
-                            className="float-right clear-right ml-[1em] mb-2.5 mt-0.5 border-2 border-dashed border-sky-300 bg-sky-50/70 rounded-xl p-3.5 text-center font-sans block max-w-full"
+                            className="mx-auto my-3 border-2 border-dashed border-sky-300 bg-sky-50/70 rounded-xl p-4 text-center font-sans max-w-full"
                           >
-                            <ImageIcon size={18} className="text-primary mx-auto mb-1" />
-                            <span className="block text-xs font-bold text-sky-950">
-                              Right-Wrap Marker ([FIGURE])
-                            </span>
-                            <span className="block text-[11px] text-slate-600 mt-0.5">
-                              {figureWidthInches.toFixed(2)}&quot; width • First broken row; upload above to preview graphic here.
-                            </span>
-                          </span>
-                        )
-                      }
-                    />
-                  ) : splitAbstractPreview.hasMarker ? (
-                    <div className="space-y-3">
-                      {splitAbstractPreview.beforeText && (
-                        <ScientificText text={splitAbstractPreview.beforeText} multiline />
-                      )}
-                      {graphicPreviewUrl ? (
-                        <figure
-                          style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
-                          className="mx-auto my-3 border border-slate-200 rounded-lg p-2 bg-white space-y-1 max-w-full"
-                        >
-                          <img
-                            src={graphicPreviewUrl}
-                            alt={graphicCaption || "Uploaded figure preview"}
-                            className="w-full h-auto object-contain mx-auto rounded"
-                          />
-                          {graphicCaption.trim() && (
-                            <figcaption className="text-[13.5px] text-slate-700 leading-snug text-center font-serif">
-                              <strong className="text-slate-900">Figure 1.</strong>{" "}
-                              <ScientificText text={graphicCaption.trim()} />
-                            </figcaption>
-                          )}
-                        </figure>
-                      ) : (
-                        <div
-                          style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
-                          className="mx-auto my-3 border-2 border-dashed border-sky-300 bg-sky-50/70 rounded-xl p-4 text-center font-sans max-w-full"
-                        >
-                          <ImageIcon size={20} className="text-primary mx-auto mb-1" />
-                          <p className="text-xs font-bold text-sky-950">
-                            Figure 1 Placement Marker ([FIGURE]) — {figureWidthInches.toFixed(2)}&quot; Width
-                          </p>
-                          <p className="text-[11px] text-slate-600 mt-0.5">
-                            Upload your 300-DPI figure above and it will appear right here.
-                          </p>
-                        </div>
-                      )}
-                      {splitAbstractPreview.afterText && (
-                        <ScientificText text={splitAbstractPreview.afterText} multiline />
-                      )}
-                    </div>
+                            <ImageIcon size={20} className="text-primary mx-auto mb-1" />
+                            <p className="text-xs font-bold text-sky-950">
+                              Figure 1 Placement Marker ([FIGURE]) — {figureWidthInches.toFixed(2)}&quot; Width
+                            </p>
+                            <p className="text-[11px] text-slate-600 mt-0.5">
+                              Upload your 300-DPI figure above and it will appear right here.
+                            </p>
+                          </div>
+                        )}
+                        {splitAbstractPreview.afterText && (
+                          <ScientificText text={splitAbstractPreview.afterText} multiline />
+                        )}
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        <ScientificText text={abstractText} multiline />
+                        {graphicPreviewUrl && (
+                          <figure
+                            style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
+                            className="mx-auto my-3 border border-slate-200 rounded-lg p-2 bg-white space-y-1 max-w-full"
+                          >
+                            <img
+                              src={graphicPreviewUrl}
+                              alt={graphicCaption || "Uploaded figure preview"}
+                              className="w-full h-auto object-contain mx-auto rounded"
+                            />
+                            {graphicCaption.trim() && (
+                              <figcaption className="text-[13.5px] text-slate-700 leading-snug text-center font-serif">
+                                <strong className="text-slate-900">Figure 1.</strong>{" "}
+                                <ScientificText text={graphicCaption.trim()} />
+                              </figcaption>
+                            )}
+                          </figure>
+                        )}
+                      </div>
+                    )
                   ) : (
-                    <div className="space-y-3">
-                      <ScientificText text={abstractText} multiline />
-                      {graphicPreviewUrl && (
-                        <figure
-                          style={{ width: `${figurePctOfTextCol.toFixed(2)}%` }}
-                          className="mx-auto my-3 border border-slate-200 rounded-lg p-2 bg-white space-y-1 max-w-full"
+                    <p className="text-slate-400 italic font-sans text-xs">
+                      Your formatted abstract text (with bold, italics, underlines, subscripts, superscripts, Greek symbols, Word equations, and inline [FIGURE] placement) will render live here...
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* STAGE 6: Keywords + 7–8 Extracted Suggestions & Presenter Bio */}
+          {currentStage === 6 && (
+            <div className="space-y-6">
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <label
+                    htmlFor="abs-keywords"
+                    className="hems-label mb-0 flex items-center gap-1.5"
+                  >
+                    <Tag size={13} className="text-primary" />
+                    Keywords (Comma-Separated, Max {KEYWORDS_MAX_CHARS} Chars){" "}
+                    <span className="text-red-600">*</span>
+                  </label>
+                  <span
+                    className={`text-xs font-bold tabular-nums ${keywords.length >= KEYWORDS_MAX_CHARS
+                        ? "text-amber-600"
+                        : "text-slate-600"
+                      }`}
+                  >
+                    {keywords.length} / {KEYWORDS_MAX_CHARS} chars
+                  </span>
+                </div>
+                <input
+                  id="abs-keywords"
+                  type="text"
+                  maxLength={KEYWORDS_MAX_CHARS}
+                  value={keywords}
+                  onChange={(e) => setKeywords(e.target.value)}
+                  onPaste={(e) =>
+                    applyWordPasteToField(
+                      e,
+                      keywords,
+                      setKeywords,
+                      { multiline: false, maxChars: KEYWORDS_MAX_CHARS },
+                      (trimmed) => {
+                        if (trimmed > 0) {
+                          setPasteNotice(
+                            `Word paste trimmed ${trimmed} characters to fit the ${KEYWORDS_MAX_CHARS}-character keywords limit.`
+                          );
+                        }
+                      }
+                    )
+                  }
+                  placeholder="e.g., membrane-inlet MS, subsea hydrothermal plume, AUV, quadrupole, C1-C7 hydrocarbons"
+                  className={INPUT_CLASS}
+                />
+
+                {/* Suggested 7–8 Keyword Phrases Extracted From Draft */}
+                <div className="bg-white border border-slate-200 rounded-xl p-3.5 space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-sky-950">
+                      <Sparkles size={13} className="text-primary" />
+                      Suggested Keyword Phrases (Click to Add)
+                    </span>
+                    <span className="text-[11px] text-slate-500">
+                      Extracted from your title, synopsis, abstract &amp; track
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {suggestedKeywords.map((phrase) => {
+                      const isAdded = parsedKeywordTags.some(
+                        (k) => k.toLowerCase() === phrase.toLowerCase()
+                      );
+                      return (
+                        <button
+                          key={phrase}
+                          type="button"
+                          onClick={() => handleToggleSuggestedKeyword(phrase)}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${isAdded
+                              ? "bg-emerald-50 border-emerald-300 text-emerald-800 hover:bg-emerald-100"
+                              : "bg-sky-50/70 border-sky-200 text-sky-900 hover:bg-primary hover:text-white hover:border-primary"
+                            }`}
                         >
-                          <img
-                            src={graphicPreviewUrl}
-                            alt={graphicCaption || "Uploaded figure preview"}
-                            className="w-full h-auto object-contain mx-auto rounded"
-                          />
-                          {graphicCaption.trim() && (
-                            <figcaption className="text-[13.5px] text-slate-700 leading-snug text-center font-serif">
-                              <strong className="text-slate-900">Figure 1.</strong>{" "}
-                              <ScientificText text={graphicCaption.trim()} />
-                            </figcaption>
-                          )}
-                        </figure>
-                      )}
-                    </div>
-                  )
-                ) : (
-                  <p className="text-slate-400 italic font-sans text-xs">
-                    Your formatted abstract text (with bold, italics, underlines, subscripts, superscripts, Greek symbols, Word equations, and inline [FIGURE] placement) will render live here...
-                  </p>
+                          <span>{isAdded ? "✓" : "+"}</span>
+                          <span>{phrase}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {parsedKeywordTags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {parsedKeywordTags.map((tag, idx) => (
+                      <span
+                        key={`${tag}-${idx}`}
+                        className="text-[11px] font-semibold bg-sky-50 text-sky-900 border border-sky-200 px-2.5 py-0.5 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
-            </div>
-          </div>
-        )}
 
-        {/* STAGE 6: Keywords + 7–8 Extracted Suggestions & Presenter Bio */}
-        {currentStage === 6 && (
-          <div className="space-y-6">
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between gap-2">
-                <label
-                  htmlFor="abs-keywords"
-                  className="hems-label mb-0 flex items-center gap-1.5"
-                >
-                  <Tag size={13} className="text-primary" />
-                  Keywords (Comma-Separated, Max {KEYWORDS_MAX_CHARS} Chars){" "}
-                  <span className="text-red-600">*</span>
-                </label>
-                <span
-                  className={`text-xs font-bold tabular-nums ${
-                    keywords.length >= KEYWORDS_MAX_CHARS
-                      ? "text-amber-600"
-                      : "text-slate-600"
-                  }`}
-                >
-                  {keywords.length} / {KEYWORDS_MAX_CHARS} chars
-                </span>
-              </div>
-              <input
-                id="abs-keywords"
-                type="text"
-                maxLength={KEYWORDS_MAX_CHARS}
-                value={keywords}
-                onChange={(e) => setKeywords(e.target.value)}
-                onPaste={(e) =>
-                  applyWordPasteToField(
-                    e,
-                    keywords,
-                    setKeywords,
-                    { multiline: false, maxChars: KEYWORDS_MAX_CHARS },
-                    (trimmed) => {
-                      if (trimmed > 0) {
-                        setPasteNotice(
-                          `Word paste trimmed ${trimmed} characters to fit the ${KEYWORDS_MAX_CHARS}-character keywords limit.`
-                        );
-                      }
-                    }
-                  )
-                }
-                placeholder="e.g., membrane-inlet MS, subsea hydrothermal plume, AUV, quadrupole, C1-C7 hydrocarbons"
-                className={INPUT_CLASS}
-              />
-
-              {/* Suggested 7–8 Keyword Phrases Extracted From Draft */}
-              <div className="bg-white border border-slate-200 rounded-xl p-3.5 space-y-2">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-sky-950">
-                    <Sparkles size={13} className="text-primary" />
-                    Suggested Keyword Phrases (Click to Add)
-                  </span>
-                  <span className="text-[11px] text-slate-500">
-                    Extracted from your title, synopsis, abstract &amp; track
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <label
+                    htmlFor="abs-bio"
+                    className="hems-label mb-0 flex items-center gap-1.5"
+                  >
+                    <User size={13} className="text-primary" />
+                    Presenter Biography (Max {BIO_MAX_CHARS} Chars){" "}
+                    <span className="text-red-600">*</span>
+                  </label>
+                  <span
+                    className={`text-xs font-bold tabular-nums ${presenterBio.length >= BIO_MAX_CHARS
+                        ? "text-amber-600"
+                        : "text-slate-600"
+                      }`}
+                  >
+                    {presenterBio.length} / {BIO_MAX_CHARS} chars
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {suggestedKeywords.map((phrase) => {
-                    const isAdded = parsedKeywordTags.some(
-                      (k) => k.toLowerCase() === phrase.toLowerCase()
-                    );
-                    return (
+                <textarea
+                  id="abs-bio"
+                  rows={4}
+                  maxLength={BIO_MAX_CHARS}
+                  value={presenterBio}
+                  onChange={(e) => setPresenterBio(e.target.value)}
+                  onPaste={(e) =>
+                    applyWordPasteToField(
+                      e,
+                      presenterBio,
+                      setPresenterBio,
+                      { multiline: true, maxChars: BIO_MAX_CHARS },
+                      (trimmed) => {
+                        if (trimmed > 0) {
+                          setPasteNotice(
+                            `Word paste trimmed ${trimmed} characters to fit the ${BIO_MAX_CHARS}-character biography limit.`
+                          );
+                        }
+                      }
+                    )
+                  }
+                  placeholder="Brief biographical sketch for session chairs and program reviewers (up to 500 characters)..."
+                  className={`${INPUT_CLASS} leading-relaxed`}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* STAGE 7: 8.5" × 11" (1" Margin, 1–2 Page) Preview, Desired Figure Width & Submit */}
+          {currentStage === 7 && (
+            <div className="space-y-5">
+              <div className="print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-5 shadow-xs space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs">
+                  <span className="text-slate-700 font-semibold">
+                    Jump back to edit any section before submitting:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {WORKFLOW_STAGES.slice(0, 6).map((st) => (
                       <button
-                        key={phrase}
+                        key={st.id}
                         type="button"
-                        onClick={() => handleToggleSuggestedKeyword(phrase)}
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${
-                          isAdded
-                            ? "bg-emerald-50 border-emerald-300 text-emerald-800 hover:bg-emerald-100"
-                            : "bg-sky-50/70 border-sky-200 text-sky-900 hover:bg-primary hover:text-white hover:border-primary"
-                        }`}
+                        onClick={() => handleJumpToStage(st.id)}
+                        className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-[11px] font-semibold text-slate-800 cursor-pointer"
                       >
-                        <span>{isAdded ? "✓" : "+"}</span>
-                        <span>{phrase}</span>
+                        {st.id}. {st.shortLabel}
                       </button>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
+
+                {/* Desired Figure Width Control Also Available Directly on Stage 7 */}
+                <div>{renderFigureWidthControl("stage7")}</div>
               </div>
 
-              {parsedKeywordTags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {parsedKeywordTags.map((tag, idx) => (
-                    <span
-                      key={`${tag}-${idx}`}
-                      className="text-[11px] font-semibold bg-sky-50 text-sky-900 border border-sky-200 px-2.5 py-0.5 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between gap-2">
-                <label
-                  htmlFor="abs-bio"
-                  className="hems-label mb-0 flex items-center gap-1.5"
-                >
-                  <User size={13} className="text-primary" />
-                  Presenter Biography (Max {BIO_MAX_CHARS} Chars){" "}
-                  <span className="text-red-600">*</span>
-                </label>
-                <span
-                  className={`text-xs font-bold tabular-nums ${
-                    presenterBio.length >= BIO_MAX_CHARS
-                      ? "text-amber-600"
-                      : "text-slate-600"
-                  }`}
-                >
-                  {presenterBio.length} / {BIO_MAX_CHARS} chars
-                </span>
-              </div>
-              <textarea
-                id="abs-bio"
-                rows={4}
-                maxLength={BIO_MAX_CHARS}
-                value={presenterBio}
-                onChange={(e) => setPresenterBio(e.target.value)}
-                onPaste={(e) =>
-                  applyWordPasteToField(
-                    e,
-                    presenterBio,
-                    setPresenterBio,
-                    { multiline: true, maxChars: BIO_MAX_CHARS },
-                    (trimmed) => {
-                      if (trimmed > 0) {
-                        setPasteNotice(
-                          `Word paste trimmed ${trimmed} characters to fit the ${BIO_MAX_CHARS}-character biography limit.`
-                        );
-                      }
-                    }
-                  )
-                }
-                placeholder="Brief biographical sketch for session chairs and program reviewers (up to 500 characters)..."
-                className={`${INPUT_CLASS} leading-relaxed`}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* STAGE 7: 8.5" × 11" (1" Margin, 1–2 Page) Preview, Desired Figure Width & Submit */}
-        {currentStage === 7 && (
-          <div className="space-y-5">
-            <div className="print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-5 shadow-xs space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-2 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs">
-                <span className="text-slate-700 font-semibold">
-                  Jump back to edit any section before submitting:
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {WORKFLOW_STAGES.slice(0, 6).map((st) => (
-                    <button
-                      key={st.id}
-                      type="button"
-                      onClick={() => handleJumpToStage(st.id)}
-                      className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-300 hover:border-primary hover:text-primary text-[11px] font-semibold text-slate-800 cursor-pointer"
-                    >
-                      {st.id}. {st.shortLabel}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Desired Figure Width Control Also Available Directly on Stage 7 */}
-              <div>{renderFigureWidthControl("stage7")}</div>
-            </div>
-
-            <AbstractOnePagePreview
-              workshopOrdinal={workshop.workshop_ordinal}
-              workshopWindow={workshop.target_window}
-              workshopYear={Number(workshop.workshop_year) || 2027}
-              title={title}
-              authors={authors}
-              affiliations={affiliations}
-              correspondingEmail={correspondingEmail}
-              secondaryEmail={secondaryEmail}
-              presentationFormat={presentationFormat}
-              researchTrack={researchTrack}
-              studentTravelAwardApplicant={studentTravelAwardApplicant}
-              synopsis={summary}
-              abstractText={abstractText}
-              keywords={keywords}
-              presenterBio={presenterBio}
-              graphicUrl={graphicPreviewUrl || null}
-              graphicMeta={
-                displayGraphicMeta
-                  ? {
+              <AbstractOnePagePreview
+                workshopOrdinal={workshop.workshop_ordinal}
+                workshopWindow={workshop.target_window}
+                workshopYear={Number(workshop.workshop_year) || 2027}
+                title={title}
+                authors={authors}
+                affiliations={affiliations}
+                correspondingEmail={correspondingEmail}
+                secondaryEmail={secondaryEmail}
+                presentationFormat={presentationFormat}
+                researchTrack={researchTrack}
+                studentTravelAwardApplicant={studentTravelAwardApplicant}
+                synopsis={summary}
+                abstractText={abstractText}
+                keywords={keywords}
+                presenterBio={presenterBio}
+                graphicUrl={graphicPreviewUrl || null}
+                graphicMeta={
+                  displayGraphicMeta
+                    ? {
                       ...displayGraphicMeta,
                       widthInches: figureWidthInches,
                       caption: graphicCaption.trim() || undefined,
                     }
-                  : null
-              }
-              graphicCaption={graphicCaption}
-              figureWidthInches={figureWidthInches}
-              hideTopToolbar
-            />
-          </div>
-        )}
-
-        {/* Stage Footer: Back / Next / Submit */}
-        <div
-          className={
-            currentStage === 7
-              ? "print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-              : "print:hidden pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-          }
-        >
-          <button
-            type="button"
-            disabled={currentStage === 1}
-            onClick={handlePrevStage}
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-300 bg-white hover:border-primary hover:text-primary disabled:opacity-40 disabled:pointer-events-none text-sm font-semibold text-slate-800 transition-colors cursor-pointer"
-          >
-            <ArrowLeft size={16} />
-            <span>Back</span>
-          </button>
-
-          <span className="text-xs text-slate-500 text-center tabular-nums">
-            Step {currentStage} of {WORKFLOW_STAGES.length} •{" "}
-            {editingSubmissionId
-              ? `Editing ${editingSubmissionId} (updates live upon save)`
-              : "Auto-saved locally & synced to cloud on stage changes"}
-          </span>
-
-          {currentStage < 7 ? (
-            <button
-              type="button"
-              onClick={handleNextStage}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-sky-800 text-white text-sm font-semibold transition-colors shadow-xs cursor-pointer"
-            >
-              <span>Next</span>
-              <ArrowRight size={16} />
-            </button>
-          ) : (
-            <button
-              type="button"
-              disabled={submitting || deadlineInfo.isPastDeadline}
-              onClick={() => void handleFinalSubmit()}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors shadow-xs cursor-pointer"
-            >
-              {submitting ? (
-                <>
-                  <Loader2 size={16} className="animate-spin" />
-                  <span>{editingSubmissionId ? "Saving Updates..." : "Submitting Abstract..."}</span>
-                </>
-              ) : deadlineInfo.isPastDeadline ? (
-                <>
-                  <Lock size={16} />
-                  <span>Submission Cutoff Passed</span>
-                </>
-              ) : (
-                <>
-                  <Upload size={16} />
-                  <span>
-                    {editingSubmissionId ? "Save Updated Submission" : "Submit Abstract for Review"}
-                  </span>
-                </>
-              )}
-            </button>
+                    : null
+                }
+                graphicCaption={graphicCaption}
+                figureWidthInches={figureWidthInches}
+                hideTopToolbar
+              />
+            </div>
           )}
-        </div>
-      </section>
+
+          {/* Stage Footer: Back / Next / Submit */}
+          <div
+            className={
+              currentStage === 7
+                ? "print:hidden bg-[#F3F6FA] border border-slate-300 rounded-2xl px-4 sm:px-8 py-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                : "print:hidden pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+            }
+          >
+            <button
+              type="button"
+              disabled={currentStage === 1}
+              onClick={handlePrevStage}
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-300 bg-white hover:border-primary hover:text-primary disabled:opacity-40 disabled:pointer-events-none text-sm font-semibold text-slate-800 transition-colors cursor-pointer"
+            >
+              <ArrowLeft size={16} />
+              <span>Back</span>
+            </button>
+
+            <span className="text-xs text-slate-500 text-center tabular-nums">
+              Step {currentStage} of {WORKFLOW_STAGES.length} •{" "}
+              {editingSubmissionId
+                ? `Editing ${editingSubmissionId} (updates live upon save)`
+                : "Auto-saved locally & synced to cloud on stage changes"}
+            </span>
+
+            {currentStage < 7 ? (
+              <button
+                type="button"
+                onClick={handleNextStage}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary hover:bg-sky-800 text-white text-sm font-semibold transition-colors shadow-xs cursor-pointer"
+              >
+                <span>Next</span>
+                <ArrowRight size={16} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={submitting || deadlineInfo.isPastDeadline}
+                onClick={() => void handleFinalSubmit()}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors shadow-xs cursor-pointer"
+              >
+                {submitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>{editingSubmissionId ? "Saving Updates..." : "Submitting Abstract..."}</span>
+                  </>
+                ) : deadlineInfo.isPastDeadline ? (
+                  <>
+                    <Lock size={16} />
+                    <span>Submission Cutoff Passed</span>
+                  </>
+                ) : (
+                  <>
+                    <Upload size={16} />
+                    <span>
+                      {editingSubmissionId ? "Save Updated Submission" : "Submit Abstract for Review"}
+                    </span>
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+        </section>
       )}
     </div>
   );

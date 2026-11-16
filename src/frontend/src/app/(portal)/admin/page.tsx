@@ -14,10 +14,12 @@ import {
   Edit3,
   Info,
   Loader2,
+  Lock,
   RefreshCw,
   Search,
   ShieldAlert,
   ShieldCheck,
+  SlidersHorizontal,
   Trash2,
   Upload,
   UserPlus,
@@ -34,6 +36,7 @@ import {
   CsvApplyMode,
   isAssignableRole,
   parseWhitelistCsv,
+  PROTECTED_ADMIN_EMAIL,
   ROLE_DISPLAY_META,
   WhitelistCsvApplyPlan,
   WhitelistEntry,
@@ -137,6 +140,8 @@ export default function AdminPage() {
       "poster presenter": 0,
       "corporate sponsor": 0,
       reviewer: 0,
+      operations: 0,
+      treasurer: 0,
       board: 0,
       admin: 0,
     };
@@ -524,7 +529,7 @@ export default function AdminPage() {
             <ShieldCheck className="text-primary shrink-0" size={26} /> Whitelist Manager
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl leading-relaxed">
-            Manage attendee, presenter, corporate sponsor, reviewer, board, and admin permissions.{" "}
+            Manage attendee, presenter, corporate sponsor, reviewer, operations, treasurer, board, and admin permissions.{" "}
             <span className="font-semibold text-slate-800">
               General member access is granted automatically to all signed-in users.
             </span>
@@ -553,6 +558,30 @@ export default function AdminPage() {
           </button>
         </div>
       </header>
+
+      {/* Cross-nav banner to Workshop Control Center */}
+      <div className="bg-sky-50/90 border border-sky-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-2xs">
+        <div className="flex items-start gap-3">
+          <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center shrink-0">
+            <SlidersHorizontal size={18} />
+          </div>
+          <div>
+            <h2 className="text-sm font-bold text-slate-900">
+              Looking to update conference dates, pricing, CFP status, or venue details?
+            </h2>
+            <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
+              Manage all 44 upcoming workshop settings with live Draft staging, zero-login Board
+              Preview links, visual diffs, and 1-click Rollback in the Workshop Control Center.
+            </p>
+          </div>
+        </div>
+        <Link
+          href="/admin/workshop-settings"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-primary hover:bg-[#00487d] text-white text-xs font-semibold shrink-0 transition-colors shadow-2xs"
+        >
+          <SlidersHorizontal size={14} /> Open Workshop Control Center &rarr;
+        </Link>
+      </div>
 
       {errorMsg && (
         <div
@@ -1591,24 +1620,39 @@ export default function AdminPage() {
                           ) : (
                             activeAssignableRoles.map((role) => {
                               const meta = ROLE_DISPLAY_META[role];
+                              const isProtectedAdminBadge =
+                                entry.email === PROTECTED_ADMIN_EMAIL &&
+                                role === "admin";
                               return (
                                 <span
                                   key={role}
-                                  title={meta.desc}
+                                  title={
+                                    isProtectedAdminBadge
+                                      ? "Protected system webmaster — permanently retains Administrator role"
+                                      : meta.desc
+                                  }
                                   className={`inline-flex items-center gap-1 pl-2 pr-1.5 py-0.5 rounded-md border text-[10.5px] font-semibold ${meta.badgeClass}`}
                                 >
                                   <span>{meta.label}</span>
-                                  <button
-                                    type="button"
-                                    onClick={() =>
-                                      void toggleRole(entry.email, role, entry.roles)
-                                    }
-                                    aria-label={`Remove ${meta.label} role from ${entry.email}`}
-                                    title={`Remove ${meta.label}`}
-                                    className="opacity-75 hover:opacity-100 hover:text-red-600 cursor-pointer"
-                                  >
-                                    <X size={10} />
-                                  </button>
+                                  {isProtectedAdminBadge ? (
+                                    <Lock
+                                      size={10}
+                                      aria-label="Permanent webmaster Administrator lock"
+                                      className="opacity-70 shrink-0"
+                                    />
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        void toggleRole(entry.email, role, entry.roles)
+                                      }
+                                      aria-label={`Remove ${meta.label} role from ${entry.email}`}
+                                      title={`Remove ${meta.label}`}
+                                      className="opacity-75 hover:opacity-100 hover:text-red-600 cursor-pointer"
+                                    >
+                                      <X size={10} />
+                                    </button>
+                                  )}
                                 </span>
                               );
                             })
@@ -1673,10 +1717,23 @@ export default function AdminPage() {
                             </button>
                             <button
                               type="button"
+                              disabled={entry.email === PROTECTED_ADMIN_EMAIL}
                               onClick={() => void handleDeleteEntryClick(entry)}
-                              className="p-1.5 rounded text-slate-500 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
-                              title="Remove from Whitelist"
-                              aria-label={`Remove ${entry.email} from whitelist`}
+                              className={`p-1.5 rounded transition-colors ${
+                                entry.email === PROTECTED_ADMIN_EMAIL
+                                  ? "text-slate-300 cursor-not-allowed"
+                                  : "text-slate-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
+                              }`}
+                              title={
+                                entry.email === PROTECTED_ADMIN_EMAIL
+                                  ? "Protected system webmaster cannot be removed from whitelist"
+                                  : "Remove from Whitelist"
+                              }
+                              aria-label={
+                                entry.email === PROTECTED_ADMIN_EMAIL
+                                  ? `${entry.email} is protected and cannot be removed`
+                                  : `Remove ${entry.email} from whitelist`
+                              }
                             >
                               <Trash2 size={13} />
                             </button>

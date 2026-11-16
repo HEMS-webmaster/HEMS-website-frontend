@@ -12,7 +12,10 @@ import {
   ShieldCheck,
   Calendar,
   Award,
+  Activity,
 } from "lucide-react";
+import HeroMassSpectrum from "@/components/home/HeroMassSpectrum";
+import { galleryImageUrl } from "@/utils/galleryAssets";
 import { buildPageMetadata, buildWebPageJsonLd } from "@/utils/seo";
 
 const PAGE_TITLE = "About the HEMS Society | Harsh-Environment Mass Spectrometry";
@@ -30,42 +33,42 @@ export const metadata: Metadata = buildPageMetadata({
   ],
 });
 
-// Verbatim core objectives from docs/source-documents/mission-statementV2.md
+// Verbatim core objectives from docs/source-documents/mission-statementV4.md
 const OBJECTIVES = [
   {
-    title: "Facilitate Cross-Disciplinary Collaboration",
+    title: "Build an Inclusive Community",
     icon: Users,
     accent: "primary" as const,
     description:
-      "We unite instrument builders, analytical scientists, and end-users across academia, government laboratories, and industry in an open, single-track community.",
+      "We bring together instrument developers, analytical scientists, and end-users from academia, government laboratories, and industry in an open, welcoming forum for collaboration.",
   },
   {
     title: "Advance Enabling Technologies",
     icon: Cpu,
     accent: "secondary" as const,
     description:
-      "We champion breakthroughs in subsystem engineering—including compact vacuum systems, harsh-environment sample inlets, ruggedized analyzers, power management, and onboard signal processing—that expand what field mass spectrometers can measure.",
+      "We champion progress in the subsystems that make field mass spectrometry possible, including miniaturization, compact vacuum systems, sample introduction, power management, and onboard signal processing.",
   },
   {
-    title: "Share Candid Field Knowledge",
+    title: "Share Practical Knowledge",
     icon: BookOpen,
     accent: "primary" as const,
     description:
-      "Through the biennial HEMS Workshop, conference focus groups, and our open-access proceedings archive, we disseminate cutting-edge research, practical deployment lessons, and candid engineering insights from the field.",
+      "Through the HEMS Workshop, conference focus groups, and our open-access proceedings, we share cutting-edge research alongside candid lessons from real-world deployments.",
   },
   {
-    title: "Accelerate Field-Ready Innovation",
+    title: "Bridge the Lab and the Field",
     icon: Lightbulb,
     accent: "secondary" as const,
     description:
-      "We bridge the gap between laboratory concepts and operational deployment, advancing the ruggedness, autonomy, analytical performance, and environmental survivability of in-situ instrumentation.",
+      "We help move promising concepts from the laboratory into operational use, improving the ruggedness, autonomy, and analytical performance of in-situ instruments.",
   },
   {
-    title: "Cultivate Education & Emerging Investigators",
+    title: "Educate and Mentor",
     icon: GraduationCap,
     accent: "primary" as const,
     description:
-      "Through competitive Student Travel Awards, mentorship, and community outreach, we support the next generation of field mass spectrometrists and broaden awareness of in-situ chemical sensing.",
+      "Through Student Travel Awards, mentorship, and public outreach, we support the next generation of field mass spectrometrists and raise awareness of what in-situ chemical analysis can do.",
   },
 ];
 
@@ -74,7 +77,7 @@ const INSTITUTIONAL_FACTS = [
     icon: Calendar,
     label: "Biennial Continuum",
     value: "Est. 1999 • 15 Workshops",
-    detail: "Founded in St. Petersburg, FL; incorporated as a Florida 501(c)(3) nonprofit in 2008.",
+    detail: "Formed in St. Petersburg, FL in 1999; incorporated as a Florida 501(c)(3) nonprofit in 2008.",
   },
   {
     icon: Users,
@@ -116,7 +119,7 @@ export default function About() {
       />
 
       {/* EDITORIAL PAGE HEADER */}
-      <section className="bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] border-b border-slate-200/85 py-10 sm:py-14">
+      <section className="bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] border-b border-slate-200/85 py-7 sm:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="max-w-3xl space-y-3.5">
@@ -136,7 +139,7 @@ export default function About() {
             </div>
 
             {/* Restrained Society Seal Card (56–64px emblem per Brand Guide v3.1.0 §4.2) */}
-            <div className="inline-flex items-center gap-3.5 bg-white border border-slate-200/90 rounded-xl px-4 py-3 shadow-2xs self-start lg:self-end shrink-0">
+            <div className="hidden lg:inline-flex items-center gap-3.5 bg-white border border-slate-200/90 rounded-xl px-4 py-3 shadow-2xs self-start lg:self-end shrink-0">
               <img
                 src="/hemslogo.jpg"
                 alt="HEMS Society Official Seal"
@@ -147,10 +150,10 @@ export default function About() {
               />
               <div>
                 <div className="font-serif font-semibold text-slate-900 text-sm sm:text-base leading-snug">
-                  501(c)(3) Scientific Society
+                  All-Volunteer 501(c)(3) Society
                 </div>
                 <div className="text-[11px] font-medium text-slate-500 mt-0.5">
-                  Board-Governed • Zero Membership Dues
+                  Est. 1999 • Zero Membership Dues
                 </div>
               </div>
             </div>
@@ -176,22 +179,22 @@ export default function About() {
 
               <div className="bg-[#FAFBFD] border border-slate-200/90 border-l-4 border-l-primary rounded-r-xl p-6 sm:p-7 shadow-2xs">
                 <p className="font-serif text-lg sm:text-[19.5px] text-slate-800 leading-relaxed">
-                  Our mission is to convene scientists, engineers, and field operators to exchange knowledge and solve the shared challenges of deploying mass spectrometry outside the controlled laboratory. Through open, cross-sector cooperation, we accelerate reliable, compact, and energy-efficient mass spectrometry for demanding—and at times extreme—environments across ocean, atmospheric, planetary, industrial, and security frontiers.
+                  Our mission is to bring together scientists, engineers, and field operators to exchange knowledge and solve the shared challenges of deploying mass spectrometry outside the laboratory. Through open, cross-disciplinary cooperation, we accelerate the realization of reliable, compact, and energy-efficient instruments for demanding, and at times extremely harsh, environments—for example, the deep ocean, upper atmosphere, planetary surfaces, industrial sites, and defense and security operations.
                 </p>
               </div>
 
               <p className="text-sm sm:text-[15px] text-slate-600 leading-relaxed">
-                Incorporated in Florida as a tax-exempt 501(c)(3) public charity, the Society is stewarded by a Board of Directors and biennial Workshop Organizing Committee drawn from universities, government laboratories, space agencies, and instrumentation developers.
+                Formed in 1999 and incorporated in Florida in 2008 as a tax-exempt 501(c)(3) public charity, the Society is stewarded by an all-volunteer Board of Directors and biennial Workshop Organizing Committee drawn from universities, government laboratories, space agencies, and instrumentation developers.
               </p>
 
               {/* 2x2 Institutional Profile Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5 pt-2">
                 {INSTITUTIONAL_FACTS.map((fact) => {
                   const FactIcon = fact.icon;
                   return (
                     <div
                       key={fact.label}
-                      className="bg-[#FAFBFD] border border-slate-200/85 rounded-xl p-4 space-y-1.5"
+                      className="bg-[#FAFBFD] border border-slate-200/85 rounded-xl p-3 sm:p-4 space-y-1.5"
                     >
                       <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-500">
                         <FactIcon size={14} className="text-primary shrink-0" />
@@ -200,7 +203,7 @@ export default function About() {
                       <div className="text-sm font-semibold text-slate-900 tabular-nums">
                         {fact.value}
                       </div>
-                      <p className="text-xs text-slate-600 leading-relaxed">
+                      <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
                         {fact.detail}
                       </p>
                     </div>
@@ -211,10 +214,10 @@ export default function About() {
 
             {/* Right 5 Columns: Proportional, Uncropped 2025 Community Staircase Portrait */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <figure className="w-full max-w-[360px] sm:max-w-[390px] bg-[#FAFBFD] border border-slate-200/95 rounded-2xl p-3.5 shadow-2xs">
+              <figure className="w-full max-w-[275px] sm:max-w-[390px] bg-[#FAFBFD] border border-slate-200/95 rounded-2xl p-3 sm:p-3.5 shadow-2xs">
                 <div className="overflow-hidden rounded-xl border border-slate-200/70 bg-slate-100">
                   <img
-                    src="/images/gallery/group-photo-2025.jpg"
+                    src={galleryImageUrl("group-photo-2025.jpg")}
                     alt="Participants of the 15th Biennial Harsh-Environment Mass Spectrometry Workshop gathered on the atrium staircase in Virginia Beach, September 2025"
                     width={1029}
                     height={1600}
@@ -293,17 +296,17 @@ export default function About() {
       </section>
 
       {/* SECTION 03: COMMUNITY HERITAGE & ARCHIVE PATHWAYS */}
-      <section className="py-12 sm:py-18 bg-white">
+      <section className="py-12 sm:py-18 bg-white md:border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             {/* Relocated 2013 Don CeSar Symposium Fellowship Card */}
-            <figure className="lg:col-span-5 bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-4 flex flex-col justify-between shadow-2xs">
+            <figure className="hidden md:flex lg:col-span-5 bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-4 flex-col justify-between shadow-2xs">
               <div className="overflow-hidden rounded-xl border border-slate-200/70 bg-slate-100">
                 <img
-                  src="/images/gallery/don-cesar-hawaiian-smiles-2013.jpg"
+                  src={galleryImageUrl("don-cesar-hawaiian-smiles-2013.jpg")}
                   alt="Smiling HEMS Workshop colleagues in casual coastal attire on the Courtyard Terrace at St. Pete Beach"
                   width={1600}
-                  height={1060}
+                  height={1059}
                   decoding="async"
                   className="w-full aspect-[16/10] object-cover"
                   loading="lazy"
@@ -364,6 +367,61 @@ export default function About() {
                   <span>Browse Archive</span>
                   <ArrowRight size={15} />
                 </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 04: ANALYTICAL SIGNATURES IN THE FIELD */}
+      <section className="hidden md:block py-12 sm:py-18 bg-[#FAFBFD]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="lg:col-span-5 space-y-4">
+              <div className="inline-flex items-center gap-2 tabular-nums text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
+                <Activity size={14} /> 04 — Analytical Signatures in the Field
+              </div>
+
+              <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
+                Resolving Chemical Signatures Outside the Lab
+              </h2>
+
+              <p className="text-sm sm:text-[15px] text-slate-600 leading-relaxed">
+                Whether sampling dissolved hydrocarbons across deep ocean gradients, corrosive sulfur compounds inside volcanic fumaroles, or trace volatiles in planetary atmospheres, field-deployable instruments must deliver quantitative{" "}
+                <em className="font-serif italic text-slate-800">m/z</em> 1–100 spectra under tight size, weight, and power envelopes.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2.5 pt-1">
+                <div className="bg-white border border-slate-200/85 rounded-xl px-3.5 py-2.5 shadow-2xs">
+                  <div className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.08em] text-primary">
+                    Subsea Seep • 25 MPa MIMS
+                  </div>
+                  <p className="text-xs text-slate-600 mt-0.5 leading-snug">
+                    Silicone membrane inlets separate methane, dissolved gases, and light hydrocarbons down to abyssal pressures.
+                  </p>
+                </div>
+                <div className="bg-white border border-slate-200/85 rounded-xl px-3.5 py-2.5 shadow-2xs">
+                  <div className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.08em] text-secondary">
+                    Volcanic Plume • 145 °C Capillary
+                  </div>
+                  <p className="text-xs text-slate-600 mt-0.5 leading-snug">
+                    Heated inert capillary transfer lines resolve <span className="tabular-nums">SO₂</span>, <span className="tabular-nums">H₂S</span>, and <span className="tabular-nums">HCl</span> ratios above active craters without condensation.
+                  </p>
+                </div>
+                <div className="bg-white border border-slate-200/85 rounded-xl px-3.5 py-2.5 shadow-2xs">
+                  <div className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.08em] text-primary">
+                    Planetary Probe • 6.1 mbar Sniffer
+                  </div>
+                  <p className="text-xs text-slate-600 mt-0.5 leading-snug">
+                    Flight-hardened quadrupole and ion-trap analyzers quantify isotope ratios across low-pressure extraterrestrial atmospheres.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-6 shadow-sm">
+                <HeroMassSpectrum />
               </div>
             </div>
           </div>

@@ -1,10 +1,10 @@
 # Harsh-Environment Mass Spectrometry Society (HEMS) — Complete Reference & Proceedings Corpus
 
-> Official complete machine-readable reference and citation corpus for the Harsh-Environment Mass Spectrometry Society, Inc. (IRS 501(c)(3) scientific public charity, founded 1999) — https://www.hems-workshop.org/
+> Official complete machine-readable reference and citation corpus for the Harsh-Environment Mass Spectrometry Society, Inc. (all-volunteer IRS 501(c)(3) scientific public charity, founded 1999) — https://www.hems-workshop.org/
 
 ## 1. Organization Overview & Citation Protocol
-- **Legal Entity:** Harsh-Environment Mass Spectrometry Society, Inc. (501(c)(3) Scientific Nonprofit, Est. 1999)
-- **Mission:** Advancing portable, ruggedized, miniaturized, and in-situ mass spectrometry across subsea, planetary, spaceflight, atmospheric, volcanic, industrial, and tactical field environments.
+- **Legal Entity:** Harsh-Environment Mass Spectrometry Society, Inc. (All-Volunteer 501(c)(3) Scientific Nonprofit, Est. 1999)
+- **Mission:** Advancing portable, ruggedized, miniaturized, and in-situ mass spectrometry across subsea, planetary, spaceflight, atmospheric, volcanic, industrial, and defense and security environments.
 - **Official Contacts:**
   - General & Symposium Inquiries: `president@hems-workshop.org`
   - Corporate Sponsorship & Billing: `tim.short@hems-workshop.org`
@@ -2149,6 +2149,7 @@
      - Cite / Anchor: https://www.hems-workshop.org/archive/2002/#2002-pres-eyre-meso-scale-scroll-pump-array
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues/3rd_Eyre_MesoScale_Scroll_Pump_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues/3rd_Eyre_MesoScale_Scroll_Pump_Abstract_preview.txt
+     - Summary Excerpt: 3rd Harsh-Environment Mass Spectrometry Workshop (2002) https://www.hems-workshop.orgPresented Talk Abstract 3RD HARSH-ENVIRONMENT MASS SPECTROMETRY WORKSHOP Meso-Scale Scroll Pump Array Fabricated using LIGA Technology for Portable, High-resolution Mass Spectrometer Authors &...
   25. **[Oral] Performance Analysis for Meso-Scale Scroll Pumps** — Eric Moore, E. Phillip Muntz, Francis Eyre, Nosang Myung, Otto Orient, Kirill Shcheglov, Dean Wiberg (University of Southern California) | Session: Technical Session I: Miniaturization / Technical Issues
      - Cite / Anchor: https://www.hems-workshop.org/archive/2002/#2002-pres-moore-performance-analysis-for-meso-scale
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues/3rd_Moore_Performance_Analysis_for_Abstract.pdf

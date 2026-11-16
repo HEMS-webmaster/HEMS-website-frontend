@@ -299,8 +299,8 @@ export default function ContactClient() {
   };
 
   return (
-    <div className="flex flex-col flex-grow py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-      <div className="mb-10 sm:mb-12 pb-8 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-8">
+    <div className="flex flex-col flex-grow py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      <div className="mb-7 sm:mb-12 pb-6 sm:pb-8 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-8">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs">
             <Mail size={14} className="text-primary shrink-0" /> Official Society Communications
@@ -317,7 +317,7 @@ export default function ContactClient() {
           </p>
         </div>
 
-        <div className="flex flex-col items-center p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
+        <div className="hidden md:flex flex-col items-center p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
           <img
             src="/hemslogo.jpg"
             alt="HEMS Society Official Emblem"
@@ -712,13 +712,13 @@ export default function ContactClient() {
           {/* Society Governance Card */}
           <div className="bg-gradient-to-br from-primary/10 via-surface/40 to-secondary/10 border border-primary/20 rounded-2xl p-5 sm:p-8 shadow-sm">
             <div className="flex items-center gap-2.5 text-primary text-[11px] font-semibold uppercase tracking-[0.1em] mb-3">
-              <ShieldCheck size={18} className="shrink-0" /> Nonprofit Incorporation
+              <ShieldCheck size={18} className="shrink-0" /> All-Volunteer 501(c)(3) • Est. 1999
             </div>
             <h3 className="font-serif text-2xl font-semibold tracking-tight text-slate-900 mb-3">
               HEMS Society, Inc.
             </h3>
             <p className="text-sm text-foreground/80 leading-relaxed mb-4">
-              Incorporated in the State of Florida since 2008 as a tax-exempt <strong>501(c)(3) Public Charity</strong>, the Harsh-Environment Mass Spectrometry Society is governed by a rotating organizing committee of academic, government, and industry scientists.
+              Formed in 1999 and incorporated in the State of Florida in 2008 as an all-volunteer, tax-exempt <strong>501(c)(3) Public Charity</strong>, the Harsh-Environment Mass Spectrometry Society is governed by a rotating Board of Directors and Organizing Committee of academic, government, and industry scientists.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-foreground/10 text-xs text-foreground/70">
               <div>
@@ -726,7 +726,7 @@ export default function ContactClient() {
                 <strong className="text-foreground">Biennial (Every 2 Years)</strong>
               </div>
               <div>
-                <span className="block text-[10px] uppercase text-foreground/50">Inaugural Meeting</span>
+                <span className="block text-[10px] uppercase text-foreground/50">Formed / Inaugural Workshop</span>
                 <strong className="text-foreground">Feb 1999 • St. Petersburg, FL</strong>
               </div>
             </div>

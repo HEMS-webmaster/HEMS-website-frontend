@@ -4,6 +4,7 @@ import {
   ArrowRight,
   ArrowLeft,
   Calendar,
+  ChevronDown,
   Compass,
   ShieldCheck,
   MapPin,
@@ -13,7 +14,7 @@ import { buildPageMetadata, buildWebPageJsonLd } from "@/utils/seo";
 
 const PAGE_TITLE = "Workshop & Society History (1999–2025) | HEMS Society";
 const PAGE_DESCRIPTION =
-  "Trace the history of the Harsh-Environment Mass Spectrometry (HEMS) Workshop from its 1999 USF St. Petersburg debut to an international 501(c)(3) society.";
+  "Trace the history of the Harsh-Environment Mass Spectrometry (HEMS) Society and Workshop from its 1999 formation at USF St. Petersburg to an all-volunteer international 501(c)(3) society.";
 
 export const metadata: Metadata = buildPageMetadata({
   title: PAGE_TITLE,
@@ -39,35 +40,35 @@ interface FormativeMilestone {
 const FORMATIVE_MILESTONES: FormativeMilestone[] = [
   {
     ordinal: "1st",
-    date: "Feb 1999",
+    date: "Feb 21–23, 1999",
     location: "USF St. Petersburg, FL",
     note: "Inaugural 1.5-day forum (~20 US investigators)",
     year: 1999,
   },
   {
     ordinal: "2nd",
-    date: "Feb 2001",
+    date: "Mar 18–21, 2001",
     location: "Downtown St. Petersburg, FL",
     note: "65 attendees, international reach & casual attire",
     year: 2001,
   },
   {
     ordinal: "3rd",
-    date: "Mar 2002",
+    date: "Mar 25–28, 2002",
     location: "NASA JPL • Pasadena, CA",
     note: "Jointly held with NASA 2nd Miniature Vacuum Pumps Workshop",
     year: 2002,
   },
   {
     ordinal: "4th",
-    date: "Oct 2003",
+    date: "Oct 7–10, 2003",
     location: "St. Pete Beach, FL",
     note: "Beachfront single-track collaborative format",
     year: 2003,
   },
   {
     ordinal: "5th",
-    date: "Sept 2005",
+    date: "Sept 20–23, 2005",
     location: "Lido Beach • Sarasota, FL",
     note: "Established mid-September biennial cadence & Committee",
     year: 2005,
@@ -109,6 +110,28 @@ export default function SocietyHistoryPage() {
     ],
   });
 
+  const chronologyGrid = (
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+      {ALL_WORKSHOPS.map((ws) => (
+        <Link
+          key={ws.year}
+          href={`/archive/${ws.year}`}
+          className="group bg-white border border-slate-200/85 hover:border-primary/50 rounded-xl px-3 py-2.5 transition-colors shadow-2xs flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between gap-1 tabular-nums text-[11px] font-semibold">
+            <span className="text-primary">#{String(ws.number).padStart(2, "0")}</span>
+            <span className="text-slate-900 group-hover:text-primary transition-colors">
+              {ws.year}
+            </span>
+          </div>
+          <div className="text-xs text-slate-600 truncate mt-1">
+            {ws.location}
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+
   return (
     <div className="flex flex-col flex-grow">
       <script
@@ -117,7 +140,7 @@ export default function SocietyHistoryPage() {
       />
 
       {/* EDITORIAL PAGE HEADER */}
-      <section className="bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] border-b border-slate-200/85 py-10 sm:py-14">
+      <section className="bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] border-b border-slate-200/85 py-7 sm:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/about"
@@ -130,7 +153,7 @@ export default function SocietyHistoryPage() {
             <div className="max-w-3xl space-y-3.5">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug shadow-2xs">
                 <Calendar size={13} className="text-primary shrink-0" />
-                <span>Inaugural Workshop Feb 1999 • 501(c)(3) Incorporated 2008</span>
+                <span>Est. Feb 1999 • All-Volunteer 501(c)(3) Incorporated 2008</span>
               </div>
 
               <h1 className="font-serif text-3xl sm:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
@@ -144,7 +167,7 @@ export default function SocietyHistoryPage() {
             </div>
 
             {/* Restrained Society Seal Card (56–64px emblem matching /about & Brand Guide v3.1.0 §4.2) */}
-            <div className="inline-flex items-center gap-3.5 bg-white border border-slate-200/90 rounded-xl px-4 py-3 shadow-2xs self-start lg:self-end shrink-0">
+            <div className="hidden lg:inline-flex items-center gap-3.5 bg-white border border-slate-200/90 rounded-xl px-4 py-3 shadow-2xs self-start lg:self-end shrink-0">
               <img
                 src="/hemslogo.jpg"
                 alt="HEMS Society Official Emblem"
@@ -166,7 +189,7 @@ export default function SocietyHistoryPage() {
         </div>
       </section>
 
-      {/* CHAPTER 01: HEMS WORKSHOP EARLY YEARS (MATCHES historyV2.md VERBATIM) */}
+      {/* CHAPTER 01: HEMS WORKSHOP EARLY YEARS (MATCHES historyV4.md VERBATIM) */}
       <section className="py-12 sm:py-18 bg-[#FAFBFD] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
@@ -196,7 +219,7 @@ export default function SocietyHistoryPage() {
                   for programs and proceedings from this and all subsequent HEMS Workshops).
                 </p>
                 <p>
-                  Enthusiasm from that initial meeting prompted USF COT to organize a longer, broadly advertised 2nd HEMS Workshop in downtown St. Petersburg in February 2001, introducing formal registration and drawing 65 participants—including the Workshop’s first international attendees. Its relaxed, collegial spirit took hold immediately, establishing shorts and Hawaiian shirts as the unofficial symposium attire. Energized by the breadth of applications represented—spanning disaster response, environmental monitoring, marine biogeochemistry, space exploration, fundamental analytical science, and frontier hardware engineering—the organizers initially set out on an annual schedule.
+                  Enthusiasm from that initial meeting prompted USF COT to organize a longer, broadly advertised 2nd HEMS Workshop in downtown St. Petersburg on March 18–21, 2001, introducing formal registration and drawing 65 participants—including the Workshop’s first international attendees. Its relaxed, collegial spirit took hold immediately, establishing shorts and Hawaiian shirts as the unofficial symposium attire. Energized by the breadth of applications represented—spanning disaster response, environmental monitoring, marine biogeochemistry, space exploration, fundamental analytical science, and frontier hardware engineering—the organizers initially set out on an annual schedule.
                 </p>
                 <p>
                   Discussions at the 2001 meeting also spotlighted a defining hardware bottleneck for compact mass spectrometers: achieving and sustaining high vacuum with low-power, miniature pumps. Consequently, the 3rd HEMS Workshop was held jointly with NASA’s 2nd Miniature Vacuum Pumps Workshop and hosted by the NASA Jet Propulsion Laboratory (JPL) in Pasadena, California in March 2002. USF COT returned the 4th HEMS Workshop to the Florida Gulf Coast at St. Pete Beach in October 2003, cementing both the symposium’s coastal character and its role in connecting academic and government innovators with instrument manufacturers. Recognizing the multi-year engineering cycles required to design, ruggedize, and field-test harsh-environment hardware, the community elected to shift to a two-year interval—a rhythm inaugurated when USF COT hosted the 5th HEMS Workshop at Lido Beach in Sarasota, Florida in September 2005, establishing the Workshop’s signature mid-September biennial cadence.
@@ -230,7 +253,7 @@ export default function SocietyHistoryPage() {
               </figure>
 
               {/* Formative Symposia Quick-Reference Card */}
-              <div className="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-2xs">
+              <div className="hidden lg:block bg-white border border-slate-200/90 rounded-2xl p-5 shadow-2xs">
                 <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3 mb-3.5">
                   <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-secondary">
                     Formative Symposia (1999–2005)
@@ -299,11 +322,11 @@ export default function SocietyHistoryPage() {
               </figcaption>
             </figure>
 
-            {/* Society Narrative (Right on Desktop — Matches historyV2.md Verbatim) */}
+            {/* Society Narrative (Right on Desktop — Matches historyV4.md Verbatim) */}
             <div className="lg:col-span-7 order-1 lg:order-2 space-y-5">
               <div>
                 <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.14em] text-secondary flex items-center gap-1.5 mb-2">
-                  <ShieldCheck size={14} /> 02 — Independent Governance (2005–Present)
+                  <ShieldCheck size={14} /> 02 — Society Governance &amp; 501(c)(3) Incorporation
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
                   The HEMS Society
@@ -312,7 +335,7 @@ export default function SocietyHistoryPage() {
 
               <div className="space-y-4 text-slate-700 leading-relaxed text-[15px] sm:text-base max-w-2xl">
                 <p>
-                  During the 5th HEMS Workshop at Lido Beach in 2005, attendees proposed forming a dedicated Organizing Committee so the growing community could steward future symposia independently rather than relying indefinitely on USF sponsorship. That newly established Organizing Committee convened the 6th HEMS Workshop in Cocoa Beach, Florida in September 2007 and, in 2008, formally incorporated the organization in the State of Florida as the <strong className="font-semibold text-slate-900">Harsh-Environment Mass Spectrometry Society, Inc.</strong> Today the HEMS Society operates as a nonprofit corporation exempt from federal income tax under Section 501(c)(3) of the Internal Revenue Code—providing an independent institutional identity to manage symposium finances, plan future meetings, fund competitive Student Travel Awards, and preserve an open-access proceedings archive without charging annual membership dues.
+                  During the 5th HEMS Workshop at Lido Beach in 2005, attendees proposed forming a dedicated Organizing Committee so the growing community could steward future symposia independently rather than relying indefinitely on USF sponsorship. That newly established Organizing Committee convened the 6th HEMS Workshop in Cocoa Beach, Florida in September 2007 and, in 2008, formally incorporated the organization in the State of Florida as the <strong className="font-semibold text-slate-900">Harsh-Environment Mass Spectrometry Society, Inc.</strong> Today the HEMS Society operates as an all-volunteer nonprofit corporation exempt from federal income tax under Section 501(c)(3) of the Internal Revenue Code—providing an independent institutional identity to manage symposium finances, plan future meetings, fund competitive Student Travel Awards, and preserve an open-access proceedings archive without charging annual membership dues.
                 </p>
                 <p>
                   From the outset, governance was structured around shared leadership: responsibility for chairing and hosting each biennial workshop rotates among members of the Board of Directors and Organizing Committee, backed by the full committee’s operational continuity.
@@ -325,7 +348,7 @@ export default function SocietyHistoryPage() {
           </div>
 
           {/* Complete 15-Workshop Chronological Index (Clickable into Proceedings Archive) */}
-          <div className="bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-5 sm:p-6">
+          <div className="hidden md:block bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-5 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-3.5 mb-4">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-slate-700">
                 <MapPin size={14} className="text-primary shrink-0" />
@@ -336,30 +359,28 @@ export default function SocietyHistoryPage() {
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
-              {ALL_WORKSHOPS.map((ws) => (
-                <Link
-                  key={ws.year}
-                  href={`/archive/${ws.year}`}
-                  className="group bg-white border border-slate-200/85 hover:border-primary/50 rounded-xl px-3 py-2.5 transition-colors shadow-2xs flex flex-col justify-between"
-                >
-                  <div className="flex items-center justify-between gap-1 tabular-nums text-[11px] font-semibold">
-                    <span className="text-primary">#{String(ws.number).padStart(2, "0")}</span>
-                    <span className="text-slate-900 group-hover:text-primary transition-colors">
-                      {ws.year}
-                    </span>
-                  </div>
-                  <div className="text-xs text-slate-600 truncate mt-1">
-                    {ws.location}
-                  </div>
-                </Link>
-              ))}
-            </div>
+            {chronologyGrid}
           </div>
+
+          <details className="md:hidden group bg-[#FAFBFD] border border-slate-200/90 rounded-2xl shadow-2xs">
+            <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer px-4 py-3.5 flex items-center justify-between gap-3 select-none">
+              <span className="flex items-center gap-2 text-xs font-semibold text-slate-800">
+                <MapPin size={14} className="text-primary shrink-0" />
+                <span>View All 15 Biennial Workshops (1999–2025)</span>
+              </span>
+              <ChevronDown
+                size={16}
+                className="text-slate-500 transition-transform duration-200 group-open:rotate-180 shrink-0"
+              />
+            </summary>
+            <div className="px-4 pb-4 pt-2 border-t border-slate-200/80">
+              {chronologyGrid}
+            </div>
+          </details>
         </div>
       </section>
 
-      {/* CHAPTER 03: SUMMARY (MATCHES historyV2.md VERBATIM) & DUAL NAVIGATION PATHWAYS */}
+      {/* CHAPTER 03: SUMMARY (MATCHES historyV4.md VERBATIM) & DUAL NAVIGATION PATHWAYS */}
       <section className="py-12 sm:py-18 bg-[#FAFBFD]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="bg-white border border-slate-200/95 rounded-2xl p-6 sm:p-9 lg:p-10 shadow-2xs">
@@ -383,7 +404,7 @@ export default function SocietyHistoryPage() {
                     From the very first gathering in 1999, HEMS Workshops have paired rigorous single-track science with relaxed, predominantly beachfront venues and generous unscheduled time for informal conversation.
                   </p>
                   <p>
-                    Over more than a quarter-century, uniting the scientists, engineers, and operators who design, build, and deploy field mass spectrometers—alongside corporate instrument manufacturers and government agencies—has forged enduring cross-sector collaborations and accelerated field-ready instrumentation. Because HEMS participants apply chemical sensing across widely varied ocean, space, atmospheric, industrial, and security missions—often supported by distinct funding programs—competitive barriers remain low, encouraging investigators to share detailed engineering lessons openly and advance the entire discipline together.
+                    Over more than a quarter-century, uniting the scientists, engineers, and operators who design, build, and deploy field mass spectrometers—alongside corporate instrument manufacturers and government agencies—has forged enduring cross-sector collaborations and accelerated field-ready instrumentation. Because HEMS participants apply chemical sensing across widely varied ocean, space, atmospheric, industrial, and defense and security missions—often supported by distinct funding programs—competitive barriers remain low, encouraging investigators to share detailed engineering lessons openly and advance the entire discipline together.
                   </p>
                 </div>
               </div>

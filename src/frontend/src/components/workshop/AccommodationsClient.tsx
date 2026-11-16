@@ -10,17 +10,79 @@ import {
   Info,
   History,
   ArrowRight,
+  ChevronDown,
 } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
+import { galleryImageUrl } from "@/utils/galleryAssets";
 
 export default function AccommodationsClient() {
   const { workshop } = useUpcomingWorkshop();
   const canBookNow = workshop.venue_confirmed && Boolean(workshop.hotel_booking_url);
 
+  const previousVenuesCards = (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs">
+        <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100 aspect-[16/9]">
+          <img
+            src={galleryImageUrl("virginia-beach-oceanfront-sunny.jpg")}
+            alt="Sunny oceanfront boardwalk, sandy beach, and Atlantic pier in Virginia Beach, Virginia (2025 host city)"
+            width={1600}
+            height={900}
+            decoding="async"
+            className="w-full h-full object-cover block"
+            loading="lazy"
+          />
+        </div>
+        <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
+          <strong className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-slate-500 block mb-0.5">
+            Past Venue Example • 15th HEMS Workshop (2025)
+          </strong>
+          Virginia Beach Oceanfront and Atlantic boardwalk, site of the 15th HEMS Workshop hosted at the Sheraton Virginia Beach Oceanfront Hotel (Sept 15–18, 2025).{" "}
+          <a
+            href="https://commons.wikimedia.org/wiki/File:The_boardwalk_in_Virginia_Beach,_VA.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] text-slate-400 hover:text-slate-600 underline decoration-slate-300"
+          >
+            Photo: B. Emmerling (CC BY-SA 4.0)
+          </a>
+        </figcaption>
+      </figure>
+
+      <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs">
+        <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100 aspect-[16/9]">
+          <img
+            src={galleryImageUrl("st-pete-beach-don-cesar-sunny.jpg")}
+            alt="The historic pink Don CeSar resort overlooking coastal palms and blue water in St. Pete Beach, Florida (2011 and 2013 host property)"
+            width={1600}
+            height={900}
+            decoding="async"
+            className="w-full h-full object-cover block"
+            loading="lazy"
+          />
+        </div>
+        <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
+          <strong className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-slate-500 block mb-0.5">
+            Past Venue Example • 8th &amp; 9th HEMS Workshops (2011 &amp; 2013)
+          </strong>
+          Historic Gulf Coast conference resort (The Don CeSar) in St. Pete Beach, Florida, which hosted consecutive biennial HEMS Workshops in 2011 and 2013.{" "}
+          <a
+            href="https://commons.wikimedia.org/wiki/File:Don_CeSar,_St._Pete_Beach,_FL.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] text-slate-400 hover:text-slate-600 underline decoration-slate-300"
+          >
+            Photo: Elisa.rolle, cropped (CC BY-SA 4.0)
+          </a>
+        </figcaption>
+      </figure>
+    </div>
+  );
+
   return (
     <>
       {/* Page Header */}
-      <header className="mb-10 border-b border-slate-200 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <header className="mb-7 sm:mb-10 border-b border-slate-200 pb-6 sm:pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium leading-snug mb-4 shadow-2xs tabular-nums">
             <Hotel size={14} className="text-primary shrink-0" /> Symposium Lodging • {workshop.workshop_ordinal} HEMS Workshop
@@ -34,7 +96,7 @@ export default function AccommodationsClient() {
               : `Host venue and beachfront room-block information for the ${workshop.workshop_ordinal} HEMS Workshop (${workshop.target_window}).`}
           </p>
         </div>
-        <div className="flex flex-col items-center p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-2xs self-start sm:self-center shrink-0">
+        <div className="hidden md:flex flex-col items-center p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-2xs self-start sm:self-center shrink-0">
           <img
             src="/hemslogo.jpg"
             alt="Harsh-Environment Mass Spectrometry Society Emblem"
@@ -241,7 +303,7 @@ export default function AccommodationsClient() {
       {/* Bottom Archival Section: Clearly Separated Previous Workshop Host Venues */}
       <section
         aria-labelledby="previous-venues-heading"
-        className="mt-14 pt-10 border-t-2 border-slate-200/90 space-y-6"
+        className="hidden md:block mt-14 pt-10 border-t-2 border-slate-200/90 space-y-6"
       >
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
@@ -272,64 +334,40 @@ export default function AccommodationsClient() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs">
-            <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100 aspect-[16/9]">
-              <img
-                src="/images/gallery/virginia-beach-oceanfront-sunny.jpg"
-                alt="Sunny oceanfront boardwalk, sandy beach, and Atlantic pier in Virginia Beach, Virginia (2025 host city)"
-                width={1600}
-                height={900}
-                decoding="async"
-                className="w-full h-full object-cover block"
-                loading="lazy"
-              />
-            </div>
-            <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
-              <strong className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-slate-500 block mb-0.5">
-                Past Venue Example • 15th HEMS Workshop (2025)
-              </strong>
-              Virginia Beach Oceanfront and Atlantic boardwalk, site of the 15th HEMS Workshop hosted at the Sheraton Virginia Beach Oceanfront Hotel (Sept 15–18, 2025).{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:The_boardwalk_in_Virginia_Beach,_VA.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-slate-400 hover:text-slate-600 underline decoration-slate-300"
-              >
-                Photo: B. Emmerling (CC BY-SA 4.0)
-              </a>
-            </figcaption>
-          </figure>
-
-          <figure className="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-2xs">
-            <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100 aspect-[16/9]">
-              <img
-                src="/images/gallery/st-pete-beach-don-cesar-sunny.jpg"
-                alt="The historic pink Don CeSar resort overlooking coastal palms and blue water in St. Pete Beach, Florida (2011 and 2013 host property)"
-                width={1600}
-                height={900}
-                decoding="async"
-                className="w-full h-full object-cover block"
-                loading="lazy"
-              />
-            </div>
-            <figcaption className="pt-2.5 px-1 text-xs text-slate-600 leading-relaxed">
-              <strong className="tabular-nums text-[10.5px] font-semibold uppercase tracking-wider text-slate-500 block mb-0.5">
-                Past Venue Example • 8th &amp; 9th HEMS Workshops (2011 &amp; 2013)
-              </strong>
-              Historic Gulf Coast conference resort (The Don CeSar) in St. Pete Beach, Florida, which hosted consecutive biennial HEMS Workshops in 2011 and 2013.{" "}
-              <a
-                href="https://commons.wikimedia.org/wiki/File:Don_CeSar,_St._Pete_Beach,_FL.jpg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-slate-400 hover:text-slate-600 underline decoration-slate-300"
-              >
-                Photo: Elisa.rolle, cropped (CC BY-SA 4.0)
-              </a>
-            </figcaption>
-          </figure>
-        </div>
+        {previousVenuesCards}
       </section>
+
+      <details className="md:hidden group mt-10 pt-6 border-t border-slate-200/90">
+        <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer bg-white border border-slate-200/90 rounded-2xl px-4 py-3.5 shadow-2xs flex items-center justify-between gap-3 select-none">
+          <span className="flex items-center gap-2 text-xs font-semibold text-slate-800">
+            <History size={14} className="text-slate-500 shrink-0" />
+            <span>Previous Workshop Host Venue Examples</span>
+          </span>
+          <ChevronDown
+            size={16}
+            className="text-slate-500 transition-transform duration-200 group-open:rotate-180 shrink-0"
+          />
+        </summary>
+        <div className="mt-4 space-y-5">
+          <div className="flex flex-col gap-2.5">
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Examples of coastal conference properties from prior HEMS Workshops—shown for historical context only.{" "}
+              {!workshop.venue_confirmed && (
+                <strong className="font-medium text-slate-800">
+                  The {workshop.workshop_year} host hotel has not yet been announced.
+                </strong>
+              )}
+            </p>
+            <Link
+              href="/history"
+              className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1 self-start"
+            >
+              View All 15 Past Host Cities <ArrowRight size={13} />
+            </Link>
+          </div>
+          {previousVenuesCards}
+        </div>
+      </details>
     </>
   );
 }

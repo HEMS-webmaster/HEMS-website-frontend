@@ -186,6 +186,34 @@
         }
       },
       {
+        "source": "/api/registration/create-session",
+        "function": {
+          "functionId": "registrationCreateSession",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/registration/webhooks/stripe",
+        "function": {
+          "functionId": "registrationWebhookStripe",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/registration/receipt",
+        "function": {
+          "functionId": "registrationGetReceipt",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/api/registration/admin-action",
+        "function": {
+          "functionId": "registrationAdminAction",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "**",
         "destination": "/404.html"
       }
@@ -201,7 +229,7 @@
         ]
       },
       {
-        "source": "**/*.@(js|css)",
+        "source": "**/*.@(js|css|woff2)",
         "headers": [
           {
             "key": "Cache-Control",

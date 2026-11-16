@@ -83,3 +83,4 @@ All fonts MUST be self-hosted/optimized via Next.js `next/font/google` in `src/a
 - **Voice:** Scholarly, welcoming, precise, and internationally inclusive—representing an all-volunteer 501(c)(3) community uniting academic, government, and industrial investigators.
 - **Provenance-First Captions:** Photo captions must never state what is already visually obvious in the image; instead, record unseen archival context (exact date, host venue, city, scheduled workshop occasion, or research presenter/institution).
 - **Temporal Hygiene:** Dynamic biennial cycle dates, fees, and submission links must flow from `useUpcomingWorkshop()` (backed by the HEMS Nonprofit Google Sheet + `upcoming_workshop.json`), displaying calm, dignified `TBA` / `Opening in 2027` states during inter-workshop planning rather than dead links.
+

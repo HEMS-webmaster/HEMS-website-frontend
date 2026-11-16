@@ -44,6 +44,7 @@ export function hasAdminRole(roles?: string[] | null): boolean {
     const clean = String(r || "").trim().toLowerCase();
     return (
       clean === "admin" ||
+      clean === "administration" ||
       clean === "administrator" ||
       clean === "administrators"
     );
@@ -88,8 +89,91 @@ export function hasBoardRole(roles?: string[] | null): boolean {
   });
 }
 
+export function hasOperationsRole(roles?: string[] | null): boolean {
+  if (!Array.isArray(roles)) return false;
+  return roles.some((r) => {
+    const clean = String(r || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[_-]+/g, " ")
+      .replace(/\s+/g, " ");
+    return (
+      clean === "operations" ||
+      clean === "operation" ||
+      clean === "operations officer" ||
+      clean === "operations officers" ||
+      clean === "workshop operations" ||
+      clean === "logistics"
+    );
+  });
+}
+
+export function hasTreasurerRole(roles?: string[] | null): boolean {
+  if (!Array.isArray(roles)) return false;
+  return roles.some((r) => {
+    const clean = String(r || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[_-]+/g, " ")
+      .replace(/\s+/g, " ");
+    return (
+      clean === "treasurer" ||
+      clean === "treasurers" ||
+      clean === "society treasurer" ||
+      clean === "finance" ||
+      clean === "financial officer"
+    );
+  });
+}
+
+export function hasOperationsAccess(roles?: string[] | null): boolean {
+  return hasOperationsRole(roles);
+}
+
+export function hasTreasurerAccess(roles?: string[] | null): boolean {
+  return hasTreasurerRole(roles);
+}
+
 export function hasBoardOrAdminRole(roles?: string[] | null): boolean {
   return hasBoardRole(roles) || hasAdminRole(roles);
+}
+
+export function isFirebasePreviewChannelHost(hostname?: string | null): boolean {
+  const clean = String(hostname || "").trim().toLowerCase();
+  return /^[a-z0-9-]+--[a-z0-9-]+\.(?:web\.app|firebaseapp\.com)$/i.test(clean);
+}
+
+export function parsePreviewChannelName(hostname?: string | null): string | null {
+  const clean = String(hostname || "").trim().toLowerCase();
+  const match = clean.match(/^[a-z0-9-]+--([a-z0-9-]+)\.(?:web\.app|firebaseapp\.com)$/i);
+  if (!match) return null;
+  const rawSegment = match[1];
+  const withoutHash = rawSegment.replace(/-[0-9a-z]{8}$/, "");
+  return withoutHash || rawSegment;
+}
+
+export function hasActiveWorkshopPreviewToken(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const paramToken = new URLSearchParams(window.location.search).get("preview");
+    if (paramToken !== null) {
+      const normalized = paramToken.trim().toLowerCase();
+      if (
+        normalized === "" ||
+        normalized === "off" ||
+        normalized === "clear" ||
+        normalized === "false" ||
+        normalized === "0"
+      ) {
+        return false;
+      }
+      return true;
+    }
+    const stored = window.sessionStorage.getItem("hems_workshop_preview_token_v1");
+    return Boolean(stored && stored.trim().length > 0);
+  } catch {
+    return false;
+  }
 }
 
 export function normalizeTelemetryPath(rawPath: string | null | undefined): string {
@@ -107,6 +191,10 @@ export function isInternalPortalManagementRoute(path: string): boolean {
     norm.startsWith("/admin/") ||
     norm === "/board" ||
     norm.startsWith("/board/") ||
+    norm === "/operations" ||
+    norm.startsWith("/operations/") ||
+    norm === "/treasurer" ||
+    norm.startsWith("/treasurer/") ||
     norm === "/reviewer" ||
     norm.startsWith("/reviewer/")
   );
@@ -303,6 +391,8 @@ export async function recordTelemetryEvent(params: {
 }): Promise<void> {
   if (typeof window === "undefined") return;
   if (BOT_UA_PATTERN.test(navigator.userAgent || "")) return;
+  if (isFirebasePreviewChannelHost(window.location.hostname)) return;
+  if (hasActiveWorkshopPreviewToken()) return;
 
   const normalizedPath = normalizeTelemetryPath(
     params.path || window.location.pathname

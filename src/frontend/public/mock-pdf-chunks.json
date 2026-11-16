@@ -7909,7 +7909,7 @@
     "text_content": "\"The Technical Issues Associated with Highly Miniaturized Vacuum Systems\" — Oral presentation by Phil Muntz (University of Southern California) in Technical Session I: Miniaturization / Technical Issues at the 3rd Workshop on Harsh-Environment Mass Spectrometry (2002, Courtyard Old Pasadena)."
   },
   {
-    "objectID": "2002_3_63_biblio_1",
+    "objectID": "2002_3_63_abstract_1",
     "id": "2002-pres-eyre-meso-scale-scroll-pump-array",
     "canonical_url": "https://www.hems-workshop.org/archive/2002/#2002-pres-eyre-meso-scale-scroll-pump-array",
     "title": "Meso-Scale Scroll Pump Array Fabricated using LIGA Technology for Portable, High-resolution Mass Spectrometer",
@@ -7958,8 +7958,8 @@
     "abstract_url": "https://storage.googleapis.com/hems-workshop-archives/proceedings/3rd/Technical_Session_I__Miniaturization___Technical_Issues/3rd_Eyre_MesoScale_Scroll_Pump_Abstract.pdf",
     "citation": "Beverley Eyre, Kirill Shcheglov, Otto Orient, Nosang V. Myung, Dean Wiberg (2002). \"Meso-Scale Scroll Pump Array Fabricated using LIGA Technology for Portable, High-resolution Mass Spectrometer.\" Proceedings of the 3rd Workshop on Harsh-Environment Mass Spectrometry, Courtyard Old Pasadena. https://www.hems-workshop.org/archive/2002/#2002-pres-eyre-meso-scale-scroll-pump-array",
     "slide_number": 1,
-    "content_type": "bibliographic_summary",
-    "text_content": "\"Meso-Scale Scroll Pump Array Fabricated using LIGA Technology for Portable, High-resolution Mass Spectrometer\" — Oral presentation by Beverley Eyre, Kirill Shcheglov, Otto Orient, Nosang V. Myung, Dean Wiberg (Jet Propulsion Laboratory) in Technical Session I: Miniaturization / Technical Issues at the 3rd Workshop on Harsh-Environment Mass Spectrometry (2002, Courtyard Old Pasadena)."
+    "content_type": "abstract_text",
+    "text_content": "3rd Harsh-Environment Mass Spectrometry Workshop (2002)\nhttps://www.hems-workshop.orgPresented Talk Abstract\n3RD HARSH-ENVIRONMENT MASS SPECTROMETRY WORKSHOP\nMeso-Scale Scroll Pump Array Fabricated using LIGA Technology for Portable,\nHigh-resolution Mass Spectrometer\nAuthors & Institutes:\n• Beverley Eyre — Jet Propulsion Laboratory\n• Kirill Shcheglov — Jet Propulsion Laboratory\n• Otto Orient\n• Nosang V. Myung — Jet Propulsion Laboratory\n• Dean Wiberg — Jet Propulsion Laboratory\nABSTRACT\nA scroll pump is a pump whose action requires planar, rotary movement of two intelocking and complimentary\nArchimedian Spirals. In the initial position a volume of gas is trapped in the outer ring of the scroll, and as the\ninerlocking spirals move relative to each other the gas is compressed and pushed in towards the center of the spiral.\nWhen the gas reaches the center, it is pushed out of a hole, and the motion starts again with a new volume of gas. A\nscroll pump array is being built at JPL consisting of nine individual scrolls. Each scroll has an approximate diameter of\none centimeter with a varying wall thickness as the walls spiral in towards the center. The precise matching of the\ncomplimentary sidewalls and the target dimensions of this device make it a good candidate for fabrication by LiGA\ntechnologies. The sidewalls of the scrolls will be approximately 3mm in height, and must be straight to within a very\nfine tolerance. This requires special filtering to achieve the necessary top to bottom dose ratio in during the exposure\nstep of the LiGA process. The exposures for this device have been done at three synchrotron radiation sources\naround the country: The Advanced Light Source at Lawrence Berkeley National Laboratory, The Standford\nSynchrotron Radiation Laboratory, and the National Synchrotron Light Source at Brookhaven National Laboratory.\nThe differences in these three light sources and the results in exposing ultra-thick PMMA will be discussed."
   },
   {
     "objectID": "2002_3_64_abstract_1",

@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import corporateRegistry from "@/data/corporate_registry.json";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
+import { galleryImageUrl } from "@/utils/galleryAssets";
 import { recordTelemetryEvent } from "@/utils/telemetryClient";
 
 interface CorporateSponsorEntry {
@@ -149,21 +150,21 @@ export default function CorporateSponsorshipClient() {
       {!isPrintView && (
         <div className="print:hidden">
           {/* Page Header */}
-          <header className="mb-10 sm:mb-14 pb-8 border-b border-slate-200">
+          <header className="mb-7 sm:mb-14 pb-6 sm:pb-8 border-b border-slate-200">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
               <div className="max-w-3xl">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug mb-4 shadow-2xs">
                   <ShieldCheck size={14} className="text-primary shrink-0" />
-                  <span>501(c)(3) Scientific Forum • Biennial Workshop</span>
+                  <span>All-Volunteer 501(c)(3) Society • Est. 1999</span>
                 </div>
                 <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4 leading-[1.12]">
                   Corporate <span className="text-primary italic font-normal">Sponsorship</span>
                 </h1>
                 <p className="text-base md:text-lg text-slate-600 leading-relaxed font-sans max-w-2xl">
-                  The HEMS Workshop is an international scientific society bridging academic, government, and industrial investigators. With no annual membership dues, each biennial symposium is independently sustained through attendee registrations, donations, and corporate sponsors.
+                  Established in 1999, the HEMS Society is an all-volunteer 501(c)(3) scientific organization bridging academic, government, and industrial investigators. With no annual membership dues, each biennial symposium is independently sustained through attendee registrations, donations, and corporate sponsors.
                 </p>
               </div>
-              <div className="flex flex-col items-center p-3.5 sm:p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
+              <div className="hidden md:flex flex-col items-center p-3.5 sm:p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
                 <img
                   src="/hemslogo.jpg"
                   alt="Harsh-Environment Mass Spectrometry Society Emblem"
@@ -219,7 +220,7 @@ export default function CorporateSponsorshipClient() {
                 <figure className="lg:col-span-5 bg-[#FAFBFD] border border-slate-200/90 rounded-xl p-3">
                   <div className="overflow-hidden rounded-lg border border-slate-100 bg-slate-100">
                     <img
-                      src="/images/gallery/sponsor-exhibit-roundtable-2017.jpg"
+                      src={galleryImageUrl("sponsor-exhibit-roundtable-2017.jpg")}
                       alt="Workshop participants conversing at a roundtable directly in front of corporate sponsor instrumentation displays"
                       width={1600}
                       height={991}
@@ -638,7 +639,7 @@ export default function CorporateSponsorshipClient() {
               01 · Executive Summary &amp; Scientific Audience
             </h2>
             <p className="text-xs sm:text-[13px] print:text-[11px] text-slate-700 leading-relaxed print:leading-[1.45]">
-              Since 1999, the biennial <strong className="font-semibold text-slate-900">Workshop on Harsh-Environment Mass Spectrometry (HEMS)</strong> has served as the dedicated international forum uniting academic principal investigators, government and defense laboratories, and instrumentation manufacturers deploying ruggedized mass spectrometers outside the laboratory—spanning deep-ocean vents, planetary missions, atmospheric and volcanic plumes, industrial monitoring, and field security. Conducted as an IRS-recognized <strong className="font-semibold text-slate-900">501(c)(3)</strong> organization with no society membership dues, corporate sponsorships directly underwrite symposium operations and fund competitive{" "}
+              Since 1999, the biennial <strong className="font-semibold text-slate-900">Workshop on Harsh-Environment Mass Spectrometry (HEMS)</strong> has served as the dedicated international forum uniting academic principal investigators, government and defense laboratories, and instrumentation manufacturers deploying ruggedized mass spectrometers outside the laboratory—spanning deep-ocean vents, planetary missions, atmospheric and volcanic plumes, industrial monitoring, and defense and security operations. Conducted as an all-volunteer, IRS-recognized <strong className="font-semibold text-slate-900">501(c)(3)</strong> organization with no society membership dues, corporate sponsorships directly underwrite symposium operations and fund competitive{" "}
               <strong className="font-semibold text-slate-900 tabular-nums">
                 {workshop.student_award_amount} Student Travel Awards
               </strong>{" "}
@@ -828,7 +829,7 @@ export default function CorporateSponsorshipClient() {
               <p className="font-semibold text-primary break-all">{coordinatorEmail}</p>
               <p className="text-slate-600 tabular-nums">www.hems-workshop.org/corporate-sponsorship</p>
               <p className="text-[9.5px] print:text-[8.8px] text-slate-500 pt-0.5">
-                IRS 501(c)(3) scientific society • Zero membership dues
+                All-volunteer IRS 501(c)(3) society • Est. 1999 • Zero membership dues
               </p>
             </div>
           </footer>

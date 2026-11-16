@@ -10,7 +10,9 @@ import {
   hasAdminRole,
   hasAttendeeRole,
   hasBoardRole,
+  hasOperationsRole,
   hasReviewerRole,
+  hasTreasurerRole,
 } from "@/utils/telemetryClient";
 import { ROLE_DISPLAY_META } from "@/utils/whitelistCsv";
 
@@ -333,6 +335,8 @@ export default function Navbar() {
 
                         {(hasAttendeeRole(user.roles) ||
                           hasReviewerRole(user.roles) ||
+                          hasOperationsRole(user.roles) ||
+                          hasTreasurerRole(user.roles) ||
                           hasBoardRole(user.roles) ||
                           hasAdminRole(user.roles)) && (
                           <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-wrap gap-x-3 gap-y-1.5">
@@ -363,21 +367,55 @@ export default function Navbar() {
                                 </Link>
                               </>
                             )}
-                            {hasBoardRole(user.roles) && (
+                            {hasOperationsRole(user.roles) && (
                               <>
                                 <Link
-                                  href="/board/mailing-list"
+                                  href="/operations/registrations"
+                                  onClick={() => setProfileOpen(false)}
+                                  className="text-xs font-semibold text-primary hover:underline"
+                                >
+                                  Registrations Console →
+                                </Link>
+                                <Link
+                                  href="/operations/mailing-list"
                                   onClick={() => setProfileOpen(false)}
                                   className="text-xs font-semibold text-primary hover:underline"
                                 >
                                   Mailing List →
                                 </Link>
                                 <Link
-                                  href="/board/announcements"
+                                  href="/operations/announcements"
                                   onClick={() => setProfileOpen(false)}
                                   className="text-xs font-semibold text-primary hover:underline"
                                 >
                                   Announcements →
+                                </Link>
+                                <Link
+                                  href="/operations/marketing-playbook"
+                                  onClick={() => setProfileOpen(false)}
+                                  className="text-xs font-semibold text-primary hover:underline"
+                                >
+                                  Marketing Playbook →
+                                </Link>
+                              </>
+                            )}
+                            {hasTreasurerRole(user.roles) && (
+                              <Link
+                                href="/treasurer"
+                                onClick={() => setProfileOpen(false)}
+                                className="text-xs font-semibold text-primary hover:underline"
+                              >
+                                Finances &amp; Stripe →
+                              </Link>
+                            )}
+                            {hasBoardRole(user.roles) && (
+                              <>
+                                <Link
+                                  href="/board"
+                                  onClick={() => setProfileOpen(false)}
+                                  className="text-xs font-semibold text-primary hover:underline"
+                                >
+                                  Board Repository →
                                 </Link>
                                 <Link
                                   href="/admin/analytics"
@@ -389,13 +427,22 @@ export default function Navbar() {
                               </>
                             )}
                             {hasAdminRole(user.roles) && (
-                              <Link
-                                href="/admin"
-                                onClick={() => setProfileOpen(false)}
-                                className="text-xs font-semibold text-primary hover:underline"
-                              >
-                                Admin →
-                              </Link>
+                              <>
+                                <Link
+                                  href="/admin"
+                                  onClick={() => setProfileOpen(false)}
+                                  className="text-xs font-semibold text-primary hover:underline"
+                                >
+                                  Admin →
+                                </Link>
+                                <Link
+                                  href="/admin/workshop-settings"
+                                  onClick={() => setProfileOpen(false)}
+                                  className="text-xs font-semibold text-primary hover:underline"
+                                >
+                                  Workshop Settings →
+                                </Link>
+                              </>
                             )}
                           </div>
                         )}
@@ -629,6 +676,8 @@ export default function Navbar() {
 
                 {(hasAttendeeRole(user.roles) ||
                   hasReviewerRole(user.roles) ||
+                  hasOperationsRole(user.roles) ||
+                  hasTreasurerRole(user.roles) ||
                   hasBoardRole(user.roles) ||
                   hasAdminRole(user.roles)) && (
                   <div className="flex flex-wrap gap-2 px-2">
@@ -659,21 +708,55 @@ export default function Navbar() {
                         </Link>
                       </>
                     )}
-                    {hasBoardRole(user.roles) && (
+                    {hasOperationsRole(user.roles) && (
                       <>
                         <Link
-                          href="/board/mailing-list"
+                          href="/operations/registrations"
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-1.5 rounded-lg bg-cyan-50 text-cyan-900 text-xs font-semibold"
+                        >
+                          Registrations Console
+                        </Link>
+                        <Link
+                          href="/operations/mailing-list"
                           onClick={() => setMobileOpen(false)}
                           className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
                         >
                           Mailing List
                         </Link>
                         <Link
-                          href="/board/announcements"
+                          href="/operations/announcements"
                           onClick={() => setMobileOpen(false)}
                           className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
                         >
                           Announcements
+                        </Link>
+                        <Link
+                          href="/operations/marketing-playbook"
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                        >
+                          Marketing Playbook
+                        </Link>
+                      </>
+                    )}
+                    {hasTreasurerRole(user.roles) && (
+                      <Link
+                        href="/treasurer"
+                        onClick={() => setMobileOpen(false)}
+                        className="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-800 text-xs font-semibold"
+                      >
+                        Finances &amp; Stripe
+                      </Link>
+                    )}
+                    {hasBoardRole(user.roles) && (
+                      <>
+                        <Link
+                          href="/board"
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold"
+                        >
+                          Board Repository
                         </Link>
                         <Link
                           href="/admin/analytics"
@@ -685,13 +768,22 @@ export default function Navbar() {
                       </>
                     )}
                     {hasAdminRole(user.roles) && (
-                      <Link
-                        href="/admin"
-                        onClick={() => setMobileOpen(false)}
-                        className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
-                      >
-                        Admin
-                      </Link>
+                      <>
+                        <Link
+                          href="/admin"
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
+                        >
+                          Admin
+                        </Link>
+                        <Link
+                          href="/admin/workshop-settings"
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-semibold"
+                        >
+                          Workshop Settings
+                        </Link>
+                      </>
                     )}
                   </div>
                 )}

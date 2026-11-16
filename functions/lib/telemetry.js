@@ -36,6 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.telemetryEvent = void 0;
 const https_1 = require("firebase-functions/v2/https");
 const admin = __importStar(require("firebase-admin"));
+const rateLimit_1 = require("./rateLimit");
 const ALLOWED_EVENT_TYPES = new Set([
     "page_view",
     "mailto_click",
@@ -79,6 +80,9 @@ async function resolveOptionalUser(authHeader) {
         return null;
     try {
         const decoded = await admin.auth().verifyIdToken(idToken);
+        if (!(0, rateLimit_1.isVerifiedDecodedToken)(decoded)) {
+            return null;
+        }
         const userDoc = await getDb().collection("users").doc(decoded.uid).get();
         const profile = userDoc.exists ? userDoc.data() : undefined;
         return {
@@ -100,7 +104,13 @@ async function resolveOptionalUser(authHeader) {
  * - Coarse country/region derived solely from Google Cloud edge headers (`x-appengine-country`, `x-appengine-region`).
  * - Automated mail-gateway pre-fetch scanners & crawlers filtered out automatically.
  */
-exports.telemetryEvent = (0, https_1.onRequest)({ cors: true, region: "us-central1" }, async (req, res) => {
+exports.telemetryEvent = (0, https_1.onRequest)({
+    cors: true,
+    region: "us-central1",
+    maxInstances: 5,
+    memory: "256MiB",
+    timeoutSeconds: 15,
+}, async (req, res) => {
     if (req.method !== "POST") {
         res.status(405).json({ ok: false, error: "Method not allowed" });
         return;
@@ -108,6 +118,16 @@ exports.telemetryEvent = (0, https_1.onRequest)({ cors: true, region: "us-centra
     const userAgent = String(req.headers["user-agent"] || "");
     if (BOT_USER_AGENT_REGEX.test(userAgent)) {
         res.status(202).json({ ok: true, skipped: "bot_filtered" });
+        return;
+    }
+    const rateCheck = (0, rateLimit_1.checkMemoryRateLimit)({
+        bucketKey: (0, rateLimit_1.extractHashedClientIp)(req, "telemetry"),
+        maxHits: 120,
+        windowMs: 60_000,
+    });
+    if (!rateCheck.allowed) {
+        res.setHeader("Retry-After", String(rateCheck.retryAfterSec));
+        res.status(429).json({ ok: false, error: "Rate limit exceeded." });
         return;
     }
     try {

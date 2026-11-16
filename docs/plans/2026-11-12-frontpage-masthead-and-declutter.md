@@ -18,3 +18,4 @@
 - **Lower Frontpage Sections ([page.tsx](file:///c:/AntigravityP1_2/HEMS-website/src/frontend/src/app/page.tsx)):**
   - Remove `01 / DOMAIN` kickers and the 9 bottom tag pills from the three Section 2 Charter Pillar cards.
   - Remove `13th–15th WS` corner micro-labels and the duplicate bottom-right `/hemslogo.jpg` box in Section 4.
+

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HEMS Platform — Complete Design, Layout &amp; Architecture Specification (v4.0)</title>
+  <title>HEMS Platform — Complete Design, Cloud Architecture &amp; Security Specification (v5.1)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -14,9 +14,9 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-            serif: ['Cinzel', 'serif']
+            sans: ['"Noto Sans"', 'system-ui', 'sans-serif'],
+            serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
           },
           colors: {
             hems: {
@@ -24,11 +24,12 @@
               dark: '#0f172a',
               card: '#1e293b',
               border: '#334155',
-              blue: '#0284c7',
+              blue: '#005A9C',
               sky: '#38bdf8',
               emerald: '#10b981',
               amber: '#f59e0b',
-              purple: '#8b5cf6'
+              purple: '#8b5cf6',
+              rose: '#f43f5e'
             }
           }
         }
@@ -39,28 +40,29 @@
     body {
       background-color: #0b1329;
       color: #e2e8f0;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Noto Sans', system-ui, sans-serif;
     }
     .glass-panel {
-      background: rgba(30, 41, 59, 0.7);
+      background: rgba(30, 41, 59, 0.72);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .glass-card {
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.78);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(51, 65, 85, 0.6);
+      border: 1px solid rgba(51, 65, 85, 0.65);
       transition: all 0.2s ease-in-out;
     }
     .glass-card:hover {
       border-color: rgba(56, 189, 248, 0.4);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.15);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.14);
     }
     pre code {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+      font-size: 0.80rem;
+      line-height: 1.55;
     }
     .color-swatch {
       height: 48px;
@@ -68,10 +70,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Noto Sans', sans-serif;
       font-size: 0.75rem;
-      font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
     ::-webkit-scrollbar {
       width: 8px;
@@ -91,23 +94,23 @@
 </head>
 <body class="selection:bg-sky-500/30 selection:text-sky-200">
 
-  <!-- TOP HEADER / HERO -->
+  <!-- TOP HEADER -->
   <header class="border-b border-slate-800 bg-slate-950/85 sticky top-0 z-50 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
       <div class="flex items-center space-x-3">
-        <div class="h-9 w-9 rounded-lg bg-gradient-to-tr from-sky-600 to-blue-500 flex items-center justify-center font-bold text-white shadow-lg shadow-sky-500/20">
+        <div class="h-9 w-9 rounded-lg bg-gradient-to-tr from-[#005A9C] to-sky-500 flex items-center justify-center font-serif font-bold text-white shadow-lg shadow-sky-500/20">
           H
         </div>
         <div>
-          <h1 class="text-base font-bold text-white tracking-wide">HEMS Platform Architecture Specification</h1>
-          <p class="text-[11px] text-slate-400 font-mono">v4.0 — $0 Nonprofit Google Sheets Control Plane, Evergreen Public Routes &amp; Cloud-House Governance</p>
+          <h1 class="text-base font-bold text-white tracking-wide">HEMS Platform System Architecture Specification</h1>
+          <p class="text-[11px] text-slate-400 font-mono">v5.1 — Admin Workshop Control Center (44 Keys), Live Staging, Immutable Audit/Rollback, 6-Portal RBAC &amp; Hardening Pack</p>
         </div>
       </div>
       <div class="flex items-center space-x-2 shrink-0">
         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-800/60">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span> Live Connected (2027 Cycle)
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1.5"></span> v5.1 Current (Nov 2026)
         </span>
-        <span class="text-xs text-slate-400 font-mono hidden xl:inline-block">Next.js 16 • Google Sheets CSV • Firebase Spark ($0) • GCS</span>
+        <span class="text-xs text-slate-400 font-mono hidden xl:inline-block">Next.js 16.2.4 • 14 Functions v2 • 22 Firestore Collections • $5/$7.50 Guardrail</span>
       </div>
     </div>
   </header>
@@ -116,19 +119,20 @@
 
     <!-- STICKY SIDEBAR NAVIGATION -->
     <aside class="lg:w-64 flex-shrink-0">
-      <div class="sticky top-20 glass-panel rounded-xl p-4 text-sm space-y-1">
+      <div class="sticky top-20 glass-panel rounded-xl p-4 text-xs sm:text-sm space-y-1">
         <p class="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 py-1 mb-2">Table of Contents</p>
         <a href="#overview" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">1. Executive Overview</a>
         <a href="#tech-stack" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">2. Technology Stack</a>
-        <a href="#design-system" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">3. Visual Design System</a>
-        <a href="#layout-architecture" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">4. Layout &amp; Page Routes</a>
-        <a href="#archive-system" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">5. Proceedings &amp; Lean SSG</a>
-        <a href="#manager-workbench" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">6. Decoupled Archive Manager</a>
-        <a href="#sheets-control-plane" class="block px-3 py-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-slate-800/60 transition-colors font-medium">7. Google Sheets Control Plane</a>
-        <a href="#backend-cloud" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">8. Cloud-House &amp; CI/CD</a>
-        <a href="#security-rbac" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">9. Security &amp; System Locks</a>
-        <a href="#data-registries" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">10. Data Schemas &amp; Tests</a>
-        <a href="#developer-playbook" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">11. Operator &amp; Dev Playbook</a>
+        <a href="#design-system" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">3. Brand v3.1/v3.2 &amp; Mobile</a>
+        <a href="#layout-architecture" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">4. Routes &amp; 6 RBAC Portals</a>
+        <a href="#archive-system" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">5. Proceedings &amp; Scholarly SEO</a>
+        <a href="#manager-workbench" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">6. Archive Manager &amp; PDFs</a>
+        <a href="#sheets-control-plane" class="block px-3 py-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-slate-800/60 transition-colors font-medium">7. Control Center &amp; Reg</a>
+        <a href="#board-staging-pipeline" class="block px-3 py-1.5 rounded-lg text-amber-300 hover:text-white hover:bg-slate-800/60 transition-colors font-medium">8. Board Review Staging</a>
+        <a href="#cloud-functions-comms" class="block px-3 py-1.5 rounded-lg text-sky-300 hover:text-white hover:bg-slate-800/60 transition-colors font-medium">9. Functions, Postmark &amp; Telemetry</a>
+        <a href="#security-hardening-cutoff" class="block px-3 py-1.5 rounded-lg text-rose-300 hover:text-white hover:bg-slate-800/60 transition-colors font-medium">10. Security &amp; Billing Cutoff</a>
+        <a href="#data-registries" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">11. Firestore &amp; Data Schemas</a>
+        <a href="#developer-playbook" class="block px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">12. Operator &amp; Dev Playbook</a>
       </div>
     </aside>
 
@@ -139,45 +143,45 @@
       <section id="overview" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-            <span>01 / System Overview</span>
+            <span>01 / System Overview (v5.1 Revision)</span>
           </div>
-          <span class="text-[11px] font-mono text-slate-400">Updated: November 2026 (v4.0 Revision)</span>
+          <span class="text-[11px] font-mono text-slate-400">Updated: 2026-11-16 • Addendums 1–40 Complete</span>
         </div>
         <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Executive System Overview</h2>
         <p class="text-slate-300 leading-relaxed text-base">
-          The <strong>Harsh-Environment Mass Spectrometry (HEMS) Society &amp; Biennial Workshop</strong> web platform (<code class="text-sky-300 font-mono text-sm">hems-workshop.org</code>) is a zero-recurring-cost (<strong class="text-emerald-400">$0.00/mo</strong>) hybrid static-dynamic scientific platform built on <strong>Google Workspace for Nonprofits</strong> and the <strong>Firebase Hosting Spark Free Tier</strong>. Established in 1999 and incorporated as an all-volunteer 501(c)(3) non-profit organization in 2003, HEMS serves both as the active conference hub for the upcoming <strong>16th HEMS Workshop (September 2027)</strong> and as the permanent open-access digital archive of <strong>15 historical workshops (1999–2025)</strong> encompassing <strong>1,590 proceedings files (1.68 GB)</strong>.
+          The <strong>Harsh-Environment Mass Spectrometry (HEMS) Society, Inc.</strong> platform (<code class="text-sky-300 font-mono text-sm">hems-workshop.org</code>) is an ultra-low-cost, Always-Free-governed (<strong class="text-emerald-400">$0.00/mo</strong> steady-state standing compute on Firebase Blaze + Google Workspace for Nonprofits) hybrid static-serverless scientific architecture. Convened first in <strong>February 1999</strong> at the University of South Florida (USF) Center for Ocean Technology in St. Petersburg, FL and incorporated in Florida as an <strong>all-volunteer 501(c)(3)</strong> nonprofit corporation in <strong>2008</strong>, HEMS serves both as the operational committee hub for the <strong>16th HEMS Workshop (September 2027)</strong> and as the permanent Google-Scholar-indexable digital archive spanning <strong>15 historical workshops (1999–2025)</strong> and <strong>1,590 proceedings files (1.68 GB)</strong>.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
           <div class="glass-card rounded-xl p-4">
             <div class="text-sky-400 font-bold text-2xl">15 Archives + 16th</div>
-            <div class="text-xs text-slate-400 mt-1">Immutable 1999–2025 historical proceedings plus live-configured Sept 2027 cycle.</div>
+            <div class="text-xs text-slate-400 mt-1">1,590 files (651 public Google Scholar GCS PDF URLs) + 12-slide Hero Field Carousel + 15-year Patron Showcase.</div>
           </div>
           <div class="glass-card rounded-xl p-4">
-            <div class="text-emerald-400 font-bold text-2xl">40 Keys → 8 Pages</div>
-            <div class="text-xs text-slate-400 mt-1">Live Google Sheets CSV feed hydrates all 8 dynamic workshop surfaces with static fallback.</div>
+            <div class="text-emerald-400 font-bold text-2xl">6 Portals • 10 Roles</div>
+            <div class="text-xs text-slate-400 mt-1">Strict 1-to-1 RBAC isolation across Attendee, Reviewer, Board (+ 10 MB Repo), Operations, Treasurer &amp; Admin.</div>
           </div>
           <div class="glass-card rounded-xl p-4">
-            <div class="text-amber-400 font-bold text-2xl">24.5 MB SSG Out</div>
-            <div class="text-xs text-slate-400 mt-1">95% static bundle reduction (down from 508.2 MB) by decoupling local archive PDFs.</div>
+            <div class="text-amber-400 font-bold text-2xl">14 Functions • 22 DBs</div>
+            <div class="text-xs text-slate-400 mt-1">Node 22 Cloud Functions v2 (Postmark, Stripe Checkout/ACH, Auto-Advance, Telemetry, Budget Breaker) + Workshop Staging.</div>
           </div>
           <div class="glass-card rounded-xl p-4">
-            <div class="text-purple-400 font-bold text-2xl">$0 Nonprofit Stack</div>
-            <div class="text-xs text-slate-400 mt-1">Google Nonprofits Drive/Sheets + Firebase Spark Hosting + keyless GitHub Actions WIF.</div>
+            <div class="text-rose-400 font-bold text-2xl">$5 Alert / $7.50 Cut</div>
+            <div class="text-xs text-slate-400 mt-1">Billing Pub/Sub circuit breaker auto-pauses GCS public reads at $7.50 actual spend + Board Staging Pipeline.</div>
           </div>
         </div>
 
-        <!-- Architectural Evolution Callout (v3.0 -> v4.0) -->
+        <!-- Architectural Evolution Callout (v4.0 -> v5.1) -->
         <div class="p-4 bg-emerald-950/35 border border-emerald-800/50 rounded-xl space-y-2 text-xs">
           <div class="flex items-center justify-between flex-wrap gap-2">
-            <span class="font-bold font-mono uppercase text-emerald-300">v4.0 Architectural Milestones Summary</span>
-            <span class="font-mono text-[11px] text-emerald-400/80">Commits f2f1700 → 81c1e23</span>
+            <span class="font-bold font-mono uppercase text-emerald-300">v4.0 → v5.1 Architectural Evolution Ledger (Addendums 8–40)</span>
+            <span class="font-mono text-[11px] text-emerald-400/80">docs/session_history.md § 8–40</span>
           </div>
           <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5 text-slate-300 pt-1">
-            <li>• <strong>Retired Decap CMS:</strong> Removed <code class="text-sky-300 font-mono">public/admin/</code> &amp; <code class="text-sky-300 font-mono">content/</code>, eliminating GitHub login friction for volunteers and fixing the <code class="text-sky-300 font-mono">/admin</code> static export collision.</li>
-            <li>• <strong>Live Google Sheets Control Plane:</strong> Connected <code class="text-sky-300 font-mono">1_Workshop_Config</code> (<code class="text-emerald-300 font-mono">gid=540431442</code>) + static <code class="text-sky-300 font-mono">upcoming_workshop.json</code> across 8 dynamic pages.</li>
-            <li>• <strong>Dedicated History &amp; Evergreen Pages:</strong> Extracted <code class="text-sky-300 font-mono">/history/</code> (leaving <code class="text-sky-300 font-mono">/archive/**</code> 100% untouched), promoted <code class="text-sky-300 font-mono">/student-awards/</code> to Navbar, and built evergreen <code class="text-sky-300 font-mono">/corporate-sponsorship/</code> via <code class="text-sky-300 font-mono">/contact/</code>.</li>
-            <li>• <strong>Cloud-House &amp; Bundle Hardening:</strong> Standardized on <code class="text-sky-300 font-mono">webmaster@hems-workshop.org</code> (<code class="text-sky-300 font-mono">hems</code> gcloud profile + <code class="text-sky-300 font-mono">Webmaster Access</code> OU), purged dead <code class="text-slate-400 font-mono">HEMS Store</code> links, and shrank <code class="text-sky-300 font-mono">out/</code> from 508.2 MB to 24.5 MB.</li>
+            <li>• <strong>Brand v3.1/v3.2 &amp; Option 2 Mobile:</strong> Retired <code class="text-slate-400">IBM Plex Mono</code>; unified on <code class="text-sky-300">Source Serif 4</code> + <code class="text-sky-300">Noto Sans</code>, compressed photos <code class="text-emerald-300">-93.7%</code> (Option A 0% alcohol), synced verbatim <code class="text-sky-300">mission-statementV4.md</code> / <code class="text-sky-300">historyV4.md</code>, and added 12-slide field carousel &amp; mobile drawers.</li>
+            <li>• <strong>Scholarly SEO, GEO &amp; 301 Redirects:</strong> Added 24 legacy <code class="text-sky-300">301</code> redirects, <code class="text-sky-300">Event</code> / <code class="text-sky-300">ScholarlyArticle</code> / <code class="text-sky-300">NGO</code> JSON-LD across all 15 archives, 15-Year Host Showcase, <code class="text-sky-300">llms-full.txt</code>, and opt-in <code class="text-amber-300">13.56 MB</code> deep PDF search with <code class="text-emerald-300">2.5s</code> typing debounce.</li>
+            <li>• <strong>Admin Control Center &amp; End-to-End SaaS ($0/mo):</strong> Replaced Google Sheets CSV configuration with <code class="text-sky-300">/admin/workshop-settings</code> (44 keys, Draft/Live staging, <code class="text-amber-300">?preview=&lt;token&gt;</code> links, visual diffs, immutable audit log, 1-click rollback); plus Postmark zero-tracking mailing, Cookie-Free <code class="text-sky-300">?src=</code> telemetry, Stripe/ACH/Invoice Registration + Sheets API ledger append.</li>
+            <li>• <strong>Strict Portals, Hardening &amp; Two-Tier Staging:</strong> Split <code class="text-sky-300">/operations/*</code>, <code class="text-sky-300">/treasurer/</code>, <code class="text-sky-300">/board/</code> (<code class="text-emerald-300">10 MB</code> Repo), and <code class="text-sky-300">/admin/</code>; patched email-spoofing RBAC; added SHA-256 rate limiting; wired <code class="text-rose-300">$7.50</code> Pub/Sub archive circuit breaker; and paired token Draft previews with <code class="text-sky-300">manage-board-preview.ps1</code> channels.</li>
           </ul>
         </div>
       </section>
@@ -187,7 +191,7 @@
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
           <span>02 / Core Engineering</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Technology Stack &amp; Versions</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Technology Stack &amp; Runtime Versions</h2>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm text-slate-300 border border-slate-800 rounded-lg overflow-hidden">
@@ -195,8 +199,8 @@
               <tr>
                 <th class="py-3 px-4">Layer</th>
                 <th class="py-3 px-4">Technology</th>
-                <th class="py-3 px-4">Version / Tier</th>
-                <th class="py-3 px-4">Responsibility</th>
+                <th class="py-3 px-4">Version / Plan</th>
+                <th class="py-3 px-4">Responsibility &amp; Cost Profile</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-800/60 font-mono text-xs">
@@ -204,261 +208,220 @@
                 <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Frontend Core</td>
                 <td class="py-3 px-4">Next.js (App Router, Turbopack)</td>
                 <td class="py-3 px-4 text-slate-400">16.2.4</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Conditional SSG static export (<code class="text-sky-300">output: 'export'</code> on build) + dev proxy rewrites</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Conditional <code class="text-sky-300">output: 'export'</code> on build + local GCS/port-4000 rewrites in <code class="text-sky-300">next dev</code></td>
               </tr>
               <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">UI Runtime</td>
-                <td class="py-3 px-4">React</td>
-                <td class="py-3 px-4 text-slate-400">19.2.3</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Server metadata wrappers + live client hydration components</td>
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">UI &amp; PDF Runtime</td>
+                <td class="py-3 px-4">React + Tailwind CSS + jsPDF + Lucide</td>
+                <td class="py-3 px-4 text-slate-400">React 19.2.4 • TW 4 • jsPDF 4.2.1</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Server Metadata wrappers + Client portals + client-side <code class="text-sky-300">16th_Participant_List.pdf</code> &amp; printable badges</td>
               </tr>
               <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Styling Engine</td>
-                <td class="py-3 px-4">Tailwind CSS</td>
-                <td class="py-3 px-4 text-slate-400">4.0+</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Design tokens, responsive layouts, cosmopolitan academic theme</td>
-              </tr>
-              <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Language</td>
-                <td class="py-3 px-4">TypeScript</td>
-                <td class="py-3 px-4 text-slate-400">5.x (Strict)</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Zero-<code class="text-slate-400">any</code> interfaces across workshop config, archives, and hooks</td>
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Typography &amp; Brand</td>
+                <td class="py-3 px-4">Source Serif 4 + Noto Sans</td>
+                <td class="py-3 px-4 text-slate-400">next/font/google • v3.2.0</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Dual-font scholarly editorial styling (<code class="text-slate-300">tabular-nums</code>; <code class="text-slate-400">IBM Plex Mono</code> retired)</td>
               </tr>
               <tr class="hover:bg-slate-800/30 bg-emerald-950/20">
-                <td class="py-3 px-4 text-emerald-400 font-sans font-semibold">Workshop Control Plane</td>
-                <td class="py-3 px-4">Google Sheets CSV CDN + Static JSON</td>
-                <td class="py-3 px-4 text-emerald-400">Google Nonprofits ($0)</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Multi-user committee editing of 40 upcoming-workshop keys across 8 website pages</td>
+                <td class="py-3 px-4 text-emerald-400 font-sans font-semibold">Control &amp; Roster Sync</td>
+                <td class="py-3 px-4">Firestore Control Center + Sheets API v4</td>
+                <td class="py-3 px-4 text-emerald-400">Blaze Free Quota ($0)</td>
+                <td class="py-3 px-4 text-slate-300 font-sans"><code class="text-sky-300">/admin/workshop-settings</code> (<code class="text-sky-300">site_config</code>, 44 keys) drives public/schedule UI; Sheets API v4 appends paid registrations</td>
               </tr>
               <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Client Search</td>
-                <td class="py-3 px-4">Fuse.js + Prebuilt JSON Index</td>
-                <td class="py-3 px-4 text-slate-400">7.1.0</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Zero-cost instant fuzzy search over proceedings, authors, and abstracts (<code class="text-sky-300">search_index.json</code>)</td>
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Payments &amp; Clearing</td>
+                <td class="py-3 px-4">Stripe Hosted Checkout + Webhooks</td>
+                <td class="py-3 px-4 text-slate-400">Cards + $5-cap ACH + Invoice PO</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">HMAC-SHA256 webhook fulfillment, refunds with role revocation, live Treasurer Balance/Payouts widget</td>
               </tr>
               <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Schema Validation</td>
-                <td class="py-3 px-4">Zod + Node Assert Suite</td>
-                <td class="py-3 px-4 text-slate-400">3.24+ / Node 20+</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Validates 15 archive JSONs at build time + 40-key CSV/JSON parity tests</td>
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Academic Email</td>
+                <td class="py-3 px-4">Postmark Transactional &amp; Broadcast</td>
+                <td class="py-3 px-4 text-emerald-400">Nonprofit Discount • 0 Tracking</td>
+                <td class="py-3 px-4 text-slate-300 font-sans"><code class="text-emerald-300">TrackOpens: false</code>, <code class="text-emerald-300">TrackLinks: "None"</code>, RFC 8058 1-click unsub, auto <code class="text-sky-300">?src=</code> tagging, IRC § 6115 receipts</td>
               </tr>
               <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Web Hosting &amp; Staging</td>
-                <td class="py-3 px-4">Firebase Classic Hosting</td>
-                <td class="py-3 px-4 text-emerald-400">Spark Free Tier ($0)</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Global CDN serving 24.5 MB static <code class="text-sky-300">out/</code> + 30-day unlisted Preview Channels</td>
-              </tr>
-              <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Archive Object CDN</td>
-                <td class="py-3 px-4">Google Cloud Storage (GCS)</td>
-                <td class="py-3 px-4 text-slate-400">Multi-region</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Hosts 1,590 historical PDFs, programs, posters, and media (<code class="text-sky-300">gs://hems-workshop-archives</code>)</td>
-              </tr>
-              <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Auth &amp; Role Portals</td>
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Serverless &amp; Data</td>
                 <td class="py-3 px-4">Firebase Auth + Firestore + Functions v2</td>
-                <td class="py-3 px-4 text-slate-400">Node.js 22</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Whitelist RBAC claims (<code class="text-sky-300">admin</code>, <code class="text-sky-300">board</code>, <code class="text-sky-300">reviewer</code>) and download rate-limiting</td>
+                <td class="py-3 px-4 text-slate-400">Firebase 12.14.0 • Node.js 22</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">22 Firestore collections + 14 Cloud Functions v2 (<code class="text-slate-300">maxInstances 2–5</code>, Blaze Always-Free headroom)</td>
               </tr>
               <tr class="hover:bg-slate-800/30">
-                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Archive Workbench</td>
-                <td class="py-3 px-4">Standalone Next.js App (<code class="text-sky-300">tools/manager</code>)</td>
-                <td class="py-3 px-4 text-slate-400">Port 4000 (Local)</td>
-                <td class="py-3 px-4 text-slate-300 font-sans">Dedicated local curator console for historical proceedings &amp; corporate sponsor registry</td>
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Archive &amp; Binary Store</td>
+                <td class="py-3 px-4">GCS + IndexedDB / Chunked Firestore</td>
+                <td class="py-3 px-4 text-slate-400">gs://hems-workshop-archives</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">Public Scholarly PDFs (with <code class="text-rose-300">$7.50</code> Pub/Sub circuit breaker) + 3-tier Board Repo (<code class="text-emerald-300">10 MB</code> max/file)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 text-sky-400 font-sans font-semibold">Hosting &amp; Staging</td>
+                <td class="py-3 px-4">Firebase Hosting + GitHub WIF + Preview CLI</td>
+                <td class="py-3 px-4 text-emerald-400">Blaze Free Quota ($0)</td>
+                <td class="py-3 px-4 text-slate-300 font-sans">24 legacy <code class="text-sky-300">301</code> redirects, 12 Cloud Function rewrites, keyless WIF <code class="text-sky-300">main</code> deploy, ephemeral Board staging channels</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- SECTION 3: VISUAL DESIGN SYSTEM -->
+      <!-- SECTION 3: VISUAL IDENTITY, BRAND v3.1/v3.2 & MOBILE ARCHITECTURE -->
       <section id="design-system" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>03 / Brand &amp; Aesthetics</span>
+          <span>03 / Brand v3.1–v3.2, Photography &amp; Mobile Architecture</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Visual Identity &amp; Design System</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Visual Identity, Image Optimization &amp; Option 2 Mobile Layout</h2>
 
-        <!-- Canonical Brand Guidelines Reference Callout -->
         <div class="p-4 bg-sky-950/50 border-l-4 border-sky-400 rounded-r-xl space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold font-mono uppercase text-sky-300 flex items-center gap-1.5">
-              <span class="inline-block w-2 h-2 rounded-full bg-sky-400"></span> Single Source of Truth for Styling &amp; Branding
-            </span>
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-bold font-mono uppercase text-sky-300">Single Source of Truth: docs/design/brand-guidelines.md (v3.1.0 / v3.2.0 Specimen Cards)</span>
             <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-sky-900/80 text-sky-300 border border-sky-700/60 font-semibold">Custodian: @brand</span>
           </div>
-          <p class="text-xs text-slate-200 leading-relaxed font-sans">
-            All visual identity, typography rules, color specifications, and copy standards are governed by
-            <a href="file:///c:/AntigravityP1_2/HEMS-website/.agents/config/design/brand-guidelines.md" class="font-mono text-sky-300 hover:text-sky-100 underline font-semibold text-xs">.agents/config/design/brand-guidelines.md</a>.
-          </p>
-          <div class="text-[11px] text-slate-400 font-sans grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-sky-900/60">
-            <div>• <strong>Core Concept:</strong> "Global Symposium" cosmopolitan scientific aesthetic</div>
-            <div>• <strong>Primary Typography:</strong> <code class="text-slate-300 font-mono">Noto Sans</code> + <code class="text-slate-300 font-mono">IBM Plex Mono</code></div>
-            <div>• <strong>Logo Blending:</strong> <code class="text-slate-300 font-mono">mix-blend-multiply</code> on crisp white frames</div>
-            <div>• <strong>Copy Integrity:</strong> Zero dead <code class="text-slate-300 font-mono">HEMS Store</code> or expired 2025 booking links</div>
+          <div class="text-xs text-slate-300 font-sans grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 pt-1">
+            <div>• <strong>Aesthetic:</strong> Scholarly Precision &amp; Editorial Symposium</div>
+            <div>• <strong>Fonts:</strong> <code class="text-sky-300 font-mono">Source Serif 4</code> + <code class="text-sky-300 font-mono">Noto Sans</code> (<code class="text-slate-400">tabular-nums</code>)</div>
+            <div>• <strong>Emblem Ratio:</strong> Crisp <code class="text-sky-300 font-mono">3:2</code> landscape (<code class="text-slate-400">mix-blend-multiply</code>)</div>
           </div>
         </div>
 
-        <!-- Color Palette -->
-        <div class="space-y-3">
-          <h3 class="text-base font-bold text-white">Public Site &amp; Specification Color Tokens</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div>
-              <div class="color-swatch bg-[#F8FAFC] text-slate-900">#F8FAFC</div>
-              <p class="text-xs text-slate-400 mt-1 font-semibold">Alabaster Slate (Public BG)</p>
-            </div>
-            <div>
-              <div class="color-swatch bg-[#005A9C] text-white">#005A9C</div>
-              <p class="text-xs text-slate-400 mt-1 font-semibold">Deep Ocean Blue (Primary)</p>
-            </div>
-            <div>
-              <div class="color-swatch bg-[#0F766E] text-white">#0F766E</div>
-              <p class="text-xs text-slate-400 mt-1 font-semibold">Instrumentation Teal (Secondary)</p>
-            </div>
-            <div>
-              <div class="color-swatch bg-[#0F172A] text-slate-200">#0F172A</div>
-              <p class="text-xs text-slate-400 mt-1 font-semibold">Slate 900 (Foreground Ink)</p>
-            </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div>
+            <div class="color-swatch bg-[#FAFBFD] text-slate-900">#FAFBFD</div>
+            <p class="text-xs text-slate-400 mt-1 font-semibold">Alabaster Paper (Public BG)</p>
+          </div>
+          <div>
+            <div class="color-swatch bg-[#005A9C] text-white">#005A9C</div>
+            <p class="text-xs text-slate-400 mt-1 font-semibold">Oceanic Sapphire (Primary)</p>
+          </div>
+          <div>
+            <div class="color-swatch bg-[#0F766E] text-white">#0F766E</div>
+            <p class="text-xs text-slate-400 mt-1 font-semibold">Instrumentation Teal (Secondary)</p>
+          </div>
+          <div>
+            <div class="color-swatch bg-[#0F172A] text-slate-200">#0F172A</div>
+            <p class="text-xs text-slate-400 mt-1 font-semibold">Slate 900 (Editorial Ink)</p>
           </div>
         </div>
 
-        <!-- Typography -->
-        <div class="space-y-3 pt-4 border-t border-slate-800">
-          <h3 class="text-base font-bold text-white">Typography &amp; Institutional Nomenclature</h3>
-          <div class="space-y-3">
-            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800 flex items-baseline justify-between gap-4">
-              <div>
-                <span class="text-xs text-slate-500 font-mono">Official Society &amp; Symposium Title</span>
-                <p class="font-sans text-lg font-black uppercase tracking-tight text-white">Harsh-Environment Mass Spectrometry (HEMS) Society</p>
-              </div>
-              <span class="text-xs font-mono text-slate-400 shrink-0">501(c)(3) Nonprofit</span>
-            </div>
-            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800 flex items-baseline justify-between gap-4">
-              <div>
-                <span class="text-xs text-slate-500 font-mono">Narrative Copy (Noto Sans)</span>
-                <p class="font-sans text-sm text-slate-200">Bridging academic, industrial, and government circles in ruggedized field-portable mass spectrometry since 1999.</p>
-              </div>
-              <span class="text-xs font-mono text-slate-400 shrink-0">font-sans</span>
-            </div>
-            <div class="p-3 bg-slate-900/60 rounded-lg border border-slate-800 flex items-baseline justify-between gap-4">
-              <div>
-                <span class="text-xs text-slate-500 font-mono">Metadata, Fees &amp; Filenames (IBM Plex Mono)</span>
-                <p class="font-mono text-xs text-emerald-400">16th HEMS Workshop • September 2027 • Student Award: $1,500.00</p>
-              </div>
-              <span class="text-xs font-mono text-slate-400 shrink-0">font-mono</span>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <h4 class="font-bold text-emerald-400 font-mono">Image Optimization &amp; Cache-Busting</h4>
+            <ul class="space-y-1 text-slate-300">
+              <li>• Classical <code class="text-sky-300 font-mono">Pillow + NumPy + SciPy</code> optimization shrunk 22 core gallery photos <code class="text-emerald-300">-93.7%</code> (<code class="text-slate-400">79.27 MB → 5.02 MB</code>) with zero generative alteration.</li>
+              <li>• <code class="text-sky-300 font-mono">don-cesar-hawaiian-smiles-2013.jpg</code> compressed <code class="text-emerald-300">-90.9%</code> (<code class="text-slate-300">246,013 B</code>, <code class="text-slate-300">1600×1059</code>).</li>
+              <li>• Web <code class="text-sky-300 font-mono">/hemslogo.jpg</code> trimmed to <code class="text-emerald-300">84,267 B</code> (<code class="text-slate-300">1127×778</code>); byte-exact <code class="text-sky-300 font-mono">3,756×2,594</code> (<code class="text-slate-300">846,986 B</code>) master pinned at top of <code class="text-sky-300 font-mono">/board</code>.</li>
+              <li>• <code class="text-sky-300 font-mono">galleryAssets.ts</code> appends disk <code class="text-sky-300 font-mono">?v=&lt;mtime&gt;</code> query strings to bypass immutable 1-year CDN caching on photo updates.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <h4 class="font-bold text-sky-400 font-mono">Curation &amp; Hero Field Carousel</h4>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <strong>Option A Alcohol Policy:</strong> <code class="text-emerald-300">0%</code> alcohol imagery on Home (<code class="text-sky-300">/</code>), <code class="text-sky-300">/student-awards</code>, and <code class="text-sky-300">/corporate-sponsorship</code>; EXIF &amp; Printed Program verified Provenance-First captions.</li>
+              <li>• <strong>12-Slide Field Carousel:</strong> <code class="text-sky-300 font-mono">HeroFieldDeploymentsCarousel.tsx</code> showcases subsea MIMS, Dragonfly/ExoMars/LAMA space probes, USMC CBRN field MS, UAV drone MS, SIMION modeling, and Smithsonian non-proximate MS, starting on a hydration-safe random slide on mount.</li>
+              <li>• <strong>Interactive Spectrum:</strong> <code class="text-sky-300 font-mono">HeroMassSpectrum.tsx</code> lives in Section 04 of <code class="text-sky-300">/about/</code>.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <h4 class="font-bold text-amber-400 font-mono">Option 2 Mobile Simplification (&lt; 768px)</h4>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <strong>Balanced Hybrid:</strong> PC viewports (<code class="text-sky-300">&gt;= md / lg</code>) stay desktop-faithful while phones stream directly to core missions, CTAs, and live status.</li>
+              <li>• Converts Homepage Charter Pillars to a horizontal touch-swipe snap rail; compacts Impact/Facts into <code class="text-sky-300">2×2</code> grids.</li>
+              <li>• Collapses secondary timelines and "Previous Years" photo galleries into native mobile <code class="text-sky-300">&lt;details&gt;</code> drawers (<code class="text-sky-300">md:hidden</code>) with sticky horizontal portal sub-nav pills.</li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 4: LAYOUT & ROUTING -->
+      <!-- SECTION 4: ROUTE MAP & 6 PORTAL RBAC HIERARCHY -->
       <section id="layout-architecture" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>04 / Layout &amp; Routes</span>
+          <span>04 / Route Architecture &amp; 6 Isolated RBAC Portals</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Layout &amp; Page Route Hierarchy (<code class="text-sky-300">src/frontend/src/app/</code>)</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Complete App Router Map (30 Route Files → 44+ Static Pages) &amp; Role Portals</h2>
 
-        <p class="text-slate-300 text-sm leading-relaxed">
-          Every dynamic route follows a <strong>Server Metadata Wrapper + Client Hydration Component</strong> pattern: the route's <code class="text-sky-300 font-mono">page.tsx</code> stays a Server Component exporting static SEO <code class="text-sky-300 font-mono">Metadata</code>, while delegating interactive/live-synced rendering to modular client components under <code class="text-sky-300 font-mono">src/components/workshop/*Client.tsx</code>.
-        </p>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs font-mono">
-          <!-- Left Column: Standalone Top-Level Public Routes -->
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2.5">
-            <span class="text-sky-400 font-bold font-sans text-sm block">Standalone Public Routes (Global Navbar &amp; Footer)</span>
-            <ul class="space-y-2 text-slate-300">
-              <li>
-                <strong class="text-white">/</strong> — Home Page (<code class="text-sky-300">UpcomingHeroBadge.tsx</code> + Mission pillars + 2025 Proceedings spotlight)
-              </li>
-              <li>
-                <strong class="text-white">/about/</strong> — Society Mission, Harsh-Environment MS domains, 501(c)(3) governance &amp; Board leadership
-              </li>
-              <li>
-                <strong class="text-emerald-400">/history/</strong> — <em>Dedicated Society &amp; Workshop History</em> (<code class="text-sky-300">app/history/page.tsx</code>): 1999 Baltimore founding narrative, 2003 501(c)(3) charter, and interactive 15-workshop timeline (extracted so <code class="text-slate-400">/archive/**</code> remains 100% untouched)
-              </li>
-              <li>
-                <strong class="text-emerald-400">/student-awards/</strong> — <em>Promoted to Global Navbar &amp; Footer</em> (<code class="text-sky-300">StudentAwardsClient.tsx</code>): Aligned 100% with legacy <code class="text-slate-400">15thstudenttravel.html</code> (eligibility, 2-page CV + advisor letter + abstract packet, dynamic <code class="text-emerald-300">$1,500.00</code> grant &amp; deadline, and past recipient honor roll)
-              </li>
-              <li>
-                <strong class="text-white">/contact/</strong> — Inquiries, dynamic 16th Workshop venue card, and primary gateway CTA to Corporate Sponsorship
-              </li>
-              <li>
-                <strong class="text-amber-300">/corporate-sponsorship/</strong> — <em>Evergreen Industry Partnership Page</em> (<code class="text-sky-300">CorporateSponsorshipClient.tsx</code>): Accessible via <code class="text-white">/contact/</code> (intentionally omitted from <code class="text-slate-400">Navbar.tsx</code>). Models legacy <code class="text-slate-400">15thCorp_Sponsors.html</code> with 4 sponsor benefits, 3 flexible billing options (<code class="text-emerald-300">$1,350</code> full, <code class="text-emerald-300">$850 + $500</code> split spend-limit invoicing, <code class="text-emerald-300">$850</code> remote sponsor), Tim Short coordinator card, and alphabetical 52-company <code class="text-sky-300">corporate_registry.json</code> showcase
-              </li>
-              <li>
-                <strong class="text-white">/archive/</strong> &amp; <strong class="text-white">/archive/[year]/</strong> — <em>Immutable Proceedings Repository</em> (15 workshops, 1999–2025; locked against modification without explicit <code class="text-amber-300">@bo</code> authorization)
-              </li>
-              <li>
-                <strong class="text-white">/search/</strong> — Instant Fuse.js proceedings, author, and keyword search
-              </li>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-xs font-mono">
+          <!-- Column 1: Public & SEO -->
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-sky-400 font-bold font-sans text-sm block">Public Society &amp; Scholarly Routes</span>
+            <ul class="space-y-1.5 text-slate-300">
+              <li><strong class="text-white">/</strong> — Home (Mission + 12-Slide Carousel + Spotlight)</li>
+              <li><strong class="text-white">/about/</strong> — Official Charter (<code class="text-sky-300">mission-statementV4</code>), Objectives, Board &amp; Spectrum</li>
+              <li><strong class="text-white">/history/</strong> — <code class="text-sky-300">historyV4.md</code> (Feb 1999 USF St. Pete founding, 2008 501(c)(3) charter)</li>
+              <li><strong class="text-white">/archive/</strong> &amp; <strong class="text-white">/archive/[year]/</strong> — 🔒 15 immutable workshop proceedings (1999–2025)</li>
+              <li><strong class="text-white">/contact/</strong> — Online Postmark Inquiry Form + Mailing Signup + Sponsor gateway</li>
+              <li><strong class="text-white">/formatting-guidelines/</strong> — 16th Workshop abstract prep &amp; Word/PDF layout spec</li>
+              <li><strong class="text-white">/auth/</strong> — Google, Microsoft &amp; Verified Email Sign-In gateway</li>
+              <li><strong class="text-white">/unsubscribe/</strong> — Zero-login double-opt-in confirmation, RFC 8058 &amp; email update</li>
+              <li class="pt-1 border-t border-slate-800 text-slate-400">Metadata/AI: <code class="text-emerald-300">/sitemap.xml</code>, <code class="text-emerald-300">/robots.txt</code>, <code class="text-emerald-300">/llms.txt</code>, <code class="text-emerald-300">/llms-full.txt</code>, <code class="text-emerald-300">opengraph-image.png</code></li>
             </ul>
           </div>
 
-          <!-- Right Column: (portal) Route Group & Decoupled Workbench -->
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2.5">
-            <span class="text-purple-400 font-bold font-sans text-sm block">Workshop Portal Group (<code class="text-purple-300">app/(portal)/</code>) &amp; Port 4000 Workbench</span>
-            <ul class="space-y-2 text-slate-300">
-              <li>
-                <strong class="text-white">/layout-portal/</strong> — Upcoming 16th Workshop Hub (<code class="text-sky-300">PortalOverviewClient.tsx</code>): Save-the-Date / Open status cards &amp; quick links
-              </li>
-              <li>
-                <strong class="text-white">/call-for-papers/</strong> — Abstract Topics &amp; Deadlines (<code class="text-sky-300">CallForPapersClient.tsx</code>): Clean <code class="text-amber-300">Opening in 2027</code> state replacing expired 2025 Ex Ordo buttons
-              </li>
-              <li>
-                <strong class="text-white">/formatting-guidelines/</strong> — Abstract preparation &amp; submission formatting rules
-              </li>
-              <li>
-                <strong class="text-white">/registration/</strong> — Biennial Pass Tiers (<code class="text-sky-300">RegistrationClient.tsx</code>): <code class="text-emerald-300">$250</code> Student / <code class="text-emerald-300">$500</code> Professional / <code class="text-emerald-300">$1,350</code> Sponsor passes with live/TBA toggle
-              </li>
-              <li>
-                <strong class="text-white">/accommodations/</strong> — Host Venue &amp; Room Block (<code class="text-sky-300">AccommodationsClient.tsx</code>): Coastal venue status, <code class="text-slate-400">$124/night</code> 2025 government-rate benchmark, and conditional booking CTA
-              </li>
-              <li>
-                <strong class="text-white">/login/</strong> — Firebase Authentication gateway for committee roles
-              </li>
-              <li>
-                <strong class="text-emerald-400">/admin/</strong>, <strong class="text-white">/board/</strong>, <strong class="text-white">/reviewer/</strong> — Role-gated RBAC portals (removing Decap <code class="text-slate-400">public/admin/index.html</code> permanently resolved the <code class="text-emerald-300">/admin/</code> static build collision)
-              </li>
-              <li class="pt-2 border-t border-slate-800/80 text-amber-300 font-sans">
-                <strong>Decoupled Local Archive Manager (Port 4000):</strong>
-                <p class="text-slate-400 text-[11px] font-mono mt-0.5">
-                  Runs exclusively at <code class="text-emerald-400">http://localhost:4000/</code> (<code class="text-sky-300">tools/manager/</code>). Navigating to <code class="text-red-400">localhost:3000/manager</code> returns an intentional <strong>HTTP 404</strong>.
-                </p>
-              </li>
+          <!-- Column 2: 2027 Workshop & Attendee/Reviewer -->
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
+            <span class="text-emerald-400 font-bold font-sans text-sm block">2027 Workshop Cycle &amp; Peer Review</span>
+            <ul class="space-y-1.5 text-slate-300">
+              <li><strong class="text-white">/layout-portal/</strong> — 16th Biennial Workshop Overview &amp; Save-the-Date banners</li>
+              <li><strong class="text-white">/call-for-papers/</strong> — Topic tracks &amp; synchronized submission deadlines</li>
+              <li><strong class="text-white">/registration/</strong> — Native checkout, Promo waivers, Invoice/PO + Auto-Advance Simulator</li>
+              <li><strong class="text-white">/registration/receipt/</strong> — Printable IRS IRC §§ 170 &amp; 6115 Receipt / Invoice PDF</li>
+              <li><strong class="text-white">/accommodations/</strong> — Coastal hotel block, group rate &amp; booking CTA</li>
+              <li><strong class="text-white">/student-awards/</strong> — $1,500 Travel Awards, Honor Roll &amp; Printable Flyer</li>
+              <li><strong class="text-white">/corporate-sponsorship/</strong> — Evergreen Industry Tiers &amp; 52-Sponsor Registry</li>
+              <li class="pt-1 border-t border-slate-800"><strong class="text-cyan-300">/abstract-submission/</strong> — <span class="font-sans text-slate-400">(Attendee/Admin)</span> 5-stage builder, live US Letter wrap preview &amp; cloud drafts</li>
+              <li><strong class="text-amber-300">/reviewer/</strong> &amp; <strong class="text-amber-300">/reviewer/overview/</strong> — <span class="font-sans text-slate-400">(Reviewer/Board/Admin)</span> Blind rubric scoring</li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Strict Officer Portals -->
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-purple-800/40 space-y-2">
+            <span class="text-purple-400 font-bold font-sans text-sm block">Strictly Isolated Officer Portals (<code class="text-purple-300">noindex</code>)</span>
+            <ul class="space-y-1.5 text-slate-300">
+              <li><strong class="text-purple-300">/board/</strong> — Executive Hub &amp; <strong>10 MB Secure Repository</strong> (sticky full-res emblem + active/outdated archive)</li>
+              <li><strong class="text-purple-300">/admin/analytics/</strong> — 5-Tab Telemetry, <code class="text-sky-300">?src=</code> Link Builder &amp; PDF Download Audit (<span class="font-sans text-slate-400">Board + Admin</span>)</li>
+              <li><strong class="text-cyan-400">/operations/registrations/</strong> — Check-In, Seat Transfer, Roster &amp; <code class="text-sky-300">16th_Participant_List.pdf</code> (<span class="font-sans text-slate-400">Operations only</span>)</li>
+              <li><strong class="text-cyan-400">/operations/mailing-list/</strong> — Subscribers, Sublists, Sheets Paste &amp; CSV Export (<span class="font-sans text-slate-400">Operations only</span>)</li>
+              <li><strong class="text-cyan-400">/operations/announcements/</strong> — Postmark Test-First Composer &amp; <code class="text-sky-300">?src=</code> auto-tagger (<span class="font-sans text-slate-400">Operations only</span>)</li>
+              <li><strong class="text-cyan-400">/operations/marketing-playbook/</strong> — Interactive Ad Grant, LinkedIn, UTM &amp; 20-Item Checklist (<span class="font-sans text-slate-400">Operations only</span>)</li>
+              <li><strong class="text-rose-400">/treasurer/</strong> — Stripe Live Balance/Payouts, Ledger, Refunds, Promos &amp; Form 990 CSVs (<span class="font-sans text-slate-400">Treasurer only</span>)</li>
+              <li><strong class="text-red-400">/admin/</strong> — Whitelist RBAC Manager (<code class="text-slate-300">10</code> roles + locked <code class="text-emerald-300">webmaster@hems-workshop.org</code>)</li>
+              <li><strong class="text-red-400">/admin/workshop-settings/</strong> — Workshop Control Center (<code class="text-slate-300">44</code> fields, Draft staging, Board Previews, Visual Diffs, Audit &amp; Rollback)</li>
             </ul>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 5: PROCEEDINGS & ARCHIVE -->
+      <!-- SECTION 5: PROCEEDINGS ENGINE, OPT-IN DEEP SEARCH & PATRON SHOWCASE -->
       <section id="archive-system" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>05 / Research Archives &amp; Static Bundle Optimization</span>
+          <span>05 / Research Archives, Free-Tier Search Diet &amp; Google Scholar Access</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Proceedings Engine, 24.5 MB Lean SSG &amp; Dev Proxy</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Immutable Proceedings, Watchpoint 1 Search Diet &amp; 15-Year Host Showcase</h2>
 
-        <p class="text-slate-300 text-sm leading-relaxed">
-          The archive engine (<code class="text-sky-300 font-mono">src/frontend/src/app/archive/[year]/page.tsx</code>) pre-renders static proceedings interfaces for all 15 workshops (<code class="text-sky-300 font-mono">generateStaticParams</code>) while keeping the compiled Firebase Hosting static export lightweight.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
           <div class="p-4 bg-slate-900/70 rounded-xl border border-emerald-800/40 space-y-2">
-            <h4 class="text-sm font-bold text-emerald-400 font-mono">95% Static Bundle Reduction (508.2 MB → 24.5 MB)</h4>
+            <h4 class="text-sm font-bold text-emerald-400 font-mono">Watchpoint 1: Opt-In Deep Search + 2.5s Debounce</h4>
             <p class="text-slate-300 leading-relaxed">
-              Historical proceedings PDFs previously duplicated under <code class="text-slate-400 font-mono">src/frontend/public/assets/archives/</code> inflated <code class="text-sky-300 font-mono">src/frontend/out/</code> to <strong>508.2 MB</strong>. Purging <code class="text-slate-400 font-mono">/public/assets/archives</code> (and locking it in <code class="text-sky-300 font-mono">src/frontend/.gitignore</code>) shrank <code class="text-sky-300 font-mono">out/</code> to <strong>24.5 MB</strong>—enabling sub-minute Firebase Spark deployments and instant preview channels.
+              <code class="text-sky-300 font-mono">ArchiveHubClient.tsx</code> searches lightweight <code class="text-sky-300 font-mono">archives-index.json</code> by default with a <strong>2,500 ms typing debounce</strong> (<code class="text-slate-400">Enter</code> / chips execute immediately). The heavy <strong>13.56 MB</strong> <code class="text-sky-300 font-mono">/mock-pdf-chunks.json</code> (6,477 extracted PDF pages) only fetches when visitors explicitly toggle deep full-text search—protecting Firebase Hosting free egress quota.
             </p>
           </div>
 
           <div class="p-4 bg-slate-900/70 rounded-xl border border-sky-800/40 space-y-2">
-            <h4 class="text-sm font-bold text-sky-400 font-mono">Conditional <code class="text-white">next.config.ts</code> Dual-Mode Routing</h4>
+            <h4 class="text-sm font-bold text-sky-400 font-mono">DownloadGate.tsx &amp; Scholar Access</h4>
             <p class="text-slate-300 leading-relaxed">
-              In <code class="text-sky-300 font-mono">next dev</code> (<code class="text-slate-400 font-mono">NODE_ENV !== 'production'</code>), Next.js rewrites <code class="text-sky-300 font-mono">/api/manager/:path*</code> to <code class="text-emerald-400 font-mono">http://localhost:4000/api/manager/:path*</code> so local PDFs stream from <code class="text-sky-300 font-mono">local_data/proceedings/</code>. In <code class="text-sky-300 font-mono">next build</code>, it switches to <code class="text-sky-300 font-mono">output: 'export'</code> and resolves every PDF directly to <code class="text-emerald-300 font-mono">https://storage.googleapis.com/hems-workshop-archives/...</code>.
+              Interactive site PDF clicks require verified authentication and enforce a <code class="text-sky-300 font-mono">30 PDFs/day</code> quota for general accounts in <code class="text-sky-300 font-mono">firestore.rules</code>. Meanwhile, direct <code class="text-emerald-300 font-mono">https://storage.googleapis.com/hems-workshop-archives/...</code> URLs (651 Scholar PDFs) remain publicly readable for Google Scholar crawlers and protected by the <code class="text-rose-300 font-mono">$7.50</code> billing circuit breaker.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-900/70 rounded-xl border border-purple-800/40 space-y-2">
+            <h4 class="text-sm font-bold text-purple-400 font-mono">15-Year Patron Showcase &amp; SEO</h4>
+            <p class="text-slate-300 leading-relaxed">
+              All 15 catalogs (<code class="text-sky-300 font-mono">1999.json</code>–<code class="text-sky-300 font-mono">2025.json</code>) validate <code class="text-sky-300 font-mono">HostCorporationSchema</code> (<code class="text-slate-300">host_category</code>, IRC § 513(i)-neutral <code class="text-slate-300">patronage_summary</code>, M&amp;A notes, canonical <code class="text-slate-300">https://</code> URLs) rendered on <code class="text-sky-300 font-mono">/archive/[year]/</code> and serialized into <code class="text-sky-300 font-mono">ScholarlyArticle</code> / <code class="text-sky-300 font-mono">Event</code> JSON-LD and <code class="text-sky-300 font-mono">llms-full.txt</code>.
             </p>
           </div>
         </div>
 
-        <!-- Proceedings Catalog Matrix -->
         <div class="space-y-2">
-          <h4 class="text-sm font-bold text-white">Catalog Volume Matrix (1,590 Files Across 15 Workshops)</h4>
+          <h4 class="text-sm font-bold text-white">Immutable Catalog Volume Matrix (1,590 Files Across 15 Workshops)</h4>
           <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 text-center text-xs font-mono">
             <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">1st (1999)</div><div class="text-slate-400">2 files</div></div>
             <div class="p-2 bg-slate-900 rounded border border-slate-800"><div class="text-sky-400 font-bold">2nd (2001)</div><div class="text-slate-400">52 files</div></div>
@@ -479,353 +442,308 @@
         </div>
       </section>
 
-      <!-- SECTION 6: WORKSHOP MANAGER WORKBENCH -->
+      <!-- SECTION 6: DECOUPLED ARCHIVE MANAGER & PARTICIPANT EXPORT -->
       <section id="manager-workbench" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>06 / Local Operations Workbench</span>
+          <span>06 / Local Operations Workbench &amp; Participant Archiving</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Decoupled Archive Manager (<code class="text-sky-300">localhost:4000</code>)</h2>
-
-        <p class="text-slate-300 text-sm leading-relaxed">
-          The standalone Next.js workbench in <code class="text-sky-300 font-mono">tools/manager/</code> (<code class="text-emerald-400 font-mono">npm run manager</code>) has a strictly focused mandate: curating <strong>historical Proceedings Archives (1999–2025+)</strong> and maintaining the <strong>Corporate Sponsor Registry</strong> (<code class="text-sky-300 font-mono">corporate_registry.json</code> + <code class="text-sky-300 font-mono">public/images/sponsors/</code>). Upcoming workshop marketing &amp; schedule changes no longer require booting Port 4000.
-        </p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Decoupled Archive Manager (<code class="text-sky-300">localhost:4000</code>) &amp; <code class="text-sky-300">16th_Participant_List.pdf</code></h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div class="glass-card rounded-xl p-4 space-y-2">
-            <span class="font-bold text-sky-400 font-mono text-sm">Archive &amp; Sponsor Curation Scope</span>
+            <span class="font-bold text-sky-400 font-mono text-sm">Port 4000 Archive &amp; Sponsor Curation</span>
             <ul class="space-y-1.5 text-slate-300 list-disc list-inside">
-              <li><strong>Post-Workshop Archival Ingestion:</strong> Drag-and-drop PDF slide decks, abstracts, agendas, and oral/poster metadata after a workshop concludes.</li>
-              <li><strong>Dual-Storage Health Telemetry:</strong> Audits local <code class="text-sky-300 font-mono">local_data/proceedings/</code> parity against <code class="text-sky-300 font-mono">gs://hems-workshop-archives</code>.</li>
-              <li><strong>Corporate Registry Curation:</strong> Manages the 52 recognized corporate sponsor records and logo assets.</li>
-              <li><strong>Push-to-Live Pipeline:</strong> Syncs GCS objects, validates Zod archive schemas, commits catalog updates, and triggers static builds.</li>
+              <li>Standalone local Next.js app under <code class="text-sky-300 font-mono">tools/manager/</code> (<code class="text-red-400">localhost:3000/manager</code> intentionally 404s).</li>
+              <li>Post-workshop ingestion of slides, abstracts, agendas, <code class="text-sky-300 font-mono">master_workshops.json</code>, and <code class="text-sky-300 font-mono">corporate_registry.json</code> (52 sponsors).</li>
+              <li>Rebuilt <code class="text-sky-300 font-mono">build-prod.js</code> automatically runs Zod validation, generates <code class="text-sky-300 font-mono">archives-index.json</code>, <code class="text-sky-300 font-mono">mock-pdf-chunks.json</code>, and <code class="text-sky-300 font-mono">llms-full.txt</code>.</li>
             </ul>
           </div>
 
           <div class="glass-card rounded-xl p-4 space-y-2">
-            <span class="font-bold text-emerald-400 font-mono text-sm">Clean Separation of Concerns</span>
-            <div class="p-3 bg-slate-950 rounded border border-slate-800 font-mono text-[11px] text-slate-300 space-y-2">
-              <div>
-                <span class="text-amber-300 font-bold">Port 4000 Workbench (Webmaster Desktop):</span><br>
-                Historical archives (<code class="text-sky-300">master_workshops.json</code>, <code class="text-sky-300">data/archives/*.json</code>, <code class="text-sky-300">gs://hems-workshop-archives</code>) + <code class="text-sky-300">corporate_registry.json</code>.
-              </div>
-              <div class="pt-2 border-t border-slate-800">
-                <span class="text-emerald-300 font-bold">Google Sheets Control Plane (Multi-User Cloud):</span><br>
-                Active/upcoming biennial cycle (<code class="text-sky-300">16th Workshop • Sept 2027</code>) edited collaboratively by Organizing Committee chairs in browser.
-              </div>
-            </div>
+            <span class="font-bold text-emerald-400 font-mono text-sm">Archive-Ready Participant List Bridge (<code class="text-white">exportParticipantsPdf.ts</code>)</span>
+            <ul class="space-y-1.5 text-slate-300 list-disc list-inside">
+              <li>Operations Console (<code class="text-sky-300 font-mono">/operations/registrations/</code>) exports US Letter vector PDFs via <code class="text-sky-300 font-mono">jsPDF</code> matching the exact <code class="text-emerald-300 font-mono">${ordinal}_Participant_List.pdf</code> schema (<code class="text-slate-300">16th_Participant_List.pdf</code>) consumed by <code class="text-sky-300 font-mono">tools/manager</code> under <code class="text-sky-300 font-mono">Administrative/</code>.</li>
+              <li>Includes email deduplication, exclusion of sandbox/cancelled test rows, optional email column toggle, alphabetical sorting, and CSV companion export.</li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 7: GOOGLE SHEETS UPCOMING WORKSHOP CONTROL PLANE -->
+      <!-- SECTION 7: ADMIN WORKSHOP CONTROL CENTER, AUTO-ADVANCE & OPTION 1 REGISTRATION -->
       <section id="sheets-control-plane" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border border-emerald-800/40">
         <div class="flex items-center justify-between flex-wrap gap-2">
           <div class="flex items-center space-x-2 text-emerald-400 font-mono text-xs font-semibold tracking-wider uppercase">
-            <span>07 / Upcoming Workshop Control Plane (Replaces Decap CMS)</span>
+            <span>07 / Admin Control Center, Auto-Advance &amp; Option 1 Registration</span>
           </div>
-          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-700/60">Active: gid=540431442</span>
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-700/60">Single Source of Truth: site_config/workshop_live (44 Keys)</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">$0 Google Sheets CSV + Static JSON Hybrid Engine</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Admin Workshop Control Center, Auto-Advance State Machine &amp; 5-Step Registration Fulfillment</h2>
 
-        <p class="text-slate-300 text-sm leading-relaxed">
-          Decap CMS was retired in v4.0 because its <code class="text-slate-400 font-mono">test-repo</code> mode presented blank editors without existing page context, required GitHub authentication from non-technical academic volunteers, and collided with <code class="text-sky-300 font-mono">src/app/(portal)/admin/page.tsx</code> during static builds. In its place, HEMS uses a <strong>two-tab Google Sheet</strong> hosted inside HEMS's <strong>Google Workspace for Nonprofits</strong> account coupled with a committed static JSON baseline.
-        </p>
-
-        <!-- 3-Stage Data Flow Architecture -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
           <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <div class="text-emerald-400 font-mono font-bold uppercase">Stage 1 • Frame-0 Static SSG</div>
+            <div class="text-emerald-400 font-mono font-bold uppercase">1. Zero-Code Control Center + 10m Cache</div>
             <p class="text-slate-300 leading-relaxed">
-              Every page compiles with <code class="text-sky-300 font-mono">DEFAULT_UPCOMING_WORKSHOP</code> imported synchronously from <code class="text-sky-300 font-mono">src/data/upcoming_workshop.json</code>. Visitors and search crawlers receive instant HTML with zero loading spinners.
+              Replaces legacy Google Sheet CSV ingestion (<code class="text-slate-400">docs/workshop-sheets/archive/</code>) with <code class="text-sky-300 font-mono">/admin/workshop-settings/</code> (44 keys across 6 plain-English sections). Frame-0 renders <code class="text-sky-300 font-mono">upcoming_workshop.json</code>; browser hydrates <code class="text-sky-300 font-mono">site_config/workshop_live</code> with a 10-minute <code class="text-slate-300">sessionStorage</code> TTL cache (or resolves <code class="text-amber-300 font-mono">?preview=&lt;token&gt;</code> Drafts).
             </p>
           </div>
           <div class="p-4 bg-slate-900/80 rounded-xl border border-emerald-800/50 space-y-2">
-            <div class="text-sky-400 font-mono font-bold uppercase">Stage 2 • Live Browser Hydration</div>
+            <div class="text-sky-400 font-mono font-bold uppercase">2. 4-Phase Auto-Advance Engine</div>
             <p class="text-slate-300 leading-relaxed">
-              <code class="text-sky-300 font-mono">useUpcomingWorkshop()</code> fetches the published read-only CSV (<code class="text-slate-400 font-mono">cache: 'no-store'</code>, <code class="text-emerald-300 font-mono">Access-Control-Allow-Origin: *</code>) once per session via a deduplicated module-level promise and merges updates via RFC-4180 <code class="text-sky-300 font-mono">parseWorkshopSheetCsv()</code>.
+              Authoritatively enforced client &amp; server-side (<code class="text-sky-300 font-mono">upcomingWorkshop.ts</code> + <code class="text-sky-300 font-mono">workshopSchedule.ts</code> reading <code class="text-sky-300 font-mono">site_config/workshop_live</code>): transitions <code class="text-slate-300">before_opening</code> → <code class="text-emerald-300">early_bird</code> → <code class="text-amber-300">regular</code> → <code class="text-rose-300">concluded_closed</code> using unified 3-way <code class="text-sky-300 font-mono">registration_mode</code> (<code class="text-slate-300">auto_schedule | open_manual | paused_closed</code>).
             </p>
           </div>
-          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <div class="text-amber-400 font-mono font-bold uppercase">Stage 3 • Git Snapshot CLI</div>
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-purple-800/50 space-y-2">
+            <div class="text-purple-400 font-mono font-bold uppercase">3. Atomic 5-Step Registration Fulfillment</div>
             <p class="text-slate-300 leading-relaxed">
-              Running <code class="text-sky-300 font-mono">npm --prefix src/frontend run sync:workshop</code> executes <code class="text-sky-300 font-mono">scripts/sync-workshop-sheet.js</code>, baking live Google Sheet values permanently into <code class="text-sky-300 font-mono">upcoming_workshop.json</code> before major releases.
-            </p>
-          </div>
-        </div>
-
-        <!-- Google Drive & Sheet Topology -->
-        <div class="p-4 bg-slate-950/90 rounded-xl border border-slate-800 space-y-2 text-xs font-mono">
-          <div class="text-emerald-400 font-bold text-sm font-sans">Live Production Workbook Topology</div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-slate-300">
-            <div>
-              <span class="text-slate-400">Workbook Name:</span> <strong class="text-white">HEMS Upcoming Workshop Control Center</strong><br>
-              <span class="text-slate-400">Owner &amp; Drive Location:</span> <code class="text-sky-300">webmaster@hems-workshop.org</code> → <strong>My Drive</strong> <em>(never Shared Drive)</em><br>
-              <span class="text-slate-400">Workspace OU Policy:</span> <code class="text-emerald-300">Webmaster Access</code> (External web publishing = <code class="text-emerald-300">ON</code>)
-            </div>
-            <div>
-              <span class="text-slate-400">Tab 1 (Published CSV):</span> <code class="text-sky-300">1_Workshop_Config</code> (<code class="text-emerald-300">gid=540431442</code>, 40 keys, Col A protected)<br>
-              <span class="text-slate-400">Tab 2 (Committee Guide):</span> <code class="text-sky-300">2_Website_Ingestion_Checklist</code> (8-page behavior matrix)<br>
-              <span class="text-slate-400">Repo Templates:</span> <code class="text-sky-300">docs/workshop-sheets/*.csv</code> &amp; <code class="text-sky-300">README.md</code>
-            </div>
-          </div>
-        </div>
-
-        <!-- 8-Surface Ingestion Matrix Table -->
-        <div class="space-y-2">
-          <h4 class="text-sm font-bold text-white">8-Surface Website Ingestion Matrix (<code class="text-sky-300 font-mono">useUpcomingWorkshop</code>)</h4>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-300 border border-slate-800 rounded-lg overflow-hidden">
-              <thead class="bg-slate-900/90 text-[11px] uppercase font-semibold text-slate-400 border-b border-slate-800">
-                <tr>
-                  <th class="py-2.5 px-3">Surface &amp; Route</th>
-                  <th class="py-2.5 px-3">Client Component</th>
-                  <th class="py-2.5 px-3">Primary Ingested Keys</th>
-                  <th class="py-2.5 px-3"><code class="text-amber-300">save_the_date</code> (TBA) vs. <code class="text-emerald-300">open</code> Behavior</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-800/60 font-mono text-[11px]">
-                <tr>
-                  <td class="py-2.5 px-3 text-white font-sans font-semibold">1. Home (<code class="text-sky-300 font-mono">/</code>)</td>
-                  <td class="py-2.5 px-3 text-sky-300">UpcomingHeroBadge.tsx</td>
-                  <td class="py-2.5 px-3 text-slate-400">workshop_ordinal, target_window, venue_confirmed, venue_city_state, interest_form_url</td>
-                  <td class="py-2.5 px-3 font-sans text-slate-300">Shows <em>"Upcoming: 16th HEMS Workshop • September 2027"</em>; appends host city once <code class="text-sky-300 font-mono">venue_confirmed=true</code>.</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 text-white font-sans font-semibold">2. Student Awards (<code class="text-sky-300 font-mono">/student-awards/</code>)</td>
-                  <td class="py-2.5 px-3 text-sky-300">StudentAwardsClient.tsx</td>
-                  <td class="py-2.5 px-3 text-slate-400">student_award_amount, student_award_deadline, student_award_extended, student_award_email, student_award_form_url</td>
-                  <td class="py-2.5 px-3 font-sans text-slate-300">Displays <code class="text-emerald-300 font-mono">$1,500.00</code> grant &amp; TBA deadline; reveals Google Form CTA and optional <em>Extended</em> badge when set.</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 text-white font-sans font-semibold">3. Contact (<code class="text-sky-300 font-mono">/contact/</code>)</td>
-                  <td class="py-2.5 px-3 text-sky-300">contact/page.tsx</td>
-                  <td class="py-2.5 px-3 text-slate-400">venue_confirmed, venue_city_state, hotel_name, exact_dates, sponsor_coordinator_*</td>
-                  <td class="py-2.5 px-3 font-sans text-slate-300">Shows 2027 coastal venue TBA + 2025 reference link; switches to live hotel address &amp; Google Maps link once confirmed.</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 text-white font-sans font-semibold">4. Portal Overview (<code class="text-sky-300 font-mono">/layout-portal/</code>)</td>
-                  <td class="py-2.5 px-3 text-sky-300">PortalOverviewClient.tsx</td>
-                  <td class="py-2.5 px-3 text-slate-400">announcement_headline, announcement_body, cfp_abstract_deadline, registration_open</td>
-                  <td class="py-2.5 px-3 font-sans text-slate-300">Renders committee announcement banner, <em>Opening 2027</em> badges, and optional mailing-list Google Form link.</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 text-white font-sans font-semibold">5. Call for Papers (<code class="text-sky-300 font-mono">/call-for-papers/</code>)</td>
-                  <td class="py-2.5 px-3 text-sky-300">CallForPapersClient.tsx</td>
-                  <td class="py-2.5 px-3 text-slate-400">cfp_open, cfp_abstract_deadline, cfp_notification_date, cfp_submission_url</td>
-                  <td class="py-2.5 px-3 font-sans text-slate-300">Hides expired 2025 Ex Ordo button in favor of <em>Opening in 2027</em> pill until <code class="text-sky-300 font-mono">cfp_open=true</code> &amp; URL is populated.</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 text-white font-sans font-semibold">6. Registration (<code class="text-sky-300 font-mono">/registration/</code>)</td>
-                  <td class="py-2.5 px-3 text-sky-300">RegistrationClient.tsx</td>
-                  <td class="py-2.5 px-3 text-slate-400">registration_open, reg_*_fee, reg_early_bird_*, reg_final_cutoff, reg_refund_cutoff, reg_portal_url</td>
-                  <td class="py-2.5 px-3 font-sans text-slate-300">Shows reference fees ($250 / $500 / $1,350) with <em>Registration Opens 2027</em> badges; activates live registration buttons when open.</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 text-white font-sans font-semibold">7. Accommodations (<code class="text-sky-300 font-mono">/accommodations/</code>)</td>
-                  <td class="py-2.5 px-3 text-sky-300">AccommodationsClient.tsx</td>
-                  <td class="py-2.5 px-3 text-slate-400">venue_confirmed, hotel_name, hotel_address, hotel_group_rate, hotel_booking_cutoff, hotel_booking_url</td>
-                  <td class="py-2.5 px-3 font-sans text-slate-300">Displays coastal venue selection notice (<code class="text-slate-400 font-mono">$124/night</code> 2025 benchmark); activates <em>Book Hotel Room</em> CTA when confirmed.</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 text-white font-sans font-semibold">8. Sponsorship (<code class="text-sky-300 font-mono">/corporate-sponsorship/</code>)</td>
-                  <td class="py-2.5 px-3 text-sky-300">CorporateSponsorshipClient.tsx</td>
-                  <td class="py-2.5 px-3 text-slate-400">reg_sponsor_fee, sponsor_prospectus_url, sponsor_coordinator_name, sponsor_coordinator_email</td>
-                  <td class="py-2.5 px-3 font-sans text-slate-300">Stands evergreen year-round while dynamically updating coordinator contact, PDF prospectus link, and full-package rate.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 8: BACKEND, CLOUD-HOUSE GOVERNANCE & CI/CD -->
-      <section id="backend-cloud" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
-        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>08 / Cloud-House Governance, Storage &amp; CI/CD</span>
-        </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Cloud Identity Isolation, Environment Configs &amp; Keyless Deployment</h2>
-
-        <!-- Cloud-House Identity Matrix -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-sky-800/40 space-y-2">
-            <span class="text-sky-400 font-bold font-sans text-sm">Canonical Cloud Identity (<code class="text-white">@ops</code> Standard)</span>
-            <ul class="space-y-1.5 text-slate-300 font-sans">
-              <li>• <strong>Cloud &amp; Workspace Owner:</strong> <code class="text-emerald-300 font-mono">webmaster@hems-workshop.org</code></li>
-              <li>• <strong>GCP / Firebase Project:</strong> <code class="text-sky-300 font-mono">hems-workshop</code> (<code class="text-slate-400 font-mono">996590178042</code>)</li>
-              <li>• <strong>Isolated <code class="text-sky-300 font-mono">gcloud</code> Profile:</strong> Named configuration <code class="text-emerald-300 font-mono">hems</code> + ADC quota project <code class="text-sky-300 font-mono">hems-workshop</code> (preventing cross-project drift on multi-tenant developer workstations)</li>
-              <li>• <strong>Workspace Admin Policy:</strong> <code class="text-sky-300 font-mono">Webmaster Access</code> OU with external Drive sharing &amp; web publishing enabled while preserving <code class="text-slate-300 font-mono">Private to the owner</code> default access</li>
-            </ul>
-          </div>
-
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-emerald-800/40 space-y-2">
-            <span class="text-emerald-400 font-bold font-sans text-sm">Environment &amp; Keyless CI/CD Architecture</span>
-            <ul class="space-y-1.5 text-slate-300 font-sans">
-              <li>• <strong>Active Local Env:</strong> <code class="text-sky-300 font-mono">src/frontend/.env.local</code> (gitignored; holds 6 <code class="text-slate-300 font-mono">NEXT_PUBLIC_FIREBASE_*</code> keys + <code class="text-slate-300 font-mono">NEXT_PUBLIC_WORKSHOP_SHEET_CSV_URL</code>)</li>
-              <li>• <strong>Canonical Tracked Template:</strong> <code class="text-sky-300 font-mono">src/frontend/.env.example</code> (whitelisted via <code class="text-slate-300 font-mono">!.env.example</code>; duplicate root template &amp; empty <code class="text-slate-400 font-mono">firebase-key.json</code> removed)</li>
-              <li>• <strong>Keyless GitHub Actions WIF:</strong> <code class="text-sky-300 font-mono">.github/workflows/firebase-hosting-merge.yml</code> authenticates via Workload Identity Federation (<code class="text-slate-300 font-mono">firebase-github-deploy@hems-workshop.iam.gserviceaccount.com</code>)—zero stored JSON service-account keys</li>
-              <li>• <strong>Private Staging ($0 Spark):</strong> Unlisted 30-day Firebase Hosting Preview Channels (<code class="text-emerald-300 font-mono">preview-2027</code>) for committee sign-off prior to <code class="text-sky-300 font-mono">origin/main</code> push</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-sky-400 font-bold font-sans text-sm">Cloud Storage Bucket &amp; Functions v2</span>
-            <p class="text-slate-400 font-sans">Bucket: <code class="text-white">gs://hems-workshop-archives</code></p>
-            <ul class="text-slate-300 space-y-1">
-              <li>• <code class="text-sky-300">/proceedings/{ordinal}/{session}/{file}.pdf</code></li>
-              <li>• <code class="text-sky-300">/sponsors/{logo_file}.png</code></li>
-              <li>• <code class="text-sky-300">functions/src/index.ts</code> (Node 22): <code class="text-slate-300">onUserCreate</code> RBAC claim assignment</li>
-            </ul>
-          </div>
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-emerald-400 font-bold font-sans text-sm">Automated Asset Link Auditor</span>
-            <p class="text-slate-400 font-sans">
-              Executed via <code class="text-white">scripts/audit-proceedings-assets.js</code> (<code class="text-sky-300">npm run audit:assets</code>). Audits <strong>1,398 catalog proceeding links</strong> against local disk storage and issues live HTTP HEAD probes against GCS.
+              Stripe Checkout (<code class="text-slate-300">card</code> + <code class="text-slate-300">$5</code>-cap <code class="text-slate-300">us_bank_account</code> ACH), Invoice/PO, or <code class="text-emerald-300">$0</code> promo waivers trigger: (1) Sequential <code class="text-sky-300 font-mono">HEMS-2027-XXXX</code> receipt #, (2) <code class="text-sky-300 font-mono">whitelist</code> attendee role union, (3) Mailing sublist tagging, (4) Abstract cross-link, (5) Postmark IRC § 6115 email + Sheets API v4 append.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 9: SECURITY & RBAC -->
-      <section id="security-rbac" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
-        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>09 / Access Control, Sanitization &amp; System Locks</span>
+      <!-- SECTION 8: TWO-TIER BOARD REVIEW STAGING PIPELINE -->
+      <section id="board-staging-pipeline" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border border-amber-700/50">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center space-x-2 text-amber-400 font-mono text-xs font-semibold tracking-wider uppercase">
+            <span>08 / Post-Launch Two-Tier Change Control &amp; Staging Workflow</span>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-amber-950/90 text-amber-300 border border-amber-700/60">Zero-Risk Board Review</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Security Posture &amp; Repository Perimeter Locks</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Two-Tier Board Staging: Everyday Config Previews + Full Code Preview Channels</h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center text-xs font-mono">
-          <div class="p-3 bg-red-950/40 border border-red-800/60 rounded-xl">
-            <div class="text-red-400 font-bold">Admin (<code class="text-red-300">/admin/</code>)</div>
-            <div class="text-slate-400 mt-1">Whitelist RBAC control &amp; portal administration</div>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          Routine workshop edits (dates, pricing, hotel cutoff, CFP status, venue details) stage cleanly in-browser via <strong>Tier A (Control Center Token Previews)</strong> with zero programming tools. Structural code/layout edits continue using <strong>Tier B (<code class="text-amber-300 font-mono">manage-board-preview.ps1</code>)</strong> because pushes to <code class="text-sky-300 font-mono">origin/main</code> auto-deploy live via GitHub WIF.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-emerald-700/50 space-y-2">
+            <div class="text-emerald-400 font-mono font-bold uppercase">Tier A • In-App Config Staging (<code class="text-white">/admin/workshop-settings</code>)</div>
+            <ul class="space-y-1.5 text-slate-300">
+              <li>• <strong>1. Save Private Draft:</strong> Edits persist to <code class="text-sky-300 font-mono">site_config/workshop_draft</code> (strict <code class="text-rose-300 font-mono">isAdmin</code> read/write) while visitors see unaffected <code class="text-emerald-300 font-mono">workshop_live</code>.</li>
+              <li>• <strong>2. Zero-Login Board Link (<code class="text-amber-300 font-mono">?preview=&lt;token&gt;</code>):</strong> Generates 7–30 day preview URLs backed by <code class="text-sky-300 font-mono">site_config_previews/{token}</code>. Reviewers flip <code class="text-sky-300 font-mono">[Viewing: Draft | Switch to Live]</code> in <code class="text-sky-300 font-mono">PreviewChannelBanner.tsx</code> without logging in.</li>
+              <li>• <strong>3. Visual Diff Publish &amp; &lt;1s Rollback:</strong> Side-by-side Before → After table confirms publish via atomic <code class="text-sky-300 font-mono">writeBatch</code> into append-only <code class="text-sky-300 font-mono">site_config_history/{vNNNN}</code> (<code class="text-rose-300">allow update, delete: if false</code>), supporting instant 1-click live rollback.</li>
+            </ul>
           </div>
-          <div class="p-3 bg-purple-950/40 border border-purple-800/60 rounded-xl">
-            <div class="text-purple-400 font-bold">Board (<code class="text-purple-300">/board/</code>)</div>
-            <div class="text-slate-400 mt-1">Executive minutes, society governance &amp; records</div>
-          </div>
-          <div class="p-3 bg-amber-950/40 border border-amber-800/60 rounded-xl">
-            <div class="text-amber-400 font-bold">Reviewer (<code class="text-amber-300">/reviewer/</code>)</div>
-            <div class="text-slate-400 mt-1">Abstract rubric scoring &amp; evaluation portal</div>
-          </div>
-          <div class="p-3 bg-slate-800/40 border border-slate-700/60 rounded-xl">
-            <div class="text-slate-300 font-bold">Committee Sheet</div>
-            <div class="text-slate-400 mt-1">Google Drive Editor access on Col D/E (Col A locked)</div>
+
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-amber-700/50 space-y-2">
+            <div class="text-amber-400 font-mono font-bold uppercase">Tier B • Code &amp; Layout Channels (<code class="text-white">manage-board-preview.ps1</code>)</div>
+            <ul class="space-y-1.5 text-slate-300">
+              <li>• <strong>1. Draft Branch &amp; Stage:</strong> Develop UI/React changes off <code class="text-sky-300 font-mono">main</code>; run <code class="text-sky-300 font-mono">npm --prefix src/frontend run preview:deploy</code> (or <code class="text-sky-300 font-mono">preview:deploy:static-sheet</code> to pin bundled JSON).</li>
+              <li>• <strong>2. Board Sign-Off:</strong> Share ephemeral 14-day <code class="text-sky-300 font-mono">hems-workshop--board-review-&lt;hash&gt;.web.app</code> URL showing persistent Staging Banner + <strong>Compare with Live Page</strong>.</li>
+              <li>• <strong>3. Atomic Clone Promotion:</strong> Run <code class="text-sky-300 font-mono">preview:promote</code> (snapshots <code class="text-slate-300">pre-promote-backup</code>, promotes in &lt;2s via <code class="text-emerald-300 font-mono">hosting:clone</code>, supports <code class="text-sky-300 font-mono">preview:rollback</code>).</li>
+            </ul>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-2">
-            <h4 class="font-bold text-white">Google Sheet CSV Sanitization &amp; Firestore Quotas</h4>
-            <p class="text-slate-300 leading-relaxed">
-              Published Google Sheets CSV endpoints are strictly read-only, expose only Tab 1 (<code class="text-sky-300 font-mono">gid=540431442</code>), and are parsed through <code class="text-sky-300 font-mono">parseWorkshopSheetCsv()</code>, which whitelists the 40 typed keys and renders exclusively through React text nodes (preventing XSS injection). Firestore rules in <code class="text-sky-300 font-mono">firestore.rules</code> enforce daily download rate limits in <code class="text-sky-300 font-mono">downloads_log/{id}</code>.
-            </p>
+          <div class="p-4 bg-slate-950/90 rounded-xl border border-slate-800 space-y-2">
+            <h4 class="font-bold text-amber-300 font-mono">Unified Preview Safety Shield (<code class="text-white">?preview=*</code> &amp; <code class="text-white">*--*.web.app</code>)</h4>
+            <ul class="space-y-1 text-slate-300">
+              <li>• <strong>Search Engine Shield:</strong> <code class="text-sky-300 font-mono">PreviewChannelBanner.tsx</code> injects <code class="text-slate-300 font-mono">&lt;meta name="robots" content="noindex, nofollow" /&gt;</code> into <code class="text-sky-300 font-mono">document.head</code> whenever a preview host or token is active.</li>
+              <li>• <strong>Analytics Zero-Pollution:</strong> Both <code class="text-sky-300 font-mono">GoogleAnalyticsTag.tsx</code> (<code class="text-slate-300">G-F06RZ8L5CR</code>) and <code class="text-sky-300 font-mono">telemetryClient.ts</code> (<code class="text-sky-300 font-mono">isFirebasePreviewChannelHost() || hasActiveWorkshopPreviewToken()</code>) suppress tracking hits automatically.</li>
+              <li>• <strong>Zero Live Footprint:</strong> Renders <code class="text-slate-300 font-mono">null</code> on <code class="text-emerald-300 font-mono">hems-workshop.org</code> and <code class="text-emerald-300 font-mono">localhost</code> during normal traffic.</li>
+              <li>• <strong>Static Snapshot Override:</strong> Append <code class="text-sky-300 font-mono">?sheet=static</code> or set <code class="text-sky-300 font-mono">NEXT_PUBLIC_DISABLE_LIVE_SHEET_SYNC=true</code> to render bundled <code class="text-sky-300 font-mono">upcoming_workshop.json</code>.</li>
+            </ul>
           </div>
 
-          <div class="p-4 bg-red-950/25 rounded-xl border border-red-900/50 space-y-2">
-            <h4 class="font-bold text-red-300">Hard Repository Locks (<code class="text-red-200 font-mono">.agents/rules/locksrules.md</code>)</h4>
+          <div class="p-4 bg-slate-950/90 rounded-xl border border-red-900/40 space-y-2">
+            <h4 class="font-bold text-rose-300 font-mono">Shared-Backend Boundary Warning During Preview</h4>
             <ul class="space-y-1 text-slate-300">
-              <li>🛑 <strong>Archive Immutability Lock:</strong> <code class="text-slate-400 font-mono">src/frontend/src/app/archive/**</code> &amp; <code class="text-slate-400 font-mono">data/archives/*.json</code> must never be modified without explicit <code class="text-amber-300 font-mono">@bo</code> permission.</li>
-              <li>🛑 <strong>Immutable Reference Lock:</strong> <code class="text-slate-400 font-mono">/source-material</code> is strictly read-only.</li>
-              <li>🛑 <strong>Memory Firewall:</strong> <code class="text-slate-400 font-mono">docs/logs/thought_trace.md</code> is strictly append-only (write-only; never read into context).</li>
+              <li>• Token Draft previews &amp; hosting channels isolate visual presentation cleanly from live visitors.</li>
+              <li>• However, API rewrites (<code class="text-sky-300 font-mono">/api/*</code>), Firebase Auth, and live transactional collections share the <code class="text-sky-300 font-mono">hems-workshop</code> backend. Avoid submitting real Stripe checkouts or live Postmark broadcasts while browsing a preview URL unless using sandbox test mode.</li>
+              <li>• Changes to <code class="text-sky-300 font-mono">firestore.rules</code> or <code class="text-sky-300 font-mono">functions/</code> apply immediately across the project when deployed.</li>
             </ul>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 10: DATA SCHEMAS & REGISTRIES -->
-      <section id="data-registries" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+      <!-- SECTION 9: CLOUD FUNCTIONS v2, POSTMARK & TELEMETRY -->
+      <section id="cloud-functions-comms" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>10 / Schemas, Registries &amp; Verification</span>
+          <span>09 / Serverless Cloud Functions v2 (14 Exported Functions)</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Canonical Data Registries, Parsers &amp; Test Suites</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Cloud Functions Catalog, Postmark Pipeline &amp; First-Party Telemetry</h2>
 
-        <div class="space-y-3 text-xs font-mono">
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-emerald-800/50 space-y-1.5">
-            <div class="flex justify-between items-center flex-wrap gap-2">
-              <span class="text-emerald-400 font-bold text-sm">upcoming_workshop.json + upcomingWorkshop.ts + useUpcomingWorkshop.ts</span>
-              <span class="text-slate-500">src/frontend/src/{data,utils,hooks}/</span>
-            </div>
-            <p class="text-slate-300 font-sans">
-              Defines <code class="text-sky-300">UpcomingWorkshopConfig</code> (40 strongly typed fields + <code class="text-sky-300">sheet_csv_url</code>), zero-dependency RFC-4180 CSV parser handling quoted currency commas (<code class="text-emerald-300">$1,350</code>, <code class="text-emerald-300">$1,500.00</code>) and uppercase Google Sheets booleans (<code class="text-emerald-300">TRUE</code>/<code class="text-emerald-300">FALSE</code>), and session-cached browser hydration. Verified by <code class="text-sky-300">tests/unit/upcomingWorkshopCsv.test.mjs</code>.
-            </p>
-          </div>
-
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-sky-800/50 space-y-1.5">
-            <div class="flex justify-between items-center flex-wrap gap-2">
-              <span class="text-sky-400 font-bold text-sm">archive.schema.ts (Zod Runtime Validation)</span>
-              <span class="text-slate-500">src/frontend/src/schemas/archive.schema.ts</span>
-            </div>
-            <p class="text-slate-300 font-sans">
-              Strict TypeScript/Zod schemas for <code class="text-sky-300">WorkshopArchive</code>, <code class="text-sky-300">Presentation</code>, <code class="text-sky-300">Poster</code>, and <code class="text-sky-300">MasterWorkshops</code>. Executed via <code class="text-sky-300">scripts/validate-archives.js</code> during <code class="text-sky-300">build-prod.js</code> prior to static compilation.
-            </p>
-          </div>
-
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-1.5">
-            <div class="flex justify-between items-center flex-wrap gap-2">
-              <span class="text-sky-400 font-bold text-sm">master_workshops.json &amp; data/archives/*.json</span>
-              <span class="text-slate-500">src/frontend/src/data/</span>
-            </div>
-            <p class="text-slate-300 font-sans">Authoritative master catalog defining all 15 historical workshops (1999–2025), feeding both <code class="text-sky-300">/archive/</code> and the chronological timeline on <code class="text-sky-300">/history/</code>.</p>
-          </div>
-
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-1.5">
-            <div class="flex justify-between items-center flex-wrap gap-2">
-              <span class="text-emerald-400 font-bold text-sm">corporate_registry.json</span>
-              <span class="text-slate-500">src/frontend/src/data/corporate_registry.json</span>
-            </div>
-            <p class="text-slate-300 font-sans">Registry of all 52 historical &amp; continuing corporate sponsors, inception years, external URLs (normalized with <code class="text-sky-300">https://</code>), and logo filenames under <code class="text-sky-300">public/images/sponsors/</code>.</p>
-          </div>
-
-          <div class="p-4 bg-slate-900/70 rounded-xl border border-slate-800 space-y-1.5">
-            <div class="flex justify-between items-center flex-wrap gap-2">
-              <span class="text-amber-400 font-bold text-sm">permalink_registry.json</span>
-              <span class="text-slate-500">docs/registries/permalink_registry.json</span>
-            </div>
-            <p class="text-slate-300 font-sans">Legacy URL mapping table ensuring historical citations route cleanly to modern archive paths.</p>
-          </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300 border border-slate-800 rounded-lg overflow-hidden">
+            <thead class="bg-slate-900/90 text-[11px] uppercase font-semibold text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="py-2.5 px-3">Function ID</th>
+                <th class="py-2.5 px-3">Trigger / Route Rewrite</th>
+                <th class="py-2.5 px-3">Compute Cap</th>
+                <th class="py-2.5 px-3">Rate Limit / Auth Guard</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-mono text-[11px]">
+              <tr><td class="py-2 px-3 text-sky-300">mailingSubscribe</td><td class="py-2 px-3">POST /api/mailing/subscribe</td><td class="py-2 px-3">max:5 • 256M • 30s</td><td class="py-2 px-3 font-sans">Honeypot + 10/15m IP + 3/hr email opt-in throttle</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">mailingConfirm</td><td class="py-2 px-3">POST /api/mailing/confirm</td><td class="py-2 px-3">max:5 • 256M • 30s</td><td class="py-2 px-3 font-sans">20/15m IP throttle; activates double opt-in token</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">mailingUnsubscribe</td><td class="py-2 px-3">POST /api/mailing/{unsubscribe,one-click-unsubscribe}</td><td class="py-2 px-3">max:5 • 256M • 30s</td><td class="py-2 px-3 font-sans">RFC 8058 + 20/15m IP + 3/hr email self-service</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">mailingWebhookPostmark</td><td class="py-2 px-3">POST /api/mailing/webhooks/postmark</td><td class="py-2 px-3">max:5 • 256M • 30s</td><td class="py-2 px-3 font-sans">120/m IP + <code class="text-slate-300">timingSafeSecretMatch</code> header</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">mailingSendCampaign</td><td class="py-2 px-3">POST /api/mailing/send-campaign</td><td class="py-2 px-3">max:2 • 256M • 300s</td><td class="py-2 px-3 font-sans">Verified <code class="text-cyan-300">operations</code> officer only; auto <code class="text-sky-300">?src=</code> URL tagger</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">contactInquiry</td><td class="py-2 px-3">POST /api/contact/inquiry</td><td class="py-2 px-3">max:5 • 256M • 30s</td><td class="py-2 px-3 font-sans">Honeypot + 6/hr IP + 3/hr sender email throttle</td></tr>
+              <tr><td class="py-2 px-3 text-emerald-300">telemetryEvent</td><td class="py-2 px-3">POST /api/telemetry/event</td><td class="py-2 px-3">max:5 • 256M • 15s</td><td class="py-2 px-3 font-sans">Bot UA filter + 120/m IP L1 bucket; zero IP storage</td></tr>
+              <tr><td class="py-2 px-3 text-purple-300">registrationCreateSession</td><td class="py-2 px-3">POST /api/registration/create-session</td><td class="py-2 px-3">max:5 • 256M • 45s</td><td class="py-2 px-3 font-sans">25/15m promo brute-force lock + 10/hr IP + 5/hr email</td></tr>
+              <tr><td class="py-2 px-3 text-purple-300">registrationWebhookStripe</td><td class="py-2 px-3">POST /api/registration/webhooks/stripe</td><td class="py-2 px-3">max:5 • 256M • 45s</td><td class="py-2 px-3 font-sans">Raw-body HMAC-SHA256 <code class="text-slate-300">Stripe-Signature</code> verify</td></tr>
+              <tr><td class="py-2 px-3 text-purple-300">registrationGetReceipt</td><td class="py-2 px-3">GET /api/registration/receipt</td><td class="py-2 px-3">max:5 • 256M • 30s</td><td class="py-2 px-3 font-sans">40/15m IP + constant-time token or verified owner/officer</td></tr>
+              <tr><td class="py-2 px-3 text-purple-300">registrationAdminAction</td><td class="py-2 px-3">POST /api/registration/admin-action</td><td class="py-2 px-3">max:3 • 256M • 60s</td><td class="py-2 px-3 font-sans">Strict split: check-in/transfer (<code class="text-cyan-300">operations</code>) vs ledger/refund/Stripe (<code class="text-rose-300">treasurer</code>)</td></tr>
+              <tr><td class="py-2 px-3 text-amber-300">syncWhitelistToUserV2</td><td class="py-2 px-3">Firestore onDocumentWritten(whitelist/{email})</td><td class="py-2 px-3">max:5 • us-central1</td><td class="py-2 px-3 font-sans">Auth <code class="text-slate-300">getUserByEmail</code> + <code class="text-slate-300">isVerifiedUserRecord</code> + webmaster admin lock</td></tr>
+              <tr><td class="py-2 px-3 text-amber-300">syncUserOnRegistrationV2</td><td class="py-2 px-3">Firestore onDocumentCreated(users/{uid})</td><td class="py-2 px-3">max:5 • us-central1</td><td class="py-2 px-3 font-sans">Enforces Auth email &amp; verification before whitelist role grant</td></tr>
+              <tr class="bg-rose-950/20"><td class="py-2 px-3 text-rose-300">budgetCircuitBreaker</td><td class="py-2 px-3">Pub/Sub billing-budget-alerts</td><td class="py-2 px-3">max:2 • 256M • 60s</td><td class="py-2 px-3 font-sans">Trips at &gt;= $7.50 actual spend; revokes GCS public access</td></tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
-      <!-- SECTION 11: DEVELOPER PLAYBOOK -->
+      <!-- SECTION 10: SECURITY HARDENING PACK, RBAC & BILLING CIRCUIT BREAKER -->
+      <section id="security-hardening-cutoff" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border border-rose-900/40">
+        <div class="flex items-center space-x-2 text-rose-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>10 / Security Hardening Pack (Addendum 36) &amp; Billing Circuit Breaker (Addendum 37)</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Defense-in-Depth Security, Strict 6-Portal Isolation &amp; Automated Spend Cutoff</h2>
+
+        <!-- 6-Portal Isolation Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 text-center text-xs font-mono">
+          <div class="p-3 bg-sky-950/40 border border-sky-800/60 rounded-xl">
+            <div class="text-sky-300 font-bold">Attendee</div>
+            <div class="text-slate-400 text-[11px] mt-1"><code class="text-slate-300">/abstract-submission</code></div>
+          </div>
+          <div class="p-3 bg-amber-950/40 border border-amber-800/60 rounded-xl">
+            <div class="text-amber-300 font-bold">Reviewer</div>
+            <div class="text-slate-400 text-[11px] mt-1"><code class="text-slate-300">/reviewer/*</code></div>
+          </div>
+          <div class="p-3 bg-purple-950/40 border border-purple-800/60 rounded-xl">
+            <div class="text-purple-300 font-bold">Board</div>
+            <div class="text-slate-400 text-[11px] mt-1"><code class="text-slate-300">/board</code> &amp; Analytics</div>
+          </div>
+          <div class="p-3 bg-cyan-950/40 border border-cyan-800/60 rounded-xl">
+            <div class="text-cyan-300 font-bold">Operations</div>
+            <div class="text-slate-400 text-[11px] mt-1">Strict 1:1 <code class="text-slate-300">/operations/*</code></div>
+          </div>
+          <div class="p-3 bg-rose-950/40 border border-rose-800/60 rounded-xl">
+            <div class="text-rose-300 font-bold">Treasurer</div>
+            <div class="text-slate-400 text-[11px] mt-1">Strict 1:1 <code class="text-slate-300">/treasurer</code></div>
+          </div>
+          <div class="p-3 bg-red-950/40 border border-red-800/60 rounded-xl">
+            <div class="text-red-300 font-bold">Admin</div>
+            <div class="text-slate-400 text-[11px] mt-1"><code class="text-slate-300">/admin</code> &amp; <code class="text-slate-300">/admin/workshop-settings</code></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-slate-900/75 rounded-xl border border-slate-800 space-y-2">
+            <h4 class="font-bold text-white font-mono">Addendum 36 Hardening Pack Controls</h4>
+            <ul class="space-y-1.5 text-slate-300">
+              <li>• <strong>Verified-Identity Role Gate:</strong> <code class="text-sky-300 font-mono">hasVerifiedAuthEmail()</code> in <code class="text-sky-300 font-mono">firestore.rules</code> + <code class="text-sky-300 font-mono">isVerifiedDecodedToken()</code> in Functions + <code class="text-sky-300 font-mono">isTrustedFirebaseUser()</code> in <code class="text-sky-300 font-mono">AuthContext.tsx</code> block unverified email-spoofing escalations (honoring verified emails, Google OAuth, and Microsoft OAuth).</li>
+              <li>• <strong>Webmaster Lock &amp; Strict Portal Isolation:</strong> <code class="text-emerald-300 font-mono">webmaster@hems-workshop.org</code> permanently retains <code class="text-sky-300 font-mono">admin</code> in UI, <code class="text-sky-300 font-mono">useWhitelistAdmin.ts</code>, <code class="text-sky-300 font-mono">firestore.rules</code>, and Functions; <code class="text-cyan-300 font-mono">operations</code> and <code class="text-rose-300 font-mono">treasurer</code> do not inherit each other's privileges.</li>
+              <li>• <strong>Privacy-Preserving Rate Limiting (<code class="text-sky-300 font-mono">rateLimit.ts</code>):</strong> Keys IP &amp; email buckets using UTC-daily salted 28-hex SHA-256 digests (zero raw visitor IPs stored) across L1 per-instance memory and L2 Firestore transactions.</li>
+              <li>• <strong>Schema &amp; Counter Enforcement:</strong> <code class="text-sky-300 font-mono">downloads/{doc}</code> enforces <code class="text-slate-300">downloadCount == 1</code> on create and <code class="text-slate-300">+1</code> on update; <code class="text-sky-300 font-mono">mailing_public_requests</code> &amp; <code class="text-sky-300 font-mono">telemetry_events</code> bound all field keys and lengths.</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-rose-950/25 rounded-xl border border-rose-800/50 space-y-2">
+            <h4 class="font-bold text-rose-300 font-mono">Addendum 37 Billing Alert &amp; Auto-Cutoff (<code class="text-white">$5 Budget → $7.50 Break</code>)</h4>
+            <ul class="space-y-1.5 text-slate-300">
+              <li>• <strong>Budget Config:</strong> Monthly target <code class="text-emerald-300 font-mono">$5.00 USD</code> (<code class="text-slate-400 font-mono">8e66a672-bc09-401c-bf59-6f5c98bdf1e4</code>) with notifications at 50% Actual (<code class="text-slate-300">$2.50</code>), 90% Forecasted (<code class="text-slate-300">$4.50</code>), 100% Actual (<code class="text-slate-300">$5.00</code>), and 150% Actual (<code class="text-rose-300">$7.50</code>) → Pub/Sub <code class="text-sky-300 font-mono">billing-budget-alerts</code>.</li>
+              <li>• <strong>Circuit Breaker Action:</strong> Ignores forecast-only alerts; only when <strong>actual spend &gt;= $7.50</strong> does <code class="text-sky-300 font-mono">budgetCircuitBreaker</code> strip <code class="text-amber-300 font-mono">allUsers</code> / <code class="text-amber-300 font-mono">allAuthenticatedUsers</code> from <code class="text-sky-300 font-mono">gs://hems-workshop-archives</code>, halting runaway egress while keeping hosting, auth, Firestore, and registration 100% online.</li>
+              <li>• <strong>Bucket IAM &amp; AR Cleanup:</strong> <code class="text-sky-300 font-mono">configure-free-tier-guardrails.ps1</code> keeps 2 <code class="text-slate-300">gcf-artifacts</code> versions (&lt;500 MB) and binds bucket-scoped <code class="text-slate-300">roles/storage.admin</code> for the breaker SAs.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-4 bg-red-950/25 rounded-xl border border-red-900/50 text-xs">
+          <h4 class="font-bold text-red-300 mb-1.5">Hard Repository Perimeter Locks (<code class="text-red-200 font-mono">.agents/rules/locksrules.md</code>)</h4>
+          <p class="text-slate-300 leading-relaxed">
+            🛑 <strong>Archive Immutability:</strong> <code class="text-slate-400 font-mono">src/frontend/src/app/archive/**</code> &amp; <code class="text-slate-400 font-mono">data/archives/*.json</code> require explicit <code class="text-amber-300 font-mono">@bo</code> authorization •
+            🛑 <strong>Immutable Source Material:</strong> <code class="text-slate-400 font-mono">/source-material</code> is strictly read-only •
+            🛑 <strong>Memory Firewall:</strong> <code class="text-slate-400 font-mono">docs/logs/thought_trace.md</code> is write-only append-only (never read into agent context) •
+            🛑 <strong>Domain Locks:</strong> <code class="text-slate-400 font-mono">@dev</code> writes <code class="text-slate-300">src/</code>, <code class="text-slate-400 font-mono">@qa</code> writes <code class="text-slate-300">tests/</code>, <code class="text-slate-400 font-mono">@ops</code> owns <code class="text-slate-300">infrastructure/</code>, <code class="text-slate-300">functions/</code>, <code class="text-slate-300">firestore.rules</code>, <code class="text-slate-400 font-mono">@arch</code> owns <code class="text-slate-300">docs/plans/</code> &amp; <code class="text-slate-300">docs/session_history.md</code>.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 11: FIRESTORE COLLECTIONS & DATA SCHEMAS -->
+      <section id="data-registries" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+        <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
+          <span>11 / Firestore Security Matrix (22 Collections) &amp; Canonical Data Schemas</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Complete Firestore Collections &amp; Frontend Data Stores</h2>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300 border border-slate-800 rounded-lg overflow-hidden">
+            <thead class="bg-slate-900/90 text-[11px] uppercase font-semibold text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="py-2.5 px-3">Collection Path</th>
+                <th class="py-2.5 px-3">Read Permission</th>
+                <th class="py-2.5 px-3">Write Permission</th>
+                <th class="py-2.5 px-3">Purpose / Guards</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-mono text-[11px]">
+              <tr><td class="py-2 px-3 text-sky-300">users/{userId}</td><td class="py-2 px-3 font-sans">Self or Board/Admin</td><td class="py-2 px-3 font-sans">Admin; or verified Self (locked email/roles + &lt;=30/day)</td><td class="py-2 px-3 font-sans">Auth profiles &amp; download daily caps</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">whitelist/{email}</td><td class="py-2 px-3 font-sans">Admin list; verified Self <code class="text-slate-300">get</code></td><td class="py-2 px-3 font-sans">Admin only (<code class="text-emerald-300">webmaster</code> delete-protected)</td><td class="py-2 px-3 font-sans">10 assignable officer/member roles</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">reviews/{document}</td><td class="py-2 px-3 font-sans">Reviewer, Board, or Admin</td><td class="py-2 px-3 font-sans">Reviewer, Board, or Admin</td><td class="py-2 px-3 font-sans">Blind rubric evaluations</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">abstract_drafts/{draftId}</td><td class="py-2 px-3 font-sans">Owner (<code class="text-slate-300">uid</code>) or Admin</td><td class="py-2 px-3 font-sans">Owner (<code class="text-slate-300">uid</code>) or Admin</td><td class="py-2 px-3 font-sans">Auto-saved attendee working drafts</td></tr>
+              <tr><td class="py-2 px-3 text-sky-300">abstract_submissions/{id}</td><td class="py-2 px-3 font-sans">Owner/Verified email, Reviewer, Operations, Board/Admin</td><td class="py-2 px-3 font-sans">Attendee/Reviewer (<code class="text-slate-300">Pending</code> no score); Reviewer updates</td><td class="py-2 px-3 font-sans">Official 2027 abstract submissions</td></tr>
+              <tr><td class="py-2 px-3 text-purple-300">board_documents/{doc}</td><td class="py-2 px-3 font-sans">Board only (<code class="text-slate-300">isBoard</code>)</td><td class="py-2 px-3 font-sans">Board only (&lt;=10 MB, active/archived status)</td><td class="py-2 px-3 font-sans">Governance repo metadata</td></tr>
+              <tr><td class="py-2 px-3 text-purple-300">board_document_blobs/{chunk}</td><td class="py-2 px-3 font-sans">Board only (<code class="text-slate-300">isBoard</code>)</td><td class="py-2 px-3 font-sans">Board only (&lt;=20 chunks, &lt;=920 KB b64/chunk)</td><td class="py-2 px-3 font-sans">Chunked binary storage fallback</td></tr>
+              <tr><td class="py-2 px-3 text-cyan-300">mailing_subscribers/{id}</td><td class="py-2 px-3 font-sans">Operations only + Admin SDK</td><td class="py-2 px-3 font-sans">Operations only + Admin SDK</td><td class="py-2 px-3 font-sans">Sublists, double opt-in &amp; suppressions</td></tr>
+              <tr><td class="py-2 px-3 text-cyan-300">mailing_campaigns/{id}</td><td class="py-2 px-3 font-sans">Operations only + Admin SDK</td><td class="py-2 px-3 font-sans">Operations only + Admin SDK</td><td class="py-2 px-3 font-sans">Broadcast audit logs &amp; <code class="text-sky-300">?src=</code> slugs</td></tr>
+              <tr><td class="py-2 px-3 text-cyan-300">mailing_public_requests/{id}</td><td class="py-2 px-3 font-sans">Operations only (zero public read)</td><td class="py-2 px-3 font-sans">Public <code class="text-slate-300">create</code> (strict keys &amp; bounds); Operations update</td><td class="py-2 px-3 font-sans">Signups, opt-outs &amp; contact inquiries</td></tr>
+              <tr><td class="py-2 px-3 text-emerald-300">downloads/{document}</td><td class="py-2 px-3 font-sans">Board or Admin</td><td class="py-2 px-3 font-sans">Verified Auth (<code class="text-slate-300">create=1</code>, <code class="text-slate-300">update=+1</code>, exact keys)</td><td class="py-2 px-3 font-sans">Per-PDF historical download counters</td></tr>
+              <tr><td class="py-2 px-3 text-emerald-300">telemetry_daily/{dayId}</td><td class="py-2 px-3 font-sans">Board or Admin</td><td class="py-2 px-3 font-sans">Admin SDK only (<code class="text-sky-300">telemetryEvent</code>)</td><td class="py-2 px-3 font-sans">UTC daily traffic/device/country rollups</td></tr>
+              <tr><td class="py-2 px-3 text-emerald-300">telemetry_campaigns/{slug}</td><td class="py-2 px-3 font-sans">Board or Admin</td><td class="py-2 px-3 font-sans">Admin SDK only (<code class="text-sky-300">telemetryEvent</code>)</td><td class="py-2 px-3 font-sans">Per-campaign <code class="text-sky-300">?src=</code> conversion metrics</td></tr>
+              <tr><td class="py-2 px-3 text-emerald-300">telemetry_events/{eventId}</td><td class="py-2 px-3 font-sans">Board or Admin (300-row stream)</td><td class="py-2 px-3 font-sans">Schema-locked fallback create; Board/Admin delete</td><td class="py-2 px-3 font-sans">Live funnel stream (zero raw IPs)</td></tr>
+              <tr><td class="py-2 px-3 text-rose-300">workshop_registrations/{id}</td><td class="py-2 px-3 font-sans">Operations, Treasurer, or verified owner</td><td class="py-2 px-3 font-sans">Admin SDK only (<code class="text-slate-400">allow write: if false</code>)</td><td class="py-2 px-3 font-sans">Authoritative registration &amp; payment ledger</td></tr>
+              <tr><td class="py-2 px-3 text-rose-300">workshop_promo_codes/{code}</td><td class="py-2 px-3 font-sans">Operations or Treasurer</td><td class="py-2 px-3 font-sans">Admin SDK only (<code class="text-slate-400">allow write: if false</code>)</td><td class="py-2 px-3 font-sans">Atomic promo, sponsor &amp; waiver codes</td></tr>
+              <tr><td class="py-2 px-3 text-slate-400">workshop_counters/{docId}</td><td class="py-2 px-3 font-sans">Server-only (<code class="text-slate-400">if false</code>)</td><td class="py-2 px-3 font-sans">Admin SDK only</td><td class="py-2 px-3 font-sans">Sequential <code class="text-sky-300">HEMS-2027-XXXX</code> receipt/invoice IDs</td></tr>
+              <tr><td class="py-2 px-3 text-slate-400">rate_limits/{bucketId}</td><td class="py-2 px-3 font-sans">Server-only (<code class="text-slate-400">if false</code>)</td><td class="py-2 px-3 font-sans">Admin SDK only</td><td class="py-2 px-3 font-sans">Hashed SHA-256 IP &amp; email abuse counters</td></tr>
+              <tr><td class="py-2 px-3 text-amber-300">system_alerts/{alertId}</td><td class="py-2 px-3 font-sans">Board or Admin</td><td class="py-2 px-3 font-sans">Admin SDK only (<code class="text-sky-300">budgetCircuitBreaker</code>)</td><td class="py-2 px-3 font-sans">Budget heartbeat &amp; GCS cutoff audit state</td></tr>
+              <tr><td class="py-2 px-3 text-red-300">site_config/{docId}</td><td class="py-2 px-3 font-sans">Public <code class="text-slate-300">get</code> for <code class="text-emerald-300">workshop_live</code>; Admin for <code class="text-amber-300">workshop_draft</code></td><td class="py-2 px-3 font-sans">Admin only (<code class="text-slate-300">config</code> map + <code class="text-slate-300">updatedAt</code>)</td><td class="py-2 px-3 font-sans">44-key live website state &amp; isolated Draft staging</td></tr>
+              <tr><td class="py-2 px-3 text-amber-300">site_config_previews/{token}</td><td class="py-2 px-3 font-sans">Direct <code class="text-slate-300">get</code> by unguessable token; Admin list</td><td class="py-2 px-3 font-sans">Admin only (create, refresh snapshot, revoke)</td><td class="py-2 px-3 font-sans">Zero-login 7–30 day Board Review Draft links</td></tr>
+              <tr><td class="py-2 px-3 text-purple-300">site_config_history/{versionId}</td><td class="py-2 px-3 font-sans">Admin only (<code class="text-slate-300">isAdmin</code>)</td><td class="py-2 px-3 font-sans">Admin <code class="text-slate-300">create</code> only; <code class="text-rose-300">update, delete: if false</code></td><td class="py-2 px-3 font-sans">Immutable <code class="text-sky-300">v0001..vNNNN</code> audit trail &amp; 1-click rollback</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SECTION 12: OPERATOR & DEVELOPER PLAYBOOK -->
       <section id="developer-playbook" class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
         <div class="flex items-center space-x-2 text-sky-400 font-mono text-xs font-semibold tracking-wider uppercase">
-          <span>11 / Operator &amp; Developer Handbook</span>
+          <span>12 / Operator &amp; Webmaster Quickstart Playbook</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Workflows, Staging &amp; CLI Quickstart</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Local Dev, Board Staging, Production Deploy &amp; Emergency Recovery CLI</h2>
 
-        <div class="space-y-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
           <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-sky-400 font-mono uppercase">1. Run Public Website Locally (Port 3000)</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run dev
-# Public Website + Live Google Sheet Hydration: http://localhost:3000/
-# Portal Admin View (RBAC):                     http://localhost:3000/admin/</code></pre>
+            <span class="text-xs font-bold text-sky-400 font-mono uppercase">1. Local Development &amp; Type / Build Checks</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run dev                                        # Website on http://localhost:3000/
+npm run manager                                    # Historical Archive Workbench on :4000
+npm --prefix functions run build                   # Compile all 14 Node 22 Cloud Functions
+npx --prefix src/frontend tsc -p src/frontend/tsconfig.json --noEmit</code></pre>
           </div>
 
-          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-emerald-400 font-mono uppercase">2. Snapshot Live Google Sheet Into Git &amp; Run Parity Tests</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm --prefix src/frontend run sync:workshop
-node tests/unit/upcomingWorkshopCsv.test.mjs
-# Pulls live CSV (gid=540431442) -> updates upcoming_workshop.json -> verifies 40 keys &amp; 8 surfaces</code></pre>
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-amber-800/40 space-y-2">
+            <span class="text-xs font-bold text-amber-400 font-mono uppercase">2. Post-Launch Board Review Staging &amp; Promotion</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm --prefix src/frontend run preview:deploy              # Deploy unlisted 14d preview URL
+npm --prefix src/frontend run preview:deploy:static-sheet # Preview frozen upcoming_workshop.json
+npm --prefix src/frontend run preview:promote             # Backup live -&gt; clone preview to live
+npm --prefix src/frontend run preview:rollback            # Restore pre-promote-backup in 1s
+npm --prefix src/frontend run preview:delete              # Remove expired/reviewed channel</code></pre>
           </div>
 
-          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-purple-400 font-mono uppercase">3. Run Standalone Archive Manager (Port 4000 — Archives &amp; Sponsors Only)</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run manager
-# Dedicated Proceedings &amp; Sponsor Workbench:    http://localhost:4000/</code></pre>
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-emerald-800/40 space-y-2">
+            <span class="text-xs font-bold text-emerald-400 font-mono uppercase">3. Validate 44-Key JSON, Provision Guardrails &amp; Full Deploy</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>gcloud auth login webmaster@hems-workshop.org ; npx firebase login --reauth
+powershell -ExecutionPolicy Bypass -File infrastructure\configure-free-tier-guardrails.ps1
+npm --prefix src/frontend run sync:workshop # Validates 44-key baseline or --from-json=backup.json
+npm --prefix src/frontend run build ; npx firebase deploy</code></pre>
           </div>
 
-          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-amber-400 font-mono uppercase">4. Build Static Export (24.5 MB) &amp; Deploy Private 30-Day Preview Channel ($0)</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>gcloud config configurations activate hems
-npm run build
-npx --prefix src/frontend firebase-tools hosting:channel:deploy preview-2027 --project hems-workshop --expires 30d
-# Outputs unlisted https://hems-workshop--preview-2027-&lt;hash&gt;.web.app URL without touching hems-workshop.org</code></pre>
-          </div>
-
-          <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs font-bold text-teal-400 font-mono uppercase">5. Audit Archive Asset Health &amp; Deploy Production</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>npm run audit:assets   # Verifies 1,398 proceeding links locally &amp; via GCS HTTP HEAD
-git push origin main   # Triggers keyless GitHub Actions WIF deploy to live hems-workshop.org</code></pre>
+          <div class="p-4 bg-slate-900/80 rounded-xl border border-rose-800/40 space-y-2">
+            <span class="text-xs font-bold text-rose-400 font-mono uppercase">4. Inspect or Recover From $7.50 Archive Circuit Breaker</span>
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>powershell -ExecutionPolicy Bypass -File infrastructure\manage-archive-circuit-breaker.ps1 -Action status
+powershell -ExecutionPolicy Bypass -File infrastructure\manage-archive-circuit-breaker.ps1 -Action restore-public
+powershell -ExecutionPolicy Bypass -File infrastructure\manage-archive-circuit-breaker.ps1 -Action test-pubsub</code></pre>
           </div>
         </div>
 
@@ -833,20 +751,20 @@ git push origin main   # Triggers keyless GitHub Actions WIF deploy to live hems
         <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 text-xs text-slate-300 space-y-2">
           <h4 class="font-bold text-white text-sm">Agile Release Train (ART) Operating Governance</h4>
           <p class="font-sans leading-relaxed">
-            Domain responsibilities enforced by <code class="text-sky-300 font-mono">.agents/rules/scrumrules.md</code> &amp; <code class="text-sky-300 font-mono">locksrules.md</code>:
+            Enforced via <code class="text-sky-300 font-mono">.agents/rules/scrumrules.md</code> &amp; <code class="text-sky-300 font-mono">locksrules.md</code>:
             <strong>@dev</strong> implements inside <code class="text-sky-300 font-mono">src/</code>;
-            <strong>@qa</strong> authors verification suites inside <code class="text-sky-300 font-mono">tests/</code>;
-            <strong>@ops</strong> manages cloud profiles (<code class="text-sky-300 font-mono">webmaster@hems-workshop.org</code>), <code class="text-sky-300 font-mono">.env*</code>, <code class="text-sky-300 font-mono">.gitignore</code>, and deployments;
-            <strong>@arch</strong> maintains <code class="text-sky-300 font-mono">docs/</code> blueprints and <code class="text-sky-300 font-mono">docs/plans/</code>;
-            <strong>@brand</strong> safeguards visual &amp; copy standards in <a href="file:///c:/AntigravityP1_2/HEMS-website/.agents/config/design/brand-guidelines.md" class="text-sky-300 underline font-mono">.agents/config/design/brand-guidelines.md</a>;
-            and <strong>@bo</strong> serves as Supreme Authority.
+            <strong>@qa</strong> verifies inside <code class="text-sky-300 font-mono">tests/</code>;
+            <strong>@ops</strong> manages cloud profiles (<code class="text-sky-300 font-mono">webmaster@hems-workshop.org</code>), <code class="text-sky-300 font-mono">functions/</code>, <code class="text-sky-300 font-mono">firestore.rules</code>, and <code class="text-sky-300 font-mono">infrastructure/</code>;
+            <strong>@arch</strong> owns <code class="text-sky-300 font-mono">docs/plans/</code>, <code class="text-sky-300 font-mono">docs/session_history.md</code>, and this specification;
+            <strong>@brand</strong> governs <code class="text-sky-300 font-mono">docs/design/brand-guidelines.md</code>;
+            and <strong>@bo</strong> acts as Supreme Authority.
           </p>
         </div>
       </section>
 
       <!-- FOOTER -->
       <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-800/80 font-mono">
-        Harsh-Environment Mass Spectrometry (HEMS) Society &amp; Biennial Workshop • 501(c)(3) Nonprofit Est. 1999 • Architecture Specification v4.0
+        Harsh-Environment Mass Spectrometry Society, Inc. • Founded Feb 1999 (USF St. Petersburg) • All-Volunteer 501(c)(3) Nonprofit (Inc. 2008) • Architecture Specification v5.1
       </footer>
 
     </main>

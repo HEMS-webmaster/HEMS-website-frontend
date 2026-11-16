@@ -8,6 +8,8 @@ const PRIVATE_DISALLOW = [
   "/api/",
   "/admin/",
   "/board/",
+  "/operations/",
+  "/treasurer/",
   "/reviewer/",
   "/unsubscribe/",
 ];

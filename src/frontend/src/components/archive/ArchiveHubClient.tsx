@@ -71,7 +71,11 @@ export default function ArchiveHubClient() {
       .filter((ws) => Number.isFinite(ws.year) && ws.year > 0)
       .sort((a, b) => b.year - a.year);
   }, []);
+  const SEARCH_DEBOUNCE_MS = 2500;
+
+  const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [enableDeepPdfSearch, setEnableDeepPdfSearch] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeYearEra, setActiveYearEra] = useState("All");
   const [displayLimit, setDisplayLimit] = useState(25);
@@ -83,6 +87,30 @@ export default function ArchiveHubClient() {
   const [mockChunks, setMockChunks] = useState<any[]>([]);
   const [catalogEntries, setCatalogEntries] = useState<ArchiveIndexEntry[]>([]);
   const [isSearchingDeep, setIsSearchingDeep] = useState(false);
+
+  // Debounce keystrokes by 2.5s so partial words don't trigger redundant scans or chunk downloads
+  useEffect(() => {
+    const nextTrimmed = searchInput.trim();
+    if (!nextTrimmed) {
+      if (searchQuery !== "") {
+        setSearchQuery("");
+      }
+      return;
+    }
+    if (searchInput === searchQuery) return;
+    const timerId = window.setTimeout(() => {
+      setSearchQuery(searchInput);
+      setDisplayLimit(25);
+    }, SEARCH_DEBOUNCE_MS);
+    return () => window.clearTimeout(timerId);
+  }, [searchInput, searchQuery]);
+
+  const commitSearchNow = (explicitQuery?: string) => {
+    const target = explicitQuery !== undefined ? explicitQuery : searchInput;
+    setSearchInput(target);
+    setSearchQuery(target);
+    setDisplayLimit(25);
+  };
 
   // Hydrate enriched proceedings catalog (with verified GCS PDFs & #anchor deep links)
   useEffect(() => {
@@ -284,8 +312,14 @@ export default function ArchiveHubClient() {
     return null;
   }, []);
 
-  // Fetch the pre-compiled local PDF content index chunks on-demand when user types a query
+  // Fetch the 13.56 MB page-level PDF content index ONLY when user explicitly opts in
   useEffect(() => {
+    if (!enableDeepPdfSearch) {
+      setIsSearchingDeep(false);
+      setSearchMode("metadata");
+      return;
+    }
+
     if (searchQuery.trim().length > 0 && mockChunks.length === 0 && !algoliaIndex) {
       setIsSearchingDeep(true);
       fetch("/mock-pdf-chunks.json")
@@ -301,10 +335,12 @@ export default function ArchiveHubClient() {
         });
     } else if (algoliaIndex && searchQuery.trim().length > 0) {
       setSearchMode("algolia");
-    } else if (searchQuery.trim().length === 0) {
+    } else if (mockChunks.length > 0 && searchQuery.trim().length > 0) {
+      setSearchMode("mock_chunks");
+    } else {
       setSearchMode("metadata");
     }
-  }, [searchQuery, mockChunks, algoliaIndex]);
+  }, [enableDeepPdfSearch, searchQuery, mockChunks.length, algoliaIndex]);
 
   const isSearchActive = searchQuery.trim().length > 0 || activeCategory !== "All" || activeYearEra !== "All";
 
@@ -757,6 +793,7 @@ export default function ArchiveHubClient() {
 
   // Reset all filters
   const resetFilters = () => {
+    setSearchInput("");
     setSearchQuery("");
     setActiveCategory("All");
     setActiveYearEra("All");
@@ -765,6 +802,7 @@ export default function ArchiveHubClient() {
 
   // Tag chip query execution
   const handleChipClick = (keyword: string) => {
+    setSearchInput(keyword);
     setSearchQuery(keyword);
     setActiveCategory("All");
     setActiveYearEra("All");
@@ -901,30 +939,43 @@ export default function ArchiveHubClient() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/50" size={20} />
             <input 
               type="text" 
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setDisplayLimit(25);
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  commitSearchNow();
+                }
               }}
-              placeholder="Search papers, authors, or slide text... (e.g. 'Martian Regolith')" 
+              placeholder="Search papers, authors, or titles... (e.g. 'Martian Regolith')" 
               className="w-full bg-background border border-foreground/20 rounded-md py-3 pl-12 pr-10 text-foreground focus:outline-none focus:border-primary transition-colors"
             />
-            {searchQuery && (
+            {searchInput && (
               <button 
-                onClick={() => setSearchQuery("")}
+                onClick={() => commitSearchNow("")}
+                aria-label="Clear search query"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/50 hover:text-foreground transition-colors"
               >
                 <X size={18} />
               </button>
             )}
-            {spellingSuggestion && (
+            {searchInput.trim() !== searchQuery.trim() && (
+              <div className="text-xs mt-2 text-foreground/60 flex flex-wrap items-center gap-2">
+                <span>Pausing briefly while you type&hellip; (press Enter to search now)</span>
+                <button
+                  type="button"
+                  onClick={() => commitSearchNow()}
+                  className="text-primary font-semibold hover:underline cursor-pointer"
+                >
+                  Search Now
+                </button>
+              </div>
+            )}
+            {spellingSuggestion && searchInput.trim() === searchQuery.trim() && (
               <div className="text-xs mt-2 text-foreground/60 flex items-center gap-1.5 animate-fadeIn">
                 <span>Did you mean:</span>
                 <button
-                  onClick={() => {
-                    setSearchQuery(spellingSuggestion);
-                    setDisplayLimit(25);
-                  }}
+                  onClick={() => commitSearchNow(spellingSuggestion)}
                   className="text-primary hover:underline font-bold"
                 >
                   {spellingSuggestion}
@@ -955,6 +1006,41 @@ export default function ArchiveHubClient() {
             >
               <RotateCcw size={18} /> Reset
             </button>
+          )}
+        </div>
+
+        {/* Opt-In Deep PDF Content Search Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-foreground/5">
+          <label
+            htmlFor="deep-pdf-search-toggle"
+            className="inline-flex items-center gap-2.5 text-xs font-semibold text-foreground/80 cursor-pointer select-none"
+          >
+            <input
+              id="deep-pdf-search-toggle"
+              type="checkbox"
+              checked={enableDeepPdfSearch}
+              onChange={(e) => {
+                const enabled = e.target.checked;
+                setEnableDeepPdfSearch(enabled);
+                if (enabled && searchInput.trim() && searchInput !== searchQuery) {
+                  commitSearchNow();
+                }
+              }}
+              className="w-4 h-4 rounded border-foreground/30 text-primary focus:ring-primary bg-background cursor-pointer"
+            />
+            <span>Search Inside Full Slide &amp; Abstract PDFs (6,477 pages)</span>
+            <span className="font-normal text-foreground/55">
+              &mdash;{" "}
+              {enableDeepPdfSearch
+                ? "Full PDF text index active"
+                : "Instant title/author/institution metadata search active (saves bandwidth)"}
+            </span>
+          </label>
+          {isSearchingDeep && (
+            <span className="text-xs text-primary font-medium flex items-center gap-1.5">
+              <span className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              Loading PDF page index...
+            </span>
           )}
         </div>
 
@@ -1151,14 +1237,25 @@ export default function ArchiveHubClient() {
               <RotateCcw className="mx-auto mb-4 text-foreground/30 animate-spin-reverse" size={40} />
               <h4 className="text-xl font-bold text-foreground mb-2">No Papers Found</h4>
               <p className="text-foreground/60 max-w-md mx-auto mb-6">
-                We could not find any matches for your query. Try broadening your terms or resetting filters.
+                We could not find any matches for your query. Try broadening your terms, searching inside PDF slide text, or resetting filters.
               </p>
-              <button 
-                onClick={resetFilters}
-                className="bg-primary text-background font-bold px-6 py-2 rounded hover:bg-primary/95 transition-colors text-sm shadow-md"
-              >
-                Reset Search Filters
-              </button>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {!enableDeepPdfSearch && searchQuery.trim().length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setEnableDeepPdfSearch(true)}
+                    className="bg-secondary text-white font-bold px-5 py-2 rounded hover:opacity-95 transition-opacity text-sm shadow-md cursor-pointer"
+                  >
+                    Search Inside All 6,477 Slide &amp; Abstract PDFs
+                  </button>
+                )}
+                <button 
+                  onClick={resetFilters}
+                  className="bg-primary text-background font-bold px-6 py-2 rounded hover:bg-primary/95 transition-colors text-sm shadow-md cursor-pointer"
+                >
+                  Reset Search Filters
+                </button>
+              </div>
             </div>
           ) : (
             <div className="space-y-6">

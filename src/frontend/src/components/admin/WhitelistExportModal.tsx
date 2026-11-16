@@ -132,6 +132,8 @@ export default function WhitelistExportModal({
       "poster presenter": 0,
       "corporate sponsor": 0,
       reviewer: 0,
+      operations: 0,
+      treasurer: 0,
       board: 0,
       admin: 0,
     };

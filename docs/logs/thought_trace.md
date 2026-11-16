@@ -1766,3 +1766,232 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 ---
 ## 2026-11-15 — @dev SCoT: Rename Archive Host Kicker Label
 - Per `@bo`'s instruction (`@dev update 'Permanent Workshop Host & Institutional Patron' with 'Workshop Host & Institutional Patron'`), update the fallback kicker in `src/frontend/src/app/archive/[year]/page.tsx` and `host_corporation.kicker_label` in `src/frontend/src/data/archives/{2001..2025,template}.json` (including `Permanent Workshop Host & Research Patron` -> `Workshop Host & Research Patron` for consistency). Rebuild static export, deploy Hosting preview, restart local dev server on port 3000, and commit only modified files.
+
+---
+## 2026-11-15 — @ops SCoT: Push Latest Full Firebase Stack (`firestore:rules`, `functions`, `hosting`)
+- Per `@bo`'s instruction (`@ops push the latest version to firebase`), build the latest workspace frontend (`src/frontend/out`) and Cloud Functions (`functions/lib`) — picking up the latest Reviewer Portal, Admin/Board Portal, Host Showcase, and `firestore.rules` updates — and deploy `firestore:rules,functions,hosting` to `hems-workshop` without `git add .` or `git push`. Verify live `https://hems-workshop.web.app` endpoints (`/` 200, `/archive/2025/` 200, `/15thWS/program.html` 301, `functions:list`) and restart local `http://localhost:3000` dev server daemon.
+
+---
+### [SCoT — 2026-11-15 — @arch / @web / @dev] Relocate HeroMassSpectrum to `/about` & Build 6-Photo Archive Field Deployments Carousel in `/` Hero
+- **Task:** Satisfy `@bo`'s request to move the interactive mass spectrum visual (`HeroMassSpectrum`) to the bottom of `/about`, and replace the `/` Hero right-hand visual with 4–6 scrollable, real-world MS field-deployment photos from presentations in the HEMS archive.
+- **Architectural & Compliance Constraints:**
+  - `locksrules.md` §1 (`local_data/proceedings/` is strictly READ-ONLY); `locksrules.md` §2 (`thought_trace.md` is strictly APPEND-ONLY).
+  - Archive pages (`src/frontend/src/app/archive/**`) and data JSONs (`src/frontend/src/data/archives/*.json`) remain locked and untouched; deep-links `/archive/[year]#[talk.id]` leverage existing `id={talk.id}` attributes.
+  - Visual assets must be 100% real-world field-deployment photographs (no generative AI, no CAD/charts, no baked-in slide bullets, 0% alcohol on `/`, no overlap with the 3 `CHARTER_PILLARS` images on `/`).
+  - Frontend styling follows Brand v3.2.0 (`Source Serif 4`, `Noto Sans` `tabular-nums`, zero `font-mono`).
+- **Execution Sequence:**
+  1. Write permanent plan in `docs/plans/2026-11-15-hero-field-deployments-carousel-and-about-spectrum.md`.
+  2. Extract candidate `xref` images from verified HEMS proceedings PDFs into scratch, inspect every image visually via `read_file`, select 4 real field-deployment photos alongside existing `bell-subsea-lander-ms-2025.jpg` and `verbeck-uav-drone-ms-2025.jpg`, optimize with classical `Pillow` (< 260 KB progressive JPEG, 1200–1600px wide), and visually verify all final images.
+  3. Build `HeroFieldDeploymentsCarousel.tsx` (`"use client"`) with horizontal scroll-snap track, prev/next buttons, 6-thumbnail filmstrip, keyboard arrow support, and provenance-first caption linking to `/archive/[year]#[talk.id]`; integrate into `src/frontend/src/app/page.tsx`.
+  4. Update `HeroMassSpectrum.tsx` heading (`<h2>` -> `<h3>`) for semantic nesting and append Section `04 — Analytical Signatures in the Field` containing `<HeroMassSpectrum />` at the bottom of `src/frontend/src/app/about/page.tsx`.
+  5. Run `tsc --noEmit`, cleanly stop `task-6073`, run full `npm --prefix src/frontend run build`, assert static HTML invariants + archive IDs + image specs, restart dev server cleanly, and append Addendum 25 to `docs/session_history.md`.
+
+---
+### [SCoT — 2026-11-15 — @web / @dev / @arch] Reorder Carousel Lead Slide & Format/Compare Board Mission Statement V3
+- **Task:** Make a different slide lead in `HeroFieldDeploymentsCarousel.tsx` instead of `bell-cold-seep-lander-2025`, format `docs/source-documents/mission-statementV3.md` into clean Markdown matching V1/V2 with zero content changes, and provide a comparative review against what is currently posted on the website (`about/page.tsx`, plus summary echoes on `/` and `Footer.tsx`).
+- **Execution Plan:**
+  1. Write permanent plan `docs/plans/2026-11-15-carousel-lead-slide-and-mission-v3-review.md`.
+  2. Reorder `FIELD_DEPLOYMENTS` in `HeroFieldDeploymentsCarousel.tsx` so `fox-arammis-robot-2025` leads at `1 / 6` followed by `short`, `verbeck`, `loose`, `gonin`, and `bell`.
+  3. Convert `docs/source-documents/mission-statementV3.md` from pasted Word format (`` Wingdings + hard line wraps) into clean Markdown (`# Mission Statement`, `## Objectives`, `- **Title** — Body`) without changing a single word or punctuation mark; verify 100% word-token identity programmatically.
+  4. Verify `tsc --noEmit` exits 0 and `http://localhost:3000/` serves the updated lead slide (`fox-arammis-robot-ms-2025.jpg`), leaving live website `/about` copy untouched pending `@bo`'s review of the comparison report.
+
+## [2026-11-15] Mission Statement V4 & Verbatim `/about` Sync (`@arch`, `@web`, `@dev`)
+- **Context:** `@bo` accepted the two proposed editorial refinements from V3 review (`environments—for example,` punctuation fix and `"defense and security operations"` replacing `"clandestine security operations"`) into `mission-statementV4.md` and directed updating the website using verbatim V4 language.
+- **Architectural & Editorial Plan:**
+  1. Write `docs/plans/2026-11-15-mission-statement-v4-update.md` documenting scope and verification gates.
+  2. Author `docs/source-documents/mission-statementV4.md` in clean Markdown incorporating only the two `@bo`-approved tweaks over V3 while preserving all other words verbatim.
+  3. Update `src/frontend/src/app/about/page.tsx` Section `01 — Official Charter` and `OBJECTIVES` constant to match `mission-statementV4.md` 100% verbatim while keeping existing icons and accent alternations.
+  4. Append completion record to `docs/session_history.md` Addendum 25.
+  5. Verify verbatim character-for-character equality via Python, run `tsc --noEmit`, and confirm live SSR/dev output on `http://localhost:3000/about/`.
+
+## [2026-11-15] History V3 Markdown Formatting & Website/Archival Review (`@arch`, `@brand`, `@prod`)
+- **Context:** `@bo` opened `docs/source-documents/historyV3.md` (board-reviewed draft) and asked to reformat it to Markdown with zero content changes, then provide a review and comparison against what is currently posted on the website.
+- **Execution Plan:**
+  1. Write `docs/plans/2026-11-15-history-v3-markdown-and-review.md`.
+  2. Reformat `docs/source-documents/historyV3.md` to clean Markdown (unwrap hard line wraps, rejoin `in-situ` and `single-track` hyphens, remove page-break gap after `October 2003,`, decode `&quot;`, add `#`/`##` headings, blockquote, `*in-situ*`, and `**Harsh-Environment Mass Spectrometry Society, Inc.**`) with 100% word parity (`843/843` tokens unchanged).
+  3. Verify 843-word token parity via Python against `historyV2.md` lines 1–30 and live `src/frontend/src/app/history/page.tsx`, leaving `/history` untouched pending `@bo`'s decision on the `March 2001` archival date correction and `"all-volunteer"` policy alignment.
+  4. Append completion note to `docs/session_history.md` Addendum 25.
+
+## [2026-11-15] History V4 Creation, Verbatim `/history` Update & Site-Wide 1999 Formation Alignment (`@arch`, `@web`, `@dev`)
+- **Context:** `@bo` requested `docs/source-documents/historyV4.md` aligning the 2nd HEMS Workshop to `March 18–21, 2001` (matching `2nd_Program.pdf` and `/archive/2001`), restoring `"an all-volunteer nonprofit corporation"`, and using `"defense and security missions"` for exact pairing with `mission-statementV4.md`, then updating `/history` verbatim and ensuring HEMS's 1999 formation year (`Est. 1999` / `Formed in 1999`) is accurately identified across the site.
+- **Execution Plan:**
+  1. Write `docs/plans/2026-11-15-history-v4-and-1999-formation-alignment.md` and `docs/source-documents/historyV4.md`.
+  2. Update `src/frontend/src/app/history/page.tsx` Chapters `01–03` verbatim to `historyV4.md`, update `FORMATIVE_MILESTONES` to exact archive date ranges (`Feb 21–23, 1999`, `Mar 18–21, 2001`, `Mar 25–28, 2002`, `Oct 7–10, 2003`, `Sept 20–23, 2005`), and update Chapter 02 kicker (`02 — Society Governance & 501(c)(3) Incorporation`) and header badge (`Est. Feb 1999 • All-Volunteer 501(c)(3) Incorporated 2008`).
+  3. Harmonize 1999 formation year + 2008 incorporation distinction + all-volunteer 501(c)(3) policy across `ContactClient.tsx`, `about/page.tsx`, `page.tsx`, `CorporateSponsorshipClient.tsx`, `StudentAwardsClient.tsx`, `Footer.tsx`, `seo.ts`, `llms.txt`, and `generate-llms-catalog.js` (`llms-full.txt`).
+  4. Verify verbatim parity via Python, run `node src/frontend/scripts/generate-llms-catalog.js`, `tsc --noEmit`, and live `http://localhost:3000` route checks.
+
+---
+## 2026-11-15 — Option 2 Mobile Simplification ("Balanced Hybrid")
+- **Agents:** `@arch`, `@prod`, `@brand`, `@dev`, `@qa`
+- **Decision:** Execute Option 2 mobile simplification exclusively at `< sm` (`< 640px`) / `< md` (`< 768px`) / `< lg` (`< 1024px` for header seal cards and Formative Symposia sidebar) breakpoints while keeping desktop (`>= 768px` / `>= 1024px`) visually identical and preserving 100% verbatim `mission-statementV4.md` (`/about`) and `historyV4.md` (`/history`) prose.
+- **Guardrails:**
+  1. Do NOT modify `src/frontend/src/components/archive/ArchiveHubClient.tsx`, `src/frontend/src/app/archive/**`, or `src/frontend/src/data/archives/*.json`.
+  2. Do NOT alter unrelated dirty working tree files (`reviewer/**`, `abstract-submission/**`, `useAbstractSubmissions.ts`, `abstractReviewMetrics.ts`).
+  3. Avoid duplicate DOM `id` attributes when rendering responsive `<details className="md:hidden">` alongside `hidden md:block` desktop sections by extracting shared archival body JSX into local `const` variables and keeping section `id="previous-..."` exclusively on the desktop `<section>`.
+  4. Prevent page-level horizontal overflow on `375px` mobile viewports with `overflow-x-auto no-scrollbar` horizontal swipe rail (`CHARTER_PILLARS`) while preserving right-edge next-card peek (`w-[82vw] max-w-[330px]`).
+  5. Keep `group-photo-2025.jpg` uncropped (`w-full h-auto block`) with slightly tighter mobile container (`max-w-[275px] sm:max-w-[390px]`).
+
+---
+## 2026-11-15 — 2027 Workshop Registration Option 1 Master Plan (`@arch`)
+- **Agents:** `@arch`, `@prod`, `@web`, `@ops`, `@legal`
+- **Architecture Selected:** Option 1 — Native HEMS Registration UI (`/registration`) + Stripe Hosted Checkout (`card` + `us_bank_account` ACH) + Official Invoice / Check / PO Workflow + Firebase Cloud Functions v2 Fulfillment + Postmark Transactional Receipt + Google Workspace for Nonprofits Google Sheets Sync.
+- **Core Architectural Constraints & Design Decisions:**
+  1. `$0/month` standing infrastructure cost across both workshop and off-cycle years (Firebase Hosting, Cloud Functions v2, Firestore, Postmark transactional stream, Google Sheets API v4 via existing Firebase Admin service account — zero Zapier/third-party SaaS).
+  2. Never overwrite existing privileged `whitelist/{email}` roles (`admin`, `board`, `reviewer`, `submitter`) during registration fulfillment; read existing document and union `"attendee"` (plus `"corporate sponsor"` when applicable) + `workshopYears: arrayUnion(2027)` to support cycle-scoped archival + off-year cleanup without losing historical rosters.
+  3. Reuse existing `syncWhitelistToUserV2` in `functions/src/index.ts` automatically triggered when `whitelist/{email}` is written, granting immediate authenticated `/abstract-submission` and portal access.
+  4. Protect federal/university Purchase Card (GPC) holders by keeping zero platform-tip prompts and issuing single-line itemized conference receipts via Postmark + token-authenticated `/registration/receipt` print sheet adhering to IRS IRC §§ 170 / 6115 quid-pro-quo disclosure rules (separating non-deductible registration/dinner fees from any optional tax-deductible Student Travel Award contribution).
+  5. Client writes blocked (`allow write: if false`) on `workshop_registrations` and `workshop_promo_codes`; all state mutations executed strictly via verified Stripe webhooks (`constructEvent` on raw body with `fulfilledAt` idempotency guard) or authenticated Board/Admin HTTPS Cloud Function actions.
+
+---
+## 2026-11-15 — Option 1 Workshop Registration + Google-Sheets Auto-Advance Implementation (`@arch`, `@dev`, `@ops`)
+- **Authorization:** `@bo` approved building Option 1 with Auto-Advance date lifecycle driven by the Google Sheet CSV (`reg_opening_date`, `reg_early_bird_closes`, `conference_end_date` / `exact_dates`).
+- **Auto-Advance Lifecycle Rules:**
+  1. `reg_force_closed === true` -> `force_closed` (`isOpen: false`).
+  2. `now > conferenceEndEpochMs` (`23:59:59.999` in `reg_timezone` on `conference_end_date`, or parsed range-end from `exact_dates`, or `reg_final_cutoff`) -> `concluded_closed` (`isOpen: false`).
+  3. Concrete `reg_opening_date` (or `reg_early_bird_opens`) present: before `openEpochMs` (`00:00:00.000` in `reg_timezone`) -> `before_opening` (`isOpen: false`, form hidden/disabled); `[openEpochMs, earlyBirdCloseEpochMs]` -> `early_bird` (`isOpen: true`, early-bird pricing); `(earlyBirdCloseEpochMs, conferenceEndEpochMs]` -> `regular` (`isOpen: true`, standard pricing).
+  4. No concrete opening date yet: falls back to `workshop.registration_open`; when false -> `unscheduled` (`isOpen: false`, Save-the-Date).
+- **Security & Architecture:**
+  - Server-side Cloud Functions (`functions/src/workshopSchedule.ts`, `functions/src/registration.ts`) fetch the same Google Sheet CSV (60s cache) and validate pricing + auto-advance state authoritatively (never trusting client totals or dates), verify Stripe webhook HMAC-SHA256 signatures over `req.rawBody` via native `crypto`, prevent client writes on `workshop_registrations` / `workshop_promo_codes` / `workshop_counters` in `firestore.rules`, never hardcode secrets/EINs, and preserve all unrelated dirty files and archive locks.
+
+
+---
+## 2026-11-16 — `@arch` & `@dev` Hero Field-Deployments Carousel Expansion (12 Slides) & Random Initial Slide
+- **Epic:** Expand `FIELD_DEPLOYMENTS` in `src/frontend/src/components/home/HeroFieldDeploymentsCarousel.tsx` from `6` to `12` slides sourced strictly from public, non-FOUO/non-Confidential HEMS Proceedings Archive talks, covering: Space (`>= 2` slides: NASA Dragonfly Titan DraMS + ExoMars MOMA / NASA JPL ISS S.A.M. / Lunar LUVMI), Low-Level (`>= 1` simulation result + small precision mechanical/MEMS parts), Military / Defense Operations (`>= 1`), and Indoor Non-Lab Building Deployment (`>= 1`).
+- **Hydration & UX Design:** Start `activeIndex` at `0` for deterministic SSR, then randomize `Math.floor(Math.random() * FIELD_DEPLOYMENTS.length)` inside a client `useEffect` mount hook using `behavior: "instant"` (removing CSS `scroll-smooth` from the track container so smooth scrolling only runs on interactive button/tab clicks). Replace `grid-cols-6` desktop thumbnail bar with a single-row horizontally scrollable `hidden sm:flex` filmstrip with horizontal auto-centering via `filmstripRef.current.scrollTo` so desktop hero height remains identical and mobile stays streamlined.
+- **Verification:** Visual inspection (`read_file`) of every extracted candidate + final optimized asset, zero-overlap check against `page.tsx` and `/call-for-papers`, archive JSON anchor verification, `tsc --noEmit` exit `0`, and HTTP `200` on `http://localhost:3000/`.
+
+
+---
+## 2026-11-16 — `@arch`, `@web` & `@dev` Archive-Ready Participants List Export (`16th Workshop Registration Console`)
+- **Epic:** Add a direct **"Export Participants List"** action in `/board/registrations` (`16th Workshop Registration Console`) producing an archive-ready PDF (`16th_Participant_List.pdf`) matching the `${ordinal}_Participant_List.pdf` convention ingested by `tools/manager/src/app/page.tsx` into `proceedings/${ordinal}/Administrative/`, alongside a companion CSV ledger.
+- **Data Rules:** Filter confirmed seats (`paid` or `comped`) for the target workshop year, deduplicate by normalized email (latest `updatedAt`), optionally exclude sample/sandbox test entries (auto-excluding samples when real registrations exist while allowing preview in empty local dev), and sort alphabetically by `(lastName, firstName, affiliation)`.
+- **Rendering:** Vector US-Letter PDF via `jspdf` (`^4.2.1`) with wrapped multi-line cells (`Last Name`, `First Name`, `Affiliation`, `Email` or `Country`), alternating striping, automatic table header repeat on page overflow, and `Page X of Y` footers.
+
+
+---
+## 2026-11-16 — `@arch` & `@dev` Military CBRN Response Photo Remaster (`smith-military-cwa-gcms-2003.jpg`)
+- **Epic:** Remaster Slide 7 (`smith-military-cwa-gcms-2003.jpg`) so it looks captured on a modern high-resolution (`1600×1200`), wide-aperture (`f/2.0` low grain + subtle background bokeh), HDR natural-daylight camera without harsh direct on-camera flash.
+- **Approach:** Preserve original in `scratch/smith-military-cwa-gcms-2003.orig.jpg`, evaluate both an `image-generator` optical/no-flash HDR candidate and a deterministic `NumPy + SciPy + Pillow` tone-mapped/denoised/bokeh candidate side-by-side via `read_file` for strict documentary fidelity before saving the winning `1600×1200` web asset and syncing pixel dimensions in `HeroFieldDeploymentsCarousel.tsx`.
+
+---
+### [2026-11-16 06:38] `@arch` `@dev` `@ops` `@qa` — Gallery Reloading, `operations` & `treasurer` Whitelist Roles, and 2027 Operations/Treasurer Portals
+- **Gallery Photo Cache-Busting & Dimension Sync:** User manually updated photos inside `src/frontend/public/images/gallery/`. Keep all image binaries untouched on disk. Create `src/frontend/src/utils/galleryAssets.ts` mapping each gallery filename to its current disk `mtime` `?v=<mtime>` query parameter via `galleryImageUrl(...)`. Update pixel dimensions in `HeroFieldDeploymentsCarousel.tsx` (`verbeck-uav-drone-ms-2025.jpg` `1252x848`, `smith-military-cwa-gcms-2003.jpg` `1195x896`) and update `about/page.tsx` where `don-cesar-hawaiian-smiles-2013.jpg` was replaced by `Gemini_Generated_Image_p2l87kp2l87kp2l8.jpeg` (`2514x1664`). Apply `galleryImageUrl(...)` across all gallery `<img>` references so browsers reload updated assets immediately.
+- **Whitelist Roles (`operations`, `treasurer`):** Extend `ADMIN_ASSIGNABLE_ROLES`, `ROLE_DISPLAY_META`, and `ROLE_ALIAS_MAP` in `whitelistCsv.ts`; add `hasOperationsRole`, `hasTreasurerRole`, `hasOperationsAccess`, and `hasTreasurerAccess` in `telemetryClient.ts`; exclude `/operations` and `/treasurer` from public telemetry/GA4/robots; update `AuthContext.tsx`, `useWhitelistAdmin.ts`, `admin/page.tsx`, `WhitelistExportModal.tsx`, `firestore.rules`, `functions/src/mailing.ts`, and `functions/src/registration.ts`.
+- **2027 Workshop Portal Reorganization & Treasurer Console:** Move canonical operational routes to `/operations/registrations`, `/operations/mailing-list`, and `/operations/announcements` while preserving `/board/*` aliases as thin re-exports. Add role-gated `Operations Portal` and `Treasurer Portal` sections in `(portal)/layout.tsx`. Create `/treasurer` (`Finances & Stripe` console) with money/fee/net KPIs, tier revenue breakdown, live Stripe balance/payout summary hook (`get_stripe_summary`), refund/cancel modal (with whitelist revocation option), promo/sponsor code generator with 1-click presets, direct Stripe Dashboard visual launchpad + 5-step setup checklist, and 501(c)(3) Form 990 / invoice aging CSV exports.
+
+---
+### [2026-11-16 07:08] `@arch` `@web` `@dev` `@ops` `@qa` — Permanent `webmaster@hems-workshop.org` Admin Lock & Strict 1-to-1 Operations/Treasurer Portal Isolation
+- **Permanent Webmaster Admin Guarantee:** User `@bo` requested that `webmaster@hems-workshop.org` always hold `'administration'`/`'admin'` role on the whitelist. Add `PROTECTED_ADMIN_EMAIL = "webmaster@hems-workshop.org"`, `"administration": "admin"` role alias normalization, `ensureProtectedWhitelistEntries(...)`, overwrite/deletion/role-removal guards in `whitelistCsv.ts`, `useWhitelistAdmin.ts` (including automatic self-healing Firestore seed on whitelist load), `AuthContext.tsx`, `admin/page.tsx` (locked Admin pill + disabled delete button), `firestore.rules` (always admin + prevents removing admin role from `webmaster@hems-workshop.org`), and `functions/src/index.ts`.
+- **Strict 1-to-1 Operations & Treasurer Isolation:** User `@bo` requested that users with `'operations'` role have exclusive access to `'Operations Portal'` pages (and only them), and users with `'treasurer'` role have exclusive access to `'Treasurer Portal'` pages (and only them). Remove fallback inheritance of `board`/`admin` inside `hasOperationsAccess`/`hasTreasurerAccess`, gate `(portal)/layout.tsx`, `Navbar.tsx`, `board/page.tsx`, `RegistrationClient.tsx`, `/operations/*` pages, `/treasurer/page.tsx`, `firestore.rules`, `functions/src/mailing.ts`, and `functions/src/registration.ts` strictly on `operations` vs `treasurer` roles respectively.
+
+
+---
+### [2026-11-16] @arch & @dev SCoT — Operations Portal Marketing Playbook Webpage (Addendum 33)
+- **Task:** Insert the official 16th Workshop Marketing & Online Advertising Playbook (`docs/marketing/hems_2027_marketing_and_ads_playbook.html`) into a dedicated Operations Portal webpage (`/operations/marketing-playbook`).
+- **Security & RBAC Decisions:**
+  - Strictly gate `/operations/marketing-playbook` behind `hasOperationsRole(user.roles)` so only whitelisted `'operations'` officers can view it, matching Addendum 32 strict 1-to-1 isolation.
+  - Keep all playbook data inside TypeScript modules (`src/frontend/src/data/marketingPlaybookData.ts` + React client component `MarketingPlaybookContent.tsx`) rather than placing unguarded static HTML in `src/frontend/public/`.
+  - Map all relative image assets (`../../src/frontend/public/...`) to Next.js `/hemslogo.jpg` and `/images/sponsors/*.png`.
+  - Route legacy `/board/mailing-list` and `/board/announcements` mentions to `/operations/mailing-list` and `/operations/announcements`; render `/admin/analytics` clickable links only when `hasBoardRole(user.roles)` is true.
+- **Interactive Preservation:**
+  - Port the 5-slider ROI & Break-Even Simulator, one-click clipboard copy boxes (`"Copied ✓"` feedback), 3 tab switchers (Google Ad Grants, 6-month Archive LinkedIn posts, Permanent Host Showcase prototypes), 3-card Curated Underwriter mockups, and persistent 20-item localStorage checklist (`hems_2027_marketing_checklist_v1`) with print/PDF CSS rules.
+- **Navigation Wiring:**
+  - Add `/operations/marketing-playbook` (`Megaphone`) to `operationsPortalLinks` in `(portal)/layout.tsx`, `Navbar.tsx` (`hasOperationsRole` desktop & mobile blocks), and `(portal)/board/page.tsx` (`canViewOperations` quick links). Update `operations/layout.tsx` metadata description.
+
+
+---
+### [2026-11-16] @dev -> @ops Rule #8 Handover & Firebase Pre-Deploy Build SCoT
+- **Rule #8 Re-Route (`scrumrules.md`):** `@bo` asked `@dev` to push the latest version to Firebase. Under `scrumrules.md` Rule #8 and `locksrules.md`, `@dev` writes only to `src/` and hands off cloud/Firebase deployments to `@ops`, with `@rte` confirming prior `[PASS]` gates across `@qa`, `@legal`, `@brand`, and `@web`.
+- **Safe Build Strategy:** Stop the local `next dev` daemon (`task-6210`) so Windows `.next` file locks clear, compile Cloud Functions (`npm --prefix functions run build`), run `npm --prefix src/frontend run build` (`output: "export"` into `src/frontend/out/`) directly without calling `push-to-live.js` (avoiding unrequested `gsutil -m rsync -d` and `git push`), restart `next dev` on port `3000`, and attempt sanctioned `npx firebase deploy --only hosting,firestore:rules,functions --project hems-workshop --non-interactive` (reporting clearly if `webmaster@hems-workshop.org` needs interactive `firebase login --reauth`).
+
+
+---
+### [2026-11-16] @arch, @web, @dev & @ops SCoT — Board Repository File Upload, Outdated Archiving & 10 MB Limit (Addendum 34)
+- **Requirements:** Enable `'board'` role users on `/board` to upload files to the Secure Board Repository, enforce an appropriate file-size cap (`10 MB` max per file, `5 MB` compression hint, executable/script blocklist), and archive outdated/superseded files (with timestamp, officer attribution, optional reason, restore, and 2-step delete).
+- **Architecture & Free-Tier Resilience:**
+  - Strict client + Firestore Rules (`isBoard(request.auth.uid)` only, matching Addendum 32 1-to-1 isolation rather than overly broad admin bypass if board-only, noting board repository rule uses `isBoard(request.auth.uid)` and size cap `<= 10485760` bytes).
+  - 3-Tier Binary Storage: cache every uploaded `Blob` locally in IndexedDB (`hems_board_files_idb`) for instant local/offline downloads; upload to Firebase Storage (`board_repository/{docId}/{safeFileName}`) with live resumable progress; automatically fall back to `<= 600 KB` base64 chunks in `board_document_blobs` if Firebase Storage bucket/rules throw.
+  - Omit `undefined` fields unconditionally before calling Firestore `setDoc`.
+  - Keep `infrastructure/storage.rules` ready alongside hardened `firestore.rules` without modifying `firebase.json` `storage` key until Cloud Storage bucket activation is confirmed.
+
+
+---
+### [2026-11-16] @arch, @ops & @dev SCoT — Watchpoints 1–3 Free-Tier Optimization (Addendum 35)
+- **Rule #8 Coordination (`@ops` + `@dev`):** `@bo` approved fixes across Watchpoints 1–3; `@dev` implements frontend/asset optimizations under `src/` and `@ops` adds cloud Artifact Registry / GCS audit tooling under `infrastructure/`.
+- **Watchpoint 1 (`ArchiveHubClient.tsx`):** Decouple the `13.56 MB` `/mock-pdf-chunks.json` deep-PDF index behind an explicit `enableDeepPdfSearch` opt-in (`false` by default) so normal search runs strictly on `archives-index.json`, and introduce `searchInput` -> `searchQuery` `2.5s` (`2500 ms`) typing debounce with instant execution on `Enter`, `Clear`, `Reset`, or chip clicks.
+- **Watchpoint 2 (Images & Sticky Board Master Logo):** Preserve byte-exact `3756×2594` (`846,986` bytes) `hemslogo.jpg` master at `public/images/brand/hemslogo-fullres-3756x2594.jpg` BEFORE compressing `/hemslogo.jpg` to `1127×778` (`~50–80 KB`), pin the full-res master permanently at top of `/board` Repository, and compress `Gemini_Generated_Image_p2l87kp2l87kp2l8.jpeg` back into `don-cesar-hawaiian-smiles-2013.jpg` (`1600×1059`).
+- **Watchpoint 3 (`useSiteAnalytics.ts` & `infrastructure/configure-free-tier-guardrails.ps1`):** Trim raw `telemetry_events` Live Stream fetch from `1500` to `300` (`downloads` to `200`) and script GCP `gcf-artifacts` 2-version cleanup policy.
+
+---
+## 2026-11-16 — Addendum 36: Security & Abuse-Limits Hardening Pack (@arch, @ops, @dev, @qa)
+- **SCoT Summary**: Applying the 4-pillar Security & Abuse-Limits Hardening Pack per @bo's instruction while explicitly preserving public Google Scholar direct PDF access on `gs://hems-workshop-archives`.
+- **Decisions**:
+  1. Patch Finding #1 (email-spoofing role escalation) via `hasVerifiedAuthEmail()` across `firestore.rules`, `AuthContext.tsx` (Email+Password signup initially writes `roles: ['general']`, refreshes ID token and activates `whitelist` roles upon verification; Google/Microsoft OAuth honored automatically), and `functions/src/` (`admin.auth().getUser` / `verifyIdToken` verified-email checks).
+  2. Tighten `downloads/{document}`, `mailing_public_requests`, and `telemetry_events` Firestore schemas and add server-only `rate_limits/{bucketId}` (`allow read, write: if false`).
+  3. Add `functions/src/rateLimit.ts` using UTC-daily salted SHA-256 hashes of client IP / email so zero raw personal IPs or emails are ever persisted, combined with `maxInstances` caps across all Cloud Functions.
+  4. Leave `gs://hems-workshop-archives`, `infrastructure/storage.rules` archive rules, `archives-index.json`, `llms-full.txt`, and `src/frontend/src/app/archive/**` completely untouched.
+
+---
+## 2026-11-16 — Addendum 37: Billing Pub/Sub Archive Circuit Breaker (@arch, @ops, @qa)
+- **SCoT Summary**: Wired Pub/Sub topic `projects/hems-workshop/topics/billing-budget-alerts` (`Budget ID: 8e66a672-bc09-401c-bf59-6f5c98bdf1e4`) to an automated GCS archive circuit-breaker Cloud Function (`budgetCircuitBreaker`) plus bucket-scoped IAM provisioning and 1-command operator recovery scripts.
+- **Decisions**:
+  1. Threshold set to `HEMS_ARCHIVE_CUTOFF_USD` default `7.5` (`150% Actual = $7.50`) so `$2.50 Actual`, `$4.50 Forecasted`, and `$5.00 Actual` email warnings fire cleanly without disrupting Google Scholar, while `>= $7.50` actual spend in an interval automatically revokes `allUsers` and `allAuthenticatedUsers` from `gs://hems-workshop-archives`.
+  2. Idempotent per `costIntervalStart` in `system_alerts/budget_circuit_breaker` (`allow read` for Board/Admin, `allow write: if false` for clients) so Google's ~20-minute repeat budget notifications do not churn IAM writes.
+  3. Added bucket-scoped `roles/storage.admin` IAM binding helper to `infrastructure/configure-free-tier-guardrails.ps1` and created `infrastructure/manage-archive-circuit-breaker.ps1` (`status`, `restore-public`, `pause-public`, `test-pubsub`).
+
+---
+## 2026-11-16 — Addendum 38: Post-Launch Board Review Staging Pipeline & Architecture Spec v5.0 (@arch, @ops, @dev, @qa)
+- **SCoT Summary**: Implemented a post-cutover Board Review staging pipeline on Firebase Hosting Preview Channels alongside a full rewrite of `docs/system_design_architecture.html` to v5.0.
+- **Decisions**:
+  1. Built `infrastructure/manage-board-preview.ps1` (`deploy`, `promote`, `rollback`, `list`, `delete`, `-UseLocalWorkshopJson`, `-DryRun`) and wired `preview:*` scripts in `src/frontend/package.json` so unapproved edits never go through `origin/main` auto-deploy and approved previews promote atomically via `firebase hosting:clone` with a `pre-promote-backup` rollback safety net.
+  2. Added `isFirebasePreviewChannelHost` / `parsePreviewChannelName` in `telemetryClient.ts`, suppressed GA4 (`GoogleAnalyticsTag.tsx`) and first-party `telemetry_events` on preview hosts, added `?sheet=static` + `NEXT_PUBLIC_DISABLE_LIVE_SHEET_SYNC=true` override in `useUpcomingWorkshop.ts`, and created `PreviewChannelBanner.tsx` (injects `<meta name="robots" content="noindex, nofollow" />`, displays `"Compare with Live Page"`, renders `null` on live `hems-workshop.org` and `localhost`).
+  3. Upgraded `docs/system_design_architecture.html` from v4.0 to v5.0 covering all 38 addendums (accurate 1999 USF / 2008 501(c)(3) history, Brand v3.1/v3.2 & Option 2 mobile, Opt-In Archive Deep PDF Search & 15-Year Host Showcase, Auto-Advance & Option 1 Stripe/Invoice Registration, 6 strictly isolated RBAC portals, 14 Cloud Functions v2, Security Hardening + `rateLimit.ts`, `$5` Billing Budget + `$7.50` Pub/Sub Circuit Breaker, 19 Firestore collections, and Board Review Staging).
+
+---
+## 2026-11-16 — Addendum 39: @arch Master Plan — Google Sheets Migration to Admin Workshop Control Center
+- **SCoT Summary**: Authored permanent architectural plan (`docs/plans/2026-11-16-admin-workshop-control-center-migration-plan.md`) for retiring `docs/workshop-sheets/` and migrating live workshop controls to `/admin/workshop-settings` (`admin`-only portal). Zero code edits performed in this planning turn per `@bo`'s instruction and `locksrules.md`.
+- **Key Architectural Decisions**:
+  1. Forensically audited all 53 keys in `upcoming_workshop.json` and 42 rows in `1_Workshop_Config.csv` + 9 rows in `2_Website_Ingestion_Checklist.csv`: drops 7 deprecated/orphaned/duplicate keys (`sheet_csv_url`, `sponsor_prospectus_url`, `cfp_submission_url`, `reg_portal_url`, `interest_form_url`, `dates_confirmed`, `reg_early_bird_opens`), consolidates conflicting `registration_open` + `reg_force_closed` into a single 3-way `registration_mode` (`auto_schedule` | `open_manual` | `paused_closed`) yielding 45 active fields (44 if `student_award_form_url` is also retired per `@bo`), and replaces Tab 2 with inline "Appears On" page pills on each field card.
+  2. Designed a zero-code, zero-CLI Firestore-backed staging, audit-trail, and rollback model: `site_config/workshop_live` (`allow get: if true`, cached once per session), `site_config/workshop_draft` (private admin workspace), `site_config_previews/{previewToken}` (1-click 14-day shareable `?preview=<token>` Board links with live `[Viewing: Draft | Switch to Live]` toggle in `PreviewChannelBanner.tsx` and GA4/telemetry paused), and `site_config_history/{versionId}` (kernel-enforced append-only audit log with 1-click rollback).
+  3. Added chronological/fee validation rules, Pre-Publish Visual Diff confirmation modal, New Biennial Cycle Reset Wizard, and `sync-workshop-config.js` replacement for optional SEO snapshot builds.
+
+---
+## 2026-11-16 — Addendum 40: Admin Workshop Control Center (`/admin/workshop-settings`) Execution (@arch, @dev, @ops, @qa)
+- **SCoT Summary**: `@bo` approved dropping all 8 deprecated/duplicate keys (including `student_award_form_url`), consolidating `registration_open` + `reg_force_closed` into `registration_mode` (`53 -> 44` active fields), retiring `docs/workshop-sheets/` CSVs into `archive/`, and building `/admin/workshop-settings` (`admin`-only) with zero-code live Draft staging, `?preview=<token>` Board preview sharing, Pre-Publish Visual Diff, immutable `site_config_history` audit trail, and `< 1s` 1-click Rollback.
+
+
+---
+### [2026-11-16 — Addendum 40 Completion SCoT Trace (@arch, @dev, @ops, @qa)]
+- Completed full execution of Addendum 40 (`docs/plans/2026-11-16-admin-workshop-control-center-migration-plan.md`): pruned `upcoming_workshop.json` to 44 canonical keys (dropping all 8 deprecated/duplicate URLs including `student_award_form_url` and consolidating to 3-way `registration_mode`), archived legacy `docs/workshop-sheets/*.csv`, aligned `firestore.rules` schema (`createdByEmail`, `config`, `isAdmin` gating, append-only `site_config_history`), built `useWorkshopConfigAdmin.ts` + `WorkshopSettingsConsole.tsx` + `/admin/workshop-settings`, upgraded `useUpcomingWorkshop.ts` + `PreviewChannelBanner.tsx` + telemetry/GA4 preview shield, and upgraded `docs/system_design_architecture.html` to `v5.1` (22 collections). Verified Functions build, frontend `tsc --noEmit`, 44-key unit & runtime schedule suite, live `localhost:3000` SSR HTTP 200 routes, and architecture HTML hygiene.
+
+---
+### [2026-11-16 — Addendum 41 SCoT Trace (@arch, @dev)]
+- Adding accessible collapse/expand controls on the left portal sidebar (`src/frontend/src/app/(portal)/layout.tsx`) for `Operations Portal`, `Treasurer Portal`, `Board Portal`, and `Admin Portal` whenever each section is rendered based on user roles.
+- Hydrating persisted collapse state (`hems_portal_sidebar_collapsed_v1`) from `window.localStorage` inside `useEffect` (never synchronously during `useState` init) to avoid SSR hydration mismatches.
+- Keeping `Workshop Portal`, `Attendee Portal`, and `Reviewer Portal` always expanded and untouched, and preserving all locked/open user files (`operations/layout.tsx`, `reviewer/page.tsx`, etc.).
+
+---
+### [2026-11-16 — Addendum 42 SCoT Trace (@ops, @dev, @arch)]
+- Diagnosed both errors reported by `@bo` on `/admin/workshop-settings`:
+  1. `Missing or insufficient permissions.` came from Firestore rejecting client reads/writes to `site_config`, `site_config_previews`, and `site_config_history` because the updated `firestore.rules` had not yet been pushed to `hems-workshop`.
+  2. Next.js DevTools `2 Issues` came from duplicate React keys (`reg_student_early_fee-/registration`, `reg_professional_early_fee-/registration`) in `WorkshopSettingsConsole.tsx` (`usedOnPages` pills sharing `/registration` href).
+- Fixing React keys (`key={`${String(key)}-${pageRef.label}-${pageRef.href}-${pageIdx}`}`), optimizing `isAdmin()` short-circuiting so `webmaster@hems-workshop.org` evaluates prior to Firestore `get()` lookups, deploying `firestore.rules`, and verifying `tsc` + unit tests + `localhost:3000`.
+
+---
+### [2026-11-16 — Addendum 43 Production Build & Firebase Deploy SCoT Trace (@ops)]
+- Killing local `next dev` daemon `task-7768` before running `npm --prefix src/frontend run build` to release `.next` directory locks safely on Windows.
+- Running full static Next.js export (`npm --prefix src/frontend run build`: Zod validation, search index, PDF contents index, `llms-full.txt`, static `out/`).
+- Deploying `--only firestore:rules,functions,hosting` to Firebase project `hems-workshop` without running `git push` or `gsutil rsync -d`.
+- Restarting `next dev` daemon afterward, verifying live production `https://hems-workshop.web.app/` routes (`HTTP 200`), and logging Addendum 43 in `docs/session_history.md`.
+
+---
+### [2026-11-16 — Addendum 43 Completion SCoT Trace (@ops, @qa)]
+- Self-hosted 10 official variable WOFF2 subsets (`Noto Sans` + `Source Serif 4`) in `src/frontend/public/fonts/`, wired `@font-face` in `globals.css` + font preloads in `layout.tsx`, and added `woff2` immutable cache headers in `firebase.json` after diagnosing intermittent `fonts.googleapis.com` `/l/font?kit=...` responses breaking both Next.js 16.2.4 Turbopack and Webpack builds.
+- Executed `npm --prefix src/frontend run build` (exit 0, 53/53 routes exported) and `npx firebase deploy --only firestore:rules,functions,hosting` (`+ Deploy complete!` across rules, all 14 Cloud Functions v2, and 628 Hosting files to `https://hems-workshop.web.app`).
+- Verified live production HTTPS endpoints returning `HTTP 200` and restarted the local `next dev` daemon on port `3000`.
+
+---
+### [2026-11-16 — Addendum 44 SCoT Trace (@dev, @ops, @arch)]
+- Cleared stale VS Code TypeScript cache diagnostic on `UpcomingHeroBadge.tsx` (`tsconfig.tsbuildinfo` removal + `export default useUpcomingWorkshop` + explicit return type refresh) and renamed unapproved PowerShell verb `Ensure-HostingCustomDomain` -> `Register-HostingCustomDomain` in `infrastructure/preauth-domain.ps1`.
+- Applied pre-push Git/CI safeguards: added `docs/source-documents/pics/` (1.58 GB raw source media incl. 116.13 MB MP4) to `.gitignore`, and guarded `src/frontend/scripts/index-pdf-contents.js` against overwriting `mock-pdf-chunks.json` when local proceedings PDFs are absent (such as in GitHub Actions CI).
+- Staging, secret/size auditing, committing on `main`, and pushing cleanly to `origin/main`.

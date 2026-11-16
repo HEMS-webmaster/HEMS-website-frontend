@@ -187,7 +187,7 @@ if ($missingDomains.Count -gt 0) {
 Write-Section "3. Pre-Registering Custom Domains in Firebase Hosting"
 $hostingBase = "https://firebasehosting.googleapis.com/v1beta1/projects/$ProjectId/sites/$SiteId/customDomains"
 
-function Ensure-HostingCustomDomain {
+function Register-HostingCustomDomain {
     param([string]$DomainName, [string]$RedirectTo = "")
     $itemUri = "$hostingBase/$DomainName"
     try {
@@ -211,8 +211,8 @@ function Ensure-HostingCustomDomain {
     }
 }
 
-$wwwDomainObj = Ensure-HostingCustomDomain -DomainName $PrimaryHost
-$apexDomainObj = Ensure-HostingCustomDomain -DomainName $RootDomain -RedirectTo $PrimaryHost
+$wwwDomainObj = Register-HostingCustomDomain -DomainName $PrimaryHost
+$apexDomainObj = Register-HostingCustomDomain -DomainName $RootDomain -RedirectTo $PrimaryHost
 
 $resolvedAnycastIp = $defaultAnycastIp
 $resolvedTxtVerification = $defaultTxtVerification

@@ -18,3 +18,4 @@
 5. **Show Preview & Reviewer Panel (`AbstractOnePagePreview.tsx`, `reviewer/page.tsx`)**
    - Single US-Letter page formatted preview showing HEMS letterhead, title, numbered underlined presenters/authors + affiliations, 200-char synopsis, 1,500-char abstract with rendered equations, and 300-DPI figure + caption on 1 page (screen + `window.print()`).
    - Accessible from the form (`Show Preview`), `My Submitted Abstracts`, and the Reviewer Panel (`View 1-Page Abstract`).
+

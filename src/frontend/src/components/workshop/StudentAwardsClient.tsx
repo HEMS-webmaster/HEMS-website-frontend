@@ -14,7 +14,6 @@ import {
   Sparkles,
   ArrowRight,
   ArrowLeft,
-  ExternalLink,
   Printer,
 } from "lucide-react";
 import masterWorkshopsData from "@/data/master_workshops.json";
@@ -176,7 +175,7 @@ export default function StudentAwardsClient() {
       {!isPrintView && (
         <div className="print:hidden">
           {/* Page Header */}
-          <header className="mb-10 sm:mb-14 pb-8 border-b border-slate-200">
+          <header className="mb-7 sm:mb-14 pb-6 sm:pb-8 border-b border-slate-200">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
               <div className="max-w-3xl">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug mb-4 shadow-2xs">
@@ -192,7 +191,7 @@ export default function StudentAwardsClient() {
                   Encouraging interest in Harsh-Environment Mass Spectrometry and rewarding the scientific merit and quality of graduate student research.
                 </p>
               </div>
-              <div className="flex flex-col items-center p-3.5 sm:p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
+              <div className="hidden md:flex flex-col items-center p-3.5 sm:p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
                 <img
                   src="/hemslogo.jpg"
                   alt="Harsh-Environment Mass Spectrometry Society Emblem"
@@ -221,23 +220,12 @@ export default function StudentAwardsClient() {
                     The workshop award is intended to encourage interest in the topics applicable to Harsh-Environment Mass Spectrometry (HEMS) and reward the scientific merit and quality of student research in the area of HEMS.
                   </p>
                   <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 pt-1.5">
-                    {workshop.student_award_form_url ? (
-                      <a
-                        href={workshop.student_award_form_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-5 py-3 min-h-[44px] rounded-lg hover:bg-sky-800 transition-colors shadow-xs text-sm text-center"
-                      >
-                        <ExternalLink size={15} className="shrink-0" /> Submit via Online Form
-                      </a>
-                    ) : (
-                      <a
-                        href={awardMailtoHref}
-                        className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-5 py-3 min-h-[44px] rounded-lg hover:bg-sky-800 transition-colors shadow-xs text-sm text-center"
-                      >
-                        <Mail size={15} className="shrink-0" /> Email Awards Committee
-                      </a>
-                    )}
+                    <a
+                      href={awardMailtoHref}
+                      className="inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold px-5 py-3 min-h-[44px] rounded-lg hover:bg-sky-800 transition-colors shadow-xs text-sm text-center"
+                    >
+                      <Mail size={15} className="shrink-0" /> Email Awards Committee
+                    </a>
                     <button
                       type="button"
                       onClick={openPrintableView}
@@ -392,23 +380,9 @@ export default function StudentAwardsClient() {
                 </div>
 
                 <div className="space-y-3">
-                  {workshop.student_award_form_url && (
-                    <a
-                      href={workshop.student_award_form_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full bg-white text-primary font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors shadow-2xs text-xs"
-                    >
-                      Submit via Online Form <ExternalLink size={14} />
-                    </a>
-                  )}
                   <a
                     href={awardMailtoHref}
-                    className={`w-full font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors text-xs ${
-                      workshop.student_award_form_url
-                        ? "border border-white/40 text-white hover:bg-white/10"
-                        : "bg-white text-primary hover:bg-slate-50 shadow-2xs"
-                    }`}
+                    className="w-full font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors text-xs bg-white text-primary hover:bg-slate-50 shadow-2xs"
                   >
                     <Mail size={15} /> Email Application
                   </a>
@@ -697,7 +671,7 @@ export default function StudentAwardsClient() {
               <p className="font-semibold text-primary break-all">{workshop.student_award_email}</p>
               <p className="text-slate-600 tabular-nums">www.hems-workshop.org/student-awards</p>
               <p className="text-[9.5px] print:text-[8.8px] text-slate-500 pt-0.5">
-                IRS 501(c)(3) scientific society • Open-access proceedings since 1999
+                All-volunteer IRS 501(c)(3) society • Est. 1999 • Open-access proceedings
               </p>
             </div>
           </footer>

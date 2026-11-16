@@ -1,10 +1,11 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 
-export default function UpcomingHeroBadge() {
+export default function UpcomingHeroBadge(): React.JSX.Element {
   const { workshop } = useUpcomingWorkshop();
   const venueSuffix = workshop.venue_confirmed
     ? ` • ${workshop.venue_city_state}`
@@ -24,23 +25,12 @@ export default function UpcomingHeroBadge() {
         <ArrowUpRight size={13} className="text-slate-400 shrink-0" />
       </Link>
 
-      {workshop.interest_form_url ? (
-        <a
-          href={workshop.interest_form_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs text-secondary font-semibold hover:underline"
-        >
-          Join {workshop.workshop_year} Mailing List <ExternalLink size={12} />
-        </a>
-      ) : (
-        <Link
-          href="/archive/2025"
-          className="text-xs font-medium text-slate-500 hover:text-primary transition-colors tabular-nums"
-        >
-          15th Workshop Proceedings (2025) →
-        </Link>
-      )}
+      <Link
+        href="/archive/2025"
+        className="text-xs font-medium text-slate-500 hover:text-primary transition-colors tabular-nums"
+      >
+        15th Workshop Proceedings (2025) →
+      </Link>
     </div>
   );
 }

@@ -15,3 +15,4 @@
    - Move `<UpcomingWorkshopSpotlight />` out of the right-hand mass spectrum frame and render it as a crisp Save-the-Date card beneath the Hero CTAs in the left column, equalizing left and right column heights while giving `<HeroMassSpectrum />` a dedicated analytical showcase card.
 3. **Tweak 3 — De-Duplicate Section 4 into a Clean Proceedings Index:**
    - Replace Section 4's repeated domain photo blurbs (already covered in Section 2's Technical Charter cards) with a scannable `2×3` quick-jump grid into verified biennial workshop proceedings (`2025` back to `1999`, `436` open-access papers & slide decks) alongside the Student Travel Awards and Corporate Sponsorship pathway cards.
+

@@ -22,3 +22,4 @@
 - `src/frontend/src/app/(portal)/admin/page.tsx` *(updated)*
 - `src/frontend/src/app/(portal)/board/announcements/page.tsx` *(updated)*
 - `src/frontend/src/app/(portal)/reviewer/page.tsx` *(updated)*
+

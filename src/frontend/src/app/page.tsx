@@ -9,7 +9,8 @@ import {
   Calendar,
 } from "lucide-react";
 import UpcomingWorkshopSpotlight from "@/components/workshop/UpcomingWorkshopSpotlight";
-import HeroMassSpectrum from "@/components/home/HeroMassSpectrum";
+import HeroFieldDeploymentsCarousel from "@/components/home/HeroFieldDeploymentsCarousel";
+import { galleryImageUrl } from "@/utils/galleryAssets";
 import { getStaticUpcomingWorkshop } from "@/utils/upcomingWorkshop";
 import {
   buildPageMetadata,
@@ -35,7 +36,7 @@ const CHARTER_PILLARS = [
     title: "Planetary, Oceanic & Volcanic Frontiers",
     description:
       "Deploying mass spectrometers directly into extreme natural regimes—from deep-ocean hydrothermal vents and polar waters to volcanic plumes, stratospheric aircraft, and lunar or Martian landers.",
-    image: "/images/gallery/fox-volcanic-fumarole-ms.jpg",
+    image: galleryImageUrl("fox-volcanic-fumarole-ms.jpg"),
     imageWidth: 1400,
     imageHeight: 960,
     imageAlt: "Investigator operating a backpack-portable mass spectrometer inside an active volcanic sulfur fumarole",
@@ -47,7 +48,7 @@ const CHARTER_PILLARS = [
     title: "Miniature & Ruggedized Hardware",
     description:
       "Engineering compact ion sources, rectilinear and toroidal ion traps, portable time-of-flight and sector analyzers, harsh-environment membrane inlets, and low-SWaP vacuum systems.",
-    image: "/images/gallery/raith-spaceflight-orbitrap-cad.jpg",
+    image: galleryImageUrl("raith-spaceflight-orbitrap-cad.jpg"),
     imageWidth: 1400,
     imageHeight: 694,
     imageAlt: "Cross-section engineering schematic of a spaceflight pulsed-UV laser desorption Orbitrap mass spectrometer",
@@ -59,7 +60,7 @@ const CHARTER_PILLARS = [
     title: "Autonomous Field Sensing & Rapid Response",
     description:
       "Advancing uncrewed underwater and aerial sensing, real-time onboard spectral deconvolution, environmental forensics, industrial process monitoring, and chemical defense readiness.",
-    image: "/images/gallery/coppin-icefin-underice-rov.jpg",
+    image: galleryImageUrl("coppin-icefin-underice-rov.jpg"),
     imageWidth: 1600,
     imageHeight: 899,
     imageAlt: "Icefin autonomous under-ice vehicle carrying an underwater mass spectrometer beneath polar sea ice",
@@ -74,7 +75,7 @@ const SYMPOSIUM_CULTURE = [
     title: "UMD School of Pharmacy • Baltimore, MD",
     caption:
       "Tuesday morning Technical Session IV during the 10th anniversary HEMS Workshop, chaired by Gottfried Kibelka and hosted by OI Analytical.",
-    image: "/images/gallery/single-track-auditorium-smiles-2015.jpg",
+    image: galleryImageUrl("single-track-auditorium-smiles-2015.jpg"),
     width: 1600,
     height: 1066,
     alt: "Full single-track lecture auditorium of HEMS Workshop scientists and engineers smiling toward the camera",
@@ -85,7 +86,7 @@ const SYMPOSIUM_CULTURE = [
     title: "Mandalay Beach Resort • Oxnard, CA",
     caption:
       "Tuesday afternoon break outside the technical session ballroom at the Embassy Suites Mandalay Beach Resort during the 11th HEMS Workshop, hosted by UTC Aerospace Systems.",
-    image: "/images/gallery/mandalay-beach-corridor-smiles-2017.jpg",
+    image: galleryImageUrl("mandalay-beach-corridor-smiles-2017.jpg"),
     width: 1600,
     height: 1106,
     alt: "Two HEMS Workshop investigators smiling in casual conversation between afternoon technical sessions in Oxnard, California",
@@ -96,7 +97,7 @@ const SYMPOSIUM_CULTURE = [
     title: "Sheraton Oceanfront • Virginia Beach, VA",
     caption:
       "Wednesday evening gathering at the Sheraton Virginia Beach Oceanfront Hotel (3501 Atlantic Ave) ahead of the 15th HEMS Workshop Dinner.",
-    image: "/images/gallery/virginia-beach-staircase-smiles-2025.jpg",
+    image: galleryImageUrl("virginia-beach-staircase-smiles-2025.jpg"),
     width: 1600,
     height: 973,
     alt: "HEMS Workshop attendees conversing warmly along the atrium staircase at the Sheraton Virginia Beach Oceanfront Hotel",
@@ -162,8 +163,8 @@ export default function Home() {
       <section className="relative border-b border-slate-200/85 bg-gradient-to-b from-white via-[#FAFBFD] to-[#F4F7FA] pt-5 pb-12 sm:pt-7 sm:pb-16 lg:pt-8 lg:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Society Masthead — Prominent Emblem & Society Title */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 pb-6 sm:pb-7 lg:pb-8 border-b border-slate-200/80 mb-7 sm:mb-9 lg:mb-10">
-            <div className="w-28 sm:w-40 lg:w-48 rounded-2xl bg-white border border-slate-200/90 p-2 sm:p-2.5 shadow-2xs shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 pb-4 sm:pb-7 lg:pb-8 border-b border-slate-200/80 mb-5 sm:mb-9 lg:mb-10">
+            <div className="hidden sm:block sm:w-40 lg:w-48 rounded-2xl bg-white border border-slate-200/90 p-2 sm:p-2.5 shadow-2xs shrink-0">
               <img
                 src="/hemslogo.jpg"
                 alt="Harsh-Environment Mass Spectrometry Society Official Emblem"
@@ -178,7 +179,7 @@ export default function Home() {
                 Harsh-Environment Mass Spectrometry Society
               </h1>
               <p className="text-xs sm:text-sm font-medium text-slate-500 mt-1.5 sm:mt-2 tabular-nums">
-                501(c)(3) Scientific Forum • Biennial Symposium &amp; Open Proceedings Since 1999
+                All-Volunteer 501(c)(3) Scientific Society • Est. 1999 • Biennial Symposium &amp; Open Proceedings
               </p>
             </div>
           </div>
@@ -216,11 +217,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Dedicated Analytical Showcase (6 Columns) */}
+            {/* Right Dedicated Archive Field-Deployment Showcase (6 Columns) */}
             <div className="lg:col-span-6">
-              <div className="bg-white border border-slate-200/95 rounded-2xl p-4 sm:p-5 shadow-sm">
-                <HeroMassSpectrum />
-              </div>
+              <HeroFieldDeploymentsCarousel />
             </div>
           </div>
         </div>
@@ -229,7 +228,7 @@ export default function Home() {
       {/* SECTION 2: TECHNICAL CHARTER PILLARS */}
       <section className="py-12 sm:py-16 lg:py-20 bg-[#FAFBFD] border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-10 sm:mb-12">
+          <div className="max-w-2xl mb-6 sm:mb-12">
             <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
               01 — Technical Charter
             </span>
@@ -239,13 +238,16 @@ export default function Home() {
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-3">
               HEMS sessions follow a single-track format so hardware designers, analytical chemists, and field operators engage across every discipline together.
             </p>
+            <p className="md:hidden text-[11px] font-medium text-slate-400 mt-2">
+              Swipe to explore all 3 domains →
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 pb-1 md:pb-0">
             {CHARTER_PILLARS.map((pillar) => (
               <article
                 key={pillar.index}
-                className="bg-white border border-slate-200/90 rounded-xl overflow-hidden hover:border-primary/40 transition-colors shadow-2xs flex flex-col"
+                className="w-[82vw] max-w-[330px] md:w-auto md:max-w-none shrink-0 md:shrink snap-center bg-white border border-slate-200/90 rounded-xl overflow-hidden hover:border-primary/40 transition-colors shadow-2xs flex flex-col"
               >
                 <div className="relative h-44 bg-white border-b border-slate-100 overflow-hidden">
                   <img
@@ -278,7 +280,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 3: SYMPOSIUM CULTURE — CASUAL, COASTAL & ACADEMIC */}
-      <section className="py-12 sm:py-18 lg:py-22 bg-white border-b border-slate-200/80">
+      <section className="hidden md:block py-12 sm:py-18 lg:py-22 bg-white border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="max-w-2xl">
@@ -345,7 +347,8 @@ export default function Home() {
             <div className="lg:col-span-7 space-y-6">
               <div>
                 <span className="tabular-nums text-[11px] font-semibold uppercase tracking-[0.16em] text-primary block mb-2">
-                  03 — Open-Access Digital Archive (1999–2025)
+                  <span className="md:hidden">02</span>
+                  <span className="hidden md:inline">03</span> — Open-Access Digital Archive (1999–2025)
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
                   25+ Years of Workshop Proceedings
@@ -355,33 +358,34 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5">
                 {ARCHIVE_QUICK_VOLUMES.map((vol) => (
                   <Link
                     key={vol.year}
                     href={vol.href}
-                    className="group p-4 rounded-xl bg-white border border-slate-200/90 hover:border-primary/45 transition-colors shadow-2xs flex items-center justify-between gap-3"
+                    className="group p-3 sm:p-4 rounded-xl bg-white border border-slate-200/90 hover:border-primary/45 transition-colors shadow-2xs flex items-center justify-between gap-2 sm:gap-3"
                   >
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2">
                         <span className="tabular-nums text-xs font-bold text-primary">
                           {vol.year}
                         </span>
-                        <span className="text-slate-300">•</span>
-                        <span className="font-serif text-base font-semibold text-slate-900 group-hover:text-primary transition-colors truncate">
+                        <span className="hidden sm:inline text-slate-300">•</span>
+                        <span className="font-serif text-sm sm:text-base font-semibold text-slate-900 group-hover:text-primary transition-colors truncate">
                           {vol.ordinal}
                         </span>
                       </div>
                       <p className="text-xs text-slate-600 mt-1 flex items-center gap-1.5 tabular-nums">
                         <Calendar size={12} className="text-slate-400 shrink-0" />
                         <span className="truncate">
-                          {vol.location} ({vol.dates})
+                          {vol.location}
+                          <span className="hidden sm:inline"> ({vol.dates})</span>
                         </span>
                       </p>
                     </div>
                     <ArrowRight
                       size={15}
-                      className="text-slate-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0"
+                      className="hidden sm:block text-slate-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0"
                     />
                   </Link>
                 ))}
@@ -424,7 +428,7 @@ export default function Home() {
               {/* Industry Partnership & Non-Profit Charter Card */}
               <div className="p-6 rounded-2xl bg-slate-900 text-slate-100 space-y-3.5">
                 <span className="inline-flex items-center gap-1.5 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sky-300">
-                  <ShieldCheck size={14} className="shrink-0" /> 501(c)(3) Scientific Society
+                  <ShieldCheck size={14} className="shrink-0" /> All-Volunteer 501(c)(3) Society • Est. 1999
                 </span>
                 <h3 className="font-serif text-xl font-semibold text-white">
                   Sustained by Community &amp; Industry Partners

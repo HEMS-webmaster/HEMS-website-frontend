@@ -24,3 +24,4 @@ Replace the single-format `Export CSV` trigger on the Board Mailing List workspa
 - Unit assertions via compiled Node script verifying `filterSubscribersForExport`, `formatSubscribersExport` (all 4 formats, RFC-4180 CSV escaping, no `"mailchimp"` output, TSV tab stripping, RFC-5322 quoting), and `buildExportFilename`.
 - `npx tsc --noEmit` in `src/frontend` exits cleanly with code `0`.
 - `GET http://localhost:3000/board/mailing-list/` returns HTTP `200` and client chunk includes `MailingExportModal`, `Copy to Clipboard`, and `createPortal`.
+

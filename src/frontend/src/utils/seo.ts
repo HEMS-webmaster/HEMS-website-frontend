@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import type { UpcomingWorkshopConfig } from "@/utils/upcomingWorkshop";
+import {
+  evaluateRegistrationSchedule,
+  UpcomingWorkshopConfig,
+} from "@/utils/upcomingWorkshop";
 
 export const SITE_URL = "https://www.hems-workshop.org";
 export const SITE_NAME = "HEMS Society";
@@ -160,7 +163,7 @@ export function buildGlobalKnowledgeGraphJsonLd() {
         foundingDate: "1999",
         nonprofitStatus: "https://schema.org/Nonprofit501c3",
         description:
-          "IRS 501(c)(3) scientific public charity advancing portable, ruggedized, and in-situ mass spectrometry across subsea, planetary, atmospheric, and field environments through biennial workshops and an open-access proceedings archive.",
+          "All-volunteer IRS 501(c)(3) scientific public charity formed in 1999 to advance portable, ruggedized, and in-situ mass spectrometry across subsea, planetary, atmospheric, industrial, and defense and security environments through biennial workshops and an open-access proceedings archive.",
         areaServed: "Worldwide",
         knowsAbout: [
           "Harsh-Environment Mass Spectrometry",
@@ -343,6 +346,7 @@ export function buildUpcomingWorkshopEventJsonLd(workshop: UpcomingWorkshopConfi
   // Default to September 2027 window when exact days are TBA so Schema.org Event has valid ISO-8601 bounds
   const startDate = `${yr}-09-01`;
   const endDate = `${yr}-09-30`;
+  const isRegOpen = evaluateRegistrationSchedule(workshop).isOpen;
 
   const studentPrice = parseFeeDigits(workshop.reg_student_fee);
   const profPrice = parseFeeDigits(workshop.reg_professional_fee);
@@ -354,7 +358,7 @@ export function buildUpcomingWorkshopEventJsonLd(workshop: UpcomingWorkshopConfi
             name: "Graduate Student Registration",
             price: studentPrice,
             priceCurrency: "USD",
-            availability: workshop.registration_open
+            availability: isRegOpen
               ? "https://schema.org/InStock"
               : "https://schema.org/PreOrder",
             url: `${SITE_URL}/registration/`,
@@ -368,7 +372,7 @@ export function buildUpcomingWorkshopEventJsonLd(workshop: UpcomingWorkshopConfi
             name: "General / Professional Registration",
             price: profPrice,
             priceCurrency: "USD",
-            availability: workshop.registration_open
+            availability: isRegOpen
               ? "https://schema.org/InStock"
               : "https://schema.org/PreOrder",
             url: `${SITE_URL}/registration/`,

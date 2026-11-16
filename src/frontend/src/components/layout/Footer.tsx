@@ -19,12 +19,12 @@ function LinkedInMark({ size = 14 }: { size?: number }) {
 export default function Footer() {
   return (
     <footer className="bg-white border-t border-slate-200/90 mt-auto print:hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-14">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-8 sm:gap-8 lg:gap-10">
           {/* Column 1: Society Identity */}
-          <div className="sm:col-span-2 lg:col-span-5 space-y-3.5">
+          <div className="col-span-2 lg:col-span-5 space-y-3.5">
             <div className="flex items-center gap-3.5">
-              <div className="w-24 sm:w-28 rounded-xl bg-white border border-slate-200 p-1.5 flex items-center justify-center shadow-2xs shrink-0">
+              <div className="hidden sm:flex w-24 sm:w-28 rounded-xl bg-white border border-slate-200 p-1.5 items-center justify-center shadow-2xs shrink-0">
                 <img
                   src="/hemslogo.jpg"
                   alt="HEMS Society Emblem"
@@ -40,7 +40,7 @@ export default function Footer() {
                   Harsh-Environment Mass Spectrometry Society
                 </h3>
                 <p className="text-xs font-medium text-slate-500 mt-0.5 tabular-nums">
-                  501(c)(3) Scientific Organization • Est. 1999
+                  All-Volunteer 501(c)(3) Organization • Est. 1999
                 </p>
               </div>
             </div>
@@ -65,7 +65,7 @@ export default function Footer() {
             <h4 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500">
               Society &amp; Repository
             </h4>
-            <ul className="space-y-1.5 text-sm text-slate-600">
+            <ul className="space-y-1.5 text-[13px] sm:text-sm leading-snug text-slate-600">
               <li>
                 <Link href="/about" className="inline-block py-1 hover:text-primary transition-colors">
                   Mission &amp; Governance
@@ -94,7 +94,7 @@ export default function Footer() {
             <h4 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500">
               Symposium &amp; Contact
             </h4>
-            <ul className="space-y-1.5 text-sm text-slate-600">
+            <ul className="space-y-1.5 text-[13px] sm:text-sm leading-snug text-slate-600">
               <li>
                 <Link href="/layout-portal" className="inline-block py-1 hover:text-primary transition-colors">
                   16th Workshop Hub (Sept 2027)
@@ -135,9 +135,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 sm:mt-12 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-500 text-center sm:text-left">
+        <div className="mt-8 sm:mt-12 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-500 text-center sm:text-left">
           <p>
-            &copy; {new Date().getFullYear()} Harsh-Environment Mass Spectrometry Society, Inc. Recognized IRS 501(c)(3) Public Charity.
+            &copy; {new Date().getFullYear()} Harsh-Environment Mass Spectrometry Society, Inc. (Est. 1999). Recognized IRS 501(c)(3) Public Charity.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium">
             <Link href="/archive/2025" className="py-1 hover:text-primary transition-colors">

@@ -21,3 +21,4 @@ Integrate the official HEMS Society LinkedIn Group across sitewide navigation/fo
 5. **Website Analytics Ad & Social UTM Kit (`src/frontend/src/app/(portal)/admin/analytics/page.tsx`):**
    - Add a 4th Quick-Launch card for the HEMS LinkedIn Group (`Group #4385091`).
    - Add printable flyers (`/student-awards/?print=1`, `/corporate-sponsorship/?print=1`) to link destinations, fix URL query normalization alongside `SITE_URL`, and add 5 1-click UTM/`?src=` campaign presets for LinkedIn posts, LinkedIn ads, Google Ad Grants, and sponsor/speaker promo kits.
+

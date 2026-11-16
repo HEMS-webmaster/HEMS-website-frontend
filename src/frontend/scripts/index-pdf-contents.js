@@ -339,6 +339,19 @@ async function runIndexer() {
     }
   } else {
     const mockDbPath = path.join(__dirname, '..', 'public', 'mock-pdf-chunks.json');
+    if (realSlidePages === 0 && realAbstractDocs === 0 && fs.existsSync(mockDbPath)) {
+      try {
+        const existing = JSON.parse(fs.readFileSync(mockDbPath, 'utf8'));
+        if (Array.isArray(existing) && existing.length > records.length) {
+          console.log(
+            `ℹ️ Skipping overwrite: preserving ${existing.length} committed PDF chunks in ${mockDbPath} (no local proceedings PDFs present in this build environment).`
+          );
+          return;
+        }
+      } catch {
+        // Fall through and regenerate if existing JSON is unreadable
+      }
+    }
     fs.writeFileSync(mockDbPath, JSON.stringify(records, null, 2));
     console.log(`Written verified searchable chunks to ${mockDbPath}`);
   }

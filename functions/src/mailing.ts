@@ -1,6 +1,14 @@
 import { onRequest } from "firebase-functions/v2/https";
 import * as admin from "firebase-admin";
 import * as crypto from "crypto";
+import {
+  checkMemoryRateLimit,
+  enforceRateLimit,
+  extractHashedClientIp,
+  hashSubjectKey,
+  isVerifiedDecodedToken,
+  timingSafeSecretMatch,
+} from "./rateLimit";
 
 const SITE_ORIGIN = process.env.HEMS_SITE_ORIGIN || "https://hems-workshop.org";
 const FROM_TRANSACTIONAL =
@@ -175,22 +183,27 @@ async function sendPostmarkBatch(
   return { delivered, failed };
 }
 
-function matchesBoardOrAdminRoles(roles: unknown): boolean {
+function matchesOperationsRoles(roles: unknown): boolean {
   if (!Array.isArray(roles)) return false;
   return roles.some((r) => {
     if (typeof r !== "string") return false;
-    const norm = r.trim().toLowerCase();
+    const norm = r
+      .trim()
+      .toLowerCase()
+      .replace(/[_-]+/g, " ")
+      .replace(/\s+/g, " ");
     return (
-      norm === "admin" ||
-      norm === "board" ||
-      norm === "board_member" ||
-      norm === "board member" ||
-      norm === "board members"
+      norm === "operations" ||
+      norm === "operation" ||
+      norm === "operations officer" ||
+      norm === "operations officers" ||
+      norm === "workshop operations" ||
+      norm === "logistics"
     );
   });
 }
 
-async function verifyBoardOrAdminCaller(
+async function verifyOperationsCaller(
   authHeader: string | undefined
 ): Promise<{ email: string; uid: string } | null> {
   if (!authHeader || !authHeader.startsWith("Bearer ")) return null;
@@ -199,9 +212,12 @@ async function verifyBoardOrAdminCaller(
 
   try {
     const decoded = await admin.auth().verifyIdToken(idToken);
+    if (!isVerifiedDecodedToken(decoded)) {
+      return null;
+    }
     const db = getDb();
     const userDoc = await db.collection("users").doc(decoded.uid).get();
-    if (matchesBoardOrAdminRoles(userDoc.data()?.roles)) {
+    if (matchesOperationsRoles(userDoc.data()?.roles)) {
       return { email: decoded.email || "", uid: decoded.uid };
     }
 
@@ -210,7 +226,7 @@ async function verifyBoardOrAdminCaller(
         .collection("whitelist")
         .doc(decoded.email.toLowerCase())
         .get();
-      if (matchesBoardOrAdminRoles(wlDoc.data()?.roles)) {
+      if (matchesOperationsRoles(wlDoc.data()?.roles)) {
         return { email: decoded.email, uid: decoded.uid };
       }
     }
@@ -226,7 +242,13 @@ async function verifyBoardOrAdminCaller(
  * Route: POST /api/mailing/subscribe
  */
 export const mailingSubscribe = onRequest(
-  { cors: true, region: "us-central1" },
+  {
+    cors: true,
+    region: "us-central1",
+    maxInstances: 5,
+    memory: "256MiB",
+    timeoutSeconds: 30,
+  },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).json({ ok: false, error: "Method not allowed" });
@@ -238,6 +260,23 @@ export const mailingSubscribe = onRequest(
       // Honeypot check against automated bots
       if (body.websiteUrl && String(body.websiteUrl).trim() !== "") {
         res.status(200).json({ ok: true, mode: "filtered" });
+        return;
+      }
+
+      const db = getDb();
+      const ipRate = await enforceRateLimit({
+        db,
+        bucketKey: extractHashedClientIp(req, "mailing_sub"),
+        maxHits: 10,
+        windowSeconds: 900,
+        persistToFirestore: true,
+      });
+      if (!ipRate.allowed) {
+        res.setHeader("Retry-After", String(ipRate.retryAfterSec));
+        res.status(429).json({
+          ok: false,
+          error: "Too many subscription requests. Please wait a few minutes and try again.",
+        });
         return;
       }
 
@@ -256,7 +295,6 @@ export const mailingSubscribe = onRequest(
         .map((x: unknown) => String(x))
         .filter((x: string) => allowedInterests.has(x));
 
-      const db = getDb();
       const docRef = db.collection("mailing_subscribers").doc(emailDocId(email));
       const existingSnap = await docRef.get();
       const existing = existingSnap.exists ? existingSnap.data() : null;
@@ -280,6 +318,25 @@ export const mailingSubscribe = onRequest(
       const nextStatus: SubscriberStatus =
         existing?.status === "active" ? "active" : "pending_opt_in";
 
+      const postmarkToken = (process.env.POSTMARK_SERVER_TOKEN || "").trim();
+      if (postmarkToken && nextStatus !== "active") {
+        const emailRate = await enforceRateLimit({
+          db,
+          bucketKey: hashSubjectKey(email, "mailing_optin"),
+          maxHits: 3,
+          windowSeconds: 3600,
+          persistToFirestore: true,
+        });
+        if (!emailRate.allowed) {
+          res.setHeader("Retry-After", String(emailRate.retryAfterSec));
+          res.status(429).json({
+            ok: false,
+            error: "A confirmation link was already sent recently to this address. Please check your inbox.",
+          });
+          return;
+        }
+      }
+
       await docRef.set(
         {
           email,
@@ -297,7 +354,6 @@ export const mailingSubscribe = onRequest(
         { merge: true }
       );
 
-      const postmarkToken = (process.env.POSTMARK_SERVER_TOKEN || "").trim();
       if (!postmarkToken) {
         res.status(200).json({
           ok: true,
@@ -361,7 +417,13 @@ export const mailingSubscribe = onRequest(
  * Route: POST /api/mailing/confirm
  */
 export const mailingConfirm = onRequest(
-  { cors: true, region: "us-central1" },
+  {
+    cors: true,
+    region: "us-central1",
+    maxInstances: 5,
+    memory: "256MiB",
+    timeoutSeconds: 30,
+  },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).json({ ok: false, error: "Method not allowed" });
@@ -369,13 +431,26 @@ export const mailingConfirm = onRequest(
     }
 
     try {
+      const db = getDb();
+      const ipRate = await enforceRateLimit({
+        db,
+        bucketKey: extractHashedClientIp(req, "mailing_confirm"),
+        maxHits: 20,
+        windowSeconds: 900,
+        persistToFirestore: true,
+      });
+      if (!ipRate.allowed) {
+        res.setHeader("Retry-After", String(ipRate.retryAfterSec));
+        res.status(429).json({ ok: false, error: "Too many confirmation attempts. Please wait a few minutes." });
+        return;
+      }
+
       const token = String(req.body?.token || "").trim();
       if (token.length < 16) {
         res.status(400).json({ ok: false, error: "Invalid confirmation token." });
         return;
       }
 
-      const db = getDb();
       const snap = await db
         .collection("mailing_subscribers")
         .where("optInToken", "==", token)
@@ -414,7 +489,13 @@ export const mailingConfirm = onRequest(
  *   POST /api/mailing/unsubscribe                      (Website /unsubscribe UI)
  */
 export const mailingUnsubscribe = onRequest(
-  { cors: true, region: "us-central1" },
+  {
+    cors: true,
+    region: "us-central1",
+    maxInstances: 5,
+    memory: "256MiB",
+    timeoutSeconds: 30,
+  },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).json({ ok: false, error: "Method not allowed" });
@@ -422,9 +503,22 @@ export const mailingUnsubscribe = onRequest(
     }
 
     try {
+      const db = getDb();
+      const ipRate = await enforceRateLimit({
+        db,
+        bucketKey: extractHashedClientIp(req, "mailing_unsub"),
+        maxHits: 20,
+        windowSeconds: 900,
+        persistToFirestore: true,
+      });
+      if (!ipRate.allowed) {
+        res.setHeader("Retry-After", String(ipRate.retryAfterSec));
+        res.status(429).json({ ok: false, error: "Too many unsubscribe attempts. Please try again later." });
+        return;
+      }
+
       const token = String(req.query.token || req.body?.token || "").trim();
       const action = String(req.body?.action || "unsubscribe").trim();
-      const db = getDb();
       const now = new Date().toISOString();
 
       // Token-authenticated path (RFC 8058 1-click OR signed footer link)
@@ -503,6 +597,21 @@ export const mailingUnsubscribe = onRequest(
       const postmarkToken = (process.env.POSTMARK_SERVER_TOKEN || "").trim();
 
       if (subSnap.exists && postmarkToken) {
+        const emailRate = await enforceRateLimit({
+          db,
+          bucketKey: hashSubjectKey(email, "mailing_unsub_email"),
+          maxHits: 3,
+          windowSeconds: 3600,
+          persistToFirestore: true,
+        });
+        if (!emailRate.allowed) {
+          res.setHeader("Retry-After", String(emailRate.retryAfterSec));
+          res.status(429).json({
+            ok: false,
+            error: "An unsubscribe confirmation link was already sent recently to this address.",
+          });
+          return;
+        }
         const subData = subSnap.data()!;
         const unsubToken = subData.unsubscribeToken || generateSecureToken();
         if (!subData.unsubscribeToken) {
@@ -550,16 +659,33 @@ export const mailingUnsubscribe = onRequest(
  * Route: POST /api/mailing/webhooks/postmark
  */
 export const mailingWebhookPostmark = onRequest(
-  { cors: false, region: "us-central1" },
+  {
+    cors: false,
+    region: "us-central1",
+    maxInstances: 5,
+    memory: "256MiB",
+    timeoutSeconds: 30,
+  },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).send("Method Not Allowed");
       return;
     }
 
+    const hookRate = checkMemoryRateLimit({
+      bucketKey: extractHashedClientIp(req, "postmark_hook"),
+      maxHits: 120,
+      windowMs: 60_000,
+    });
+    if (!hookRate.allowed) {
+      res.setHeader("Retry-After", String(hookRate.retryAfterSec));
+      res.status(429).json({ ok: false, error: "Webhook rate limit exceeded" });
+      return;
+    }
+
     const expectedSecret = (process.env.POSTMARK_WEBHOOK_SECRET || "").trim();
     const providedSecret = String(req.headers["x-hems-webhook-secret"] || "").trim();
-    if (!expectedSecret || providedSecret !== expectedSecret) {
+    if (!timingSafeSecretMatch(providedSecret, expectedSecret)) {
       res.status(401).json({ ok: false, error: "Unauthorized webhook" });
       return;
     }
@@ -621,18 +747,24 @@ export const mailingWebhookPostmark = onRequest(
  * Route: POST /api/mailing/send-campaign
  */
 export const mailingSendCampaign = onRequest(
-  { cors: true, region: "us-central1", timeoutSeconds: 300 },
+  {
+    cors: true,
+    region: "us-central1",
+    maxInstances: 2,
+    memory: "256MiB",
+    timeoutSeconds: 300,
+  },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).json({ ok: false, error: "Method not allowed" });
       return;
     }
 
-    const caller = await verifyBoardOrAdminCaller(req.headers.authorization);
+    const caller = await verifyOperationsCaller(req.headers.authorization);
     if (!caller) {
       res.status(403).json({
         ok: false,
-        error: "Board Member or Admin authentication is required.",
+        error: "Operations Officer authentication is required.",
       });
       return;
     }
@@ -880,7 +1012,13 @@ function resolveInquiryRecipient(topic: string): string {
  * and forwards via Postmark transactional email (`ReplyTo` = sender) when configured.
  */
 export const contactInquiry = onRequest(
-  { cors: true, region: "us-central1" },
+  {
+    cors: true,
+    region: "us-central1",
+    maxInstances: 5,
+    memory: "256MiB",
+    timeoutSeconds: 30,
+  },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).json({ ok: false, error: "Method not allowed" });
@@ -895,6 +1033,23 @@ export const contactInquiry = onRequest(
         res.status(200).json({
           ok: true,
           message: "Your inquiry has been submitted to the HEMS Society.",
+        });
+        return;
+      }
+
+      const db = getDb();
+      const ipRate = await enforceRateLimit({
+        db,
+        bucketKey: extractHashedClientIp(req, "contact_inq"),
+        maxHits: 6,
+        windowSeconds: 3600,
+        persistToFirestore: true,
+      });
+      if (!ipRate.allowed) {
+        res.setHeader("Retry-After", String(ipRate.retryAfterSec));
+        res.status(429).json({
+          ok: false,
+          error: "Too many contact inquiries from your network. Please wait before sending another inquiry.",
         });
         return;
       }
@@ -927,9 +1082,24 @@ export const contactInquiry = onRequest(
         return;
       }
 
+      const senderRate = await enforceRateLimit({
+        db,
+        bucketKey: hashSubjectKey(email, "contact_inq_email"),
+        maxHits: 3,
+        windowSeconds: 3600,
+        persistToFirestore: true,
+      });
+      if (!senderRate.allowed) {
+        res.setHeader("Retry-After", String(senderRate.retryAfterSec));
+        res.status(429).json({
+          ok: false,
+          error: "Recent inquiries were already received from this email address. Please wait before submitting again.",
+        });
+        return;
+      }
+
       const recipientEmail = resolveInquiryRecipient(subject);
       const now = new Date().toISOString();
-      const db = getDb();
 
       const postmarkToken = process.env.POSTMARK_SERVER_TOKEN || "";
       let forwardedViaEmail = false;

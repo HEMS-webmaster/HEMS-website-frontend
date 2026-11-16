@@ -21,3 +21,4 @@ Create a dedicated **Printable Version** of the Student Travel Awards page (`/st
      - **03 · Selection Criteria:** Compact 2×2 rubric checklist.
      - **04 · Past Fellows & Represented Universities (2007–2022):** Verified institutional track record derived from `master_workshops.json` (`18` fellows across `8` cycles).
      - **Submission Footer Box:** Step-by-step instructions + HEMS Student Awards Committee contact block and URL (`www.hems-workshop.org/student-awards`).
+

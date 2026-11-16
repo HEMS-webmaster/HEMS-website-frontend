@@ -27,3 +27,4 @@ Enable authenticated users carrying the `'attendee'` role to access a dedicated 
 3. **Attendee Uploader (`/abstract-submission`) & Reviewer Evaluation (`/reviewer`):**
    - Attendee uploader captures Title, Presenting Author, Corresponding Email, Affiliation, Co-Authors, Presentation Format, Research Track, Plain-Text Abstract Synopsis, Student Travel Award Flag, and single-page PDF (`<= 10 MB`).
    - Reviewer Panel displays live KPIs, status/award filters, search, inline PDF preview (`View Abstract PDF`), and score/decision/feedback evaluation controls.
+

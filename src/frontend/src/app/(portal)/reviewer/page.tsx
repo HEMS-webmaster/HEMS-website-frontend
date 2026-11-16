@@ -541,11 +541,10 @@ export default function ReviewerPage() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveFilter(tab.id)}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${
-                  active
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors cursor-pointer ${active
                     ? "bg-primary text-white border-primary shadow-2xs"
                     : "bg-white text-slate-600 border-slate-200 hover:border-primary/40 hover:text-primary"
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -751,19 +750,18 @@ export default function ReviewerPage() {
                         onClick={() =>
                           isEditing ? setEditingId(null) : handleOpenEvaluation(sub)
                         }
-                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-sm cursor-pointer ${
-                          isEditing
+                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-sm cursor-pointer ${isEditing
                             ? "bg-slate-200 text-slate-800 hover:bg-slate-300"
                             : myReview
-                            ? "bg-surface border border-foreground/15 text-foreground hover:bg-foreground/5"
-                            : "bg-primary text-primary-foreground hover:bg-primary/95"
-                        }`}
+                              ? "bg-surface border border-foreground/15 text-foreground hover:bg-foreground/5"
+                              : "bg-primary text-primary-foreground hover:bg-primary/95"
+                          }`}
                       >
                         {isEditing
                           ? "Close Form"
                           : myReview
-                          ? "Edit My Review"
-                          : "Start Evaluation"}
+                            ? "Edit My Review"
+                            : "Start Evaluation"}
                       </button>
                     </div>
                   </div>

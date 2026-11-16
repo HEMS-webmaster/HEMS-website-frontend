@@ -12,3 +12,4 @@
 ## Verification
 - Static production build (`npx next build` in `src/frontend`) passes with `0` TypeScript errors across all `42/42` routes.
 - Restart local dev server (`http://localhost:3000/student-awards`) and verify clean column balance and zero broken links.
+

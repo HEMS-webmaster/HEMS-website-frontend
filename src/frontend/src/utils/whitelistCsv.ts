@@ -1,6 +1,8 @@
 import { parseCsvRows } from "@/utils/upcomingWorkshop";
 import type { PastedSubscriberRow } from "@/utils/spreadsheetPaste";
 
+export const PROTECTED_ADMIN_EMAIL = "webmaster@hems-workshop.org";
+
 export const ADMIN_ASSIGNABLE_ROLES = [
   "attendee",
   "submitter",
@@ -8,6 +10,8 @@ export const ADMIN_ASSIGNABLE_ROLES = [
   "poster presenter",
   "corporate sponsor",
   "reviewer",
+  "operations",
+  "treasurer",
   "board",
   "admin",
 ] as const;
@@ -67,6 +71,18 @@ export const ROLE_DISPLAY_META: Record<string, RoleDisplayMeta> = {
     desc: "Blind scoring & submission rubric reviews",
     badgeClass: "text-amber-700 bg-amber-50 border-amber-200",
     activePillClass: "bg-amber-50 border-amber-400 text-amber-800",
+  },
+  operations: {
+    label: "Operations Officer",
+    desc: "Registration desk, mailing list & society announcements",
+    badgeClass: "text-cyan-800 bg-cyan-50 border-cyan-200",
+    activePillClass: "bg-cyan-50 border-cyan-400 text-cyan-900",
+  },
+  treasurer: {
+    label: "Society Treasurer",
+    desc: "Financial ledger, refunds, promo waivers & Stripe access",
+    badgeClass: "text-rose-800 bg-rose-50 border-rose-200",
+    activePillClass: "bg-rose-50 border-rose-400 text-rose-900",
   },
   board: {
     label: "Executive Board",
@@ -133,12 +149,24 @@ const ROLE_ALIAS_MAP: Record<string, AssignableRole | "general"> = {
   reviewers: "reviewer",
   "abstract reviewer": "reviewer",
   "abstract reviewers": "reviewer",
+  operations: "operations",
+  operation: "operations",
+  "operations officer": "operations",
+  "operations officers": "operations",
+  "workshop operations": "operations",
+  logistics: "operations",
+  treasurer: "treasurer",
+  treasurers: "treasurer",
+  "society treasurer": "treasurer",
+  finance: "treasurer",
+  "financial officer": "treasurer",
   board: "board",
   "board member": "board",
   "board members": "board",
   "executive board": "board",
   admin: "admin",
   admins: "admin",
+  administration: "admin",
   administrator: "admin",
   administrators: "admin",
 };
@@ -706,6 +734,54 @@ function sameRolesSet(a: string[], b: string[]): boolean {
 }
 
 /**
+ * Guarantees that the system webmaster (`webmaster@hems-workshop.org`) is always
+ * present on the whitelist with the permanent `'admin'` (`administration`) role.
+ */
+export function ensureProtectedWhitelistEntries(
+  entries: readonly WhitelistEntry[],
+  nowIso: string = new Date().toISOString()
+): WhitelistEntry[] {
+  const byEmail = new Map<string, WhitelistEntry>();
+
+  for (const entry of entries) {
+    const cleanEmail = entry.email.trim().toLowerCase();
+    if (!cleanEmail) continue;
+    const person = hydrateWhitelistPersonFields(entry);
+    const cleanRoles = sanitizeRoleList(entry.roles);
+    const normalizedRoles =
+      cleanEmail === PROTECTED_ADMIN_EMAIL && !cleanRoles.includes("admin")
+        ? sanitizeRoleList([...cleanRoles, "admin"])
+        : cleanRoles;
+    byEmail.set(cleanEmail, {
+      email: cleanEmail,
+      firstName: person.firstName,
+      lastName: person.lastName,
+      affiliation: person.affiliation,
+      name: person.name,
+      roles: normalizedRoles,
+      updatedAt: entry.updatedAt,
+    });
+  }
+
+  const protectedEntry = byEmail.get(PROTECTED_ADMIN_EMAIL);
+  if (!protectedEntry) {
+    byEmail.set(PROTECTED_ADMIN_EMAIL, {
+      email: PROTECTED_ADMIN_EMAIL,
+      firstName: "HEMS",
+      lastName: "Webmaster",
+      affiliation: "HEMS Society",
+      name: "HEMS Webmaster",
+      roles: ["admin"],
+      updatedAt: nowIso,
+    });
+  } else if (!protectedEntry.roles.includes("admin")) {
+    protectedEntry.roles = sanitizeRoleList([...protectedEntry.roles, "admin"]);
+  }
+
+  return Array.from(byEmail.values()).sort((a, b) => a.email.localeCompare(b.email));
+}
+
+/**
  * Computes exact Append vs. Overwrite state transitions and Firestore write mutations.
  */
 export function computeWhitelistCsvPlan(
@@ -765,6 +841,9 @@ export function computeWhitelistCsvPlan(
 
     for (const entry of workingByEmail.values()) {
       const filteredRoles = entry.roles.filter((r) => {
+        if (entry.email === PROTECTED_ADMIN_EMAIL && r === "admin") {
+          return true;
+        }
         if (isAssignableRole(r) && effectiveOverwriteRoles.includes(r)) {
           return csvRoleHolders.get(r)?.has(entry.email) ?? false;
         }
@@ -840,6 +919,22 @@ export function computeWhitelistCsvPlan(
     existing.updatedAt = nowIso;
   }
 
+  const existingProtected = workingByEmail.get(PROTECTED_ADMIN_EMAIL);
+  if (!existingProtected) {
+    workingByEmail.set(PROTECTED_ADMIN_EMAIL, {
+      email: PROTECTED_ADMIN_EMAIL,
+      firstName: "HEMS",
+      lastName: "Webmaster",
+      affiliation: "HEMS Society",
+      name: "HEMS Webmaster",
+      roles: ["admin"],
+      updatedAt: nowIso,
+    });
+  } else if (!existingProtected.roles.includes("admin")) {
+    existingProtected.roles = sanitizeRoleList([...existingProtected.roles, "admin"]);
+    existingProtected.updatedAt = nowIso;
+  }
+
   const nextEntries = Array.from(workingByEmail.values()).sort((a, b) =>
     a.email.localeCompare(b.email)
   );
@@ -885,5 +980,6 @@ export const SAMPLE_WHITELIST_CSV = [
   'Elena,Vance,"Dept. of Chemistry, USF",dr.elena.vance@university.edu,attendee; oral presenter',
   "Marcus,Chen,Pacific Northwest National Lab,marcus.chen@lab.gov,attendee; poster presenter",
   "Dana,Brooks,InstrumentCorp Mass Spec,sponsors@mass-spec-corp.com,corporate sponsor",
+  "Morgan,Hayes,HEMS Organizing Committee,operations@hems-workshop.org,operations; treasurer",
   "Alex,Rivera,,alex.rivera@institute.org,attendee",
 ].join("\n");

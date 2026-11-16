@@ -24,3 +24,4 @@
 - Zero user-facing "Mailchimp" text strings in `board/mailing-list/page.tsx` or `src/components/mailing/`.
 - `npx tsc --noEmit` exits cleanly (`0`).
 - Local Next.js server serves `/board/mailing-list/` with HTTP `200`.
+

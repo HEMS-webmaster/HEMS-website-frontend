@@ -10,3 +10,4 @@ export const metadata: Metadata = buildNoIndexMetadata(
 export default function AbstractSubmissionPage() {
   return <AbstractSubmissionClient />;
 }
+

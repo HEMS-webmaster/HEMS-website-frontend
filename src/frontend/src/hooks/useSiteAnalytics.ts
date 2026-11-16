@@ -25,6 +25,9 @@ import { buildCampaignSlug } from "@/utils/mailingTemplate";
 
 export type AnalyticsWindowPreset = "7d" | "30d" | "90d" | "all";
 
+const LIVE_STREAM_EVENT_LIMIT = 300;
+const TOP_DOWNLOADS_QUERY_LIMIT = 200;
+
 interface RawDailyDoc {
   dateKey: string;
   totalViews: number;
@@ -372,12 +375,18 @@ export function useSiteAnalytics(
           query(
             collection(db, "telemetry_events"),
             orderBy("timestamp", "desc"),
-            limit(1500)
+            limit(LIVE_STREAM_EVENT_LIMIT)
           )
         ),
         getDocs(collection(db, "mailing_campaigns")),
         getDocs(collection(db, "users")),
-        getDocs(query(collection(db, "downloads"), orderBy("downloadCount", "desc"))),
+        getDocs(
+          query(
+            collection(db, "downloads"),
+            orderBy("downloadCount", "desc"),
+            limit(TOP_DOWNLOADS_QUERY_LIMIT)
+          )
+        ),
       ]);
 
       const rejectedPermissions = [

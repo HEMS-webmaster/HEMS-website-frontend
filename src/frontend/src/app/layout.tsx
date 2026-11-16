@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Noto_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import TelemetryTracker from "@/components/telemetry/TelemetryTracker";
 import GoogleAnalyticsTag from "@/components/telemetry/GoogleAnalyticsTag";
+import PreviewChannelBanner from "@/components/telemetry/PreviewChannelBanner";
 import { AuthProvider } from "@/context/AuthContext";
 import {
   SITE_URL,
@@ -12,21 +12,6 @@ import {
   SITE_LEGAL_NAME,
   buildGlobalKnowledgeGraphJsonLd,
 } from "@/utils/seo";
-
-const notoSans = Noto_Sans({
-  variable: "--font-noto-sans",
-  subsets: ["latin", "latin-ext", "greek"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
-  subsets: ["latin", "latin-ext", "greek"],
-  weight: ["400", "600", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -81,10 +66,23 @@ export default function RootLayout({
   const globalJsonLd = buildGlobalKnowledgeGraphJsonLd();
 
   return (
-    <html
-      lang="en"
-      className={`${notoSans.variable} ${sourceSerif.variable}`}
-    >
+    <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/noto-sans-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/source-serif-4-normal-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="antialiased min-h-screen flex flex-col theme-global">
         <GoogleAnalyticsTag />
         <script
@@ -93,6 +91,7 @@ export default function RootLayout({
         />
         <AuthProvider>
           <TelemetryTracker />
+          <PreviewChannelBanner />
           <Navbar />
           <main className="flex-grow flex flex-col">{children}</main>
           <Footer />

@@ -27,3 +27,4 @@
 - Run TypeScript verification (`npx tsc --noEmit`) with exit `0`.
 - Run automated assertions against `spreadsheetPaste.ts` (`npx tsx -e ...`) covering 4-col, 3-col, header-mapped, single-column vertical pastes, and validation/dedup.
 - Confirm `/board/mailing-list/` returns HTTP `200` and compiled JS includes the fixed portal + `maxHeight` modal layout and `GoogleSheetsPasteModal`.
+

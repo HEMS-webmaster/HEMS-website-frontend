@@ -32,3 +32,4 @@
 - `npx tsc --noEmit` inside `src/frontend` exits `0`.
 - HTTP `200` on `http://localhost:3000/abstract-submission/` and `http://localhost:3000/reviewer/`.
 - `git status --short` clean of forbidden file edits.
+

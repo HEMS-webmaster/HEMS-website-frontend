@@ -19,3 +19,4 @@
    - Placed prominently at the top of `/abstract-submission` with a `Printable Version` button opening `PrintableFormattingGuidelines.tsx` (in-state, preserving wizard data).
 4. **Browser Back & Unsaved Data Guard**:
    - `beforeunload`, `popstate` sentinel guard, and link-navigation capture guard prompt a warning before discarding unsaved form inputs.
+
