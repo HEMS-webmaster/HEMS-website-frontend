@@ -1,5 +1,5 @@
 # Harsh-Environment Mass Spectrometry Society (HEMS)
-> Official website of the Harsh-Environment Mass Spectrometry Society, Inc. (all-volunteer IRS 501(c)(3) scientific public charity, founded 1999) — biennial international symposium and 25+ year open-access proceedings archive (`436` citable oral presentations and posters across `15` workshops, `1999–2025`) for portable, subsea, planetary, atmospheric, and field-deployable mass spectrometry.
+> Official website of the Harsh-Environment Mass Spectrometry Society, Inc. (all-volunteer IRS 501(c)(3) scientific public charity established in 2008; biennial HEMS Workshops convened since 1999) — international symposium and 25+ year open-access proceedings archive (`436` citable oral presentations and posters across `15` workshops, `1999–2025`) for portable, subsea, planetary, atmospheric, and field-deployable mass spectrometry.
 
 ## AI & Scholarly Citation Feeds (Start Here for Research Queries)
 - [Complete Markdown Proceedings & Citation Corpus (`llms-full.txt`)](https://www.hems-workshop.org/llms-full.txt): Single-file Markdown reference of all `15` workshops (`1999–2025`), `18` Student Travel Award fellows, and all `436` presentations & posters with authors, affiliations, canonical `#anchor` citation URLs, direct Google Cloud Storage Slide/Abstract PDF links, and abstract excerpts.

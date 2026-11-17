@@ -76,8 +76,8 @@ const INSTITUTIONAL_FACTS = [
   {
     icon: Calendar,
     label: "Biennial Continuum",
-    value: "Est. 1999 • 15 Workshops",
-    detail: "Formed in St. Petersburg, FL in 1999; incorporated as a Florida 501(c)(3) nonprofit in 2008.",
+    value: "15 Workshops Since 1999",
+    detail: "Inaugural HEMS Workshop held in Feb 1999; HEMS Society 501(c)(3) established in 2008.",
   },
   {
     icon: Users,
@@ -125,7 +125,7 @@ export default function About() {
             <div className="max-w-3xl space-y-3.5">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug shadow-2xs">
                 <ShieldCheck size={13} className="text-primary shrink-0" />
-                <span>501(c)(3) Scientific Public Charity • Est. 1999</span>
+                <span>501(c)(3) Scientific Public Charity</span>
               </div>
 
               <h1 className="font-serif text-3xl sm:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
@@ -153,7 +153,7 @@ export default function About() {
                   All-Volunteer 501(c)(3) Society
                 </div>
                 <div className="text-[11px] font-medium text-slate-500 mt-0.5">
-                  Est. 1999 • Zero Membership Dues
+                  Zero Membership Dues • Open Archive
                 </div>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function About() {
               </div>
 
               <p className="text-sm sm:text-[15px] text-slate-600 leading-relaxed">
-                Formed in 1999 and incorporated in Florida in 2008 as a tax-exempt 501(c)(3) public charity, the Society is stewarded by an all-volunteer Board of Directors and biennial Workshop Organizing Committee drawn from universities, government laboratories, space agencies, and instrumentation developers.
+                Growing out of the biennial HEMS Workshops launched in February 1999, the Harsh-Environment Mass Spectrometry Society, Inc. was established in Florida in 2008 as a tax-exempt 501(c)(3) public charity and is stewarded by an all-volunteer Board of Directors and Organizing Committee drawn from universities, government laboratories, space agencies, and instrumentation developers.
               </p>
 
               {/* 2x2 Institutional Profile Grid */}
@@ -330,13 +330,13 @@ export default function About() {
               <div className="bg-[#FAFBFD] border border-slate-200/90 rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-5 flex-1">
                 <div className="space-y-1.5 max-w-xl">
                   <div className="inline-flex items-center gap-2 text-primary tabular-nums text-[11px] font-semibold uppercase tracking-[0.12em]">
-                    <History size={14} /> Heritage Since 1999
+                    <History size={14} /> Workshops Since 1999
                   </div>
                   <h3 className="font-serif text-2xl font-semibold text-slate-900">
                     Workshop &amp; Society History
                   </h3>
                   <p className="text-slate-600 text-sm leading-relaxed">
-                    Trace HEMS from its 1999 founding at the USF Center for Ocean Technology through its 2008 incorporation and coastal workshops across North America and Europe.
+                    Trace HEMS from the inaugural February 1999 Workshop at the USF Center for Ocean Technology through the 2008 establishment of the HEMS Society and its first post-incorporation meeting in 2009.
                   </p>
                 </div>
                 <Link

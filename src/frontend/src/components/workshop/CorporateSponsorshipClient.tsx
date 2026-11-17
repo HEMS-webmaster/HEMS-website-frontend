@@ -155,13 +155,13 @@ export default function CorporateSponsorshipClient() {
               <div className="max-w-3xl">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl sm:rounded-full max-w-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug mb-4 shadow-2xs">
                   <ShieldCheck size={14} className="text-primary shrink-0" />
-                  <span>All-Volunteer 501(c)(3) Society • Est. 1999</span>
+                  <span>All-Volunteer 501(c)(3) Scientific Society</span>
                 </div>
                 <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4 leading-[1.12]">
                   Corporate <span className="text-primary italic font-normal">Sponsorship</span>
                 </h1>
                 <p className="text-base md:text-lg text-slate-600 leading-relaxed font-sans max-w-2xl">
-                  Established in 1999, the HEMS Society is an all-volunteer 501(c)(3) scientific organization bridging academic, government, and industrial investigators. With no annual membership dues, each biennial symposium is independently sustained through attendee registrations, donations, and corporate sponsors.
+                  Established in 2008 to steward the biennial HEMS Workshops (convened since 1999), the HEMS Society is an all-volunteer 501(c)(3) scientific organization bridging academic, government, and industrial investigators. With no annual membership dues, each biennial symposium is independently sustained through attendee registrations, donations, and corporate sponsors.
                 </p>
               </div>
               <div className="hidden md:flex flex-col items-center p-3.5 sm:p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs self-start md:self-center shrink-0">
@@ -615,7 +615,7 @@ export default function CorporateSponsorshipClient() {
                   Harsh-Environment Mass Spectrometry Society, Inc.
                 </h2>
                 <p className="text-[11px] print:text-[10px] font-medium text-slate-600 tabular-nums mt-0.5">
-                  IRS-Recognized 501(c)(3) Scientific Public Charity • Incorporated in Florida • Est. 1999
+                  IRS-Recognized 501(c)(3) Scientific Public Charity • Incorporated in Florida (Est. 2008)
                 </p>
               </div>
             </div>
@@ -829,7 +829,7 @@ export default function CorporateSponsorshipClient() {
               <p className="font-semibold text-primary break-all">{coordinatorEmail}</p>
               <p className="text-slate-600 tabular-nums">www.hems-workshop.org/corporate-sponsorship</p>
               <p className="text-[9.5px] print:text-[8.8px] text-slate-500 pt-0.5">
-                All-volunteer IRS 501(c)(3) society • Est. 1999 • Zero membership dues
+                All-volunteer IRS 501(c)(3) society • Zero membership dues
               </p>
             </div>
           </footer>

@@ -160,10 +160,10 @@ export function buildGlobalKnowledgeGraphJsonLd() {
           height: 2594,
         },
         image: DEFAULT_OG_IMAGE,
-        foundingDate: "1999",
+        foundingDate: "2008",
         nonprofitStatus: "https://schema.org/Nonprofit501c3",
         description:
-          "All-volunteer IRS 501(c)(3) scientific public charity formed in 1999 to advance portable, ruggedized, and in-situ mass spectrometry across subsea, planetary, atmospheric, industrial, and defense and security environments through biennial workshops and an open-access proceedings archive.",
+          "All-volunteer IRS 501(c)(3) scientific public charity established in 2008 to steward the biennial Workshops on Harsh-Environment Mass Spectrometry (held since 1999) and advance portable, ruggedized, and in-situ mass spectrometry across subsea, planetary, atmospheric, industrial, and defense and security environments.",
         areaServed: "Worldwide",
         knowsAbout: [
           "Harsh-Environment Mass Spectrometry",

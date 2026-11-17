@@ -179,7 +179,7 @@ export default function Home() {
                 Harsh-Environment Mass Spectrometry Society
               </h1>
               <p className="text-xs sm:text-sm font-medium text-slate-500 mt-1.5 sm:mt-2 tabular-nums">
-                All-Volunteer 501(c)(3) Scientific Society • Est. 1999 • Biennial Symposium &amp; Open Proceedings
+                All-Volunteer 501(c)(3) Scientific Society • Biennial Symposium &amp; Open Proceedings
               </p>
             </div>
           </div>
@@ -291,7 +291,7 @@ export default function Home() {
                 Rigorous Field Science, Relaxed Coastal Camaraderie
               </h2>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-3">
-                Since 1999, HEMS has paired deep technical discourse with beachfront venues and informal attire—creating an open atmosphere where investigators freely exchange hard-won engineering lessons.
+                Since the inaugural 1999 HEMS Workshop, our symposia have paired deep technical discourse with beachfront venues and informal attire—creating an open atmosphere where investigators freely exchange hard-won engineering lessons.
               </p>
             </div>
             <Link
@@ -428,7 +428,7 @@ export default function Home() {
               {/* Industry Partnership & Non-Profit Charter Card */}
               <div className="p-6 rounded-2xl bg-slate-900 text-slate-100 space-y-3.5">
                 <span className="inline-flex items-center gap-1.5 tabular-nums text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sky-300">
-                  <ShieldCheck size={14} className="shrink-0" /> All-Volunteer 501(c)(3) Society • Est. 1999
+                  <ShieldCheck size={14} className="shrink-0" /> All-Volunteer 501(c)(3) Scientific Society
                 </span>
                 <h3 className="font-serif text-xl font-semibold text-white">
                   Sustained by Community &amp; Industry Partners

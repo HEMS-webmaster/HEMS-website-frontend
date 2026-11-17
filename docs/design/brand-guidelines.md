@@ -73,7 +73,7 @@ All fonts MUST be self-hosted/optimized via Next.js `next/font/google` in `src/a
 
 1. **Global Header (`Navbar.tsx`):**
    - Clean translucent bar (`bg-white/92 backdrop-blur-md border-b border-slate-200/85`) with zero decorative background SVG waves.
-   - Left lockup: `56px–70px` wide `3:2` HEMS emblem + **HEMS Society** (`font-serif font-semibold`) + subtle `Est. 1999 • 501(c)(3)` sans-serif subtitle (`Noto Sans`, `text-[11px] font-medium text-slate-500`).
+   - Left lockup: `56px–70px` wide `3:2` HEMS emblem + **HEMS Society** (`font-serif font-semibold`) + subtle `501(c)(3) Scientific Society` sans-serif subtitle (`Noto Sans`, `text-[11px] font-medium text-slate-500` — never attach `Est. 1999` to the Society entity).
    - Clear visitor-first navigation labels (**Home**, **2027 Workshop**, **About**, **History**, **Student Travel Awards**, **Archives** dropdown, and **Contact** CTA) with active-route underline indicators and a full **Mobile/Tablet Navigation Drawer** (`< 1024px`).
    - Internal **Committee Sign In** (`/auth`) lives discreetly in `Footer.tsx` when signed out; authenticated officers/reviewers still see their role badge & Admin Portal popover in `Navbar.tsx`.
 2. **Two Complementary Page Modes:**
@@ -90,5 +90,6 @@ All fonts MUST be self-hosted/optimized via Next.js `next/font/google` in `src/a
 ## 6. Copywriting & Tone of Voice
 
 - **Voice:** Scholarly, welcoming, precise, and internationally inclusive—representing an all-volunteer 501(c)(3) community uniting academic, government, and industrial investigators.
+- **Historical Milestones (1999 Workshop vs. 2008 Society):** The inaugural **HEMS Workshop** convened in **February 1999** (USF St. Petersburg, FL; `1999–2025` proceedings archive), whereas the **Harsh-Environment Mass Spectrometry Society, Inc.** was formally established/incorporated as a Florida **501(c)(3)** nonprofit in **2008** (holding its first post-incorporation meeting—the 7th Workshop—in Santa Barbara, CA in **2009**). Omit `Est. 1999` from compact Society badges and social share graphics.
 - **Provenance-First Captions:** Photo captions must never state what is already visually obvious in the image; instead, record unseen archival context (exact date, host venue, city, scheduled workshop occasion, or research presenter/institution).
 - **Temporal Hygiene:** Dynamic biennial cycle dates, fees, and submission links must flow from `useUpcomingWorkshop()` (backed by the HEMS Nonprofit Google Sheet + `upcoming_workshop.json`), displaying calm, dignified `TBA` / `Opening in 2027` states during inter-workshop planning rather than dead links.

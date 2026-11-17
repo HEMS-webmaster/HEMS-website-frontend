@@ -152,7 +152,7 @@ export default function Navbar() {
                 HEMS Society
               </span>
               <span className="text-[11px] font-medium text-slate-500 mt-0.5 truncate tabular-nums">
-                Est. 1999 • 501(c)(3)
+                501(c)(3) Scientific Society
               </span>
             </div>
           </Link>

@@ -516,7 +516,7 @@ export default function StudentAwardsClient() {
                   Harsh-Environment Mass Spectrometry Society, Inc.
                 </h2>
                 <p className="text-[11px] print:text-[10px] font-medium text-slate-600 tabular-nums mt-0.5">
-                  IRS-Recognized 501(c)(3) Scientific Public Charity • Incorporated in Florida • Est. 1999
+                  IRS-Recognized 501(c)(3) Scientific Public Charity • Incorporated in Florida (Est. 2008)
                 </p>
               </div>
             </div>
@@ -671,7 +671,7 @@ export default function StudentAwardsClient() {
               <p className="font-semibold text-primary break-all">{workshop.student_award_email}</p>
               <p className="text-slate-600 tabular-nums">www.hems-workshop.org/student-awards</p>
               <p className="text-[9.5px] print:text-[8.8px] text-slate-500 pt-0.5">
-                All-volunteer IRS 501(c)(3) society • Est. 1999 • Open-access proceedings
+                All-volunteer IRS 501(c)(3) society • Open-access proceedings
               </p>
             </div>
           </footer>

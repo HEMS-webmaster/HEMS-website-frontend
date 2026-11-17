@@ -14,7 +14,7 @@ import { buildPageMetadata, buildWebPageJsonLd } from "@/utils/seo";
 
 const PAGE_TITLE = "Workshop & Society History (1999–2025) | HEMS Society";
 const PAGE_DESCRIPTION =
-  "Trace the history of the Harsh-Environment Mass Spectrometry (HEMS) Society and Workshop from its 1999 formation at USF St. Petersburg to an all-volunteer international 501(c)(3) society.";
+  "Trace the history of the Harsh-Environment Mass Spectrometry (HEMS) Workshop and Society—from the inaugural February 1999 meeting at USF St. Petersburg to the 2008 establishment of the all-volunteer 501(c)(3) HEMS Society.";
 
 export const metadata: Metadata = buildPageMetadata({
   title: PAGE_TITLE,
@@ -153,7 +153,7 @@ export default function SocietyHistoryPage() {
             <div className="max-w-3xl space-y-3.5">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium tabular-nums leading-snug shadow-2xs">
                 <Calendar size={13} className="text-primary shrink-0" />
-                <span>Est. Feb 1999 • All-Volunteer 501(c)(3) Incorporated 2008</span>
+                <span>Workshops Since Feb 1999 • HEMS Society Est. 2008</span>
               </div>
 
               <h1 className="font-serif text-3xl sm:text-5xl font-semibold text-slate-900 tracking-tight leading-[1.12]">
@@ -341,7 +341,7 @@ export default function SocietyHistoryPage() {
                   From the outset, governance was structured around shared leadership: responsibility for chairing and hosting each biennial workshop rotates among members of the Board of Directors and Organizing Committee, backed by the full committee’s operational continuity.
                 </p>
                 <p>
-                  Following formal incorporation, the Society convened its 7th HEMS Workshop on the Pacific coast in Santa Barbara, California (2009), returned to the Gulf of Mexico for consecutive meetings at St. Pete Beach, Florida (2011 and 2013), and continued to Baltimore, Maryland (2015) and Oxnard, California (2017). In 2018, the Society marked an off-cycle international milestone with its first European symposium in Cologne, Germany (12th Workshop), before returning to Myrtle Beach, South Carolina in 2019. Following pandemic-era scheduling adjustments, the community reconvened in Cocoa Beach, Florida (2022) and most recently in Virginia Beach, Virginia (2025) for its 15th symposium, ahead of resuming its two-year September cadence in 2027. Across every venue, the committee has prioritized welcoming waterfront or coastal settings where candid technical exchange and lasting professional friendships flourish side by side.
+                  Following its 2008 incorporation, the newly established HEMS Society held its first post-incorporation meeting—the 7th HEMS Workshop—on the Pacific coast in Santa Barbara, California (2009), returned to the Gulf of Mexico for consecutive meetings at St. Pete Beach, Florida (2011 and 2013), and continued to Baltimore, Maryland (2015) and Oxnard, California (2017). In 2018, the Society marked an off-cycle international milestone with its first European symposium in Cologne, Germany (12th Workshop), before returning to Myrtle Beach, South Carolina in 2019. Following pandemic-era scheduling adjustments, the community reconvened in Cocoa Beach, Florida (2022) and most recently in Virginia Beach, Virginia (2025) for its 15th symposium, ahead of resuming its two-year September cadence in 2027. Across every venue, the committee has prioritized welcoming waterfront or coastal settings where candid technical exchange and lasting professional friendships flourish side by side.
                 </p>
               </div>
             </div>

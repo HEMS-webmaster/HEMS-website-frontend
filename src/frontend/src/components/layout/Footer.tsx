@@ -40,7 +40,7 @@ export default function Footer() {
                   Harsh-Environment Mass Spectrometry Society
                 </h3>
                 <p className="text-xs font-medium text-slate-500 mt-0.5 tabular-nums">
-                  All-Volunteer 501(c)(3) Organization • Est. 1999
+                  All-Volunteer 501(c)(3) Scientific Society
                 </p>
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function Footer() {
 
         <div className="mt-8 sm:mt-12 pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-500 text-center sm:text-left">
           <p>
-            &copy; {new Date().getFullYear()} Harsh-Environment Mass Spectrometry Society, Inc. (Est. 1999). Recognized IRS 501(c)(3) Public Charity.
+            &copy; {new Date().getFullYear()} Harsh-Environment Mass Spectrometry Society, Inc. (Est. 2008 • Workshops Since 1999). Recognized IRS 501(c)(3) Public Charity.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium">
             <Link href="/archive/2025" className="py-1 hover:text-primary transition-colors">

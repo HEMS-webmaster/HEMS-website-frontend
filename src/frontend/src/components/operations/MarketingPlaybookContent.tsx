@@ -417,7 +417,7 @@ export default function MarketingPlaybookContent({
 
           <div className="flex flex-wrap lg:flex-col items-start lg:items-end gap-1.5 shrink-0 tabular-nums">
             <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11.5px] font-semibold bg-teal-50 border border-teal-200 text-teal-800 whitespace-nowrap">
-              IRS 501(c)(3) Public Charity &bull; Est. 1999
+              IRS 501(c)(3) Public Charity
             </span>
             <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11.5px] font-semibold bg-sky-50 border border-sky-200 text-sky-900 whitespace-nowrap">
               Target Cycle: 16th Workshop &bull; September 2027

@@ -2061,3 +2061,37 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
   1. Audit all 12 modified/untracked files (`docs/*`, `infrastructure/manage-board-preview.ps1`, `src/frontend/scripts/push-to-live.js`, `src/frontend/src/context/AuthContext.tsx`, `src/frontend/src/components/DownloadGate.tsx`, `src/frontend/src/app/auth/page.tsx`, `src/frontend/src/app/(portal)/layout.tsx`, `tests/unit/authWorkflow.test.mjs`) to verify zero secrets or oversized files.
   2. Create a clean local `git commit` capturing Addendum 45 (`manage-board-preview.ps1` / `push-to-live.js` CLI fix) + Addendum 46 (Two-Tier Smart Sign-In, Pre-Whitelisted Role/Name Hydration & Password-Free `DownloadGate`). Keep `origin/main` unpushed unless `@bo` asks to push to GitHub, preserving clean separation between the `board-review` preview channel and live Hosting (`manage-board-preview.ps1` policy).
   3. Deploy `src/frontend/out` (just verified at `53/53` routes) to the `board-review` Firebase Hosting preview channel via `powershell -ExecutionPolicy Bypass -File infrastructure\manage-board-preview.ps1 -Action deploy -SkipBuild`, confirming Firebase Auth domain synchronization and probing HTTP `200` on `/`, `/auth/`, and `/archive/2025/`.
+
+---
+### [2026-11-17T15:21:00-07:00] @ops — SCoT: Commit Complete (`850d975`); Firebase CLI Token Reauth Required
+- **Completed:**
+  1. Committed all 12 files cleanly on `main` (`850d975`: `feat(auth,ops): two-tier smart sign-in, password-free DownloadGate & preview CLI fix`). Kept `origin/main` unpushed so `.github/workflows/firebase-hosting-merge.yml` does not auto-deploy to live `hems-workshop.web.app` before preview review.
+  2. Production static artifact (`src/frontend/out`, `53/53` routes) is already freshly built and ready.
+- **Blocked on Interactive Re-Auth:** `firebase-tools` (`webmaster@hems-workshop.org`) returned `Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth`. Prompting `@bo` to run `npx --yes firebase-tools login --reauth` in terminal, after which `manage-board-preview.ps1 -Action deploy -SkipBuild` will publish the preview channel in ~10 seconds.
+
+---
+### [2026-11-17T15:39:30-07:00] @prod — SCoT: Audit of "Est. 1999" vs. 2008 Society Establishment & Typo Clarification (`scrumrules.md` Rule #9)
+- **User Input:** `"@prod and @dev I've been informed HEMS Society was established in 2008, whilethe first meeting was held in 2008. Let's take down some of the 'est 1999' graphics and update the various text and reference docuemnts accordingly"`
+- **Audit Findings:**
+  - Located all occurrences of `Est. 1999` / `founded 1999` across `opengraph-image.png` / `twitter-image.png`, `Navbar.tsx`, `Footer.tsx`, `page.tsx`, `about/page.tsx`, `history/page.tsx`, `ContactClient.tsx`, `CorporateSponsorshipClient.tsx`, `StudentAwardsClient.tsx`, `RegistrationReceiptSheet.tsx`, `MarketingPlaybookContent.tsx`, `seo.ts`, `llms.txt`, `generate-llms-catalog.js`, `brand-guidelines.md`, `hems_2027_marketing_and_ads_playbook.html`, `system_design_architecture.html`, and `docs/source-documents/historyV*.md`.
+  - Per `scrumrules.md` Rule #9 ("If ambiguous, ask for clarification before beginning work"), `"whilethe first meeting was held in 2008"` contains a year typo (`1999` inaugural HEMS Workshop vs. `2009` first post-incorporation HEMS Society Workshop), and `"take down some of the 'est 1999' graphics"` has two clean editorial options (removing the year tag from compact badges/OG graphics vs. replacing with `Est. 2008`). Asking `@bo` via `ask_question` before modifying files.
+
+---
+### [2026-11-17T16:23:00-07:00] @arch, @prod, @brand & @dev — SCoT: Phase 24 Society 2008 Establishment vs. 1999 Inaugural Workshop Alignment
+- **Confirmed with `@bo` via `ask_question`:**
+  1. **Timeline (`A1`):** Inaugural HEMS Workshop held in **February 1999** (USF Center for Ocean Technology, St. Petersburg, FL); **Harsh-Environment Mass Spectrometry Society, Inc.** 501(c)(3) formally established/incorporated in **2008** (with the 7th Workshop in Santa Barbara, CA in **2009** as the Society's first post-incorporation meeting).
+  2. **Visual & Editorial Treatment (`A2`):** Remove `"Est. 1999"` cleanly from compact UI badges & social share graphics (`opengraph-image.png`, `twitter-image.png`, `Navbar.tsx`, `page.tsx`, `about/page.tsx`, `ContactClient.tsx`, `CorporateSponsorshipClient.tsx`, `StudentAwardsClient.tsx`, `MarketingPlaybookContent.tsx`), and state `"Workshops since 1999; HEMS Society established in 2008"` across prose, footers (`Footer.tsx`, `RegistrationReceiptSheet.tsx`), structured Schema.org JSON-LD (`seo.ts` `foundingDate: "2008"`), AI catalogs (`llms.txt`, `generate-llms-catalog.js`), and reference documents (`brand-guidelines.md`, `hems_2027_marketing_and_ads_playbook.html`, `system_design_architecture.html`, `historyV4.md`).
+- **Archive Immutability Guardrail:** All `1999–2025` Workshop/Proceedings Archive date spans remain accurate and untouched (`0` edits to `src/frontend/src/app/archive/**` or `src/frontend/src/data/archives/*.json`).
+
+---
+### [2026-11-17T16:30:00-07:00] @qa & @rte — Verification of Phase 24 (2008 Society Establishment & "Est. 1999" Cleanup)
+- **Visual Audit (`opengraph-image.png` / `twitter-image.png`):** Verified `1200×630` RGB output; `• Est. 1999` cleanly removed onto pure `#FFFFFF` card background, leaving `IRS 501(c)(3) Scientific Public Charity`.
+- **Codebase Sweep:** `0` remaining `Est. 1999`, `founded 1999`, `Formed in 1999`, `Established in 1999`, or `foundingDate: "1999"` strings on the Society entity across `src/` and active `docs/` (`1999–2025` Workshop/Archive ranges preserved intact).
+- **Production Build (`npm --prefix src/frontend run build`):** PASS (`53/53` static routes built in `1,306ms`, `0` TS errors, `llms-full.txt` regenerated).
+
+---
+### [2026-11-17T16:30:30-07:00] @ops — SCoT: Commit Phase 24 & Deploy `board-review` Preview Channel
+- **Request:** `@bo` requested `@ops commit and push to the firestroe preview` (Firebase Hosting `board-review` preview channel).
+- **Execution:**
+  1. Stage and commit the 24 Phase 24 files (`docs/*`, social share PNGs, UI components, `seo.ts`, `llms.txt`, `llms-full.txt`, `generate-llms-catalog.js`) on local `main` (holding `git push origin main` so live Hosting remains untouched).
+  2. Deploy the freshly built `src/frontend/out/` (`53/53` routes) to the `board-review` preview channel via `infrastructure\manage-board-preview.ps1 -Action deploy -SkipBuild` and verify `HTTP 200` on the preview URL.

@@ -272,7 +272,7 @@ export default function RegistrationReceiptSheet() {
             </h1>
             <p className="text-xs text-slate-600 mt-1 tabular-nums">
               {societyEin ? `Federal EIN: ${societyEin} • ` : ""}
-              Florida Non-Profit Corporation (Est. 1999, Inc. 2008) • https://hems-workshop.org
+              Florida Non-Profit Corporation (Est. 2008) • https://hems-workshop.org
             </p>
           </div>
 
