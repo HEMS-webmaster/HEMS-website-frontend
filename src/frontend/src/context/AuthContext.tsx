@@ -1,26 +1,32 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { 
-  auth, 
-  db, 
+import React, { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
+import {
+  auth,
+  db,
   googleProvider,
   microsoftProvider,
-  hasFirebaseKeys 
+  hasFirebaseKeys,
 } from "../utils/firebase";
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
+import {
+  AuthProvider as FirebaseOAuthProvider,
+  User as FirebaseUser,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signInWithPopup,
-  signOut as firebaseSignOut, 
+  signOut as firebaseSignOut,
   onAuthStateChanged,
-  sendEmailVerification
+  sendEmailVerification,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+  sendPasswordResetEmail,
 } from "firebase/auth";
-import { 
-  doc, 
-  getDoc, 
-  setDoc, 
-  updateDoc 
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { PROTECTED_ADMIN_EMAIL, sanitizeRoleList } from "../utils/whitelistCsv";
 
@@ -38,6 +44,89 @@ export interface UserProfile {
   emailVerified?: boolean;
 }
 
+export interface MagicLinkOptions {
+  returnPath?: string;
+  pendingDownloadUrl?: string;
+}
+
+export interface EmailLinkCompletionResult {
+  completed: boolean;
+  needsEmailPrompt: boolean;
+  pendingDownloadUrl?: string | null;
+  returnPath?: string | null;
+  error?: string;
+}
+
+export type AuthErrorContext = "login" | "register" | "magic_link" | "reset" | "oauth" | "verify";
+
+interface StoredPostSignInContext {
+  returnPath?: string;
+  pendingDownloadUrl?: string | null;
+  sentAt?: number;
+}
+
+const EMAIL_FOR_SIGN_IN_KEY = "hems_email_for_sign_in_v1";
+const POST_SIGN_IN_CONTEXT_KEY = "hems_post_signin_context_v1";
+
+export function getFirebaseAuthErrorCode(err: unknown): string {
+  if (err && typeof err === "object" && "code" in err && typeof (err as { code?: unknown }).code === "string") {
+    return (err as { code: string }).code;
+  }
+  if (err instanceof Error) {
+    const match = err.message.match(/\((auth\/[a-z0-9-]+)\)/i);
+    if (match?.[1]) return match[1].toLowerCase();
+  }
+  return "";
+}
+
+export function formatFirebaseAuthError(err: unknown, context: AuthErrorContext = "login"): string {
+  const code = getFirebaseAuthErrorCode(err);
+
+  switch (code) {
+    case "auth/invalid-credential":
+    case "auth/wrong-password":
+    case "auth/user-not-found":
+      if (context === "login") {
+        return "Incorrect password — or no password has been set for this email yet. If your HEMS role was pre-assigned, use a 1-Click Email Link, Google/Microsoft, or 'Forgot / Set Password' below.";
+      }
+      return "Sign-in credentials were not recognized. Please check your email address and try again.";
+    case "auth/email-already-in-use":
+      return "An account already exists for this email address. Use a 1-Click Email Link, Google/Microsoft, or 'Forgot / Set Password' to set or update your password.";
+    case "auth/weak-password":
+      return "Password must be at least 6 characters long.";
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
+    case "auth/missing-password":
+      return "Please enter a password, or use a 1-Click Email Sign-In Link instead.";
+    case "auth/operation-not-allowed":
+      if (context === "magic_link") {
+        return "1-click email sign-in links are not yet enabled on the server. Please continue with Google, Microsoft, or Password sign-in.";
+      }
+      return "This sign-in method is currently unavailable. Please choose another sign-in option.";
+    case "auth/unauthorized-continue-uri":
+    case "auth/invalid-continue-uri":
+    case "auth/missing-continue-uri":
+      return "This preview domain is not yet authorized for email sign-in links. Please continue with Google, Microsoft, or Password.";
+    case "auth/invalid-action-code":
+    case "auth/expired-action-code":
+      return "This 1-time sign-in link has expired or was already opened (some institutional mail gateways pre-scan links). Please request a fresh link or use Google, Microsoft, or Password.";
+    case "auth/too-many-requests":
+      return "Too many requests in a short window. Please wait a minute before trying again.";
+    case "auth/popup-closed-by-user":
+    case "auth/cancelled-popup-request":
+      return "The sign-in window was closed before finishing. Please try again.";
+    case "auth/popup-blocked":
+      return "Your browser blocked the sign-in popup. Allow popups for this site or use a 1-Click Email Link.";
+    case "auth/network-request-failed":
+      return "Network connection interrupted. Please check your internet connection and try again.";
+    default:
+      if (err instanceof Error && err.message) {
+        return err.message.replace(/^Firebase:\s*/i, "");
+      }
+      return "Authentication could not be completed. Please try again.";
+  }
+}
+
 interface AuthContextType {
   user: UserProfile | null;
   loading: boolean;
@@ -45,27 +134,105 @@ interface AuthContextType {
   loginWithGoogle: () => Promise<void>;
   loginWithMicrosoft: () => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  sendMagicSignInLink: (email: string, options?: MagicLinkOptions) => Promise<void>;
+  completeEmailLinkSignIn: (emailOverride?: string) => Promise<EmailLinkCompletionResult>;
+  sendPasswordReset: (email: string) => Promise<void>;
   logout: () => Promise<void>;
   updateUserRoles: (uid: string, newRoles: string[]) => Promise<void>;
   isMock: boolean;
   setMockRoles: (roles: string[]) => void;
   emailVerified: boolean;
   sendVerificationEmail: () => Promise<void>;
-  reloadUser: () => Promise<void>;
+  reloadUser: () => Promise<boolean>;
+  completingEmailLink: boolean;
+  pendingEmailLinkPrompt: boolean;
+  emailLinkError: string;
+  clearEmailLinkPrompt: () => void;
+  readyDownloadUrl: string | null;
+  clearReadyDownloadUrl: () => void;
+  postSignInReturnPath: string | null;
+  clearPostSignInReturnPath: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+function stripFirebaseActionParamsFromCurrentUrl(): void {
+  if (typeof window === "undefined") return;
+  try {
+    const parsed = new URL(window.location.href);
+    const firebaseParams = ["apiKey", "oobCode", "mode", "lang", "continueUrl"];
+    let mutated = false;
+    for (const key of firebaseParams) {
+      if (parsed.searchParams.has(key)) {
+        parsed.searchParams.delete(key);
+        mutated = true;
+      }
+    }
+    if (mutated) {
+      const cleanRel = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+      window.history.replaceState({}, "", cleanRel);
+    }
+  } catch {
+    // Ignore URL history cleanup failures
+  }
+}
+
+function readStoredPostSignInContext(): StoredPostSignInContext | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(POST_SIGN_IN_CONTEXT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as StoredPostSignInContext;
+    if (!parsed || typeof parsed !== "object") return null;
+    // Expire stale context older than 24 hours
+    if (typeof parsed.sentAt === "number" && Date.now() - parsed.sentAt > 24 * 60 * 60 * 1000) {
+      window.localStorage.removeItem(POST_SIGN_IN_CONTEXT_KEY);
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function isPlaceholderUserName(candidate: string | undefined | null, email: string): boolean {
+  const trimmed = (candidate || "").trim();
+  if (!trimmed) return true;
+  const lower = trimmed.toLowerCase();
+  const cleanEmail = email.trim().toLowerCase();
+  const prefix = cleanEmail.split("@")[0] || "";
+  return (
+    lower === "user" ||
+    lower === "member" ||
+    lower === cleanEmail ||
+    (Boolean(prefix) && lower === prefix)
+  );
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [fbEmailVerified, setFbEmailVerified] = useState(false);
 
+  const [completingEmailLink, setCompletingEmailLink] = useState(false);
+  const [pendingEmailLinkPrompt, setPendingEmailLinkPrompt] = useState(false);
+  const [emailLinkError, setEmailLinkError] = useState("");
+  const [readyDownloadUrl, setReadyDownloadUrl] = useState<string | null>(null);
+  const [postSignInReturnPath, setPostSignInReturnPath] = useState<string | null>(null);
+
+  const pendingSignupNameRef = useRef<string>("");
+  const lastAutoReloadRef = useRef<number>(0);
+  const emailLinkAttemptedRef = useRef<boolean>(false);
+
   // Helper for mock users storage in localStorage
   const getMockUsers = (): UserProfile[] => {
     if (typeof window === "undefined") return [];
-    const stored = localStorage.getItem("hems_mock_users");
-    return stored ? JSON.parse(stored) : [];
+    try {
+      const stored = localStorage.getItem("hems_mock_users");
+      return stored ? (JSON.parse(stored) as UserProfile[]) : [];
+    } catch {
+      return [];
+    }
   };
 
   const saveMockUsers = (users: UserProfile[]) => {
@@ -75,40 +242,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const getMockCurrentUser = (): UserProfile | null => {
     if (typeof window === "undefined") return null;
-    const stored = localStorage.getItem("hems_mock_current_user");
-    return stored ? JSON.parse(stored) : null;
+    try {
+      const stored = localStorage.getItem("hems_mock_current_user");
+      return stored ? (JSON.parse(stored) as UserProfile) : null;
+    } catch {
+      return null;
+    }
   };
 
-  const saveMockCurrentUser = (user: UserProfile | null) => {
+  const saveMockCurrentUser = (nextUser: UserProfile | null) => {
     if (typeof window === "undefined") return;
-    if (user) {
-      localStorage.setItem("hems_mock_current_user", JSON.stringify(user));
+    if (nextUser) {
+      localStorage.setItem("hems_mock_current_user", JSON.stringify(nextUser));
     } else {
       localStorage.removeItem("hems_mock_current_user");
     }
   };
 
-  const isTrustedFirebaseUser = (fbUser: {
-    emailVerified: boolean;
-    providerData?: Array<{ providerId?: string }>;
-  }): boolean =>
-    Boolean(
-      fbUser.emailVerified ||
-        (Array.isArray(fbUser.providerData) &&
-          fbUser.providerData.some(
-            (p) => p?.providerId === "google.com" || p?.providerId === "microsoft.com"
-          ))
-    );
+  const isTrustedFirebaseUser = useCallback(
+    (fbUser: {
+      emailVerified: boolean;
+      providerData?: Array<{ providerId?: string }>;
+    }): boolean =>
+      Boolean(
+        fbUser.emailVerified ||
+          (Array.isArray(fbUser.providerData) &&
+            fbUser.providerData.some(
+              (p) => p?.providerId === "google.com" || p?.providerId === "microsoft.com"
+            ))
+      ),
+    []
+  );
 
-  const withProtectedWebmasterAdmin = (email: string, roles: string[]): string[] => {
+  const withProtectedWebmasterAdmin = useCallback((email: string, roles: string[]): string[] => {
     const cleanEmail = email.trim().toLowerCase();
     const cleaned = sanitizeRoleList(roles);
     if (cleanEmail !== PROTECTED_ADMIN_EMAIL) return cleaned;
     return cleaned.includes("admin") ? cleaned : sanitizeRoleList([...cleaned, "admin"]);
-  };
+  }, []);
 
   // Basic mock whitelist function
-  const getRolesForEmail = (email: string): string[] => {
+  const getRolesForEmail = useCallback((email: string): string[] => {
     const lower = email.toLowerCase();
     if (lower.trim() === PROTECTED_ADMIN_EMAIL) return ["admin"];
     if (lower.includes("admin")) return ["admin", "reviewer", "operations", "treasurer", "board"];
@@ -118,78 +292,315 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (lower.includes("board")) return ["board"];
     if (lower.includes("attendee")) return ["attendee"];
     return [];
-  };
+  }, []);
 
-  const fetchWhitelistEntry = async (
-    email: string
-  ): Promise<{ found: boolean; roles: string[]; rawRoles?: string[]; name?: string }> => {
-    const cleanEmail = email.toLowerCase().trim();
-    if (!hasFirebaseKeys) {
-      return { found: true, roles: withProtectedWebmasterAdmin(cleanEmail, getRolesForEmail(cleanEmail)) };
-    }
-    try {
-      const whitelistDoc = await getDoc(
-        doc(db, "whitelist", cleanEmail)
-      );
-      if (whitelistDoc.exists()) {
-        const data = whitelistDoc.data();
-        const rawRoles = Array.isArray(data?.roles)
-          ? data.roles.map((r) => String(r))
-          : [];
-        const storedName =
-          typeof data?.name === "string" && data.name.trim()
-            ? data.name.trim()
-            : undefined;
-        const effectiveRoles = withProtectedWebmasterAdmin(cleanEmail, rawRoles);
-        const guaranteedRaw =
-          cleanEmail === PROTECTED_ADMIN_EMAIL
-            ? withProtectedWebmasterAdmin(cleanEmail, rawRoles)
-            : rawRoles;
+  const fetchWhitelistEntry = useCallback(
+    async (
+      email: string
+    ): Promise<{ found: boolean; roles: string[]; rawRoles?: string[]; name?: string }> => {
+      const cleanEmail = email.toLowerCase().trim();
+      if (!cleanEmail) {
+        return { found: false, roles: [] };
+      }
+      if (!hasFirebaseKeys) {
+        const mockRoles = withProtectedWebmasterAdmin(cleanEmail, getRolesForEmail(cleanEmail));
+        return { found: true, roles: mockRoles, rawRoles: mockRoles };
+      }
+      try {
+        const whitelistDoc = await getDoc(doc(db, "whitelist", cleanEmail));
+        if (whitelistDoc.exists()) {
+          const data = whitelistDoc.data();
+          const hasRawArray = Array.isArray(data?.roles);
+          const rawRoles = hasRawArray
+            ? (data.roles as unknown[]).map((r) => String(r))
+            : [];
+          const explicitName = typeof data?.name === "string" ? data.name.trim() : "";
+          const combinedFirstLast = [
+            typeof data?.firstName === "string" ? data.firstName.trim() : "",
+            typeof data?.lastName === "string" ? data.lastName.trim() : "",
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .trim();
+          const storedName = explicitName || combinedFirstLast || undefined;
+          const effectiveRoles = withProtectedWebmasterAdmin(cleanEmail, rawRoles);
+          const guaranteedRaw =
+            cleanEmail === PROTECTED_ADMIN_EMAIL
+              ? hasRawArray
+                ? (data.roles as string[])
+                : ["admin"]
+              : hasRawArray
+                ? (data.roles as string[])
+                : undefined;
+          return {
+            found: true,
+            roles: effectiveRoles,
+            rawRoles: guaranteedRaw,
+            name: storedName,
+          };
+        }
+      } catch (err) {
+        console.error("Error fetching whitelist roles:", err);
+      }
+      if (cleanEmail === PROTECTED_ADMIN_EMAIL) {
         return {
           found: true,
-          roles: effectiveRoles,
-          rawRoles: guaranteedRaw,
-          name: storedName,
+          roles: ["admin"],
+          rawRoles: ["admin"],
+          name: "HEMS Webmaster",
         };
       }
-    } catch (err) {
-      console.error("Error fetching whitelist roles during initialization:", err);
-    }
-    if (cleanEmail === PROTECTED_ADMIN_EMAIL) {
-      return { found: true, roles: ["admin"], rawRoles: ["admin"], name: "HEMS Webmaster" };
-    }
-    return { found: false, roles: [] };
-  };
+      return { found: false, roles: [] };
+    },
+    [getRolesForEmail, withProtectedWebmasterAdmin]
+  );
 
-  const fetchInitialProfileSeed = async (
-    email: string
-  ): Promise<{ firestoreRoles: string[]; effectiveRoles: string[]; name?: string }> => {
-    const cleanEmail = email.trim().toLowerCase();
-    const res = await fetchWhitelistEntry(cleanEmail);
-    if (res.found && Array.isArray(res.rawRoles)) {
+  const fetchInitialProfileSeed = useCallback(
+    async (
+      email: string
+    ): Promise<{ firestoreRoles: string[]; effectiveRoles: string[]; name?: string }> => {
+      const cleanEmail = email.trim().toLowerCase();
+      const res = await fetchWhitelistEntry(cleanEmail);
+      if (res.found && Array.isArray(res.rawRoles)) {
+        return {
+          firestoreRoles: res.rawRoles,
+          effectiveRoles: withProtectedWebmasterAdmin(cleanEmail, res.roles),
+          name: res.name,
+        };
+      }
+      if (cleanEmail === PROTECTED_ADMIN_EMAIL) {
+        return {
+          firestoreRoles: ["admin"],
+          effectiveRoles: ["admin"],
+          name: res.name || "HEMS Webmaster",
+        };
+      }
       return {
-        firestoreRoles: res.rawRoles,
-        effectiveRoles: withProtectedWebmasterAdmin(cleanEmail, res.roles),
+        firestoreRoles: ["general"],
+        effectiveRoles: [],
         name: res.name,
       };
-    }
-    if (cleanEmail === PROTECTED_ADMIN_EMAIL) {
-      return {
-        firestoreRoles: ["admin"],
-        effectiveRoles: ["admin"],
-        name: res.name || "HEMS Webmaster",
-      };
-    }
-    return {
-      firestoreRoles: ["general"],
-      effectiveRoles: [],
-      name: res.name,
-    };
-  };
+    },
+    [fetchWhitelistEntry, withProtectedWebmasterAdmin]
+  );
 
+  const syncFirebaseUserSession = useCallback(
+    async (
+      firebaseUser: FirebaseUser,
+      options?: { bumpLogin?: boolean; forceTokenRefresh?: boolean }
+    ): Promise<boolean> => {
+      const bumpLogin = Boolean(options?.bumpLogin);
+      const trustedIdentity = isTrustedFirebaseUser(firebaseUser);
+      setFbEmailVerified(trustedIdentity);
+
+      const userDocRef = doc(db, "users", firebaseUser.uid);
+      const userDoc = await getDoc(userDocRef);
+      const existingData = userDoc.exists() ? (userDoc.data() as UserProfile) : null;
+      const cleanEmail = (firebaseUser.email || existingData?.email || "").trim().toLowerCase();
+
+      const wasPreviouslyUnverified = Boolean(existingData && existingData.emailVerified === false);
+      if (trustedIdentity && (options?.forceTokenRefresh || wasPreviouslyUnverified)) {
+        // Ensure Firestore security rules immediately observe request.auth.token.email_verified == true
+        await firebaseUser.getIdToken(true).catch(() => undefined);
+      }
+
+      const nowIso = new Date().toISOString();
+
+      if (existingData) {
+        const nextLoginCount = bumpLogin ? (existingData.loginCount || 0) + 1 : existingData.loginCount;
+
+        if (trustedIdentity && cleanEmail) {
+          const wl = await fetchWhitelistEntry(cleanEmail);
+          const resolvedRoles = withProtectedWebmasterAdmin(
+            cleanEmail,
+            wl.found ? wl.roles : sanitizeRoleList(existingData.roles)
+          );
+          const resolvedName = !isPlaceholderUserName(existingData.name, cleanEmail)
+            ? existingData.name.trim()
+            : wl.name ||
+              firebaseUser.displayName?.trim() ||
+              existingData.name?.trim() ||
+              cleanEmail.split("@")[0] ||
+              "Member";
+
+          const rolesNeedSync = Boolean(
+            wl.found &&
+              Array.isArray(wl.rawRoles) &&
+              JSON.stringify(existingData.roles) !== JSON.stringify(wl.rawRoles)
+          );
+          const metaNeedSync = Boolean(
+            bumpLogin || existingData.emailVerified !== true || existingData.name !== resolvedName
+          );
+
+          if (rolesNeedSync || metaNeedSync) {
+            const basePatch: Record<string, unknown> = {
+              emailVerified: true,
+              name: resolvedName,
+              ...(bumpLogin ? { loginCount: nextLoginCount, lastLogin: nowIso } : {}),
+            };
+            const fullPatch: Record<string, unknown> =
+              rolesNeedSync && wl.rawRoles
+                ? { ...basePatch, roles: wl.rawRoles }
+                : basePatch;
+
+            await updateDoc(userDocRef, fullPatch).catch(async () => {
+              await updateDoc(userDocRef, basePatch).catch(async () => {
+                await setDoc(userDocRef, basePatch, { merge: true }).catch(() => undefined);
+              });
+            });
+          }
+
+          setUser({
+            ...existingData,
+            ...(bumpLogin ? { loginCount: nextLoginCount, lastLogin: nowIso } : {}),
+            name: resolvedName,
+            roles: resolvedRoles,
+            emailVerified: true,
+          });
+        } else {
+          // Unverified Email+Password accounts retain zero portal privileges until email confirmation
+          if (bumpLogin) {
+            await updateDoc(userDocRef, {
+              loginCount: nextLoginCount,
+              lastLogin: nowIso,
+              emailVerified: false,
+            }).catch(() => undefined);
+          }
+          setUser({
+            ...existingData,
+            ...(bumpLogin ? { loginCount: nextLoginCount, lastLogin: nowIso } : {}),
+            roles: [],
+            emailVerified: false,
+          });
+        }
+      } else {
+        const emailDisplay = (firebaseUser.email || "").trim();
+        if (trustedIdentity) {
+          const seed = await fetchInitialProfileSeed(emailDisplay);
+          const resolvedName =
+            seed.name ||
+            firebaseUser.displayName?.trim() ||
+            emailDisplay.split("@")[0] ||
+            "Member";
+          const newProfile: UserProfile = {
+            uid: firebaseUser.uid,
+            name: resolvedName,
+            email: emailDisplay,
+            roles: seed.firestoreRoles,
+            createdAt: nowIso,
+            loginCount: 1,
+            lastLogin: nowIso,
+            emailVerified: true,
+          };
+          await setDoc(userDocRef, newProfile).catch(async () => {
+            await setDoc(userDocRef, { ...newProfile, roles: ["general"] });
+          });
+          setUser({ ...newProfile, roles: seed.effectiveRoles });
+        } else {
+          const pendingName = pendingSignupNameRef.current.trim();
+          const unverifiedProfile: UserProfile = {
+            uid: firebaseUser.uid,
+            name:
+              pendingName ||
+              firebaseUser.displayName?.trim() ||
+              emailDisplay.split("@")[0] ||
+              "Member",
+            email: emailDisplay,
+            roles: ["general"],
+            createdAt: nowIso,
+            loginCount: 1,
+            lastLogin: nowIso,
+            emailVerified: false,
+          };
+          await setDoc(userDocRef, unverifiedProfile);
+          setUser({ ...unverifiedProfile, roles: [] });
+        }
+      }
+
+      return trustedIdentity;
+    },
+    [fetchInitialProfileSeed, fetchWhitelistEntry, isTrustedFirebaseUser, withProtectedWebmasterAdmin]
+  );
+
+  const completeEmailLinkSignIn = useCallback(
+    async (emailOverride?: string): Promise<EmailLinkCompletionResult> => {
+      if (typeof window === "undefined" || !hasFirebaseKeys) {
+        return { completed: false, needsEmailPrompt: false };
+      }
+
+      const currentHref = window.location.href;
+      if (!isSignInWithEmailLink(auth, currentHref)) {
+        return { completed: false, needsEmailPrompt: false };
+      }
+
+      const candidateEmail = (
+        emailOverride ||
+        window.localStorage.getItem(EMAIL_FOR_SIGN_IN_KEY) ||
+        ""
+      )
+        .trim()
+        .toLowerCase();
+
+      if (!candidateEmail) {
+        setPendingEmailLinkPrompt(true);
+        return { completed: false, needsEmailPrompt: true };
+      }
+
+      setCompletingEmailLink(true);
+      setEmailLinkError("");
+
+      try {
+        const credential = await signInWithEmailLink(auth, candidateEmail, currentHref);
+        await syncFirebaseUserSession(credential.user, {
+          bumpLogin: true,
+          forceTokenRefresh: true,
+        });
+
+        const storedCtx = readStoredPostSignInContext();
+        window.localStorage.removeItem(EMAIL_FOR_SIGN_IN_KEY);
+        window.localStorage.removeItem(POST_SIGN_IN_CONTEXT_KEY);
+        stripFirebaseActionParamsFromCurrentUrl();
+        setPendingEmailLinkPrompt(false);
+
+        const pendingDownloadUrl = storedCtx?.pendingDownloadUrl || null;
+        const returnPath = storedCtx?.returnPath || null;
+
+        if (pendingDownloadUrl) {
+          setReadyDownloadUrl(pendingDownloadUrl);
+        }
+        if (returnPath) {
+          setPostSignInReturnPath(returnPath);
+        }
+
+        return {
+          completed: true,
+          needsEmailPrompt: false,
+          pendingDownloadUrl,
+          returnPath,
+        };
+      } catch (err) {
+        const friendly = formatFirebaseAuthError(err, "magic_link");
+        setEmailLinkError(friendly);
+        const code = getFirebaseAuthErrorCode(err);
+        if (code === "auth/invalid-action-code" || code === "auth/expired-action-code") {
+          stripFirebaseActionParamsFromCurrentUrl();
+          setPendingEmailLinkPrompt(false);
+        }
+        return {
+          completed: false,
+          needsEmailPrompt: false,
+          error: friendly,
+        };
+      } finally {
+        setCompletingEmailLink(false);
+      }
+    },
+    [syncFirebaseUserSession]
+  );
+
+  // Primary Auth State & Email-Link Callback Listener
   useEffect(() => {
     if (!hasFirebaseKeys) {
-      // Mock mode initialization
       const currentUser = getMockCurrentUser();
       setUser(currentUser);
       setFbEmailVerified(true);
@@ -197,67 +608,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Real Firebase Auth listener
+    if (
+      typeof window !== "undefined" &&
+      !emailLinkAttemptedRef.current &&
+      isSignInWithEmailLink(auth, window.location.href)
+    ) {
+      emailLinkAttemptedRef.current = true;
+      void completeEmailLinkSignIn();
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       try {
         if (firebaseUser) {
-          const trustedIdentity = isTrustedFirebaseUser(firebaseUser);
-          setFbEmailVerified(trustedIdentity);
-          const userDocRef = doc(db, "users", firebaseUser.uid);
-          const userDoc = await getDoc(userDocRef);
-          
-          if (userDoc.exists()) {
-            const profile = userDoc.data() as UserProfile;
-            const email = (firebaseUser.email || profile.email || "").toLowerCase().trim();
-            if (email && trustedIdentity) {
-              const wl = await fetchWhitelistEntry(email);
-              const resolvedRoles = withProtectedWebmasterAdmin(
-                email,
-                wl.found ? wl.roles : sanitizeRoleList(profile.roles)
-              );
-              const resolvedName = (profile.name && profile.name.trim()) || wl.name || "";
-              setUser({
-                ...profile,
-                name: resolvedName || profile.name,
-                roles: resolvedRoles,
-                emailVerified: trustedIdentity,
-              });
-            } else {
-              // Unverified Email+Password accounts retain zero portal privileges until email confirmation
-              setUser({
-                ...profile,
-                roles: [],
-                emailVerified: false,
-              });
-            }
-          } else {
-            // Fallback profile if Firestore document is missing
-            const email = (firebaseUser.email || "").trim();
-            if (trustedIdentity) {
-              const seed = await fetchInitialProfileSeed(email);
-              const fallbackProfile: UserProfile = {
-                uid: firebaseUser.uid,
-                name: firebaseUser.displayName || seed.name || email.split("@")[0] || "User",
-                email,
-                roles: seed.firestoreRoles,
-                createdAt: new Date().toISOString(),
-                emailVerified: true,
-              };
-              await setDoc(userDocRef, fallbackProfile);
-              setUser({ ...fallbackProfile, roles: seed.effectiveRoles });
-            } else {
-              const unverifiedProfile: UserProfile = {
-                uid: firebaseUser.uid,
-                name: firebaseUser.displayName || email.split("@")[0] || "User",
-                email,
-                roles: ["general"],
-                createdAt: new Date().toISOString(),
-                emailVerified: false,
-              };
-              await setDoc(userDocRef, unverifiedProfile);
-              setUser({ ...unverifiedProfile, roles: [] });
-            }
-          }
+          await syncFirebaseUserSession(firebaseUser);
         } else {
           setUser(null);
           setFbEmailVerified(false);
@@ -270,12 +633,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [completeEmailLinkSignIn, syncFirebaseUserSession]);
 
-  const handleOAuthLogin = async (provider: any) => {
+  const reloadUser = useCallback(async (): Promise<boolean> => {
+    if (!hasFirebaseKeys) return true;
+    if (!auth.currentUser) return false;
+
+    try {
+      await auth.currentUser.reload();
+      return await syncFirebaseUserSession(auth.currentUser, {
+        forceTokenRefresh: true,
+      });
+    } catch (err) {
+      console.error("Failed to reload Firebase user verification status:", err);
+      return isTrustedFirebaseUser(auth.currentUser);
+    }
+  }, [isTrustedFirebaseUser, syncFirebaseUserSession]);
+
+  // Automatic background verification check when an unverified user switches back from their email tab
+  useEffect(() => {
+    if (!hasFirebaseKeys || !user || fbEmailVerified || typeof window === "undefined") {
+      return;
+    }
+
+    const checkIfVerifiedOnFocus = () => {
+      if (document.visibilityState === "hidden") return;
+      const now = Date.now();
+      if (now - lastAutoReloadRef.current < 4000) return;
+      lastAutoReloadRef.current = now;
+      void reloadUser();
+    };
+
+    window.addEventListener("focus", checkIfVerifiedOnFocus);
+    document.addEventListener("visibilitychange", checkIfVerifiedOnFocus);
+    return () => {
+      window.removeEventListener("focus", checkIfVerifiedOnFocus);
+      document.removeEventListener("visibilitychange", checkIfVerifiedOnFocus);
+    };
+  }, [fbEmailVerified, reloadUser, user]);
+
+  const handleOAuthLogin = async (provider: FirebaseOAuthProvider) => {
     if (!hasFirebaseKeys) {
-      // Mock OAuth login
-      const mockEmail = `oauth_mock_${Math.floor(Math.random()*1000)}@example.com`;
+      const mockEmail = `oauth_mock_${Math.floor(Math.random() * 1000)}@example.com`;
       const newMockUser: UserProfile = {
         uid: "mock_oauth_" + Math.random().toString(36).substring(2, 9),
         name: "Mock OAuth User",
@@ -283,157 +682,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         roles: getRolesForEmail(mockEmail),
         createdAt: new Date().toISOString(),
         loginCount: 1,
-        lastLogin: new Date().toISOString()
-      };
-      
-      const mockUsers = getMockUsers();
-      mockUsers.push(newMockUser);
-      saveMockUsers(mockUsers);
-      saveMockCurrentUser(newMockUser);
-      setUser(newMockUser);
-      return;
-    }
-
-    const credential = await signInWithPopup(auth, provider);
-    const trustedIdentity = isTrustedFirebaseUser(credential.user);
-    setFbEmailVerified(trustedIdentity);
-    const userDocRef = doc(db, "users", credential.user.uid);
-    const userDoc = await getDoc(userDocRef);
-    
-    if (userDoc.exists()) {
-      const data = userDoc.data();
-      const newLoginCount = (data.loginCount || 0) + 1;
-      const updated = {
-        ...data,
-        loginCount: newLoginCount,
         lastLogin: new Date().toISOString(),
-        emailVerified: trustedIdentity
+        emailVerified: true,
       };
-      await setDoc(userDocRef, updated);
-      const emailLookup = (credential.user.email || data.email || "").toLowerCase().trim();
-      const wl = emailLookup && trustedIdentity
-        ? await fetchWhitelistEntry(emailLookup)
-        : { found: false, roles: [] };
-      const effectiveRoles = trustedIdentity
-        ? withProtectedWebmasterAdmin(
-            emailLookup,
-            wl.found ? wl.roles : sanitizeRoleList(data.roles)
-          )
-        : [];
-      const effectiveName = (typeof data.name === "string" && data.name.trim()) || wl.name || "";
-      setUser({
-        ...(updated as UserProfile),
-        name: effectiveName || (updated as UserProfile).name,
-        roles: effectiveRoles,
-      });
-    } else {
-      // New user from OAuth
-      const email = (credential.user.email || "").trim();
-      if (trustedIdentity) {
-        const seed = await fetchInitialProfileSeed(email);
-        const profile: UserProfile = {
-          uid: credential.user.uid,
-          name: credential.user.displayName || seed.name || email.split("@")[0] || "User",
-          email,
-          roles: seed.firestoreRoles,
-          createdAt: new Date().toISOString(),
-          loginCount: 1,
-          lastLogin: new Date().toISOString(),
-          emailVerified: true
-        };
-        await setDoc(userDocRef, profile);
-        setUser({ ...profile, roles: seed.effectiveRoles });
-      } else {
-        const profile: UserProfile = {
-          uid: credential.user.uid,
-          name: credential.user.displayName || email.split("@")[0] || "User",
-          email,
-          roles: ["general"],
-          createdAt: new Date().toISOString(),
-          loginCount: 1,
-          lastLogin: new Date().toISOString(),
-          emailVerified: false
-        };
-        await setDoc(userDocRef, profile);
-        setUser({ ...profile, roles: [] });
-      }
-    }
-  };
 
-  const loginWithGoogle = () => handleOAuthLogin(googleProvider);
-  const loginWithMicrosoft = () => handleOAuthLogin(microsoftProvider);
-
-  const login = async (email: string, password: string) => {
-    if (!hasFirebaseKeys) {
-      // Mock mode login
       const mockUsers = getMockUsers();
-      const existingUser = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
-      if (!existingUser) {
-        throw new Error("User not found. Please register first.");
-      }
-      existingUser.loginCount = (existingUser.loginCount || 0) + 1;
-      existingUser.lastLogin = new Date().toISOString();
-      saveMockUsers(mockUsers);
-      saveMockCurrentUser(existingUser);
-      setUser(existingUser);
-      return;
-    }
-
-    // Real Firebase Login
-    const credential = await signInWithEmailAndPassword(auth, email, password);
-    const trustedIdentity = isTrustedFirebaseUser(credential.user);
-    setFbEmailVerified(trustedIdentity);
-    const userDocRef = doc(db, "users", credential.user.uid);
-    const userDoc = await getDoc(userDocRef);
-    if (userDoc.exists()) {
-      const data = userDoc.data();
-      const newLoginCount = (data.loginCount || 0) + 1;
-      const updated = {
-        ...data,
-        loginCount: newLoginCount,
-        lastLogin: new Date().toISOString(),
-        emailVerified: trustedIdentity
-      };
-      await setDoc(userDocRef, updated);
-      const emailLookup = (credential.user.email || data.email || email).toLowerCase().trim();
-      const wl = emailLookup && trustedIdentity
-        ? await fetchWhitelistEntry(emailLookup)
-        : { found: false, roles: [] };
-      const effectiveRoles = trustedIdentity
-        ? withProtectedWebmasterAdmin(
-            emailLookup,
-            wl.found ? wl.roles : sanitizeRoleList(data.roles)
-          )
-        : [];
-      const effectiveName = (typeof data.name === "string" && data.name.trim()) || wl.name || "";
-      setUser({
-        ...(updated as UserProfile),
-        name: effectiveName || (updated as UserProfile).name,
-        roles: effectiveRoles,
-      });
-    }
-  };
-
-  const register = async (name: string, email: string, password: string) => {
-    if (!hasFirebaseKeys) {
-      // Mock mode registration
-      const mockUsers = getMockUsers();
-      const exists = mockUsers.some(u => u.email.toLowerCase() === email.toLowerCase());
-      if (exists) {
-        throw new Error("Email already registered.");
-      }
-      
-      const newMockUser: UserProfile = {
-        uid: "mock_" + Math.random().toString(36).substring(2, 9),
-        name,
-        email,
-        roles: getRolesForEmail(email),
-        createdAt: new Date().toISOString(),
-        loginCount: 1,
-        lastLogin: new Date().toISOString(),
-        emailVerified: true
-      };
-      
       mockUsers.push(newMockUser);
       saveMockUsers(mockUsers);
       saveMockCurrentUser(newMockUser);
@@ -442,31 +695,216 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Real Firebase Registration — bind profile strictly to ['general'] until email verification is complete
-    const credential = await createUserWithEmailAndPassword(auth, email, password);
     try {
-      await sendEmailVerification(credential.user);
-    } catch (verifErr) {
-      console.error("Failed to send initial email verification:", verifErr);
+      const credential = await signInWithPopup(auth, provider);
+      await syncFirebaseUserSession(credential.user, {
+        bumpLogin: true,
+        forceTokenRefresh: true,
+      });
+    } catch (err) {
+      const enriched = new Error(formatFirebaseAuthError(err, "oauth")) as Error & { code?: string };
+      enriched.code = getFirebaseAuthErrorCode(err);
+      throw enriched;
     }
-    const cleanEmail = (credential.user.email || email).trim();
-    const profile: UserProfile = {
-      uid: credential.user.uid,
-      name: name.trim() || cleanEmail.split("@")[0] || "User",
-      email: cleanEmail,
-      roles: ["general"],
-      createdAt: new Date().toISOString(),
-      loginCount: 1,
-      lastLogin: new Date().toISOString(),
-      emailVerified: false
-    };
-    
-    await setDoc(doc(db, "users", credential.user.uid), profile);
-    setUser({ ...profile, roles: [] });
-    setFbEmailVerified(false);
+  };
+
+  const loginWithGoogle = () => handleOAuthLogin(googleProvider);
+  const loginWithMicrosoft = () => handleOAuthLogin(microsoftProvider);
+
+  const login = async (email: string, password: string) => {
+    const cleanEmail = email.trim();
+    if (!hasFirebaseKeys) {
+      const mockUsers = getMockUsers();
+      const existingUser = mockUsers.find(
+        (u) => u.email.toLowerCase() === cleanEmail.toLowerCase()
+      );
+      if (!existingUser) {
+        const err = new Error(
+          "Incorrect password — or no password has been set for this email yet. Use a 1-Click Email Link or Set a Password below."
+        ) as Error & { code?: string };
+        err.code = "auth/invalid-credential";
+        throw err;
+      }
+      existingUser.loginCount = (existingUser.loginCount || 0) + 1;
+      existingUser.lastLogin = new Date().toISOString();
+      saveMockUsers(mockUsers);
+      saveMockCurrentUser(existingUser);
+      setUser(existingUser);
+      setFbEmailVerified(true);
+      return;
+    }
+
+    try {
+      const credential = await signInWithEmailAndPassword(auth, cleanEmail, password);
+      await syncFirebaseUserSession(credential.user, { bumpLogin: true });
+    } catch (err) {
+      const enriched = new Error(formatFirebaseAuthError(err, "login")) as Error & { code?: string };
+      enriched.code = getFirebaseAuthErrorCode(err);
+      throw enriched;
+    }
+  };
+
+  const register = async (name: string, email: string, password: string) => {
+    const cleanEmail = email.trim();
+    const cleanName = name.trim();
+
+    if (!hasFirebaseKeys) {
+      const mockUsers = getMockUsers();
+      const exists = mockUsers.some(
+        (u) => u.email.toLowerCase() === cleanEmail.toLowerCase()
+      );
+      if (exists) {
+        const err = new Error(
+          "An account already exists for this email address. Use a 1-Click Email Link or 'Forgot / Set Password'."
+        ) as Error & { code?: string };
+        err.code = "auth/email-already-in-use";
+        throw err;
+      }
+
+      const newMockUser: UserProfile = {
+        uid: "mock_" + Math.random().toString(36).substring(2, 9),
+        name: cleanName || cleanEmail.split("@")[0] || "Member",
+        email: cleanEmail,
+        roles: getRolesForEmail(cleanEmail),
+        createdAt: new Date().toISOString(),
+        loginCount: 1,
+        lastLogin: new Date().toISOString(),
+        emailVerified: true,
+      };
+
+      mockUsers.push(newMockUser);
+      saveMockUsers(mockUsers);
+      saveMockCurrentUser(newMockUser);
+      setUser(newMockUser);
+      setFbEmailVerified(true);
+      return;
+    }
+
+    pendingSignupNameRef.current = cleanName;
+    try {
+      const credential = await createUserWithEmailAndPassword(auth, cleanEmail, password);
+      try {
+        await sendEmailVerification(credential.user);
+      } catch (verifErr) {
+        console.error("Failed to send initial email verification:", verifErr);
+      }
+
+      const resolvedEmail = (credential.user.email || cleanEmail).trim();
+      const profile: UserProfile = {
+        uid: credential.user.uid,
+        name: cleanName || resolvedEmail.split("@")[0] || "Member",
+        email: resolvedEmail,
+        roles: ["general"],
+        createdAt: new Date().toISOString(),
+        loginCount: 1,
+        lastLogin: new Date().toISOString(),
+        emailVerified: false,
+      };
+
+      await setDoc(doc(db, "users", credential.user.uid), profile);
+      setUser({ ...profile, roles: [] });
+      setFbEmailVerified(false);
+    } catch (err) {
+      const enriched = new Error(formatFirebaseAuthError(err, "register")) as Error & { code?: string };
+      enriched.code = getFirebaseAuthErrorCode(err);
+      throw enriched;
+    } finally {
+      pendingSignupNameRef.current = "";
+    }
+  };
+
+  const sendMagicSignInLink = async (email: string, options?: MagicLinkOptions) => {
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(cleanEmail)) {
+      throw new Error("Please enter a valid email address.");
+    }
+
+    if (!hasFirebaseKeys) {
+      // Offline / dev mock mode: complete passwordless sign-in immediately in 1 click
+      const mockUsers = getMockUsers();
+      let targetUser = mockUsers.find((u) => u.email.toLowerCase() === cleanEmail);
+      const nowIso = new Date().toISOString();
+      if (targetUser) {
+        targetUser.loginCount = (targetUser.loginCount || 0) + 1;
+        targetUser.lastLogin = nowIso;
+        targetUser.emailVerified = true;
+      } else {
+        targetUser = {
+          uid: "mock_link_" + Math.random().toString(36).substring(2, 9),
+          name: cleanEmail.split("@")[0] || "Member",
+          email: cleanEmail,
+          roles: getRolesForEmail(cleanEmail),
+          createdAt: nowIso,
+          loginCount: 1,
+          lastLogin: nowIso,
+          emailVerified: true,
+        };
+        mockUsers.push(targetUser);
+      }
+      saveMockUsers(mockUsers);
+      saveMockCurrentUser(targetUser);
+      setUser(targetUser);
+      setFbEmailVerified(true);
+      if (options?.pendingDownloadUrl) {
+        setReadyDownloadUrl(options.pendingDownloadUrl);
+      }
+      if (options?.returnPath) {
+        setPostSignInReturnPath(options.returnPath);
+      }
+      return;
+    }
+
+    try {
+      const origin = typeof window !== "undefined" ? window.location.origin : "https://hems-workshop.web.app";
+      const safePath =
+        options?.returnPath && options.returnPath.startsWith("/")
+          ? options.returnPath
+          : "/auth/";
+      const continueUrl = `${origin}${safePath}`;
+
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(EMAIL_FOR_SIGN_IN_KEY, cleanEmail);
+        const ctxPayload: StoredPostSignInContext = {
+          returnPath: safePath,
+          pendingDownloadUrl: options?.pendingDownloadUrl || null,
+          sentAt: Date.now(),
+        };
+        window.localStorage.setItem(POST_SIGN_IN_CONTEXT_KEY, JSON.stringify(ctxPayload));
+      }
+
+      await sendSignInLinkToEmail(auth, cleanEmail, {
+        url: continueUrl,
+        handleCodeInApp: true,
+      });
+    } catch (err) {
+      const enriched = new Error(formatFirebaseAuthError(err, "magic_link")) as Error & { code?: string };
+      enriched.code = getFirebaseAuthErrorCode(err);
+      throw enriched;
+    }
+  };
+
+  const sendPasswordReset = async (email: string) => {
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(cleanEmail)) {
+      throw new Error("Please enter your email address first so we know where to send the password setup link.");
+    }
+
+    if (!hasFirebaseKeys) {
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, cleanEmail);
+    } catch (err) {
+      const enriched = new Error(formatFirebaseAuthError(err, "reset")) as Error & { code?: string };
+      enriched.code = getFirebaseAuthErrorCode(err);
+      throw enriched;
+    }
   };
 
   const logout = async () => {
+    setReadyDownloadUrl(null);
+    setPostSignInReturnPath(null);
     if (!hasFirebaseKeys) {
       saveMockCurrentUser(null);
       setUser(null);
@@ -481,7 +919,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const updateUserRoles = async (uid: string, newRoles: string[]) => {
     if (!hasFirebaseKeys) {
       const mockUsers = getMockUsers();
-      const updatedUsers = mockUsers.map(u => {
+      const updatedUsers = mockUsers.map((u) => {
         if (u.uid === uid) {
           return { ...u, roles: newRoles };
         }
@@ -504,71 +942,56 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const setMockRoles = (roles: string[]) => {
     if (!hasFirebaseKeys && user) {
-      updateUserRoles(user.uid, roles);
+      void updateUserRoles(user.uid, roles);
     }
   };
 
   const sendVerificationEmail = async () => {
     if (!hasFirebaseKeys) return;
     if (auth.currentUser) {
-      await sendEmailVerification(auth.currentUser);
-    }
-  };
-
-  const reloadUser = async () => {
-    if (!hasFirebaseKeys) return;
-    if (auth.currentUser) {
-      await auth.currentUser.reload();
-      const trustedIdentity = isTrustedFirebaseUser(auth.currentUser);
-      setFbEmailVerified(trustedIdentity);
-      
-      if (trustedIdentity) {
-        // Force ID token refresh so Firebase security rules immediately see email_verified=true
-        await auth.currentUser.getIdToken(true).catch(() => undefined);
-        const cleanEmail = (auth.currentUser.email || "").trim().toLowerCase();
-        const wl = cleanEmail
-          ? await fetchWhitelistEntry(cleanEmail)
-          : { found: false, roles: [] as string[] };
-        const userDocRef = doc(db, "users", auth.currentUser.uid);
-        const syncPayload = {
-          emailVerified: true,
-          ...(wl.found && Array.isArray(wl.rawRoles) ? { roles: wl.rawRoles } : {}),
-        };
-        await updateDoc(userDocRef, syncPayload).catch(async () => {
-          await updateDoc(userDocRef, { emailVerified: true }).catch(() => {
-            setDoc(userDocRef, { emailVerified: true }, { merge: true });
-          });
-        });
-        
-        if (user) {
-          const nextRoles = cleanEmail
-            ? withProtectedWebmasterAdmin(
-                cleanEmail,
-                wl.found ? wl.roles : sanitizeRoleList(user.roles)
-              )
-            : sanitizeRoleList(user.roles);
-          setUser({ ...user, emailVerified: true, roles: nextRoles });
-        }
+      try {
+        await sendEmailVerification(auth.currentUser);
+      } catch (err) {
+        const enriched = new Error(formatFirebaseAuthError(err, "verify")) as Error & { code?: string };
+        enriched.code = getFirebaseAuthErrorCode(err);
+        throw enriched;
       }
     }
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loading, 
-      login, 
-      loginWithGoogle,
-      loginWithMicrosoft,
-      register, 
-      logout, 
-      updateUserRoles, 
-      isMock: !hasFirebaseKeys,
-      setMockRoles,
-      emailVerified: fbEmailVerified,
-      sendVerificationEmail,
-      reloadUser
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        loginWithGoogle,
+        loginWithMicrosoft,
+        register,
+        sendMagicSignInLink,
+        completeEmailLinkSignIn,
+        sendPasswordReset,
+        logout,
+        updateUserRoles,
+        isMock: !hasFirebaseKeys,
+        setMockRoles,
+        emailVerified: fbEmailVerified,
+        sendVerificationEmail,
+        reloadUser,
+        completingEmailLink,
+        pendingEmailLinkPrompt,
+        emailLinkError,
+        clearEmailLinkPrompt: () => {
+          setPendingEmailLinkPrompt(false);
+          setEmailLinkError("");
+          stripFirebaseActionParamsFromCurrentUrl();
+        },
+        readyDownloadUrl,
+        clearReadyDownloadUrl: () => setReadyDownloadUrl(null),
+        postSignInReturnPath,
+        clearPostSignInReturnPath: () => setPostSignInReturnPath(null),
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -50,6 +50,21 @@ function Assert-CleanChannelName([string]$name) {
     }
 }
 
+function Invoke-FirebaseCli {
+    param([string[]]$Arguments)
+    $fbCmd = Get-Command "firebase.cmd" -ErrorAction SilentlyContinue
+    if ($fbCmd) {
+        & $fbCmd.Source @Arguments
+        return
+    }
+    $fbBin = Get-Command "firebase" -ErrorAction SilentlyContinue
+    if ($fbBin -and $fbBin.Source -notlike "*.ps1") {
+        & $fbBin.Source @Arguments
+        return
+    }
+    & npx --yes firebase-tools @Arguments
+}
+
 try {
     Assert-CleanChannelName $Channel
 
@@ -72,7 +87,7 @@ try {
                         Write-Host "  [DryRun] Would run: npm --prefix src/frontend run build" -ForegroundColor Gray
                     }
                 }
-                Write-Host "  [DryRun] Would run: npx firebase hosting:channel:deploy $Channel --project $ProjectId --expires $Expires" -ForegroundColor Gray
+                Write-Host "  [DryRun] Would run: firebase hosting:channel:deploy $Channel --project $ProjectId --expires $Expires" -ForegroundColor Gray
                 return
             }
 
@@ -98,9 +113,9 @@ try {
             }
 
             Write-Host "`n2. Publishing unlisted Firebase Hosting Preview Channel '$Channel'..." -ForegroundColor Yellow
-            & npx firebase hosting:channel:deploy $Channel --project $ProjectId --expires $Expires
+            Invoke-FirebaseCli @("hosting:channel:deploy", $Channel, "--project", $ProjectId, "--expires", $Expires)
             if ($LASTEXITCODE -ne 0) {
-                throw "Preview channel deploy failed. If authentication expired, run 'npx firebase login --reauth' first."
+                throw "Preview channel deploy failed. If authentication expired, run 'firebase login --reauth' first."
             }
 
             Write-Host "`n=== Board Review Link Ready ===" -ForegroundColor Green
@@ -114,19 +129,19 @@ try {
         "promote" {
             Write-Host "=== Atomically Promoting Preview '$Channel' -> Live ($ProjectId) ===" -ForegroundColor Cyan
             if ($DryRun) {
-                Write-Host "  [DryRun] Step 1 backup  : npx firebase hosting:clone ${ProjectId}:live ${ProjectId}:pre-promote-backup" -ForegroundColor Gray
-                Write-Host "  [DryRun] Step 2 promote : npx firebase hosting:clone ${ProjectId}:$Channel ${ProjectId}:live" -ForegroundColor Gray
+                Write-Host "  [DryRun] Step 1 backup  : firebase hosting:clone ${ProjectId}:live ${ProjectId}:pre-promote-backup" -ForegroundColor Gray
+                Write-Host "  [DryRun] Step 2 promote : firebase hosting:clone ${ProjectId}:$Channel ${ProjectId}:live" -ForegroundColor Gray
                 return
             }
 
             Write-Host "1. Creating pre-promote safety snapshot ('pre-promote-backup')..." -ForegroundColor Yellow
-            & npx firebase hosting:clone "${ProjectId}:live" "${ProjectId}:pre-promote-backup"
+            Invoke-FirebaseCli @("hosting:clone", "${ProjectId}:live", "${ProjectId}:pre-promote-backup")
             if ($LASTEXITCODE -ne 0) {
                 throw "Failed to snapshot current live site to pre-promote-backup. Aborting promotion."
             }
 
             Write-Host "2. Cloning approved '$Channel' artifact directly to live..." -ForegroundColor Yellow
-            & npx firebase hosting:clone "${ProjectId}:$Channel" "${ProjectId}:live"
+            Invoke-FirebaseCli @("hosting:clone", "${ProjectId}:$Channel", "${ProjectId}:live")
             if ($LASTEXITCODE -ne 0) {
                 throw "Failed to promote channel '$Channel' to live."
             }
@@ -139,10 +154,10 @@ try {
         "rollback" {
             Write-Host "=== Rolling Back Live Site from 'pre-promote-backup' ===" -ForegroundColor Yellow
             if ($DryRun) {
-                Write-Host "  [DryRun] Would run: npx firebase hosting:clone ${ProjectId}:pre-promote-backup ${ProjectId}:live" -ForegroundColor Gray
+                Write-Host "  [DryRun] Would run: firebase hosting:clone ${ProjectId}:pre-promote-backup ${ProjectId}:live" -ForegroundColor Gray
                 return
             }
-            & npx firebase hosting:clone "${ProjectId}:pre-promote-backup" "${ProjectId}:live"
+            Invoke-FirebaseCli @("hosting:clone", "${ProjectId}:pre-promote-backup", "${ProjectId}:live")
             if ($LASTEXITCODE -ne 0) {
                 throw "Rollback failed. Verify 'pre-promote-backup' exists with '-Action list'."
             }
@@ -152,19 +167,19 @@ try {
         "list" {
             Write-Host "=== Active Firebase Hosting Preview Channels ($ProjectId) ===" -ForegroundColor Cyan
             if ($DryRun) {
-                Write-Host "  [DryRun] Would run: npx firebase hosting:channel:list --project $ProjectId" -ForegroundColor Gray
+                Write-Host "  [DryRun] Would run: firebase hosting:channel:list --project $ProjectId" -ForegroundColor Gray
                 return
             }
-            & npx firebase hosting:channel:list --project $ProjectId
+            Invoke-FirebaseCli @("hosting:channel:list", "--project", $ProjectId)
         }
 
         "delete" {
             Write-Host "=== Deleting Preview Channel '$Channel' ($ProjectId) ===" -ForegroundColor Yellow
             if ($DryRun) {
-                Write-Host "  [DryRun] Would run: npx firebase hosting:channel:delete $Channel --project $ProjectId --force" -ForegroundColor Gray
+                Write-Host "  [DryRun] Would run: firebase hosting:channel:delete $Channel --project $ProjectId --force" -ForegroundColor Gray
                 return
             }
-            & npx firebase hosting:channel:delete $Channel --project $ProjectId --force
+            Invoke-FirebaseCli @("hosting:channel:delete", $Channel, "--project", $ProjectId, "--force")
             if ($LASTEXITCODE -eq 0) {
                 Write-Host "Preview channel '$Channel' deleted." -ForegroundColor Green
             }

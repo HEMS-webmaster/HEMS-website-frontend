@@ -733,10 +733,10 @@ npm --prefix src/frontend run preview:delete              # Remove expired/revie
 
           <div class="p-4 bg-slate-900/80 rounded-xl border border-emerald-800/40 space-y-2">
             <span class="text-xs font-bold text-emerald-400 font-mono uppercase">3. Validate 44-Key JSON, Provision Guardrails &amp; Full Deploy</span>
-            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>gcloud auth login webmaster@hems-workshop.org ; npx firebase login --reauth
+            <pre class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-slate-300 overflow-x-auto"><code>gcloud auth login webmaster@hems-workshop.org ; firebase login --reauth
 powershell -ExecutionPolicy Bypass -File infrastructure\configure-free-tier-guardrails.ps1
 npm --prefix src/frontend run sync:workshop # Validates 44-key baseline or --from-json=backup.json
-npm --prefix src/frontend run build ; npx firebase deploy</code></pre>
+npm --prefix src/frontend run build ; firebase deploy</code></pre>
           </div>
 
           <div class="p-4 bg-slate-900/80 rounded-xl border border-rose-800/40 space-y-2">

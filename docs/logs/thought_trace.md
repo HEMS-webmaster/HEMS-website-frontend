@@ -1995,3 +1995,69 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 - Cleared stale VS Code TypeScript cache diagnostic on `UpcomingHeroBadge.tsx` (`tsconfig.tsbuildinfo` removal + `export default useUpcomingWorkshop` + explicit return type refresh) and renamed unapproved PowerShell verb `Ensure-HostingCustomDomain` -> `Register-HostingCustomDomain` in `infrastructure/preauth-domain.ps1`.
 - Applied pre-push Git/CI safeguards: added `docs/source-documents/pics/` (1.58 GB raw source media incl. 116.13 MB MP4) to `.gitignore`, and guarded `src/frontend/scripts/index-pdf-contents.js` against overwriting `mock-pdf-chunks.json` when local proceedings PDFs are absent (such as in GitHub Actions CI).
 - Staging, secret/size auditing, committing on `main`, and pushing cleanly to `origin/main`.
+
+---
+### [2026-11-16 — Latest Push to Firebase SCoT Trace (@ops)]
+- Killing local `next dev` daemon `task-8252`, running `npm --prefix src/frontend run build`, and deploying `--only firestore:rules,functions,hosting` to `hems-workshop` with the final `209853b` updates (`UpcomingHeroBadge.tsx`, `useUpcomingWorkshop.ts`, `index-pdf-contents.js`).
+- Verifying live `https://hems-workshop.web.app/` and `/admin/workshop-settings/` return `HTTP 200`, and restarting the local dev daemon on port `3000`.
+
+---
+### [2026-11-16 — Addendum 45 SCoT Trace (@ops)]
+- Diagnosed why `npm --prefix src/frontend run preview:deploy` failed during Step 2 (`npm error could not determine executable to run` on `firebase@13.4.0`): in `npm@11.9.0`, `npx firebase` resolves the client SDK `firebase` package instead of `firebase-tools` CLI when run outside a directory containing `firebase-tools`.
+- Adding `Invoke-FirebaseCli` helper in `infrastructure/manage-board-preview.ps1` (prefers global `firebase.cmd` / non-`.ps1` `firebase`, falls back to `npx --yes firebase-tools`), updating `src/frontend/scripts/push-to-live.js` to `npx --yes firebase-tools`, and updating `docs/system_design_architecture.html` CLI lines `731–734`.
+- Verifying PS AST + approved verbs + `-Action deploy -DryRun`, publishing the unlisted `board-review` preview channel with `-SkipBuild` (`src/frontend/out` already freshly built), verifying the preview URL returns `HTTP 200`, and recording Addendum 45 in `docs/session_history.md`.
+
+---
+### [2026-11-16 — Delete Stale preview-2027 Channel SCoT Trace (@ops)]
+- Removing stale Nov 12 Firebase Hosting preview channel `preview-2027` via `infrastructure/manage-board-preview.ps1 -Action delete -Channel preview-2027` while preserving `live` and `board-review`, then verifying via `-Action list`.
+
+---
+### [2026-11-17 — Login & Pre-Whitelisted Account Workflow Review SCoT Trace (@dev, @qa)]
+- Audited `src/frontend/src/app/auth/page.tsx`, `src/frontend/src/context/AuthContext.tsx`, `src/frontend/src/components/DownloadGate.tsx`, `functions/src/index.ts`, and `firestore.rules`.
+- Confirmed why manual Create Account showed zero roles while Google Sign-In worked: `createUserWithEmailAndPassword` creates an unverified token (`emailVerified: false`), which is intentionally gated to `roles: []` / `["general"]` across `AuthContext.register()`, `syncUserOnRegistrationV2`, and `firestore.rules` (`hasVerifiedAuthEmail()`) to prevent email spoofing. However, `auth/page.tsx` falsely announces `"Account created! You may now enter the portal."` with zero mention of the verification email sent in the background, and no portal banner prompts verification or refreshes the JWT (`reloadUser()`).
+- Identified 4 additional workflow bugs/conflicts: (1) pre-whitelisted emails exist only in Firestore `whitelist/{email}` (no Firebase Auth record/password yet), causing `auth/invalid-credential` dead-ends on Sign In and lacking Forgot Password; (2) Create Account requires Full Name even when `whitelist/{email}.name` is pre-populated and fails to hydrate `wl.name` on verification; (3) `login()` and `onAuthStateChanged` do not persist `wl.rawRoles` back to `users/{uid}` after an email-password user verifies externally; (4) `DownloadGate.tsx` line 483 reads stale `emailVerified` closure state after `await reloadUser()`, failing on first click.
+- Presenting structured `@dev` + `@qa` audit and Option 1 (Smart OAuth + Passwordless Email Link + Fixed Password/Verification UX) vs. Option 2 (Fixed Password/Verification UX + Forgot Password + Whitelist Name Hydration) for `@bo` decision before modifying `src/`.
+
+---
+### [2026-11-17 — Joint @prod, @brand (@web), & @dev Login + DownloadGate Recommendation SCoT Trace]
+- Inspected `DownloadGate.tsx` lines 1–350 and confirmed a major product mismatch against `@bo`'s intent: `DownloadGate.tsx` currently forces casual proceedings readers to create a Password + Full Name + verify email (`Password` is `required` on line 350).
+- Verified Firebase Blaze quota for `sendSignInLinkToEmail`: 25,000 emails/day and 50,000 MAUs at $0.00/mo on Blaze, satisfying `hasVerifiedAuthEmail()` in `firestore.rules` with zero password friction.
+- Formulated unified two-tier UX recommendation across `@prod`, `@brand`, and `@dev`:
+  1. **Archive Presentation Downloads (`DownloadGate.tsx` — Strict Zero-Password Flow):** Remove Password and Full Name fields completely from `DownloadGate`; offer only 1-click Google/Microsoft or Email-Only Instant Access Link (`sendSignInLinkToEmail`), keeping readers signed in across visits while preserving verified bot/quota protection (30 PDFs/day).
+  2. **Workshop Portal & Pre-Assigned Roles (`/auth` — Email-First Smart Flow, Zero Redundant Name Prompt):** Remove confusing "Sign In vs. Create Account" tabs and redundant `Full Name` requirement. Users pick Google/Microsoft, 1-Click Email Sign-In Link, or Email + Password (with seamless first-time "Set Password", "Forgot Password", honest inbox-verification screen, auto-focus role unlock, and automatic `whitelist/{email}` Name + Roles hydration into `users/{uid}`).
+
+---
+### [2026-11-17T15:07:00-07:00] @arch & @dev — Plan & Implementation SCoT: Two-Tier Smart Sign-In & Password-Free DownloadGate
+- **Trigger:** `@bo` authorized `@arch build then implement the plan.`
+- **Architectural Decisions:**
+  1. **Permanent Plan Artifact:** Create `docs/plans/2026-11-17-two-tier-smart-login-and-passwordless-download-gate.md` and register Phase 23 in `docs/implementation_plan.md` before modifying `src/` files (`scrumrules.md` Rules #2 & #6).
+  2. **`AuthContext.tsx` Central Identity & Whitelist Hydration Engine:**
+     - Add Firebase Passwordless Email Link (`sendSignInLinkToEmail`, `isSignInWithEmailLink`, `signInWithEmailLink`) and Password Reset/Setup (`sendPasswordResetEmail`) alongside Google & Microsoft OAuth and Email+Password.
+     - Preserve strict `email_verified` trust boundary (`isTrustedFirebaseUser` + `firestore.rules` `hasVerifiedAuthEmail()`): unverified password signups remain at `roles: []` in UI and `['general']` in Firestore until email ownership is proven, preventing account-pre-registration hijacking of pre-whitelisted emails.
+     - Refresh Firebase ID token (`getIdToken(true)`) whenever transitioning an existing unverified user to verified (`onAuthStateChanged`, `reloadUser`, `completeEmailLinkSignIn`) so `request.auth.token.email_verified == true` is immediately visible to `firestore.rules` on `whitelist/{email}` reads and `users/{uid}` role updates.
+     - Persist `wl.rawRoles` (verbatim from `whitelist/{email}.roles` to satisfy `firestore.rules` equality check) and official `wl.name` (supporting `name` or `firstName + lastName` whenever stored profile name is blank or an email-prefix placeholder) back to `users/{uid}` across ALL verified entry points (`onAuthStateChanged`, `handleOAuthLogin`, `login`, `completeEmailLinkSignIn`, `reloadUser`), with resilient `.catch()` fallbacks.
+     - Return `Promise<boolean>` from `reloadUser()` so callers (`DownloadGate.tsx`, `auth/page.tsx`, `(portal)/layout.tsx`) receive the fresh verification boolean directly rather than reading stale React closure state.
+     - Auto-detect `isSignInWithEmailLink` on mount in `AuthProvider`, completing sign-in automatically when `hems_email_for_sign_in_v1` is in `localStorage` (or exposing `pendingEmailLinkPrompt` for cross-device clicks), stripping `oobCode`/`apiKey`/`mode` URL params cleanly, and surfacing `readyDownloadUrl` for pending archive PDFs.
+     - Attach a throttled `window` `focus` / `visibilitychange` auto-refresh listener ONLY while `user && !fbEmailVerified && hasFirebaseKeys` so switching back from an inbox tab automatically unlocks pre-assigned roles.
+  3. **Tier 1 (`DownloadGate.tsx`) — 100% Password-Free Proceedings Access:**
+     - Remove `Password`, `Full Name`, and `Sign In / Create Account` toggles from the archive PDF modal.
+     - Offer 1-Click `Continue with Google`, `Continue with Microsoft`, and `Email Me an Instant Download Link` (`sendMagicSignInLink`), plus cross-device email confirmation (`pendingEmailLinkPrompt`), popup-blocker-safe PDF launch (`readyDownloadUrl`), and fixed `await reloadUser()` boolean return in `showVerifyModal`.
+  4. **Tier 2 (`auth/page.tsx` & `(portal)/layout.tsx`) — Role-Aware Portal Sign-In & Verification Banner:**
+     - Lead `/auth` with zero-password methods (`Continue with Google`, `Continue with Microsoft`, and `Send 1-Click Sign-In Link`) so pre-whitelisted Attendees/Reviewers/Board/Officers never hit a missing-password wall.
+     - Provide clean collapsible/tabbed Password access (`Sign In with Password`, `Set Password` with optional Display Name, and `Forgot / Set Password?`) with plain-English Firebase error translation and 1-click recovery actions.
+     - Replace misleading post-signup `"You may now enter the portal"` copy with an explicit **"Verify Your Email to Activate HEMS Roles"** screen, backed by a persistent amber **Unverified Email Banner** inside `(portal)/layout.tsx`.
+
+---
+### [2026-11-17T15:18:00-07:00] @qa & @rte — Verification & Release Gate Check (Phase 23)
+- **TypeScript (`tsc --noEmit`):** PASS (`0` errors).
+- **Unit Suites (`upcomingWorkshopCsv.test.mjs` & `authWorkflow.test.mjs`):** PASS (`0` failures).
+- **Production Static Export (`npm --prefix src/frontend run build`):** PASS (`53/53` static pages generated in `1,474ms`, Zod catalog validation passed across all 15 workshops, `0` modifications to `src/frontend/src/app/archive/**` or `firestore.rules`).
+- **Deployment Gate (`@rte`):** `[PASS]` across `@arch`, `@dev`, `@brand`, `@legal` (preserves `email_verified` security gate against pre-registration hijacking), and `@qa`. Ready for `@bo` review and one-time Firebase Console `"Email link (passwordless sign-in)"` toggle before live/preview Hosting push.
+
+---
+### [2026-11-17T15:19:30-07:00] @ops — SCoT: Local Git Commit & Firebase Hosting `board-review` Preview Channel Deploy
+- **Request:** `@bo` requested `@ops commit and push to the firestore preview page` (interpreting minor typo "firestore preview page" -> Firebase Hosting `board-review` preview channel per `scrumrules.md` Rule #9).
+- **Plan:**
+  1. Audit all 12 modified/untracked files (`docs/*`, `infrastructure/manage-board-preview.ps1`, `src/frontend/scripts/push-to-live.js`, `src/frontend/src/context/AuthContext.tsx`, `src/frontend/src/components/DownloadGate.tsx`, `src/frontend/src/app/auth/page.tsx`, `src/frontend/src/app/(portal)/layout.tsx`, `tests/unit/authWorkflow.test.mjs`) to verify zero secrets or oversized files.
+  2. Create a clean local `git commit` capturing Addendum 45 (`manage-board-preview.ps1` / `push-to-live.js` CLI fix) + Addendum 46 (Two-Tier Smart Sign-In, Pre-Whitelisted Role/Name Hydration & Password-Free `DownloadGate`). Keep `origin/main` unpushed unless `@bo` asks to push to GitHub, preserving clean separation between the `board-review` preview channel and live Hosting (`manage-board-preview.ps1` policy).
+  3. Deploy `src/frontend/out` (just verified at `53/53` routes) to the `board-review` Firebase Hosting preview channel via `powershell -ExecutionPolicy Bypass -File infrastructure\manage-board-preview.ps1 -Action deploy -SkipBuild`, confirming Firebase Auth domain synchronization and probing HTTP `200` on `/`, `/auth/`, and `/archive/2025/`.

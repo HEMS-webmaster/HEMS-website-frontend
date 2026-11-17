@@ -23,6 +23,9 @@ import {
   Megaphone,
   ChevronDown,
   ChevronRight,
+  Mail,
+  RefreshCw,
+  Loader2,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import {
@@ -93,10 +96,13 @@ function normalizePath(p: string | null | undefined): string {
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const currentPath = normalizePath(pathname);
-  const { user, isMock, setMockRoles } = useAuth();
+  const { user, isMock, setMockRoles, emailVerified, reloadUser, sendVerificationEmail } = useAuth();
   const [collapsedPortals, setCollapsedPortals] = useState<
     Record<CollapsiblePortalKey, boolean>
   >(DEFAULT_COLLAPSED_PORTALS);
+  const [verifRefreshing, setVerifRefreshing] = useState(false);
+  const [verifResending, setVerifResending] = useState(false);
+  const [verifBannerNote, setVerifBannerNote] = useState("");
 
   useEffect(() => {
     try {
@@ -555,6 +561,92 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               : "p-4 sm:p-6 lg:p-10 xl:p-12"
           } bg-surface print:p-0 print:bg-white`}
         >
+          {user && !emailVerified && !isMock && (
+            <div
+              role="status"
+              className="mb-6 rounded-2xl border border-amber-200 bg-amber-50/90 p-4 sm:p-5 text-amber-950 shadow-2xs print:hidden"
+            >
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div className="flex items-start gap-3 min-w-0">
+                  <div className="w-9 h-9 rounded-xl bg-white border border-amber-200 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <Mail size={17} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-slate-900">
+                      Verify your email (<span className="break-all">{user.email}</span>) to unlock assigned HEMS roles
+                    </p>
+                    <p className="text-xs text-slate-700 mt-1 leading-relaxed">
+                      Any roles already assigned to your email address (Attendee, Abstract Reviewer, Operations, Treasurer, Board, or Admin) and proceedings downloads activate automatically once you click the verification link in your inbox.
+                    </p>
+                    {verifBannerNote && (
+                      <p className="text-xs font-semibold text-amber-900 mt-2">
+                        {verifBannerNote}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    disabled={verifRefreshing}
+                    onClick={async () => {
+                      setVerifBannerNote("");
+                      setVerifRefreshing(true);
+                      try {
+                        const verifiedNow = await reloadUser();
+                        if (!verifiedNow) {
+                          setVerifBannerNote(
+                            "Still waiting on verification — click the link sent to your inbox (check Spam/Junk), then try again."
+                          );
+                        }
+                      } catch (err: unknown) {
+                        setVerifBannerNote(
+                          err instanceof Error ? err.message : "Could not refresh verification status."
+                        );
+                      } finally {
+                        setVerifRefreshing(false);
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-bold transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    {verifRefreshing ? (
+                      <>
+                        <Loader2 size={14} className="animate-spin" /> Checking...
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw size={14} /> I&apos;ve Verified — Unlock My Roles
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={verifResending}
+                    onClick={async () => {
+                      setVerifBannerNote("");
+                      setVerifResending(true);
+                      try {
+                        await sendVerificationEmail();
+                        setVerifBannerNote(`Verification email resent to ${user.email}.`);
+                      } catch (err: unknown) {
+                        setVerifBannerNote(
+                          err instanceof Error ? err.message : "Could not resend verification email."
+                        );
+                      } finally {
+                        setVerifResending(false);
+                      }
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-amber-100/50 border border-amber-300 text-amber-950 text-xs font-bold transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    {verifResending ? "Sending..." : "Resend Verification Email"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {children}
         </div>
       </div>
