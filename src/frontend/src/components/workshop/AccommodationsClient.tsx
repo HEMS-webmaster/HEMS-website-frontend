@@ -12,6 +12,7 @@ import {
   ArrowRight,
   ChevronDown,
 } from "lucide-react";
+import InlineMailingSignup from "@/components/mailing/InlineMailingSignup";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import { galleryImageUrl } from "@/utils/galleryAssets";
 
@@ -287,6 +288,13 @@ export default function AccommodationsClient() {
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3.5">
                 Exact symposium dates, room-block cutoff deadlines, and the direct hotel reservation link will appear here once the {workshop.workshop_year} host property is finalized.
               </p>
+              <InlineMailingSignup
+                variant="compact"
+                heading={`Email me when the ${workshop.workshop_year} hotel room block opens:`}
+                buttonLabel="Notify Me"
+                interests={["workshop"]}
+                sourceLabel="Accommodations Venue Alert"
+              />
               <div className="pt-1">
                 <Link
                   href="/contact"

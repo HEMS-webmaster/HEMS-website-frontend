@@ -43,6 +43,7 @@ import {
 } from "@/utils/whitelistCsv";
 import WhitelistCsvFormatModal from "@/components/admin/WhitelistCsvFormatModal";
 import WhitelistSheetsPasteModal from "@/components/admin/WhitelistSheetsPasteModal";
+import { readUploadedTextFileSmart } from "@/utils/unicodeText";
 import WhitelistExportModal from "@/components/admin/WhitelistExportModal";
 
 type RoleFilterValue = "all" | "unassigned" | AssignableRole;
@@ -392,7 +393,7 @@ export default function AdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const text = await file.text();
+      const text = await readUploadedTextFileSmart(file);
       const preview = parseWhitelistCsv(text, csvAssignRole);
       if (preview.rows.length === 0) {
         setCsvError(

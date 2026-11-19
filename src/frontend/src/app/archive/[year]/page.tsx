@@ -11,6 +11,8 @@ import { generateArchiveJsonLd } from "@/utils/generateArchiveJsonLd";
 import DownloadGate from "@/components/DownloadGate";
 import CitationButton from "@/components/CitationButton";
 import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/utils/seo";
+import ScientificText from "@/components/workshop/ScientificText";
+import { toPlainScientificText } from "@/utils/unicodeText";
 
 function summarizeArchiveLocation(venue?: string, address?: string): string {
   const cleanVenue = venue ? venue.replace(/,\s*$/, "").trim() : "";
@@ -351,11 +353,13 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
             </span>
             
             <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight mb-4">
-              {data.title || `${data.ordinal} HEMS Workshop`}
+              <ScientificText text={data.title || `${data.ordinal} HEMS Workshop`} />
             </h1>
             
             <p className="text-xl text-foreground/80 max-w-3xl mb-8 leading-relaxed">
-              {data.tagline || `The ${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry.`}
+              <ScientificText
+                text={data.tagline || `The ${data.ordinal} Workshop on Harsh-Environment Mass Spectrometry.`}
+              />
             </p>
 
             {/* SEO: Screen-reader-only summary for AI crawlers */}
@@ -635,10 +639,10 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                               <div className="text-base font-bold flex items-start gap-2 mb-1">
                                 {presUrl ? (
                                   <FrontendPreviewHover href={presUrl} title={award.title}>
-                                    <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug">{award.title}</a>
+                                    <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words flex-1 leading-snug"><ScientificText text={award.title} /></a>
                                   </FrontendPreviewHover>
                                 ) : (
-                                  <span className="text-foreground/80 break-words flex-1 leading-snug">{award.title}</span>
+                                  <span className="text-foreground/80 break-words flex-1 leading-snug"><ScientificText text={award.title} /></span>
                                 )}
                               </div>
                             )}
@@ -690,7 +694,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                         <div key={iIdx} className="px-4 py-2 flex flex-col md:flex-row gap-4 hover:bg-surface/30 transition-colors border-l-4 border-transparent">
                           <div className="md:w-48 font-mono text-sm font-bold text-foreground flex-shrink-0 md:text-center">{item.time}</div>
                           <div>
-                            <h4 className="font-bold inline">{item.title}</h4>
+                            <h4 className="font-bold inline"><ScientificText text={item.title} /></h4>
                             {(item.subtitleHtml || item.subtitle) && (
                               <span className="text-sm text-foreground/70 ml-2 font-normal" dangerouslySetInnerHTML={{ __html: item.subtitleHtml || item.subtitle }}></span>
                             )}
@@ -711,7 +715,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                           <div className={`flex flex-col md:flex-row gap-4 px-4 py-3 ${bgClassHeader}`}>
                             <div className="md:w-48 font-mono text-sm font-bold text-foreground flex-shrink-0 md:text-center">{formatTime(item.time)}</div>
                             <div className="flex-1">
-                              <h4 className={`font-bold ${textClass} text-lg`}>{item.title}</h4>
+                              <h4 className={`font-bold ${textClass} text-lg`}><ScientificText text={item.title} /></h4>
                             </div>
                           </div>
 
@@ -728,7 +732,7 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                          </div>
                                          <div className="flex-1 flex items-center gap-3">
                                            <div className="flex-1 h-px bg-foreground/10"></div>
-                                           <h4 className="font-bold text-foreground/50 text-sm uppercase tracking-wider whitespace-nowrap">{talk.title}</h4>
+                                           <h4 className="font-bold text-foreground/50 text-sm uppercase tracking-wider whitespace-nowrap"><ScientificText text={talk.title} /></h4>
                                            {(talk.subtitleHtml || talk.subtitle) && (
                                              <span className="text-xs text-foreground/40" dangerouslySetInnerHTML={{ __html: talk.subtitleHtml || talk.subtitle }}></span>
                                            )}
@@ -815,17 +819,17 @@ export default async function WorkshopArchive({ params }: { params: Promise<{ ye
                                     <div className="text-sm font-bold flex items-center flex-wrap">
                                       {presUrl ? (
                                         <FrontendPreviewHover href={presUrl} title={talk.title}>
-                                          <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words leading-snug">{talk.title}</a>
+                                          <a href={presUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline break-words leading-snug"><ScientificText text={talk.title} /></a>
                                         </FrontendPreviewHover>
                                       ) : (
-                                        <span className="text-foreground/60 break-words leading-snug">{talk.title}</span>
+                                        <span className="text-foreground/60 break-words leading-snug"><ScientificText text={talk.title} /></span>
                                       )}
                                       {talk.id && (
                                         <CitationButton
                                           title={talk.title}
                                           authors={Array.isArray(talk.authors) ? talk.authors : (typeof talk.authors === 'string' ? talk.authors.split(',').map((name: string) => ({ name: name.trim() })) : [])}
                                           year={parseInt(year)}
-                                          workshopName={data.title || `${data.ordinal} HEMS Workshop`}
+                                          workshopName={toPlainScientificText(data.title || `${data.ordinal} HEMS Workshop`)}
                                           location={data.address || data.city || ""}
                                           id={talk.id}
                                           type={isPosterSession ? "poster" : "pres"}

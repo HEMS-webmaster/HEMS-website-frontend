@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     // 8. Deploy to Firebase Hosting
     let firebaseLog = '';
     try {
-      const { stdout } = await execAsync('npx firebase deploy --only hosting', { cwd: projectRoot });
+      const { stdout } = await execAsync('npx --yes firebase-tools deploy --only hosting', { cwd: projectRoot });
       firebaseLog = stdout;
     } catch (firebaseErr: any) {
       console.warn('Firebase Deploy failed (you may need to run npx firebase login --reauth):', firebaseErr.message);

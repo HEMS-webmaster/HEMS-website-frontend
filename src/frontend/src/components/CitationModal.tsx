@@ -13,6 +13,12 @@ import {
   Share2,
 } from "lucide-react";
 import { HEMS_LINKEDIN_GROUP_URL, SITE_URL } from "@/utils/seo";
+import ScientificText from "@/components/workshop/ScientificText";
+import {
+  foldLatinDiacriticsToAscii,
+  toBibTeXScientificText,
+  toPlainScientificText,
+} from "@/utils/unicodeText";
 
 interface Author {
   name: string;
@@ -88,12 +94,15 @@ export default function CitationModal({
     return authorList.map(a => a.name).join(" and ");
   };
 
-  // Generate Cite Keys (e.g. short1999mass)
+  const plainTitle = toPlainScientificText(title);
+  const bibtexTitle = toBibTeXScientificText(title);
+
+  // Generate Cite Keys (e.g. short1999mass, hohn2018optimized)
   const generateCiteKey = () => {
-    const primaryAuthor = authors[0]?.name || "unknown";
-    const lastName = primaryAuthor.trim().split(/\s+/).pop()?.toLowerCase() || "unknown";
-    const firstWord = title.trim().split(/\s+/)[0]?.toLowerCase() || "untitled";
-    return `${lastName}${year}${firstWord.replace(/[^a-z0-9]/g, "")}`;
+    const primaryAuthor = foldLatinDiacriticsToAscii(authors[0]?.name || "unknown");
+    const lastName = primaryAuthor.trim().split(/\s+/).pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "unknown";
+    const firstWord = foldLatinDiacriticsToAscii(plainTitle).trim().split(/\s+/)[0]?.toLowerCase() || "untitled";
+    return `${lastName}${year}${firstWord.replace(/[^a-z0-9]/g, "") || "paper"}`;
   };
 
   const baseOrigin = origin || SITE_URL;
@@ -102,16 +111,16 @@ export default function CitationModal({
 
   const authorNames =
     authors.length > 0 ? authors.map((a) => a.name).join(", ") : "HEMS Workshop Authors";
-  const linkedinPostDraft = `From the HEMS Proceedings Archive (${year}): "${title}" by ${authorNames} — presented at the ${workshopName} (${location}).\n\nExplore the open-access proceedings & slide archive: ${trackedShareUrl}\n\n#MassSpectrometry #HarshEnvironmentMS #AnalyticalChemistry #FieldScience #HEMSWorkshop`;
+  const linkedinPostDraft = `From the HEMS Proceedings Archive (${year}): "${plainTitle}" by ${authorNames} — presented at the ${workshopName} (${location}).\n\nExplore the open-access proceedings & slide archive: ${trackedShareUrl}\n\n#MassSpectrometry #HarshEnvironmentMS #AnalyticalChemistry #FieldScience #HEMSWorkshop`;
   const linkedinShareHref = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
     trackedShareUrl
   )}`;
 
-  const apaCitation = `${formatAuthorsAPA(authors)} (${year}). ${title}. Presented at the ${workshopName}, ${location}. URL: ${permalink}`;
+  const apaCitation = `${formatAuthorsAPA(authors)} (${year}). ${plainTitle}. Presented at the ${workshopName}, ${location}. URL: ${permalink}`;
 
   const bibtexCitation = `@inproceedings{${generateCiteKey()},
   author    = {${formatAuthorsBibTeX(authors)}},
-  title     = {${title}},
+  title     = {${bibtexTitle}},
   booktitle = {Proceedings of the ${workshopName}},
   year      = {${year}},
   address   = {${location}},
@@ -156,7 +165,9 @@ export default function CitationModal({
             <span className="text-[10px] uppercase font-bold text-primary tracking-wider">
               {type === "pres" ? "Oral Presentation" : "Poster"}
             </span>
-            <h4 className="font-bold text-foreground leading-snug">{title}</h4>
+            <h4 className="font-bold text-foreground leading-snug">
+              <ScientificText text={title} />
+            </h4>
             <p className="text-xs text-foreground/60">{authors.map((a) => a.name).join(", ")}</p>
             <p className="text-[11px] text-foreground/45 mt-2 font-medium">
               {workshopName} • {location} ({year})

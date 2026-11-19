@@ -17,6 +17,7 @@ import {
   Printer,
 } from "lucide-react";
 import masterWorkshopsData from "@/data/master_workshops.json";
+import InlineMailingSignup from "@/components/mailing/InlineMailingSignup";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import { recordTelemetryEvent } from "@/utils/telemetryClient";
 
@@ -249,6 +250,20 @@ export default function StudentAwardsClient() {
                 </div>
               </div>
             </div>
+
+            {!workshop.cfp_open && (
+              <div className="mt-5">
+                <InlineMailingSignup
+                  variant="card"
+                  kicker="Student Travel Grant Alert"
+                  heading={`Get Notified When ${workshop.workshop_year} Student Award Applications Open`}
+                  description={`Faculty advisors and M.S./M.A./Ph.D. researchers: receive an alert when ${workshop.student_award_amount} travel grant applications and abstract submissions open.`}
+                  buttonLabel="Notify Me"
+                  interests={["student_awards", "workshop"]}
+                  sourceLabel="Student Awards Alert"
+                />
+              </div>
+            )}
           </section>
 
           {/* Main Two-Column Layout */}

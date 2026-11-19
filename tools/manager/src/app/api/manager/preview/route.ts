@@ -5,6 +5,7 @@ import fs from 'fs/promises';
 import fsSync from 'fs';
 import path from 'path';
 import { getProceedingsDir, getWorkshopDir } from '@/utils/assetPaths';
+import { fixMojibakeAndNormalize } from '@/utils/unicodeText';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -34,10 +35,11 @@ export async function GET(request: Request) {
     
     if (isAbstract) {
       // Serve text
-      const text = await fs.readFile(previewPath, 'utf8');
+      const text = fixMojibakeAndNormalize(await fs.readFile(previewPath, 'utf8'));
       return new NextResponse(text, {
         headers: {
-          'Content-Type': 'text/plain',
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
         },
       });
       

@@ -70,15 +70,36 @@ const WorkshopArchiveSchema = z.object({
   sessions: z.array(SessionSchema).default([]),
 });
 
+const MOJIBAKE_RE =
+  /(?:\u00C3[\u0080-\u00BF\u0152-\u017E\u2018-\u2026\u20AC]|\u00C2[\u0080-\u00BF]|\u00CE[\u0091-\u00BF]|\u00E2\u20AC[\u0098-\u00BF\u2013-\u203A\u2122]|\uFFFD|[\uF0B7\uF0A7\uF076\uF0D8\uF0A8])/;
+
+function checkFileForMojibake(filePath, displayName) {
+  const raw = fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, '');
+  const lines = raw.split(/\r?\n/);
+  const hits = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (MOJIBAKE_RE.test(lines[i])) {
+      hits.push(`line ${i + 1}: ${lines[i].trim().slice(0, 110)}`);
+    }
+  }
+  if (hits.length > 0) {
+    console.error(`❌ Character encoding / mojibake detected in ${displayName}:`);
+    hits.slice(0, 5).forEach((h) => console.error(`   • ${h}`));
+    return hits.length;
+  }
+  return 0;
+}
+
 function validateAllArchives() {
-  const archivesDir = path.resolve(__dirname, '..', 'src', 'data', 'archives');
+  const dataDir = path.resolve(__dirname, '..', 'src', 'data');
+  const archivesDir = path.join(dataDir, 'archives');
   if (!fs.existsSync(archivesDir)) {
     console.warn('⚠️ Archives directory not found:', archivesDir);
     return true;
   }
 
   const files = fs.readdirSync(archivesDir).filter(f => f.endsWith('.json') && f !== 'template.json');
-  console.log(`🔍 Validating ${files.length} workshop archive catalogs with Zod schemas...`);
+  console.log(`🔍 Validating ${files.length} workshop archive catalogs with Zod schemas & UTF-8 mojibake checks...`);
 
   let errorCount = 0;
   for (const file of files) {
@@ -94,17 +115,35 @@ function validateAllArchives() {
         });
         errorCount++;
       }
+      if (checkFileForMojibake(filePath, `archives/${file}`) > 0) {
+        errorCount++;
+      }
     } catch (e) {
       console.error(`❌ JSON syntax error in ${file}:`, e.message);
       errorCount++;
     }
   }
 
+  for (const extraFile of ['master_workshops.json', 'corporate_registry.json']) {
+    const extraPath = path.join(dataDir, extraFile);
+    if (fs.existsSync(extraPath)) {
+      try {
+        JSON.parse(fs.readFileSync(extraPath, 'utf8').replace(/^\uFEFF/, ''));
+        if (checkFileForMojibake(extraPath, extraFile) > 0) {
+          errorCount++;
+        }
+      } catch (e) {
+        console.error(`❌ JSON syntax error in ${extraFile}:`, e.message);
+        errorCount++;
+      }
+    }
+  }
+
   if (errorCount === 0) {
-    console.log(`✅ All ${files.length} workshop archive catalogs passed Zod schema validation.\n`);
+    console.log(`✅ All ${files.length} workshop archive catalogs + master catalogs passed Zod & UTF-8 mojibake validation.\n`);
     return true;
   } else {
-    console.error(`\n❌ ZOD VALIDATION FAILED: ${errorCount} catalogs contain schema errors.\n`);
+    console.error(`\n❌ VALIDATION FAILED: ${errorCount} catalog file(s) contain schema or encoding errors.\n`);
     process.exit(1);
   }
 }

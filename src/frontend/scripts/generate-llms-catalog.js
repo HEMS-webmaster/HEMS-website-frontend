@@ -1,10 +1,28 @@
 const fs = require('fs');
 const path = require('path');
 
+const SCRIPT_SUB_MAP = { '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','+':'₊','-':'₋','a':'ₐ','e':'ₑ','h':'ₕ','i':'ᵢ','j':'ⱼ','k':'ₖ','l':'ₗ','m':'ₘ','n':'ₙ','o':'ₒ','p':'ₚ','r':'ᵣ','s':'ₛ','t':'ₜ','u':'ᵤ','v':'ᵥ','x':'ₓ' };
+const SCRIPT_SUP_MAP = { '0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','+':'⁺','-':'⁻','n':'ⁿ','i':'ⁱ' };
+
 function cleanWhitespace(str) {
-  return String(str || '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  let s = String(str || '').normalize('NFC').replace(/\[FIGURE\]/gi, ' ');
+  s = s
+    .replace(/<sub>([\s\S]*?)<\/sub>/gi, (_, inner) =>
+      Array.from(inner.trim()).every((c) => SCRIPT_SUB_MAP[c])
+        ? Array.from(inner.trim()).map((c) => SCRIPT_SUB_MAP[c]).join('')
+        : inner
+    )
+    .replace(/<sup>([\s\S]*?)<\/sup>/gi, (_, inner) =>
+      Array.from(inner.trim()).every((c) => SCRIPT_SUP_MAP[c])
+        ? Array.from(inner.trim()).map((c) => SCRIPT_SUP_MAP[c]).join('')
+        : `^(${inner})`
+    )
+    .replace(/<\/?(?:b|i|u)>/gi, '')
+    .replace(/\\(?:text|mathrm|textit|mathbf|mathit)\{([^{}]*)\}/g, '$1')
+    .replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '($1)/($2)')
+    .replace(/\\sqrt\{([^{}]*)\}/g, '√($1)')
+    .replace(/\$|\\\(|\\\)/g, '');
+  return s.replace(/\s+/g, ' ').trim();
 }
 
 function truncateExcerpt(str, maxLen = 260) {

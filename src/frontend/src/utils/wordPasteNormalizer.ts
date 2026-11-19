@@ -1,4 +1,5 @@
 import type React from "react";
+import { fixMojibakeAndNormalize } from "@/utils/unicodeText";
 
 export interface WordPasteOptions {
   multiline?: boolean;
@@ -767,7 +768,7 @@ function unwrapPlainTextParagraphs(text: string): string {
 }
 
 function cleanTypography(raw: string, multiline: boolean, unwrapLines = false): string {
-  let cleaned = normalizeMathAlphanumerics(raw)
+  let cleaned = normalizeMathAlphanumerics(fixMojibakeAndNormalize(raw))
     .replace(/\r\n?/g, "\n")
     .replace(/[\u00A0\u202F]/g, " ")
     .replace(/[\u200B\uFEFF\u00AD]/g, "")

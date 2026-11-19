@@ -9,8 +9,45 @@ function formatOrdinal(n) {
   return `${num}${suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]}`;
 }
 
+const SUPER_SUB_FOLD = {
+  '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4',
+  '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
+  '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4',
+  '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9',
+};
+
+function foldSuperSubDigits(str) {
+  return String(str || '').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹₀₁₂₃₄₅₆₇₈₉]/g, (ch) => SUPER_SUB_FOLD[ch] || ch);
+}
+
+const SCRIPT_SUB_MAP = { '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉','+':'₊','-':'₋','a':'ₐ','e':'ₑ','h':'ₕ','i':'ᵢ','j':'ⱼ','k':'ₖ','l':'ₗ','m':'ₘ','n':'ₙ','o':'ₒ','p':'ₚ','r':'ᵣ','s':'ₛ','t':'ₜ','u':'ᵤ','v':'ᵥ','x':'ₓ' };
+const SCRIPT_SUP_MAP = { '0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','+':'⁺','-':'⁻','n':'ⁿ','i':'ⁱ' };
+
+function toPlainScientificCjs(input) {
+  let s = String(input || '').normalize('NFC').replace(/\[FIGURE\]/gi, ' ');
+  s = s
+    .replace(/<sub>([\s\S]*?)<\/sub>/gi, (_, inner) =>
+      Array.from(inner.trim()).every((c) => SCRIPT_SUB_MAP[c])
+        ? Array.from(inner.trim()).map((c) => SCRIPT_SUB_MAP[c]).join('')
+        : inner
+    )
+    .replace(/<sup>([\s\S]*?)<\/sup>/gi, (_, inner) =>
+      Array.from(inner.trim()).every((c) => SCRIPT_SUP_MAP[c])
+        ? Array.from(inner.trim()).map((c) => SCRIPT_SUP_MAP[c]).join('')
+        : `^(${inner})`
+    )
+    .replace(/<\/?(?:b|i|u)>/gi, '')
+    .replace(/\\(?:text|mathrm|textit|mathbf|mathit)\{([^{}]*)\}/g, '$1')
+    .replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '($1)/($2)')
+    .replace(/\\sqrt\{([^{}]*)\}/g, '√($1)')
+    .replace(/\$|\\\(|\\\)/g, '');
+  return s.replace(/\s+/g, ' ').trim();
+}
+
 function normalizeTitle(str) {
-  return String(str || '')
+  return foldSuperSubDigits(toPlainScientificCjs(str))
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
@@ -213,7 +250,8 @@ try {
 
       const authorsCite = authorsList.length > 0 ? authorsList.join(', ') : 'HEMS Workshop Contributors';
       const locationClause = wsLocation ? `, ${wsLocation}` : '';
-      const citation = `${authorsCite} (${wsYearStr}). "${title}." Proceedings of the ${ordinalLabel} Workshop on Harsh-Environment Mass Spectrometry${locationClause}. ${canonicalUrl}`;
+      const plainTitleForCite = toPlainScientificCjs(title);
+      const citation = `${authorsCite} (${wsYearStr}). "${plainTitleForCite}." Proceedings of the ${ordinalLabel} Workshop on Harsh-Environment Mass Spectrometry${locationClause}. ${canonicalUrl}`;
 
       return {
         id: anchorId,

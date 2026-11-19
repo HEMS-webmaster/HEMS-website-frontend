@@ -3,6 +3,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import DragDropZone from './DragDropZone';
 import PreviewHover from './PreviewHover';
+import ScientificText from '@/components/ScientificText';
+import { applyWordPasteToField } from '@/utils/wordPasteNormalizer';
+import {
+  foldLatinDiacriticsToAscii,
+  hasRichScientificMarkup,
+  toPlainScientificText,
+} from '@/utils/unicodeText';
 
 function getOrdinalSuffix(num: number): string {
   const j = num % 10;
@@ -140,7 +147,9 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
 
       <div className="space-y-4">
         {students.map((s, i) => {
-          const cleanName = s.name ? s.name.replace(/[^a-zA-Z0-9]/g, '_') : `Student_${i}`;
+          const cleanName = s.name
+            ? foldLatinDiacriticsToAscii(toPlainScientificText(s.name)).replace(/[^a-zA-Z0-9]/g, '_')
+            : `Student_${i}`;
           const wsOrdinal = formatOrdinal(parseInt(wsNum));
           const presFileName = `${wsOrdinal}_${cleanName}_Student_Award.pdf`;
           const absFileName = `${wsOrdinal}_${cleanName}_Student_Abstract.pdf`;
@@ -156,15 +165,39 @@ export default function StudentsManager({ students = [], wsNum, onChange }: Stud
               <div className="flex-1 grid grid-cols-2 gap-4">
                 <div className="col-span-2">
                   <label className="block text-xs font-bold text-slate-400 mb-1">Presentation Title</label>
-                  <input type="text" value={s.title || ''} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                  <input
+                    type="text"
+                    value={s.title || ''}
+                    onChange={e => updateItem(i, 'title', e.target.value)}
+                    onPaste={e => applyWordPasteToField(e, s.title || '', (val) => updateItem(i, 'title', val), { multiline: false })}
+                    className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                  />
+                  {hasRichScientificMarkup(s.title || '') && (
+                    <div className="mt-1.5 rounded bg-slate-800/90 border border-sky-700/50 px-2.5 py-1.5 text-xs text-slate-200">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-sky-400 mr-1.5">Preview:</span>
+                      <ScientificText text={s.title || ''} />
+                    </div>
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-400 mb-1">Student Name</label>
-                  <input type="text" value={s.name || ''} onChange={e => updateItem(i, 'name', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                  <input
+                    type="text"
+                    value={s.name || ''}
+                    onChange={e => updateItem(i, 'name', e.target.value)}
+                    onPaste={e => applyWordPasteToField(e, s.name || '', (val) => updateItem(i, 'name', val), { multiline: false })}
+                    className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                  />
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-slate-400 mb-1">Affiliate Institute</label>
-                  <input type="text" value={s.institute || ''} onChange={e => updateItem(i, 'institute', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                  <input
+                    type="text"
+                    value={s.institute || ''}
+                    onChange={e => updateItem(i, 'institute', e.target.value)}
+                    onPaste={e => applyWordPasteToField(e, s.institute || '', (val) => updateItem(i, 'institute', val), { multiline: false })}
+                    className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                  />
                 </div>
                 <div className="col-span-2 relative">
                   <label className="block text-xs font-bold text-slate-400 mb-1">Legacy URL</label>

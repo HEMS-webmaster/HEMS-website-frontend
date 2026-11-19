@@ -11,6 +11,7 @@ import {
   History,
   ChevronDown,
 } from "lucide-react";
+import InlineMailingSignup from "@/components/mailing/InlineMailingSignup";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import { galleryImageUrl } from "@/utils/galleryAssets";
 import { formatAbstractDeadlineDisplay } from "@/utils/upcomingWorkshop";
@@ -229,6 +230,18 @@ export default function CallForPapersClient() {
               </div>
             </div>
           </div>
+
+          {!workshop.cfp_open && (
+            <InlineMailingSignup
+              variant="card"
+              kicker="Call for Papers Alert"
+              heading={`Notify Me When ${workshop.workshop_year} Submissions Open`}
+              description="Get an email as soon as the 1-page abstract submission window and deadlines are announced."
+              buttonLabel="Notify Me"
+              interests={["workshop"]}
+              sourceLabel="CFP Sidebar Alert"
+            />
+          )}
         </div>
       </div>
 

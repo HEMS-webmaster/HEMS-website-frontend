@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Calendar, MapPin, GraduationCap, ArrowRight } from "lucide-react";
+import InlineMailingSignup from "@/components/mailing/InlineMailingSignup";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 
 export default function UpcomingWorkshopSpotlight() {
@@ -45,6 +46,16 @@ export default function UpcomingWorkshopSpotlight() {
           <ArrowRight size={12} />
         </Link>
       </div>
+
+      {workshop.cycle_stage !== "open" && (
+        <InlineMailingSignup
+          variant="compact"
+          heading={`Get notified when ${workshop.workshop_year} Call for Papers & venue open:`}
+          buttonLabel="Notify Me"
+          interests={["workshop"]}
+          sourceLabel="Homepage Spotlight"
+        />
+      )}
     </div>
   );
 }

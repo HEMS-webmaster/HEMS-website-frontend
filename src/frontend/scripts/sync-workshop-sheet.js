@@ -32,6 +32,15 @@ const CANONICAL_KEYS = [
   "hotel_discount_window",
   "hotel_booking_cutoff",
   "hotel_booking_url",
+  "venue_session_room",
+  "venue_foyer_room",
+  "welcome_reception_time",
+  "welcome_reception_venue",
+  "dinner_day_time",
+  "dinner_venue_name",
+  "dinner_venue_address",
+  "dinner_venue_url",
+  "dinner_plan_notes",
   "cfp_open",
   "cfp_abstract_deadline",
   "cfp_abstract_deadline_time",
@@ -124,7 +133,7 @@ function main() {
 
   fs.writeFileSync(jsonPath, JSON.stringify(normalized, null, 2) + "\n", "utf8");
   console.log(
-    `✅ Validated 44-key upcoming_workshop.json (${normalized.workshop_ordinal} Workshop · ${normalized.workshop_year} · mode=${normalized.registration_mode}).`
+    `✅ Validated 53-key upcoming_workshop.json (${normalized.workshop_ordinal} Workshop · ${normalized.workshop_year} · mode=${normalized.registration_mode}).`
   );
 }
 

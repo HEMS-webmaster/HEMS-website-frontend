@@ -236,7 +236,7 @@
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_III/14th_Panchagnula_MT_Explorer_30_Abstract_preview.txt
      - Summary Excerpt: MT Explorer 30: A Portable Tandem Mass Spectrometer - Development and Applications Venkateswarlu Panchagnula 1, 2, Konstantin Novoselov 1, Victor Laiko 1, Caleigh O'Connor 1, Madhuri Gupta 2, Vishal Mahale 2, Vladimir Doroshenko 1 1 MassTech Inc. 6992 Columbia Gateway Dr, Ste...
-  10. **[Oral] MS field applications in CBSA operations** — Marie-JosÃ©e Binette | Session: Technical Session IV
+  10. **[Oral] MS field applications in CBSA operations** — Marie-Josée Binette | Session: Technical Session IV
      - Cite / Anchor: https://www.hems-workshop.org/archive/2022/#2022-pres-unknown-ms-field-applications-in
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_IV/14th_Binette_MS_field_applications_Abstract_preview.txt
@@ -247,7 +247,7 @@
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_IV/14th_Eiceman_Structural_Content_in_Abstract_preview.txt
      - Summary Excerpt: Structural Content in Field Induced Fragmentation Spectra from Tandem Ion Mobility Spectrometry toward Molecular Identification Gary Eiceman 1, Peter Fowler 1, Hossein Shokri 1, Erkin Nazarov 1, Ben Gardner 2 1 Department of Chemistry and Biochemistry New Mexico State University...
-  12. **[Oral] Overview and Testing of the Mars Organic Molecule Analyzer (MOMA)** — Friso van Amerom, Andrej Grubisic, Marco Castillo, Desmond A. Kaplan, Xiang Li, Ryan M. Danell, Stephanie A. Getty, William B. Brinckerhoff, Arnaud Buch, Fabien Stalport, Naila Chaouche, Clara Azemard, FranÃƒÂ§ois Raulin, Noel Grand, Caroline Freissinet, Melissa Guzman, Cyril Szopa, Teresa Fornaro, John Robert Brucato, Sandra SiljestrÃƒÂ¶m, Walter Goetz, Fred Goesmann | Session: Technical Session V
+  12. **[Oral] Overview and Testing of the Mars Organic Molecule Analyzer (MOMA)** — Friso van Amerom, Andrej Grubisic, Marco Castillo, Desmond A. Kaplan, Xiang Li, Ryan M. Danell, Stephanie A. Getty, William B. Brinckerhoff, Arnaud Buch, Fabien Stalport, Naila Chaouche, Clara Azemard, François Raulin, Noel Grand, Caroline Freissinet, Melissa Guzman, Cyril Szopa, Teresa Fornaro, John Robert Brucato, Sandra Siljeström, Walter Goetz, Fred Goesmann | Session: Technical Session V
      - Cite / Anchor: https://www.hems-workshop.org/archive/2022/#2022-pres-unknown-overview-and-testing-of
      - Slides PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Presentation.pdf
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_V/14th_Amerom_Overview_and_Testing_Abstract.pdf
@@ -286,7 +286,7 @@
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_VII/14th_Madzunkov_Lunar_Cube_Sat_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_VII/14th_Madzunkov_Lunar_Cube_Sat_Abstract_preview.txt
      - Summary Excerpt: Lunar Cube Sat Mass Spectrometer Stojan Madzunkov, Dragan Nikolic Jet Propulsion Laboratory, Caltech Lunar Cube Sat Mass Spectrometer (LCMS) is a Paul trap mass spectrometer, based on JPL's Quadrupole Ion Trap Mass Spectrometer (QITMS), develop and build (DALI) to operate on the...
-  19. **[Oral] An optimized membrane inlet system (MIS) for underwater sensors. - From idea to product** — Torben Gentz, Malte HÃƒÂ¶hn | Session: Technical Session VII
+  19. **[Oral] An optimized membrane inlet system (MIS) for underwater sensors. - From idea to product** — Torben Gentz, Malte Höhn | Session: Technical Session VII
      - Cite / Anchor: https://www.hems-workshop.org/archive/2022/#2022-pres-unknown-an-optimized-membrane-inlet
      - Slides PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Presentation.pdf
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/14th/Technical_Session_VII/14th_Gentz_An_optimized_membrane_Abstract.pdf
@@ -326,7 +326,7 @@
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_I/13th_Amsden_Use_of_Computational_Abstract_preview.txt
      - Summary Excerpt: Use of Computational Sensing Techniques to Improve the Performance of Mass Spectrometers in Harsh Environments _______________________________________________________________________ Jason J. Amsden, † Philip J. Herr, † Tanouir Aloui, † Raul Vyas, † Kathleen Horvath , † Charles...
-  3. **[Oral] Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis** — FrÃ©dÃ©ric Progent | Session: Technical Session II
+  3. **[Oral] Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis** — Frédéric Progent | Session: Technical Session II
      - Cite / Anchor: https://www.hems-workshop.org/archive/2019/#2019-pres-unknown-development-of-micro-time-of-flight-mass
      - Slides PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Presentation.pdf
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Technical_Session_II/13th_Progent_Development_of_MicroTimeOfFlight_Abstract.pdf
@@ -456,7 +456,7 @@
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Vyas_A_Comparison_of_Abstract_preview.txt
      - Summary Excerpt: A Comparison of Thermionic Filament and Carbon Nanotube Field Emitter Array- based Ion Sources in Coded Aperture Miniature Mass Spectrometers ___________________________________________________________________ Raul Vyas ¶ , Philip J. Herr ¶ , Tanouir Aloui ¶ , Kathleen Horvath ¶...
-  25. **[Poster] In-situ Measurements of Î´C and Î´O of Dissolved CO2 using an Underwater Mass Spectrometer** — Scott T. Wieman | Session: Technical Session III: Poster Presenter Lightning Round
+  25. **[Poster] In-situ Measurements of δ¹³C and δ¹⁸O of Dissolved CO₂ using an Underwater Mass Spectrometer** — Scott T. Wieman | Session: Technical Session III: Poster Presenter Lightning Round
      - Cite / Anchor: https://www.hems-workshop.org/archive/2019/#2019-poster-wieman-in-situ-measurements-of-c
      - Slides PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Poster.pdf
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/13th/Posters/13th_Wieman_Insitu_Measurements_of_Abstract.pdf
@@ -488,7 +488,7 @@
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/12th/Technical_Session_I/12th_Madzunkov_CubeSat_QITMS_Rad_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/12th/Technical_Session_I/12th_Madzunkov_CubeSat_QITMS_Rad_Abstract_preview.txt
      - Summary Excerpt: 3 CubeSat QIT-MS: Rad Hard Miniature Instrument for Solar System Exploration Stojan Madzunkov Jet Propulsion Laboratory, Pasadena, CA We present a new miniaturized mass spectrometer prime rely designed for sampling the atmospheres of the planetary bodies of the Solar System. The...
-  4. **[Oral] An optimized membrane inlet system for underwater mass spectrometry** — Malte HÃ¶hn, Christian Hamm, Justin Chaillot, Marvin Frank, Torben Gentz (Alfred-Wegener-Institute for Polar and Marine Research) | Session: Technical Session II
+  4. **[Oral] An optimized membrane inlet system for underwater mass spectrometry** — Malte Höhn, Christian Hamm, Justin Chaillot, Marvin Frank, Torben Gentz (Alfred-Wegener-Institute for Polar and Marine Research) | Session: Technical Session II
      - Cite / Anchor: https://www.hems-workshop.org/archive/2018/#2018-pres-unknown-an-optimized-membrane-inlet
      - Slides PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Presentation.pdf
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/12th/Technical_Session_II/12th_Hhn_An_optimized_membrane_Abstract.pdf
@@ -665,7 +665,7 @@
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/11th/Technical_Session_III/11th_Taghioskoui_Toward_LowCost_and_Abstract.pdf
      - Abstract Plain-Text Preview: https://storage.googleapis.com/hems-workshop-archives/proceedings/11th/Technical_Session_III/11th_Taghioskoui_Toward_LowCost_and_Abstract_preview.txt
      - Summary Excerpt: Oral Abstracts Towards Low‐Cost and Application‐Specific Field Mass Spectrometers Mazdak Taghioskoui Trace Matters Scientific LLC, Houston TX Despite significant efforts being put towards commercialization of field mass spectrometers in recent years, these instruments have not...
-  21. **[Oral] Silence is Golden: Detector Radiation Shielding at Europa for Mass Spectrometer for Planetary Exploration (MASPEX)** — Ryan BlasÃ© | Session: Technical Session VIII
+  21. **[Oral] Silence is Golden: Detector Radiation Shielding at Europa for Mass Spectrometer for Planetary Exploration (MASPEX)** — Ryan Blasé | Session: Technical Session VIII
      - Cite / Anchor: https://www.hems-workshop.org/archive/2017/#2017-pres-unknown-silence-is-golden-detector
      - Slides PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/11th/Technical_Session_VIII/11th_Blas_Silence_is_Golden_Presentation.pdf
      - Extended Abstract PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/11th/Technical_Session_VIII/11th_Blas_Silence_is_Golden_Abstract.pdf
@@ -1914,7 +1914,7 @@
   28. **[Poster] In-situ programmable, reconfigurable fluidic processor for waterborne biomolecular sample prep: towards the develpment of an automated bio-mass spec.** — Brian Gregson, Andrew Farmer, Matt Smith, David Fries (Center for Ocean Technology, College of Marine Science, University of South Florida, St. Petersburg, FL) | Session: Poster Session
      - Cite / Anchor: https://www.hems-workshop.org/archive/2005/#2005-poster-gregson-in-situ-programmable-reconfigurable-fluidic
      - Slides PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/5th/Posters/5th_Gregson_Insitu_programmable_reconfigurable_Poster.pdf
-  29. **[Poster] Characterization of a Mini Membrane Inlet Mass Spectrometer Operating at High Pressure (˜ 1•10-3 torr) Using Different Types of Microporous Membranes** — Frants R. Lauritsen, Christian Janfelt, Christian Schack Pedersen (Chemistry, Copenhagen University, Copenhagen, Denmark) | Session: Poster Session
+  29. **[Poster] Characterization of a Mini Membrane Inlet Mass Spectrometer Operating at High Pressure (~ 1×10⁻³ torr) Using Different Types of Microporous Membranes** — Frants R. Lauritsen, Christian Janfelt, Christian Schack Pedersen (Chemistry, Copenhagen University, Copenhagen, Denmark) | Session: Poster Session
      - Cite / Anchor: https://www.hems-workshop.org/archive/2005/#2005-poster-lauritsen-characterization-of-a-mini
      - Slides PDF: https://storage.googleapis.com/hems-workshop-archives/proceedings/5th/Posters/5th_Lauritsen_Characterization_of_a_Poster.pdf
   30. **[Poster] Mobile water mass-spectrometer** — Dimitrii Lebedev, Viktor Kogan, Anatolii Pavlov, Yurii Chichagov, Yurii Tubol’tsev, Olga Viktorova, Mihail Savchenko, Boris Dubenskii, Sergei Nikonov (A. F. Ioffe Physico-Technical Institute, St. Petersburg, Russia; CFTI Analytic, St.Petersburg, Russia) | Session: Poster Session

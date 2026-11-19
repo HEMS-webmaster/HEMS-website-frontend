@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth, UserProfile } from "@/context/AuthContext";
+import { auth } from "@/utils/firebase";
+import { submitPublicMailingSignup } from "@/utils/mailingClient";
 import { recordTelemetryEvent } from "@/utils/telemetryClient";
 import {
   X,
@@ -63,6 +65,9 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
 
   const [email, setEmail] = useState("");
   const [confirmLinkEmail, setConfirmLinkEmail] = useState("");
+  const [optInNewsletter, setOptInNewsletter] = useState(false);
+  const [newsletterSubscribedNote, setNewsletterSubscribedNote] = useState("");
+  const [readySubscribeBusy, setReadySubscribeBusy] = useState(false);
   const [busyAction, setBusyAction] = useState<"google" | "microsoft" | "link" | "confirm" | null>(
     null
   );
@@ -280,6 +285,17 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
         pendingDownloadUrl: pendingUrl || undefined,
       });
 
+      if (optInNewsletter) {
+        const res = await submitPublicMailingSignup({
+          email: trimmed,
+          interests: ["workshop", "student_awards"],
+          sourceLabel: "DownloadGate Email Link",
+        }).catch(() => null);
+        if (res?.ok) {
+          setNewsletterSubscribedNote(res.message);
+        }
+      }
+
       if (isMock) {
         // In mock mode, sendMagicSignInLink signs in immediately and sets readyDownloadUrl
         setShowModal(false);
@@ -303,6 +319,36 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
       } else {
         await loginWithMicrosoft();
       }
+
+      if (optInNewsletter) {
+        const oauthEmail = isMock
+          ? (() => {
+              try {
+                const raw = localStorage.getItem("hems_mock_current_user");
+                return raw ? ((JSON.parse(raw) as UserProfile).email || "") : "";
+              } catch {
+                return "";
+              }
+            })()
+          : auth.currentUser?.email || "";
+        const displayParts = (auth.currentUser?.displayName || "").trim().split(/\s+/);
+        const firstName = displayParts[0] || "";
+        const lastName = displayParts.slice(1).join(" ");
+
+        if (oauthEmail) {
+          const res = await submitPublicMailingSignup({
+            email: oauthEmail,
+            firstName,
+            lastName,
+            interests: ["workshop", "student_awards"],
+            sourceLabel: `DownloadGate ${provider === "google" ? "Google" : "Microsoft"}`,
+          }).catch(() => null);
+          if (res?.ok) {
+            setNewsletterSubscribedNote(res.message);
+          }
+        }
+      }
+
       const targetUrl = pendingUrl;
       setShowModal(false);
       setShowVerifyModal(false);
@@ -388,6 +434,11 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
                   </span>{" "}
                   immediately.
                 </p>
+                {newsletterSubscribedNote && (
+                  <p className="text-[11px] font-medium text-emerald-800 bg-white/80 border border-emerald-200 rounded-lg px-3 py-2">
+                    {newsletterSubscribedNote}
+                  </p>
+                )}
                 <div className="pt-2 flex flex-col gap-2">
                   <button
                     type="button"
@@ -490,6 +541,22 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
                     )}
                   </button>
                 </form>
+
+                {/* Voluntary Double-Opt-In Newsletter Checkbox (Unchecked by Default) */}
+                <label className="mt-4 flex items-start gap-2.5 p-3 rounded-xl bg-slate-50/90 border border-slate-200/85 cursor-pointer hover:border-primary/40 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={optInNewsletter}
+                    onChange={(e) => setOptInNewsletter(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary shrink-0 cursor-pointer"
+                  />
+                  <span className="text-[11.5px] text-slate-600 leading-snug">
+                    <strong className="font-semibold text-slate-800">
+                      Also send me biennial HEMS Workshop updates
+                    </strong>{" "}
+                    — Call for Papers, venue opening &amp; Student Travel Awards (low-volume, 1-click unsubscribe).
+                  </span>
+                </label>
 
                 <div className="mt-5 pt-3.5 border-t border-slate-100 text-center text-xs text-slate-500">
                   Already use a portal password?{" "}
@@ -622,6 +689,44 @@ export default function DownloadGate({ children }: { children: React.ReactNode }
             >
               Open {extractReadableFileName(activeReadyPdfUrl)} <ExternalLink size={15} />
             </a>
+
+            {newsletterSubscribedNote ? (
+              <p className="text-[11px] font-medium text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                {newsletterSubscribedNote}
+              </p>
+            ) : (
+              <button
+                type="button"
+                disabled={readySubscribeBusy}
+                onClick={async () => {
+                  setReadySubscribeBusy(true);
+                  try {
+                    const nameParts = (user.name || "").trim().split(/\s+/);
+                    const res = await submitPublicMailingSignup({
+                      email: user.email,
+                      firstName: nameParts[0] || "",
+                      lastName: nameParts.slice(1).join(" "),
+                      interests: ["workshop", "student_awards"],
+                      sourceLabel: "DownloadGate Ready Card",
+                    });
+                    setNewsletterSubscribedNote(res.message);
+                  } catch (err: unknown) {
+                    setNewsletterSubscribedNote(
+                      err instanceof Error
+                        ? err.message
+                        : "Unable to send confirmation link right now."
+                    );
+                  } finally {
+                    setReadySubscribeBusy(false);
+                  }
+                }}
+                className="w-full py-2 px-3 rounded-xl border border-slate-200 bg-slate-50/80 hover:bg-slate-100 text-xs font-semibold text-slate-700 hover:text-primary transition-colors cursor-pointer disabled:opacity-50"
+              >
+                {readySubscribeBusy
+                  ? "Sending confirmation..."
+                  : "+ Also notify me about HEMS Call for Papers & Student Travel Awards"}
+              </button>
+            )}
           </div>
         </div>
       )}

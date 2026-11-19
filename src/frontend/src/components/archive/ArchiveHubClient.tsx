@@ -7,6 +7,14 @@ import workshopsData from "@/data/master_workshops.json";
 import scientificSynonyms from "@/data/scientific_synonyms.json";
 import DownloadGate from "@/components/DownloadGate";
 import FrontendPreviewHover from "@/components/FrontendPreviewHover";
+import InlineMailingSignup from "@/components/mailing/InlineMailingSignup";
+import ScientificText from "@/components/workshop/ScientificText";
+import {
+  hasRichScientificMarkup,
+  normalizeForArchiveSearch,
+  foldLatinDiacriticsToAscii,
+  foldSuperSubscriptsToAscii,
+} from "@/utils/unicodeText";
 
 // Read Algolia credentials from environment variables
 const ALGOLIA_APP_ID = process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || "";
@@ -53,6 +61,22 @@ function formatOrdinal(n: number): string {
   const suffixes = ["th", "st", "nd", "rd"];
   const v = n % 100;
   return `${n}${suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]}`;
+}
+
+function buildSearchableText(input: string): string {
+  const norm = normalizeForArchiveSearch(input);
+  if (!norm) return "";
+  const alias = norm
+    .replace(/δ(?=\d)/g, "d")
+    .replace(/([a-z])_([a-z0-9])/gi, "$1$2");
+  return alias !== norm ? `${norm} ${alias}` : norm;
+}
+
+function foldCharOneToOneForHighlight(ch: string): string {
+  const foldedDigit = foldSuperSubscriptsToAscii(ch);
+  if (foldedDigit !== ch) return foldedDigit.toLowerCase();
+  const base = foldLatinDiacriticsToAscii(ch);
+  return (base.length === 1 ? base : ch).toLowerCase();
 }
 
 export default function ArchiveHubClient() {
@@ -140,11 +164,13 @@ export default function ArchiveHubClient() {
     // Helper to clean and add strings
     const cleanAndAdd = (str: string) => {
       if (!str) return;
-      str.toLowerCase().split(/[\s,.:()"\-/]+/).forEach(w => {
-        if (w.length > 3 && /^[a-z]+$/.test(w)) {
-          words.add(w);
-        }
-      });
+      normalizeForArchiveSearch(str)
+        .split(/[\s,.:()"\-/]+/)
+        .forEach((w) => {
+          if (w.length > 3 && /^[a-z]+$/.test(w)) {
+            words.add(w);
+          }
+        });
     };
     
     // Add terms from workshops titles, authors, and institutions
@@ -275,7 +301,7 @@ export default function ArchiveHubClient() {
       return { exactPhrases, excludedTerms, normalKeywords };
     }
     
-    let workingQuery = searchQuery.toLowerCase().trim();
+    let workingQuery = normalizeForArchiveSearch(searchQuery);
     
     // Extract exact phrases
     const quoteRegex = /"([^"]+)"/g;
@@ -456,7 +482,11 @@ export default function ArchiveHubClient() {
 
         const authorsStr = Array.isArray(chunk.authors) ? chunk.authors.join(" ") : String(chunk.authors || "");
         const institutionsStr = Array.isArray(chunk.institutions) ? chunk.institutions.join(" ") : String(chunk.institutions || "");
-        const combinedText = `${chunk.title} ${chunk.text_content} ${authorsStr} ${institutionsStr}`.toLowerCase();
+        const normTitle = buildSearchableText(chunk.title || "");
+        const normContent = buildSearchableText(chunk.text_content || "");
+        const normAuthors = buildSearchableText(authorsStr);
+        const normInstitutions = buildSearchableText(institutionsStr);
+        const combinedText = `${normTitle} ${normContent} ${normAuthors} ${normInstitutions}`;
 
         // 1. Enforce Exclude Operators (-exclude)
         const hasExcluded = excludedTerms.some(term => {
@@ -475,9 +505,9 @@ export default function ArchiveHubClient() {
         if (exactPhrases.length > 0 && normalKeywords.length === 0) {
           let phraseScore = 0;
           exactPhrases.forEach(phrase => {
-            if (chunk.title.toLowerCase().includes(phrase)) phraseScore += 10;
-            if (chunk.text_content.toLowerCase().includes(phrase)) phraseScore += 5;
-            if (authorsStr.toLowerCase().includes(phrase)) phraseScore += 8;
+            if (normTitle.includes(phrase)) phraseScore += 10;
+            if (normContent.includes(phrase)) phraseScore += 5;
+            if (normAuthors.includes(phrase)) phraseScore += 8;
           });
           return { ...chunk, relevanceScore: phraseScore || 1, isMatched: true };
         }
@@ -498,30 +528,26 @@ export default function ArchiveHubClient() {
               const termRegex = new RegExp(`\\b${pattern}`, "i");
               
               // 1. Match in Title
-              if (termRegex.test(chunk.title)) {
+              if (termRegex.test(normTitle)) {
                 chunkScore += isExact ? 10 : 3;
                 isMatched = true;
               }
               
               // 2. Match in Slide Text Content
-              if (termRegex.test(chunk.text_content)) {
+              if (termRegex.test(normContent)) {
                 chunkScore += isExact ? 5 : 1;
                 isMatched = true;
               }
 
               // 3. Match in Authors
-              const authorMatch = Array.isArray(chunk.authors) 
-                ? chunk.authors.some((name: string) => termRegex.test(name))
-                : typeof chunk.authors === "string" && termRegex.test(chunk.authors);
+              const authorMatch = normAuthors ? termRegex.test(normAuthors) : false;
               if (authorMatch) {
                 chunkScore += isExact ? 8 : 2;
                 isMatched = true;
               }
 
               // 4. Match in Institutions
-              const instMatch = Array.isArray(chunk.institutions)
-                ? chunk.institutions.some((inst: string) => termRegex.test(inst))
-                : false;
+              const instMatch = normInstitutions ? termRegex.test(normInstitutions) : false;
               if (instMatch) {
                 chunkScore += isExact ? 8 : 2;
                 isMatched = true;
@@ -569,7 +595,7 @@ export default function ArchiveHubClient() {
       }
 
       // Check if this chunk has actual text content matches for query terms
-      const textToSearch = chunk.text_content.toLowerCase();
+      const textToSearch = buildSearchableText(chunk.text_content || "");
       let hasTextMatch = false;
 
       if (normalKeywords.length > 0) {
@@ -665,7 +691,11 @@ export default function ArchiveHubClient() {
           ? paper.authors.map((a: any) => typeof a === "string" ? a : a.name).join(" ")
           : String(paper.authors || "");
         const institutesStr = Array.isArray(paper.institutes) ? paper.institutes.join(" ") : "";
-        const combinedText = `${paper.title} ${paper.sessionTitle} ${authorsStr} ${institutesStr} ${paper.workshopYear}`.toLowerCase();
+        const normTitle = buildSearchableText(paper.title || "");
+        const normSession = buildSearchableText(paper.sessionTitle || "");
+        const normAuthors = buildSearchableText(authorsStr);
+        const normInstitutions = buildSearchableText(institutesStr);
+        const combinedText = `${normTitle} ${normSession} ${normAuthors} ${normInstitutions} ${paper.workshopYear}`;
 
         // 1. Enforce Exclude Operators
         const hasExcluded = excludedTerms.some(term => {
@@ -684,8 +714,8 @@ export default function ArchiveHubClient() {
         if (exactPhrases.length > 0 && normalKeywords.length === 0) {
           let phraseScore = 0;
           exactPhrases.forEach(phrase => {
-            if (paper.title.toLowerCase().includes(phrase)) phraseScore += 10;
-            if (authorsStr.toLowerCase().includes(phrase)) phraseScore += 8;
+            if (normTitle.includes(phrase)) phraseScore += 10;
+            if (normAuthors.includes(phrase)) phraseScore += 8;
           });
           return { ...paper, relevanceScore: phraseScore || 1, isMatched: true };
         }
@@ -706,38 +736,27 @@ export default function ArchiveHubClient() {
               const termRegex = new RegExp(`\\b${pattern}`, "i");
 
               // 1. Title Match
-              if (termRegex.test(paper.title)) {
+              if (termRegex.test(normTitle)) {
                 paperScore += isExact ? 10 : 3;
                 isMatched = true;
               }
 
               // 2. Authors Match
-              let authMatch = false;
-              if (Array.isArray(paper.authors)) {
-                authMatch = paper.authors.some((a: any) => {
-                  const name = typeof a === "string" ? a : a.name;
-                  return termRegex.test(name);
-                });
-              } else if (typeof paper.authors === "string") {
-                authMatch = termRegex.test(paper.authors);
-              }
+              const authMatch = normAuthors ? termRegex.test(normAuthors) : false;
               if (authMatch) {
                 paperScore += isExact ? 8 : 2;
                 isMatched = true;
               }
 
               // 3. Affiliation/Institution Match
-              let instMatch = false;
-              if (Array.isArray(paper.institutes)) {
-                instMatch = paper.institutes.some((inst: string) => termRegex.test(inst));
-              }
+              const instMatch = normInstitutions ? termRegex.test(normInstitutions) : false;
               if (instMatch) {
                 paperScore += isExact ? 8 : 2;
                 isMatched = true;
               }
 
               // 4. Session Title/Year Match
-              if (termRegex.test(paper.sessionTitle) || String(paper.workshopYear).includes(term)) {
+              if (termRegex.test(normSession) || String(paper.workshopYear).includes(term)) {
                 paperScore += 1;
                 isMatched = true;
               }
@@ -809,12 +828,16 @@ export default function ArchiveHubClient() {
     setDisplayLimit(25);
   };
 
-  // Secure text highlight helper
+  // Secure text highlight helper (renders rich equations/subscripts intact & supports accent-folded highlights)
   function highlightText(text: string, search: string) {
+    if (!text) return null;
+    if (hasRichScientificMarkup(text)) {
+      return <ScientificText text={text} />;
+    }
     if (!search.trim()) return <span>{text}</span>;
     
-    // Expand highlights to match synonyms too
-    const queryKeywords = search.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    // Expand highlights to match synonyms + normalized tokens
+    const queryKeywords = normalizeForArchiveSearch(search).split(/\s+/).filter(Boolean);
     const highlightTerms = new Set<string>();
     
     queryKeywords.forEach(keyword => {
@@ -825,11 +848,36 @@ export default function ArchiveHubClient() {
 
     const escapedTerms = Array.from(highlightTerms)
       .map(term => term.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"))
-      .sort((a, b) => b.length - a.length); // Longest first to avoid partial replacements
+      .sort((a, b) => b.length - a.length);
 
     if (escapedTerms.length === 0) return <span>{text}</span>;
 
     const regex = new RegExp(`(${escapedTerms.join("|")})`, "gi");
+    const foldedText = Array.from(text).map(foldCharOneToOneForHighlight).join("");
+    if (text.length === foldedText.length) {
+      const nodes: React.ReactNode[] = [];
+      let cursor = 0;
+      let matchIdx = 0;
+      let m: RegExpExecArray | null = regex.exec(foldedText);
+      while (m !== null) {
+        if (m.index > cursor) {
+          nodes.push(text.slice(cursor, m.index));
+        }
+        nodes.push(
+          <mark key={`hl-${matchIdx++}`} className="bg-primary/20 text-primary font-semibold px-0.5 rounded">
+            {text.slice(m.index, m.index + m[0].length)}
+          </mark>
+        );
+        cursor = m.index + m[0].length;
+        if (m[0].length === 0) regex.lastIndex += 1;
+        m = regex.exec(foldedText);
+      }
+      if (cursor < text.length) {
+        nodes.push(text.slice(cursor));
+      }
+      return <span>{nodes}</span>;
+    }
+
     const parts = text.split(regex);
     return (
       <span>
@@ -1478,6 +1526,19 @@ export default function ArchiveHubClient() {
         </div>
         </DownloadGate>
       )}
+
+      {/* Scholarly Mailing List Callout for Archive Researchers */}
+      <div className="mt-10 pt-8 border-t border-slate-200/90">
+        <InlineMailingSignup
+          variant="card"
+          kicker="Upcoming Biennial Symposium"
+          heading="Presenting Harsh-Environment Mass Spectrometry? Join the HEMS Mailing List"
+          description="Receive the upcoming Call for Papers, host beachfront venue announcement, and $1,500 Student Travel Award dates (low-volume academic notices, 1-click unsubscribe)."
+          buttonLabel="Subscribe"
+          interests={["workshop", "student_awards"]}
+          sourceLabel="Archive Hub Banner"
+        />
+      </div>
     </div>
   );
 }

@@ -4,6 +4,8 @@
  * for search engines (Google, Bing) and AI/scholarly systems (Google Scholar, Semantic Scholar, LLMs).
  */
 
+import { toPlainScientificText } from "@/utils/unicodeText";
+
 export interface ArchiveAuthorInput {
   name?: string;
   isPresenter?: boolean;
@@ -434,7 +436,7 @@ export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
           const sessionStart = parseSessionIsoDateTime(dayDatePrefix, item.time);
           const sessionEvent: JsonLdSubEvent = {
             "@type": "Event",
-            name: item.title || "Technical Session",
+            name: toPlainScientificText(item.title || "Technical Session"),
             ...(sessionStart ? { startDate: sessionStart } : {}),
             eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
             eventStatus: "https://schema.org/EventScheduled",
@@ -449,18 +451,19 @@ export function generateArchiveJsonLd(data: ArchiveDataInput): JsonLdEvent {
               )
               .map((talk) => {
                 const articleUrl = talk.id ? `${canonicalArchiveUrl}#${talk.id}` : canonicalArchiveUrl;
+                const cleanTalkTitle = toPlainScientificText(talk.title);
                 const authors = extractAuthors(talk.authors, talk.institutes);
                 const authorNames =
                   authors.length > 0
                     ? authors.map((p) => p.name).join(", ")
                     : "HEMS Workshop Contributors";
-                const creditText = `${authorNames} (${yearStr}). "${talk.title}." ${proceedingsVolumeTitle}. ${articleUrl}`;
+                const creditText = `${authorNames} (${yearStr}). "${cleanTalkTitle}." ${proceedingsVolumeTitle}. ${articleUrl}`;
 
                 const article: JsonLdArticle = {
                   "@type": "ScholarlyArticle",
                   ...(talk.id ? { "@id": articleUrl } : {}),
-                  name: talk.title,
-                  headline: talk.title,
+                  name: cleanTalkTitle,
+                  headline: cleanTalkTitle,
                   url: articleUrl,
                   datePublished: startDate || yearStr,
                   inLanguage: "en",

@@ -34,7 +34,7 @@ export async function GET(request: Request) {
     if (ext === '.ppt' || ext === '.pptx') contentType = 'application/vnd.ms-powerpoint';
     if (ext === '.png') contentType = 'image/png';
     if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
-    if (ext === '.txt') contentType = 'text/plain';
+    if (ext === '.txt') contentType = 'text/plain; charset=utf-8';
     
     return new NextResponse(fileBuffer, {
       headers: {

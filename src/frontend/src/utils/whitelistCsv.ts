@@ -1,5 +1,6 @@
 import { parseCsvRows } from "@/utils/upcomingWorkshop";
 import type { PastedSubscriberRow } from "@/utils/spreadsheetPaste";
+import { fixMojibakeAndNormalize } from "@/utils/unicodeText";
 
 export const PROTECTED_ADMIN_EMAIL = "webmaster@hems-workshop.org";
 
@@ -222,15 +223,24 @@ export function hydrateWhitelistPersonFields(input: {
   affiliation: string;
   name: string;
 } {
-  const rawFirst = typeof input.firstName === "string" ? input.firstName.trim() : "";
-  const rawLast = typeof input.lastName === "string" ? input.lastName.trim() : "";
+  const rawFirst =
+    typeof input.firstName === "string"
+      ? fixMojibakeAndNormalize(input.firstName).trim()
+      : "";
+  const rawLast =
+    typeof input.lastName === "string"
+      ? fixMojibakeAndNormalize(input.lastName).trim()
+      : "";
   const rawAffil =
     typeof input.affiliation === "string" && input.affiliation.trim()
-      ? input.affiliation.trim()
+      ? fixMojibakeAndNormalize(input.affiliation).trim()
       : typeof input.institution === "string"
-        ? input.institution.trim()
+        ? fixMojibakeAndNormalize(input.institution).trim()
         : "";
-  const rawName = typeof input.name === "string" ? input.name.trim() : "";
+  const rawName =
+    typeof input.name === "string"
+      ? fixMojibakeAndNormalize(input.name).trim()
+      : "";
 
   if (rawFirst || rawLast) {
     return {
@@ -373,7 +383,7 @@ export function parseWhitelistCsv(
   csvText: string,
   batchOrFallbackRole: AssignableRole | "" = ""
 ): WhitelistCsvParseResult {
-  const rawRows = parseCsvRows(csvText);
+  const rawRows = parseCsvRows(fixMojibakeAndNormalize(csvText));
   if (rawRows.length === 0) {
     return {
       rows: [],

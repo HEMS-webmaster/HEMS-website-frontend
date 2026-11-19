@@ -2,6 +2,7 @@
 // The static export build (Firebase) skips dynamic routes automatically.
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
+import fsSync from 'fs';
 import path from 'path';
 import { getWorkshopDir, getSponsorsDir, getProjectRoot, getFrontendSponsorsDir } from '@/utils/assetPaths';
 
@@ -59,11 +60,13 @@ export async function POST(request: Request) {
         await fs.writeFile(path.join(publicSponsorDir, fileName || file.name), buffer);
       }
       
-      if (filePath.endsWith('.pdf')) {
+      if (filePath.toLowerCase().endsWith('.pdf')) {
         const { exec } = require('child_process');
         const util = require('util');
         const execPromise = util.promisify(exec);
-        const scriptPath = path.join(getProjectRoot(), 'scratch', 'preview_generator.py');
+        const managerScript = path.join(getProjectRoot(), 'tools', 'manager', 'scripts', 'preview_generator.py');
+        const legacyScript = path.join(getProjectRoot(), 'scratch', 'preview_generator.py');
+        const scriptPath = fsSync.existsSync(managerScript) ? managerScript : legacyScript;
         await execPromise(`python "${scriptPath}" "${filePath}"`);
       }
     } catch (e) {

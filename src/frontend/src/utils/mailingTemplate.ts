@@ -7,6 +7,7 @@ import {
   SubscriberStatus,
 } from "@/types/mailing";
 import { parseCsvRows } from "@/utils/upcomingWorkshop";
+import { fixMojibakeAndNormalize } from "@/utils/unicodeText";
 
 const SHORTENER_DOMAINS = [
   "bit.ly",
@@ -417,7 +418,7 @@ export function parseMailchimpCsvExport(
   defaultStatusOverride: "auto" | SubscriberStatus = "auto",
   assignSublistTag = ""
 ): MailchimpParsedRow[] {
-  const rows = parseCsvRows(csvText);
+  const rows = parseCsvRows(fixMojibakeAndNormalize(csvText));
   if (rows.length < 2) return [];
 
   const headers = rows[0].map((h) => h.trim().toLowerCase());

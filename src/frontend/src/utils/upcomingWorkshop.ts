@@ -28,6 +28,15 @@ export interface UpcomingWorkshopConfig {
   hotel_discount_window: string;
   hotel_booking_cutoff: string;
   hotel_booking_url: string;
+  venue_session_room: string;
+  venue_foyer_room: string;
+  welcome_reception_time: string;
+  welcome_reception_venue: string;
+  dinner_day_time: string;
+  dinner_venue_name: string;
+  dinner_venue_address: string;
+  dinner_venue_url: string;
+  dinner_plan_notes: string;
   cfp_open: boolean;
   cfp_abstract_deadline: string;
   cfp_abstract_deadline_time: string;
@@ -150,8 +159,8 @@ export const WORKSHOP_SECTIONS: readonly WorkshopSectionMeta[] = [
   },
   {
     id: "venue",
-    title: "3. Hotel, Venue & Room Block",
-    subtitle: "Host city, hotel contract status, room rates, booking link, and cutoff deadlines.",
+    title: "3. Venue, Rooms & Dinner Plans",
+    subtitle: "Hotel property, plenary & poster rooms, arrival reception, workshop banquet/dinner plans, and room-block rates.",
   },
   {
     id: "cfp",
@@ -228,7 +237,11 @@ export const WORKSHOP_FIELD_CATALOG: readonly WorkshopFieldMeta[] = [
     label: "Workshop Start Date",
     helpText: "Pick the first conference day (or leave TBA).",
     controlType: "date",
-    usedOnPages: [{ label: "Portal Overview", href: "/layout-portal" }, { label: "Registration", href: "/registration" }],
+    usedOnPages: [
+      { label: "Portal Overview", href: "/layout-portal" },
+      { label: "Registration", href: "/registration" },
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+    ],
   },
   {
     key: "conference_end_date",
@@ -236,7 +249,11 @@ export const WORKSHOP_FIELD_CATALOG: readonly WorkshopFieldMeta[] = [
     label: "Workshop Final Day",
     helpText: "Registration automatically closes at 11:59 PM on this final conference day.",
     controlType: "date",
-    usedOnPages: [{ label: "Registration", href: "/registration" }, { label: "Portal Overview", href: "/layout-portal" }],
+    usedOnPages: [
+      { label: "Registration", href: "/registration" },
+      { label: "Portal Overview", href: "/layout-portal" },
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+    ],
   },
   {
     key: "exact_dates",
@@ -276,7 +293,12 @@ export const WORKSHOP_FIELD_CATALOG: readonly WorkshopFieldMeta[] = [
     label: "Host City & State",
     helpText: "e.g. 'Virginia Beach, VA' (or 'Coastal Venue TBA').",
     controlType: "text",
-    usedOnPages: [{ label: "Home", href: "/" }, { label: "Accommodations", href: "/accommodations" }, { label: "Contact", href: "/contact" }],
+    usedOnPages: [
+      { label: "Home", href: "/" },
+      { label: "Accommodations", href: "/accommodations" },
+      { label: "Contact", href: "/contact" },
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+    ],
   },
   {
     key: "hotel_name",
@@ -284,7 +306,12 @@ export const WORKSHOP_FIELD_CATALOG: readonly WorkshopFieldMeta[] = [
     label: "Official Conference Hotel",
     helpText: "Property name displayed once Venue Confirmed is enabled.",
     controlType: "text",
-    usedOnPages: [{ label: "Accommodations", href: "/accommodations" }, { label: "Contact", href: "/contact" }, { label: "Registration", href: "/registration" }],
+    usedOnPages: [
+      { label: "Accommodations", href: "/accommodations" },
+      { label: "Contact", href: "/contact" },
+      { label: "Registration", href: "/registration" },
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+    ],
   },
   {
     key: "hotel_address",
@@ -333,6 +360,93 @@ export const WORKSHOP_FIELD_CATALOG: readonly WorkshopFieldMeta[] = [
     helpText: "Direct reservation URL activating the 'Book Hotel Room' button.",
     controlType: "url",
     usedOnPages: [{ label: "Accommodations", href: "/accommodations" }],
+  },
+  {
+    key: "venue_session_room",
+    section: "venue",
+    label: "Plenary Technical Session Room",
+    helpText: "Main single-track presentation ballroom/room name inside the conference venue (e.g. 'Ocean Grand Ballroom').",
+    controlType: "text",
+    usedOnPages: [
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+      { label: "Accommodations", href: "/accommodations" },
+    ],
+  },
+  {
+    key: "venue_foyer_room",
+    section: "venue",
+    label: "Foyer, Sponsor & Poster Area",
+    helpText: "Space used for registration desk, breakfasts, coffee breaks, sponsors, and posters (e.g. 'Ocean Grand Foyer').",
+    controlType: "text",
+    usedOnPages: [{ label: "Schedule Builder", href: "/reviewer/schedule" }],
+  },
+  {
+    key: "welcome_reception_time",
+    section: "venue",
+    label: "Day 1 Welcome Reception Time",
+    helpText: "Evening Meet & Greet / early registration hours on travel arrival day (e.g. '6:00 p.m. – 8:00 p.m.').",
+    controlType: "text",
+    usedOnPages: [{ label: "Schedule Builder", href: "/reviewer/schedule" }],
+  },
+  {
+    key: "welcome_reception_venue",
+    section: "venue",
+    label: "Welcome Reception Venue / Room",
+    helpText: "Location of the Day 1 Meet & Greet / Welcome Reception (hotel foyer or nearby restaurant/venue).",
+    controlType: "text",
+    usedOnPages: [
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+      { label: "Accommodations", href: "/accommodations" },
+    ],
+  },
+  {
+    key: "dinner_day_time",
+    section: "venue",
+    label: "Workshop Dinner Evening & Time",
+    helpText: "Evening and time window for the Official Workshop Banquet/Dinner (e.g. 'Wednesday • 6:30 p.m. – 9:30 p.m.').",
+    controlType: "text",
+    usedOnPages: [
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+      { label: "Registration", href: "/registration" },
+    ],
+  },
+  {
+    key: "dinner_venue_name",
+    section: "venue",
+    label: "Workshop Dinner Venue Name",
+    helpText: "Restaurant, aquarium, pavilion, or hotel banquet hall hosting the official Workshop Dinner.",
+    controlType: "text",
+    usedOnPages: [
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+      { label: "Accommodations", href: "/accommodations" },
+    ],
+  },
+  {
+    key: "dinner_venue_address",
+    section: "venue",
+    label: "Workshop Dinner Address & Directions",
+    helpText: "Street address, pier/waterfront directions, or walking/shuttle distance from the hotel.",
+    controlType: "text",
+    usedOnPages: [{ label: "Schedule Builder", href: "/reviewer/schedule" }],
+  },
+  {
+    key: "dinner_venue_url",
+    section: "venue",
+    label: "Workshop Dinner Venue / Map Link",
+    helpText: "Optional https:// restaurant website or Google Maps URL for attendees.",
+    controlType: "url",
+    usedOnPages: [{ label: "Schedule Builder", href: "/reviewer/schedule" }],
+  },
+  {
+    key: "dinner_plan_notes",
+    section: "venue",
+    label: "Workshop Dinner Logistics & Guest Plan",
+    helpText: "Included attendee dinner details, guest ticket info, dietary notes, shuttle times, or sponsor credit.",
+    controlType: "textarea",
+    usedOnPages: [
+      { label: "Schedule Builder", href: "/reviewer/schedule" },
+      { label: "Registration", href: "/registration" },
+    ],
   },
   {
     key: "cfp_open",
@@ -557,7 +671,7 @@ function normalizeUrlValue(raw: unknown): string {
 }
 
 /**
- * Normalizes any Firestore, JSON backup, or legacy 53-key snapshot cleanly into the canonical 44-key schema.
+ * Normalizes any Firestore, JSON backup, or legacy snapshot cleanly into the canonical 53-key schema.
  */
 export function normalizeWorkshopConfig(
   raw: unknown,
@@ -623,6 +737,24 @@ export function normalizeWorkshopConfig(
       src.hotel_booking_url !== undefined
         ? normalizeUrlValue(src.hotel_booking_url)
         : baseConfig.hotel_booking_url,
+    venue_session_room: resolveString(src.venue_session_room, baseConfig.venue_session_room),
+    venue_foyer_room: resolveString(src.venue_foyer_room, baseConfig.venue_foyer_room),
+    welcome_reception_time: resolveString(
+      src.welcome_reception_time,
+      baseConfig.welcome_reception_time
+    ),
+    welcome_reception_venue: resolveString(
+      src.welcome_reception_venue,
+      baseConfig.welcome_reception_venue
+    ),
+    dinner_day_time: resolveString(src.dinner_day_time, baseConfig.dinner_day_time),
+    dinner_venue_name: resolveString(src.dinner_venue_name, baseConfig.dinner_venue_name),
+    dinner_venue_address: resolveString(src.dinner_venue_address, baseConfig.dinner_venue_address),
+    dinner_venue_url:
+      src.dinner_venue_url !== undefined
+        ? normalizeUrlValue(src.dinner_venue_url)
+        : baseConfig.dinner_venue_url,
+    dinner_plan_notes: resolveString(src.dinner_plan_notes, baseConfig.dinner_plan_notes),
     cfp_open: parseBooleanCell(src.cfp_open, baseConfig.cfp_open),
     cfp_abstract_deadline: resolveString(src.cfp_abstract_deadline, baseConfig.cfp_abstract_deadline),
     cfp_abstract_deadline_time: resolveString(
@@ -732,7 +864,7 @@ export function parseCsvRows(csvText: string): string[][] {
 }
 
 /**
- * Parses an exported workshop backup CSV (`field_key`, `value`) into the canonical 44-key schema.
+ * Parses an exported workshop backup CSV (`field_key`, `value`) into the canonical 53-key schema.
  */
 export function parseWorkshopSheetCsv(
   csvText: string,
@@ -1571,7 +1703,7 @@ export function validateWorkshopConfig(
     }
   }
 
-  for (const urlKey of ["hotel_maps_url", "hotel_booking_url"] as const) {
+  for (const urlKey of ["hotel_maps_url", "hotel_booking_url", "dinner_venue_url"] as const) {
     const v = config[urlKey].trim();
     if (v && !/^https?:\/\/[^\s]+$/i.test(v)) {
       issues.push({
@@ -1683,7 +1815,7 @@ function formatReadableFieldValue(val: unknown): string {
 }
 
 /**
- * Computes field-level Before -> After differences across all 44 fields for Visual Diff & Audit History.
+ * Computes field-level Before -> After differences across all 53 fields for Visual Diff & Audit History.
  */
 export function computeWorkshopConfigDiff(
   before: UpcomingWorkshopConfig,
@@ -1749,6 +1881,15 @@ export function buildNextBiennialCycleTemplate(
     hotel_discount_window: `September ${nextYear} (Dates TBA)`,
     hotel_booking_cutoff: `Summer ${nextYear} (TBA)`,
     hotel_booking_url: "",
+    venue_session_room: "Main Plenary Ballroom (TBA)",
+    venue_foyer_room: "Ballroom Foyer & Exhibit Area (TBA)",
+    welcome_reception_time: "6:00 p.m. – 8:00 p.m.",
+    welcome_reception_venue: "Host Hotel Foyer / Coastal Welcome Venue (TBA)",
+    dinner_day_time: "Wednesday • 6:30 p.m. – 9:30 p.m.",
+    dinner_venue_name: "Coastal Banquet Venue (TBA)",
+    dinner_venue_address: "Banquet address & transportation details TBA",
+    dinner_venue_url: "",
+    dinner_plan_notes: "Included with full attendee registration; additional guest dinner tickets available during registration. Sponsor recognition and banquet details TBA.",
     cfp_open: false,
     cfp_abstract_deadline: `Summer ${nextYear} (TBA)`,
     cfp_notification_date: `Summer ${nextYear} (TBA)`,

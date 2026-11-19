@@ -25,6 +25,7 @@ import {
   validateWorkshopConfig,
   type UpcomingWorkshopConfig,
 } from "@/utils/upcomingWorkshop";
+import { readUploadedTextFileSmart, sanitizeDeepUnicode } from "@/utils/unicodeText";
 import {
   MOCK_WORKSHOP_DRAFT_KEY,
   MOCK_WORKSHOP_HISTORY_KEY,
@@ -1042,10 +1043,12 @@ export function useWorkshopConfigAdmin() {
       setErrorMsg(null);
       setFeedbackMsg(null);
       try {
-        const text = await file.text();
-        const parsed = JSON.parse(text) as
-          | { config?: Partial<UpcomingWorkshopConfig> }
-          | Partial<UpcomingWorkshopConfig>;
+        const text = await readUploadedTextFileSmart(file);
+        const parsed = sanitizeDeepUnicode(
+          JSON.parse(text) as
+            | { config?: Partial<UpcomingWorkshopConfig> }
+            | Partial<UpcomingWorkshopConfig>
+        );
         const rawConfig =
           parsed && typeof parsed === "object" && "config" in parsed && parsed.config
             ? parsed.config

@@ -82,6 +82,12 @@ import {
   countVisibleChars,
   slicePreservingTags,
 } from "@/utils/wordPasteNormalizer";
+import {
+  fixMojibakeAndNormalize,
+  hasRichScientificMarkup,
+  readUploadedTextFileSmart,
+  sanitizeDeepUnicode,
+} from "@/utils/unicodeText";
 import { validateImageDpi } from "@/utils/imageDpiValidator";
 import { extractSuggestedKeywords } from "@/utils/keywordExtractor";
 import AbstractOnePagePreview from "@/components/workshop/AbstractOnePagePreview";
@@ -921,7 +927,7 @@ export default function AbstractSubmissionClient() {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const raw = await file.text();
+      const raw = await readUploadedTextFileSmart(file);
       const cleaned = raw.replace(/\r\n?/g, "\n").trim();
       if (countVisibleChars(cleaned) > ABSTRACT_MAX_CHARS) {
         const sliced = slicePreservingTags(cleaned, ABSTRACT_MAX_CHARS);
@@ -1172,24 +1178,26 @@ export default function AbstractSubmissionClient() {
     setStageError(null);
     setSubmitting(true);
     try {
-      const validAffiliations = affiliations.filter(
-        (a) => a.institution.trim().length > 0
+      const validAffiliations = sanitizeDeepUnicode(
+        affiliations.filter((a) => a.institution.trim().length > 0)
       );
-      const validAuthors = authors.filter((a) => a.name.trim().length > 0);
+      const validAuthors = sanitizeDeepUnicode(
+        authors.filter((a) => a.name.trim().length > 0)
+      );
       const payload = {
         workshopYear: Number(workshop.workshop_year) || 2027,
-        title,
+        title: fixMojibakeAndNormalize(title),
         correspondingEmail,
         secondaryEmail: secondaryEmail.trim() || undefined,
         affiliations: validAffiliations,
         authors: validAuthors,
         presentationFormat,
         researchTrack,
-        summary,
-        abstractText,
-        keywords,
-        presenterBio,
-        graphicCaption: hasAttachedGraphic ? graphicCaption : "",
+        summary: fixMojibakeAndNormalize(summary),
+        abstractText: fixMojibakeAndNormalize(abstractText),
+        keywords: fixMojibakeAndNormalize(keywords),
+        presenterBio: fixMojibakeAndNormalize(presenterBio),
+        graphicCaption: hasAttachedGraphic ? fixMojibakeAndNormalize(graphicCaption) : "",
         figureWidthInches: hasAttachedGraphic
           ? clampFigureWidthInches(figureWidthInches)
           : undefined,
@@ -2488,6 +2496,14 @@ export default function AbstractSubmissionClient() {
                   placeholder="e.g., Subsea Membrane-Inlet Mass Spectrometry of Dissolved CO₂ & C₁–C₇ Hydrocarbons"
                   className={INPUT_CLASS}
                 />
+                {hasRichScientificMarkup(title) && (
+                  <div className="mt-2 rounded-lg border border-sky-200 bg-sky-50/70 px-3 py-2 text-xs text-slate-700">
+                    <span className="font-semibold text-sky-800 mr-1.5">Formatted Title Preview:</span>
+                    <span className="font-serif text-[13px] text-slate-900">
+                      <ScientificText text={title} />
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

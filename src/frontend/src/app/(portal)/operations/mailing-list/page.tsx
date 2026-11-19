@@ -39,6 +39,7 @@ import {
   parseMailchimpCsvExport,
 } from "@/utils/mailingTemplate";
 import { hasOperationsRole } from "@/utils/telemetryClient";
+import { readUploadedTextFileSmart } from "@/utils/unicodeText";
 import MailingSystemInfoModal from "@/components/mailing/MailingSystemInfoModal";
 import CsvImportFormatModal from "@/components/mailing/CsvImportFormatModal";
 import GoogleSheetsPasteModal from "@/components/mailing/GoogleSheetsPasteModal";
@@ -440,7 +441,7 @@ export default function OperationsMailingListPage() {
     setActionError("");
     setImporting(true);
     try {
-      const csvText = await file.text();
+      const csvText = await readUploadedTextFileSmart(file);
       const rows = parseMailchimpCsvExport(csvText, importMode, importSublistTag);
       if (rows.length === 0) {
         throw new Error(

@@ -15,7 +15,7 @@ const legacyCsvRoot = path.join(repoRoot, "docs", "workshop-sheets");
 const rulesPath = path.join(repoRoot, "firestore.rules");
 const workshopScheduleModulePath = path.join(repoRoot, "functions", "lib", "workshopSchedule.js");
 
-const CANONICAL_44_KEYS = [
+const CANONICAL_53_KEYS = [
   "workshop_number",
   "workshop_ordinal",
   "workshop_year",
@@ -35,6 +35,15 @@ const CANONICAL_44_KEYS = [
   "hotel_discount_window",
   "hotel_booking_cutoff",
   "hotel_booking_url",
+  "venue_session_room",
+  "venue_foyer_room",
+  "welcome_reception_time",
+  "welcome_reception_venue",
+  "dinner_day_time",
+  "dinner_venue_name",
+  "dinner_venue_address",
+  "dinner_venue_url",
+  "dinner_plan_notes",
   "cfp_open",
   "cfp_abstract_deadline",
   "cfp_abstract_deadline_time",
@@ -75,18 +84,18 @@ const DROPPED_KEYS = [
   "reg_force_closed",
 ];
 
-// 1. Canonical 44-key baseline JSON schema & deprecated-key exclusion
+// 1. Canonical 53-key baseline JSON schema & deprecated-key exclusion
 const jsonConfig = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
 const actualKeys = Object.keys(jsonConfig);
 assert.equal(
   actualKeys.length,
-  44,
-  `Expected exactly 44 keys in upcoming_workshop.json, found ${actualKeys.length}`
+  53,
+  `Expected exactly 53 keys in upcoming_workshop.json, found ${actualKeys.length}`
 );
 assert.deepEqual(
   [...actualKeys].sort(),
-  [...CANONICAL_44_KEYS].sort(),
-  "Canonical 44-key schema mismatch in upcoming_workshop.json"
+  [...CANONICAL_53_KEYS].sort(),
+  "Canonical 53-key schema mismatch in upcoming_workshop.json"
 );
 assert.equal(jsonConfig.registration_mode, "auto_schedule");
 for (const droppedKey of DROPPED_KEYS) {
@@ -116,12 +125,13 @@ assert.equal(
   "Retired 2_Website_Ingestion_Checklist.csv must not remain at docs/workshop-sheets/ root"
 );
 
-// 3. Firestore Rules Verification for Admin Control Center Collections
+// 3. Firestore Rules Verification for Admin Control Center & Reviewer Schedule Collections
 const rulesText = fs.readFileSync(rulesPath, "utf8");
 for (const requiredRuleSnippet of [
   "match /site_config/{docId}",
   "match /site_config_previews/{previewToken}",
   "match /site_config_history/{versionId}",
+  "match /workshop_schedules/{scheduleId}",
   "request.resource.data.createdByEmail is string",
   "request.resource.data.config is map",
   "allow update, delete: if false;",
@@ -196,5 +206,5 @@ assert.equal(parsedCsv.reg_sponsor_early_fee, "$1,350");
 assert.equal(parsedCsv.reg_sponsor_fee, "$1,500.00");
 
 console.log(
-  "✅ All 44-key schema, archive hygiene, firestore.rules, currency parsing, and 3-way registration_mode schedule tests passed."
+  "✅ All 53-key schema, archive hygiene, firestore.rules, currency parsing, and 3-way registration_mode schedule tests passed."
 );

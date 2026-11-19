@@ -8,5 +8,43 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Cambria Math', 'Segoe UI Symbol', 'Apple Symbols', sans-serif;
+}
+
+.sci-math {
+  font-family: 'Cambria Math', 'STIX Two Math', Georgia, 'Times New Roman', serif;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.sci-frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1.05;
+  margin: 0 0.15em;
+  font-size: 0.86em;
+}
+
+.sci-frac-num {
+  padding: 0 0.18em 1px;
+  border-bottom: 1px solid currentColor;
+}
+
+.sci-frac-den {
+  padding: 1px 0.18em 0;
+}
+
+.sci-sqrt {
+  display: inline-flex;
+  align-items: baseline;
+  vertical-align: baseline;
+}
+
+.sci-sqrt-body {
+  border-top: 1px solid currentColor;
+  padding: 0 0.12em;
+  line-height: 1.1;
 }

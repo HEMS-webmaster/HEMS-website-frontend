@@ -5,6 +5,7 @@ node_modules/
 .next/
 out/
 build/
+*.tsbuildinfo
 
 # Heavy Files & Archives (local_data proceedings untracked, sponsors tracked)
 local_data/*/

@@ -6,6 +6,7 @@ import {
   ArrowDown,
   ArrowUp,
   ArrowUpDown,
+  Calendar,
   ChevronDown,
   ChevronRight,
   ChevronUp,
@@ -915,6 +916,12 @@ export default function ReviewerAbstractOverviewPage() {
             className="inline-flex items-center gap-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 transition-colors"
           >
             <ClipboardCheck size={13} /> Reviewer Panel
+          </Link>
+          <Link
+            href="/reviewer/schedule"
+            className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 hover:bg-emerald-700 hover:text-white px-3 py-2 rounded-xl text-xs font-semibold text-emerald-800 transition-colors"
+          >
+            <Calendar size={13} /> Build Schedule
           </Link>
           <button
             type="button"

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import InlineMailingSignup from "@/components/mailing/InlineMailingSignup";
 import { HEMS_LINKEDIN_GROUP_URL } from "@/utils/seo";
 
 function LinkedInMark({ size = 14 }: { size?: number }) {
@@ -47,6 +48,13 @@ export default function Footer() {
             <p className="text-slate-600 text-sm leading-relaxed max-w-md pt-1">
               An international forum uniting academic, government, and industrial scientists deploying mass spectrometry from the deep ocean to planetary surfaces.
             </p>
+            <InlineMailingSignup
+              variant="footer"
+              heading="Receive Biennial Call for Papers & Award Alerts"
+              buttonLabel="Subscribe"
+              interests={["workshop", "student_awards"]}
+              sourceLabel="Global Footer"
+            />
             <div className="pt-1">
               <a
                 href={HEMS_LINKEDIN_GROUP_URL}

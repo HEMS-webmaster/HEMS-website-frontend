@@ -1833,7 +1833,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Path**: `docs\archives_translation\proceedings\5th\Posters\5th_Lauritsen_Characterization_of_a_Poster.pdf`
 *   **Type**: `Poster`
 *   **Year**: `2005`
-*   **Title**: Characterization of a Mini Membrane Inlet Mass Spectrometer Operating at High Pressure (˜ 1•10-3 torr) Using Different Types of Microporous Membranes
+*   **Title**: Characterization of a Mini Membrane Inlet Mass Spectrometer Operating at High Pressure (~ 1×10⁻³ torr) Using Different Types of Microporous Membranes
 *   **Authors**: Frants R. Lauritsen, Christian Janfelt, Christian Schack Pedersen
 *   **Subject**: Poster from the 5th HEMS Workshop (2005), Poster Session.
 *   **Keywords**: characterization, mini, membrane, inlet, mass, spectrometer
@@ -5998,7 +5998,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Presentation`
 *   **Year**: `2017`
 *   **Title**: Silence is Golden: Detector Radiation Shielding at Europa for Mass Spectrometer for Planetary Exploration (MASPEX)
-*   **Authors**: Ryan BlasÃ©
+*   **Authors**: Ryan Blasé
 *   **Subject**: Presentation from the 11th HEMS Workshop (2017), Technical Session VIII.
 *   **Keywords**: silence, golden, detector, radiation, shielding, europa
 
@@ -6010,7 +6010,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Abstract`
 *   **Year**: `2017`
 *   **Title**: Silence is Golden: Detector Radiation Shielding at Europa for Mass Spectrometer for Planetary Exploration (MASPEX)
-*   **Authors**: Ryan BlasÃ©
+*   **Authors**: Ryan Blasé
 *   **Subject**: Abstract from the 11th HEMS Workshop (2017), Technical Session VIII.
 *   **Keywords**: silence, golden, detector, radiation, shielding, europa
 
@@ -6214,7 +6214,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Presentation`
 *   **Year**: `2018`
 *   **Title**: An optimized membrane inlet system for underwater mass spectrometry
-*   **Authors**: Malte HÃ¶hn, Christian Hamm, Justin Chaillot, Marvin Frank, Torben Gentz
+*   **Authors**: Malte Höhn, Christian Hamm, Justin Chaillot, Marvin Frank, Torben Gentz
 *   **Subject**: Presentation from the 12th HEMS Workshop (2018), Technical Session II.
 *   **Keywords**: optimized, membrane, inlet, system, underwater, mass
 
@@ -6226,7 +6226,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Abstract`
 *   **Year**: `2018`
 *   **Title**: An optimized membrane inlet system for underwater mass spectrometry
-*   **Authors**: Malte HÃ¶hn, Christian Hamm, Justin Chaillot, Marvin Frank, Torben Gentz
+*   **Authors**: Malte Höhn, Christian Hamm, Justin Chaillot, Marvin Frank, Torben Gentz
 *   **Subject**: Abstract from the 12th HEMS Workshop (2018), Technical Session II.
 *   **Keywords**: optimized, membrane, inlet, system, underwater, mass
 
@@ -6370,7 +6370,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Presentation`
 *   **Year**: `2019`
 *   **Title**: Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis
-*   **Authors**: FrÃ©dÃ©ric Progent
+*   **Authors**: Frédéric Progent
 *   **Subject**: Presentation from the 13th HEMS Workshop (2019), Technical Session II.
 *   **Keywords**: development, mass, spectrometer, orthogonal, injection, situ
 
@@ -6382,7 +6382,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Abstract`
 *   **Year**: `2019`
 *   **Title**: Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis
-*   **Authors**: FrÃ©dÃ©ric Progent
+*   **Authors**: Frédéric Progent
 *   **Subject**: Abstract from the 13th HEMS Workshop (2019), Technical Session II.
 *   **Keywords**: development, mass, spectrometer, orthogonal, injection, situ
 
@@ -6873,7 +6873,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Path**: `docs\archives_translation\proceedings\13th\Posters\13th_Wieman_Insitu_Measurements_of_Poster.pdf`
 *   **Type**: `Poster`
 *   **Year**: `2019`
-*   **Title**: In-situ Measurements of Î´C and Î´O of Dissolved CO2 using an Underwater Mass Spectrometer
+*   **Title**: In-situ Measurements of δ¹³C and δ¹⁸O of Dissolved CO₂ using an Underwater Mass Spectrometer
 *   **Authors**: Scott T. Wieman
 *   **Subject**: Poster from the 13th HEMS Workshop (2019), Poster Session.
 *   **Keywords**: measurements, dissolved, underwater, mass, spectrometer
@@ -6885,7 +6885,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Path**: `docs\archives_translation\proceedings\13th\Posters\13th_Wieman_Insitu_Measurements_of_Abstract.pdf`
 *   **Type**: `Abstract`
 *   **Year**: `2019`
-*   **Title**: In-situ Measurements of Î´C and Î´O of Dissolved CO2 using an Underwater Mass Spectrometer
+*   **Title**: In-situ Measurements of δ¹³C and δ¹⁸O of Dissolved CO₂ using an Underwater Mass Spectrometer
 *   **Authors**: Scott T. Wieman
 *   **Subject**: Abstract from the 13th HEMS Workshop (2019), Poster Session.
 *   **Keywords**: measurements, dissolved, underwater, mass, spectrometer
@@ -7078,7 +7078,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Abstract`
 *   **Year**: `2022`
 *   **Title**: MS field applications in CBSA operations
-*   **Authors**: Marie-JosÃ©e Binette
+*   **Authors**: Marie-Josée Binette
 *   **Subject**: Abstract from the 14th HEMS Workshop (2022), Technical Session IV.
 *   **Keywords**: field, applications, cbsa, operations
 
@@ -7114,7 +7114,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Presentation`
 *   **Year**: `2022`
 *   **Title**: Overview and Testing of the Mars Organic Molecule Analyzer (MOMA)
-*   **Authors**: Friso van Amerom, Andrej Grubisic, Marco Castillo, Desmond A. Kaplan, Xiang Li, Ryan M. Danell, Stephanie A. Getty, William B. Brinckerhoff, Arnaud Buch, Fabien Stalport, Naila Chaouche, Clara Azemard, FranÃƒÂ§ois Raulin, Noel Grand, Caroline Freissinet, Melissa Guzman, Cyril Szopa, Teresa Fornaro, John Robert Brucato, Sandra SiljestrÃƒÂ¶m, Walter Goetz, Fred Goesmann
+*   **Authors**: Friso van Amerom, Andrej Grubisic, Marco Castillo, Desmond A. Kaplan, Xiang Li, Ryan M. Danell, Stephanie A. Getty, William B. Brinckerhoff, Arnaud Buch, Fabien Stalport, Naila Chaouche, Clara Azemard, François Raulin, Noel Grand, Caroline Freissinet, Melissa Guzman, Cyril Szopa, Teresa Fornaro, John Robert Brucato, Sandra Siljeström, Walter Goetz, Fred Goesmann
 *   **Subject**: Presentation from the 14th HEMS Workshop (2022), Technical Session V.
 *   **Keywords**: overview, testing, mars, organic, molecule, analyzer
 
@@ -7126,7 +7126,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Abstract`
 *   **Year**: `2022`
 *   **Title**: Overview and Testing of the Mars Organic Molecule Analyzer (MOMA)
-*   **Authors**: Friso van Amerom, Andrej Grubisic, Marco Castillo, Desmond A. Kaplan, Xiang Li, Ryan M. Danell, Stephanie A. Getty, William B. Brinckerhoff, Arnaud Buch, Fabien Stalport, Naila Chaouche, Clara Azemard, FranÃƒÂ§ois Raulin, Noel Grand, Caroline Freissinet, Melissa Guzman, Cyril Szopa, Teresa Fornaro, John Robert Brucato, Sandra SiljestrÃƒÂ¶m, Walter Goetz, Fred Goesmann
+*   **Authors**: Friso van Amerom, Andrej Grubisic, Marco Castillo, Desmond A. Kaplan, Xiang Li, Ryan M. Danell, Stephanie A. Getty, William B. Brinckerhoff, Arnaud Buch, Fabien Stalport, Naila Chaouche, Clara Azemard, François Raulin, Noel Grand, Caroline Freissinet, Melissa Guzman, Cyril Szopa, Teresa Fornaro, John Robert Brucato, Sandra Siljeström, Walter Goetz, Fred Goesmann
 *   **Subject**: Abstract from the 14th HEMS Workshop (2022), Technical Session V.
 *   **Keywords**: overview, testing, mars, organic, molecule, analyzer
 
@@ -7246,7 +7246,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Presentation`
 *   **Year**: `2022`
 *   **Title**: An optimized membrane inlet system (MIS) for underwater sensors. - From idea to product
-*   **Authors**: Torben Gentz, Malte HÃƒÂ¶hn
+*   **Authors**: Torben Gentz, Malte Höhn
 *   **Subject**: Presentation from the 14th HEMS Workshop (2022), Technical Session VII.
 *   **Keywords**: optimized, membrane, inlet, system, underwater, sensors
 
@@ -7258,7 +7258,7 @@ This document contains the SEO metadata registry for all proceedings PDF files. 
 *   **Type**: `Abstract`
 *   **Year**: `2022`
 *   **Title**: An optimized membrane inlet system (MIS) for underwater sensors. - From idea to product
-*   **Authors**: Torben Gentz, Malte HÃƒÂ¶hn
+*   **Authors**: Torben Gentz, Malte Höhn
 *   **Subject**: Abstract from the 14th HEMS Workshop (2022), Technical Session VII.
 *   **Keywords**: optimized, membrane, inlet, system, underwater, sensors
 

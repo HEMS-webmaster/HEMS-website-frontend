@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { applyWordPasteToField } from '@/utils/wordPasteNormalizer';
 
 /** Normalize a free-text time string to "H:MM a.m." / "H:MM p.m." format. */
 function normalizeTime(raw: string): string {
@@ -216,7 +217,13 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-400 mb-1">Date Title (e.g. Travel Day)</label>
-                      <input type="text" value={group.title || ''} onChange={e => updateDateGroup(gIdx, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                      <input
+                        type="text"
+                        value={group.title || ''}
+                        onChange={e => updateDateGroup(gIdx, 'title', e.target.value)}
+                        onPaste={e => applyWordPasteToField(e, group.title || '', (val) => updateDateGroup(gIdx, 'title', val), { multiline: false })}
+                        className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                      />
                     </div>
                   </div>
 
@@ -257,13 +264,27 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
                           </div>
                           <div>
                             <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>
-                            <input type="text" value={ev.title || ''} onChange={e => updateEvent(gIdx, eIdx, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Breakfast" />
+                            <input
+                              type="text"
+                              value={ev.title || ''}
+                              onChange={e => updateEvent(gIdx, eIdx, 'title', e.target.value)}
+                              onPaste={e => applyWordPasteToField(e, ev.title || '', (val) => updateEvent(gIdx, eIdx, 'title', val), { multiline: false })}
+                              className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                              placeholder="e.g. Breakfast"
+                            />
                           </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                           <div>
                             <label className="block text-xs font-bold text-slate-400 mb-1">Subtitle / Details</label>
-                            <input type="text" value={ev.subtitle || ''} onChange={e => updateEvent(gIdx, eIdx, 'subtitle', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Dinner on your own" />
+                            <input
+                              type="text"
+                              value={ev.subtitle || ''}
+                              onChange={e => updateEvent(gIdx, eIdx, 'subtitle', e.target.value)}
+                              onPaste={e => applyWordPasteToField(e, ev.subtitle || '', (val) => updateEvent(gIdx, eIdx, 'subtitle', val), { multiline: false })}
+                              className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                              placeholder="e.g. Dinner on your own"
+                            />
                           </div>
                           <div>
                             <label className="block text-xs font-bold text-slate-400 mb-1">Subtitle URL (Hyperlink)</label>
@@ -273,7 +294,14 @@ export default function EventsManager({ events = [], onChange }: EventsManagerPr
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-xs font-bold text-slate-400 mb-1">Location</label>
-                            <input type="text" value={ev.location || ''} onChange={e => updateEvent(gIdx, eIdx, 'location', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" placeholder="e.g. Room 402" />
+                            <input
+                              type="text"
+                              value={ev.location || ''}
+                              onChange={e => updateEvent(gIdx, eIdx, 'location', e.target.value)}
+                              onPaste={e => applyWordPasteToField(e, ev.location || '', (val) => updateEvent(gIdx, eIdx, 'location', val), { multiline: false })}
+                              className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                              placeholder="e.g. Room 402"
+                            />
                           </div>
                           <div>
                             <label className="block text-xs font-bold text-slate-400 mb-1">Location URL (Hyperlink)</label>

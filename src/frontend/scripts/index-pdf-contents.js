@@ -137,6 +137,14 @@ function getLocalFilePath(urlStr, year, type, ordinal, filename) {
   return null;
 }
 
+function sanitizeExtractedPdfText(str) {
+  return String(str || '')
+    .replace(/[\uF0B7\uF0A7\uF076\uF0D8\uF0A8]/g, '•')
+    .replace(/\u200B/g, '')
+    .normalize('NFC')
+    .trim();
+}
+
 // Returns page-by-page extracted text of a PDF, using cache if available
 async function getOrExtractPdfText(localPath, cacheKey) {
   const cacheFile = path.join(cacheDir, `${cacheKey}.json`);
@@ -144,7 +152,10 @@ async function getOrExtractPdfText(localPath, cacheKey) {
   // 1. Read from cache if it exists (works even on machines without raw PDFs)
   if (fs.existsSync(cacheFile)) {
     try {
-      return JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+      const cached = JSON.parse(fs.readFileSync(cacheFile, 'utf8').replace(/^\uFEFF/, ''));
+      return Array.isArray(cached)
+        ? cached.map((p) => ({ ...p, text: sanitizeExtractedPdfText(p.text) }))
+        : cached;
     } catch (err) {
       console.warn(`Failed to read cache for ${cacheKey}, re-extracting:`, err.message);
     }
@@ -173,7 +184,7 @@ async function getOrExtractPdfText(localPath, cacheKey) {
           }
           lastY = item.transform[5];
         }
-        pageTexts.push({ page: pageData.pageIndex + 1, text });
+        pageTexts.push({ page: pageData.pageIndex + 1, text: sanitizeExtractedPdfText(text) });
         return text;
       });
     };
@@ -181,7 +192,7 @@ async function getOrExtractPdfText(localPath, cacheKey) {
     await pdfParse(dataBuffer, { pagerender: render_page });
     pageTexts.sort((a, b) => a.page - b.page);
 
-    fs.writeFileSync(cacheFile, JSON.stringify(pageTexts, null, 2));
+    fs.writeFileSync(cacheFile, JSON.stringify(pageTexts, null, 2), 'utf8');
     return pageTexts;
   } catch (err) {
     console.error(`Failed to parse PDF at ${localPath}:`, err.message);

@@ -18,6 +18,7 @@ import {
   Send,
   Upload,
   TableProperties,
+  Calendar,
   ClipboardList,
   Landmark,
   Megaphone,
@@ -182,6 +183,13 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
       shortName: "Abstract Overview",
       path: "/reviewer/overview",
       icon: TableProperties,
+      requiredRole: "reviewer",
+    },
+    {
+      name: "Schedule Builder",
+      shortName: "Schedule",
+      path: "/reviewer/schedule",
+      icon: Calendar,
       requiredRole: "reviewer",
     },
   ];

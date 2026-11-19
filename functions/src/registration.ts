@@ -332,7 +332,7 @@ function buildReceiptEmailHtml(reg: RegistrationDoc): {
       <td style="padding:24px 28px;font-size:14px;color:#1E293B;">
         <p style="margin-top:0;">Dear ${escapeHtml(reg.firstName)} ${escapeHtml(reg.lastName)},</p>
         <p>${isPaid
-          ? `Thank you for registering for the <strong>${reg.workshopOrdinal} HEMS Workshop (${reg.workshopYear})</strong>. Your <strong>${reg.workshopYear} Attendee</strong> portal role (enabling abstract submissions at <a href="${SITE_ORIGIN}/abstract-submission">${SITE_ORIGIN}/abstract-submission</a>) and <strong>${reg.workshopYear} Attendees</strong> mailing list tag are now active.`
+          ? `Thank you for registering for the <strong>${reg.workshopOrdinal} HEMS Workshop (${reg.workshopYear})</strong>. Your <strong>${reg.workshopYear} Attendee</strong> portal role (enabling abstract submissions at <a href="${SITE_ORIGIN}/abstract-submission">${SITE_ORIGIN}/abstract-submission</a>)${reg.mailingListOptIn ? ` and <strong>${reg.workshopYear} Attendees</strong> mailing list tag are` : " is"} now active.`
           : `An institutional registration invoice (<strong>${escapeHtml(docNum)}</strong>) has been generated for the <strong>${reg.workshopOrdinal} HEMS Workshop (${reg.workshopYear})</strong>. Please share the printable invoice link below with your accounting or purchasing office.`}</p>
         <table role="presentation" width="100%" style="border-collapse:collapse;margin:18px 0;font-size:13px;border:1px solid #E2E8F0;">
           <tr style="background:#F8FAFC;"><td style="padding:10px;border-bottom:1px solid #E2E8F0;"><strong>Reference #</strong></td><td style="padding:10px;border-bottom:1px solid #E2E8F0;text-align:right;">${escapeHtml(docNum)}</td></tr>
@@ -537,65 +537,62 @@ async function fulfillRegistration(params: {
       { merge: true }
     );
 
-    // Step 3: Mailing List Cohort Tagging
-    const existingSubData = subSnap.exists ? subSnap.data() : null;
-    const existingSublists = Array.isArray(existingSubData?.sublists)
-      ? (existingSubData?.sublists as string[])
-      : [];
-    const subTagSet = new Set<string>([...existingSublists, yearTag]);
-    if (current.tier === "sponsor" || current.grantsSponsorRole) {
-      subTagSet.add(sponsorTag);
+    // Step 3: Mailing List Cohort Tagging (Strictly respects mailingListOptIn consent)
+    if (current.mailingListOptIn) {
+      const existingSubData = subSnap.exists ? subSnap.data() : null;
+      const existingSublists = Array.isArray(existingSubData?.sublists)
+        ? (existingSubData?.sublists as string[])
+        : [];
+      const subTagSet = new Set<string>([...existingSublists, yearTag]);
+      if (current.tier === "sponsor" || current.grantsSponsorRole) {
+        subTagSet.add(sponsorTag);
+      }
+
+      const existingStatus = existingSubData?.status as string | undefined;
+      const nextSubStatus = existingStatus === "complained" ? "complained" : "active";
+
+      tx.set(
+        subRef,
+        {
+          email: current.email,
+          firstName: existingSubData?.firstName || current.firstName,
+          lastName: existingSubData?.lastName || current.lastName,
+          affiliation: existingSubData?.affiliation || current.affiliation,
+          interests: Array.isArray(existingSubData?.interests)
+            ? Array.from(new Set([...existingSubData.interests, "workshop"]))
+            : ["workshop"],
+          sublists: Array.from(subTagSet),
+          status: nextSubStatus,
+          source: existingSubData?.source || "registration",
+          unsubscribeToken:
+            typeof existingSubData?.unsubscribeToken === "string" &&
+            existingSubData.unsubscribeToken.length >= 24
+              ? existingSubData.unsubscribeToken
+              : generateSecureToken(),
+          optInToken:
+            typeof existingSubData?.optInToken === "string"
+              ? existingSubData.optInToken
+              : generateSecureToken(),
+          createdAt: existingSubData?.createdAt || nowIso,
+          updatedAt: nowIso,
+          confirmedAt: existingSubData?.confirmedAt || nowIso,
+        },
+        { merge: true }
+      );
+
+      const catalogTags = Array.isArray(subMetaSnap.data()?.tags)
+        ? (subMetaSnap.data()?.tags as string[])
+        : [];
+      const catalogSet = new Set<string>([...catalogTags, yearTag]);
+      if (current.tier === "sponsor" || current.grantsSponsorRole) {
+        catalogSet.add(sponsorTag);
+      }
+      tx.set(
+        subMetaRef,
+        { tags: Array.from(catalogSet), updatedAt: nowIso },
+        { merge: true }
+      );
     }
-
-    const existingStatus = existingSubData?.status as string | undefined;
-    const nextSubStatus =
-      existingStatus === "unsubscribed" && !current.mailingListOptIn
-        ? "unsubscribed"
-        : existingStatus === "complained"
-        ? "complained"
-        : "active";
-
-    tx.set(
-      subRef,
-      {
-        email: current.email,
-        firstName: existingSubData?.firstName || current.firstName,
-        lastName: existingSubData?.lastName || current.lastName,
-        affiliation: existingSubData?.affiliation || current.affiliation,
-        interests: Array.isArray(existingSubData?.interests)
-          ? Array.from(new Set([...existingSubData.interests, "workshop"]))
-          : ["workshop"],
-        sublists: Array.from(subTagSet),
-        status: nextSubStatus,
-        source: existingSubData?.source || "registration",
-        unsubscribeToken:
-          typeof existingSubData?.unsubscribeToken === "string" &&
-          existingSubData.unsubscribeToken.length >= 24
-            ? existingSubData.unsubscribeToken
-            : generateSecureToken(),
-        optInToken:
-          typeof existingSubData?.optInToken === "string"
-            ? existingSubData.optInToken
-            : generateSecureToken(),
-        createdAt: existingSubData?.createdAt || nowIso,
-        updatedAt: nowIso,
-        confirmedAt: existingSubData?.confirmedAt || nowIso,
-      },
-      { merge: true }
-    );
-
-    const catalogTags = Array.isArray(subMetaSnap.data()?.tags)
-      ? (subMetaSnap.data()?.tags as string[])
-      : [];
-    const catalogSet = new Set<string>([...catalogTags, yearTag]);
-    if (current.tier === "sponsor" || current.grantsSponsorRole) {
-      catalogSet.add(sponsorTag);
-    }
-    tx.set(
-      subMetaRef,
-      { tags: Array.from(catalogSet), updatedAt: nowIso },
-      { merge: true }
-    );
 
     return updatedReg;
   });
@@ -647,6 +644,107 @@ async function fulfillRegistration(params: {
   });
 
   return fulfilledDoc;
+}
+
+/**
+ * Multi-seat-safe revocation of cycle `attendee` / `corporate sponsor` roles and
+ * `${workshopYear} Attendees` sublist tags when a registration is refunded, cancelled,
+ * or transferred away from `email`. Preserves all committee/officer roles.
+ */
+async function revokeAttendeeAccessIfNoActiveSeat(params: {
+  db: admin.firestore.Firestore;
+  email: string;
+  workshopYear: number;
+  excludeRegId: string;
+  nowIso: string;
+}): Promise<void> {
+  const cleanEmail = normalizeEmail(params.email);
+  if (!cleanEmail) return;
+
+  const otherRegsSnap = await params.db
+    .collection("workshop_registrations")
+    .where("email", "==", cleanEmail)
+    .where("workshopYear", "==", params.workshopYear)
+    .get();
+
+  let hasOtherActiveSeat = false;
+  let hasOtherSponsorSeat = false;
+  otherRegsSnap.docs.forEach((d) => {
+    if (d.id === params.excludeRegId) return;
+    const r = d.data() as RegistrationDoc;
+    if (r.status === "paid" || r.status === "comped") {
+      hasOtherActiveSeat = true;
+      if (r.tier === "sponsor" || r.grantsSponsorRole) {
+        hasOtherSponsorSeat = true;
+      }
+    }
+  });
+
+  const wlRef = params.db.collection("whitelist").doc(cleanEmail);
+  const wlSnap = await wlRef.get();
+  if (wlSnap.exists) {
+    const wlData = wlSnap.data() || {};
+    const existingRoles = Array.isArray(wlData.roles)
+      ? (wlData.roles as unknown[]).map((r) => String(r))
+      : [];
+    const filteredRoles = existingRoles.filter((r) => {
+      const lower = r.trim().toLowerCase();
+      if (!hasOtherActiveSeat && lower === "attendee") return false;
+      if (!hasOtherSponsorSeat && lower === "corporate sponsor") return false;
+      return true;
+    });
+    if (
+      cleanEmail === "webmaster@hems-workshop.org" &&
+      !filteredRoles.some((r) => {
+        const n = r.trim().toLowerCase();
+        return n === "admin" || n === "administration" || n === "administrator";
+      })
+    ) {
+      filteredRoles.push("admin");
+    }
+
+    const existingYears = Array.isArray(wlData.workshopYears)
+      ? (wlData.workshopYears as number[])
+      : [];
+    const nextYears = hasOtherActiveSeat
+      ? existingYears
+      : existingYears.filter((y) => Number(y) !== params.workshopYear);
+
+    await wlRef.set(
+      {
+        roles: filteredRoles,
+        workshopYears: nextYears,
+        updatedAt: params.nowIso,
+      },
+      { merge: true }
+    );
+  }
+
+  const subRef = params.db.collection("mailing_subscribers").doc(emailDocId(cleanEmail));
+  const subSnap = await subRef.get();
+  if (subSnap.exists) {
+    const subData = subSnap.data() || {};
+    const existingSublists = Array.isArray(subData.sublists)
+      ? (subData.sublists as unknown[]).map((t) => String(t))
+      : [];
+    const yearTagLower = `${params.workshopYear} attendees`;
+    const sponsorTagLower = `${params.workshopYear} corporate sponsors`;
+    const filteredSublists = existingSublists.filter((t) => {
+      const lower = t.trim().toLowerCase();
+      if (!hasOtherActiveSeat && lower === yearTagLower) return false;
+      if (!hasOtherSponsorSeat && lower === sponsorTagLower) return false;
+      return true;
+    });
+    if (filteredSublists.length !== existingSublists.length) {
+      await subRef.set(
+        {
+          sublists: filteredSublists,
+          updatedAt: params.nowIso,
+        },
+        { merge: true }
+      );
+    }
+  }
 }
 
 function calculateBreakdown(params: {
@@ -1263,14 +1361,26 @@ export const registrationWebhookStripe = onRequest(
             .limit(1)
             .get();
           if (!snap.empty) {
-            await snap.docs[0].ref.set(
+            const refundedDoc = snap.docs[0];
+            const refundedData = refundedDoc.data() as RegistrationDoc;
+            const nowIso = new Date().toISOString();
+            await refundedDoc.ref.set(
               {
                 status: "refunded",
-                refundedAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
+                refundedAt: nowIso,
+                updatedAt: nowIso,
               },
               { merge: true }
             );
+            if (refundedData.email) {
+              await revokeAttendeeAccessIfNoActiveSeat({
+                db,
+                email: refundedData.email,
+                workshopYear: refundedData.workshopYear,
+                excludeRegId: refundedDoc.id,
+                nowIso,
+              });
+            }
           }
         }
       }
@@ -1566,10 +1676,11 @@ export const registrationAdminAction = onRequest(
         }
 
         const regRef = db.collection("workshop_registrations").doc(regId);
-        const updatedReg = await db.runTransaction(async (tx) => {
+        const { updatedReg, fromEmail } = await db.runTransaction(async (tx) => {
           const snap = await tx.get(regRef);
           if (!snap.exists) throw new Error("Registration not found.");
           const cur = snap.data() as RegistrationDoc;
+          const prevEmail = normalizeEmail(cur.email);
 
           const newWlRef = db.collection("whitelist").doc(toEmail);
           const newWlSnap = await tx.get(newWlRef);
@@ -1602,65 +1713,88 @@ export const registrationAdminAction = onRequest(
 
           tx.set(regRef, nextDoc, { merge: true });
 
-          const roleSet = new Set<string>(
-            Array.isArray(newWlSnap.data()?.roles)
-              ? newWlSnap.data()?.roles.map((r: unknown) => String(r))
-              : []
-          );
-          roleSet.add("attendee");
-          if (cur.tier === "sponsor") roleSet.add("corporate sponsor");
-          const yearsSet = new Set<number>([
-            ...(Array.isArray(newWlSnap.data()?.workshopYears)
-              ? (newWlSnap.data()?.workshopYears as number[])
-              : []),
-            cur.workshopYear,
-          ]);
+          if (cur.status === "paid" || cur.status === "comped") {
+            const roleSet = new Set<string>(
+              Array.isArray(newWlSnap.data()?.roles)
+                ? newWlSnap.data()?.roles.map((r: unknown) => String(r))
+                : []
+            );
+            roleSet.add("attendee");
+            if (cur.tier === "sponsor" || cur.grantsSponsorRole) {
+              roleSet.add("corporate sponsor");
+            }
+            const yearsSet = new Set<number>([
+              ...(Array.isArray(newWlSnap.data()?.workshopYears)
+                ? (newWlSnap.data()?.workshopYears as number[])
+                : []),
+              cur.workshopYear,
+            ]);
 
-          tx.set(
-            newWlRef,
-            {
-              email: toEmail,
-              firstName: newWlSnap.data()?.firstName || toFirstName,
-              lastName: newWlSnap.data()?.lastName || toLastName,
-              affiliation: newWlSnap.data()?.affiliation || toAffiliation || cur.affiliation,
-              name: newWlSnap.data()?.name || `${toFirstName} ${toLastName}`,
-              roles: Array.from(roleSet),
-              workshopYears: Array.from(yearsSet).sort(),
-              updatedAt: nowIso,
-            },
-            { merge: true }
-          );
+            tx.set(
+              newWlRef,
+              {
+                email: toEmail,
+                firstName: newWlSnap.data()?.firstName || toFirstName,
+                lastName: newWlSnap.data()?.lastName || toLastName,
+                affiliation: newWlSnap.data()?.affiliation || toAffiliation || cur.affiliation,
+                name: newWlSnap.data()?.name || `${toFirstName} ${toLastName}`,
+                roles: Array.from(roleSet),
+                workshopYears: Array.from(yearsSet).sort(),
+                updatedAt: nowIso,
+              },
+              { merge: true }
+            );
 
-          const yearTag = `${cur.workshopYear} Attendees`;
-          const subTags = new Set<string>([
-            ...(Array.isArray(newSubSnap.data()?.sublists)
-              ? (newSubSnap.data()?.sublists as string[])
-              : []),
-            yearTag,
-          ]);
-          tx.set(
-            newSubRef,
-            {
-              email: toEmail,
-              firstName: newSubSnap.data()?.firstName || toFirstName,
-              lastName: newSubSnap.data()?.lastName || toLastName,
-              affiliation: newSubSnap.data()?.affiliation || toAffiliation || cur.affiliation,
-              interests: ["workshop"],
-              sublists: Array.from(subTags),
-              status: "active",
-              source: newSubSnap.data()?.source || "registration_transfer",
-              unsubscribeToken:
-                newSubSnap.data()?.unsubscribeToken || generateSecureToken(),
-              optInToken: newSubSnap.data()?.optInToken || generateSecureToken(),
-              createdAt: newSubSnap.data()?.createdAt || nowIso,
-              updatedAt: nowIso,
-              confirmedAt: newSubSnap.data()?.confirmedAt || nowIso,
-            },
-            { merge: true }
-          );
+            if (cur.mailingListOptIn) {
+              const existingNewSub = newSubSnap.exists ? newSubSnap.data() : null;
+              const existingNewStatus = existingNewSub?.status as string | undefined;
+              if (existingNewStatus !== "complained" && existingNewStatus !== "unsubscribed") {
+                const yearTag = `${cur.workshopYear} Attendees`;
+                const subTags = new Set<string>([
+                  ...(Array.isArray(existingNewSub?.sublists)
+                    ? (existingNewSub?.sublists as string[])
+                    : []),
+                  yearTag,
+                ]);
+                if (cur.tier === "sponsor" || cur.grantsSponsorRole) {
+                  subTags.add(`${cur.workshopYear} Corporate Sponsors`);
+                }
+                tx.set(
+                  newSubRef,
+                  {
+                    email: toEmail,
+                    firstName: existingNewSub?.firstName || toFirstName,
+                    lastName: existingNewSub?.lastName || toLastName,
+                    affiliation: existingNewSub?.affiliation || toAffiliation || cur.affiliation,
+                    interests: ["workshop"],
+                    sublists: Array.from(subTags),
+                    status: "active",
+                    source: existingNewSub?.source || "registration_transfer",
+                    unsubscribeToken:
+                      existingNewSub?.unsubscribeToken || generateSecureToken(),
+                    optInToken: existingNewSub?.optInToken || generateSecureToken(),
+                    createdAt: existingNewSub?.createdAt || nowIso,
+                    updatedAt: nowIso,
+                    confirmedAt: existingNewSub?.confirmedAt || nowIso,
+                  },
+                  { merge: true }
+                );
+              }
+            }
+          }
 
-          return nextDoc;
+          return { updatedReg: nextDoc, fromEmail: prevEmail };
         });
+
+        if (fromEmail && fromEmail !== toEmail) {
+          await revokeAttendeeAccessIfNoActiveSeat({
+            db,
+            email: fromEmail,
+            workshopYear: updatedReg.workshopYear,
+            excludeRegId: updatedReg.id,
+            nowIso,
+          });
+        }
 
         const msg = buildReceiptEmailHtml(updatedReg);
         await sendPostmarkEmail({
@@ -1731,35 +1865,13 @@ export const registrationAdminAction = onRequest(
           { merge: true }
         );
         if (revokeAttendeeRole && cur.email) {
-          const wlRef = db.collection("whitelist").doc(cur.email.toLowerCase());
-          const wlSnap = await wlRef.get();
-          if (wlSnap.exists) {
-            const existingRoles = Array.isArray(wlSnap.data()?.roles)
-              ? (wlSnap.data()?.roles as unknown[]).map((r) => String(r))
-              : [];
-            const filteredRoles = existingRoles.filter((r) => {
-              const lower = r.trim().toLowerCase();
-              if (lower === "attendee") return false;
-              if (cur.tier === "sponsor" && lower === "corporate sponsor") return false;
-              return true;
-            });
-            if (
-              cur.email.trim().toLowerCase() === "webmaster@hems-workshop.org" &&
-              !filteredRoles.some((r) => {
-                const n = r.trim().toLowerCase();
-                return n === "admin" || n === "administration" || n === "administrator";
-              })
-            ) {
-              filteredRoles.push("admin");
-            }
-            await wlRef.set(
-              {
-                roles: filteredRoles,
-                updatedAt: nowIso,
-              },
-              { merge: true }
-            );
-          }
+          await revokeAttendeeAccessIfNoActiveSeat({
+            db,
+            email: cur.email,
+            workshopYear: cur.workshopYear,
+            excludeRegId: cur.id,
+            nowIso,
+          });
         }
         res.status(200).json({ ok: true });
         return;

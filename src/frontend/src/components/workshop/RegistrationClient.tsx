@@ -25,6 +25,7 @@ import {
   Utensils,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import InlineMailingSignup from "@/components/mailing/InlineMailingSignup";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
 import { useWorkshopRegistrations } from "@/hooks/useWorkshopRegistrations";
 import {
@@ -540,14 +541,22 @@ export default function RegistrationClient() {
               </div>
             </div>
 
+            {schedule.phase !== "concluded_closed" && (
+              <InlineMailingSignup
+                variant="card"
+                kicker={`${workshop.workshop_ordinal} Workshop Alert`}
+                heading={`Get Notified When ${workshop.workshop_year} Registration Opens`}
+                description="Receive a direct email alert when early-bird registration, venue details, and the Call for Papers go live."
+                buttonLabel="Notify Me"
+                interests={["workshop"]}
+                sourceLabel="Registration Closed Alert"
+              />
+            )}
+
             <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-sm font-medium">
-              {schedule.phase === "concluded_closed" ? (
+              {schedule.phase === "concluded_closed" && (
                 <Link href="/archive" className="text-primary font-semibold hover:underline">
                   Explore Proceedings Archive →
-                </Link>
-              ) : (
-                <Link href="/contact#mailing-list" className="text-primary font-semibold hover:underline">
-                  Join Mailing List for Opening Alert →
                 </Link>
               )}
               <Link href="/contact" className="text-slate-600 hover:text-primary transition-colors">

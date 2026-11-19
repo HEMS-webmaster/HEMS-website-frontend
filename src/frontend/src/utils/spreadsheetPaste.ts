@@ -5,6 +5,7 @@ import {
   normalizeSubscriberEmail,
 } from "@/utils/mailingTemplate";
 import { parseCsvRows } from "@/utils/upcomingWorkshop";
+import { fixMojibakeAndNormalize } from "@/utils/unicodeText";
 
 export type PasteColumnField =
   | "firstName"
@@ -109,7 +110,7 @@ function parseTsvRows(tsvText: string): string[][] {
  * while preserving commas inside quoted or single-column cells.
  */
 export function tokenizeClipboardGrid(rawText: string): string[][] {
-  const clean = rawText.replace(/^\uFEFF/, "");
+  const clean = fixMojibakeAndNormalize(rawText).replace(/^\uFEFF/, "");
   if (!clean.trim()) return [];
 
   let parsed: string[][];

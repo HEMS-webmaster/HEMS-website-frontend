@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import ScientificText from '@/components/ScientificText';
 
 interface PreviewHoverProps {
   fileName: string;
@@ -78,7 +79,7 @@ export default function PreviewHover({ fileName, wsNum, session, title, children
           
           {title && isAbstract && (
             <div className="text-sm font-bold text-sky-400 mb-2 leading-tight">
-              {title}
+              <ScientificText text={title} />
             </div>
           )}
           
@@ -92,7 +93,7 @@ export default function PreviewHover({ fileName, wsNum, session, title, children
             </div>
           ) : isAbstract ? (
             <div className="text-sm text-slate-300 leading-relaxed max-h-[300px] overflow-y-auto">
-              "{previewData}"
+              <ScientificText text={`"${previewData}"`} multiline />
             </div>
           ) : (
             <div className="bg-slate-900 rounded p-1">

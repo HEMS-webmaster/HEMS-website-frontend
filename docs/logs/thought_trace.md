@@ -2095,3 +2095,124 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 - **Execution:**
   1. Stage and commit the 24 Phase 24 files (`docs/*`, social share PNGs, UI components, `seo.ts`, `llms.txt`, `llms-full.txt`, `generate-llms-catalog.js`) on local `main` (holding `git push origin main` so live Hosting remains untouched).
   2. Deploy the freshly built `src/frontend/out/` (`53/53` routes) to the `board-review` preview channel via `infrastructure\manage-board-preview.ps1 -Action deploy -SkipBuild` and verify `HTTP 200` on the preview URL.
+
+---
+### [2026-11-17T16:32:00-07:00] @ops — Preview Channel Published (`c6ff74e` + `850d975`)
+- **Channel URL:** `https://hems-workshop--board-review-bxz1cjj3.web.app` (expires `2026-12-01 16:31:20`, `627` files released).
+- **Live Site Impact:** `ZERO` (`origin/main` held unpushed until `@bo` approves promotion to live).
+
+---
+### [2026-11-17T17:07:00-07:00] @dev & @prod — SCoT: Audit of Automated Whitelist & Mailing List Flows
+- **Prompt:** `@bo` asked `@dev` and `@prod` to review how `whitelist` and `mailing_subscribers` are automatically managed (paid attendees, PDF downloaders, unsubscribe buttons, automated whitelist entry).
+- **Verified Codebase Facts:**
+  1. **`whitelist/{email}` Automation:** Strictly gated (`firestore.rules` lines 343–359: client writes Admin-only). The ONLY automated server writer is `fulfillRegistration` / `transfer_seat` in `functions/src/registration.ts` (plus emergency `webmaster@hems-workshop.org` seed in `functions/src/index.ts`). Stripe `paid` webhook (`checkout.session.completed` / `async_payment_succeeded`), `$0` `comped` promo waivers, and Treasurer `mark_invoice_paid` atomically add `"attendee"` (and `"corporate sponsor"` on sponsor tier/promo) to `whitelist/{email}` via non-destructive Set union, which triggers `syncWhitelistToUserV2` (`functions/src/index.ts`) to update `users/{uid}` for verified accounts. Pending unpaid invoices, general portal signups, and PDF downloaders NEVER enter `whitelist/{email}`.
+  2. **PDF Downloaders (`DownloadGate.tsx`):** Do NOT enter `mailing_subscribers` or `whitelist`. They only create/update `users/{uid}` (`roles: ["general"]`, `downloadCount`), `downloads/{fileId}`, and `telemetry_events`.
+  3. **Unsubscribe Controls (`functions/src/mailing.ts`):** Every broadcast email sent via `/operations/announcements` includes (a) a tokenized zero-login footer link (`/unsubscribe/?token=...` supporting 1-click opt-out, resubscribe, or email address update), (b) `RFC 8058` `List-Unsubscribe` + `List-Unsubscribe-Post: List-Unsubscribe=One-Click` headers powering Gmail/Outlook's native top-bar Unsubscribe button, and (c) Postmark `Bounce` / `SpamComplaint` webhook auto-suppression. 1-to-1 transactional emails (receipts, opt-in confirmations, Firebase Auth links) omit bulk unsubscribe headers as required for transactional streams.
+  4. **Three Minor Gaps Surfaced for `@bo` Decision:**
+     - **Gap A (`registration.ts` lines 550–556):** If a brand-new registrant unchecks `mailingListOptIn` (`false`) on `/registration`, `nextSubStatus` still sets `status: "active"` when no prior `unsubscribed` record existed.
+     - **Gap B (`registration.ts` lines 1257–1276 & 1569–1663):** Refunding via the HEMS Treasurer Console (`refund_or_cancel`) revokes `attendee` from `whitelist/{email}`, whereas refunding directly inside the external Stripe Dashboard (`charge.refunded` webhook) or transferring a seat (`transfer_seat` from `fromEmail` -> `toEmail`) does not yet remove `attendee` from the old/refunded email.
+     - **Optional Growth Lever (`DownloadGate.tsx`):** Optional unchecked opt-in checkbox or post-download button if `@bo` wants archive readers to be able to join the newsletter voluntarily.
+
+---
+### [2026-11-17T20:18:00-07:00] @arch, @prod, @brand & @dev — SCoT: Phase 25 Mailing Consent Fix, Whitelist Seat/Refund Hygiene & Voluntary DownloadGate Opt-In
+- **Trigger:** `@bo` approved `@prod and @dev adn @web go on 1, 2 and 3 please. Any other places we can push the mailing list?`
+- **Plan & Architectural Decisions:**
+  1. **Permanent Plan (`@arch`):** Save `docs/plans/2026-11-17-mailing-consent-whitelist-hygiene-and-download-optin.md` and register Phase 25 in `docs/implementation_plan.md`.
+  2. **Item #1 — Strict `mailingListOptIn` Consent Enforcement (`functions/src/registration.ts`):**
+     - In `fulfillRegistration`, only enroll/activate `mailing_subscribers/{emailDocId}` and append `${workshopYear} Attendees` / `${workshopYear} Corporate Sponsors` sublist tags when `current.mailingListOptIn === true` (and `existingStatus !== "complained"`). If `!current.mailingListOptIn` and no subscriber doc exists, do NOT create a `mailing_subscribers` record; if a doc already exists, preserve its current `status` without promoting `unsubscribed`/`pending_opt_in` to `active`.
+     - Update `buildReceiptEmailHtml` so the confirmation copy only mentions the `${workshopYear} Attendees` mailing list tag when `reg.mailingListOptIn === true`.
+  3. **Item #2 — Multi-Seat-Safe Whitelist & Cohort Revocation on Seat Transfers & Stripe Refunds (`functions/src/registration.ts`):**
+     - Add `revokeAttendeeAccessIfNoActiveSeat({ db, email, workshopYear, wasSponsorTier, excludeRegId, nowIso })`: queries `workshop_registrations` to check whether `email` still holds any other `paid` or `comped` seat for `workshopYear`. If none remain, strips `"attendee"` (and `"corporate sponsor"` if no active sponsor seat remains) from `whitelist/{email}` (preserving officer roles and protected webmaster `admin`), removes `workshopYear` from `workshopYears`, and removes `${workshopYear} Attendees` (and `${workshopYear} Corporate Sponsors`) from `mailing_subscribers/{emailDocId}.sublists`.
+     - Wire into all three seat-removal paths: `refund_or_cancel`, external Stripe Dashboard `charge.refunded` webhook, and `transfer_seat` (when `fromEmail !== toEmail`, also respecting `cur.mailingListOptIn` for `toEmail`).
+  4. **Item #3 — Voluntary Double-Opt-In Newsletter Checkbox & 1-Click Ready CTA in `DownloadGate.tsx`:**
+     - Create shared `src/frontend/src/utils/mailingClient.ts` (`submitPublicMailingSignup`) encapsulating `/api/mailing/subscribe` + `mailing_public_requests` static fallback + `mailing_signup` telemetry, and refactor `MailingListSignupCard.tsx` to use it cleanly.
+     - Add an **unchecked** opt-in checkbox (`optInNewsletter`) inside `DownloadGate.tsx` (`showModal`) supporting both `Email Me an Instant Download Link` and `Google / Microsoft` OAuth (`auth.currentUser?.email`), plus a 1-click voluntary subscribe pill on the `"Proceedings Ready"` modal when not yet requested in that session.
+  5. **`@prod` & `@brand` Audit of High-Impact Mailing List Touchpoints:** Prepare concrete, ranked recommendations for `@bo`'s review (`Footer` inline 1-line bar, Closed-Window `Registration` / `Call for Papers` / `Student Travel Awards` / `Accommodations` alert strips, Homepage `UpcomingWorkshopSpotlight`, and `/auth` / Portal Overview).
+
+---
+### [2026-11-17T20:29:00-07:00] @qa & @prod — Verification of Phase 25 & Mailing List Placement Recommendations
+- **Verification (`@qa`):** `npm --prefix functions run build`, `npx --prefix src/frontend tsc -p src/frontend/tsconfig.json --noEmit`, `authWorkflow.test.mjs`, and `mailingAndWhitelistHygiene.test.mjs` all exited `0`.
+- **Mailing List Growth Audit (`@prod` & `@brand`):** Audited site-wide mailing list visibility; `<MailingListSignupCard />` previously appeared only on `/contact#mailing-list`. Presenting 4 ranked, scholarly placements (Closed-Window Workshop Pages inline bar, Global Footer 1-line capture, Archive Search Hub `/archive` strip, and Homepage `UpcomingWorkshopSpotlight` action) for `@bo` selection.
+
+---
+### [2026-11-17T21:20:30-07:00] @arch, @brand & @dev — SCoT: Phase 26 Site-Wide Inline Mailing List Touchpoints (All 4 Surfaces)
+- **Trigger:** `@bo` authorized `@web and @dev all, go.` across all 4 recommended mailing-list growth surfaces.
+- **Architectural Design:**
+  1. **Permanent Plan (`@arch`):** Save `docs/plans/2026-11-17-sitewide-inline-mailing-list-touchpoints.md` and register Phase 26 in `docs/implementation_plan.md`.
+  2. **Reusable `<InlineMailingSignup />` Component (`src/frontend/src/components/mailing/InlineMailingSignup.tsx`):**
+     - Powered by `submitPublicMailingSignup` (`src/frontend/src/utils/mailingClient.ts`) for unified Double Opt-In + preview fallback + `mailing_signup` attribution (`sourceLabel` per surface so `/admin/analytics` tracks which page converted each subscriber!).
+     - Pre-fills `user.email` (and splits `user.name` into `firstName`/`lastName`) when a visitor is already signed in (`useAuth()`), enabling true 1-click subscription for authenticated archive readers.
+     - Includes hidden bot honeypot, `text-base sm:text-xs` iOS-safe input sizing, `print:hidden` print protection, and 3 Brand v3.2 variants: `"card"`, `"compact"`, and `"footer"` (with `"footer"` auto-hiding on `/contact` and `/unsubscribe` to avoid form duplication).
+  3. **Surface 1 — Closed-Window Workshop Pages:**
+     - `RegistrationClient.tsx` (`!schedule.isOpen && schedule.phase !== "concluded_closed"`, `interests={["workshop"]}`)
+     - `CallForPapersClient.tsx` (`!workshop.cfp_open`, `interests={["workshop"]}`)
+     - `StudentAwardsClient.tsx` (Mode A interactive web view only, `!workshop.cfp_open`, `interests={["student_awards", "workshop"]}`)
+     - `AccommodationsClient.tsx` (`!workshop.venue_confirmed`, `interests={["workshop"]}`)
+  4. **Surface 2 — Homepage Spotlight (`UpcomingWorkshopSpotlight.tsx`):**
+     - `variant="compact"` when `workshop.cycle_stage !== "open"`.
+  5. **Surface 3 — Proceedings Archive Hub (`ArchiveHubClient.tsx`):**
+     - `variant="card"` scholarly CFP & symposium alert banner on `/archive` (both idle browse & search views, `0` edits to locked `/archive/[year]/**`).
+  6. **Surface 4 — Global Footer (`Footer.tsx`):**
+     - `variant="footer"` inline 1-step email capture in Column 1 across all public routes.
+
+---
+### [2026-11-17T21:25:00-07:00] @qa — Verification of Phase 26 (`InlineMailingSignup` Across All 4 Surfaces)
+- **Unit Assertions (`mailingAndWhitelistHygiene.test.mjs`):** Verified all 7 component wires (`Footer.tsx`, `UpcomingWorkshopSpotlight.tsx`, `RegistrationClient.tsx`, `CallForPapersClient.tsx`, `StudentAwardsClient.tsx`, `AccommodationsClient.tsx`, `ArchiveHubClient.tsx`) with distinct analytics `sourceLabel` attribution.
+
+---
+### [2026-11-17T21:33:00-07:00] @ops — SCoT: Deploy Phase 25 & 26 Build to `board-review` Preview Channel
+- **Request:** `@bo` requested `@ops deploy to the preview`.
+- **Execution:** Run `infrastructure\manage-board-preview.ps1 -Action deploy -SkipBuild` using the freshly built `src/frontend/out` (`53/53` routes) and verify `HTTP 200` on key routes.
+
+
+---
+
+## 2026-11-18 — SCoT Log (Unicode, Scientific Notation & Foreign Diacritic Integrity)
+- **Trigger:** User `@bo` reported corrupted special characters (`Î´C`, `Î´O`, accented names) in Workshop Manager and website proceedings displays, and requested end-to-end Unicode, mathematical, Greek, and foreign-character integrity across the archive catalog, Workshop Manager storage/export, and frontend user inputs.
+- **Root Causes Identified:**
+  1. Legacy HTML scraper saved UTF-8 multi-byte sequences decoded as Windows-1252 (and double-encoded `ÃƒÂ...`) into `master_workshops.json` and `archives/*.json` (`2005.json`, `2017.json`, `2018.json`, `2019.json`, `2022.json`), plus lost `<sup>13</sup>`/`<sup>18</sup>` isotope numbers on Wieman's 2019 title and used spacing-tilde `˜` / bullet `•` in the 2005 membrane MIMS title.
+  2. 20 files in `local_data/cache/*.json` had supplementary-plane Mathematical Alphanumeric code points (`U+1D400..U+1D7FF`) truncated to 16 bits (`U+D400..U+D7FF`, rendering as random Hangul syllables in `mock-pdf-chunks.json`), while `2007_6_pres_168.json` has legitimate Korean `"화학"`.
+  3. Workshop Manager (`tools/manager/src/app/api/manager/save/route.ts`) did not sanitize/NFC-normalize incoming JSON, overwrote `yearData.host_corporation` enriched metadata (`host_category`, `kicker_label`, `patronage_summary`, `highlights`, `historical_note`, `cta_label`), dropped `id` fallback preservation when saving, `preview/route.ts` and `serve/route.ts` omitted `; charset=utf-8` on `text/plain`, `push-to-live/route.ts` still called `npx firebase` instead of `npx --yes firebase-tools`, and `exportProgramPdf.ts` passed raw non-WinAnsi Unicode directly to jsPDF's built-in `helvetica` font.
+  4. Frontend CSV/file readers (`admin/page.tsx`, `operations/mailing-list/page.tsx`, `useWorkshopConfigAdmin.ts`, `AbstractSubmissionClient.tsx`) used raw `await file.text()` (which fails/emits U+FFFD on Excel Windows-1252 CSV exports), and paste normalizers (`wordPasteNormalizer.ts`, `spreadsheetPaste.ts`, `whitelistCsv.ts`) lacked multi-pass mojibake repair + NFC normalization.
+- **Design Decisions:**
+  - Create standalone, self-contained `unicodeText.ts` modules in both `src/frontend/src/utils/unicodeText.ts` and `tools/manager/src/utils/unicodeText.ts` (avoiding cross-package tsconfig path issues) implementing strict CP1252-to-UTF-8 byte-recovery (2 passes for double-encoded strings), PUA bullet mapping, math alphanumeric normalization, NFC normalization, recursive `sanitizeDeepUnicode`, and smart UTF-8-fatal-with-Windows-1252-fallback `decodeTextBufferSmart` / `readUploadedTextFileSmart`.
+  - Repair all historical JSON catalogs, PDF cache files (excluding legitimate Hangul in `2007_6_pres_168.json`), `docs/registries/pdf_seo_registry.md`, and regenerate `archives-index.json`, `mock-pdf-chunks.json`, and `llms-full.txt`, plus add a Mojibake & Encoding Gate to `validate-archives.js`.
+  - Keep `0` edits to `src/frontend/src/app/archive/**` (honoring strict archive page lock).
+
+
+---
+
+## 2026-11-18 — SCoT Log (Phase 28: Future-Proof Archive Equations, Word Paste & Workshop Manager)
+- **Trigger:** `@dev` requested by `@bo` to ensure the HEMS Archive and Workshop Manager handle Word-pasted equations, inline formatting (`<b>`, `<i>`, `<sub>`, `<sup>`), Greek letters, math operators, and international characters across upcoming cohorts (2027+).
+- **Key Findings & Design:**
+  - `AbstractSubmissionClient.tsx` / `wordPasteNormalizer.ts` preserve inline formatting tags (`<b>`, `<i>`, `<u>`, `<sub>`, `<sup>`), `[FIGURE]`, and LaTeX math (`$...$`, `\(...\)`, `\frac`, `\sqrt`, Greek symbols, unbraced `$q_z = \frac{4eV}{m r_0^2 \Omega^2}$`).
+  - Previously, `archive/[year]/page.tsx`, `FrontendPreviewHover.tsx`, `tools/manager/src/components/PreviewHover.tsx`, `CitationModal.tsx`, `generateArchiveJsonLd.ts`, `ArchiveHubClient.tsx`, and `exportProgramPdf.ts` rendered raw title strings instead of parsing scientific markup/Unicode via `<ScientificText />` or `toPlainScientificText()`, and Workshop Manager (`PresentationsManager.tsx`, `PostersManager.tsx`, `StudentsManager.tsx`, `EventsManager.tsx`) lacked `applyWordPasteToField`, live `<ScientificText />` title previews, accent-safe filename slugs (`buildSafeProceedingSlugWords`, `buildSafePresenterLastNameSlug`), and a working `preview_generator.py` (`tools/manager/scripts/preview_generator.py` using installed `fitz` + `pypdf` fallback).
+  - User `@bo` explicitly directed future-proofing the Archive for upcoming abstracts (`docs/plans/2026-11-18-future-proof-archive-equations-and-word-paste.md`), keeping zero changes to historical archive schema structure (`validate-archives.js` 15/15 passing).
+
+
+---
+### [2026-11-18] @arch / @web / @dev / @qa — Phase 29 (Addendum 52): Reviewer Portal Conference Schedule Builder & Workshop Settings Venue/Dinner Logistics
+- **Request:** Add a dedicated Conference Schedule Builder page under the Reviewer Portal modeled on historical workshop programs (`2025.json`, `2022.json`), centralize all venue room, arrival reception, and workshop dinner plans inside Workshop Settings (`/admin/workshop-settings`), suggest a format for accepted oral presentations, allow sorting talks into sessions and manual time adjustment, and support `.pdf` and editable `.docx` export.
+- **Architectural Decisions:**
+  1. Extend `upcoming_workshop.json` and `UpcomingWorkshopConfig` cleanly from 44 to 53 canonical keys (`venue_session_room`, `venue_foyer_room`, `welcome_reception_time`, `welcome_reception_venue`, `dinner_day_time`, `dinner_venue_name`, `dinner_venue_address`, `dinner_venue_url`, `dinner_plan_notes`) under Section 3 ("3. Venue, Rooms & Dinner Plans"), updating `sync-workshop-sheet.js` and `upcomingWorkshopCsv.test.mjs` in lockstep.
+  2. Add Firestore security rule for `workshop_schedules/{scheduleId}` (`allow read, write: if request.auth != null && isReviewerOrAdmin(request.auth.uid);`) paired with client-side `localStorage` fallback so committee schedule drafts sync cleanly without breaking offline/local mode.
+  3. Build pure schedule engine `src/frontend/src/utils/conferenceScheduleBuilder.ts` modeling HEMS's single-track 4-day Monday–Thursday structure (Travel/Welcome Reception -> Technical Sessions I–IX + Breaks + Lunches + Sponsor Intros + Poster Session + Workshop Dinner -> Closing Remarks), track-aware auto-placement of accepted oral talks, drag/drop/nudge/move across sessions, manual start/end time & ripple recalculation, and schedule conflict checks.
+  4. Build zero-server-route client exporters: `scheduleExportPdf.ts` (using `jspdf` + `toPlainScientificText` WinAnsi transliteration) and `scheduleExportDocx.ts` (zero-dependency PKZIP/STORE OpenXML builder generating real editable Word tables and native `<w:vertAlign w:val="superscript|subscript"/>` / `<w:i/>` UTF-8 scientific runs).
+  5. Deliver `/reviewer/schedule` gated identically to `/reviewer` and `/reviewer/overview`, plus sidebar link in `(portal)/layout.tsx` and cross-links.
+
+---
+### [2026-11-18] @ops — Start Local Website Dev Server
+- **Decision:** Launch the Next.js frontend development server via `npm run dev` (`IsDaemon: true`), verify Next.js reports ready from task logs, and open the local site in the browser subagent for verification.
+
+---
+### [2026-11-18] @ops — Hygiene, Operational & Security Audit
+- **Scope:** Read-only inspection across Git working tree, `.gitignore`, `.env*`, `firebase.json`, `firestore.rules`, `infrastructure/storage.rules`, `.github/workflows/firebase-hosting-merge.yml`, `functions/src/*`, `tools/manager/src/app/api/manager/*`, running background daemons, all 5 unit test suites, `functions` `tsc --noEmit`, and `npm audit`.
+- **Outcome:** Core Firebase Auth, Firestore Rules (`hasVerifiedAuthEmail()`, protected `webmaster@hems-workshop.org`), Stripe raw-body HMAC verification, Postmark constant-time webhook auth, and zero-PII hashed IP rate limiting are solid, with specific Git/deploy drift, missing Hosting security headers, un-wired Storage rules, local-only Manager hardening (`127.0.0.1` bind, path traversal check, `execFile`), and dependency audit items documented for `@bo`.
+
+---
+### [2026-11-18] @team / @arch — Upgrade `docs/system_design_architecture.html` to v5.3 Handover Manual
+- **Scope:** Expand `docs/system_design_architecture.html` from v5.1 (Addendum 40) to v5.3 (through Addendum 52) as a self-contained team handover document detailing website architecture, Architectural Decision Records ("why"), accounts/domains/credentials ownership inventory, 3-layer archive storage & onboarding, Workshop Manager & Python preview pipeline, 53-key Workshop Control Center, Reviewer Schedule Builder (PDF/DOCX), Security Hardening & Operational Watchpoints, and the 5-phase biennial maintenance runbook.
+
+---
+### [2026-11-18] @ops — Onboarding READMEs, `.gitignore` Hygiene, Git Push & Firebase Preview Update
+- **Plan:** Add `*.tsbuildinfo` to `.gitignore`, update root `README.md` and create `docs/README.md` linking directly to `docs/system_design_architecture.html`, commit and push accumulated Phases 25–29 + handover documentation to `origin/main`, deploy updated `firestore.rules`, and deploy `src/frontend/out` (`-SkipBuild`) to the `board-review` Firebase Hosting preview channel without stopping running local servers.

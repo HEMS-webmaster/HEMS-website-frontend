@@ -3,6 +3,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import DragDropZone from './DragDropZone';
 import PreviewHover from './PreviewHover';
+import ScientificText from '@/components/ScientificText';
+import { applyWordPasteToField } from '@/utils/wordPasteNormalizer';
+import {
+  buildSafePresenterLastNameSlug,
+  buildSafeProceedingSlugWords,
+  hasRichScientificMarkup,
+} from '@/utils/unicodeText';
 
 function getOrdinalSuffix(num: number): string {
   const j = num % 10;
@@ -351,15 +358,9 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
       let presenterName = `Author_${pIdx}`;
       if (p.authors && p.authors.length > 0) {
         const presenter = p.authors.find(a => a.isPresenter) || p.authors[0];
-        const namePart = presenter.name.split(',')[0].trim();
-        const nameWords = namePart.split(' ');
-        presenterName = nameWords[nameWords.length - 1].replace(/[^a-zA-Z0-9]/g, '');
+        presenterName = buildSafePresenterLastNameSlug(presenter.name, `Author_${pIdx}`);
       }
-      let titleSnippet = `Talk_${pIdx}`;
-      if (p.title) {
-        const words = p.title.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 0);
-        if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
-      }
+      const titleSnippet = buildSafeProceedingSlugWords(p.title || '', 3, `Talk_${pIdx}`);
       const wsOrdinal = formatOrdinal(parseInt(wsNum));
       const presFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Presentation.pdf`;
       const absFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Abstract.pdf`;
@@ -519,11 +520,25 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-400 mb-1">Session Title</label>
-                    <input type="text" value={group.title || ''} placeholder="e.g. Technical Session I" onChange={e => updateGroup(gIdx, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                    <input
+                      type="text"
+                      value={group.title || ''}
+                      placeholder="e.g. Technical Session I"
+                      onChange={e => updateGroup(gIdx, 'title', e.target.value)}
+                      onPaste={e => applyWordPasteToField(e, group.title || '', (val) => updateGroup(gIdx, 'title', val), { multiline: false })}
+                      className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                    />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-slate-400 mb-1">Location (Optional)</label>
-                    <input type="text" value={group.location || ''} placeholder="e.g. Mercury Room" onChange={e => updateGroup(gIdx, 'location', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                    <input
+                      type="text"
+                      value={group.location || ''}
+                      placeholder="e.g. Mercury Room"
+                      onChange={e => updateGroup(gIdx, 'location', e.target.value)}
+                      onPaste={e => applyWordPasteToField(e, group.location || '', (val) => updateGroup(gIdx, 'location', val), { multiline: false })}
+                      className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                    />
                   </div>
                 </div>
 
@@ -536,16 +551,10 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
                     let presenterName = `Author_${pIdx}`;
                     if (p.authors && p.authors.length > 0) {
                       const presenter = p.authors.find(a => a.isPresenter) || p.authors[0];
-                      const namePart = presenter.name.split(',')[0].trim();
-                      const nameWords = namePart.split(' ');
-                      presenterName = nameWords[nameWords.length - 1].replace(/[^a-zA-Z0-9]/g, '');
+                      presenterName = buildSafePresenterLastNameSlug(presenter.name, `Author_${pIdx}`);
                     }
 
-                    let titleSnippet = `Talk_${pIdx}`;
-                    if (p.title) {
-                      const words = p.title.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 0);
-                      if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
-                    }
+                    const titleSnippet = buildSafeProceedingSlugWords(p.title || '', 3, `Talk_${pIdx}`);
 
                     const wsOrdinal = formatOrdinal(parseInt(wsNum));
                     const presFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Presentation.pdf`;
@@ -582,7 +591,19 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
                           </div>
                           <div>
                             <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>
-                            <input type="text" value={p.title || ''} onChange={e => updatePresentation(gIdx, pIdx, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                            <input
+                              type="text"
+                              value={p.title || ''}
+                              onChange={e => updatePresentation(gIdx, pIdx, 'title', e.target.value)}
+                              onPaste={e => applyWordPasteToField(e, p.title || '', (val) => updatePresentation(gIdx, pIdx, 'title', val), { multiline: false })}
+                              className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                            />
+                            {hasRichScientificMarkup(p.title || '') && (
+                              <div className="mt-1.5 rounded bg-slate-800/90 border border-sky-700/50 px-2.5 py-1.5 text-xs text-slate-200">
+                                <span className="text-[10px] font-semibold uppercase tracking-wider text-sky-400 mr-1.5">Preview:</span>
+                                <ScientificText text={p.title || ''} />
+                              </div>
+                            )}
                           </div>
                         </div>
 
@@ -633,6 +654,34 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
                                     };
                                     onChange(updatedSessions);
                                   }}
+                                  onPaste={e =>
+                                    applyWordPasteToField(
+                                      e,
+                                      inst,
+                                      (newName) => {
+                                        const oldName = institutes[iIdx];
+                                        const updatedInstitutes = [...institutes];
+                                        updatedInstitutes[iIdx] = newName;
+                                        const updatedAuthors = p.authors.map(a =>
+                                          a.institute === oldName ? { ...a, institute: newName } : a
+                                        );
+                                        const updatedPres = {
+                                          ...latestSessions.current[gIdx].presentations[pIdx],
+                                          institutes: updatedInstitutes,
+                                          authors: updatedAuthors,
+                                        };
+                                        const updatedSessions = [...latestSessions.current];
+                                        updatedSessions[gIdx] = {
+                                          ...updatedSessions[gIdx],
+                                          presentations: updatedSessions[gIdx].presentations.map((pr, idx) =>
+                                            idx === pIdx ? updatedPres : pr
+                                          ),
+                                        };
+                                        onChange(updatedSessions);
+                                      },
+                                      { multiline: false }
+                                    )
+                                  }
                                   className="flex-1 bg-slate-900 border border-slate-600 rounded p-1 text-xs text-white"
                                 />
                                 <button
@@ -702,7 +751,19 @@ export default function PresentationsManager({ presentation_sessions = [], wsNum
                                     const updatedAuthors = [...(p.authors || [])];
                                     updatedAuthors[aIdx] = { ...updatedAuthors[aIdx], name: e.target.value };
                                     updatePresentation(gIdx, pIdx, 'authors', updatedAuthors);
-                                  }} 
+                                  }}
+                                  onPaste={e =>
+                                    applyWordPasteToField(
+                                      e,
+                                      author.name || '',
+                                      (val) => {
+                                        const updatedAuthors = [...(p.authors || [])];
+                                        updatedAuthors[aIdx] = { ...updatedAuthors[aIdx], name: val };
+                                        updatePresentation(gIdx, pIdx, 'authors', updatedAuthors);
+                                      },
+                                      { multiline: false }
+                                    )
+                                  }
                                   className="flex-1 bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" 
                                 />
                                 {/* Institute dropdown */}

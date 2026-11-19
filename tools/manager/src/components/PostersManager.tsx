@@ -3,6 +3,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import DragDropZone from './DragDropZone';
 import PreviewHover from './PreviewHover';
+import ScientificText from '@/components/ScientificText';
+import { applyWordPasteToField } from '@/utils/wordPasteNormalizer';
+import {
+  buildSafePresenterLastNameSlug,
+  buildSafeProceedingSlugWords,
+  hasRichScientificMarkup,
+} from '@/utils/unicodeText';
 
 function getOrdinalSuffix(num: number): string {
   const j = num % 10;
@@ -228,15 +235,9 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
       let presenterName = `Poster_${pIdx}`;
       if (p.authors && p.authors.length > 0) {
         const presenter = p.authors.find(a => a.isPresenter) || p.authors[0];
-        const namePart = presenter.name.split(',')[0].trim();
-        const nameWords = namePart.split(' ');
-        presenterName = nameWords[nameWords.length - 1].replace(/[^a-zA-Z0-9]/g, '');
+        presenterName = buildSafePresenterLastNameSlug(presenter.name, `Poster_${pIdx}`);
       }
-      let titleSnippet = `Topic_${pIdx}`;
-      if (p.title) {
-        const words = p.title.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 0);
-        if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
-      }
+      const titleSnippet = buildSafeProceedingSlugWords(p.title || '', 3, `Topic_${pIdx}`);
       const wsOrdinal = formatOrdinal(parseInt(wsNum));
       const posterFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Poster.pdf`;
       const abstractFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Abstract.pdf`;
@@ -371,16 +372,10 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
           let presenterName = `Poster_${i}`;
           if (p.authors && p.authors.length > 0) {
             const presenter = p.authors.find(a => a.isPresenter) || p.authors[0];
-            const namePart = presenter.name.split(',')[0].trim();
-            const nameWords = namePart.split(' ');
-            presenterName = nameWords[nameWords.length - 1].replace(/[^a-zA-Z0-9]/g, '');
+            presenterName = buildSafePresenterLastNameSlug(presenter.name, `Poster_${i}`);
           }
 
-          let titleSnippet = `Topic_${i}`;
-          if (p.title) {
-            const words = p.title.replace(/[^a-zA-Z0-9\s]/g, '').split(/\s+/).filter(w => w.length > 0);
-            if (words.length > 0) titleSnippet = words.slice(0, 3).join('_');
-          }
+          const titleSnippet = buildSafeProceedingSlugWords(p.title || '', 3, `Topic_${i}`);
 
           const wsOrdinal = formatOrdinal(parseInt(wsNum));
           const posterFileName = `${wsOrdinal}_${presenterName}_${titleSnippet}_Poster.pdf`;
@@ -397,7 +392,19 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
 
               <div className="mb-4">
                 <label className="block text-xs font-bold text-slate-400 mb-1">Title</label>
-                <input type="text" value={p.title || ''} onChange={e => updateItem(i, 'title', e.target.value)} className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" />
+                <input
+                  type="text"
+                  value={p.title || ''}
+                  onChange={e => updateItem(i, 'title', e.target.value)}
+                  onPaste={e => applyWordPasteToField(e, p.title || '', (val) => updateItem(i, 'title', val), { multiline: false })}
+                  className="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white"
+                />
+                {hasRichScientificMarkup(p.title || '') && (
+                  <div className="mt-1.5 rounded bg-slate-800/90 border border-sky-700/50 px-2.5 py-1.5 text-xs text-slate-200">
+                    <span className="text-[10px] font-semibold uppercase tracking-wider text-sky-400 mr-1.5">Preview:</span>
+                    <ScientificText text={p.title || ''} />
+                  </div>
+                )}
               </div>
 
               {/* ── Institute List ─────────────────────────────────────── */}
@@ -436,6 +443,25 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                           updatedPosters[i] = updatedPoster;
                           onChange(updatedPosters);
                         }}
+                        onPaste={e =>
+                          applyWordPasteToField(
+                            e,
+                            inst,
+                            (newName) => {
+                              const oldName = institutes[iIdx];
+                              const updatedInstitutes = [...institutes];
+                              updatedInstitutes[iIdx] = newName;
+                              const updatedAuthors = p.authors.map(a =>
+                                a.institute === oldName ? { ...a, institute: newName } : a
+                              );
+                              const updatedPoster = { ...latestPosters.current[i], institutes: updatedInstitutes, authors: updatedAuthors };
+                              const updatedPosters = [...latestPosters.current];
+                              updatedPosters[i] = updatedPoster;
+                              onChange(updatedPosters);
+                            },
+                            { multiline: false }
+                          )
+                        }
                         className="flex-1 bg-slate-900 border border-slate-600 rounded p-1 text-xs text-white"
                       />
                       <button
@@ -495,7 +521,19 @@ export default function PostersManager({ posters = [], wsNum, onChange }: Poster
                           const updatedAuthors = [...(p.authors || [])];
                           updatedAuthors[aIdx] = { ...updatedAuthors[aIdx], name: e.target.value };
                           updateItem(i, 'authors', updatedAuthors);
-                        }} 
+                        }}
+                        onPaste={e =>
+                          applyWordPasteToField(
+                            e,
+                            author.name || '',
+                            (val) => {
+                              const updatedAuthors = [...(p.authors || [])];
+                              updatedAuthors[aIdx] = { ...updatedAuthors[aIdx], name: val };
+                              updateItem(i, 'authors', updatedAuthors);
+                            },
+                            { multiline: false }
+                          )
+                        }
                         className="flex-1 bg-slate-900 border border-slate-600 rounded p-2 text-sm text-white" 
                       />
                       {/* Institute dropdown */}

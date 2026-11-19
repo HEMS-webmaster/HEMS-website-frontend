@@ -1,4 +1,107 @@
 import jsPDF from 'jspdf';
+import { toPlainScientificText } from '@/utils/unicodeText';
+
+const WINANSI_CP1252_EXTRA = new Set([
+  0x20ac, 0x201a, 0x0192, 0x201e, 0x2026, 0x2020, 0x2021, 0x02c6, 0x2030,
+  0x0160, 0x2039, 0x0152, 0x017d, 0x2018, 0x2019, 0x201c, 0x201d, 0x2022,
+  0x2013, 0x2014, 0x02dc, 0x2122, 0x0161, 0x203a, 0x0153, 0x017e, 0x0178,
+]);
+
+const JSPDF_SYMBOL_MAP: Record<string, string> = {
+  '−': '-',
+  '‐': '-',
+  '‑': '-',
+  '–': '–',
+  '—': '—',
+  '⋅': '·',
+  '≈': '~',
+  '≤': '<=',
+  '≥': '>=',
+  '≠': '!=',
+  '→': '->',
+  '←': '<-',
+  '↔': '<->',
+  '⇌': '<=>',
+  '∞': 'inf',
+  'μ': 'µ',
+  'α': 'alpha',
+  'β': 'beta',
+  'γ': 'gamma',
+  'Δ': 'Delta',
+  'ε': 'eps',
+  'θ': 'theta',
+  'λ': 'lambda',
+  'ρ': 'rho',
+  'σ': 'sigma',
+  'τ': 'tau',
+  'φ': 'phi',
+  'ϕ': 'phi',
+  'ω': 'omega',
+  'Ω': 'Ohm',
+  '⁰': '0',
+  '⁴': '4',
+  '⁵': '5',
+  '⁶': '6',
+  '⁷': '7',
+  '⁸': '8',
+  '⁹': '9',
+  '⁺': '+',
+  '⁻': '-',
+  '₀': '0',
+  '₁': '1',
+  '₂': '2',
+  '₃': '3',
+  '₄': '4',
+  '₅': '5',
+  '₆': '6',
+  '₇': '7',
+  '₈': '8',
+  '₉': '9',
+  '₊': '+',
+  '₋': '-',
+  'ł': 'l',
+  'Ł': 'L',
+  'đ': 'd',
+  'Đ': 'D',
+  'ø': 'ø',
+  'Ø': 'Ø',
+  'ı': 'i',
+};
+
+/**
+ * Normalizes UTF-8 text and transliterates code points outside jsPDF's WinAnsi
+ * built-in `helvetica` font so scientific titles and attendee names remain readable.
+ */
+function formatTextForJsPdf(input: string): string {
+  const clean = toPlainScientificText(String(input || ''));
+  if (!clean) return '';
+
+  // Keep mixed superscripts like δ¹⁸O or 10⁻³ uniform instead of mixing ¹ (WinAnsi) with 8 (ASCII)
+  let prepped = clean
+    .replace(/δ([⁰¹²³⁴⁵⁶⁷⁸⁹\d])/g, 'd$1')
+    .replace(/δ/g, 'delta')
+    .replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]{2,})/g, (seq) =>
+      seq.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]/g, (c) => ({ '¹': '1', '²': '2', '³': '3' }[c] ?? JSPDF_SYMBOL_MAP[c] ?? c))
+    );
+
+  let out = '';
+  for (const ch of prepped) {
+    const mapped = JSPDF_SYMBOL_MAP[ch];
+    if (mapped !== undefined) {
+      out += mapped;
+      continue;
+    }
+    const cp = ch.codePointAt(0);
+    if (cp === undefined) continue;
+    if ((cp >= 0x20 && cp <= 0x7e) || (cp >= 0xa0 && cp <= 0xff) || WINANSI_CP1252_EXTRA.has(cp) || cp === 0x0a || cp === 0x09) {
+      out += ch;
+      continue;
+    }
+    const asciiFallback = ch.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+    out += asciiFallback || '';
+  }
+  return out;
+}
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -85,13 +188,17 @@ function buildSchedule(ws: any): DaySchedule[] {
             return name;
           }).join('; ');
         }
-        return { time: fmtTime(p.time), title: p.title || '', authors: authorStr };
+        return {
+          time: fmtTime(p.time),
+          title: formatTextForJsPdf(p.title || ''),
+          authors: formatTextForJsPdf(authorStr),
+        };
       });
       dayMap.get(date)!.push({
         type: 'session',
         time: fmtTime(firstTime),
         sortMin: parseToMinutes(firstTime),
-        title: sg.title || 'Session',
+        title: formatTextForJsPdf(sg.title || 'Session'),
         talks,
       });
     }
@@ -109,8 +216,8 @@ function buildSchedule(ws: any): DaySchedule[] {
             type: 'event',
             time: fmtTime(ev.time),
             sortMin: parseToMinutes(ev.time),
-            title: ev.title || '',
-            subtitle: [ev.subtitle, ev.location].filter(Boolean).join(' | ') + endStr,
+            title: formatTextForJsPdf(ev.title || ''),
+            subtitle: formatTextForJsPdf([ev.subtitle, ev.location].filter(Boolean).join(' | ') + endStr),
           });
         }
       }
@@ -149,13 +256,15 @@ export function exportProgramPdf(ws: any) {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(20);
   const ordinal = getOrdinal(parseInt(String(ws.number)));
-  const titleText = ws.title || `${ordinal} HEMS Workshop`;
+  const titleText = formatTextForJsPdf(ws.title || `${ordinal} HEMS Workshop`);
   doc.text(titleText, W / 2, y, { align: 'center' });
   y += 22;
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
-  const taglineText = ws.tagline || 'Workshop on Harsh-Environment Mass Spectrometry';
+  const taglineText = formatTextForJsPdf(
+    ws.tagline || 'Workshop on Harsh-Environment Mass Spectrometry'
+  );
   doc.text(taglineText, W / 2, y, { align: 'center' });
   y += 18;
 
@@ -163,12 +272,12 @@ export function exportProgramPdf(ws: any) {
   if (ws.dates) {
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.text(ws.dates, W / 2, y, { align: 'center' });
+    doc.text(formatTextForJsPdf(ws.dates), W / 2, y, { align: 'center' });
     y += 14;
   }
 
   // Venue + Address
-  const locParts = [ws.venue, ws.address || ws.city].filter(Boolean);
+  const locParts = [ws.venue, ws.address || ws.city].filter(Boolean).map(formatTextForJsPdf);
   if (locParts.length > 0) {
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
@@ -193,12 +302,12 @@ export function exportProgramPdf(ws: any) {
     y += 13;
     doc.setFontSize(12);
     doc.setTextColor(0);
-    doc.text(hostSponsor.name, M, y);
+    doc.text(formatTextForJsPdf(hostSponsor.name), M, y);
     y += 8;
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100);
-    if (hostSponsor.url) doc.text(hostSponsor.url, M, y + 10);
+    if (hostSponsor.url) doc.text(formatTextForJsPdf(hostSponsor.url), M, y + 10);
     y += 18;
     doc.setDrawColor(220);
     doc.line(M, y, W - M, y);
@@ -223,10 +332,10 @@ export function exportProgramPdf(ws: any) {
       const s2 = sponsors[i + 1];
       const yr1 = s1.year ? ` (${s1.year})` : '';
       doc.setFont('helvetica', 'normal');
-      doc.text(`•  ${s1.company}${yr1}`, M + 4, y);
+      doc.text(formatTextForJsPdf(`•  ${s1.company}${yr1}`), M + 4, y);
       if (s2) {
         const yr2 = s2.year ? ` (${s2.year})` : '';
-        doc.text(`•  ${s2.company}${yr2}`, M + col + 4, y);
+        doc.text(formatTextForJsPdf(`•  ${s2.company}${yr2}`), M + col + 4, y);
       }
       y += 12;
     }
@@ -249,13 +358,13 @@ export function exportProgramPdf(ws: any) {
     for (const aw of ws.student_awards) {
       doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
-      const awardName = aw.name + (aw.institute ? `, ${aw.institute}` : '');
+      const awardName = formatTextForJsPdf(aw.name + (aw.institute ? `, ${aw.institute}` : ''));
       doc.text(awardName, M + 6, y);
       y += 12;
       if (aw.title) {
         doc.setFontSize(8);
         doc.setFont('helvetica', 'italic');
-        const tLines = doc.splitTextToSize(aw.title, CW - 12);
+        const tLines = doc.splitTextToSize(formatTextForJsPdf(aw.title), CW - 12);
         doc.text(tLines, M + 6, y);
         y += tLines.length * 10;
       }

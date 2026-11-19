@@ -3,13 +3,14 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import { getMasterWorkshopsPath } from '@/utils/assetPaths';
+import { sanitizeDeepUnicode } from '@/utils/unicodeText';
 
 export async function GET(request: Request) {
   try {
     const filePath = getMasterWorkshopsPath();
     const raw = await fs.readFile(filePath, 'utf8');
     const data = raw.replace(/^\uFEFF/, ''); // strip BOM if PowerShell wrote it
-    return NextResponse.json(JSON.parse(data));
+    return NextResponse.json(sanitizeDeepUnicode(JSON.parse(data)));
   } catch (error: any) {
     console.error('Error loading workshops:', error);
     // If the file doesn't exist, just return an empty array

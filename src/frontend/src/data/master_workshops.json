@@ -5160,7 +5160,7 @@
       {
         "date": "2005-09-21",
         "time": "3:30 p.m.",
-        "title": "Characterization of a Mini Membrane Inlet Mass Spectrometer Operating at High Pressure (˜ 1•10-3 torr) Using Different Types of Microporous Membranes",
+        "title": "Characterization of a Mini Membrane Inlet Mass Spectrometer Operating at High Pressure (~ 1×10⁻³ torr) Using Different Types of Microporous Membranes",
         "authors": [
           {
             "name": "Frants R. Lauritsen",
@@ -12922,7 +12922,7 @@
             "title": "Silence is Golden: Detector Radiation Shielding at Europa for Mass Spectrometer for Planetary Exploration (MASPEX)",
             "authors": [
               {
-                "name": "Ryan BlasÃ©",
+                "name": "Ryan Blasé",
                 "isPresenter": true,
                 "institute": null
               }
@@ -13176,7 +13176,7 @@
             "time": "19:00",
             "end_time": "",
             "title": "Workshop Dinner",
-            "subtitle": "Brauhaus FRÃœH am Dom",
+            "subtitle": "Brauhaus FRÜH am Dom",
             "subtitle_url": "https://www.frueh-am-dom.de/brauhaus.html",
             "location": "map",
             "location_url": "https://maps.app.goo.gl/dT1xQj2dkprzRvMy6"
@@ -13275,14 +13275,14 @@
         "presentations": [
           {
             "title": "An optimized membrane inlet system for underwater mass spectrometry",
-            "name": "Malte HÃƒÂ¶hn",
-            "affiliation": "Malte HÃƒÂ¶hn, Christian Hamm, Justin Chaillot, Marvin Frank, Torben Gentz Alfred-Wegener-Institute for Polar and Marine Research",
+            "name": "Malte Höhn",
+            "affiliation": "Malte Höhn, Christian Hamm, Justin Chaillot, Marvin Frank, Torben Gentz Alfred-Wegener-Institute for Polar and Marine Research",
             "time": "1:30 P.M.",
             "url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Presentations/Hoehn.pdf",
             "abstract_url": "https://www.hems-workshop.org/12thWS_EUROHEMS/Abstracts/4_Hohn.pdf",
             "authors": [
               {
-                "name": "Malte HÃ¶hn",
+                "name": "Malte Höhn",
                 "isPresenter": true,
                 "institute": null
               },
@@ -13535,7 +13535,7 @@
           {
             "title": "Development of Micro-Time-Of-Flight Mass Spectrometer for in situ gas analysis",
             "name": "Alexandre Sonnette",
-            "affiliation": "Alexandre Sonnette, FrÃƒÂ©dÃƒÂ©ric Progent, JÃƒÂ©rÃƒÂ´me Tupinier, Pierre-Etienne Buthier, Jean-Christophe Lictevout, SÃƒÂ©bastien Vigne, CEA, DAM, DIF Thomas Alava, CEA, LETI, MINATEC Campus",
+            "affiliation": "Alexandre Sonnette, Frédéric Progent, Jérôme Tupinier, Pierre-Etienne Buthier, Jean-Christophe Lictevout, Sébastien Vigne, CEA, DAM, DIF Thomas Alava, CEA, LETI, MINATEC Campus",
             "time": "11:00 a.m.",
             "url": "",
             "abstract_url": "",
@@ -13564,7 +13564,7 @@
           {
             "title": "Development of a robust Fourier-Transform ion trap for semiconductor manufacturing",
             "name": "Valerie Derpmann",
-            "affiliation": "Valerie Derpmann, Yessica BrachthÃƒÂ¤user, RÃƒÂ¼diger Reuter, Michel Aliman, Alexander Laue, Hin Yiu Chung, Carl Zeiss SMT GmbH",
+            "affiliation": "Valerie Derpmann, Yessica Brachthäuser, Rüdiger Reuter, Michel Aliman, Alexander Laue, Hin Yiu Chung, Carl Zeiss SMT GmbH",
             "time": "1:30 p.m.",
             "url": "",
             "abstract_url": "",
@@ -13792,7 +13792,7 @@
         "id": "2019-poster-vyas-a-comparison-of-thermionic"
       },
       {
-        "title": "In-situ Measurements of Î´C and Î´O of Dissolved CO2 using an Underwater Mass Spectrometer",
+        "title": "In-situ Measurements of δ¹³C and δ¹⁸O of Dissolved CO₂ using an Underwater Mass Spectrometer",
         "presentation_file": "13th_Wieman_Insitu_Poster.pdf",
         "abstract_file": "13th_Wieman_Insitu_Measurements_of_Abstract.pdf",
         "authors": [
@@ -13997,7 +13997,7 @@
             "title": "Development of Micro-Time-Of-Flight Mass Spectrometer with Orthogonal Injection for In situ Gas Analysis",
             "authors": [
               {
-                "name": "FrÃ©dÃ©ric Progent",
+                "name": "Frédéric Progent",
                 "isPresenter": true,
                 "affiliation": ""
               }
@@ -14994,7 +14994,7 @@
             "title": "MS field applications in CBSA operations",
             "authors": [
               {
-                "name": "Marie-JosÃ©e Binette",
+                "name": "Marie-Josée Binette",
                 "isPresenter": true
               }
             ],
@@ -15098,7 +15098,7 @@
                 "isPresenter": false
               },
               {
-                "name": "FranÃƒÂ§ois Raulin",
+                "name": "François Raulin",
                 "isPresenter": false
               },
               {
@@ -15126,7 +15126,7 @@
                 "isPresenter": false
               },
               {
-                "name": "Sandra SiljestrÃƒÂ¶m",
+                "name": "Sandra Siljeström",
                 "isPresenter": false
               },
               {
@@ -15391,7 +15391,7 @@
                 "isPresenter": true
               },
               {
-                "name": "Malte HÃƒÂ¶hn",
+                "name": "Malte Höhn",
                 "isPresenter": false
               }
             ],

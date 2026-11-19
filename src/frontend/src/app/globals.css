@@ -126,10 +126,10 @@
   --color-muted: var(--muted);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
-  --font-sans: var(--font-noto-sans), system-ui, -apple-system, "Cambria Math", "Segoe UI Symbol", "Apple Symbols", sans-serif;
+  --font-sans: var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Cambria Math", "Segoe UI Symbol", "Apple Symbols", sans-serif;
   --font-serif: var(--font-source-serif), Georgia, Cambria, "Times New Roman", "Cambria Math", "Segoe UI Symbol", "Apple Symbols", serif;
   /* v3.1.0 retires IBM Plex Mono; map --font-mono to Noto Sans so locked /archive/[year] routes render in clean sans */
-  --font-mono: var(--font-noto-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-noto-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Cambria Math", "Segoe UI Symbol", "Apple Symbols", sans-serif;
 }
 
 @layer components {

@@ -12,6 +12,18 @@ import {
   getCorporateRegistryPath, 
   getFrontendSponsorsDir 
 } from '@/utils/assetPaths';
+import {
+  fixMojibakeAndNormalize,
+  foldSuperSubscriptsToAscii,
+  sanitizeDeepUnicode,
+} from '@/utils/unicodeText';
+
+function normalizeMatchKey(title: string): string {
+  return foldSuperSubscriptsToAscii(fixMojibakeAndNormalize(title || ''))
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
 
 function getOrdinal(n: number) {
   const s = ["th", "st", "nd", "rd"];
@@ -34,9 +46,9 @@ function parseTime(tStr: string) {
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
+    const data = sanitizeDeepUnicode(await request.json());
     const masterPath = getMasterWorkshopsPath();
-    await fs.writeFile(masterPath, JSON.stringify(data, null, 2), 'utf8');
+    await fs.writeFile(masterPath, JSON.stringify(data, null, 2) + '\n', 'utf8');
 
     const archivesDir = getArchivesDataDir();
 
@@ -48,7 +60,7 @@ export async function POST(request: Request) {
       
       try {
         const raw = await fs.readFile(yearPath, 'utf8');
-        yearData = JSON.parse(raw);
+        yearData = sanitizeDeepUnicode(JSON.parse(raw.replace(/^\uFEFF/, '')));
       } catch (e) {
         yearData = {
           year: ws.year,
@@ -57,6 +69,31 @@ export async function POST(request: Request) {
           resources: []
         };
       }
+
+      // Preserve existing talk/poster IDs and enriched host_corporation metadata across saves
+      const existingTalkIdQueues = new Map<string, string[]>();
+      if (Array.isArray(yearData.schedule)) {
+        for (const day of yearData.schedule) {
+          for (const item of day?.items || []) {
+            for (const talk of item?.talks || []) {
+              if (talk?.id && talk?.title) {
+                const key = normalizeMatchKey(talk.title);
+                if (!existingTalkIdQueues.has(key)) existingTalkIdQueues.set(key, []);
+                existingTalkIdQueues.get(key)!.push(String(talk.id));
+              }
+            }
+          }
+        }
+      }
+      const consumeExistingTalkId = (title: string): string => {
+        const key = normalizeMatchKey(title || '');
+        const q = existingTalkIdQueues.get(key);
+        return q && q.length > 0 ? q.shift()! : '';
+      };
+      const existingHostCorp =
+        yearData.host_corporation && typeof yearData.host_corporation === 'object'
+          ? yearData.host_corporation
+          : null;
       if (ws.number !== undefined) {
         yearData.ordinal = getOrdinal(ws.number);
       }
@@ -196,7 +233,7 @@ export async function POST(request: Request) {
         }
         const hc: any = {
           name: hostSponsor.name,
-          url: hostSponsor.url || '',
+          url: hostSponsor.url || existingHostCorp?.url || '',
           logo_file: hostLogoFile
         };
         if (hc.logo_file) {
@@ -208,9 +245,15 @@ export async function POST(request: Request) {
             hc.logo_file_url = `/images/sponsors/${hc.logo_file}`;
           }
         }
-        yearData.host_corporation = hc;
+        const hostMatchesExisting =
+          existingHostCorp &&
+          typeof existingHostCorp.name === 'string' &&
+          existingHostCorp.name.trim().toLowerCase() === hostSponsor.name.trim().toLowerCase();
+        yearData.host_corporation = hostMatchesExisting
+          ? { ...existingHostCorp, ...hc }
+          : hc;
       } else {
-        yearData.host_corporation = null;
+        delete yearData.host_corporation;
       }
 
       const daysMap = new Map<string, any[]>();
@@ -246,7 +289,7 @@ export async function POST(request: Request) {
           if (sessionGroup.presentations) {
             for (const pres of sessionGroup.presentations) {
               sessionItem.talks.push({
-                id: pres.id || "",
+                id: pres.id || consumeExistingTalkId(pres.title),
                 time: pres.time,
                 title: pres.title,
                 institutes: pres.institutes || [],
@@ -285,7 +328,7 @@ export async function POST(request: Request) {
           }
  
           posterSession.talks.push({
-            id: poster.id || "",
+            id: poster.id || consumeExistingTalkId(poster.title),
             time: poster.time || "",
             title: poster.title,
             institutes: poster.institutes || [],
@@ -348,7 +391,11 @@ export async function POST(request: Request) {
       yearData.schedule = schedule;
       yearData.events = ws.events || [];
 
-      await fs.writeFile(yearPath, JSON.stringify(yearData, null, 2), 'utf8');
+      await fs.writeFile(
+        yearPath,
+        JSON.stringify(sanitizeDeepUnicode(yearData), null, 2) + '\n',
+        'utf8'
+      );
     }
 
     return NextResponse.json({ success: true });

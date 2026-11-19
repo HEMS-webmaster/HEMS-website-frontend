@@ -3,13 +3,14 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import { getCorporateRegistryPath } from '@/utils/assetPaths';
+import { fixMojibakeAndNormalize, sanitizeDeepUnicode } from '@/utils/unicodeText';
 
 const REGISTRY_PATH = getCorporateRegistryPath();
 
 export async function GET() {
   try {
     const raw = await fs.readFile(REGISTRY_PATH, 'utf8');
-    const registry = JSON.parse(raw.replace(/^\uFEFF/, ''));
+    const registry = sanitizeDeepUnicode(JSON.parse(raw.replace(/^\uFEFF/, '')));
     const sorted = [...registry].sort((a: any, b: any) => a.company.localeCompare(b.company));
     return NextResponse.json(sorted);
   } catch {
@@ -19,7 +20,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body = sanitizeDeepUnicode(await request.json());
     const { company, url, logo_file } = body;
 
     if (!company?.trim()) {
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
     }
 
     const data = await fs.readFile(REGISTRY_PATH, 'utf8');
-    const registry: any[] = JSON.parse(data.replace(/^\uFEFF/, ''));
+    const registry: any[] = sanitizeDeepUnicode(JSON.parse(data.replace(/^\uFEFF/, '')));
 
     // Prevent exact-name duplicates (case-insensitive)
     const exists = registry.some(
@@ -37,7 +38,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Company already exists in registry' }, { status: 409 });
     }
 
-    const newEntry = { company: company.trim(), url: url?.trim() || '', logo_file: logo_file?.trim() || '', year_began: body.year_began?.trim() || '' };
+    const newEntry = {
+      company: fixMojibakeAndNormalize(company.trim()),
+      url: url?.trim() || '',
+      logo_file: logo_file?.trim() || '',
+      year_began: body.year_began?.trim() || '',
+    };
     registry.push(newEntry);
     registry.sort((a, b) => a.company.localeCompare(b.company));
 
@@ -50,7 +56,7 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const body = await request.json();
+    const body = sanitizeDeepUnicode(await request.json());
     const { company, logo_file, url } = body;
 
     if (!company?.trim()) {
@@ -58,7 +64,7 @@ export async function PATCH(request: Request) {
     }
 
     const data = await fs.readFile(REGISTRY_PATH, 'utf8');
-    const registry: any[] = JSON.parse(data.replace(/^\uFEFF/, ''));
+    const registry: any[] = sanitizeDeepUnicode(JSON.parse(data.replace(/^\uFEFF/, '')));
 
     const idx = registry.findIndex(
       (r) => r.company.trim().toLowerCase() === company.trim().toLowerCase()

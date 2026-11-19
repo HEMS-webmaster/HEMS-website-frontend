@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import ScientificText from '@/components/workshop/ScientificText';
 
 interface FrontendPreviewHoverProps {
   href?: string;
@@ -83,7 +84,7 @@ export default function FrontendPreviewHover({ href, title, children }: Frontend
           
           {title && isAbstract && (
             <div className="text-sm font-bold text-foreground mb-3 leading-tight">
-              {title}
+              <ScientificText text={title} />
             </div>
           )}
           
@@ -97,7 +98,7 @@ export default function FrontendPreviewHover({ href, title, children }: Frontend
             </div>
           ) : isAbstract ? (
             <div className="text-sm text-foreground/80 leading-relaxed max-h-[300px] overflow-y-auto">
-              "{previewData}"
+              <ScientificText text={`"${previewData}"`} multiline />
             </div>
           ) : (
             <div className="bg-white rounded p-1 shadow-inner">

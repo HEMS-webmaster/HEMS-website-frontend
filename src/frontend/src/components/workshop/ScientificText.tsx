@@ -43,6 +43,7 @@ const TEX_SYMBOLS: Record<string, string> = {
   kappa: "κ",
   lambda: "λ",
   mu: "μ",
+  micro: "μ",
   nu: "ν",
   xi: "ξ",
   pi: "π",
@@ -66,16 +67,22 @@ const TEX_SYMBOLS: Record<string, string> = {
   Phi: "Φ",
   Psi: "Ψ",
   Omega: "Ω",
+  ohm: "Ω",
   pm: "±",
   mp: "∓",
   times: "×",
   cdot: "·",
+  bullet: "•",
   div: "÷",
   leq: "≤",
   le: "≤",
   geq: "≥",
   ge: "≥",
   approx: "≈",
+  sim: "∼",
+  simeq: "≃",
+  ll: "≪",
+  gg: "≫",
   neq: "≠",
   ne: "≠",
   equiv: "≡",
@@ -91,8 +98,17 @@ const TEX_SYMBOLS: Record<string, string> = {
   leftrightarrow: "↔",
   rightleftharpoons: "⇌",
   degree: "°",
+  permil: "‰",
+  perthousand: "‰",
+  minus: "−",
   AA: "Å",
 };
+
+const BINARY_OP_TEX_CMDS = new Set([
+  "pm", "mp", "times", "cdot", "div", "leq", "le", "geq", "ge",
+  "approx", "sim", "simeq", "ll", "gg", "neq", "ne", "equiv", "propto",
+  "rightarrow", "to", "leftarrow", "leftrightarrow", "rightleftharpoons", "minus",
+]);
 
 function readBracedGroup(
   src: string,
@@ -116,7 +132,11 @@ function readBracedGroup(
   return null;
 }
 
-function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNode[] {
+function renderInlineMathTokens(
+  expr: string,
+  keyPrefix: string,
+  inMath = false
+): React.ReactNode[] {
   const nodes: React.ReactNode[] = [];
   let i = 0;
   let textBuf = "";
@@ -143,10 +163,10 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
           nodes.push(
             <span key={`${keyPrefix}-f-${tokenIdx++}`} className="sci-frac">
               <span className="sci-frac-num">
-                {renderInlineMathTokens(numGroup.content, `${keyPrefix}-fn-${tokenIdx}`)}
+                {renderInlineMathTokens(numGroup.content, `${keyPrefix}-fn-${tokenIdx}`, true)}
               </span>
               <span className="sci-frac-den">
-                {renderInlineMathTokens(denGroup.content, `${keyPrefix}-fd-${tokenIdx}`)}
+                {renderInlineMathTokens(denGroup.content, `${keyPrefix}-fd-${tokenIdx}`, true)}
               </span>
             </span>
           );
@@ -164,10 +184,46 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
           <span key={`${keyPrefix}-r-${tokenIdx++}`} className="sci-sqrt">
             <span aria-hidden="true">√</span>
             <span className="sci-sqrt-body">
-              {renderInlineMathTokens(argGroup.content, `${keyPrefix}-rb-${tokenIdx}`)}
+              {renderInlineMathTokens(argGroup.content, `${keyPrefix}-rb-${tokenIdx}`, true)}
             </span>
           </span>
         );
+        i = argGroup.endIndex;
+        continue;
+      }
+    }
+
+    const wrapperCmd = expr
+      .slice(i)
+      .match(/^\\(text|mathrm|textit|mathbf|mathit|boldsymbol)\{/);
+    if (wrapperCmd) {
+      const argGroup = readBracedGroup(expr, i + 1 + wrapperCmd[1].length);
+      if (argGroup) {
+        flushBuf();
+        const children = renderInlineMathTokens(
+          argGroup.content,
+          `${keyPrefix}-w-${tokenIdx++}`,
+          true
+        );
+        if (wrapperCmd[1] === "textit" || wrapperCmd[1] === "mathit") {
+          nodes.push(
+            <em key={`${keyPrefix}-wi-${tokenIdx}`} className="italic">
+              {children}
+            </em>
+          );
+        } else if (wrapperCmd[1] === "mathbf" || wrapperCmd[1] === "boldsymbol") {
+          nodes.push(
+            <strong key={`${keyPrefix}-wb-${tokenIdx}`} className="font-bold">
+              {children}
+            </strong>
+          );
+        } else {
+          nodes.push(
+            <span key={`${keyPrefix}-wt-${tokenIdx}`} className="not-italic">
+              {children}
+            </span>
+          );
+        }
         i = argGroup.endIndex;
         continue;
       }
@@ -179,7 +235,7 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
         flushBuf();
         nodes.push(
           <sup key={`${keyPrefix}-sup-${tokenIdx++}`} className="text-[0.75em] leading-none">
-            {renderInlineMathTokens(supGroup.content, `${keyPrefix}-sp-${tokenIdx}`)}
+            {renderInlineMathTokens(supGroup.content, `${keyPrefix}-sp-${tokenIdx}`, true)}
           </sup>
         );
         i = supGroup.endIndex;
@@ -193,10 +249,52 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
         flushBuf();
         nodes.push(
           <sub key={`${keyPrefix}-sub-${tokenIdx++}`} className="text-[0.75em] leading-none">
-            {renderInlineMathTokens(subGroup.content, `${keyPrefix}-sb-${tokenIdx}`)}
+            {renderInlineMathTokens(subGroup.content, `${keyPrefix}-sb-${tokenIdx}`, true)}
           </sub>
         );
         i = subGroup.endIndex;
+        continue;
+      }
+    }
+
+    // Unbraced single-token math super/subscripts inside $...$ / \(...\) (e.g. q_z, r_0^2, \Omega^2)
+    if (inMath && (expr[i] === "^" || expr[i] === "_") && i + 1 < expr.length) {
+      const isSup = expr[i] === "^";
+      if (expr[i + 1] === "\\") {
+        const symMatch = expr.slice(i + 2).match(/^[A-Za-z]+/);
+        if (symMatch && TEX_SYMBOLS[symMatch[0]]) {
+          flushBuf();
+          const sym = TEX_SYMBOLS[symMatch[0]];
+          nodes.push(
+            isSup ? (
+              <sup key={`${keyPrefix}-usup-${tokenIdx++}`} className="text-[0.75em] leading-none">
+                {sym}
+              </sup>
+            ) : (
+              <sub key={`${keyPrefix}-usub-${tokenIdx++}`} className="text-[0.75em] leading-none">
+                {sym}
+              </sub>
+            )
+          );
+          i += 2 + symMatch[0].length;
+          continue;
+        }
+      }
+      if (/^[A-Za-z0-9+\-]$/.test(expr[i + 1])) {
+        flushBuf();
+        const ch = expr[i + 1];
+        nodes.push(
+          isSup ? (
+            <sup key={`${keyPrefix}-usup-${tokenIdx++}`} className="text-[0.75em] leading-none">
+              {ch}
+            </sup>
+          ) : (
+            <sub key={`${keyPrefix}-usub-${tokenIdx++}`} className="text-[0.75em] leading-none">
+              {ch}
+            </sub>
+          )
+        );
+        i += 2;
         continue;
       }
     }
@@ -209,7 +307,7 @@ function renderInlineMathTokens(expr: string, keyPrefix: string): React.ReactNod
         if (sym) {
           textBuf += sym;
           i += 1 + cmd.length;
-          if (expr[i] === " ") i += 1;
+          if (expr[i] === " " && !BINARY_OP_TEX_CMDS.has(cmd)) i += 1;
           continue;
         }
       }
@@ -235,7 +333,7 @@ function renderMixedMathSegment(segment: string, segKey: string): React.ReactNod
       const plainSeg = segment.slice(lastIdx, match.index);
       parts.push(
         <React.Fragment key={`${segKey}-p-${segIdx++}`}>
-          {renderInlineMathTokens(plainSeg, `${segKey}-pt-${segIdx}`)}
+          {renderInlineMathTokens(plainSeg, `${segKey}-pt-${segIdx}`, false)}
         </React.Fragment>
       );
     }
@@ -244,11 +342,20 @@ function renderMixedMathSegment(segment: string, segKey: string): React.ReactNod
     const inner = token.startsWith("$")
       ? token.slice(1, -1)
       : token.slice(2, -2);
-    parts.push(
-      <span key={`${segKey}-m-${segIdx++}`} className="sci-math">
-        {renderInlineMathTokens(inner, `${segKey}-mt-${segIdx}`)}
-      </span>
-    );
+    if (
+      token.startsWith("$") &&
+      (inner.endsWith(" ") || (/^\d/.test(inner) && !/[\\^_{}=+\-*/]/.test(inner)))
+    ) {
+      parts.push(
+        <React.Fragment key={`${segKey}-cur-${segIdx++}`}>{token}</React.Fragment>
+      );
+    } else {
+      parts.push(
+        <span key={`${segKey}-m-${segIdx++}`} className="sci-math">
+          {renderInlineMathTokens(inner, `${segKey}-mt-${segIdx}`, true)}
+        </span>
+      );
+    }
 
     lastIdx = delimiterRegex.lastIndex;
     match = delimiterRegex.exec(segment);
@@ -257,7 +364,7 @@ function renderMixedMathSegment(segment: string, segKey: string): React.ReactNod
   if (lastIdx < segment.length) {
     parts.push(
       <React.Fragment key={`${segKey}-tail-${segIdx++}`}>
-        {renderInlineMathTokens(segment.slice(lastIdx), `${segKey}-tt-${segIdx}`)}
+        {renderInlineMathTokens(segment.slice(lastIdx), `${segKey}-tt-${segIdx}`, false)}
       </React.Fragment>
     );
   }

@@ -18,6 +18,7 @@ import {
   Image as ImageIcon,
   Lock,
   TableProperties,
+  Calendar,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useUpcomingWorkshop } from "@/hooks/useUpcomingWorkshop";
@@ -447,6 +448,12 @@ export default function ReviewerPage() {
             className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/25 hover:bg-primary hover:text-white px-3 py-2 rounded-xl text-xs font-semibold text-primary transition-colors"
           >
             <TableProperties size={13} /> Abstract Overview
+          </Link>
+          <Link
+            href="/reviewer/schedule"
+            className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 hover:bg-emerald-700 hover:text-white px-3 py-2 rounded-xl text-xs font-semibold text-emerald-800 transition-colors"
+          >
+            <Calendar size={13} /> Schedule Builder
           </Link>
           {hasAttendeeRole(user.roles) && (
             <Link

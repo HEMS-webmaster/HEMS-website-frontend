@@ -3,22 +3,14 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { Mail, CheckCircle2, ShieldCheck, Loader2 } from "lucide-react";
-import { addDoc, collection } from "firebase/firestore";
-import { db, hasFirebaseKeys } from "@/utils/firebase";
-import { MailingInterest, PublicMailingRequest } from "@/types/mailing";
-import {
-  isValidSubscriberEmail,
-  normalizeSubscriberEmail,
-} from "@/utils/mailingTemplate";
-import { recordTelemetryEvent } from "@/utils/telemetryClient";
+import { MailingInterest } from "@/types/mailing";
+import { submitPublicMailingSignup } from "@/utils/mailingClient";
 
 const INTEREST_OPTIONS: Array<{ id: MailingInterest; label: string }> = [
   { id: "workshop", label: "Biennial Workshop & Call for Papers" },
   { id: "student_awards", label: "Student Travel Awards" },
   { id: "sponsorship", label: "Corporate Sponsorship" },
 ];
-
-const MOCK_PUBLIC_REQ_KEY = "hems_mock_mailing_requests_v1";
 
 export default function MailingListSignupCard() {
   const [firstName, setFirstName] = useState("");
@@ -45,97 +37,19 @@ export default function MailingListSignupCard() {
     e.preventDefault();
     setErrorMsg("");
     setStatusMsg("");
-
-    if (websiteUrl.trim() !== "") {
-      setStatusMsg("Thank you. Your subscription request has been received.");
-      return;
-    }
-
-    const cleanEmail = normalizeSubscriberEmail(email);
-    if (!isValidSubscriberEmail(cleanEmail)) {
-      setErrorMsg("Please enter a valid academic, government, or institutional email address.");
-      return;
-    }
-
     setSubmitting(true);
+
     try {
-      // 1. Try primary Cloud Functions endpoint (/api/mailing/subscribe)
-      let handledByFunction = false;
-      try {
-        const res = await fetch("/api/mailing/subscribe", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: cleanEmail,
-            firstName: firstName.trim(),
-            lastName: lastName.trim(),
-            affiliation: affiliation.trim(),
-            interests,
-            websiteUrl,
-          }),
-        });
-        const ct = res.headers.get("content-type") || "";
-        if (ct.includes("application/json")) {
-          const data = (await res.json()) as {
-            ok?: boolean;
-            message?: string;
-            error?: string;
-          };
-          if (!res.ok || !data.ok) {
-            throw new Error(data.error || "Unable to complete signup.");
-          }
-          setStatusMsg(
-            data.message ||
-              "Please check your inbox for a one-click confirmation link to complete your subscription."
-          );
-          handledByFunction = true;
-        }
-      } catch {
-        handledByFunction = false;
-      }
-
-      // 2. Fallback to write-only Firestore public queue (or local dev mock queue) when static preview is active
-      if (!handledByFunction) {
-        const now = new Date().toISOString();
-        if (hasFirebaseKeys && db) {
-          await addDoc(collection(db, "mailing_public_requests"), {
-            type: "subscribe",
-            email: cleanEmail,
-            firstName: firstName.trim(),
-            lastName: lastName.trim(),
-            affiliation: affiliation.trim(),
-            interests,
-            createdAt: now,
-            status: "pending",
-          });
-        } else if (typeof window !== "undefined") {
-          const existing = JSON.parse(
-            localStorage.getItem(MOCK_PUBLIC_REQ_KEY) || "[]"
-          ) as PublicMailingRequest[];
-          existing.push({
-            id: `req-${Date.now()}`,
-            type: "subscribe",
-            email: cleanEmail,
-            firstName: firstName.trim(),
-            lastName: lastName.trim(),
-            affiliation: affiliation.trim(),
-            interests,
-            createdAt: now,
-            status: "pending",
-          });
-          localStorage.setItem(MOCK_PUBLIC_REQ_KEY, JSON.stringify(existing));
-        }
-
-        setStatusMsg(
-          "Your subscription request has been recorded for the HEMS Society announcement list."
-        );
-      }
-
-      void recordTelemetryEvent({
-        eventType: "mailing_signup",
-        targetLabel: `Topics: ${interests.join(", ")}`,
+      const result = await submitPublicMailingSignup({
+        email,
+        firstName,
+        lastName,
+        affiliation,
+        interests,
+        websiteUrl,
+        sourceLabel: "Contact Page Card",
       });
-
+      setStatusMsg(result.message);
       setFirstName("");
       setLastName("");
       setEmail("");
