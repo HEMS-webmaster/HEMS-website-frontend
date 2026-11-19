@@ -2216,3 +2216,61 @@ pm run dev). Confirmed 200 OK response on http://localhost:3000 and launched bro
 ---
 ### [2026-11-18] @ops — Onboarding READMEs, `.gitignore` Hygiene, Git Push & Firebase Preview Update
 - **Plan:** Add `*.tsbuildinfo` to `.gitignore`, update root `README.md` and create `docs/README.md` linking directly to `docs/system_design_architecture.html`, commit and push accumulated Phases 25–29 + handover documentation to `origin/main`, deploy updated `firestore.rules`, and deploy `src/frontend/out` (`-SkipBuild`) to the `board-review` Firebase Hosting preview channel without stopping running local servers.
+
+### [2026-11-19 01:07] @ops — SCoT Log: Deploy Firestore Rules & Refresh `board-review` Preview Channel
+- **Trigger:** `@bo` replied `go` after re-authenticating local Firebase CLI (`firebase login --reauth`).
+- **Action Plan:**
+  1. Deploy updated `firestore.rules` (including `match /workshop_schedules/{scheduleId}`) to project `hems-workshop` via `firebase.cmd deploy --only firestore:rules --project hems-workshop`.
+  2. Refresh the `board-review` Firebase Hosting preview channel using pre-compiled `src/frontend/out/` (`infrastructure\manage-board-preview.ps1 -Action deploy -SkipBuild`) so running local servers remain undisturbed.
+  3. Smoke-check HTTP 200 across `/`, `/reviewer/schedule/`, `/admin/workshop-settings/`, and `/archive/2019/` on the preview URL and verify clean git status.
+
+### [2026-11-19 08:54] @arch / @dev / @qa — SCoT Log: Phase 30 Reviewer Workflow Overhaul, Real-Time Selection & Conflict Resolution, and Extended Program Export
+- **User Epic:** Streamline the entire Reviewer Panel -> Abstract Overview -> Conference Schedule Builder flow:
+  1. Individual reviewer evaluations with Corporate/Student cohort identification, compact layout (eliminating weird card whitespace), conditionless reversible `Completed` button that disables/enables `Edit Evaluation`, unlimited re-editing, reviewer-modifiable `Recommended Track`, and `Miscellaneous` track across both Reviewer and Attendee submission workflows.
+  2. High-density Abstract Overview table with minimal whitespace, official `Selection` dropdown (`Accept to Oral`, `Accept to Poster`, `Decline`), `HEMS Response` column `Email` button beside `Selection` opening a popup with 1-click Copy Email Address and 1-click Copy Email Body (prepared kind/professional response per selection), plus real-time multi-reviewer Firestore sync (`onSnapshot`) and optimistic-concurrency conflict resolution (`runTransaction` + `selectionVersion`).
+  3. Schedule Builder strictly limited to selected abstracts (`accept_oral` / `accept_poster`), customizable `Miscellaneous` category (`miscellaneousCategoryTitle`), top schedule containing sessions + accepted oral & poster titles, and dual `Program` + `Extended Program` exports (PDF and OpenXML `.docx`) where Extended Program starts with the exact same schedule followed by page-separated full abstracts.
+- **Architectural Check:**
+  - Keep `archive/**` and `docs/logs/thought_trace.md` lock rules strictly respected.
+  - Ensure Node 24 unit test compatibility (`import type` in `.ts` utils, `{ jsPDF }` named import).
+  - Decouple official `committeeSelection` (`accept_oral`, `accept_poster`, `decline`, `pending`) from individual reviewer recommendations so concurrent evaluation edits never clobber official decisions.
+
+---
+
+### SCoT Completion Log — 2026-11-19 — Phase 30 (`@arch` / `@dev` / `@qa` Verification Complete)
+- Completed Phase 30 end-to-end across Reviewer Panel, Abstract Submission wizard, Abstract Overview table, real-time Firestore/BroadcastChannel sync, and Conference Schedule Builder + Extended Program PDF/DOCX exporters.
+- Resolved `AbstractSubmissionRecord` field alignment (`id`, `summary`, `abstractText`, `keywords`, `presenterBio`, `graphic.caption`, and `resolveSubmissionAuthorsAndAffiliations`) cleanly inside `conferenceScheduleBuilder.ts`, `scheduleExportPdf.ts`, and `scheduleExportDocx.ts`.
+- Wired strict official-selection filtering (`accept_oral` / `accept_poster`), deselected-slot detection/pruning banner, customizable Miscellaneous category renaming & dedicated session grouping, `CORP` badges, and `Extended Program (PDF)` / `Extended Program (DOCX)` export triggers in `src/frontend/src/app/(portal)/reviewer/schedule/page.tsx`.
+- Verified `src\frontend\node_modules\.bin\tsc.cmd -p src\frontend\tsconfig.json --noEmit` (`exit 0`), `node --test` across all 6 unit test suites (`21/21` passing, `exit 0`), and `npm --prefix src/frontend run build` (`54/54` static routes, `exit 0`).
+
+---
+
+### SCoT Audit & Plan — 2026-11-19 — Abstract Submission Process Audit & Duplicate Key (`ABS-2027-004`) Fix (`@arch` / `@dev` / `@qa`)
+- Investigated 2 identical React Console Errors in `/reviewer` (`Encountered two children with the same key, 'ABS-2027-004'`, reported twice due to React Dev StrictMode).
+- Root cause: upgrading from `hems_abstract_submissions_v3` (3 sample seeds `001..003`) to `v4` introduced a 4th corporate sample seed using hardcoded ID `ABS-2027-004`, while a prior real/mock user abstract already occupied `ABS-2027-004`. `readLocalSubmissions()` merged `[...legacyUserItems, ...INITIAL_SAMPLE_SUBMISSIONS]` without deduplicating by `id`.
+- Audited full submission -> draft -> preview -> Firestore/Storage -> Reviewer/Operations flow and found additional risks:
+  1. Multi-attendee `maxSeq + 1` ID collisions (`generateSubmissionId`) + silent catch of Firestore `PERMISSION_DENIED`/network failures when `!isMock`.
+  2. Potential Firestore `Unsupported field value: undefined` exceptions in `mergeByIdNewestWins` / `updateSubmission` / `useAbstractDraft`.
+  3. Attendee edits resetting `status`/`decision` while keeping `committeeSelection`, plus missing `hemsFitness`/`committeeSelection`/`selectionVersion` guards in `firestore.rules`.
+  4. Missing `hasOperationsRole` in `useAbstractSubmissions.ts` `canListAll`.
+  5. Cross-device figure fallback needed (`embeddedDataUrl` + `AbstractOnePagePreview` caption/metadata placeholder), Stage 1 email regex + corporate/student mutual exclusivity, null-safe `(s.submittedByEmail || "")`, and empty manual draft guard.
+- Plan: isolate sample seed #4 as `ABS-2027-S04`, extract `abstractSubmissionIntegrity.ts` (deduplication + self-healing `localStorage` + `stripUndefinedDeep` + collision-proof `ABS-YYYY-XXXXXX` IDs), harden `useAbstractSubmissions.ts`, `useAbstractDraft.ts`, `AbstractSubmissionClient.tsx`, `AbstractOnePagePreview.tsx`, and `firestore.rules`, add unit test suite `abstractSubmissionAudit.test.mjs`, verify build + live browser console with 0 errors.
+
+---
+
+### SCoT Completion Log — 2026-11-19 — Phase 31 (`@arch` / `@dev` / `@qa` Audit & Duplicate Key Fix)
+- Extracted pure integrity utilities (`INITIAL_SAMPLE_SUBMISSIONS` with `ABS-2027-S04`, `INITIAL_SAMPLE_REVIEWS`, `dedupeSubmissionsById`, `dedupeReviewsById`, `stripUndefinedDeep`, collision-proof `ABS-YYYY-XXXXXX` `generateSubmissionId`) into `src/frontend/src/utils/abstractSubmissionIntegrity.ts`.
+- Updated `types/abstractSubmission.ts`, `useAbstractSubmissions.ts`, `useAbstractDraft.ts`, `AbstractSubmissionClient.tsx`, `AbstractOnePagePreview.tsx`, and `firestore.rules`.
+- Created `tests/unit/abstractSubmissionAudit.test.mjs` and verified `tsc --noEmit` (`exit 0`), all 7 unit test suites (`26/26` passing, `exit 0`), and `npm --prefix src/frontend run build` (`54/54` static routes, `exit 0`), then restarted dev server (`http://localhost:3000`).
+- Delegated live browser audit to `browser` subagent (`Abstract Submission & Console Error QA Auditor`); subagent reported `chrome_devtools` connection failure because Chrome remote debugging (`DevToolsActivePort` at `chrome://inspect/#remote-debugging`) is not enabled on the host. Documented exact gap honestly for `@bo`.
+
+---
+
+### SCoT Log — 2026-11-19 — Remove Reviewer Panel Link from Abstract Submission Confirmation (`@dev`)
+- @bo requested removing the `Reviewer Panel` link shown after submitting a mock abstract since submitters are generally not reviewers.
+- Plan: Remove `{hasReviewerRole(user.roles) && (<Link href="/reviewer">...</Link>)}` and unused `hasReviewerRole` import from `src/frontend/src/components/workshop/AbstractSubmissionClient.tsx`, neutralize internal "Reviewer Panel" references in attendee-facing confirmation/drawer/delete text, verify no other `/reviewer` link remains in submitter components, run `tsc --noEmit`, and update `docs/session_history.md`.
+
+---
+
+### SCoT Log — 2026-11-19 — Phase 30/31 Commit, Push & Live Preview Deployment (`@ops`)
+- @bo requested `@ops commit, push and update the live preview site.`
+- Stopping dev server daemon temporarily to clear Windows Next.js locks, staging and committing clean Phase 30 + Phase 31 + submitter-link removal changes, pushing `main` to `origin/main`, deploying updated `firestore.rules`, rebuilding static export and publishing `board-review` Firebase preview channel via `infrastructure\manage-board-preview.ps1 -Action deploy -Channel board-review`, verifying HTTP 200 across routes, and restarting local `npm run dev`.

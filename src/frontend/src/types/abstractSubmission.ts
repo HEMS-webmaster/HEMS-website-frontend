@@ -9,7 +9,25 @@ export type ResearchTrack =
   | "Atmospheric, Volcanic & Environmental"
   | "Miniature & Ruggedized Hardware / Vacuum"
   | "Autonomous Platforms (UAV / AUV / ROV) & Security"
-  | "Onboard Data Processing & Deconvolution";
+  | "Onboard Data Processing & Deconvolution"
+  | "Miscellaneous";
+
+export type PresenterCategory = "academic" | "student" | "corporate";
+
+export const PRESENTER_CATEGORY_OPTIONS: readonly {
+  value: PresenterCategory;
+  label: string;
+}[] = [
+  { value: "academic", label: "Academic / Government / Research Institute" },
+  { value: "student", label: "Student Presenter (Undergraduate / Graduate)" },
+  { value: "corporate", label: "Corporate / Industry / Workshop Sponsor" },
+];
+
+export type CommitteeSelection =
+  | "pending"
+  | "accept_oral"
+  | "accept_poster"
+  | "decline";
 
 export type ReviewStatus = "Pending" | "Reviewed";
 
@@ -58,6 +76,7 @@ export const RESEARCH_TRACK_OPTIONS: readonly ResearchTrack[] = [
   "Miniature & Ruggedized Hardware / Vacuum",
   "Autonomous Platforms (UAV / AUV / ROV) & Security",
   "Onboard Data Processing & Deconvolution",
+  "Miscellaneous",
 ];
 
 export interface AffiliationEntry {
@@ -86,6 +105,7 @@ export interface GraphicMetadata {
   widthInches?: number;
   caption?: string;
   storageUrl?: string;
+  embeddedDataUrl?: string;
   hasLocalBlob?: boolean;
 }
 
@@ -101,7 +121,9 @@ export interface AbstractSubmissionRecord {
   affiliations?: AffiliationEntry[];
   authors?: AuthorEntry[];
   presentationFormat: PresentationFormat;
+  presenterCategory?: PresenterCategory;
   researchTrack: ResearchTrack;
+  recommendedTrack?: ResearchTrack;
   summary: string;
   abstractText?: string;
   keywords?: string;
@@ -120,6 +142,11 @@ export interface AbstractSubmissionRecord {
   deadline: string;
   status: ReviewStatus;
   decision: ReviewDecision;
+  committeeSelection?: CommitteeSelection;
+  selectionVersion?: number;
+  selectionUpdatedAt?: string;
+  selectionUpdatedBy?: string;
+  selectionUpdatedByName?: string;
   score?: number;
   hemsFitness?: number;
   reviewerComments?: string;
@@ -139,6 +166,7 @@ export interface CreateAbstractSubmissionInput {
   affiliations: AffiliationEntry[];
   authors: AuthorEntry[];
   presentationFormat: PresentationFormat;
+  presenterCategory?: PresenterCategory;
   researchTrack: ResearchTrack;
   summary: string;
   abstractText: string;
@@ -157,9 +185,12 @@ export interface AbstractReviewRecord {
   submissionId: string;
   reviewerEmail: string;
   reviewerName?: string;
-  score: number;
-  hemsFitness: number;
+  score: number | null;
+  hemsFitness: number | null;
   decision: ReviewDecision;
+  recommendedTrack?: ResearchTrack;
+  isCompleted?: boolean;
+  completedAt?: string;
   reviewerComments: string;
   privateNotes: string;
   createdAt: string;
@@ -172,6 +203,7 @@ export interface SaveAbstractReviewInput {
   score: number;
   hemsFitness: number;
   decision: ReviewDecision;
+  recommendedTrack?: ResearchTrack;
   reviewerComments: string;
   privateNotes: string;
   reviewedBy: string;
@@ -189,6 +221,7 @@ export interface AbstractDraftFormValues {
   correspondingEmail: string;
   secondaryEmail: string;
   presentationFormat: PresentationFormat;
+  presenterCategory: PresenterCategory;
   studentTravelAwardApplicant: boolean;
   affiliations: AffiliationEntry[];
   authors: AuthorEntry[];

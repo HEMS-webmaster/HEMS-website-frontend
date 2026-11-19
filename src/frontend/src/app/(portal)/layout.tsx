@@ -495,7 +495,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         className={`${
           currentPath === "/abstract-submission"
             ? "w-full"
-            : "max-w-[1400px] mx-auto w-full"
+            : currentPath === "/reviewer" || currentPath.startsWith("/reviewer/")
+              ? "max-w-[1680px] mx-auto w-full"
+              : "max-w-[1400px] mx-auto w-full"
         } flex flex-col lg:flex-row flex-grow min-w-0 print:block print:max-w-none`}
       >
         {/* Desktop & Landscape-Tablet Left Sidebar Nav (1024px+) */}
@@ -564,8 +566,10 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         {/* Main Content Area (min-w-0 prevents flex children/tables from blowing out viewport width) */}
         <div
           className={`flex-grow min-w-0 ${
-            currentPath === "/abstract-submission"
-              ? "p-4 sm:p-6 lg:p-8"
+            currentPath === "/abstract-submission" ||
+            currentPath === "/reviewer" ||
+            currentPath.startsWith("/reviewer/")
+              ? "p-3 sm:p-5 lg:p-6"
               : "p-4 sm:p-6 lg:p-10 xl:p-12"
           } bg-surface print:p-0 print:bg-white`}
         >

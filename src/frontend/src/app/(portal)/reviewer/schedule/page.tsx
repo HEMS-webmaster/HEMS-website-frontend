@@ -6,6 +6,8 @@ import {
   AlertTriangle,
   ArrowDown,
   ArrowUp,
+  BookOpen,
+  Building2,
   Calendar,
   CheckCircle2,
   ClipboardCheck,
@@ -18,10 +20,12 @@ import {
   GraduationCap,
   GripVertical,
   Hotel,
+  Layers,
   Lock,
   MapPin,
   Pencil,
   Plus,
+  Radio,
   RefreshCw,
   RotateCcw,
   Save,
@@ -44,17 +48,21 @@ import ScientificText from "@/components/workshop/ScientificText";
 import AbstractOnePagePreview from "@/components/workshop/AbstractOnePagePreview";
 import {
   assignCandidateToSession,
+  assignMiscellaneousCandidatesToDedicatedSession,
   buildTalkSlotFromCandidate,
+  collectDeselectedScheduledSlotIds,
   collectScheduledSubmissionIds,
   detectScheduleTimeConflicts,
   extractAcceptedSubmissionsForSchedule,
   formatDayHeadingFromIso,
+  formatDisplayTrackName,
   formatHemsTimeRange,
   moveTalkBetweenSessions,
   parseClockMinutes,
   recalculateSessionTalkTimes,
   refreshPlanMetadataFromSubmissions,
   removeTalkFromSession,
+  syncPlanWithSelectedSubmissions,
   toRomanNumeral,
   updateTalkTiming,
   type ConferenceSchedulePlan,
@@ -66,10 +74,16 @@ import {
   type ScheduleSessionBlock,
   type ScheduledTalkSlot,
 } from "@/utils/conferenceScheduleBuilder";
-import { downloadConferenceSchedulePdf } from "@/utils/scheduleExportPdf";
-import { downloadConferenceScheduleDocx } from "@/utils/scheduleExportDocx";
+import {
+  downloadConferenceSchedulePdf,
+  downloadExtendedProgramPdf,
+} from "@/utils/scheduleExportPdf";
+import {
+  downloadConferenceScheduleDocx,
+  downloadExtendedProgramDocx,
+} from "@/utils/scheduleExportDocx";
 
-type CandidateFilterMode = "unscheduled_oral" | "all_oral" | "posters";
+type CandidateFilterMode = "unscheduled_oral" | "all_oral" | "misc" | "posters";
 
 const EVENT_CATEGORY_OPTIONS: readonly {
   value: ScheduleEventCategory;
@@ -110,6 +124,7 @@ export default function ReviewerScheduleBuilderPage() {
     submissions,
     reviews,
     loading: listLoading,
+    liveSyncActive,
     refresh,
     getGraphicPreviewUrl,
     openSubmissionPdf,
@@ -132,7 +147,6 @@ export default function ReviewerScheduleBuilderPage() {
     submissionsLoading: listLoading,
   });
 
-  const [includePendingOral, setIncludePendingOral] = useState(false);
   const [defaultDurationMin, setDefaultDurationMin] = useState<number>(30);
   const [confirmAutoSuggest, setConfirmAutoSuggest] = useState(false);
   const [activeDayFilter, setActiveDayFilter] = useState<string>("all");
@@ -187,11 +201,26 @@ export default function ReviewerScheduleBuilderPage() {
   );
 
   const { oralCandidates, posterCandidates } = useMemo(
+    () => extractAcceptedSubmissionsForSchedule(submissions, reviews),
+    [submissions, reviews]
+  );
+
+  const deselectedSlotIds = useMemo(
+    () => (plan ? collectDeselectedScheduledSlotIds(plan, submissions) : new Set<string>()),
+    [plan, submissions]
+  );
+
+  const miscOralCandidates = useMemo(
+    () => oralCandidates.filter((c) => c.effectiveTrack === "Miscellaneous"),
+    [oralCandidates]
+  );
+
+  const miscCandidates = useMemo(
     () =>
-      extractAcceptedSubmissionsForSchedule(submissions, reviews, {
-        includePendingOral,
-      }),
-    [submissions, reviews, includePendingOral]
+      [...oralCandidates, ...posterCandidates].filter(
+        (c) => c.effectiveTrack === "Miscellaneous"
+      ),
+    [oralCandidates, posterCandidates]
   );
 
   const scheduledSubmissionIds = useMemo(
@@ -231,6 +260,8 @@ export default function ReviewerScheduleBuilderPage() {
       );
     } else if (candidateFilter === "all_oral") {
       source = oralCandidates;
+    } else if (candidateFilter === "misc") {
+      source = miscCandidates;
     } else {
       source = posterCandidates;
     }
@@ -244,6 +275,8 @@ export default function ReviewerScheduleBuilderPage() {
         c.submission.presentingAuthor,
         c.authorsLine,
         c.submission.researchTrack,
+        c.effectiveTrack,
+        formatDisplayTrackName(c.effectiveTrack, plan),
       ]
         .join(" ")
         .toLowerCase();
@@ -252,7 +285,9 @@ export default function ReviewerScheduleBuilderPage() {
   }, [
     candidateFilter,
     candidateSearch,
+    miscCandidates,
     oralCandidates,
+    plan,
     posterCandidates,
     scheduledSubmissionIds,
   ]);
@@ -358,6 +393,7 @@ export default function ReviewerScheduleBuilderPage() {
         correspondingEmail={sub.correspondingEmail}
         secondaryEmail={sub.secondaryEmail}
         presentationFormat={sub.presentationFormat}
+        presenterCategory={sub.presenterCategory}
         researchTrack={sub.researchTrack}
         studentTravelAwardApplicant={sub.studentTravelAwardApplicant}
         synopsis={sub.summary}
@@ -379,7 +415,7 @@ export default function ReviewerScheduleBuilderPage() {
       const file = downloadConferenceSchedulePdf(plan, workshop);
       setBannerMsg({
         tone: "success",
-        text: `Downloaded PDF schedule: ${file}`,
+        text: `Downloaded Program Schedule PDF: ${file}`,
       });
     } catch (err) {
       setBannerMsg({
@@ -389,12 +425,27 @@ export default function ReviewerScheduleBuilderPage() {
     }
   };
 
+  const handleExportExtendedPdf = () => {
+    try {
+      const file = downloadExtendedProgramPdf(plan, workshop, submissions, reviews);
+      setBannerMsg({
+        tone: "success",
+        text: `Downloaded Extended Program PDF (Schedule + page-separated full abstracts): ${file}`,
+      });
+    } catch (err) {
+      setBannerMsg({
+        tone: "warn",
+        text: err instanceof Error ? err.message : "Failed to export Extended Program PDF.",
+      });
+    }
+  };
+
   const handleExportDocx = () => {
     try {
       const file = downloadConferenceScheduleDocx(plan, workshop);
       setBannerMsg({
         tone: "success",
-        text: `Downloaded editable Word (.docx) schedule: ${file}`,
+        text: `Downloaded editable Word (.docx) Program Schedule: ${file}`,
       });
     } catch (err) {
       setBannerMsg({
@@ -404,10 +455,25 @@ export default function ReviewerScheduleBuilderPage() {
     }
   };
 
+  const handleExportExtendedDocx = () => {
+    try {
+      const file = downloadExtendedProgramDocx(plan, workshop, submissions, reviews);
+      setBannerMsg({
+        tone: "success",
+        text: `Downloaded editable Extended Program (.docx) with schedule + page-separated abstracts: ${file}`,
+      });
+    } catch (err) {
+      setBannerMsg({
+        tone: "warn",
+        text: err instanceof Error ? err.message : "Failed to export Extended Program DOCX.",
+      });
+    }
+  };
+
   const handleRunAutoSuggest = () => {
     const rebuilt = resetToSuggestedSchedule({
-      includePendingOral,
       defaultTalkDurationMinutes: defaultDurationMin,
+      miscellaneousCategoryTitle: plan.miscellaneousCategoryTitle,
     });
     setConfirmAutoSuggest(false);
     const placedCount = rebuilt.days.reduce(
@@ -421,7 +487,32 @@ export default function ReviewerScheduleBuilderPage() {
     );
     setBannerMsg({
       tone: "success",
-      text: `Built suggested 4-day HEMS program with ${placedCount} talk${placedCount === 1 ? "" : "s"} (${defaultDurationMin}-min slots) and ${rebuilt.posters.length} accepted poster${rebuilt.posters.length === 1 ? "" : "s"}, hydrated from Workshop Settings.`,
+      text: `Built suggested 4-day HEMS program with ${placedCount} talk${placedCount === 1 ? "" : "s"} (${defaultDurationMin}-min slots) and ${rebuilt.posters.length} accepted poster${rebuilt.posters.length === 1 ? "" : "s"} (selected abstracts only).`,
+    });
+  };
+
+  const handlePruneDeselectedTalks = () => {
+    const count = deselectedSlotIds.size;
+    updatePlan((prev) =>
+      syncPlanWithSelectedSubmissions(prev, submissions, reviews, {
+        pruneDeselectedTalks: true,
+      })
+    );
+    setBannerMsg({
+      tone: "info",
+      text: `Removed ${count} deselected talk slot${count === 1 ? "" : "s"} and reflowed remaining session times.`,
+    });
+  };
+
+  const handleGroupMiscOralToSession = () => {
+    if (miscOralCandidates.length === 0) return;
+    const categoryName = formatDisplayTrackName("Miscellaneous", plan);
+    updatePlan((prev) =>
+      assignMiscellaneousCandidatesToDedicatedSession(prev, miscOralCandidates)
+    );
+    setBannerMsg({
+      tone: "success",
+      text: `Grouped ${miscOralCandidates.length} accepted "${categoryName}" oral talk${miscOralCandidates.length === 1 ? "" : "s"} into a dedicated session.`,
     });
   };
 
@@ -779,16 +870,32 @@ export default function ReviewerScheduleBuilderPage() {
           <button
             type="button"
             onClick={handleExportPdf}
-            className="inline-flex items-center gap-1.5 bg-primary hover:bg-[#00487d] text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 bg-primary hover:bg-[#00487d] text-white px-3 py-2 rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
           >
-            <Download size={13} /> Export PDF
+            <Download size={13} /> Export Program (PDF)
+          </button>
+          <button
+            type="button"
+            onClick={handleExportExtendedPdf}
+            className="inline-flex items-center gap-1.5 bg-indigo-700 hover:bg-indigo-800 text-white px-3 py-2 rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            title="Exact schedule at the top followed by all accepted oral and poster abstracts with page breaks in between"
+          >
+            <BookOpen size={13} /> Extended Program (PDF)
           </button>
           <button
             type="button"
             onClick={handleExportDocx}
-            className="inline-flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-2 rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
           >
-            <FileText size={13} /> Export DOCX
+            <FileText size={13} /> Export Program (DOCX)
+          </button>
+          <button
+            type="button"
+            onClick={handleExportExtendedDocx}
+            className="inline-flex items-center gap-1.5 bg-teal-700 hover:bg-teal-800 text-white px-3 py-2 rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            title="Exact Word schedule at the top followed by all accepted oral and poster abstracts separated by Word page breaks"
+          >
+            <BookOpen size={13} /> Extended Program (DOCX)
           </button>
         </div>
       </div>
@@ -814,6 +921,11 @@ export default function ReviewerScheduleBuilderPage() {
               ? "Draft Ready (Auto-Saves to Cloud)"
               : "Local Draft (browser storage)"}
           </span>
+          {liveSyncActive && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200 font-semibold">
+              <Radio size={11} /> Live Abstracts Synced
+            </span>
+          )}
           <span className="text-slate-600 tabular-nums">
             <strong>{totalScheduledTalks}</strong> scheduled talk
             {totalScheduledTalks === 1 ? "" : "s"} across{" "}
@@ -998,15 +1110,15 @@ export default function ReviewerScheduleBuilderPage() {
             </select>
           </div>
 
-          <label className="inline-flex items-center gap-2 text-slate-700 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={includePendingOral}
-              onChange={(e) => setIncludePendingOral(e.target.checked)}
-              className="rounded border-slate-300 text-primary focus:ring-primary"
-            />
-            <span>Include Pending Oral submissions in pool</span>
-          </label>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 font-medium">
+            <span>Selected Abstracts Only — manage decisions in</span>
+            <Link
+              href="/reviewer/overview"
+              className="font-bold underline hover:text-primary"
+            >
+              Abstract Overview
+            </Link>
+          </div>
 
           <label className="inline-flex items-center gap-2 text-slate-700 cursor-pointer">
             <input
@@ -1064,6 +1176,33 @@ export default function ReviewerScheduleBuilderPage() {
           )}
         </div>
       </section>
+
+      {deselectedSlotIds.size > 0 && (
+        <div
+          role="alert"
+          className="flex flex-wrap items-center justify-between gap-3 bg-amber-50 border border-amber-300 text-amber-950 rounded-2xl px-4 py-3 text-xs"
+        >
+          <div className="flex items-center gap-2">
+            <AlertTriangle size={16} className="text-amber-700 shrink-0" />
+            <span>
+              <strong>
+                {deselectedSlotIds.size} scheduled talk
+                {deselectedSlotIds.size === 1 ? "" : "s"}
+              </strong>{" "}
+              {deselectedSlotIds.size === 1 ? "is" : "are"} no longer marked{" "}
+              <strong>Accept to Oral</strong> in Abstract Overview. Remove them so your
+              program strictly contains selected abstracts.
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={handlePruneDeselectedTalks}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-bold cursor-pointer shrink-0"
+          >
+            <Trash2 size={12} /> Remove Deselected Talks
+          </button>
+        </div>
+      )}
 
       {/* Main 2-Column Interactive Schedule Workspace */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -1173,34 +1312,85 @@ export default function ReviewerScheduleBuilderPage() {
               </form>
             )}
 
+            {/* Customizable Miscellaneous Category */}
+            <div className="rounded-xl border border-indigo-200/80 bg-indigo-50/50 p-2.5 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <label
+                  htmlFor="misc-category-title"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-950"
+                >
+                  <Layers size={12} className="text-indigo-700" />
+                  Misc Category Name
+                </label>
+                <span className="text-[10.5px] font-semibold text-indigo-700 tabular-nums">
+                  {miscCandidates.length} misc selected
+                </span>
+              </div>
+              <input
+                id="misc-category-title"
+                type="text"
+                value={plan.miscellaneousCategoryTitle ?? "Miscellaneous"}
+                onChange={(e) => {
+                  const nextTitle = e.target.value;
+                  updatePlan((prev) => ({
+                    ...prev,
+                    miscellaneousCategoryTitle: nextTitle,
+                  }));
+                }}
+                placeholder="Rename Miscellaneous Category..."
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg border border-indigo-200 bg-white text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              />
+              {miscOralCandidates.length > 0 && (
+                <button
+                  type="button"
+                  onClick={handleGroupMiscOralToSession}
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white text-[11px] font-semibold transition-colors cursor-pointer"
+                >
+                  <Layers size={12} />
+                  Group Misc Oral ({miscOralCandidates.length}) into Session
+                </button>
+              )}
+            </div>
+
             {/* Pool Tabs */}
-            <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl text-[11px] font-semibold">
+            <div className="grid grid-cols-4 gap-1 bg-slate-100 p-1 rounded-xl text-[11px] font-semibold">
               <button
                 type="button"
                 onClick={() => setCandidateFilter("unscheduled_oral")}
-                className={`py-1.5 px-2 rounded-lg transition-colors cursor-pointer ${
+                className={`py-1.5 px-1.5 rounded-lg transition-colors cursor-pointer ${
                   candidateFilter === "unscheduled_oral"
                     ? "bg-white text-slate-900 shadow-2xs"
                     : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                Unscheduled ({oralCandidates.filter((c) => !scheduledSubmissionIds.has(c.submission.id)).length})
+                Unsched ({oralCandidates.filter((c) => !scheduledSubmissionIds.has(c.submission.id)).length})
               </button>
               <button
                 type="button"
                 onClick={() => setCandidateFilter("all_oral")}
-                className={`py-1.5 px-2 rounded-lg transition-colors cursor-pointer ${
+                className={`py-1.5 px-1.5 rounded-lg transition-colors cursor-pointer ${
                   candidateFilter === "all_oral"
                     ? "bg-white text-slate-900 shadow-2xs"
                     : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                All Oral ({oralCandidates.length})
+                Oral ({oralCandidates.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setCandidateFilter("misc")}
+                className={`py-1.5 px-1.5 rounded-lg transition-colors cursor-pointer ${
+                  candidateFilter === "misc"
+                    ? "bg-white text-indigo-900 shadow-2xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                Misc ({miscCandidates.length})
               </button>
               <button
                 type="button"
                 onClick={() => setCandidateFilter("posters")}
-                className={`py-1.5 px-2 rounded-lg transition-colors cursor-pointer ${
+                className={`py-1.5 px-1.5 rounded-lg transition-colors cursor-pointer ${
                   candidateFilter === "posters"
                     ? "bg-white text-slate-900 shadow-2xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -1224,9 +1414,11 @@ export default function ReviewerScheduleBuilderPage() {
                 <div className="text-center py-6 px-3 rounded-xl border border-dashed border-slate-200 text-xs text-slate-500">
                   {candidateFilter === "unscheduled_oral"
                     ? oralCandidates.length === 0
-                      ? "No abstracts have reached 'Accept (Oral)' consensus yet. Mark oral acceptances in Reviewer Panel or enable 'Include Pending Oral submissions'."
-                      : "All accepted oral talks are currently placed into sessions!"
-                    : "No matching abstracts in this pool."}
+                      ? "No abstracts are currently selected as 'Accept to Oral' in Abstract Overview."
+                      : "All selected oral talks are currently placed into sessions!"
+                    : candidateFilter === "misc"
+                    ? "No selected oral or poster abstracts are currently assigned to Miscellaneous."
+                    : "No matching selected abstracts in this pool."}
                 </div>
               ) : (
                 filteredCandidates.map((cand) => {
@@ -1264,17 +1456,18 @@ export default function ReviewerScheduleBuilderPage() {
                             className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${
                               cand.candidatePool === "oral_accepted"
                                 ? "bg-emerald-50 text-emerald-800 border-emerald-200"
-                                : cand.candidatePool === "poster_accepted"
-                                ? "bg-sky-50 text-sky-800 border-sky-200"
-                                : "bg-amber-50 text-amber-800 border-amber-200"
+                                : "bg-sky-50 text-sky-800 border-sky-200"
                             }`}
                           >
                             {cand.candidatePool === "oral_accepted"
-                              ? "Accept (Oral)"
-                              : cand.candidatePool === "poster_accepted"
-                              ? "Accept (Poster)"
-                              : "Pending Oral"}
+                              ? "Accept to Oral"
+                              : "Accept to Poster"}
                           </span>
+                          {cand.isCorporate && (
+                            <span className="inline-flex items-center gap-0.5 text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-1.5 py-0.5 rounded">
+                              <Building2 size={10} /> CORP
+                            </span>
+                          )}
                           {cand.submission.studentTravelAwardApplicant && (
                             <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold bg-teal-50 text-teal-800 border border-teal-200 px-1.5 py-0.5 rounded">
                               <GraduationCap size={10} /> Award
@@ -1293,8 +1486,14 @@ export default function ReviewerScheduleBuilderPage() {
                         <strong>{cand.submission.presentingAuthor}</strong> •{" "}
                         {cand.primaryAffiliation}
                       </div>
-                      <div className="text-[10.5px] text-sky-800 bg-sky-50 border border-sky-200 px-2 py-0.5 rounded inline-block">
-                        {cand.submission.researchTrack}
+                      <div
+                        className={`text-[10.5px] px-2 py-0.5 rounded border inline-block ${
+                          cand.effectiveTrack === "Miscellaneous"
+                            ? "text-indigo-900 bg-indigo-50 border-indigo-200 font-semibold"
+                            : "text-sky-800 bg-sky-50 border-sky-200"
+                        }`}
+                      >
+                        {formatDisplayTrackName(cand.effectiveTrack, plan)}
                       </div>
 
                       <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
@@ -1871,6 +2070,9 @@ export default function ReviewerScheduleBuilderPage() {
                               session.talks.map((talk, talkIdx) => {
                                 const isEditingDetails =
                                   editingTalkId === talk.slotId;
+                                const isDeselected = deselectedSlotIds.has(
+                                  talk.slotId
+                                );
 
                                 return (
                                   <div
@@ -1895,7 +2097,11 @@ export default function ReviewerScheduleBuilderPage() {
                                       setDragPayload(null);
                                       setDragOverSessionId(null);
                                     }}
-                                    className="rounded-xl border border-slate-200 hover:border-primary/40 bg-slate-50/50 p-3 space-y-2 transition-colors"
+                                    className={`rounded-xl border p-3 space-y-2 transition-colors ${
+                                      isDeselected
+                                        ? "border-rose-300 bg-rose-50/70"
+                                        : "border-slate-200 hover:border-primary/40 bg-slate-50/50"
+                                    }`}
                                   >
                                     {/* Top Strip: Drag, Manual Times, Move & Remove */}
                                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -2118,9 +2324,25 @@ export default function ReviewerScheduleBuilderPage() {
                                             Invited / Custom
                                           </span>
                                         )}
-                                        <span className="text-[10.5px] font-medium px-2 py-0.5 rounded bg-sky-50 text-sky-900 border border-sky-200">
-                                          {talk.researchTrack}
+                                        <span
+                                          className={`text-[10.5px] font-medium px-2 py-0.5 rounded border ${
+                                            talk.researchTrack === "Miscellaneous"
+                                              ? "bg-indigo-50 text-indigo-900 border-indigo-200"
+                                              : "bg-sky-50 text-sky-900 border-sky-200"
+                                          }`}
+                                        >
+                                          {formatDisplayTrackName(talk.researchTrack, plan)}
                                         </span>
+                                        {deselectedSlotIds.has(talk.slotId) && (
+                                          <span className="inline-flex items-center gap-0.5 text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-300 px-1.5 py-0.5 rounded">
+                                            <AlertTriangle size={10} /> No Longer Selected
+                                          </span>
+                                        )}
+                                        {talk.isCorporate && (
+                                          <span className="inline-flex items-center gap-0.5 text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-1.5 py-0.5 rounded">
+                                            <Building2 size={10} /> CORP
+                                          </span>
+                                        )}
                                         {talk.isStudentAward && (
                                           <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold bg-teal-50 text-teal-800 border border-teal-200 px-1.5 py-0.5 rounded">
                                             <GraduationCap size={10} /> Student Award
@@ -2222,15 +2444,36 @@ export default function ReviewerScheduleBuilderPage() {
                     className="py-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                   >
                     <div className="space-y-0.5 min-w-0">
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-1.5">
                         <span className="font-bold text-primary">
                           {poster.posterNumber}
+                        </span>
+                        {poster.isCorporate && (
+                          <span className="inline-flex items-center gap-0.5 text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-1.5 py-0.5 rounded">
+                            <Building2 size={10} /> CORP
+                          </span>
+                        )}
+                        {poster.isStudentAward && (
+                          <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold bg-teal-50 text-teal-800 border border-teal-200 px-1.5 py-0.5 rounded">
+                            <GraduationCap size={10} /> Student Award
+                          </span>
+                        )}
+                        <span
+                          className={`text-[10px] px-1.5 py-0.5 rounded border ${
+                            poster.researchTrack === "Miscellaneous"
+                              ? "bg-indigo-50 text-indigo-900 border-indigo-200 font-semibold"
+                              : "bg-slate-50 text-slate-700 border-slate-200"
+                          }`}
+                        >
+                          {formatDisplayTrackName(poster.researchTrack, plan)}
                         </span>
                         <span className="font-semibold text-slate-900">
                           <ScientificText text={poster.title} />
                         </span>
                       </div>
-                      <div className="text-slate-600">{poster.authorsLine}</div>
+                      <div className="text-slate-600">
+                        <ScientificText text={poster.authorsLine} />
+                      </div>
                     </div>
                     <button
                       type="button"

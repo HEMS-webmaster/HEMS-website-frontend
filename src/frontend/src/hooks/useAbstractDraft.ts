@@ -21,8 +21,11 @@ import {
   DEFAULT_FIGURE_WIDTH_IN,
   DraftGraphicMetaSnapshot,
   PRESENTATION_FORMAT_OPTIONS,
+  PRESENTER_CATEGORY_OPTIONS,
+  PresenterCategory,
   RESEARCH_TRACK_OPTIONS,
 } from "@/types/abstractSubmission";
+import { stripUndefinedDeep } from "@/utils/abstractSubmissionIntegrity";
 
 const LEGACY_DRAFT_STORAGE_PREFIX = "hems_abstract_draft_v1:";
 const DRAFTS_LIST_STORAGE_PREFIX = "hems_abstract_drafts_v2:";
@@ -187,6 +190,10 @@ function normalizeAuthors(raw: AuthorEntry[] | undefined): AuthorEntry[] {
   return normalized;
 }
 
+const VALID_PRESENTER_CATEGORIES = new Set<PresenterCategory>(
+  PRESENTER_CATEGORY_OPTIONS.map((o) => o.value)
+);
+
 export function sanitizeDraftFormValues(
   values: AbstractDraftFormValues
 ): AbstractDraftFormValues {
@@ -200,6 +207,13 @@ export function sanitizeDraftFormValues(
   const safeTrack = RESEARCH_TRACK_OPTIONS.includes(values.researchTrack)
     ? values.researchTrack
     : "Miniature & Ruggedized Hardware / Vacuum";
+  const safeCategory: PresenterCategory = VALID_PRESENTER_CATEGORIES.has(
+    values.presenterCategory
+  )
+    ? values.presenterCategory
+    : values.studentTravelAwardApplicant
+    ? "student"
+    : "academic";
 
   return {
     currentStage: safeStage,
@@ -207,6 +221,7 @@ export function sanitizeDraftFormValues(
     correspondingEmail: values.correspondingEmail ?? "",
     secondaryEmail: values.secondaryEmail ?? "",
     presentationFormat: safeFormat,
+    presenterCategory: safeCategory,
     studentTravelAwardApplicant: Boolean(values.studentTravelAwardApplicant),
     affiliations: normalizeAffiliations(values.affiliations),
     authors: normalizeAuthors(values.authors),
@@ -293,6 +308,9 @@ function parseDraftRecord(
     correspondingEmail: candidate.correspondingEmail ?? "",
     secondaryEmail: candidate.secondaryEmail ?? "",
     presentationFormat: candidate.presentationFormat ?? "Oral Presentation",
+    presenterCategory:
+      candidate.presenterCategory ??
+      (candidate.studentTravelAwardApplicant ? "student" : "academic"),
     studentTravelAwardApplicant: Boolean(candidate.studentTravelAwardApplicant),
     affiliations: candidate.affiliations ?? [],
     authors: candidate.authors ?? [],
@@ -408,7 +426,22 @@ function readLocalDraftsWithMigration(
     console.warn("Unable to migrate legacy abstract draft:", err);
   }
 
-  const sorted = sortDraftsNewestFirst(items);
+  const dedupedById = new Map<string, AbstractDraftRecord>();
+  for (const item of items) {
+    const prev = dedupedById.get(item.draftId);
+    if (!prev) {
+      dedupedById.set(item.draftId, item);
+      continue;
+    }
+    migratedLegacy = true;
+    const prevTs = Date.parse(prev.updatedAt || prev.createdAt || "") || 0;
+    const nextTs = Date.parse(item.updatedAt || item.createdAt || "") || 0;
+    if (nextTs >= prevTs) {
+      dedupedById.set(item.draftId, item);
+    }
+  }
+
+  const sorted = sortDraftsNewestFirst(Array.from(dedupedById.values()));
   if (migratedLegacy) {
     writeLocalDrafts(scopeKey, sorted);
   }
@@ -698,7 +731,10 @@ export function useAbstractDraft(params: {
 
       setDraftStatus((prev) => ({ ...prev, state: "saving" }));
       try {
-        await setDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, idToSync), record);
+        await setDoc(
+          doc(db, FIRESTORE_DRAFTS_COLLECTION, idToSync),
+          stripUndefinedDeep(record)
+        );
         lastCloudHashRef.current = hash;
         setDraftStatus({ state: "synced_cloud", savedAt: record.updatedAt });
       } catch (err) {
@@ -970,7 +1006,10 @@ export function useAbstractDraft(params: {
       upsertDraftInList(cloned);
       if (hasFirebaseKeys && db) {
         try {
-          await setDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, newId), cloned);
+          await setDoc(
+            doc(db, FIRESTORE_DRAFTS_COLLECTION, newId),
+            stripUndefinedDeep(cloned)
+          );
         } catch (err) {
           console.warn(
             "Firestore duplicate draft sync skipped/blocked; saved locally:",
@@ -1047,6 +1086,9 @@ export function useAbstractDraft(params: {
           correspondingEmail: sub.correspondingEmail || userEmail || "",
           secondaryEmail: sub.secondaryEmail || "",
           presentationFormat: sub.presentationFormat || "Oral Presentation",
+          presenterCategory:
+            sub.presenterCategory ??
+            (sub.studentTravelAwardApplicant ? "student" : "academic"),
           studentTravelAwardApplicant: Boolean(sub.studentTravelAwardApplicant),
           affiliations: copiedAffiliations,
           authors: copiedAuthors,
@@ -1076,7 +1118,10 @@ export function useAbstractDraft(params: {
       upsertDraftInList(cloned);
       if (hasFirebaseKeys && db) {
         try {
-          await setDoc(doc(db, FIRESTORE_DRAFTS_COLLECTION, newId), cloned);
+          await setDoc(
+            doc(db, FIRESTORE_DRAFTS_COLLECTION, newId),
+            stripUndefinedDeep(cloned)
+          );
         } catch (err) {
           console.warn(
             "Firestore submission-to-draft copy sync skipped/blocked; saved locally:",

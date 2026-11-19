@@ -16,6 +16,7 @@ import {
   GraphicMetadata,
   isRightWrappedFigureWidth,
   PresentationFormat,
+  PresenterCategory,
   PRINTABLE_TEXT_WIDTH_IN,
   ResearchTrack,
 } from "@/types/abstractSubmission";
@@ -35,6 +36,7 @@ export interface AbstractOnePagePreviewProps {
   correspondingEmail: string;
   secondaryEmail?: string;
   presentationFormat: PresentationFormat;
+  presenterCategory?: PresenterCategory;
   researchTrack: ResearchTrack;
   studentTravelAwardApplicant: boolean;
   synopsis: string;
@@ -73,6 +75,7 @@ export default function AbstractOnePagePreview({
   correspondingEmail,
   secondaryEmail,
   presentationFormat,
+  presenterCategory,
   researchTrack,
   studentTravelAwardApplicant,
   synopsis,
@@ -192,7 +195,7 @@ export default function AbstractOnePagePreview({
   const resolvedCaption = graphicCaption?.trim() || graphicMeta?.caption?.trim() || "";
 
   const renderInlineRightFigureSpan = () => {
-    if (!graphicUrl) return null;
+    if (!graphicUrl && !graphicMeta) return null;
     return (
       <span
         role="figure"
@@ -200,11 +203,20 @@ export default function AbstractOnePagePreview({
         style={{ width: `${figureWidthPct.toFixed(2)}%` }}
         className="float-right clear-right ml-[1em] mb-2.5 mt-0.5 border border-slate-200 rounded-lg p-2 bg-white block max-w-full break-inside-avoid text-center font-normal not-italic"
       >
-        <img
-          src={graphicUrl}
-          alt={resolvedCaption || "Submitted scientific figure"}
-          className="w-full h-auto object-contain mx-auto rounded block"
-        />
+        {graphicUrl ? (
+          <img
+            src={graphicUrl}
+            alt={resolvedCaption || "Submitted scientific figure"}
+            className="w-full h-auto object-contain mx-auto rounded block"
+          />
+        ) : graphicMeta ? (
+          <span className="block rounded border border-dashed border-slate-300 bg-slate-50 px-3 py-4 text-center font-sans text-xs text-slate-600">
+            <strong className="block text-slate-800">
+              Figure 1 ({graphicMeta.fileName})
+            </strong>
+            <span>{graphicMeta.detectedDpi} DPI • High-res graphic archived</span>
+          </span>
+        ) : null}
         {resolvedCaption && (
           <span className="block mt-1.5 text-[13.5px] print:text-[8.6pt] text-slate-700 leading-snug text-center font-serif">
             <strong className="text-slate-900">Figure 1.</strong>{" "}
@@ -216,17 +228,26 @@ export default function AbstractOnePagePreview({
   };
 
   const renderFigureBlock = () => {
-    if (!graphicUrl) return null;
+    if (!graphicUrl && !graphicMeta) return null;
     return (
       <figure
         style={{ width: `${figureWidthPct.toFixed(2)}%` }}
         className="mx-auto my-4 border border-slate-200 rounded-lg p-2 bg-white space-y-1.5 break-inside-avoid max-w-full"
       >
-        <img
-          src={graphicUrl}
-          alt={resolvedCaption || "Submitted scientific figure"}
-          className="w-full h-auto object-contain mx-auto rounded"
-        />
+        {graphicUrl ? (
+          <img
+            src={graphicUrl}
+            alt={resolvedCaption || "Submitted scientific figure"}
+            className="w-full h-auto object-contain mx-auto rounded"
+          />
+        ) : graphicMeta ? (
+          <div className="rounded border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-center font-sans text-xs text-slate-600">
+            <strong className="block text-slate-800">
+              Figure 1 ({graphicMeta.fileName})
+            </strong>
+            <span>{graphicMeta.detectedDpi} DPI • High-res graphic archived</span>
+          </div>
+        ) : null}
         {resolvedCaption && (
           <figcaption className="text-[13.5px] print:text-[8.6pt] text-slate-700 leading-snug text-center font-serif">
             <strong className="text-slate-900">Figure 1.</strong>{" "}
@@ -338,6 +359,16 @@ export default function AbstractOnePagePreview({
                 <span className="text-[11px] print:text-[7.8pt] font-semibold bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded">
                   {presentationFormat}
                 </span>
+                {presenterCategory === "corporate" && (
+                  <span className="text-[11px] print:text-[7.8pt] font-bold bg-violet-50 text-violet-800 border border-violet-200 px-2 py-0.5 rounded">
+                    Corporate
+                  </span>
+                )}
+                {(presenterCategory === "student" || studentTravelAwardApplicant) && (
+                  <span className="text-[11px] print:text-[7.8pt] font-bold bg-teal-50 text-teal-800 border border-teal-200 px-2 py-0.5 rounded">
+                    Student
+                  </span>
+                )}
               </div>
               <p className="text-[11px] print:text-[7.8pt] font-medium text-slate-600">
                 Track: {researchTrack}
@@ -440,7 +471,7 @@ export default function AbstractOnePagePreview({
 
           {/* 4. Abstract Body (Width / FontSize = 48.75 -> 16px on 780px screen / 9.6pt on 6.5in print = 12–15 words/line) */}
           <section className="pt-1 font-serif text-[16px] print:text-[9.6pt] text-slate-900 leading-[1.45] text-justify">
-            {isRightWrapped && graphicUrl ? (
+            {isRightWrapped && (graphicUrl || graphicMeta) ? (
               <ScientificText
                 text={abstractText.trim() || "Abstract body text not yet entered."}
                 multiline

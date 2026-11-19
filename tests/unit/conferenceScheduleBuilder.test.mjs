@@ -98,10 +98,10 @@ const {
   syncScheduleLocationsFromWorkshopSettings,
   updateTalkTiming,
 } = await import("../../src/frontend/src/utils/conferenceScheduleBuilder.ts");
-const { buildConferenceSchedulePdfBytes } = await import(
+const { buildConferenceSchedulePdfBytes, buildExtendedProgramPdfBytes } = await import(
   "../../src/frontend/src/utils/scheduleExportPdf.ts"
 );
-const { buildConferenceScheduleDocxBytes } = await import(
+const { buildConferenceScheduleDocxBytes, buildExtendedProgramDocxBytes } = await import(
   "../../src/frontend/src/utils/scheduleExportDocx.ts"
 );
 
@@ -190,22 +190,61 @@ function makeSubmission(id, overrides = {}) {
   };
 }
 
-test("extractAcceptedSubmissionsForSchedule separates Oral, Pending Oral, and Poster candidates cleanly", () => {
+test("extractAcceptedSubmissionsForSchedule strictly includes officially selected Oral and Poster candidates", () => {
   const subs = [
-    makeSubmission("ABS-1", { decision: "Accept (Oral)", presentationFormat: "Oral Presentation" }),
-    makeSubmission("ABS-2", { decision: "Pending", status: "Pending", presentationFormat: "Oral Presentation", score: undefined, hemsFitness: undefined }),
-    makeSubmission("ABS-3", { decision: "Accept (Poster)", presentationFormat: "Poster Presentation" }),
-    makeSubmission("ABS-4", { decision: "Decline" }),
+    makeSubmission("ABS-1", {
+      committeeSelection: "accept_oral",
+      decision: "Accept (Oral)",
+      presentationFormat: "Oral Presentation",
+    }),
+    makeSubmission("ABS-2", {
+      committeeSelection: "pending",
+      decision: "Pending",
+      status: "Pending",
+      presentationFormat: "Oral Presentation",
+      score: undefined,
+      hemsFitness: undefined,
+    }),
+    makeSubmission("ABS-3", {
+      committeeSelection: "accept_poster",
+      decision: "Accept (Poster)",
+      presentationFormat: "Poster Presentation",
+    }),
+    makeSubmission("ABS-4", {
+      committeeSelection: "decline",
+      decision: "Accept (Oral)",
+    }),
+    makeSubmission("ABS-LEGACY", {
+      decision: "Accept (Oral)",
+      presentationFormat: "Oral Presentation",
+    }),
   ];
 
-  const strict = extractAcceptedSubmissionsForSchedule(subs, [], { includePendingOral: false });
-  assert.equal(strict.oralCandidates.length, 1);
-  assert.equal(strict.oralCandidates[0].submission.id, "ABS-1");
-  assert.equal(strict.posterCandidates.length, 1);
-  assert.equal(strict.posterCandidates[0].submission.id, "ABS-3");
+  const reviews = [
+    {
+      reviewId: "rev_ABS-4_r1",
+      submissionId: "ABS-4",
+      reviewerEmail: "r1@example.org",
+      score: 9.5,
+      hemsFitness: 9.5,
+      decision: "Accept (Oral)",
+      isCompleted: true,
+      reviewerComments: "Strong paper, but declined by chair",
+      privateNotes: "",
+      createdAt: "2027-05-02T00:00:00.000Z",
+      updatedAt: "2027-05-02T00:00:00.000Z",
+    },
+  ];
 
-  const withPending = extractAcceptedSubmissionsForSchedule(subs, [], { includePendingOral: true });
-  assert.equal(withPending.oralCandidates.length, 2);
+  const strict = extractAcceptedSubmissionsForSchedule(subs, reviews);
+  assert.deepEqual(
+    strict.oralCandidates.map((c) => c.submission.id),
+    ["ABS-1", "ABS-LEGACY"]
+  );
+  assert.deepEqual(
+    strict.posterCandidates.map((c) => c.submission.id),
+    ["ABS-3"]
+  );
 });
 
 test("buildSuggestedHemsSchedule hydrates Workshop Settings venue/dinner plans & places all accepted talks without overlaps", () => {
@@ -392,4 +431,20 @@ test("buildConferenceSchedulePdfBytes and buildConferenceScheduleDocxBytes emit 
   assert.ok(docXml.includes('<w:vertAlign w:val="subscript"/>'), "Expected native Word subscript run");
   assert.ok(docXml.includes("<w:i/>"), "Expected native Word italic run for m/z");
   assert.ok(docXml.includes("Accepted Poster Presentations (1)"));
+
+  // 3. Extended Program PDF & DOCX include top schedule + page-break-separated full abstracts
+  const extPdfBytes = buildExtendedProgramPdfBytes(plan, SAMPLE_WORKSHOP, subs, []);
+  const extPdfHead = new TextDecoder("ascii").decode(extPdfBytes.subarray(0, 8));
+  assert.match(extPdfHead, /^%PDF-1\./);
+  assert.ok(extPdfBytes.length > pdfBytes.length, "Extended PDF should exceed schedule-only PDF bytes");
+
+  const extDocxBytes = buildExtendedProgramDocxBytes(plan, SAMPLE_WORKSHOP, subs, []);
+  const extZip = parseZipStoreEntries(extDocxBytes);
+  const extDocXml = extZip.get("word/document.xml");
+  assert.ok(extDocXml);
+  assert.ok(extDocXml.includes("16th HEMS Workshop (2027)"));
+  assert.ok(extDocXml.includes("Accepted Poster Presentations (1)"));
+  const breakCount = (extDocXml.match(/<w:br w:type="page"\/>/g) || []).length;
+  assert.equal(breakCount, 2, "Expected 2 page breaks for 1 oral + 1 poster abstract");
+  assert.ok(extDocXml.includes("Abstract body"));
 });

@@ -3,12 +3,21 @@ import type { UpcomingWorkshopConfig } from "@/utils/upcomingWorkshop";
 import { fixMojibakeAndNormalize, toPlainScientificText } from "@/utils/unicodeText";
 import {
   buildScheduleExportFilename,
+  collectExtendedProgramEntries,
+  formatDisplayTrackName,
   formatHemsScheduleTime,
   formatHemsTimeRange,
   parseClockMinutes,
+  resolveSubmissionAuthorsAndAffiliations,
   type ConferenceSchedulePlan,
+  type ExtendedProgramAbstractItem,
   type ScheduleBlock,
 } from "@/utils/conferenceScheduleBuilder";
+import { classifySubmissionCohort } from "@/utils/abstractReviewMetrics";
+import type {
+  AbstractReviewRecord,
+  AbstractSubmissionRecord,
+} from "@/types/abstractSubmission";
 
 const WINANSI_CP1252_EXTRA = new Set([
   0x20ac, 0x201a, 0x0192, 0x201e, 0x2026, 0x2020, 0x2021, 0x02c6, 0x2030,
@@ -123,9 +132,227 @@ export function formatTextForJsPdf(input: string): string {
   return out;
 }
 
+function renderExtendedAbstractPagesPdf(
+  doc: jsPDF,
+  entries: readonly ExtendedProgramAbstractItem[]
+): void {
+  const W = 612;
+  const H = 792;
+  const M = 56;
+  const CW = W - 2 * M;
+  const BOTTOM = H - 56;
+
+  for (const item of entries) {
+    doc.addPage();
+    let y = M;
+
+    const ensureAbsSpace = (needed: number) => {
+      if (y + needed > BOTTOM) {
+        doc.addPage();
+        y = M;
+      }
+    };
+
+    const sub = item.submission;
+    const cohort = classifySubmissionCohort(sub);
+    const cohortTag = cohort.isCorporate
+      ? "Corporate"
+      : cohort.isStudentAward
+        ? "Student Travel Award Candidate"
+        : cohort.isStudent
+          ? "Student"
+          : "";
+
+    // Top placement + category banner
+    doc.setFillColor(238, 242, 255);
+    doc.rect(M, y - 10, CW, 22, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8.5);
+    doc.setTextColor(30, 58, 138);
+    doc.text(formatTextForJsPdf(item.placementBadge), M + 6, y + 3);
+
+    const rightTagParts = [sub.id, item.displayTrack, cohortTag].filter(Boolean);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(7.5);
+    doc.setTextColor(71, 85, 105);
+    doc.text(formatTextForJsPdf(rightTagParts.join("  |  ")), W - M - 6, y + 3, {
+      align: "right",
+    });
+    y += 24;
+
+    // Full Title
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(13);
+    doc.setTextColor(12, 48, 86);
+    const titleLines = doc.splitTextToSize(formatTextForJsPdf(sub.title || "Untitled Abstract"), CW);
+    for (const line of titleLines) {
+      ensureAbsSpace(17);
+      doc.text(line, M, y);
+      y += 16;
+    }
+    y += 4;
+
+    // Authors & Institutions
+    const { authors, affiliations } = resolveSubmissionAuthorsAndAffiliations(sub);
+    const authorChunks: string[] =
+      authors.length > 0
+        ? authors.map((a) => {
+            const suffix = [
+              a.isPresenter ? "*" : "",
+              a.affiliationNumber !== null ? `[${a.affiliationNumber}]` : "",
+            ].join("");
+            return `${a.name}${suffix}`;
+          })
+        : item.authorsLine
+          ? [item.authorsLine]
+          : [];
+
+    if (authorChunks.length > 0) {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9.5);
+      doc.setTextColor(30, 41, 59);
+      const authLines = doc.splitTextToSize(formatTextForJsPdf(authorChunks.join(", ")), CW);
+      for (const line of authLines) {
+        ensureAbsSpace(13);
+        doc.text(line, M, y);
+        y += 12;
+      }
+    }
+
+    if (affiliations.length > 0) {
+      y += 2;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.2);
+      doc.setTextColor(71, 85, 105);
+      for (const aff of affiliations) {
+        const instLines = doc.splitTextToSize(
+          formatTextForJsPdf(`[${aff.number}] ${aff.label}`),
+          CW
+        );
+        for (const line of instLines) {
+          ensureAbsSpace(11);
+          doc.text(line, M, y);
+          y += 10.5;
+        }
+      }
+    }
+
+    if (sub.correspondingEmail?.trim()) {
+      ensureAbsSpace(12);
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(8.2);
+      doc.setTextColor(71, 85, 105);
+      doc.text(
+        formatTextForJsPdf(`*Presenting / Corresponding Email: ${sub.correspondingEmail.trim()}`),
+        M,
+        y
+      );
+      y += 12;
+    }
+
+    if (sub.keywords?.trim()) {
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.2);
+      doc.setTextColor(51, 65, 85);
+      const kwLines = doc.splitTextToSize(
+        formatTextForJsPdf(`Keywords: ${sub.keywords.trim()}`),
+        CW
+      );
+      for (const line of kwLines) {
+        ensureAbsSpace(11);
+        doc.text(line, M, y);
+        y += 11;
+      }
+    }
+
+    y += 4;
+    ensureAbsSpace(8);
+    doc.setDrawColor(203, 213, 225);
+    doc.setLineWidth(0.6);
+    doc.line(M, y, W - M, y);
+    y += 14;
+
+    if (sub.summary?.trim()) {
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(9.2);
+      doc.setTextColor(51, 65, 85);
+      const synLines = doc.splitTextToSize(
+        formatTextForJsPdf(`Synopsis: ${sub.summary.trim()}`),
+        CW
+      );
+      for (const line of synLines) {
+        ensureAbsSpace(13);
+        doc.text(line, M, y);
+        y += 12.5;
+      }
+      y += 6;
+    }
+
+    // Full Abstract Body (page-break safe across long texts)
+    const rawBody = sub.abstractText?.trim() || sub.summary?.trim() || "";
+    const cleanedBody = String(rawBody)
+      .replace(/\[FIGURE\]/gi, "")
+      .replace(/\r\n/g, "\n")
+      .trim();
+    const paragraphs = cleanedBody
+      .split(/\n\s*\n/)
+      .map((p) => p.replace(/\s*\n\s*/g, " ").trim())
+      .filter(Boolean);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(15, 23, 42);
+    for (const para of paragraphs) {
+      const pLines = doc.splitTextToSize(formatTextForJsPdf(para), CW);
+      for (const line of pLines) {
+        ensureAbsSpace(14);
+        doc.text(line, M, y);
+        y += 13.5;
+      }
+      y += 6;
+    }
+
+    if (sub.graphic?.caption?.trim()) {
+      y += 4;
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(8.5);
+      doc.setTextColor(51, 65, 85);
+      const figLines = doc.splitTextToSize(
+        formatTextForJsPdf(`Figure Caption: ${sub.graphic.caption.trim()}`),
+        CW - 12
+      );
+      ensureAbsSpace(figLines.length * 11 + 14);
+      doc.setFillColor(248, 250, 252);
+      doc.rect(M, y - 8, CW, figLines.length * 11 + 10, "F");
+      for (const line of figLines) {
+        doc.text(line, M + 6, y);
+        y += 11;
+      }
+      y += 6;
+    }
+
+    if (sub.presenterBio?.trim()) {
+      y += 4;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(71, 85, 105);
+      const bioLines = doc.splitTextToSize(
+        formatTextForJsPdf(`Presenter Biography: ${sub.presenterBio.trim()}`),
+        CW
+      );
+      for (const line of bioLines) {
+        ensureAbsSpace(11.5);
+        doc.text(line, M, y);
+        y += 11;
+      }
+    }
+  }
+}
+
 function renderSchedulePdfDocument(
   plan: ConferenceSchedulePlan,
-  workshop: UpcomingWorkshopConfig
+  workshop: UpcomingWorkshopConfig,
+  extendedEntries?: readonly ExtendedProgramAbstractItem[]
 ): jsPDF {
   const doc = new jsPDF({ unit: "pt", format: "letter", putOnlyUsedFonts: true });
   const W = 612;
@@ -336,7 +563,9 @@ function renderSchedulePdfDocument(
           formatHemsTimeRange(block.startTime, block.endTime)
         );
         const sessionMetaParts = [
-          block.themeSubtitle ? formatTextForJsPdf(block.themeSubtitle) : "",
+          block.themeSubtitle
+            ? formatTextForJsPdf(formatDisplayTrackName(block.themeSubtitle, plan))
+            : "",
           block.sessionChair ? `Chair: ${formatTextForJsPdf(block.sessionChair)}` : "",
           block.location ? formatTextForJsPdf(block.location) : "",
         ].filter(Boolean);
@@ -415,7 +644,7 @@ function renderSchedulePdfDocument(
   }
 
   // Accepted Poster Presentations Appendix
-  if (plan.includePosterAppendix && plan.posters.length > 0) {
+  if (plan.includePosterAppendix !== false && plan.posters.length > 0) {
     ensureSpace(40);
     doc.setFillColor(226, 232, 240);
     doc.rect(M, y - 10, CW, 18, "F");
@@ -430,9 +659,13 @@ function renderSchedulePdfDocument(
     y += 18;
 
     for (const poster of plan.posters) {
+      const trackNote =
+        poster.researchTrack === "Miscellaneous"
+          ? ` (${formatDisplayTrackName(poster.researchTrack, plan)})`
+          : "";
       const titleLines = doc.splitTextToSize(
         formatTextForJsPdf(
-          `${poster.title}${poster.isStudentAward ? " [Student Award Candidate]" : ""}`
+          `${poster.title}${poster.isStudentAward ? " [Student Award Candidate]" : ""}${poster.isCorporate ? " [Corporate]" : ""}${trackNote}`
         ),
         CONTENT_W
       );
@@ -462,6 +695,10 @@ function renderSchedulePdfDocument(
       }
       y += 5;
     }
+  }
+
+  if (extendedEntries && extendedEntries.length > 0) {
+    renderExtendedAbstractPagesPdf(doc, extendedEntries);
   }
 
   // Add Page X of Y footers cleanly across all generated pages
@@ -496,6 +733,20 @@ export function buildConferenceSchedulePdfBytes(
 }
 
 /**
+ * Generates raw Extended Program PDF binary bytes (exact schedule followed by page-break-separated full abstracts).
+ */
+export function buildExtendedProgramPdfBytes(
+  plan: ConferenceSchedulePlan,
+  workshop: UpcomingWorkshopConfig,
+  submissions: readonly AbstractSubmissionRecord[],
+  reviews: readonly AbstractReviewRecord[] = []
+): Uint8Array {
+  const extendedEntries = collectExtendedProgramEntries(plan, submissions, reviews);
+  const doc = renderSchedulePdfDocument(plan, workshop, extendedEntries);
+  return new Uint8Array(doc.output("arraybuffer"));
+}
+
+/**
  * Generates and downloads a publication-ready Conference Program PDF.
  */
 export function downloadConferenceSchedulePdf(
@@ -504,6 +755,22 @@ export function downloadConferenceSchedulePdf(
 ): string {
   const filename = buildScheduleExportFilename(plan, "pdf");
   const doc = renderSchedulePdfDocument(plan, workshop);
+  doc.save(filename);
+  return filename;
+}
+
+/**
+ * Generates and downloads the Extended Program PDF (exact top schedule + full abstracts with page breaks).
+ */
+export function downloadExtendedProgramPdf(
+  plan: ConferenceSchedulePlan,
+  workshop: UpcomingWorkshopConfig,
+  submissions: readonly AbstractSubmissionRecord[],
+  reviews: readonly AbstractReviewRecord[] = []
+): string {
+  const filename = buildScheduleExportFilename(plan, "pdf", "extended");
+  const extendedEntries = collectExtendedProgramEntries(plan, submissions, reviews);
+  const doc = renderSchedulePdfDocument(plan, workshop, extendedEntries);
   doc.save(filename);
   return filename;
 }

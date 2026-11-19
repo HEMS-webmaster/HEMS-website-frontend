@@ -67,16 +67,15 @@ import {
   MIN_GRAPHIC_DPI,
   PRESENTATION_FORMAT_OPTIONS,
   PresentationFormat,
+  PRESENTER_CATEGORY_OPTIONS,
+  PresenterCategory,
   PRINTABLE_TEXT_WIDTH_IN,
   RESEARCH_TRACK_OPTIONS,
   ResearchTrack,
   RIGHT_WRAP_THRESHOLD_IN,
   SYNOPSIS_MAX_CHARS,
 } from "@/types/abstractSubmission";
-import {
-  hasAttendeeRole,
-  hasReviewerRole,
-} from "@/utils/telemetryClient";
+import { hasAttendeeRole } from "@/utils/telemetryClient";
 import {
   applyWordPasteToField,
   countVisibleChars,
@@ -200,6 +199,8 @@ export default function AbstractSubmissionClient() {
   const [secondaryEmail, setSecondaryEmail] = useState("");
   const [presentationFormat, setPresentationFormat] =
     useState<PresentationFormat>("Oral Presentation");
+  const [presenterCategory, setPresenterCategory] =
+    useState<PresenterCategory>("academic");
   const [studentTravelAwardApplicant, setStudentTravelAwardApplicant] =
     useState(false);
 
@@ -342,6 +343,7 @@ export default function AbstractSubmissionClient() {
       correspondingEmail,
       secondaryEmail,
       presentationFormat,
+      presenterCategory,
       studentTravelAwardApplicant,
       affiliations,
       authors,
@@ -361,6 +363,7 @@ export default function AbstractSubmissionClient() {
       correspondingEmail,
       secondaryEmail,
       presentationFormat,
+      presenterCategory,
       studentTravelAwardApplicant,
       affiliations,
       authors,
@@ -387,6 +390,10 @@ export default function AbstractSubmissionClient() {
     }
     setSecondaryEmail(r.secondaryEmail);
     setPresentationFormat(r.presentationFormat);
+    setPresenterCategory(
+      r.presenterCategory ??
+        (r.studentTravelAwardApplicant ? "student" : "academic")
+    );
     setStudentTravelAwardApplicant(r.studentTravelAwardApplicant);
     setAffiliations(
       r.affiliations.length > 0
@@ -552,11 +559,11 @@ export default function AbstractSubmissionClient() {
 
   const mySubmissions = useMemo(() => {
     if (!user) return [];
-    const emailLower = user.email.toLowerCase();
+    const emailLower = (user.email || "").toLowerCase();
     return submissions.filter(
       (s) =>
         s.submittedByUid === user.uid ||
-        s.submittedByEmail.toLowerCase() === emailLower
+        (s.submittedByEmail || "").toLowerCase() === emailLower
     );
   }, [submissions, user]);
 
@@ -1006,13 +1013,14 @@ export default function AbstractSubmissionClient() {
   // Stage Validation & Navigation
   const validateStage = (stage: number): string | null => {
     if (stage === 1) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (title.trim().length < 5) {
         return "Please enter the full presentation title (at least 5 characters).";
       }
-      if (!correspondingEmail.trim() || !correspondingEmail.includes("@")) {
+      if (!emailPattern.test(correspondingEmail.trim())) {
         return "Please enter a valid presenter corresponding email address.";
       }
-      if (secondaryEmail.trim() && !secondaryEmail.includes("@")) {
+      if (secondaryEmail.trim() && !emailPattern.test(secondaryEmail.trim())) {
         return "Secondary email must be a valid email address or left blank.";
       }
       return null;
@@ -1192,6 +1200,7 @@ export default function AbstractSubmissionClient() {
         affiliations: validAffiliations,
         authors: validAuthors,
         presentationFormat,
+        presenterCategory,
         researchTrack,
         summary: fixMojibakeAndNormalize(summary),
         abstractText: fixMojibakeAndNormalize(abstractText),
@@ -1264,6 +1273,7 @@ export default function AbstractSubmissionClient() {
     setCorrespondingEmail(user?.email || "");
     setSecondaryEmail("");
     setPresentationFormat("Oral Presentation");
+    setPresenterCategory("academic");
     setAffiliations([{ id: "aff-1", institution: "", location: "" }]);
     setAuthors([
       {
@@ -1287,6 +1297,12 @@ export default function AbstractSubmissionClient() {
   }
 
   const handleManualSaveDraft = async () => {
+    if (!hasDraftContent) {
+      setPasteNotice(
+        "Enter a presentation title or abstract content first before saving a draft."
+      );
+      return;
+    }
     await saveDraftNow();
     setPasteNotice("Draft saved locally and synced to your Presenter Overview.");
   };
@@ -1451,6 +1467,10 @@ export default function AbstractSubmissionClient() {
     setCorrespondingEmail(sub.correspondingEmail || user.email || "");
     setSecondaryEmail(sub.secondaryEmail || "");
     setPresentationFormat(sub.presentationFormat || "Oral Presentation");
+    setPresenterCategory(
+      sub.presenterCategory ??
+        (sub.studentTravelAwardApplicant ? "student" : "academic")
+    );
     setStudentTravelAwardApplicant(Boolean(sub.studentTravelAwardApplicant));
     setAffiliations(hydratedAffiliations);
     setAuthors(hydratedAuthors);
@@ -1529,7 +1549,7 @@ export default function AbstractSubmissionClient() {
     }
     if (
       !window.confirm(
-        `Delete submitted abstract ${sub.id} ("${sub.title}")? This will remove it permanently from your account and the Reviewer Panel.`
+        `Delete submitted abstract ${sub.id} ("${sub.title}")? This will remove it permanently from your account and committee review.`
       )
     ) {
       return;
@@ -1585,6 +1605,7 @@ export default function AbstractSubmissionClient() {
         correspondingEmail={sub.correspondingEmail}
         secondaryEmail={sub.secondaryEmail}
         presentationFormat={sub.presentationFormat}
+        presenterCategory={sub.presenterCategory}
         researchTrack={sub.researchTrack}
         studentTravelAwardApplicant={sub.studentTravelAwardApplicant}
         synopsis={sub.summary}
@@ -1922,8 +1943,8 @@ export default function AbstractSubmissionClient() {
                 </span>
                 <span className="text-sm font-bold text-emerald-950">
                   {submittedConfirmation.isUpdate
-                    ? "Submitted Abstract Updated & Synced to Reviewer Panel"
-                    : "Abstract Submitted & Routed to Reviewer Panel"}
+                    ? "Submitted Abstract Updated"
+                    : "Abstract Submitted for Committee Review"}
                 </span>
               </div>
               <p className="text-xs text-emerald-900/80 leading-relaxed">
@@ -1943,14 +1964,6 @@ export default function AbstractSubmissionClient() {
             >
               <Eye size={13} /> Show Formatted Preview
             </button>
-            {hasReviewerRole(user.roles) && (
-              <Link
-                href="/reviewer"
-                className="inline-flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg text-xs font-semibold transition-colors"
-              >
-                <ClipboardCheck size={14} /> Reviewer Panel <ArrowRight size={13} />
-              </Link>
-            )}
             <button
               type="button"
               onClick={() => setSubmittedConfirmation(null)}
@@ -2262,7 +2275,7 @@ export default function AbstractSubmissionClient() {
                   <span>Submitted Abstracts</span>
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Live in the Reviewer Panel. Edit, copy, or delete submitted abstracts up until{" "}
+                  Submitted for committee review. Edit, copy, or delete submitted abstracts up until{" "}
                   <strong className="text-slate-700">{deadlineInfo.formattedDeadline}</strong>.
                 </p>
               </div>
@@ -2296,12 +2309,26 @@ export default function AbstractSubmissionClient() {
                             {sub.id}
                           </span>
                           <span
-                            className={`text-[10.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${sub.status === "Reviewed"
+                            className={`text-[10.5px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                              sub.committeeSelection === "accept_oral" ||
+                              sub.committeeSelection === "accept_poster"
                                 ? "text-emerald-700 bg-emerald-50 border-emerald-200"
+                                : sub.committeeSelection === "decline"
+                                ? "text-rose-700 bg-rose-50 border-rose-200"
+                                : sub.status === "Reviewed"
+                                ? "text-sky-700 bg-sky-50 border-sky-200"
                                 : "text-amber-700 bg-amber-50 border-amber-200"
-                              }`}
+                            }`}
                           >
-                            {sub.status === "Reviewed" ? sub.decision : "Pending Review"}
+                            {sub.committeeSelection === "accept_oral"
+                              ? "Accept (Oral)"
+                              : sub.committeeSelection === "accept_poster"
+                              ? "Accept (Poster)"
+                              : sub.committeeSelection === "decline"
+                              ? "Decline"
+                              : sub.status === "Reviewed"
+                              ? "Under Review"
+                              : "Pending Review"}
                           </span>
                         </div>
 
@@ -2506,7 +2533,7 @@ export default function AbstractSubmissionClient() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <label htmlFor="abs-email" className={LABEL_CLASS}>
                     Presenter&apos;s Corresponding Email <span className="text-red-600">*</span>
@@ -2564,6 +2591,30 @@ export default function AbstractSubmissionClient() {
                     ))}
                   </select>
                 </div>
+
+                <div>
+                  <label htmlFor="abs-presenter-category" className={LABEL_CLASS}>
+                    Presenter Cohort <span className="text-red-600">*</span>
+                  </label>
+                  <select
+                    id="abs-presenter-category"
+                    value={presenterCategory}
+                    onChange={(e) => {
+                      const nextCat = e.target.value as PresenterCategory;
+                      setPresenterCategory(nextCat);
+                      if (nextCat === "corporate") {
+                        setStudentTravelAwardApplicant(false);
+                      }
+                    }}
+                    className={INPUT_CLASS}
+                  >
+                    {PRESENTER_CATEGORY_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
               {/* Interactive Student Opt-In Button */}
@@ -2574,7 +2625,15 @@ export default function AbstractSubmissionClient() {
                 <button
                   type="button"
                   aria-pressed={studentTravelAwardApplicant}
-                  onClick={() => setStudentTravelAwardApplicant((prev) => !prev)}
+                  onClick={() =>
+                    setStudentTravelAwardApplicant((prev) => {
+                      const next = !prev;
+                      if (next) {
+                        setPresenterCategory("student");
+                      }
+                      return next;
+                    })
+                  }
                   className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${studentTravelAwardApplicant
                       ? "bg-teal-50 border-secondary text-slate-900 shadow-2xs"
                       : "bg-white border-slate-300 hover:border-primary text-slate-800"
@@ -3577,6 +3636,7 @@ export default function AbstractSubmissionClient() {
                 correspondingEmail={correspondingEmail}
                 secondaryEmail={secondaryEmail}
                 presentationFormat={presentationFormat}
+                presenterCategory={presenterCategory}
                 researchTrack={researchTrack}
                 studentTravelAwardApplicant={studentTravelAwardApplicant}
                 synopsis={summary}

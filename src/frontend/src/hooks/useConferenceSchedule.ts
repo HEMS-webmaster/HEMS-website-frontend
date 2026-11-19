@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { useAuth } from "@/context/AuthContext";
 import { db, hasFirebaseKeys } from "@/utils/firebase";
 import { hasBoardOrAdminRole, hasReviewerRole } from "@/utils/telemetryClient";
@@ -13,6 +13,7 @@ import type { UpcomingWorkshopConfig } from "@/utils/upcomingWorkshop";
 import {
   buildSuggestedHemsSchedule,
   extractAcceptedSubmissionsForSchedule,
+  syncPlanWithSelectedSubmissions,
   syncScheduleLocationsFromWorkshopSettings,
   type ConferenceSchedulePlan,
 } from "@/utils/conferenceScheduleBuilder";
@@ -78,6 +79,7 @@ export function useConferenceSchedule(options: {
   const [lastSavedAt, setLastSavedAt] = useState<string>("");
   const [saveError, setSaveError] = useState<string | null>(null);
   const initializedRef = useRef<number | null>(null);
+  const lastAppliedTsRef = useRef<number>(0);
 
   const canAccessCloud = Boolean(
     hasFirebaseKeys &&
@@ -98,6 +100,7 @@ export function useConferenceSchedule(options: {
         updatedBy: user?.email || nextPlan.updatedBy || "reviewer",
       });
 
+      lastAppliedTsRef.current = Date.parse(sanitized.updatedAt) || Date.now();
       writeLocalSchedule(workshopNumber, sanitized);
       setLastSavedAt(sanitized.updatedAt);
       setSaveError(null);
@@ -175,9 +178,7 @@ export function useConferenceSchedule(options: {
 
       if (!chosen) {
         const { oralCandidates, posterCandidates } =
-          extractAcceptedSubmissionsForSchedule(submissions, reviews, {
-            includePendingOral: false,
-          });
+          extractAcceptedSubmissionsForSchedule(submissions, reviews);
         chosen = buildSuggestedHemsSchedule(
           workshop,
           oralCandidates,
@@ -192,6 +193,7 @@ export function useConferenceSchedule(options: {
       }
 
       initializedRef.current = workshopNumber;
+      lastAppliedTsRef.current = Date.parse(chosen.updatedAt || "") || 0;
       setPlanState(chosen);
       setLastSavedAt(chosen.updatedAt || "");
       setSyncState(resolvedSource);
@@ -213,6 +215,55 @@ export function useConferenceSchedule(options: {
     workshop,
     workshopNumber,
   ]);
+
+  // Real-time Firestore schedule listener when two reviewers edit simultaneously
+  useEffect(() => {
+    if (!canAccessCloud || !db || authLoading) return;
+
+    const scheduleRef = doc(db, "workshop_schedules", getFirestoreDocId(workshopNumber));
+    const unsubscribe = onSnapshot(
+      scheduleRef,
+      (snap) => {
+        if (!snap.exists()) return;
+        const remote = snap.data() as ConferenceSchedulePlan;
+        if (!remote || remote.version !== 1 || !Array.isArray(remote.days)) return;
+        const remoteTs = Date.parse(remote.updatedAt || "") || 0;
+        if (remoteTs > lastAppliedTsRef.current) {
+          lastAppliedTsRef.current = remoteTs;
+          writeLocalSchedule(workshopNumber, remote);
+          setPlanState(remote);
+          setLastSavedAt(remote.updatedAt || "");
+          setSyncState("cloud");
+        }
+      },
+      (err) => {
+        console.warn("Firestore workshop_schedules live listener warning:", err);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [authLoading, canAccessCloud, workshopNumber]);
+
+  // Keep Poster directory live-synced whenever Committee Selection updates accept_poster abstracts
+  useEffect(() => {
+    if (!plan || submissionsLoading) return;
+    const { posterCandidates } = extractAcceptedSubmissionsForSchedule(
+      submissions,
+      reviews
+    );
+    const desiredSig = posterCandidates
+      .map((c) => `${c.submission.id}:${c.effectiveTrack}:${c.submission.title}`)
+      .join("|");
+    const currentSig = plan.posters
+      .map((p) => `${p.submissionId}:${p.researchTrack}:${p.title}`)
+      .join("|");
+
+    if (desiredSig !== currentSig) {
+      const synced = syncPlanWithSelectedSubmissions(plan, submissions, reviews);
+      writeLocalSchedule(workshopNumber, synced);
+      setPlanState(synced);
+    }
+  }, [plan, reviews, submissions, submissionsLoading, workshopNumber]);
 
   const updatePlan = useCallback(
     (
@@ -237,17 +288,19 @@ export function useConferenceSchedule(options: {
   }, [persistPlan, plan]);
 
   const resetToSuggestedSchedule = useCallback(
-    (opts: { includePendingOral: boolean; defaultTalkDurationMinutes: number }) => {
+    (opts: {
+      defaultTalkDurationMinutes: number;
+      miscellaneousCategoryTitle?: string;
+    }) => {
       const { oralCandidates, posterCandidates } =
-        extractAcceptedSubmissionsForSchedule(submissions, reviews, {
-          includePendingOral: opts.includePendingOral,
-        });
+        extractAcceptedSubmissionsForSchedule(submissions, reviews);
       const rebuilt = buildSuggestedHemsSchedule(
         workshop,
         oralCandidates,
         posterCandidates,
         {
           defaultTalkDurationMinutes: opts.defaultTalkDurationMinutes,
+          miscellaneousCategoryTitle: opts.miscellaneousCategoryTitle,
           updatedBy: user?.email || "auto-suggest",
         }
       );

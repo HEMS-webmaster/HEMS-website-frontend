@@ -365,6 +365,16 @@ const TRACK_DEFAULT_KEYWORDS: Record<ResearchTrack, string[]> = {
     "noise reduction",
     "edge inference",
   ],
+  Miscellaneous: [
+    "harsh-environment mass spectrometry",
+    "field-deployable sensor",
+    "in-situ chemical analysis",
+    "ruggedized instrumentation",
+    "portable mass analyzer",
+    "novel ionization source",
+    "autonomous sensing",
+    "real-time diagnostics",
+  ],
 };
 
 function cleanDraftForKeywords(raw: string): string {

@@ -2,12 +2,21 @@ import type { UpcomingWorkshopConfig } from "@/utils/upcomingWorkshop";
 import { fixMojibakeAndNormalize, toPlainScientificText } from "@/utils/unicodeText";
 import {
   buildScheduleExportFilename,
+  collectExtendedProgramEntries,
+  formatDisplayTrackName,
+  resolveSubmissionAuthorsAndAffiliations,
   type ConferenceSchedulePlan,
+  type ExtendedProgramAbstractItem,
   type ScheduleBlock,
   formatHemsScheduleTime,
   formatHemsTimeRange,
   parseClockMinutes,
 } from "@/utils/conferenceScheduleBuilder";
+import { classifySubmissionCohort } from "@/utils/abstractReviewMetrics";
+import type {
+  AbstractReviewRecord,
+  AbstractSubmissionRecord,
+} from "@/types/abstractSubmission";
 
 // Precomputed IEEE 802.3 CRC-32 lookup table for genuine OOXML ZIP packaging
 const CRC32_TABLE = (() => {
@@ -169,6 +178,7 @@ function escapeXml(raw: string): string {
 interface WordRunStyle {
   bold?: boolean;
   italic?: boolean;
+  underline?: boolean;
   colorHex?: string;
   sizeHalfPt?: number;
   vertAlign?: "superscript" | "subscript";
@@ -179,6 +189,7 @@ function emitWordRun(text: string, style: WordRunStyle): string {
   const rPrParts: string[] = [];
   if (style.bold) rPrParts.push("<w:b/>");
   if (style.italic) rPrParts.push("<w:i/>");
+  if (style.underline) rPrParts.push('<w:u w:val="single"/>');
   if (style.colorHex) rPrParts.push(`<w:color w:val="${style.colorHex}"/>`);
   if (style.sizeHalfPt) {
     rPrParts.push(
@@ -433,9 +444,220 @@ function buildStylesXml(): string {
   ].join("");
 }
 
+function buildExtendedProgramAbstractsXml(
+  extendedItems: readonly ExtendedProgramAbstractItem[]
+): string {
+  const parts: string[] = [];
+
+  for (const item of extendedItems) {
+    // Page break before every abstract in the Extended Program
+    parts.push('<w:p><w:r><w:br w:type="page"/></w:r></w:p>');
+
+    const sub = item.submission;
+    const cohort = classifySubmissionCohort(sub);
+    const cohortTag = cohort.isCorporate
+      ? "Corporate"
+      : cohort.isStudentAward
+        ? "Student Travel Award Candidate"
+        : cohort.isStudent
+          ? "Student"
+          : "";
+
+    const bannerRuns = [
+      buildWordScientificRunsXml(item.placementBadge, {
+        bold: true,
+        colorHex: "1E3A8A",
+        sizeHalfPt: 18,
+      }),
+      buildWordScientificRunsXml(
+        `   •   ${sub.id}   •   ${item.displayTrack}${
+          cohortTag ? `   •   ${cohortTag}` : ""
+        }`,
+        {
+          colorHex: "475569",
+          sizeHalfPt: 18,
+        }
+      ),
+    ].join("");
+    parts.push(
+      pXml(bannerRuns, {
+        shadingHex: "EEF2FF",
+        spaceBefore: 0,
+        spaceAfter: 100,
+      })
+    );
+
+    // Abstract Title
+    parts.push(
+      pXml(
+        buildWordScientificRunsXml(sub.title || "Untitled Abstract", {
+          bold: true,
+          colorHex: "0C3056",
+          sizeHalfPt: 26,
+        }),
+        { spaceBefore: 0, spaceAfter: 100 }
+      )
+    );
+
+    // Presenting & Co-authors with underlined presenter and superscript affiliation indices
+    const { authors, affiliations } = resolveSubmissionAuthorsAndAffiliations(sub);
+    if (authors.length > 0) {
+      const authorRuns: string[] = [];
+      authors.forEach((author, aIdx) => {
+        if (aIdx > 0) {
+          authorRuns.push(
+            buildWordScientificRunsXml(", ", {
+              colorHex: "1E293B",
+              sizeHalfPt: 20,
+            })
+          );
+        }
+        authorRuns.push(
+          buildWordScientificRunsXml(author.name, {
+            bold: author.isPresenter,
+            underline: author.isPresenter,
+            colorHex: "1E293B",
+            sizeHalfPt: 20,
+          })
+        );
+        const supMarker = [
+          author.isPresenter ? "*" : "",
+          author.affiliationNumber !== null ? String(author.affiliationNumber) : "",
+        ].join("");
+        if (supMarker) {
+          authorRuns.push(
+            buildWordScientificRunsXml(supMarker, {
+              vertAlign: "superscript",
+              colorHex: "1E293B",
+              sizeHalfPt: 18,
+            })
+          );
+        }
+      });
+      parts.push(pXml(authorRuns.join(""), { spaceAfter: affiliations.length > 0 ? 40 : 80 }));
+
+      affiliations.forEach((aff, idx) => {
+        const isLast = idx === affiliations.length - 1;
+        parts.push(
+          pXml(
+            buildWordScientificRunsXml(`${aff.number}. ${aff.label}`, {
+              colorHex: "475569",
+              sizeHalfPt: 17,
+            }),
+            { spaceAfter: isLast ? 60 : 20 }
+          )
+        );
+      });
+    } else if (item.authorsLine) {
+      parts.push(
+        pXml(
+          buildWordScientificRunsXml(item.authorsLine, {
+            bold: true,
+            colorHex: "1E293B",
+            sizeHalfPt: 20,
+          }),
+          { spaceAfter: 60 }
+        )
+      );
+    }
+
+    if (sub.correspondingEmail?.trim()) {
+      parts.push(
+        pXml(
+          buildWordScientificRunsXml(
+            `*Presenting / Corresponding Email: ${sub.correspondingEmail.trim()}`,
+            {
+              italic: true,
+              colorHex: "475569",
+              sizeHalfPt: 17,
+            }
+          ),
+          { spaceAfter: 70 }
+        )
+      );
+    }
+
+    if (sub.keywords?.trim()) {
+      parts.push(
+        pXml(
+          buildWordScientificRunsXml(`Keywords: ${sub.keywords.trim()}`, {
+            colorHex: "334155",
+            sizeHalfPt: 18,
+          }),
+          { spaceAfter: 90 }
+        )
+      );
+    }
+
+    if (sub.summary?.trim()) {
+      parts.push(
+        pXml(
+          buildWordScientificRunsXml(`Synopsis: ${sub.summary.trim()}`, {
+            italic: true,
+            colorHex: "334155",
+            sizeHalfPt: 19,
+          }),
+          { spaceAfter: 100 }
+        )
+      );
+    }
+
+    // Full multi-paragraph abstract body
+    const rawBody = sub.abstractText?.trim() || sub.summary?.trim() || "";
+    const cleanedBody = String(rawBody)
+      .replace(/\[FIGURE\]/gi, "")
+      .replace(/\r\n/g, "\n")
+      .trim();
+    const bodyParas = cleanedBody
+      .split(/\n\s*\n/)
+      .map((p) => p.replace(/\s*\n\s*/g, " ").trim())
+      .filter(Boolean);
+
+    for (const para of bodyParas) {
+      parts.push(
+        pXml(
+          buildWordScientificRunsXml(para, {
+            colorHex: "0F172A",
+            sizeHalfPt: 21,
+          }),
+          { spaceAfter: 110 }
+        )
+      );
+    }
+
+    if (sub.graphic?.caption?.trim()) {
+      parts.push(
+        pXml(
+          buildWordScientificRunsXml(`Figure Caption: ${sub.graphic.caption.trim()}`, {
+            italic: true,
+            colorHex: "334155",
+            sizeHalfPt: 18,
+          }),
+          { shadingHex: "F8FAFC", spaceBefore: 60, spaceAfter: 90 }
+        )
+      );
+    }
+
+    if (sub.presenterBio?.trim()) {
+      parts.push(
+        pXml(
+          buildWordScientificRunsXml(`Presenter Biography: ${sub.presenterBio.trim()}`, {
+            colorHex: "475569",
+            sizeHalfPt: 18,
+          }),
+          { spaceBefore: 40, spaceAfter: 60 }
+        )
+      );
+    }
+  }
+
+  return parts.join("");
+}
+
 function buildDocumentXml(
   plan: ConferenceSchedulePlan,
-  workshop: UpcomingWorkshopConfig
+  workshop: UpcomingWorkshopConfig,
+  extendedItems?: readonly ExtendedProgramAbstractItem[]
 ): string {
   const ordinal = plan.workshopOrdinal || workshop.workshop_ordinal || "16th";
   const year = plan.workshopYear || workshop.workshop_year || "2027";
@@ -626,7 +848,7 @@ function buildDocumentXml(
         // Technical Session header row (navy tint)
         const sessionRange = formatHemsTimeRange(block.startTime, block.endTime);
         const sessionSub = [
-          block.themeSubtitle,
+          block.themeSubtitle ? formatDisplayTrackName(block.themeSubtitle, plan) : "",
           block.sessionChair ? `Session Chair: ${block.sessionChair}` : "",
           block.location,
         ]
@@ -742,7 +964,7 @@ function buildDocumentXml(
   }
 
   // Accepted Poster Presentations Appendix
-  if (plan.includePosterAppendix && plan.posters.length > 0) {
+  if (plan.includePosterAppendix !== false && plan.posters.length > 0) {
     bodyParts.push(
       pXml(
         buildWordScientificRunsXml(`Accepted Poster Presentations (${plan.posters.length})`, {
@@ -758,7 +980,7 @@ function buildDocumentXml(
         const rightParas = [
           pXml(
             buildWordScientificRunsXml(
-              `${poster.title}${poster.isStudentAward ? "  [Student Travel Award Candidate]" : ""}`,
+              `${poster.title}${poster.isStudentAward ? "  [Student Travel Award Candidate]" : ""}${poster.isCorporate ? "  [Corporate]" : ""}${poster.researchTrack === "Miscellaneous" ? `  (${formatDisplayTrackName(poster.researchTrack, plan)})` : ""}`,
               { bold: true, colorHex: "0F172A", sizeHalfPt: 20 }
             ),
             { spaceAfter: poster.authorsLine ? 20 : 0 }
@@ -791,6 +1013,10 @@ function buildDocumentXml(
     bodyParts.push(twoColTableXml(posterRows));
   }
 
+  if (extendedItems && extendedItems.length > 0) {
+    bodyParts.push(buildExtendedProgramAbstractsXml(extendedItems));
+  }
+
   // trailing normal paragraph + Letter 1" margins section properties
   bodyParts.push(
     "<w:sectPr>" +
@@ -807,33 +1033,19 @@ function buildDocumentXml(
   ].join("");
 }
 
-/**
- * Generates raw OpenXML (.docx) ZIP archive bytes for client download and automated testing.
- */
-export function buildConferenceScheduleDocxBytes(
-  plan: ConferenceSchedulePlan,
-  workshop: UpcomingWorkshopConfig
-): Uint8Array {
+function buildDocxArchiveFromXml(documentXml: string): Uint8Array {
   const enc = new TextEncoder();
   const entries: ZipEntry[] = [
     { name: "[Content_Types].xml", data: enc.encode(buildContentTypesXml()) },
     { name: "_rels/.rels", data: enc.encode(buildRootRelsXml()) },
     { name: "word/_rels/document.xml.rels", data: enc.encode(buildDocumentRelsXml()) },
     { name: "word/styles.xml", data: enc.encode(buildStylesXml()) },
-    { name: "word/document.xml", data: enc.encode(buildDocumentXml(plan, workshop)) },
+    { name: "word/document.xml", data: enc.encode(documentXml) },
   ];
   return buildZipArchive(entries);
 }
 
-/**
- * Generates and downloads an editable Microsoft Word `.docx` Conference Schedule.
- */
-export function downloadConferenceScheduleDocx(
-  plan: ConferenceSchedulePlan,
-  workshop: UpcomingWorkshopConfig
-): string {
-  const filename = buildScheduleExportFilename(plan, "docx");
-  const bytes = buildConferenceScheduleDocxBytes(plan, workshop);
+function triggerDocxDownload(bytes: Uint8Array, filename: string): void {
   const buffer = bytes.slice().buffer;
   const blob = new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -846,5 +1058,58 @@ export function downloadConferenceScheduleDocx(
   link.click();
   document.body.removeChild(link);
   window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+/**
+ * Generates raw OpenXML (.docx) ZIP archive bytes for client download and automated testing.
+ */
+export function buildConferenceScheduleDocxBytes(
+  plan: ConferenceSchedulePlan,
+  workshop: UpcomingWorkshopConfig
+): Uint8Array {
+  return buildDocxArchiveFromXml(buildDocumentXml(plan, workshop));
+}
+
+/**
+ * Generates raw Extended Program OpenXML (.docx) ZIP archive bytes
+ * starting with the exact schedule followed by all accepted abstracts separated by page breaks.
+ */
+export function buildExtendedProgramDocxBytes(
+  plan: ConferenceSchedulePlan,
+  workshop: UpcomingWorkshopConfig,
+  submissions: readonly AbstractSubmissionRecord[],
+  reviews: readonly AbstractReviewRecord[] = []
+): Uint8Array {
+  const extendedItems = collectExtendedProgramEntries(plan, submissions, reviews);
+  return buildDocxArchiveFromXml(buildDocumentXml(plan, workshop, extendedItems));
+}
+
+/**
+ * Generates and downloads an editable Microsoft Word `.docx` Conference Schedule.
+ */
+export function downloadConferenceScheduleDocx(
+  plan: ConferenceSchedulePlan,
+  workshop: UpcomingWorkshopConfig
+): string {
+  const filename = buildScheduleExportFilename(plan, "docx");
+  triggerDocxDownload(buildConferenceScheduleDocxBytes(plan, workshop), filename);
+  return filename;
+}
+
+/**
+ * Generates and downloads an editable Microsoft Word `.docx` Extended Program
+ * (exact schedule at the top + all accepted oral and poster abstracts with page breaks in between).
+ */
+export function downloadExtendedProgramDocx(
+  plan: ConferenceSchedulePlan,
+  workshop: UpcomingWorkshopConfig,
+  submissions: readonly AbstractSubmissionRecord[],
+  reviews: readonly AbstractReviewRecord[] = []
+): string {
+  const filename = buildScheduleExportFilename(plan, "docx", "extended");
+  triggerDocxDownload(
+    buildExtendedProgramDocxBytes(plan, workshop, submissions, reviews),
+    filename
+  );
   return filename;
 }

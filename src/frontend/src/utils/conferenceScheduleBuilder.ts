@@ -7,7 +7,10 @@ import type {
 import { RESEARCH_TRACK_OPTIONS } from "@/types/abstractSubmission";
 import type { SubmissionReviewSummary } from "@/utils/abstractReviewMetrics";
 import {
+  classifySubmissionCohort,
   normalizeManualOrder,
+  resolveEffectiveTrack,
+  resolveOfficialSelection,
   summarizeSubmissionReviews,
 } from "@/utils/abstractReviewMetrics";
 import type { UpcomingWorkshopConfig } from "@/utils/upcomingWorkshop";
@@ -46,6 +49,7 @@ export interface ScheduledTalkSlot {
   authorsLine: string;
   researchTrack: string;
   isStudentAward: boolean;
+  isCorporate?: boolean;
   medianCombinedScore: number | null;
 }
 
@@ -86,6 +90,7 @@ export interface SchedulePosterEntry {
   authorsLine: string;
   researchTrack: string;
   isStudentAward: boolean;
+  isCorporate?: boolean;
 }
 
 export interface ScheduleDayPlan {
@@ -104,6 +109,7 @@ export interface ConferenceSchedulePlan {
   workshopYear: string;
   defaultTalkDurationMinutes: number;
   includePosterAppendix: boolean;
+  miscellaneousCategoryTitle?: string;
   programNotes: string;
   days: ScheduleDayPlan[];
   posters: SchedulePosterEntry[];
@@ -113,7 +119,6 @@ export interface ConferenceSchedulePlan {
 
 export type ScheduleCandidatePool =
   | "oral_accepted"
-  | "oral_pending"
   | "poster_accepted";
 
 export interface ScheduleCandidateEntry {
@@ -121,7 +126,28 @@ export interface ScheduleCandidateEntry {
   summary: SubmissionReviewSummary;
   authorsLine: string;
   primaryAffiliation: string;
+  effectiveTrack: string;
+  isCorporate: boolean;
   candidatePool: ScheduleCandidatePool;
+}
+
+export interface ExtendedProgramAbstractItem {
+  submission: AbstractSubmissionRecord;
+  sectionKind: "oral" | "poster";
+  placementBadge: string;
+  displayTrack: string;
+  authorsLine: string;
+}
+
+export function formatDisplayTrackName(
+  track: string,
+  plan?: Pick<ConferenceSchedulePlan, "miscellaneousCategoryTitle"> | null
+): string {
+  const clean = (track || "").trim();
+  if (clean === "Miscellaneous") {
+    return (plan?.miscellaneousCategoryTitle || "").trim() || "Miscellaneous";
+  }
+  return clean;
 }
 
 export interface ScheduleConflictWarning {
@@ -258,11 +284,13 @@ export function formatHemsTimeRange(startTime: string, endTime?: string): string
 
 export function buildScheduleExportFilename(
   plan: Pick<ConferenceSchedulePlan, "workshopOrdinal" | "workshopYear">,
-  ext: "pdf" | "docx"
+  ext: "pdf" | "docx",
+  variant: "schedule" | "extended" = "schedule"
 ): string {
   const ordinal = (plan.workshopOrdinal || "16th").replace(/[^a-zA-Z0-9_-]/g, "");
   const year = (plan.workshopYear || "2027").replace(/[^a-zA-Z0-9_-]/g, "");
-  return `${ordinal}_HEMS_Workshop_${year}_Program_Schedule.${ext}`;
+  const suffix = variant === "extended" ? "Extended_Program" : "Program_Schedule";
+  return `${ordinal}_HEMS_Workshop_${year}_${suffix}.${ext}`;
 }
 
 /**
@@ -377,6 +405,83 @@ function resolveAffiliationMap(
   return map;
 }
 
+export interface ResolvedProgramAuthor {
+  name: string;
+  isPresenter: boolean;
+  affiliationNumber: number | null;
+}
+
+export interface ResolvedProgramAffiliation {
+  number: number;
+  label: string;
+}
+
+/**
+ * Resolves deduplicated numbered affiliations (1..N) and ordered authors from either
+ * structured Stage-2 arrays (`affiliations` + `authors`) or legacy flat fields.
+ */
+export function resolveSubmissionAuthorsAndAffiliations(
+  sub: AbstractSubmissionRecord
+): {
+  authors: ResolvedProgramAuthor[];
+  affiliations: ResolvedProgramAffiliation[];
+} {
+  const presenterFallback = fixMojibakeAndNormalize(
+    sub.presentingAuthor || "Presenting Author"
+  ).trim();
+  const affFallback = fixMojibakeAndNormalize(sub.affiliation || "").trim();
+  const affMap = resolveAffiliationMap(sub.affiliations);
+
+  const structuredAuthors: AuthorEntry[] = (sub.authors || []).filter((a) =>
+    Boolean(a?.name?.trim())
+  );
+
+  const labelToNumber = new Map<string, number>();
+  const affiliations: ResolvedProgramAffiliation[] = [];
+  const registerAffiliation = (rawLabel: string): number | null => {
+    const clean = rawLabel.trim();
+    if (!clean) return null;
+    const existing = labelToNumber.get(clean);
+    if (existing !== undefined) return existing;
+    const num = affiliations.length + 1;
+    labelToNumber.set(clean, num);
+    affiliations.push({ number: num, label: clean });
+    return num;
+  };
+
+  if (structuredAuthors.length > 0) {
+    const authors = structuredAuthors.map((author) => {
+      const label = affMap.get(author.affiliationId) || affFallback;
+      return {
+        name: fixMojibakeAndNormalize(author.name).trim(),
+        isPresenter: Boolean(author.isPresenter),
+        affiliationNumber: registerAffiliation(label),
+      };
+    });
+    return { authors, affiliations };
+  }
+
+  const primaryNum = registerAffiliation(affFallback);
+  const authors: ResolvedProgramAuthor[] = [
+    {
+      name: presenterFallback,
+      isPresenter: true,
+      affiliationNumber: primaryNum,
+    },
+  ];
+  const coAuthors = fixMojibakeAndNormalize(sub.coAuthors || "").trim();
+  if (coAuthors) {
+    for (const co of coAuthors.split(",").map((s) => s.trim()).filter(Boolean)) {
+      authors.push({
+        name: co,
+        isPresenter: false,
+        affiliationNumber: primaryNum,
+      });
+    }
+  }
+  return { authors, affiliations };
+}
+
 /**
  * Formats an author list with institutional affiliations identically to archived HEMS programs.
  */
@@ -426,13 +531,13 @@ export function formatSubmissionAuthorsLine(
 }
 
 /**
- * Extracts and ranks accepted oral, pending oral, and accepted poster abstracts using committee consensus metrics.
+ * Extracts ONLY officially selected Oral (`accept_oral`) and Poster (`accept_poster`) abstracts
+ * from Abstract Overview (`resolveOfficialSelection`), sorting by effective/recommended track and score.
  */
 export function extractAcceptedSubmissionsForSchedule(
   submissions: readonly AbstractSubmissionRecord[],
   reviews: readonly AbstractReviewRecord[],
   options: {
-    includePendingOral?: boolean;
     manualOrderIds?: readonly string[];
   } = {}
 ): {
@@ -454,41 +559,34 @@ export function extractAcceptedSubmissionsForSchedule(
     const summary = summarizeSubmissionReviews(submission, reviews);
     summaryById.set(submission.id, summary);
 
-    const decision =
-      summary.consensusDecision !== "Pending"
-        ? summary.consensusDecision
-        : submission.decision;
+    const selection = resolveOfficialSelection(submission);
+    if (selection !== "accept_oral" && selection !== "accept_poster") {
+      continue;
+    }
 
     const { authorsLine, primaryAffiliation } =
       formatSubmissionAuthorsLine(submission);
+    const effectiveTrack = resolveEffectiveTrack(submission, summary);
+    const cohort = classifySubmissionCohort(submission);
 
-    if (decision === "Accept (Oral)") {
+    if (selection === "accept_oral") {
       oralCandidates.push({
         submission,
         summary,
         authorsLine,
         primaryAffiliation,
+        effectiveTrack,
+        isCorporate: cohort.isCorporate,
         candidatePool: "oral_accepted",
       });
-    } else if (
-      options.includePendingOral &&
-      decision === "Pending" &&
-      (submission.presentationFormat === "Oral Presentation" ||
-        submission.presentationFormat === "Either (Oral Preferred)")
-    ) {
-      oralCandidates.push({
-        submission,
-        summary,
-        authorsLine,
-        primaryAffiliation,
-        candidatePool: "oral_pending",
-      });
-    } else if (decision === "Accept (Poster)") {
+    } else if (selection === "accept_poster") {
       posterCandidates.push({
         submission,
         summary,
         authorsLine,
         primaryAffiliation,
+        effectiveTrack,
+        isCorporate: cohort.isCorporate,
         candidatePool: "poster_accepted",
       });
     }
@@ -498,12 +596,12 @@ export function extractAcceptedSubmissionsForSchedule(
     a: ScheduleCandidateEntry,
     b: ScheduleCandidateEntry
   ): number => {
-    // Accepted oral always comes before pending fallback
-    if (a.candidatePool !== b.candidatePool) {
-      return a.candidatePool === "oral_accepted" ? -1 : 1;
-    }
-    const trackIdxA = RESEARCH_TRACK_OPTIONS.indexOf(a.submission.researchTrack);
-    const trackIdxB = RESEARCH_TRACK_OPTIONS.indexOf(b.submission.researchTrack);
+    const trackIdxA = (RESEARCH_TRACK_OPTIONS as readonly string[]).indexOf(
+      a.effectiveTrack
+    );
+    const trackIdxB = (RESEARCH_TRACK_OPTIONS as readonly string[]).indexOf(
+      b.effectiveTrack
+    );
     const normTrackA = trackIdxA === -1 ? 999 : trackIdxA;
     const normTrackB = trackIdxB === -1 ? 999 : trackIdxB;
     if (normTrackA !== normTrackB) return normTrackA - normTrackB;
@@ -544,8 +642,9 @@ export function buildTalkSlotFromCandidate(
     presentingAuthor: presenterName,
     affiliation: primaryAffiliation,
     authorsLine,
-    researchTrack: candidate.submission.researchTrack,
+    researchTrack: candidate.effectiveTrack || candidate.submission.researchTrack,
     isStudentAward: Boolean(candidate.submission.studentTravelAwardApplicant),
+    isCorporate: candidate.isCorporate,
     medianCombinedScore: candidate.summary.medianCombined,
   };
 }
@@ -626,11 +725,18 @@ const ARCHIVE_SESSION_BLUEPRINTS: readonly SessionBlueprint[] = [
   { dayIndex: 3, id: "session-9", romanIndex: 9, startTime: "10:30", nominalEndTime: "12:00", capacitySlots: 3 },
 ];
 
-function buildSessionThemeSubtitle(talks: readonly ScheduledTalkSlot[]): string {
+function buildSessionThemeSubtitle(
+  talks: readonly ScheduledTalkSlot[],
+  miscellaneousCategoryTitle?: string
+): string {
   const uniqueTracks: string[] = [];
   for (const talk of talks) {
-    if (talk.researchTrack && !uniqueTracks.includes(talk.researchTrack)) {
-      uniqueTracks.push(talk.researchTrack);
+    if (!talk.researchTrack) continue;
+    const label = formatDisplayTrackName(talk.researchTrack, {
+      miscellaneousCategoryTitle,
+    });
+    if (label && !uniqueTracks.includes(label)) {
+      uniqueTracks.push(label);
     }
   }
   if (uniqueTracks.length === 0) return "";
@@ -698,6 +804,7 @@ export function buildSuggestedHemsSchedule(
   posterCandidates: readonly ScheduleCandidateEntry[] = [],
   options: {
     defaultTalkDurationMinutes?: number;
+    miscellaneousCategoryTitle?: string;
     updatedBy?: string;
   } = {}
 ): ConferenceSchedulePlan {
@@ -705,6 +812,8 @@ export function buildSuggestedHemsSchedule(
     10,
     Math.min(60, options.defaultTalkDurationMinutes || 30)
   );
+  const resolvedMiscTitle =
+    (options.miscellaneousCategoryTitle || "").trim() || "Miscellaneous";
   const fourDays = deriveWorkshopFourDayDates(workshop);
   const sessionRoom =
     (workshop.venue_session_room || "").trim() || "Main Plenary Ballroom (TBA)";
@@ -713,46 +822,55 @@ export function buildSuggestedHemsSchedule(
   const receptionInfo = buildReceptionDetailsFromWorkshop(workshop);
   const dinnerInfo = buildDinnerDetailsFromWorkshop(workshop);
 
-  // Distribute oral candidates cohesively by track across Sessions I..IX
+  // Distribute oral candidates cohesively by track across Sessions I..IX,
+  // giving Miscellaneous oral talks their own dedicated category session.
   const sessionBuckets: ScheduledTalkSlot[][] = ARCHIVE_SESSION_BLUEPRINTS.map(
     () => []
   );
 
-  // Scale nominal slot capacity based on chosen talk duration (e.g., 90m / 20m = 4 talks)
   const capacities = ARCHIVE_SESSION_BLUEPRINTS.map((bp) => {
     const startM = parseClockMinutes(bp.startTime) ?? 540;
     const endM = parseClockMinutes(bp.nominalEndTime) ?? startM + 90;
     return Math.max(bp.capacitySlots, Math.floor((endM - startM) / talkDuration));
   });
 
-  // Pack candidates sequentially into sessions, keeping track cohorts aligned when feasible
+  const standardOral = oralCandidates.filter(
+    (c) => c.effectiveTrack !== "Miscellaneous"
+  );
+  const miscOral = oralCandidates.filter(
+    (c) => c.effectiveTrack === "Miscellaneous"
+  );
+
+  const maxStandardIdx =
+    miscOral.length > 0 && standardOral.length > 0
+      ? Math.max(0, sessionBuckets.length - 2)
+      : sessionBuckets.length - 1;
+
   let currentSessionIdx = 0;
-  for (let i = 0; i < oralCandidates.length; i++) {
-    const candidate = oralCandidates[i];
-    const prevCandidate = i > 0 ? oralCandidates[i - 1] : null;
+  for (let i = 0; i < standardOral.length; i++) {
+    const candidate = standardOral[i];
+    const prevCandidate = i > 0 ? standardOral[i - 1] : null;
     const currentCount = sessionBuckets[currentSessionIdx].length;
     const currentCap = capacities[currentSessionIdx];
 
     const trackChanged =
       prevCandidate !== null &&
-      prevCandidate.submission.researchTrack !== candidate.submission.researchTrack;
+      prevCandidate.effectiveTrack !== candidate.effectiveTrack;
 
-    // Advance early to the next session if a track cohort transitions cleanly after >=2 talks
     if (
       (currentCount >= currentCap ||
-        (trackChanged && currentCount >= 2 && oralCandidates.length <= 22)) &&
-      currentSessionIdx < sessionBuckets.length - 1
+        (trackChanged && currentCount >= 2 && standardOral.length <= 22)) &&
+      currentSessionIdx < maxStandardIdx
     ) {
       currentSessionIdx += 1;
     }
 
-    // If all 9 sessions hit nominal cap, distribute overflow round-robin so every accepted talk appears
     if (
-      currentSessionIdx === sessionBuckets.length - 1 &&
+      currentSessionIdx === maxStandardIdx &&
       sessionBuckets[currentSessionIdx].length >= capacities[currentSessionIdx]
     ) {
       let minIdx = 0;
-      for (let j = 1; j < sessionBuckets.length; j++) {
+      for (let j = 1; j <= maxStandardIdx; j++) {
         if (sessionBuckets[j].length < sessionBuckets[minIdx].length) {
           minIdx = j;
         }
@@ -767,16 +885,32 @@ export function buildSuggestedHemsSchedule(
     }
   }
 
+  let dedicatedMiscSessionIdx = -1;
+  if (miscOral.length > 0) {
+    const firstEmptyIdx = sessionBuckets.findIndex((b) => b.length === 0);
+    dedicatedMiscSessionIdx =
+      firstEmptyIdx !== -1 ? firstEmptyIdx : sessionBuckets.length - 1;
+    for (const candidate of miscOral) {
+      sessionBuckets[dedicatedMiscSessionIdx].push(
+        buildTalkSlotFromCandidate(candidate, talkDuration)
+      );
+    }
+  }
+
   const builtSessions: ScheduleSessionBlock[] = ARCHIVE_SESSION_BLUEPRINTS.map(
     (bp, idx) => {
       const talks = sessionBuckets[idx];
+      const subtitle =
+        idx === dedicatedMiscSessionIdx
+          ? resolvedMiscTitle
+          : buildSessionThemeSubtitle(talks, resolvedMiscTitle);
       const rawSession: ScheduleSessionBlock = {
         id: bp.id,
         kind: "session",
         startTime: bp.startTime,
         endTime: bp.nominalEndTime,
         title: `Technical Session ${toRomanNumeral(bp.romanIndex)}`,
-        themeSubtitle: buildSessionThemeSubtitle(talks),
+        themeSubtitle: subtitle,
         sessionChair: "",
         location: sessionRoom,
         syncSource: "session_room",
@@ -1076,8 +1210,9 @@ export function buildSuggestedHemsSchedule(
       presentingAuthor: presenterName,
       affiliation: primaryAffiliation,
       authorsLine,
-      researchTrack: cand.submission.researchTrack,
+      researchTrack: cand.effectiveTrack || cand.submission.researchTrack,
       isStudentAward: Boolean(cand.submission.studentTravelAwardApplicant),
+      isCorporate: cand.isCorporate,
     };
   });
 
@@ -1088,6 +1223,7 @@ export function buildSuggestedHemsSchedule(
     workshopYear: workshop.workshop_year || "2027",
     defaultTalkDurationMinutes: talkDuration,
     includePosterAppendix: true,
+    miscellaneousCategoryTitle: resolvedMiscTitle,
     programNotes: "",
     days,
     posters,
@@ -1484,7 +1620,7 @@ export function detectScheduleTimeConflicts(
 }
 
 /**
- * Refreshes titles, presenter names, and affiliations on already-scheduled talks
+ * Refreshes titles, presenter names, effective tracks, and affiliations on already-scheduled talks
  * from live abstract submissions while preserving slot timing and session assignments.
  */
 export function refreshPlanMetadataFromSubmissions(
@@ -1503,14 +1639,17 @@ export function refreshPlanMetadataFromSubmissions(
         const summary = summarizeSubmissionReviews(sub, reviews);
         const { authorsLine, primaryAffiliation, presenterName } =
           formatSubmissionAuthorsLine(sub);
+        const effTrack = resolveEffectiveTrack(sub, summary);
+        const cohort = classifySubmissionCohort(sub);
         return {
           ...talk,
           title: fixMojibakeAndNormalize(sub.title || talk.title).trim(),
           presentingAuthor: presenterName,
           affiliation: primaryAffiliation,
           authorsLine,
-          researchTrack: sub.researchTrack,
+          researchTrack: effTrack,
           isStudentAward: Boolean(sub.studentTravelAwardApplicant),
+          isCorporate: cohort.isCorporate,
           medianCombinedScore: summary.medianCombined,
         };
       });
@@ -1535,8 +1674,9 @@ export function refreshPlanMetadataFromSubmissions(
       presentingAuthor: presenterName,
       affiliation: primaryAffiliation,
       authorsLine,
-      researchTrack: cand.submission.researchTrack,
+      researchTrack: cand.effectiveTrack || cand.submission.researchTrack,
       isStudentAward: Boolean(cand.submission.studentTravelAwardApplicant),
+      isCorporate: cand.isCorporate,
     };
   });
 
@@ -1545,4 +1685,285 @@ export function refreshPlanMetadataFromSubmissions(
     days,
     posters,
   };
+}
+
+/**
+ * Returns scheduled slotIds whose submission is no longer officially selected (`accept_oral`).
+ */
+export function collectDeselectedScheduledSlotIds(
+  plan: ConferenceSchedulePlan,
+  submissions: readonly AbstractSubmissionRecord[]
+): Set<string> {
+  const subById = new Map(submissions.map((s) => [s.id, s]));
+  const deselected = new Set<string>();
+  for (const day of plan.days) {
+    for (const block of day.blocks) {
+      if (block.kind !== "session") continue;
+      for (const talk of block.talks) {
+        if (!talk.submissionId) continue;
+        const sub = subById.get(talk.submissionId);
+        if (sub && resolveOfficialSelection(sub) !== "accept_oral") {
+          deselected.add(talk.slotId);
+        }
+      }
+    }
+  }
+  return deselected;
+}
+
+/**
+ * Synchronizes accepted posters with current `accept_poster` selections and optionally prunes
+ * scheduled oral talk slots that are no longer officially `accept_oral`.
+ */
+export function syncPlanWithSelectedSubmissions(
+  plan: ConferenceSchedulePlan,
+  submissions: readonly AbstractSubmissionRecord[],
+  reviews: readonly AbstractReviewRecord[],
+  options: { pruneDeselectedTalks?: boolean } = {}
+): ConferenceSchedulePlan {
+  const deselectedSlots = options.pruneDeselectedTalks
+    ? collectDeselectedScheduledSlotIds(plan, submissions)
+    : new Set<string>();
+
+  const days =
+    deselectedSlots.size > 0
+      ? plan.days.map((day) => ({
+          ...day,
+          blocks: day.blocks.map((block): ScheduleBlock => {
+            if (block.kind !== "session") return block;
+            if (!block.talks.some((t) => deselectedSlots.has(t.slotId))) {
+              return block;
+            }
+            const kept = block.talks.filter((t) => !deselectedSlots.has(t.slotId));
+            return recalculateSessionTalkTimes({ ...block, talks: kept }, false);
+          }),
+        }))
+      : plan.days;
+
+  const { posterCandidates } = extractAcceptedSubmissionsForSchedule(
+    submissions,
+    reviews
+  );
+  const posters: SchedulePosterEntry[] = posterCandidates.map((cand, idx) => {
+    const { authorsLine, primaryAffiliation, presenterName } =
+      formatSubmissionAuthorsLine(cand.submission);
+    return {
+      submissionId: cand.submission.id,
+      posterNumber: `P-${String(idx + 1).padStart(2, "0")}`,
+      title: fixMojibakeAndNormalize(cand.submission.title || "Untitled Poster").trim(),
+      presentingAuthor: presenterName,
+      affiliation: primaryAffiliation,
+      authorsLine,
+      researchTrack: cand.effectiveTrack || cand.submission.researchTrack,
+      isStudentAward: Boolean(cand.submission.studentTravelAwardApplicant),
+      isCorporate: cand.isCorporate,
+    };
+  });
+
+  return refreshPlanMetadataFromSubmissions(
+    {
+      ...plan,
+      days,
+      posters,
+    },
+    submissions,
+    reviews
+  );
+}
+
+/**
+ * Groups all unscheduled Miscellaneous oral candidates into a dedicated session whose
+ * subtitle and title honor the reviewer's customizable `miscellaneousCategoryTitle`.
+ */
+export function assignMiscellaneousCandidatesToDedicatedSession(
+  plan: ConferenceSchedulePlan,
+  miscOralCandidates: readonly ScheduleCandidateEntry[],
+  targetDayId?: string
+): ConferenceSchedulePlan {
+  if (miscOralCandidates.length === 0) return plan;
+
+  const scheduledIds = collectScheduledSubmissionIds(plan);
+  const toPlace = miscOralCandidates.filter(
+    (c) => !scheduledIds.has(c.submission.id)
+  );
+  if (toPlace.length === 0) return plan;
+
+  const customLabel = formatDisplayTrackName("Miscellaneous", plan);
+  const talkDuration = plan.defaultTalkDurationMinutes || 30;
+  const newTalks = toPlace.map((cand) =>
+    buildTalkSlotFromCandidate(cand, talkDuration)
+  );
+
+  // Reuse an existing empty session first, or an existing Miscellaneous-only session
+  let reusedSessionId: string | null = null;
+  for (const day of plan.days) {
+    if (targetDayId && day.id !== targetDayId) continue;
+    for (const blk of day.blocks) {
+      if (blk.kind !== "session") continue;
+      if (
+        blk.themeSubtitle === customLabel ||
+        blk.themeSubtitle === "Miscellaneous" ||
+        blk.talks.every((t) => t.researchTrack === "Miscellaneous")
+      ) {
+        if (blk.talks.length === 0 || blk.themeSubtitle === customLabel) {
+          reusedSessionId = blk.id;
+          break;
+        }
+      }
+    }
+    if (reusedSessionId) break;
+  }
+
+  if (reusedSessionId) {
+    return {
+      ...plan,
+      days: plan.days.map((day) => ({
+        ...day,
+        blocks: day.blocks.map((blk): ScheduleBlock => {
+          if (blk.kind !== "session" || blk.id !== reusedSessionId) return blk;
+          return recalculateSessionTalkTimes(
+            {
+              ...blk,
+              themeSubtitle: customLabel,
+              talks: [...blk.talks, ...newTalks],
+            },
+            false
+          );
+        }),
+      })),
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  // Otherwise append a new dedicated Miscellaneous session to the chosen day (or last technical day)
+  const fallbackDay =
+    plan.days.find((d) => d.id === targetDayId) ||
+    plan.days[plan.days.length - 1];
+  if (!fallbackDay) return plan;
+
+  const existingSessionCount = plan.days.reduce(
+    (sum, d) => sum + d.blocks.filter((b) => b.kind === "session").length,
+    0
+  );
+  const sessionRoom =
+    plan.days
+      .flatMap((d) => d.blocks)
+      .find((b): b is ScheduleSessionBlock => b.kind === "session")?.location ||
+    "Main Plenary Ballroom (TBA)";
+
+  const rawSession: ScheduleSessionBlock = {
+    id: `session-misc-${Date.now().toString(36)}`,
+    kind: "session",
+    startTime: "10:30",
+    endTime: "12:00",
+    title: `Technical Session ${toRomanNumeral(existingSessionCount + 1)}`,
+    themeSubtitle: customLabel,
+    sessionChair: "",
+    location: sessionRoom,
+    syncSource: "session_room",
+    talks: newTalks,
+  };
+  const computed = recalculateSessionTalkTimes(rawSession, true);
+
+  return {
+    ...plan,
+    days: plan.days.map((day) =>
+      day.id === fallbackDay.id
+        ? { ...day, blocks: [...day.blocks, computed] }
+        : day
+    ),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+/**
+ * Collects every scheduled oral abstract (chronologically) + any remaining selected oral talks,
+ * followed by all selected poster abstracts, for the page-separated Extended Program export.
+ */
+export function collectExtendedProgramEntries(
+  plan: ConferenceSchedulePlan,
+  submissions: readonly AbstractSubmissionRecord[],
+  reviews: readonly AbstractReviewRecord[] = []
+): ExtendedProgramAbstractItem[] {
+  const subById = new Map(submissions.map((s) => [s.id, s]));
+  const items: ExtendedProgramAbstractItem[] = [];
+  const seenIds = new Set<string>();
+
+  for (const day of plan.days) {
+    const sortedBlocks: ScheduleBlock[] = [...day.blocks].sort((a, b) => {
+      const mA = parseClockMinutes(a.startTime) ?? 9999;
+      const mB = parseClockMinutes(b.startTime) ?? 9999;
+      return mA - mB;
+    });
+
+    for (const blk of sortedBlocks) {
+      if (blk.kind !== "session") continue;
+      for (const talk of blk.talks) {
+        if (!talk.submissionId) continue;
+        const sub = subById.get(talk.submissionId);
+        if (!sub || seenIds.has(sub.id)) continue;
+        if (resolveOfficialSelection(sub) !== "accept_oral") continue;
+        seenIds.add(sub.id);
+        const { authorsLine } = formatSubmissionAuthorsLine(sub);
+        const summary = summarizeSubmissionReviews(sub, reviews);
+        const effTrack = resolveEffectiveTrack(sub, summary);
+        items.push({
+          submission: sub,
+          sectionKind: "oral",
+          placementBadge: `${day.headingLabel} • ${blk.title} (${formatHemsTimeRange(
+            talk.startTime,
+            talk.endTime
+          )})`,
+          displayTrack: formatDisplayTrackName(talk.researchTrack || effTrack, plan),
+          authorsLine: talk.authorsLine || authorsLine,
+        });
+      }
+    }
+  }
+
+  // Include any remaining officially selected Accept-to-Oral submissions not yet placed in a slot
+  const { oralCandidates, posterCandidates } = extractAcceptedSubmissionsForSchedule(
+    submissions,
+    reviews
+  );
+  for (const cand of oralCandidates) {
+    if (seenIds.has(cand.submission.id)) continue;
+    seenIds.add(cand.submission.id);
+    items.push({
+      submission: cand.submission,
+      sectionKind: "oral",
+      placementBadge: "Accepted Oral Presentation (Session Slot Pending)",
+      displayTrack: formatDisplayTrackName(cand.effectiveTrack, plan),
+      authorsLine: cand.authorsLine,
+    });
+  }
+
+  // Posters in plan order, then any newly selected posters
+  for (const poster of plan.posters) {
+    const sub = subById.get(poster.submissionId);
+    if (!sub || seenIds.has(sub.id)) continue;
+    if (resolveOfficialSelection(sub) !== "accept_poster") continue;
+    seenIds.add(sub.id);
+    items.push({
+      submission: sub,
+      sectionKind: "poster",
+      placementBadge: `Poster Presentation • ${poster.posterNumber}`,
+      displayTrack: formatDisplayTrackName(poster.researchTrack, plan),
+      authorsLine: poster.authorsLine,
+    });
+  }
+
+  for (const cand of posterCandidates) {
+    if (seenIds.has(cand.submission.id)) continue;
+    seenIds.add(cand.submission.id);
+    items.push({
+      submission: cand.submission,
+      sectionKind: "poster",
+      placementBadge: `Poster Presentation`,
+      displayTrack: formatDisplayTrackName(cand.effectiveTrack, plan),
+      authorsLine: cand.authorsLine,
+    });
+  }
+
+  return items;
 }

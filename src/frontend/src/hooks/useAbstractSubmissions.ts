@@ -6,259 +6,75 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  onSnapshot,
   query,
+  runTransaction,
   setDoc,
   where,
 } from "firebase/firestore";
 import { getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
 import { useAuth } from "@/context/AuthContext";
 import { db, hasFirebaseKeys, storage } from "@/utils/firebase";
-import { hasBoardOrAdminRole, hasReviewerRole } from "@/utils/telemetryClient";
+import {
+  hasBoardOrAdminRole,
+  hasOperationsRole,
+  hasReviewerRole,
+} from "@/utils/telemetryClient";
 import {
   AbstractReviewRecord,
   AbstractSubmissionRecord,
   AffiliationEntry,
   AuthorEntry,
   clampFigureWidthInches,
+  CommitteeSelection,
   CreateAbstractSubmissionInput,
   GraphicMetadata,
   SaveAbstractReviewInput,
 } from "@/types/abstractSubmission";
 import {
   buildReviewId,
+  resolveOfficialSelection,
   summarizeSubmissionReviews,
 } from "@/utils/abstractReviewMetrics";
+import {
+  dedupeReviewsById,
+  dedupeSubmissionsById,
+  generateSubmissionId,
+  INITIAL_SAMPLE_REVIEWS,
+  INITIAL_SAMPLE_SUBMISSIONS,
+  sortReviewsNewestFirst,
+  sortSubmissionsNewestFirst,
+  stripUndefinedDeep,
+} from "@/utils/abstractSubmissionIntegrity";
 
 const LEGACY_V1_STORAGE_KEY = "hems_abstract_submissions_v1";
 const LEGACY_V2_STORAGE_KEY = "hems_abstract_submissions_v2";
-const SUBMISSIONS_STORAGE_KEY = "hems_abstract_submissions_v3";
+const LEGACY_V3_STORAGE_KEY = "hems_abstract_submissions_v3";
+const SUBMISSIONS_STORAGE_KEY = "hems_abstract_submissions_v4";
 const SUBMISSIONS_SYNC_EVENT = "hems-abstracts-updated";
 const REVIEWS_STORAGE_KEY = "hems_abstract_reviews_v1";
 const REVIEWS_SYNC_EVENT = "hems-abstract-reviews-updated";
+const REALTIME_CHANNEL_NAME = "hems_abstracts_realtime_v1";
 const IDB_NAME = "hems_abstract_files_idb";
 const IDB_VERSION = 1;
 const IDB_STORE = "abstract_pdfs";
 
-const INITIAL_SAMPLE_SUBMISSIONS: AbstractSubmissionRecord[] = [
-  {
-    id: "ABS-2027-001",
-    workshopYear: 2027,
-    title: "A Miniature Quadrupole Mass Filter for Deep-Ocean Hydrocarbon & Hydrothermal Plume Mapping",
-    presentingAuthor: "Dr. Alice Vance",
-    correspondingEmail: "avance@whoi.example.org",
-    affiliation: "Woods Hole Oceanographic Institution",
-    coAuthors: "M. Alvarez, K. Sato",
-    affiliations: [
-      {
-        id: "aff-1",
-        institution: "Woods Hole Oceanographic Institution",
-        location: "Woods Hole, MA, USA",
-      },
-      {
-        id: "aff-2",
-        institution: "Monterey Bay Aquarium Research Institute",
-        location: "Moss Landing, CA, USA",
-      },
-    ],
-    authors: [
-      { id: "auth-1", name: "Dr. Alice Vance", affiliationId: "aff-1", isPresenter: true },
-      { id: "auth-2", name: "M. Alvarez", affiliationId: "aff-1", isPresenter: false },
-      { id: "auth-3", name: "K. Sato", affiliationId: "aff-2", isPresenter: false },
-    ],
-    presentationFormat: "Oral Presentation",
-    researchTrack: "Underwater & Marine Biogeochemistry",
-    summary:
-      "AUV-integrated membrane-inlet quadrupole calibrated for real-time C₁–C₇ alkane, BTEX, and dissolved CO₂ profiling to 4,000 m depth.",
-    abstractText:
-      "In-situ geochemical mapping of hydrothermal vents and subseafloor hydrocarbon seeps requires compact mass analyzers capable of continuous dissolved-gas quantification at 40 MPa hydrostatic head. We present a <b>14 W triple-filter hyperbolic quadrupole</b> (<i>m/z</i> 2–200, Δm = 0.6 Da at FWHM) coupled behind a reinforced 25 μm polydimethylsiloxane (PDMS) capillary membrane inlet heated to 45 °C.\n\nBy stabilizing source electron emission at 70 eV and regulating foreline pressure to 1.4 × 10<sup>-6</sup> Torr via a Ti-housing turbomolecular drag stage, permeation response times (τ<sub>90</sub>) dropped below 18 s for CH<sub>4</sub>, C<sub>2</sub>H<sub>6</sub>, benzene, and toluene. Across 42 hours of autonomous seabed deployment in the Guaymas Basin, calibrated sensitivity reached 1.2 nmol·L<sup>-1</sup> for dissolved CO<sub>2</sub> and H<sub>2</sub>S while resolving δ<sup>13</sup>C-CH<sub>4</sub> within ±1.8‰.",
-    keywords: "subsea mass spectrometry, MIMS, AUV, hydrothermal plumes, C1-C7 hydrocarbons",
-    presenterBio:
-      "Dr. Alice Vance is an Associate Scientist in the Department of Applied Ocean Physics & Engineering at WHOI, leading in-situ chemical sensor integration on deep-submergence autonomous underwater vehicles.",
-    studentTravelAwardApplicant: false,
-    submittedByUid: "sample-001",
-    submittedByEmail: "avance@whoi.example.org",
-    submittedAt: "2026-10-14T16:20:00.000Z",
-    updatedAt: "2026-10-20T15:30:00.000Z",
-    deadline: "August 2027 (TBD)",
-    status: "Reviewed",
-    decision: "Accept (Oral)",
-    score: 8.8,
-    hemsFitness: 9.3,
-    reviewedBy: "ksato@hems-workshop.org",
-    reviewedAt: "2026-10-20T15:30:00.000Z",
-    isSampleSeed: true,
-  },
-  {
-    id: "ABS-2027-002",
-    workshopYear: 2027,
-    title: "Atmospheric Pre-Concentration of Trace VOCs in Polar Firn Air Using Cylindrical Ion Trap Arrays",
-    presentingAuthor: "Prof. Robert Chen",
-    correspondingEmail: "rchen@ucsd.example.edu",
-    affiliation: "Scripps Institution of Oceanography, UC San Diego",
-    coAuthors: "J. Nguyen, L. Park",
-    affiliations: [
-      {
-        id: "aff-1",
-        institution: "Scripps Institution of Oceanography, UC San Diego",
-        location: "La Jolla, CA, USA",
-      },
-      {
-        id: "aff-2",
-        institution: "University of Colorado Boulder, INSTAAR",
-        location: "Boulder, CO, USA",
-      },
-    ],
-    authors: [
-      { id: "auth-1", name: "Prof. Robert Chen", affiliationId: "aff-1", isPresenter: true },
-      { id: "auth-2", name: "J. Nguyen", affiliationId: "aff-1", isPresenter: false },
-      { id: "auth-3", name: "L. Park", affiliationId: "aff-2", isPresenter: false },
-    ],
-    presentationFormat: "Oral Presentation",
-    researchTrack: "Atmospheric, Volcanic & Environmental",
-    summary:
-      "Cold-tolerant PDMS membrane pre-concentrators coupled with a 12 W cylindrical ion trap MS during polar firn air field campaigns.",
-    abstractText:
-      "Quantifying volatile organic halocarbons and biogenic sulfur species in polar firn air at -35 °C demands sub-pptv detection limits without liquid cryogens or bulky cylinder banks. We fabricated a 4-channel micro-machined cylindrical ion trap array (r<sub>0</sub> = 2.5 mm) integrated with a dual-bed Carboxen/PDMS thermal desorption trap consuming ≤12 W average power.\n\nFollowing the Mathieu stability criterion $q_z = \\frac{4eV}{m r_0^2 \\Omega^2}$ at Ω/2π = 1.45 MHz, resonance ejection scans achieved unit mass resolution through <i>m/z</i> 310 with duty cycles exceeding 65%. Field deployment at Summit Station demonstrated linear calibration (R<sup>2</sup> = 0.998) across 5–500 pptv for DMS, CH<sub>3</sub>Br, and trichlorofluoromethane.",
-    keywords: "cylindrical ion trap, polar firn air, trace VOCs, thermal desorption, cryogen-free",
-    presenterBio:
-      "Prof. Robert Chen directs the Field Analytical Atmospheric Chemistry Laboratory at Scripps Institution of Oceanography, focusing on autonomous polar and alpine trace-gas instrumentation.",
-    studentTravelAwardApplicant: false,
-    submittedByUid: "sample-002",
-    submittedByEmail: "rchen@ucsd.example.edu",
-    submittedAt: "2026-10-19T11:05:00.000Z",
-    updatedAt: "2026-10-22T14:40:00.000Z",
-    deadline: "August 2027 (TBD)",
-    status: "Reviewed",
-    decision: "Accept (Oral)",
-    score: 8.5,
-    hemsFitness: 9.0,
-    reviewerComments: "Strong field validation dataset under sub-zero operating conditions.",
-    reviewedBy: "reviewer@hems-workshop.org",
-    reviewedAt: "2026-10-22T14:40:00.000Z",
-    isSampleSeed: true,
-  },
-  {
-    id: "ABS-2027-003",
-    workshopYear: 2027,
-    title: "Linearized Time-of-Flight Ion Optics Refinements for Ocean-World Plume Flyby Landers",
-    presentingAuthor: "Elena Rostova",
-    correspondingEmail: "erostova@jpl.example.gov",
-    affiliation: "NASA Jet Propulsion Laboratory / Caltech",
-    coAuthors: "D. Patel",
-    affiliations: [
-      {
-        id: "aff-1",
-        institution: "NASA Jet Propulsion Laboratory / Caltech",
-        location: "Pasadena, CA, USA",
-      },
-    ],
-    authors: [
-      { id: "auth-1", name: "Elena Rostova", affiliationId: "aff-1", isPresenter: true },
-      { id: "auth-2", name: "D. Patel", affiliationId: "aff-1", isPresenter: false },
-    ],
-    presentationFormat: "Poster Presentation",
-    researchTrack: "Planetary & Spaceflight MS",
-    summary:
-      "Dual-stage reflectron mass resolution vs. cryogenic gas load constraints for hypervelocity ice-grain sampling on Enceladus.",
-    abstractText:
-      "Hypervelocity flybys (3–6 km·s<sup>-1</sup>) through icy moon plumes generate transient impact ionization bursts characterized by wide axial energy spreads (ΔE ≥ 35 eV) alongside high H<sub>2</sub>O vapor densities. Using SIMION 8.2 Monte Carlo ray tracing and laboratory laser-desorption analogs, we optimized a compact dual-stage gridless reflectron ToF analyzer with a total flight path <i>L</i> = 240 mm.\n\nUnder the kinetic time-focusing relation $\\frac{m}{z} = \\frac{2Vt^2}{L^2}$, second-order energy compensation preserved mass resolving power m/Δm > 2,400 across <i>m/z</i> 18–500 (including protonated amino-acid clusters [M+H]<sup>+</sup>) even during transient 2.1 × 10<sup>-5</sup> Torr gas loads.",
-    keywords: "time-of-flight, reflectron, Enceladus, impact ionization, planetary mass spectrometry",
-    presenterBio:
-      "Elena Rostova is a Ph.D. candidate in Planetary Instrumentation at Caltech and NASA JPL researching miniaturized reflectron optics for ocean-world biosignature detection.",
-    studentTravelAwardApplicant: true,
-    submittedByUid: "sample-003",
-    submittedByEmail: "erostova@jpl.example.gov",
-    submittedAt: "2026-10-28T09:15:00.000Z",
-    updatedAt: "2026-10-28T09:15:00.000Z",
-    deadline: "August 2027 (TBD)",
-    status: "Pending",
-    decision: "Pending",
-    isSampleSeed: true,
-  },
-];
+export interface SelectionConflictInfo {
+  submissionId: string;
+  attemptedSelection: CommitteeSelection;
+  remoteRecord: AbstractSubmissionRecord;
+}
 
-const INITIAL_SAMPLE_REVIEWS: AbstractReviewRecord[] = [
-  {
-    reviewId: buildReviewId("ABS-2027-001", "ksato@hems-workshop.org"),
-    submissionId: "ABS-2027-001",
-    reviewerEmail: "ksato@hems-workshop.org",
-    reviewerName: "Dr. Kenji Sato",
-    score: 9.0,
-    hemsFitness: 9.5,
-    decision: "Accept (Oral)",
-    reviewerComments:
-      "14 W triple-filter quadrupole behind a reinforced 25 μm PDMS membrane directly addresses subsea 4,000 m endurance and δ13C precision goals.",
-    privateNotes:
-      "Strong opening-day marine MS anchor candidate; confirm whether AUV dive telemetry video is cleared for release.",
-    createdAt: "2026-10-20T15:30:00.000Z",
-    updatedAt: "2026-10-20T15:30:00.000Z",
-    isSampleSeed: true,
-  },
-  {
-    reviewId: buildReviewId("ABS-2027-001", "emorales@hems-workshop.org"),
-    submissionId: "ABS-2027-001",
-    reviewerEmail: "emorales@hems-workshop.org",
-    reviewerName: "Dr. Elena Morales",
-    score: 8.5,
-    hemsFitness: 9.0,
-    decision: "Accept (Oral)",
-    reviewerComments:
-      "Compelling 42-hour seabed validation in the Guaymas Basin with < 18 s permeation lag.",
-    privateNotes:
-      "Pairs cleanly alongside subsea lander instrumentation talks in the marine session.",
-    createdAt: "2026-10-21T09:15:00.000Z",
-    updatedAt: "2026-10-21T09:15:00.000Z",
-    isSampleSeed: true,
-  },
-  {
-    reviewId: buildReviewId("ABS-2027-002", "reviewer@hems-workshop.org"),
-    submissionId: "ABS-2027-002",
-    reviewerEmail: "reviewer@hems-workshop.org",
-    reviewerName: "Program Committee Reviewer",
-    score: 8.5,
-    hemsFitness: 9.0,
-    decision: "Accept (Oral)",
-    reviewerComments:
-      "Strong field validation dataset under sub-zero operating conditions.",
-    privateNotes:
-      "Strong anchor talk for the Atmospheric & Cryospheric session.",
-    createdAt: "2026-10-22T14:40:00.000Z",
-    updatedAt: "2026-10-22T14:40:00.000Z",
-    isSampleSeed: true,
-  },
-  {
-    reviewId: buildReviewId("ABS-2027-002", "ksato@hems-workshop.org"),
-    submissionId: "ABS-2027-002",
-    reviewerEmail: "ksato@hems-workshop.org",
-    reviewerName: "Dr. Kenji Sato",
-    score: 9.0,
-    hemsFitness: 9.5,
-    decision: "Accept (Oral)",
-    reviewerComments:
-      "Cryogen-free 12 W thermal desorption + CIT array directly targets polar deployment constraints.",
-    privateNotes:
-      "Ask authors if cold-soak startup telemetry can be included in slides.",
-    createdAt: "2026-10-23T11:20:00.000Z",
-    updatedAt: "2026-10-23T11:20:00.000Z",
-    isSampleSeed: true,
-  },
-  {
-    reviewId: buildReviewId("ABS-2027-002", "emorales@hems-workshop.org"),
-    submissionId: "ABS-2027-002",
-    reviewerEmail: "emorales@hems-workshop.org",
-    reviewerName: "Dr. Elena Morales",
-    score: 8.0,
-    hemsFitness: 8.5,
-    decision: "Accept (Poster)",
-    reviewerComments:
-      "Well-calibrated Mathieu stability curves; blank carryover plots would strengthen oral presentation.",
-    privateNotes:
-      "Backup headline poster if oral session exceeds 18 slots.",
-    createdAt: "2026-10-24T17:05:00.000Z",
-    updatedAt: "2026-10-24T17:05:00.000Z",
-    isSampleSeed: true,
-  },
-];
+export type UpdateSelectionResult =
+  | { ok: true; record: AbstractSubmissionRecord }
+  | { ok: false; conflict: SelectionConflictInfo };
+
+export {
+  dedupeReviewsById,
+  dedupeSubmissionsById,
+  generateSubmissionId,
+  stripUndefinedDeep,
+};
 
 export interface SubmissionUploadAssets {
   graphicFile?: File | null;
@@ -351,17 +167,84 @@ async function deleteBlob(key: string): Promise<void> {
   }
 }
 
-function sortNewestFirst(items: AbstractSubmissionRecord[]): AbstractSubmissionRecord[] {
-  return [...items].sort((a, b) => {
-    const tA = Date.parse(a.submittedAt || "") || 0;
-    const tB = Date.parse(b.submittedAt || "") || 0;
-    return tB - tA;
-  });
+function broadcastRealtimeUpdate(kind: "submissions" | "reviews"): void {
+  if (typeof window === "undefined" || typeof BroadcastChannel === "undefined") {
+    return;
+  }
+  try {
+    const channel = new BroadcastChannel(REALTIME_CHANNEL_NAME);
+    channel.postMessage({ kind, ts: Date.now() });
+    channel.close();
+  } catch {
+    // BroadcastChannel unavailable or blocked in restricted context
+  }
+}
+
+async function buildEmbeddedGraphicDataUrl(file: File): Promise<string | undefined> {
+  if (typeof window === "undefined") return undefined;
+  try {
+    const lowerName = (file.name || "").toLowerCase();
+    const isSvg = file.type === "image/svg+xml" || lowerName.endsWith(".svg");
+    if (isSvg) {
+      if (file.size > 180_000) return undefined;
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      let bin = "";
+      const chunk = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        bin += String.fromCharCode(...bytes.subarray(i, i + chunk));
+      }
+      const dataUrl = `data:image/svg+xml;base64,${window.btoa(bin)}`;
+      return dataUrl.length <= 260_000 ? dataUrl : undefined;
+    }
+
+    if (typeof document === "undefined") return undefined;
+    const objectUrl = URL.createObjectURL(file);
+    try {
+      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("Image decode failed"));
+        image.src = objectUrl;
+      });
+      const srcW = img.naturalWidth || img.width || 0;
+      const srcH = img.naturalHeight || img.height || 0;
+      if (srcW <= 0 || srcH <= 0) return undefined;
+
+      const maxDim = 1400;
+      const scale = Math.min(1, maxDim / Math.max(srcW, srcH));
+      const dstW = Math.max(1, Math.round(srcW * scale));
+      const dstH = Math.max(1, Math.round(srcH * scale));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = dstW;
+      canvas.height = dstH;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return undefined;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, dstW, dstH);
+      ctx.drawImage(img, 0, 0, dstW, dstH);
+
+      const webpUrl = canvas.toDataURL("image/webp", 0.82);
+      if (webpUrl.startsWith("data:image/webp") && webpUrl.length <= 260_000) {
+        return webpUrl;
+      }
+      const jpegUrl = canvas.toDataURL("image/jpeg", 0.85);
+      return jpegUrl.length <= 260_000 ? jpegUrl : undefined;
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
+  } catch {
+    return undefined;
+  }
 }
 
 function readLegacyNonSeedSubmissions(): AbstractSubmissionRecord[] {
   const byId = new Map<string, AbstractSubmissionRecord>();
-  for (const key of [LEGACY_V2_STORAGE_KEY, LEGACY_V1_STORAGE_KEY]) {
+  for (const key of [
+    LEGACY_V3_STORAGE_KEY,
+    LEGACY_V2_STORAGE_KEY,
+    LEGACY_V1_STORAGE_KEY,
+  ]) {
     try {
       const raw = window.localStorage.getItem(key);
       if (!raw) continue;
@@ -386,15 +269,25 @@ function readLocalSubmissions(): AbstractSubmissionRecord[] {
     if (raw) {
       const parsed = JSON.parse(raw) as unknown;
       if (Array.isArray(parsed)) {
-        return sortNewestFirst(parsed as AbstractSubmissionRecord[]);
+        const { records, changed } = dedupeSubmissionsById(
+          parsed as AbstractSubmissionRecord[],
+          INITIAL_SAMPLE_SUBMISSIONS
+        );
+        if (changed) {
+          window.localStorage.setItem(
+            SUBMISSIONS_STORAGE_KEY,
+            JSON.stringify(records)
+          );
+        }
+        return records;
       }
     }
 
     const legacyUserItems = readLegacyNonSeedSubmissions();
-    const initialRecords =
-      legacyUserItems.length > 0
-        ? sortNewestFirst([...legacyUserItems, ...INITIAL_SAMPLE_SUBMISSIONS])
-        : INITIAL_SAMPLE_SUBMISSIONS;
+    const { records: initialRecords } = dedupeSubmissionsById(
+      [...legacyUserItems, ...INITIAL_SAMPLE_SUBMISSIONS],
+      INITIAL_SAMPLE_SUBMISSIONS
+    );
 
     window.localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(initialRecords));
     return initialRecords;
@@ -404,11 +297,15 @@ function readLocalSubmissions(): AbstractSubmissionRecord[] {
   }
 }
 
-function writeLocalSubmissions(records: AbstractSubmissionRecord[]): void {
+function writeLocalSubmissions(records: AbstractSubmissionRecord[], notifyPeers = true): void {
   if (typeof window === "undefined") return;
   try {
-    window.localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(records));
+    const { records: clean } = dedupeSubmissionsById(records, INITIAL_SAMPLE_SUBMISSIONS);
+    window.localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(clean));
     window.dispatchEvent(new CustomEvent(SUBMISSIONS_SYNC_EVENT));
+    if (notifyPeers) {
+      broadcastRealtimeUpdate("submissions");
+    }
   } catch (err) {
     console.warn("Failed to write abstract submissions to localStorage:", err);
   }
@@ -418,8 +315,12 @@ function mergeByIdNewestWins(
   localItems: AbstractSubmissionRecord[],
   remoteItems: AbstractSubmissionRecord[]
 ): AbstractSubmissionRecord[] {
+  const { records: cleanLocal } = dedupeSubmissionsById(
+    localItems,
+    INITIAL_SAMPLE_SUBMISSIONS
+  );
   const byId = new Map<string, AbstractSubmissionRecord>();
-  for (const item of localItems) {
+  for (const item of cleanLocal) {
     if (item?.id) byId.set(item.id, item);
   }
   for (const remote of remoteItems) {
@@ -431,34 +332,63 @@ function mergeByIdNewestWins(
     }
     const existingTs = Date.parse(existing.updatedAt || existing.submittedAt || "") || 0;
     const remoteTs = Date.parse(remote.updatedAt || remote.submittedAt || "") || 0;
-    if (remoteTs >= existingTs) {
+    const existingSelVer = existing.selectionVersion ?? 0;
+    const remoteSelVer = remote.selectionVersion ?? 0;
+
+    if (remoteTs >= existingTs || remoteSelVer > existingSelVer) {
+      const resolvedGraphicLocalBlob =
+        remote.graphic?.hasLocalBlob ?? existing.graphic?.hasLocalBlob;
+      const resolvedGraphicEmbedded =
+        remote.graphic?.embeddedDataUrl ?? existing.graphic?.embeddedDataUrl;
       const nextGraphic = remote.graphic
         ? {
             ...remote.graphic,
-            hasLocalBlob:
-              remote.graphic.hasLocalBlob ?? existing.graphic?.hasLocalBlob,
+            ...(resolvedGraphicEmbedded !== undefined
+              ? { embeddedDataUrl: resolvedGraphicEmbedded }
+              : {}),
+            ...(resolvedGraphicLocalBlob !== undefined
+              ? { hasLocalBlob: resolvedGraphicLocalBlob }
+              : {}),
           }
         : remoteTs === existingTs
         ? existing.graphic
         : undefined;
+
+      const resolvedFileLocalBlob =
+        remote.hasLocalFileBlob ?? existing.hasLocalFileBlob;
+
+      // Always keep whichever record holds the strictly newer committeeSelection version
+      const selWinner = existingSelVer > remoteSelVer ? existing : remote;
+      const baseRecord = remoteTs >= existingTs ? remote : existing;
+
       byId.set(remote.id, {
-        ...remote,
-        hasLocalFileBlob: remote.hasLocalFileBlob ?? existing.hasLocalFileBlob,
+        ...baseRecord,
+        ...(selWinner.committeeSelection !== undefined
+          ? { committeeSelection: selWinner.committeeSelection }
+          : {}),
+        ...(selWinner.selectionVersion !== undefined
+          ? { selectionVersion: selWinner.selectionVersion }
+          : {}),
+        ...(selWinner.selectionUpdatedAt !== undefined
+          ? { selectionUpdatedAt: selWinner.selectionUpdatedAt }
+          : {}),
+        ...(selWinner.selectionUpdatedBy !== undefined
+          ? { selectionUpdatedBy: selWinner.selectionUpdatedBy }
+          : {}),
+        ...(selWinner.selectionUpdatedByName !== undefined
+          ? { selectionUpdatedByName: selWinner.selectionUpdatedByName }
+          : {}),
+        ...(resolvedFileLocalBlob !== undefined
+          ? { hasLocalFileBlob: resolvedFileLocalBlob }
+          : {}),
         ...(nextGraphic ? { graphic: nextGraphic } : {}),
       });
     }
   }
-  return sortNewestFirst(Array.from(byId.values()));
-}
-
-function sortReviewsNewestFirst(
-  items: AbstractReviewRecord[]
-): AbstractReviewRecord[] {
-  return [...items].sort((a, b) => {
-    const tA = Date.parse(a.updatedAt || a.createdAt || "") || 0;
-    const tB = Date.parse(b.updatedAt || b.createdAt || "") || 0;
-    return tB - tA;
-  });
+  return dedupeSubmissionsById(
+    Array.from(byId.values()),
+    INITIAL_SAMPLE_SUBMISSIONS
+  ).records;
 }
 
 function readLocalReviews(): AbstractReviewRecord[] {
@@ -468,10 +398,20 @@ function readLocalReviews(): AbstractReviewRecord[] {
     if (raw) {
       const parsed = JSON.parse(raw) as unknown;
       if (Array.isArray(parsed)) {
-        return sortReviewsNewestFirst(parsed as AbstractReviewRecord[]);
+        const { records, changed } = dedupeReviewsById(
+          parsed as AbstractReviewRecord[],
+          INITIAL_SAMPLE_REVIEWS
+        );
+        if (changed) {
+          window.localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(records));
+        }
+        return records;
       }
     }
-    const seeded = sortReviewsNewestFirst(INITIAL_SAMPLE_REVIEWS);
+    const { records: seeded } = dedupeReviewsById(
+      INITIAL_SAMPLE_REVIEWS,
+      INITIAL_SAMPLE_REVIEWS
+    );
     window.localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(seeded));
     return seeded;
   } catch (err) {
@@ -480,11 +420,15 @@ function readLocalReviews(): AbstractReviewRecord[] {
   }
 }
 
-function writeLocalReviews(records: AbstractReviewRecord[]): void {
+function writeLocalReviews(records: AbstractReviewRecord[], notifyPeers = true): void {
   if (typeof window === "undefined") return;
   try {
-    window.localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(records));
+    const { records: clean } = dedupeReviewsById(records, INITIAL_SAMPLE_REVIEWS);
+    window.localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(clean));
     window.dispatchEvent(new CustomEvent(REVIEWS_SYNC_EVENT));
+    if (notifyPeers) {
+      broadcastRealtimeUpdate("reviews");
+    }
   } catch (err) {
     console.warn("Failed to write abstract reviews to localStorage:", err);
   }
@@ -494,8 +438,12 @@ function mergeReviewsByIdNewestWins(
   localItems: AbstractReviewRecord[],
   remoteItems: AbstractReviewRecord[]
 ): AbstractReviewRecord[] {
+  const { records: cleanLocal } = dedupeReviewsById(
+    localItems,
+    INITIAL_SAMPLE_REVIEWS
+  );
   const byId = new Map<string, AbstractReviewRecord>();
-  for (const item of localItems) {
+  for (const item of cleanLocal) {
     if (item?.reviewId) byId.set(item.reviewId, item);
   }
   for (const remote of remoteItems) {
@@ -513,24 +461,10 @@ function mergeReviewsByIdNewestWins(
       byId.set(remote.reviewId, remote);
     }
   }
-  return sortReviewsNewestFirst(Array.from(byId.values()));
-}
-
-function generateSubmissionId(
-  workshopYear: number,
-  existing: AbstractSubmissionRecord[]
-): string {
-  const prefix = `ABS-${workshopYear}-`;
-  let maxSeq = 0;
-  for (const item of existing) {
-    if (item.id.startsWith(prefix)) {
-      const tail = Number.parseInt(item.id.slice(prefix.length), 10);
-      if (!Number.isNaN(tail) && tail > maxSeq) {
-        maxSeq = tail;
-      }
-    }
-  }
-  return `${prefix}${String(maxSeq + 1).padStart(3, "0")}`;
+  return dedupeReviewsById(
+    Array.from(byId.values()),
+    INITIAL_SAMPLE_REVIEWS
+  ).records;
 }
 
 function deriveLegacyAuthorFields(
@@ -585,10 +519,11 @@ function deriveLegacyAuthorFields(
 }
 
 export function useAbstractSubmissions() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, isMock } = useAuth();
   const [submissions, setSubmissions] = useState<AbstractSubmissionRecord[]>([]);
   const [reviews, setReviews] = useState<AbstractReviewRecord[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [liveSyncActive, setLiveSyncActive] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const canAccessReviews = Boolean(
@@ -605,7 +540,9 @@ export function useAbstractSubmissions() {
       if (hasFirebaseKeys && db && user) {
         try {
           const canListAll =
-            hasReviewerRole(user.roles) || hasBoardOrAdminRole(user.roles);
+            hasReviewerRole(user.roles) ||
+            hasBoardOrAdminRole(user.roles) ||
+            hasOperationsRole(user.roles);
           const submissionsQuery = canListAll
             ? collection(db, "abstract_submissions")
             : query(
@@ -702,12 +639,101 @@ export function useAbstractSubmissions() {
     window.addEventListener(SUBMISSIONS_SYNC_EVENT, handleSubmissionsSync);
     window.addEventListener(REVIEWS_SYNC_EVENT, handleReviewsSync);
     window.addEventListener("storage", handleStorage);
+
+    let bc: BroadcastChannel | null = null;
+    if (typeof BroadcastChannel !== "undefined") {
+      try {
+        bc = new BroadcastChannel(REALTIME_CHANNEL_NAME);
+        bc.onmessage = (ev: MessageEvent<{ kind?: string }>) => {
+          if (ev.data?.kind === "submissions") {
+            handleSubmissionsSync();
+          } else if (ev.data?.kind === "reviews") {
+            handleReviewsSync();
+          }
+        };
+      } catch {
+        bc = null;
+      }
+    }
+
+    const unsubscribers: Array<() => void> = [];
+    if (!authLoading && hasFirebaseKeys && db && user) {
+      const canListAll =
+        hasReviewerRole(user.roles) ||
+        hasBoardOrAdminRole(user.roles) ||
+        hasOperationsRole(user.roles);
+      const submissionsQuery = canListAll
+        ? collection(db, "abstract_submissions")
+        : query(
+            collection(db, "abstract_submissions"),
+            where("submittedByUid", "==", user.uid)
+          );
+
+      const unsubSubs = onSnapshot(
+        submissionsQuery,
+        (snap) => {
+          const remoteItems: AbstractSubmissionRecord[] = [];
+          snap.forEach((docSnap) => {
+            const data = docSnap.data() as AbstractSubmissionRecord;
+            remoteItems.push({ ...data, id: data.id || docSnap.id });
+          });
+          const merged = mergeByIdNewestWins(readLocalSubmissions(), remoteItems);
+          if (remoteItems.length > 0 && typeof window !== "undefined") {
+            window.localStorage.setItem(SUBMISSIONS_STORAGE_KEY, JSON.stringify(merged));
+          }
+          setSubmissions(merged);
+          setLiveSyncActive(true);
+          setLoading(false);
+        },
+        (snapErr) => {
+          console.warn("Realtime abstract_submissions listener fallback:", snapErr);
+          setLiveSyncActive(false);
+        }
+      );
+      unsubscribers.push(unsubSubs);
+
+      if (canAccessReviews) {
+        const unsubRevs = onSnapshot(
+          collection(db, "reviews"),
+          (snap) => {
+            const remoteReviews: AbstractReviewRecord[] = [];
+            snap.forEach((docSnap) => {
+              const data = docSnap.data() as AbstractReviewRecord;
+              remoteReviews.push({
+                ...data,
+                reviewId: data.reviewId || docSnap.id,
+              });
+            });
+            const merged = mergeReviewsByIdNewestWins(
+              readLocalReviews(),
+              remoteReviews
+            );
+            if (remoteReviews.length > 0 && typeof window !== "undefined") {
+              window.localStorage.setItem(
+                REVIEWS_STORAGE_KEY,
+                JSON.stringify(merged)
+              );
+            }
+            setReviews(merged);
+          },
+          (revErr) => {
+            console.warn("Realtime reviews listener fallback:", revErr);
+          }
+        );
+        unsubscribers.push(unsubRevs);
+      }
+    } else {
+      setLiveSyncActive(false);
+    }
+
     return () => {
       window.removeEventListener(SUBMISSIONS_SYNC_EVENT, handleSubmissionsSync);
       window.removeEventListener(REVIEWS_SYNC_EVENT, handleReviewsSync);
       window.removeEventListener("storage", handleStorage);
+      if (bc) bc.close();
+      for (const unsub of unsubscribers) unsub();
     };
-  }, [authLoading, refresh, canAccessReviews]);
+  }, [authLoading, refresh, user, canAccessReviews]);
 
   const createSubmission = useCallback(
     async (
@@ -716,7 +742,7 @@ export function useAbstractSubmissions() {
     ): Promise<AbstractSubmissionRecord> => {
       try {
         const current = readLocalSubmissions();
-        const id = generateSubmissionId(input.workshopYear, current);
+        const candidateId = generateSubmissionId(input.workshopYear, current);
         const nowIso = new Date().toISOString();
 
         const cleanAffiliations: AffiliationEntry[] = input.affiliations
@@ -739,37 +765,30 @@ export function useAbstractSubmissions() {
         const derived = deriveLegacyAuthorFields(cleanAuthors, cleanAffiliations);
 
         let pdfStorageUrl: string | undefined;
-        let storedPdfLocally = false;
-        if (assets?.pdfFile) {
-          storedPdfLocally = await putBlob(id, assets.pdfFile);
-          if (hasFirebaseKeys && storage) {
-            try {
-              const safeName = assets.pdfFile.name.replace(/[^a-zA-Z0-9._-]+/g, "_");
-              const objectRef = storageRef(
-                storage,
-                `abstracts/${input.workshopYear}/${id}/${safeName}`
-              );
-              await uploadBytes(objectRef, assets.pdfFile, {
-                contentType: assets.pdfFile.type || "application/pdf",
-              });
-              pdfStorageUrl = await getDownloadURL(objectRef);
-            } catch (storageErr) {
-              console.warn(
-                "Firebase Storage PDF upload skipped/blocked; using IndexedDB local cache:",
-                storageErr
-              );
-            }
+        if (assets?.pdfFile && hasFirebaseKeys && storage && !isMock) {
+          try {
+            const safeName = assets.pdfFile.name.replace(/[^a-zA-Z0-9._-]+/g, "_");
+            const objectRef = storageRef(
+              storage,
+              `abstracts/${input.workshopYear}/${candidateId}/${safeName}`
+            );
+            await uploadBytes(objectRef, assets.pdfFile, {
+              contentType: assets.pdfFile.type || "application/pdf",
+            });
+            pdfStorageUrl = await getDownloadURL(objectRef);
+          } catch (storageErr) {
+            console.warn(
+              "Firebase Storage PDF upload skipped/blocked; using IndexedDB local cache:",
+              storageErr
+            );
           }
         }
 
         let graphicRecord: GraphicMetadata | undefined;
+        let embeddedDataUrl: string | undefined;
         if (assets?.graphicFile && assets.graphicMeta) {
-          const storedGraphicLocally = await putBlob(
-            graphicBlobKey(id),
-            assets.graphicFile
-          );
           let graphicStorageUrl: string | undefined;
-          if (hasFirebaseKeys && storage) {
+          if (hasFirebaseKeys && storage && !isMock) {
             try {
               const safeImgName = assets.graphicFile.name.replace(
                 /[^a-zA-Z0-9._-]+/g,
@@ -777,7 +796,7 @@ export function useAbstractSubmissions() {
               );
               const imgRef = storageRef(
                 storage,
-                `abstracts/${input.workshopYear}/${id}/graphic_${safeImgName}`
+                `abstracts/${input.workshopYear}/${candidateId}/graphic_${safeImgName}`
               );
               await uploadBytes(imgRef, assets.graphicFile, {
                 contentType: assets.graphicFile.type || "image/png",
@@ -785,13 +804,17 @@ export function useAbstractSubmissions() {
               graphicStorageUrl = await getDownloadURL(imgRef);
             } catch (storageErr) {
               console.warn(
-                "Firebase Storage graphic upload skipped/blocked; using IndexedDB cache:",
+                "Firebase Storage graphic upload skipped/blocked; using cross-device preview fallback:",
                 storageErr
               );
             }
           }
 
-          graphicRecord = {
+          if (!graphicStorageUrl) {
+            embeddedDataUrl = await buildEmbeddedGraphicDataUrl(assets.graphicFile);
+          }
+
+          graphicRecord = stripUndefinedDeep({
             ...assets.graphicMeta,
             widthInches: clampFigureWidthInches(
               input.figureWidthInches ?? assets.graphicMeta.widthInches
@@ -800,12 +823,13 @@ export function useAbstractSubmissions() {
               ? { caption: input.graphicCaption.trim() }
               : {}),
             ...(graphicStorageUrl ? { storageUrl: graphicStorageUrl } : {}),
-            hasLocalBlob: storedGraphicLocally,
-          };
+            ...(embeddedDataUrl ? { embeddedDataUrl } : {}),
+            hasLocalBlob: false,
+          });
         }
 
-        const record: AbstractSubmissionRecord = {
-          id,
+        let record: AbstractSubmissionRecord = stripUndefinedDeep({
+          id: candidateId,
           workshopYear: input.workshopYear,
           title: input.title.trim(),
           presentingAuthor: (input.presentingAuthor || derived.presentingAuthor).trim(),
@@ -818,6 +842,9 @@ export function useAbstractSubmissions() {
           affiliations: cleanAffiliations,
           authors: cleanAuthors,
           presentationFormat: input.presentationFormat,
+          presenterCategory:
+            input.presenterCategory ||
+            (input.studentTravelAwardApplicant ? "student" : "academic"),
           researchTrack: input.researchTrack,
           summary: input.summary.trim(),
           abstractText: input.abstractText.trim(),
@@ -827,12 +854,12 @@ export function useAbstractSubmissions() {
           studentTravelAwardApplicant: input.studentTravelAwardApplicant,
           ...(assets?.pdfFile
             ? {
-              fileName: assets.pdfFile.name,
-              fileSizeBytes: assets.pdfFile.size,
-              fileMimeType: assets.pdfFile.type || "application/pdf",
-              ...(pdfStorageUrl ? { fileStorageUrl: pdfStorageUrl } : {}),
-              hasLocalFileBlob: storedPdfLocally,
-            }
+                fileName: assets.pdfFile.name,
+                fileSizeBytes: assets.pdfFile.size,
+                fileMimeType: assets.pdfFile.type || "application/pdf",
+                ...(pdfStorageUrl ? { fileStorageUrl: pdfStorageUrl } : {}),
+                hasLocalFileBlob: false,
+              }
             : {}),
           submittedByUid: input.submittedByUid,
           submittedByEmail: input.submittedByEmail,
@@ -841,20 +868,70 @@ export function useAbstractSubmissions() {
           deadline: input.deadline,
           status: "Pending",
           decision: "Pending",
-        };
+          committeeSelection: "pending",
+          selectionVersion: 0,
+        });
 
-        if (hasFirebaseKeys && db) {
+        if (hasFirebaseKeys && db && user && !isMock) {
           try {
-            await setDoc(doc(db, "abstract_submissions", id), record);
+            record = await runTransaction(db, async (tx) => {
+              let chosenId = candidateId;
+              const attemptedIds: AbstractSubmissionRecord[] = [
+                ...current,
+                { ...record, id: candidateId },
+              ];
+              for (let attempt = 0; attempt < 5; attempt++) {
+                const candidateRef = doc(db!, "abstract_submissions", chosenId);
+                const snap = await tx.get(candidateRef);
+                if (!snap.exists()) {
+                  const committed = stripUndefinedDeep({
+                    ...record,
+                    id: chosenId,
+                  });
+                  tx.set(candidateRef, committed);
+                  return committed;
+                }
+                chosenId = generateSubmissionId(input.workshopYear, attemptedIds);
+                attemptedIds.push({ ...record, id: chosenId });
+              }
+              throw new Error(
+                "Unable to allocate a unique cloud abstract identifier. Please retry."
+              );
+            });
           } catch (firestoreErr) {
-            console.warn(
-              "Firestore abstract_submissions write skipped/blocked; persisted locally:",
-              firestoreErr
+            const msg =
+              firestoreErr instanceof Error
+                ? firestoreErr.message
+                : "Firestore write rejected";
+            throw new Error(
+              `Unable to submit abstract to cloud database (${msg}). Your work remains saved locally in Drafts; please verify your verified Attendee account and retry.`
             );
           }
         }
 
-        const next = sortNewestFirst([record, ...current]);
+        // Persist local IndexedDB binary assets under the final committed ID
+        let storedPdfLocally = false;
+        if (assets?.pdfFile) {
+          storedPdfLocally = await putBlob(record.id, assets.pdfFile);
+        }
+        let storedGraphicLocally = false;
+        if (assets?.graphicFile && record.graphic) {
+          storedGraphicLocally = await putBlob(
+            graphicBlobKey(record.id),
+            assets.graphicFile
+          );
+        }
+        if (storedPdfLocally || storedGraphicLocally) {
+          record = {
+            ...record,
+            ...(storedPdfLocally ? { hasLocalFileBlob: true } : {}),
+            ...(record.graphic && storedGraphicLocally
+              ? { graphic: { ...record.graphic, hasLocalBlob: true } }
+              : {}),
+          };
+        }
+
+        const next = sortSubmissionsNewestFirst([record, ...current]);
         writeLocalSubmissions(next);
         setSubmissions(next);
         return record;
@@ -865,7 +942,7 @@ export function useAbstractSubmissions() {
           : new Error("Unexpected error while saving abstract submission.");
       }
     },
-    []
+    [user, isMock]
   );
 
   const updateSubmission = useCallback(
@@ -908,7 +985,7 @@ export function useAbstractSubmissions() {
             assets.graphicFile
           );
           let graphicStorageUrl: string | undefined;
-          if (hasFirebaseKeys && storage) {
+          if (hasFirebaseKeys && storage && !isMock) {
             try {
               const safeImgName = assets.graphicFile.name.replace(
                 /[^a-zA-Z0-9._-]+/g,
@@ -924,13 +1001,16 @@ export function useAbstractSubmissions() {
               graphicStorageUrl = await getDownloadURL(imgRef);
             } catch (storageErr) {
               console.warn(
-                "Firebase Storage graphic upload skipped/blocked; using IndexedDB cache:",
+                "Firebase Storage graphic upload skipped/blocked; using cross-device preview fallback:",
                 storageErr
               );
             }
           }
+          const embeddedDataUrl = !graphicStorageUrl
+            ? await buildEmbeddedGraphicDataUrl(assets.graphicFile)
+            : undefined;
 
-          graphicRecord = {
+          graphicRecord = stripUndefinedDeep({
             ...assets.graphicMeta,
             widthInches: clampFigureWidthInches(
               input.figureWidthInches ?? assets.graphicMeta.widthInches
@@ -939,10 +1019,11 @@ export function useAbstractSubmissions() {
               ? { caption: input.graphicCaption.trim() }
               : {}),
             ...(graphicStorageUrl ? { storageUrl: graphicStorageUrl } : {}),
+            ...(embeddedDataUrl ? { embeddedDataUrl } : {}),
             hasLocalBlob: storedGraphicLocally,
-          };
+          });
         } else if (assets?.keepExistingGraphic && existing.graphic) {
-          graphicRecord = {
+          graphicRecord = stripUndefinedDeep({
             ...existing.graphic,
             widthInches: clampFigureWidthInches(
               input.figureWidthInches ?? existing.graphic.widthInches
@@ -950,12 +1031,12 @@ export function useAbstractSubmissions() {
             ...(input.graphicCaption?.trim()
               ? { caption: input.graphicCaption.trim() }
               : {}),
-          };
+          });
         } else {
           await deleteBlob(graphicBlobKey(id));
         }
 
-        const updatedRecord: AbstractSubmissionRecord = {
+        const updatedRecord: AbstractSubmissionRecord = stripUndefinedDeep({
           id: existing.id,
           workshopYear: input.workshopYear,
           title: input.title.trim(),
@@ -969,7 +1050,14 @@ export function useAbstractSubmissions() {
           affiliations: cleanAffiliations,
           authors: cleanAuthors,
           presentationFormat: input.presentationFormat,
+          presenterCategory:
+            input.presenterCategory ||
+            existing.presenterCategory ||
+            (input.studentTravelAwardApplicant ? "student" : "academic"),
           researchTrack: input.researchTrack,
+          ...(existing.recommendedTrack !== undefined
+            ? { recommendedTrack: existing.recommendedTrack }
+            : {}),
           summary: input.summary.trim(),
           abstractText: input.abstractText.trim(),
           keywords: input.keywords.trim(),
@@ -979,8 +1067,12 @@ export function useAbstractSubmissions() {
           ...(existing.fileName
             ? {
                 fileName: existing.fileName,
-                fileSizeBytes: existing.fileSizeBytes,
-                fileMimeType: existing.fileMimeType,
+                ...(existing.fileSizeBytes !== undefined
+                  ? { fileSizeBytes: existing.fileSizeBytes }
+                  : {}),
+                ...(existing.fileMimeType !== undefined
+                  ? { fileMimeType: existing.fileMimeType }
+                  : {}),
                 ...(existing.fileStorageUrl
                   ? { fileStorageUrl: existing.fileStorageUrl }
                   : {}),
@@ -994,23 +1086,54 @@ export function useAbstractSubmissions() {
           submittedAt: existing.submittedAt,
           updatedAt: nowIso,
           deadline: input.deadline,
-          status: "Pending",
-          decision: "Pending",
+          status: existing.status,
+          decision: existing.decision,
+          ...(existing.committeeSelection !== undefined
+            ? { committeeSelection: existing.committeeSelection }
+            : {}),
+          ...(existing.selectionVersion !== undefined
+            ? { selectionVersion: existing.selectionVersion }
+            : {}),
+          ...(existing.selectionUpdatedAt !== undefined
+            ? { selectionUpdatedAt: existing.selectionUpdatedAt }
+            : {}),
+          ...(existing.selectionUpdatedBy !== undefined
+            ? { selectionUpdatedBy: existing.selectionUpdatedBy }
+            : {}),
+          ...(existing.selectionUpdatedByName !== undefined
+            ? { selectionUpdatedByName: existing.selectionUpdatedByName }
+            : {}),
+          ...(typeof existing.score === "number" ? { score: existing.score } : {}),
+          ...(typeof existing.hemsFitness === "number"
+            ? { hemsFitness: existing.hemsFitness }
+            : {}),
+          ...(existing.reviewerComments !== undefined
+            ? { reviewerComments: existing.reviewerComments }
+            : {}),
+          ...(existing.reviewedBy !== undefined
+            ? { reviewedBy: existing.reviewedBy }
+            : {}),
+          ...(existing.reviewedAt !== undefined
+            ? { reviewedAt: existing.reviewedAt }
+            : {}),
           ...(existing.isSampleSeed ? { isSampleSeed: true } : {}),
-        };
+        });
 
-        if (hasFirebaseKeys && db) {
+        if (hasFirebaseKeys && db && !isMock) {
           try {
             await setDoc(doc(db, "abstract_submissions", id), updatedRecord);
           } catch (firestoreErr) {
-            console.warn(
-              "Firestore abstract_submissions update skipped/blocked; persisted locally:",
-              firestoreErr
+            const msg =
+              firestoreErr instanceof Error
+                ? firestoreErr.message
+                : "Firestore update rejected";
+            throw new Error(
+              `Unable to update submitted abstract in cloud database (${msg}). Please check your sign-in session and try again.`
             );
           }
         }
 
-        const next = sortNewestFirst(
+        const next = sortSubmissionsNewestFirst(
           current.map((item) => (item.id === id ? updatedRecord : item))
         );
         writeLocalSubmissions(next);
@@ -1023,7 +1146,7 @@ export function useAbstractSubmissions() {
           : new Error("Unexpected error while updating abstract submission.");
       }
     },
-    []
+    [isMock]
   );
 
   const saveReview = useCallback(async (input: SaveAbstractReviewInput): Promise<void> => {
@@ -1052,6 +1175,15 @@ export function useAbstractSubmissions() {
         score: input.score,
         hemsFitness: input.hemsFitness,
         decision: input.decision,
+        recommendedTrack:
+          input.recommendedTrack ||
+          existingReview?.recommendedTrack ||
+          target.recommendedTrack ||
+          target.researchTrack,
+        isCompleted: Boolean(existingReview?.isCompleted),
+        ...(existingReview?.completedAt
+          ? { completedAt: existingReview.completedAt }
+          : {}),
         reviewerComments: input.reviewerComments.trim(),
         privateNotes: input.privateNotes.trim(),
         createdAt: existingReview?.createdAt || nowIso,
@@ -1060,7 +1192,7 @@ export function useAbstractSubmissions() {
 
       if (hasFirebaseKeys && db) {
         try {
-          await setDoc(doc(db, "reviews", reviewId), reviewRecord, {
+          await setDoc(doc(db, "reviews", reviewId), stripUndefinedDeep(reviewRecord), {
             merge: true,
           });
         } catch (firestoreErr) {
@@ -1079,16 +1211,24 @@ export function useAbstractSubmissions() {
       setReviews(nextReviews);
 
       const summary = summarizeSubmissionReviews(target, nextReviews);
-      const consensusDecision =
-        summary.consensusDecision !== "Pending"
+      const targetOfficialSelection = target.committeeSelection;
+      const resolvedDecisionForRecord =
+        targetOfficialSelection === "accept_oral"
+          ? "Accept (Oral)"
+          : targetOfficialSelection === "accept_poster"
+          ? "Accept (Poster)"
+          : targetOfficialSelection === "decline"
+          ? "Decline"
+          : targetOfficialSelection === "pending"
+          ? "Pending"
+          : summary.consensusDecision !== "Pending"
           ? summary.consensusDecision
           : input.decision;
 
-      // IMPORTANT: Never write privateNotes (confidential reviewer-only text) onto abstract_submissions
-      const updatedRecord: AbstractSubmissionRecord = {
-        ...target,
-        status: "Reviewed",
-        decision: consensusDecision,
+      const aggregatePatch = {
+        status: "Reviewed" as const,
+        decision: resolvedDecisionForRecord,
+        recommendedTrack: summary.consensusRecommendedTrack,
         score: summary.medianScore ?? input.score,
         hemsFitness: summary.medianHemsFitness ?? input.hemsFitness,
         reviewedBy: normalizedReviewerEmail,
@@ -1096,10 +1236,39 @@ export function useAbstractSubmissions() {
         updatedAt: nowIso,
       };
 
+      // IMPORTANT: Never write privateNotes (confidential reviewer-only text) onto abstract_submissions,
+      // and never overwrite another reviewer's concurrent committeeSelection / selectionVersion.
+      let updatedRecord: AbstractSubmissionRecord = {
+        ...target,
+        ...aggregatePatch,
+      };
+
       if (hasFirebaseKeys && db) {
         try {
-          await setDoc(doc(db, "abstract_submissions", input.id), updatedRecord, {
-            merge: true,
+          updatedRecord = await runTransaction(db, async (tx) => {
+            const docRef = doc(db!, "abstract_submissions", input.id);
+            const snap = await tx.get(docRef);
+            const latestBase = snap.exists()
+              ? ({ ...(snap.data() as AbstractSubmissionRecord), id: input.id })
+              : target;
+            const latestOfficialSel = latestBase.committeeSelection;
+            const syncedDecision =
+              latestOfficialSel === "accept_oral"
+                ? "Accept (Oral)"
+                : latestOfficialSel === "accept_poster"
+                ? "Accept (Poster)"
+                : latestOfficialSel === "decline"
+                ? "Decline"
+                : latestOfficialSel === "pending"
+                ? "Pending"
+                : aggregatePatch.decision;
+            const merged: AbstractSubmissionRecord = stripUndefinedDeep({
+              ...latestBase,
+              ...aggregatePatch,
+              decision: syncedDecision,
+            });
+            tx.set(docRef, merged, { merge: true });
+            return merged;
           });
         } catch (firestoreErr) {
           console.warn(
@@ -1109,8 +1278,10 @@ export function useAbstractSubmissions() {
         }
       }
 
-      const next = sortNewestFirst(
-        current.map((item) => (item.id === input.id ? updatedRecord : item))
+      const next = sortSubmissionsNewestFirst(
+        readLocalSubmissions().map((item) =>
+          item.id === input.id ? updatedRecord : item
+        )
       );
       writeLocalSubmissions(next);
       setSubmissions(next);
@@ -1121,6 +1292,234 @@ export function useAbstractSubmissions() {
         : new Error("Unexpected error while saving abstract review.");
     }
   }, []);
+
+  const toggleReviewCompleted = useCallback(
+    async (submissionId: string, forceState?: boolean): Promise<boolean> => {
+      if (!user?.email) {
+        throw new Error("Sign in as an authorized reviewer to update review status.");
+      }
+      const nowIso = new Date().toISOString();
+      const target = readLocalSubmissions().find((item) => item.id === submissionId);
+      const normalizedReviewerEmail = user.email.trim().toLowerCase();
+      const reviewId = buildReviewId(submissionId, normalizedReviewerEmail);
+      const currentReviews = readLocalReviews();
+      const existing = currentReviews.find((r) => r.reviewId === reviewId);
+
+      const nextCompleted =
+        typeof forceState === "boolean"
+          ? forceState
+          : !Boolean(existing?.isCompleted);
+
+      const nextRecord: AbstractReviewRecord = existing
+        ? {
+            ...existing,
+            isCompleted: nextCompleted,
+            completedAt: nextCompleted ? nowIso : "",
+            updatedAt: nowIso,
+          }
+        : {
+            reviewId,
+            submissionId,
+            reviewerEmail: normalizedReviewerEmail,
+            ...(user.name?.trim() ? { reviewerName: user.name.trim() } : {}),
+            score: null,
+            hemsFitness: null,
+            decision: "Pending",
+            recommendedTrack:
+              target?.recommendedTrack || target?.researchTrack || "Miscellaneous",
+            isCompleted: nextCompleted,
+            completedAt: nextCompleted ? nowIso : "",
+            reviewerComments: "",
+            privateNotes: "",
+            createdAt: nowIso,
+            updatedAt: nowIso,
+          };
+
+      if (hasFirebaseKeys && db) {
+        try {
+          await setDoc(doc(db, "reviews", reviewId), stripUndefinedDeep(nextRecord), {
+            merge: true,
+          });
+        } catch (firestoreErr) {
+          console.warn(
+            "Firestore review completed toggle skipped/blocked; persisted locally:",
+            firestoreErr
+          );
+        }
+      }
+
+      const nextReviews = sortReviewsNewestFirst([
+        nextRecord,
+        ...readLocalReviews().filter((r) => r.reviewId !== reviewId),
+      ]);
+      writeLocalReviews(nextReviews);
+      setReviews(nextReviews);
+      return nextCompleted;
+    },
+    [user]
+  );
+
+  const updateCommitteeSelection = useCallback(
+    async (params: {
+      id: string;
+      selection: CommitteeSelection;
+      expectedVersion: number;
+      forceOverride?: boolean;
+    }): Promise<UpdateSelectionResult> => {
+      if (!user?.email) {
+        throw new Error("Sign in as an authorized reviewer to set Selection.");
+      }
+      const nowIso = new Date().toISOString();
+      const actorEmail = user.email.trim().toLowerCase();
+      const actorName = (user.name || "").trim();
+      const currentList = readLocalSubmissions();
+      const localTarget = currentList.find((item) => item.id === params.id);
+      if (!localTarget) {
+        throw new Error(`Abstract submission ${params.id} not found.`);
+      }
+
+      const localVer = localTarget.selectionVersion ?? 0;
+      const localSel = resolveOfficialSelection(localTarget);
+
+      if (
+        !params.forceOverride &&
+        localVer !== params.expectedVersion &&
+        localSel !== params.selection
+      ) {
+        return {
+          ok: false,
+          conflict: {
+            submissionId: params.id,
+            attemptedSelection: params.selection,
+            remoteRecord: localTarget,
+          },
+        };
+      }
+
+      if (hasFirebaseKeys && db) {
+        try {
+          let conflictRecord: AbstractSubmissionRecord | null = null;
+          const updatedCloud = await runTransaction(db, async (tx) => {
+            const docRef = doc(db!, "abstract_submissions", params.id);
+            const snap = await tx.get(docRef);
+            const base = snap.exists()
+              ? ({ ...(snap.data() as AbstractSubmissionRecord), id: params.id })
+              : localTarget;
+            const remoteVer = base.selectionVersion ?? 0;
+            const remoteSel = resolveOfficialSelection(base);
+
+            if (
+              !params.forceOverride &&
+              remoteVer !== params.expectedVersion &&
+              remoteSel !== params.selection
+            ) {
+              conflictRecord = base;
+              return null;
+            }
+
+            const mappedDecision =
+              params.selection === "accept_oral"
+                ? ("Accept (Oral)" as const)
+                : params.selection === "accept_poster"
+                ? ("Accept (Poster)" as const)
+                : params.selection === "decline"
+                ? ("Decline" as const)
+                : ("Pending" as const);
+            const mappedStatus =
+              params.selection === "pending"
+                ? typeof base.score === "number"
+                  ? ("Reviewed" as const)
+                  : ("Pending" as const)
+                : ("Reviewed" as const);
+
+            const nextRecord: AbstractSubmissionRecord = stripUndefinedDeep({
+              ...base,
+              committeeSelection: params.selection,
+              decision: mappedDecision,
+              status: mappedStatus,
+              selectionVersion: remoteVer + 1,
+              selectionUpdatedAt: nowIso,
+              selectionUpdatedBy: actorEmail,
+              ...(actorName ? { selectionUpdatedByName: actorName } : {}),
+              updatedAt: nowIso,
+            });
+            tx.set(docRef, nextRecord, { merge: true });
+            return nextRecord;
+          });
+
+          if (conflictRecord) {
+            const reconciled = sortSubmissionsNewestFirst(
+              readLocalSubmissions().map((item) =>
+                item.id === params.id ? conflictRecord! : item
+              )
+            );
+            writeLocalSubmissions(reconciled);
+            setSubmissions(reconciled);
+            return {
+              ok: false,
+              conflict: {
+                submissionId: params.id,
+                attemptedSelection: params.selection,
+                remoteRecord: conflictRecord,
+              },
+            };
+          }
+
+          if (updatedCloud) {
+            const nextList = sortSubmissionsNewestFirst(
+              readLocalSubmissions().map((item) =>
+                item.id === params.id ? updatedCloud : item
+              )
+            );
+            writeLocalSubmissions(nextList);
+            setSubmissions(nextList);
+            return { ok: true, record: updatedCloud };
+          }
+        } catch (firestoreErr) {
+          console.warn(
+            "Firestore transactional selection update fell back to local storage:",
+            firestoreErr
+          );
+        }
+      }
+
+      const mappedLocalDecision =
+        params.selection === "accept_oral"
+          ? ("Accept (Oral)" as const)
+          : params.selection === "accept_poster"
+          ? ("Accept (Poster)" as const)
+          : params.selection === "decline"
+          ? ("Decline" as const)
+          : ("Pending" as const);
+      const mappedLocalStatus =
+        params.selection === "pending"
+          ? typeof localTarget.score === "number"
+            ? ("Reviewed" as const)
+            : ("Pending" as const)
+          : ("Reviewed" as const);
+
+      const nextRecord: AbstractSubmissionRecord = {
+        ...localTarget,
+        committeeSelection: params.selection,
+        decision: mappedLocalDecision,
+        status: mappedLocalStatus,
+        selectionVersion: localVer + 1,
+        selectionUpdatedAt: nowIso,
+        selectionUpdatedBy: actorEmail,
+        ...(actorName ? { selectionUpdatedByName: actorName } : {}),
+        updatedAt: nowIso,
+      };
+      const nextList = sortSubmissionsNewestFirst(
+        readLocalSubmissions().map((item) =>
+          item.id === params.id ? nextRecord : item
+        )
+      );
+      writeLocalSubmissions(nextList);
+      setSubmissions(nextList);
+      return { ok: true, record: nextRecord };
+    },
+    [user]
+  );
 
   const withdrawSubmission = useCallback(
     async (id: string): Promise<void> => {
@@ -1183,10 +1582,13 @@ export function useAbstractSubmissions() {
             return URL.createObjectURL(blob);
           }
         }
+        if (sub.graphic?.embeddedDataUrl) {
+          return sub.graphic.embeddedDataUrl;
+        }
         return null;
       } catch (err) {
         console.warn("Unable to resolve graphic preview URL:", err);
-        return null;
+        return sub.graphic?.embeddedDataUrl || null;
       }
     },
     []
@@ -1282,6 +1684,36 @@ export function useAbstractSubmissions() {
             retainedMeta: sub.graphic,
           };
         }
+
+        if (sub.graphic.embeddedDataUrl) {
+          try {
+            const response = await fetch(sub.graphic.embeddedDataUrl);
+            if (response.ok) {
+              const fetchedBlob = await response.blob();
+              const restoredFile = new File(
+                [fetchedBlob],
+                sub.graphic.fileName || "figure.png",
+                {
+                  type:
+                    sub.graphic.mimeType || fetchedBlob.type || "image/png",
+                }
+              );
+              return {
+                file: restoredFile,
+                previewUrl: URL.createObjectURL(restoredFile),
+                retainedMeta: sub.graphic,
+              };
+            }
+          } catch {
+            // Fall back directly to data URL
+          }
+
+          return {
+            file: null,
+            previewUrl: sub.graphic.embeddedDataUrl,
+            retainedMeta: sub.graphic,
+          };
+        }
       } catch (err) {
         console.warn("Unable to resolve submission graphic asset:", err);
       }
@@ -1294,11 +1726,14 @@ export function useAbstractSubmissions() {
     submissions,
     reviews,
     loading,
+    liveSyncActive,
     error,
     refresh,
     createSubmission,
     updateSubmission,
     saveReview,
+    toggleReviewCompleted,
+    updateCommitteeSelection,
     withdrawSubmission,
     getGraphicPreviewUrl,
     getSubmissionGraphicAsset,

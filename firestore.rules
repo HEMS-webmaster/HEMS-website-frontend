@@ -256,24 +256,21 @@ service cloud.firestore {
         && request.resource.data.title is string
         && request.resource.data.status == 'Pending'
         && request.resource.data.decision == 'Pending'
-        && !('score' in request.resource.data);
+        && !('score' in request.resource.data)
+        && !('hemsFitness' in request.resource.data)
+        && (!('committeeSelection' in request.resource.data) || request.resource.data.committeeSelection == 'pending')
+        && (!('selectionVersion' in request.resource.data) || request.resource.data.selectionVersion == 0);
       allow update: if request.auth != null && (
         isReviewerOrAdmin(request.auth.uid)
         || (
           resource.data.submittedByUid == request.auth.uid
           && request.resource.data.submittedByUid == request.auth.uid
-          && (
-            (
-              request.resource.data.get('status', 'Pending') == resource.data.get('status', 'Pending')
-              && request.resource.data.get('decision', 'Pending') == resource.data.get('decision', 'Pending')
-              && request.resource.data.get('score', null) == resource.data.get('score', null)
-            )
-            || (
-              request.resource.data.status == 'Pending'
-              && request.resource.data.decision == 'Pending'
-              && !('score' in request.resource.data)
-            )
-          )
+          && request.resource.data.get('status', 'Pending') == resource.data.get('status', 'Pending')
+          && request.resource.data.get('decision', 'Pending') == resource.data.get('decision', 'Pending')
+          && request.resource.data.get('score', null) == resource.data.get('score', null)
+          && request.resource.data.get('hemsFitness', null) == resource.data.get('hemsFitness', null)
+          && request.resource.data.get('committeeSelection', 'pending') == resource.data.get('committeeSelection', 'pending')
+          && request.resource.data.get('selectionVersion', 0) == resource.data.get('selectionVersion', 0)
         )
       );
       allow delete: if request.auth != null && (resource.data.submittedByUid == request.auth.uid || isAdmin(request.auth.uid));
